@@ -13,12 +13,14 @@
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
   "peerDependencies": {
-    "@curvenote/blocks": "*"
+    "@curvenote/blocks": "^1.5.15",
+    "myst-frontmatter":"^0.0.1",
+    "mdast":"^3.0.0",
+    "myst-spec":"^0.0.4"
   },
   "devDependencies": {
     "eslint": "^8.21.0",
     "eslint-config-curvenote": "*",
-    "mystjs": "^0.0.13",
     "tsconfig": "*",
     "typescript": "latest"
   }

@@ -13,15 +13,19 @@
   },
   "dependencies": {
     "@curvenote/site-common": "*",
-    "lodash.isequal": "^4.5.0"
+    "lodash.isequal": "^4.5.0",
+    "myst-frontmatter": "^0.0.1"
+  },
+  "peerDependencies": {
+    "@types/react": "^16.8 || ^17.0 || ^18.0",
+    "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
+    "react": "^16.8 || ^17.0 || ^18.0",
+    "react-dom": "^16.8 || ^17.0 || ^18.0"
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.6",
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
     "eslint": "^8.21.0",
     "eslint-config-curvenote": "*",
-    "react": "^17.0.2",
     "tsconfig": "*",
     "typescript": "latest"
   }

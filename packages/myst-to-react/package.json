@@ -8,6 +8,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "compile": "tsc",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.js",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
@@ -35,16 +36,18 @@
     "unist-util-select": "^4.0.1"
   },
   "peerDependencies": {
-    "@types/react": "^16.8 || ^17.0 || ^18.0",
-    "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "@remix-run/node": "^1.7.2",
     "@remix-run/react": "^1.7.2",
+    "@types/react": "^16.8 || ^17.0 || ^18.0",
+    "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "react": "^16.8 || ^17.0 || ^18.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0",
     "react-redux": "^7.2.1 || ^8.0.2"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
     "@types/mermaid": "^8.2.9",
+    "@types/react-syntax-highlighter": "^15.5.5",
     "eslint": "^8.21.0",
     "eslint-config-curvenote": "*",
     "tsconfig": "*",

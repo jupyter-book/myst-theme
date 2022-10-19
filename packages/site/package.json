@@ -9,6 +9,7 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
+    "compile": "tsc",
     "lint": "eslint src/**/*.ts*",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
@@ -25,17 +26,20 @@
     "myst-to-react": "*",
     "mystjs": "^0.0.13",
     "node-cache": "^5.1.2",
+    "node-fetch": "^2.6.7",
     "unist-util-select": "^4.0.1"
   },
   "peerDependencies": {
-    "@types/react": "^16.8 || ^17.0 || ^18.0",
-    "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "@remix-run/node": "^1.7.2",
     "@remix-run/react": "^1.7.2",
+    "@types/react": "^16.8 || ^17.0 || ^18.0",
+    "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "react": "^16.8 || ^17.0 || ^18.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0"
   },
   "devDependencies": {
+    "@types/lodash.throttle": "^4.1.7",
+    "@types/node-fetch": "^2.6.2",
     "eslint": "^8.21.0",
     "eslint-config-curvenote": "*",
     "tsconfig": "*",

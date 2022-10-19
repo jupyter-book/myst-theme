@@ -21,3 +21,4 @@ jobs:
       - run: npm install
       - run: npm run lint:format
       - run: npm run lint
+      - run: npm run compile

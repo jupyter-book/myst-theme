@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import React from 'react';
-import type { Frontmatter as FrontmatterType } from '@curvenote/site-common';
+import type { PageFrontmatter } from 'myst-frontmatter';
 import { KINDS } from '@curvenote/blocks';
 import { LicenseBadges, Email, GitHub, OpenAccess, Orcid, Jupyter, ROR } from '@curvenote/icons';
+import { useTheme } from '@curvenote/ui-providers';
 
-function Author({ author }: { author: Required<FrontmatterType>['authors'][0] }) {
+function Author({ author }: { author: Required<PageFrontmatter>['authors'][0] }) {
   return (
     <div className="font-semibold text-sm">
       {author.name}
@@ -32,9 +33,12 @@ function Author({ author }: { author: Required<FrontmatterType>['authors'][0] })
   );
 }
 
-function AuthorAndAffiliations({ authors }: { authors: FrontmatterType['authors'] }) {
+function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['authors'] }) {
   if (!authors || authors.length === 0) return null;
-  const hasAffliations = authors.reduce((r, { affiliations: a }) => r || a?.length > 0, false);
+  const hasAffliations = authors.reduce(
+    (r, { affiliations: a }) => r || (!!a && a?.length > 0),
+    false,
+  );
   if (!hasAffliations) {
     return (
       <header className="not-prose mb-10">
@@ -143,8 +147,8 @@ function Journal({
   venue,
   biblio,
 }: {
-  venue?: Required<FrontmatterType>['venue'];
-  biblio?: Required<FrontmatterType>['biblio'];
+  venue?: Required<PageFrontmatter>['venue'];
+  biblio?: Required<PageFrontmatter>['biblio'];
 }) {
   if (!venue) return null;
   const { title, url } = typeof venue === 'string' ? { title: venue, url: null } : venue;
@@ -180,8 +184,9 @@ export function FrontmatterBlock({
   frontmatter,
 }: {
   kind: KINDS;
-  frontmatter: FrontmatterType;
+  frontmatter: PageFrontmatter;
 }) {
+  const { isDark } = useTheme();
   const { subject, doi, open_access, license, github, venue, biblio } = frontmatter;
   const hasHeaders = subject || doi || open_access || license || github || venue || biblio || true;
   return (
@@ -199,7 +204,7 @@ export function FrontmatterBlock({
           )}
           <Journal venue={venue} biblio={biblio} />
           <div className="flex-grow"></div>
-          <Jupyter jupyter={kind === KINDS.Notebook} />
+          {kind === KINDS.Notebook && <Jupyter isDark={isDark} />}
           <GitHubLink github={github} />
           <LicenseBadges license={license} />
           <OpenAccessBadge open_access={open_access} />

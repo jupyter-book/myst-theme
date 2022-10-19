@@ -9,14 +9,15 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
+    "compile": "tsc",
     "lint": "eslint src/**/*.ts*",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
   "peerDependencies": {
     "@curvenote/blocks": "^1.5.15",
-    "myst-frontmatter":"^0.0.1",
-    "mdast":"^3.0.0",
-    "myst-spec":"^0.0.4"
+    "myst-frontmatter": "^0.0.2",
+    "mdast": "^3.0.0",
+    "myst-spec": "^0.0.4"
   },
   "devDependencies": {
     "eslint": "^8.21.0",

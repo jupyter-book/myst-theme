@@ -6,6 +6,7 @@
     "packages/*"
   ],
   "scripts": {
+    "compile": "turbo run compile",
     "build": "turbo run build",
     "build:web": "turbo run build --filter=@curvespace/default",
     "dev": "turbo run dev --parallel",
@@ -34,6 +35,12 @@
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
+  },
+  "overrides": {
+    "ansi-to-react": {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0"
+    }
   },
   "packageManager": "npm@8.10.0"
 }

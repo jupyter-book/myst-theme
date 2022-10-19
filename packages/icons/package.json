@@ -9,11 +9,11 @@
   ],
   "license": "MIT",
   "scripts": {
+    "compile": "tsc",
     "lint": "eslint react/**/**.ts*",
     "lint:format": "prettier --check \"react/**/*.{ts,tsx,md}\""
   },
   "dependencies": {
-    "@curvenote/ui-providers": "*",
     "@heroicons/react": "^1.0.6",
     "classnames": "^2.3.1"
   },

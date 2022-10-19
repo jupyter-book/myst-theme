@@ -1,9 +1,9 @@
-import type { AnalyticsConfig } from '@curvenote/site-common';
+import type { SiteAnalytics } from '@curvenote/blocks';
 
 const getGoogleAnalyticsScript = (tag: string) =>
   `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${tag}');`;
 
-export function Analytics({ analytics }: { analytics?: AnalyticsConfig }) {
+export function Analytics({ analytics }: { analytics?: SiteAnalytics }) {
   return (
     <>
       {analytics?.plausible && (

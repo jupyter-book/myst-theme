@@ -8,13 +8,14 @@
   ],
   "license": "MIT",
   "scripts": {
+    "compile": "tsc",
     "lint": "eslint src/**/*.ts*",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
   "dependencies": {
     "@curvenote/site-common": "*",
     "lodash.isequal": "^4.5.0",
-    "myst-frontmatter": "^0.0.1"
+    "myst-frontmatter": "^0.0.2"
   },
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",

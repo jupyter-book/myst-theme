@@ -5,6 +5,7 @@
   "compilerOptions": {
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
+    "outDir": "dist"
   }
 }

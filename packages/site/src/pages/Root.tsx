@@ -74,8 +74,7 @@ export function AppDebugErrorBoundary({ error }: { error: { message: string; sta
       <div className="mt-16">
         <main className="error-content">
           <h1>An Error Occurred</h1>
-          <p>{error.message}</p>
-          <p>The stack trace is:</p>
+          <code>{error.message}</code>
           <pre>{error.stack}</pre>
         </main>
       </div>

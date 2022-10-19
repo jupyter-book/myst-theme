@@ -1,10 +1,20 @@
+import type { MinifiedOutput } from '@curvenote/nbtx';
+import { walkPaths } from '@curvenote/nbtx';
 import type {
   FooterLinks,
   Heading,
   ManifestProject,
   NavigationLink,
   SiteManifest,
+  PageLoader,
+  ManifestProjectPage,
 } from '@curvenote/site-common';
+import { selectAll } from 'unist-util-select';
+import type { Image as ImageSpec, Link as LinkSpec } from 'myst-spec';
+
+type Image = ImageSpec & { urlOptimized?: string };
+type Link = LinkSpec & { static?: boolean };
+type Output = { data?: MinifiedOutput[] };
 
 export function getProject(
   config?: SiteManifest,
@@ -79,4 +89,59 @@ export function getFooterLinks(
     navigation: { prev, next },
   };
   return footer;
+}
+
+type UpdateUrl = (url: string) => string;
+
+export function updateSiteManifestStaticLinksInplace(
+  data: SiteManifest,
+  updateUrl: UpdateUrl,
+): SiteManifest {
+  data.actions.forEach((action) => {
+    if (!action.static) return;
+    action.url = updateUrl(action.url);
+  });
+  if (data.logo) data.logo = updateUrl(data.logo);
+  // Update the thumbnails to point at the CDN
+  data.projects.forEach((project) => {
+    project.pages
+      .filter((page): page is ManifestProjectPage => 'slug' in page)
+      .forEach((page) => {
+        if (page.thumbnail) page.thumbnail = updateUrl(page.thumbnail);
+        if (page.thumbnailOptimized) page.thumbnailOptimized = updateUrl(page.thumbnailOptimized);
+      });
+  });
+  return data;
+}
+
+export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: UpdateUrl): PageLoader {
+  if (data?.frontmatter?.thumbnail) {
+    data.frontmatter.thumbnail = updateUrl(data.frontmatter.thumbnail);
+  }
+  if (data?.frontmatter?.thumbnailOptimized) {
+    data.frontmatter.thumbnailOptimized = updateUrl(data.frontmatter.thumbnailOptimized);
+  }
+  // Fix all of the images to point to the CDN
+  const images = selectAll('image', data.mdast) as Image[];
+  images.forEach((node) => {
+    node.url = updateUrl(node.url);
+    if (node.urlOptimized) {
+      node.urlOptimized = updateUrl(node.urlOptimized);
+    }
+  });
+  const links = selectAll('link,linkBlock,card', data.mdast) as Link[];
+  const staticLinks = links.filter((node) => node.static);
+  staticLinks.forEach((node) => {
+    // These are static links to thinks like PDFs or other referenced files
+    node.url = updateUrl(node.url);
+  });
+  const outputs = selectAll('output', data.mdast) as Output[];
+  outputs.forEach((node) => {
+    if (!node.data) return;
+    walkPaths(node.data, (path, obj) => {
+      obj.path = updateUrl(path);
+      obj.content = updateUrl(obj.content as string);
+    });
+  });
+  return data;
 }

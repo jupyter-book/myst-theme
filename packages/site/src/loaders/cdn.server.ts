@@ -1,15 +1,13 @@
-import type { GenericNode } from 'mystjs';
-import { selectAll } from 'unist-util-select';
 import fetch from 'node-fetch';
 import NodeCache from 'node-cache';
-import { walkPaths } from '@curvenote/nbtx/dist/minify/utils';
-import type {
-  ManifestProjectPage,
-  PageLoader as Data,
-  SiteManifest as Config,
-} from '@curvenote/site-common';
+import type { PageLoader as Data, SiteManifest as Config } from '@curvenote/site-common';
 import { responseNoArticle, responseNoSite } from './errors.server';
-import { getFooterLinks, getProject } from './utils';
+import {
+  getFooterLinks,
+  getProject,
+  updatePageStaticLinksInplace,
+  updateSiteManifestStaticLinksInplace,
+} from './utils';
 import { redirect } from '@remix-run/node';
 
 interface CdnRouter {
@@ -68,20 +66,7 @@ export async function getConfig(hostname: string): Promise<Config> {
   if (response.status === 404) throw responseNoSite();
   const data = (await response.json()) as Config;
   data.id = id;
-  data.actions.forEach((action) => {
-    if (!action.static) return;
-    action.url = withCDN(id, action.url);
-  });
-  data.logo = withCDN(id, data.logo);
-  // Update the thumbnails to point at the CDN
-  data.projects.forEach((project) => {
-    project.pages
-      .filter((page): page is ManifestProjectPage => 'slug' in page)
-      .forEach((page) => {
-        if (page.thumbnail) page.thumbnail = withCDN(id, page.thumbnail);
-        if (page.thumbnailOptimized) page.thumbnailOptimized = withCDN(id, page.thumbnailOptimized);
-      });
-  });
+  updateSiteManifestStaticLinksInplace(data, (url) => withCDN(id, url));
   getConfigCache().set<Config>(id, data);
   return data;
 }
@@ -107,35 +92,7 @@ export async function getData(
   const response = await fetch(`${CDN}${id}/content/${project}/${slug}.json`);
   if (response.status === 404) throw responseNoArticle();
   const data = (await response.json()) as Data;
-  if (data?.frontmatter?.thumbnail) {
-    data.frontmatter.thumbnail = withCDN(id, data.frontmatter.thumbnail);
-  }
-  if (data?.frontmatter?.thumbnailOptimized) {
-    data.frontmatter.thumbnailOptimized = withCDN(id, data.frontmatter.thumbnailOptimized);
-  }
-  // Fix all of the images to point to the CDN
-  const images = selectAll('image', data.mdast) as GenericNode[];
-  images.forEach((node) => {
-    node.url = withCDN(id, node.url);
-    if (node.urlOptimized) {
-      node.urlOptimized = withCDN(id, node.urlOptimized);
-    }
-  });
-  const links = selectAll('link,linkBlock,card', data.mdast) as GenericNode[];
-  const staticLinks = links.filter((node) => node.static);
-  staticLinks.forEach((node) => {
-    // These are static links to thinks like PDFs or other referenced files
-    node.url = withCDN(id, node.url);
-  });
-  const outputs = selectAll('output', data.mdast) as GenericNode[];
-  outputs.forEach((node) => {
-    if (!node.data) return;
-    walkPaths(node.data, (path, obj) => {
-      obj.path = withCDN(id, path);
-      obj.content = withCDN(id, obj.content as string);
-    });
-  });
-  return data;
+  return updatePageStaticLinksInplace(data, (url) => withCDN(id, url));
 }
 
 export async function getPage(

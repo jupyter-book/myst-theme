@@ -34,11 +34,13 @@
     "swr": "^1.3.0",
     "unist-util-select": "^4.0.1"
   },
-  "peerDependencies":{
+  "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "@remix-run/node": "^1.7.2",
     "@remix-run/react": "^1.7.2",
+    "react": "^16.8 || ^17.0 || ^18.0",
+    "react-dom": "^16.8 || ^17.0 || ^18.0",
     "react-redux": "^7.2.1 || ^8.0.2"
   },
   "devDependencies": {
@@ -47,5 +49,11 @@
     "eslint-config-curvenote": "*",
     "tsconfig": "*",
     "typescript": "latest"
+  },
+  "overrides": {
+    "ansi-to-react": {
+      "react": "^16.8 || ^17.0 || ^18.0",
+      "react-dom": "^16.8 || ^17.0 || ^18.0"
+    }
   }
 }

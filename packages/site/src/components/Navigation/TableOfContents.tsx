@@ -112,8 +112,8 @@ export const TableOfContents = ({
 }) => {
   const [open] = useNavOpen();
   const config = useSiteManifest();
-  const { folder } = useParams();
-  const resolvedProjectSlug = projectSlug || folder;
+  const { folder, project } = useParams();
+  const resolvedProjectSlug = projectSlug || (folder ?? project);
   if (!config) return null;
   const headings = getProjectHeadings(config, resolvedProjectSlug, {
     addGroups: false,

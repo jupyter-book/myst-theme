@@ -10,7 +10,7 @@ import { ContentBlocks, FooterLinksBlock, FrontmatterBlock } from '../components
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 
 export function ArticlePage() {
-  const article = useLoaderData<PageLoader>();
+  const article = useLoaderData<PageLoader>() as PageLoader;
   const [setDesign] = useUpdateSiteDesign();
   setDesign(article.frontmatter?.design);
   const [hide_title_block] = useHideDesignElement('hide_title_block');

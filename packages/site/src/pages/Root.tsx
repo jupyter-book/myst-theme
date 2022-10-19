@@ -1,11 +1,5 @@
 import type { DocumentLoader, SiteManifest } from '@curvenote/site-common';
-import {
-  SiteProvider,
-  TabStateProvider,
-  Theme,
-  ThemeProvider,
-  UiStateProvider,
-} from '@curvenote/ui-providers';
+import { SiteProvider, Theme, ThemeProvider } from '@curvenote/ui-providers';
 import {
   Links,
   LiveReload,
@@ -16,8 +10,6 @@ import {
   useCatch,
   useLoaderData,
 } from '@remix-run/react';
-import { DEFAULT_NAV_HEIGHT, Navigation, TopNav } from '../components';
-import { useNavigationHeight } from '../hooks';
 import { Analytics } from '../seo';
 import { ErrorSiteNotFound } from './ErrorSiteNotFound';
 
@@ -26,15 +18,12 @@ export function Document({
   theme,
   config,
   title,
-  top = DEFAULT_NAV_HEIGHT,
 }: {
   children: React.ReactNode;
   theme: Theme;
   config?: SiteManifest;
   title?: string;
-  top?: number;
 }) {
-  const { ref, height } = useNavigationHeight<HTMLDivElement>();
   return (
     <html lang="en" className={theme}>
       <head>
@@ -46,20 +35,9 @@ export function Document({
         <Analytics analytics={config?.analytics} />
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
-        <TabStateProvider>
-          <UiStateProvider>
-            <ThemeProvider theme={theme}>
-              <SiteProvider config={config}>
-                <Navigation top={top} height={height}>
-                  <TopNav />
-                </Navigation>
-                <article ref={ref} className="content">
-                  {children}
-                </article>
-              </SiteProvider>
-            </ThemeProvider>
-          </UiStateProvider>
-        </TabStateProvider>
+        <ThemeProvider theme={theme}>
+          <SiteProvider config={config}>{children}</SiteProvider>
+        </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}

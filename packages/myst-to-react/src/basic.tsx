@@ -165,7 +165,12 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     );
   },
   table(node, children) {
-    return <table key={node.key}>{children}</table>;
+    // TODO: actually render the tbody on the server if it isn't included here.
+    return (
+      <table key={node.key}>
+        <tbody>{children}</tbody>
+      </table>
+    );
   },
   tableRow(node, children) {
     return <tr key={node.key}>{children}</tr>;

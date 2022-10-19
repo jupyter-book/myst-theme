@@ -48,9 +48,10 @@ export type FooterLinks = {
   };
 };
 
-export type DocumentLoader = {
+export type SiteLoader = {
   theme: Theme;
   config?: SiteManifest;
+  CONTENT_CDN_PORT?: string | number;
 };
 
 export type PageLoader = {

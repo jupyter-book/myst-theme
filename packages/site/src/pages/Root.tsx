@@ -1,4 +1,4 @@
-import type { DocumentLoader, SiteManifest } from '@curvenote/site-common';
+import type { SiteLoader, SiteManifest } from '@curvenote/site-common';
 import { SiteProvider, Theme, ThemeProvider } from '@curvenote/ui-providers';
 import {
   Links,
@@ -10,6 +10,7 @@ import {
   useCatch,
   useLoaderData,
 } from '@remix-run/react';
+import { ContentReload } from '../components';
 import { Analytics } from '../seo';
 import { ErrorSiteNotFound } from './ErrorSiteNotFound';
 
@@ -18,11 +19,13 @@ export function Document({
   theme,
   config,
   title,
+  CONTENT_CDN_PORT,
 }: {
   children: React.ReactNode;
   theme: Theme;
   config?: SiteManifest;
   title?: string;
+  CONTENT_CDN_PORT?: number | string;
 }) {
   return (
     <html lang="en" className={theme}>
@@ -40,16 +43,17 @@ export function Document({
         </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
-        {process.env.NODE_ENV === 'development' && <LiveReload />}
+        <LiveReload />
+        <ContentReload port={CONTENT_CDN_PORT} />
       </body>
     </html>
   );
 }
 
 export function App() {
-  const { theme, config } = useLoaderData<DocumentLoader>();
+  const { theme, config, CONTENT_CDN_PORT } = useLoaderData<SiteLoader>();
   return (
-    <Document theme={theme} config={config}>
+    <Document theme={theme} config={config} CONTENT_CDN_PORT={CONTENT_CDN_PORT}>
       <Outlet />
     </Document>
   );

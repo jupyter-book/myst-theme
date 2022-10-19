@@ -14,9 +14,11 @@
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
   "dependencies": {
+    "@curvenote/connect": "^0.0.6",
     "@curvenote/blocks": "^1.5.15",
     "@curvenote/icons": "*",
     "@curvenote/nbtx": "^0.1.11",
+    "@curvenote/runtime": "^0.2.9",
     "@curvenote/site-common": "*",
     "@curvenote/ui-providers": "*",
     "@headlessui/react": "^1.6.6",

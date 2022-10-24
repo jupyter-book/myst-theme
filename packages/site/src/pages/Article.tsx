@@ -7,7 +7,10 @@ import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 export function ArticlePage({ article }: { article: PageLoader }) {
   const { hide_title_block, hide_footer_links } = article.frontmatter?.design ?? {};
   return (
-    <ReferencesProvider references={{ ...article.references, article: article.mdast }}>
+    <ReferencesProvider
+      references={{ ...article.references, article: article.mdast }}
+      frontmatter={article.frontmatter}
+    >
       {!hide_title_block && (
         <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
       )}

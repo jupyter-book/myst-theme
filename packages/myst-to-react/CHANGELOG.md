@@ -1,5 +1,16 @@
 # myst-to-react
 
+## 0.1.18
+
+### Patch Changes
+
+- 59d1788: Fix ansi-to-react overrides with react 18
+- 4a8a317: Improve imports and update CI to test typescript compiling
+- a19e590: Move Bibliography to @curvenote/site
+- Updated dependencies [a19e590]
+- Updated dependencies [4a8a317]
+  - @curvenote/ui-providers@0.0.16
+
 ## 0.1.17
 
 ### Patch Changes

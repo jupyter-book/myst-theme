@@ -1,5 +1,12 @@
 # @curvenote/ui-providers
 
+## 0.0.16
+
+### Patch Changes
+
+- a19e590: Add frontmatter to ReferencesProvider
+- 4a8a317: Improve imports and update CI to test typescript compiling
+
 ## 0.0.15
 
 ### Patch Changes

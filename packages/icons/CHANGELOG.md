@@ -1,5 +1,12 @@
 # @curvenote/icons
 
+## 0.0.3
+
+### Patch Changes
+
+- a19e590: Remove dependence on ui-providers
+- 4a8a317: Improve imports and update CI to test typescript compiling
+
 ## 0.0.2
 
 ### Patch Changes

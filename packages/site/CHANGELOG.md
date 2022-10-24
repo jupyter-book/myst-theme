@@ -1,5 +1,21 @@
 # @curvenote/site
 
+## 0.0.16
+
+### Patch Changes
+
+- 59d1788: Expose functions for updating links in the same way as the Curvenote CDN
+- 4a8a317: Improve imports and update CI to test typescript compiling
+- a19e590: Move Bibliography to @curvenote/site
+- Updated dependencies [a19e590]
+- Updated dependencies [a19e590]
+- Updated dependencies [59d1788]
+- Updated dependencies [4a8a317]
+- Updated dependencies [a19e590]
+  - @curvenote/ui-providers@0.0.16
+  - @curvenote/icons@0.0.3
+  - myst-to-react@0.1.18
+
 ## 0.0.15
 
 ### Patch Changes

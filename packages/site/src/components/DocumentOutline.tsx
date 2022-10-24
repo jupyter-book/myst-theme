@@ -151,7 +151,15 @@ const useIntersectionObserver = (highlight: () => void, onScreen: Set<HTMLHeadin
   return { observer };
 };
 
-export const DocumentOutline = ({ top, height }: { top?: number; height?: number }) => {
+export const DocumentOutline = ({
+  top,
+  height,
+  className = 'document-outline',
+}: {
+  top?: number;
+  height?: number;
+  className?: string;
+}) => {
   const { activeId, headings, highlight } = useHeaders();
   if (height && height < 50) return null;
   if (headings.length <= 1) return <nav suppressHydrationWarning />;
@@ -159,7 +167,7 @@ export const DocumentOutline = ({ top, height }: { top?: number; height?: number
     <nav
       aria-label="Document Outline"
       suppressHydrationWarning
-      className="document-outline not-prose transition-opacity"
+      className={classNames('not-prose transition-opacity', className)}
       style={{
         top: top ?? 0,
         height:
@@ -167,6 +175,7 @@ export const DocumentOutline = ({ top, height }: { top?: number; height?: number
             ? undefined
             : height,
         opacity: height && height > 300 ? undefined : 0,
+        pointerEvents: height && height > 300 ? undefined : 'none',
       }}
     >
       <div className="text-slate-900 mb-4 text-sm leading-6 dark:text-slate-100 uppercase">

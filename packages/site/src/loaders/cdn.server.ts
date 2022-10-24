@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import NodeCache from 'node-cache';
-import type { PageLoader as Data, SiteManifest as Config } from '@curvenote/site-common';
+import type { PageLoader, SiteManifest as Config } from '@curvenote/site-common';
 import { responseNoArticle, responseNoSite } from './errors.server';
 import {
   getFooterLinks,
@@ -71,13 +71,13 @@ export async function getConfig(hostname: string): Promise<Config> {
   return data;
 }
 
-export async function getObjectsInv(hostname: string): Promise<ArrayBuffer | undefined> {
+export async function getObjectsInv(hostname: string): Promise<Buffer | undefined> {
   const id = await getCdnPath(hostname);
   if (!id) return;
   const url = `${CDN}${id}/public/_static/objects.inv`;
   const response = await fetch(url);
   if (response.status === 404) return;
-  const buffer = await response.arrayBuffer();
+  const buffer = await response.buffer();
   return buffer;
 }
 
@@ -85,34 +85,40 @@ export async function getData(
   config?: Config,
   project?: string,
   slug?: string,
-): Promise<Data | null> {
+): Promise<PageLoader | null> {
   if (!project || !slug || !config) throw responseNoArticle();
   const { id } = config;
   if (!id) throw responseNoSite();
   const response = await fetch(`${CDN}${id}/content/${project}/${slug}.json`);
   if (response.status === 404) throw responseNoArticle();
-  const data = (await response.json()) as Data;
+  const data = (await response.json()) as PageLoader;
   return updatePageStaticLinksInplace(data, (url) => withCDN(id, url));
 }
 
 export async function getPage(
   hostname: string,
-  opts: { domain?: string; folder?: string; loadIndexPage?: boolean; slug?: string },
-) {
-  const folderName = opts.folder;
+  opts: {
+    domain?: string;
+    project?: string;
+    loadIndexPage?: boolean;
+    slug?: string;
+    redirect?: boolean | string;
+  },
+): Promise<PageLoader | Response | null> {
+  const projectName = opts.project;
   const config = await getConfig(hostname);
   if (!config) throw responseNoSite();
-  const folder = getProject(config, folderName);
-  if (!folder) throw responseNoArticle();
-  if (opts.slug === folder.index) {
-    return redirect(`/${folderName}`);
+  const project = getProject(config, projectName);
+  if (!project) throw responseNoArticle();
+  if (opts.slug === project.index && opts.redirect) {
+    return redirect(`${typeof opts.redirect === 'string' ? opts.redirect : '/'}${projectName}`);
   }
-  const slug = opts.loadIndexPage ? folder.index : opts.slug;
-  const loader = await getData(config, folderName, slug).catch((e) => {
+  const slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
+  const loader = await getData(config, projectName, slug).catch((e) => {
     console.error(e);
     return null;
   });
   if (!loader) throw responseNoArticle();
-  const footer = getFooterLinks(config, folderName, slug);
-  return { ...loader, footer, domain: opts.domain };
+  const footer = getFooterLinks(config, projectName, slug);
+  return { ...loader, footer, domain: opts.domain as string };
 }

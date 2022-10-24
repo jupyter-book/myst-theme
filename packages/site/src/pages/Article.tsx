@@ -1,7 +1,6 @@
 import type { PageLoader } from '@curvenote/site-common';
 import { ReferencesProvider } from '@curvenote/ui-providers';
-import { Bibliography } from 'myst-to-react';
-import { ContentBlocks, FooterLinksBlock, FrontmatterBlock } from '../components';
+import { Bibliography, ContentBlocks, FooterLinksBlock, FrontmatterBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 

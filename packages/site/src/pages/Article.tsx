@@ -1,8 +1,8 @@
-import type { PageLoader } from '@curvenote/site-common';
 import { ReferencesProvider } from '@curvenote/ui-providers';
 import { Bibliography, ContentBlocks, FooterLinksBlock, FrontmatterBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
+import type { PageLoader } from '../types';
 
 export function ArticlePage({ article }: { article: PageLoader }) {
   const { hide_title_block, hide_footer_links } = article.frontmatter?.design ?? {};

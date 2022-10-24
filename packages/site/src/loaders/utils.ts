@@ -1,16 +1,9 @@
 import type { MinifiedOutput } from '@curvenote/nbtx';
 import { walkPaths } from '@curvenote/nbtx';
-import type {
-  FooterLinks,
-  Heading,
-  ManifestProject,
-  NavigationLink,
-  SiteManifest,
-  PageLoader,
-  ManifestProjectPage,
-} from '@curvenote/site-common';
+import type { ManifestProject, SiteManifest, ManifestProjectPage } from '@curvenote/site-common';
 import { selectAll } from 'unist-util-select';
 import type { Image as ImageSpec, Link as LinkSpec } from 'myst-spec';
+import type { FooterLinks, Heading, NavigationLink, PageLoader } from '../types';
 
 type Image = ImageSpec & { urlOptimized?: string };
 type Link = LinkSpec & { static?: boolean };

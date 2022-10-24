@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import NodeCache from 'node-cache';
-import type { PageLoader, SiteManifest as Config } from '@curvenote/site-common';
+import type { SiteManifest as Config } from '@curvenote/site-common';
 import { responseNoArticle, responseNoSite } from './errors.server';
 import {
   getFooterLinks,
@@ -9,6 +9,7 @@ import {
   updateSiteManifestStaticLinksInplace,
 } from './utils';
 import { redirect } from '@remix-run/node';
+import type { PageLoader } from '../types';
 
 interface CdnRouter {
   cdn?: string;

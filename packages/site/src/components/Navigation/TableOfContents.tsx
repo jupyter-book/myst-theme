@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 import { NavLink, useParams, useLocation } from '@remix-run/react';
-import type { Heading, ManifestProject } from '@curvenote/site-common';
+import type { ManifestProject } from '@curvenote/site-common';
 import { CreatedInCurvenote } from '@curvenote/icons';
 import { useNavOpen, useSiteManifest } from '@curvenote/ui-providers';
 import { getProjectHeadings } from '../../loaders';
+import type { Heading } from '../../types';
 
 type Props = {
   folder?: string;

@@ -1,14 +1,16 @@
 import type { PageLoader } from '@curvenote/site-common';
 import { ReferencesProvider } from '@curvenote/ui-providers';
-import { Bibliography } from 'myst-to-react';
-import { ContentBlocks, FooterLinksBlock, FrontmatterBlock } from '../components';
+import { Bibliography, ContentBlocks, FooterLinksBlock, FrontmatterBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 
 export function ArticlePage({ article }: { article: PageLoader }) {
   const { hide_title_block, hide_footer_links } = article.frontmatter?.design ?? {};
   return (
-    <ReferencesProvider references={{ ...article.references, article: article.mdast }}>
+    <ReferencesProvider
+      references={{ ...article.references, article: article.mdast }}
+      frontmatter={article.frontmatter}
+    >
       {!hide_title_block && (
         <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
       )}

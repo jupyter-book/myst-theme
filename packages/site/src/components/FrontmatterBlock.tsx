@@ -4,10 +4,17 @@ import type { PageFrontmatter } from 'myst-frontmatter';
 import { KINDS } from '@curvenote/blocks';
 import { LicenseBadges, Email, GitHub, OpenAccess, Orcid, Jupyter, ROR } from '@curvenote/icons';
 import { useTheme } from '@curvenote/ui-providers';
+import { ExternalOrInternalLink } from './ExternalOrInternalLink';
 
-function Author({ author }: { author: Required<PageFrontmatter>['authors'][0] }) {
+export function Author({
+  author,
+  className,
+}: {
+  author: Required<PageFrontmatter>['authors'][0];
+  className?: string;
+}) {
   return (
-    <div className="font-semibold text-sm">
+    <span className={classNames('font-semibold text-sm', className)}>
       {author.name}
       {author.email && author.corresponding && (
         <a
@@ -29,11 +36,29 @@ function Author({ author }: { author: Required<PageFrontmatter>['authors'][0] })
           <Orcid className="ml-2 inline-block h-[1.2em] w-[1.2em] -translate-y-[2px] grayscale hover:grayscale-0" />
         </a>
       )}
+    </span>
+  );
+}
+
+export function AuthorsList({ authors }: { authors: PageFrontmatter['authors'] }) {
+  if (!authors || authors.length === 0) return null;
+  return (
+    <div>
+      {authors.map((a, i) => (
+        <span key={a.name} className={'mr-2'}>
+          <Author
+            author={a}
+            className={classNames('inline-block', {
+              "after:content-[','] after:mr-1": i < authors.length - 1,
+            })}
+          />
+        </span>
+      ))}
     </div>
   );
 }
 
-function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['authors'] }) {
+export function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['authors'] }) {
   if (!authors || authors.length === 0) return null;
   const hasAffliations = authors.reduce(
     (r, { affiliations: a }) => r || (!!a && a?.length > 0),
@@ -60,7 +85,9 @@ function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['authors'
         )}
         {authors.map((author) => (
           <React.Fragment key={author.name}>
-            <Author author={author} />
+            <div>
+              <Author author={author} />
+            </div>
             <div className="text-sm hidden sm:block">
               {author.affiliations?.map((affil, i) => {
                 if (typeof affil === 'string') {
@@ -95,17 +122,35 @@ function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['authors'
   );
 }
 
-function DOI({ doi: possibleLink }: { doi?: string }) {
+export function DoiText({ doi: possibleLink, className }: { doi?: string; className?: string }) {
   if (!possibleLink) return null;
   const doi = possibleLink.replace(/^(https?:\/\/)?(dx\.)?doi\.org\//, '');
+  const url = `https://doi.org/${doi}`;
   return (
-    <div className="flex-none" title="DOI (Digital Object Identifier)">
+    <a
+      className={classNames('no-underline', className)}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={url}
+      title="DOI (Digital Object Identifier)"
+    >
+      {url}
+    </a>
+  );
+}
+
+export function DoiBadge({ doi: possibleLink, className }: { doi?: string; className?: string }) {
+  if (!possibleLink) return null;
+  const doi = possibleLink.replace(/^(https?:\/\/)?(dx\.)?doi\.org\//, '');
+  const url = `https://doi.org/${doi}`;
+  return (
+    <div className={classNames('flex-none', className)} title="DOI (Digital Object Identifier)">
       DOI:
       <a
         className="font-light no-underline pl-1"
         target="_blank"
         rel="noopener noreferrer"
-        href={`https://doi.org/${doi}`}
+        href={url}
       >
         {doi}
       </a>
@@ -113,7 +158,7 @@ function DOI({ doi: possibleLink }: { doi?: string }) {
   );
 }
 
-function GitHubLink({ github: possibleLink }: { github?: string }) {
+export function GitHubLink({ github: possibleLink }: { github?: string }) {
   if (!possibleLink) return null;
   const github = possibleLink.replace(/^(https?:\/\/)?github\.com\//, '');
   return (
@@ -128,7 +173,7 @@ function GitHubLink({ github: possibleLink }: { github?: string }) {
   );
 }
 
-function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
+export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
   if (!open_access) return null;
   return (
     <a
@@ -143,7 +188,7 @@ function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
   );
 }
 
-function Journal({
+export function Journal({
   venue,
   biblio,
 }: {
@@ -157,15 +202,13 @@ function Journal({
   return (
     <div className="flex-none mr-2">
       {url ? (
-        <a
+        <ExternalOrInternalLink
           className="smallcaps font-semibold no-underline"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
+          to={url}
           title={title}
         >
           {title}
-        </a>
+        </ExternalOrInternalLink>
       ) : (
         <span className="smallcaps font-semibold">{title}</span>
       )}
@@ -208,7 +251,7 @@ export function FrontmatterBlock({
           <GitHubLink github={github} />
           <LicenseBadges license={license} />
           <OpenAccessBadge open_access={open_access} />
-          <DOI doi={doi} />
+          <DoiBadge doi={doi} />
         </div>
       )}
       <h1 className={classNames('title', { 'mb-2': frontmatter.subtitle })}>{frontmatter.title}</h1>

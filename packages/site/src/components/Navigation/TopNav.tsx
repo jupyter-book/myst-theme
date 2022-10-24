@@ -1,5 +1,5 @@
-import { Link, NavLink, useTransition } from '@remix-run/react';
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Link, NavLink } from '@remix-run/react';
+import { Fragment } from 'react';
 import classNames from 'classnames';
 import { Menu, Transition } from '@headlessui/react';
 import DotsVerticalIcon from '@heroicons/react/solid/DotsVerticalIcon';
@@ -9,6 +9,7 @@ import { ThemeButton } from './ThemeButton';
 import { useNavOpen, useSiteManifest } from '@curvenote/ui-providers';
 import { CurvenoteLogo } from '@curvenote/icons';
 import ChevronDownIcon from '@heroicons/react/solid/ChevronDownIcon';
+import { LoadingBar } from './Loading';
 
 export const DEFAULT_NAV_HEIGHT = 60;
 
@@ -26,7 +27,7 @@ function ExternalOrInternalLink({
   prefetch?: 'intent' | 'render' | 'none';
 }) {
   const staticClass = typeof className === 'function' ? className({ isActive: false }) : className;
-  if (to.startsWith('http')) {
+  if (to.startsWith('http') || to.startsWith('mailto:')) {
     return (
       <a href={to} target="_blank" rel="noopener noreferrer" className={staticClass}>
         {children}
@@ -178,46 +179,6 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
   );
 }
 
-/**
- * Show a loading progess bad if the load takes more than 150ms
- */
-function useLoading() {
-  const transitionState = useTransition().state;
-  const ref = useMemo<{ start?: NodeJS.Timeout; finish?: NodeJS.Timeout }>(() => ({}), []);
-  const [showLoading, setShowLoading] = useState(false);
-
-  useEffect(() => {
-    if (transitionState === 'loading') {
-      ref.start = setTimeout(() => {
-        setShowLoading(true);
-      }, 150);
-    } else {
-      if (ref.start) {
-        // We have stoped loading in <150ms
-        clearTimeout(ref.start);
-        delete ref.start;
-        setShowLoading(false);
-        return;
-      }
-      ref.finish = setTimeout(() => {
-        setShowLoading(false);
-      }, 150);
-    }
-    return () => {
-      if (ref.start) {
-        clearTimeout(ref.start);
-        delete ref.start;
-      }
-      if (ref.finish) {
-        clearTimeout(ref.finish);
-        delete ref.finish;
-      }
-    };
-  }, [transitionState]);
-
-  return { showLoading, isLoading: transitionState === 'loading' };
-}
-
 function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; name?: string }) {
   const nothingSet = !logo && !logoText;
   return (
@@ -243,7 +204,6 @@ export function TopNav() {
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
   const { logo, logo_text, logoText, actions, title, nav } = config ?? {};
-  const { isLoading, showLoading } = useLoading();
   return (
     <div className="bg-stone-700 p-3 md:px-8 fixed w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-wrap max-w-[1440px] mx-auto">
@@ -281,17 +241,7 @@ export function TopNav() {
           </div>
         </div>
       </nav>
-      {showLoading && (
-        <div
-          className={classNames(
-            'w-screen h-[2px] bg-blue-500 absolute left-0 bottom-0 transition-transform',
-            {
-              'animate-load scale-x-40': isLoading,
-              'scale-x-100': !isLoading,
-            },
-          )}
-        />
-      )}
+      <LoadingBar />
     </div>
   );
 }

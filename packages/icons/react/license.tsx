@@ -1,4 +1,5 @@
 import ScaleIcon from '@heroicons/react/outline/ScaleIcon';
+import classNames from 'classnames';
 
 function CreativeCommons(
   viewBox: string,
@@ -83,9 +84,11 @@ type License = {
 export function CreativeCommonsBadge({
   license,
   preamble = '',
+  className,
 }: {
   license: License;
   preamble?: string;
+  className?: string;
 }) {
   const match = /^([CBYSAND0-]+)(?:(?:-)([0-9].[0-9]))?$/.exec(license.id);
   if (!license.CC || !match) return null;
@@ -93,7 +96,7 @@ export function CreativeCommonsBadge({
   const kind = match[1].toUpperCase();
   return (
     <a
-      className="opacity-50 hover:opacity-100 dark:invert"
+      className={classNames('opacity-50 hover:opacity-100 dark:invert', className)}
       href={license.url}
       target="_blank"
       rel="noopener noreferrer"
@@ -133,9 +136,11 @@ export function CreativeCommonsBadge({
 function SingleLicenseBadge({
   license: possibleLicense,
   preamble = '',
+  className,
 }: {
   license?: License | string;
   preamble?: string;
+  className?: string;
 }) {
   if (!possibleLicense) return null;
   const license =
@@ -144,7 +149,7 @@ function SingleLicenseBadge({
       : possibleLicense;
   if (!license) return null;
   if (license.CC) {
-    return <CreativeCommonsBadge license={license} preamble={preamble} />;
+    return <CreativeCommonsBadge license={license} preamble={preamble} className={className} />;
   }
   return (
     <a
@@ -154,10 +159,17 @@ function SingleLicenseBadge({
       title={`${preamble}${license.title} (${license.id})`}
     >
       {!license.osi && (
-        <ScaleIcon className="h-[1.3em] translate-y-[0.1em] px-1 opacity-60 hover:opacity-100" />
+        <ScaleIcon
+          className={classNames('h-[1.3em] px-1 opacity-60 hover:opacity-100', className)}
+        />
       )}
       {license.osi && (
-        <OSI className="h-[1.3em] translate-y-[0.1em] px-1 opacity-70 hover:opacity-100 grayscale hover:grayscale-0" />
+        <OSI
+          className={classNames(
+            'h-[1.3em] px-1 opacity-70 hover:opacity-100 grayscale hover:grayscale-0',
+            className,
+          )}
+        />
       )}
     </a>
   );
@@ -165,17 +177,27 @@ function SingleLicenseBadge({
 
 export function LicenseBadges({
   license,
+  className,
 }: {
   license?: string | License | { code?: License | string; content?: License | string };
+  className?: string;
 }) {
   if (!license) return null;
   if (typeof license !== 'string' && ('code' in license || 'content' in license)) {
     return (
       <>
-        <SingleLicenseBadge license={license.content} preamble="Content License: " />
-        <SingleLicenseBadge license={license.code} preamble="Code License: " />
+        <SingleLicenseBadge
+          license={license.content}
+          preamble="Content License: "
+          className={className}
+        />
+        <SingleLicenseBadge
+          license={license.code}
+          preamble="Code License: "
+          className={className}
+        />
       </>
     );
   }
-  return <SingleLicenseBadge license={license as License} />;
+  return <SingleLicenseBadge license={license as License} className={className} />;
 }

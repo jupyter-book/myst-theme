@@ -92,6 +92,7 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
     .stringify(mdast as any).result as LatexResult;
   const content = useParse(mdast as any);
   return {
+    frontmatter,
     yaml: mdastString,
     references: { ...references, article: mdast } as References,
     html: htmlString,
@@ -105,6 +106,7 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
   const area = useRef<HTMLTextAreaElement | null>(null);
   const [text, setText] = useState<string>(value.trim());
   const [references, setReferences] = useState<References>({});
+  const [frontmatter, setFrontmatter] = useState<PageFrontmatter>({});
   const [mdastYaml, setYaml] = useState<string>('Loading...');
   const [html, setHtml] = useState<string>('Loading...');
   const [tex, setTex] = useState<string>('Loading...');
@@ -116,6 +118,7 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
     const ref = { current: true };
     parse(text, { numbering }).then((result) => {
       if (!ref.current) return;
+      setFrontmatter(result.frontmatter);
       setYaml(result.yaml);
       setReferences(result.references);
       setHtml(result.html);
@@ -182,7 +185,9 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
           </button>
         </div>
         {previewType === 'DEMO' && (
-          <ReferencesProvider references={references}>{content}</ReferencesProvider>
+          <ReferencesProvider references={references} frontmatter={frontmatter}>
+            {content}
+          </ReferencesProvider>
         )}
         {previewType === 'AST' && <CodeBlock lang="yaml" value={mdastYaml} showCopy={false} />}
         {previewType === 'HTML' && <CodeBlock lang="xml" value={html} showCopy={false} />}

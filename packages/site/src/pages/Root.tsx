@@ -1,4 +1,5 @@
-import type { SiteLoader, SiteManifest } from '@curvenote/site-common';
+import type { SiteManifest } from '@curvenote/site-common';
+import type { SiteLoader } from '../types';
 import { SiteProvider, Theme, ThemeProvider } from '@curvenote/ui-providers';
 import {
   Links,

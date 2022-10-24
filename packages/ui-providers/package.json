@@ -13,7 +13,7 @@
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
   "dependencies": {
-    "@curvenote/site-common": "*",
+    "@curvenote/site-common": "^0.0.18",
     "myst-frontmatter": "^0.0.2"
   },
   "peerDependencies": {

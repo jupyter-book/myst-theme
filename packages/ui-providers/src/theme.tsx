@@ -1,7 +1,9 @@
-import { Theme } from '@curvenote/site-common';
 import * as React from 'react';
 
-export { Theme } from '@curvenote/site-common';
+export enum Theme {
+  light = 'light',
+  dark = 'dark',
+}
 
 export function isTheme(value: unknown): value is Theme {
   return typeof value === 'string' && Object.values(Theme).includes(value as Theme);

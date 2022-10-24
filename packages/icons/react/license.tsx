@@ -136,7 +136,7 @@ export function CreativeCommonsBadge({
 function SingleLicenseBadge({
   license: possibleLicense,
   preamble = '',
-  className = 'translate-y-[0.1em]',
+  className,
 }: {
   license?: License | string;
   preamble?: string;

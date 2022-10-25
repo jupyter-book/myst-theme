@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { host, actions } from '@curvenote/connect';
 import type { MinifiedOutput } from '@curvenote/nbtx';
 import { convertToIOutputs, fetchAndEncodeOutputImages } from '@curvenote/nbtx';
-import { ChevronDoubleDownIcon } from '@heroicons/react/outline';
+import { ChevronDoubleDownIcon } from '@heroicons/react/24/outline';
 import type { State } from './selectors';
 import { selectIFrameHeight, selectIFrameReady } from './selectors';
 

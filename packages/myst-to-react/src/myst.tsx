@@ -9,9 +9,11 @@ import type { PageFrontmatter } from 'myst-frontmatter';
 import type { NodeRenderer } from './types';
 import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';
-import ExclamationIcon from '@heroicons/react/outline/ExclamationIcon';
-import ExclamationCircleIcon from '@heroicons/react/outline/ExclamationCircleIcon';
-import InformationCircleIcon from '@heroicons/react/outline/InformationCircleIcon';
+import {
+  ExclamationTriangleIcon,
+  ExclamationCircleIcon,
+  InformationCircleIcon,
+} from '@heroicons/react/24/outline';
 import { CopyIcon } from './components/CopyIcon';
 import { CodeBlock } from './code';
 import { ReferencesProvider } from '@curvenote/ui-providers';
@@ -204,7 +206,7 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
               })}
             >
               {m.fatal === true && <ExclamationCircleIcon className="inline h-[1.3em] mr-1" />}
-              {m.fatal === false && <ExclamationIcon className="inline h-[1.3em] mr-1" />}
+              {m.fatal === false && <ExclamationTriangleIcon className="inline h-[1.3em] mr-1" />}
               {m.fatal === null && <InformationCircleIcon className="inline h-[1.3em] mr-1" />}
               <code>{m.ruleId || m.source}</code>: {m.message}
             </div>

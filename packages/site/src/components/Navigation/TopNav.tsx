@@ -2,13 +2,15 @@ import { Link, NavLink } from '@remix-run/react';
 import { Fragment } from 'react';
 import classNames from 'classnames';
 import { Menu, Transition } from '@headlessui/react';
-import DotsVerticalIcon from '@heroicons/react/solid/DotsVerticalIcon';
-import MenuIcon from '@heroicons/react/solid/MenuIcon';
+import {
+  EllipsisVerticalIcon,
+  Bars3Icon as MenuIcon,
+  ChevronDownIcon,
+} from '@heroicons/react/24/solid';
 import type { SiteManifest, SiteNavItem } from '@curvenote/site-common';
 import { ThemeButton } from './ThemeButton';
 import { useNavOpen, useSiteManifest } from '@curvenote/ui-providers';
 import { CurvenoteLogo } from '@curvenote/icons';
-import ChevronDownIcon from '@heroicons/react/solid/ChevronDownIcon';
 import { LoadingBar } from './Loading';
 
 export const DEFAULT_NAV_HEIGHT = 60;
@@ -144,7 +146,7 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
         <Menu.Button className="bg-transparent flex text-sm rounded-full focus:outline-none">
           <span className="sr-only">Open Menu</span>
           <div className="flex items-center text-stone-200 hover:text-white">
-            <DotsVerticalIcon className="h-8 w-8 p-1" />
+            <EllipsisVerticalIcon className="h-8 w-8 p-1" />
           </div>
         </Menu.Button>
       </div>

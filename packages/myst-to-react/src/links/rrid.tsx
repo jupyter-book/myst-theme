@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { ExternalLinkIcon } from '@heroicons/react/outline';
+import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
 import { ClickPopover } from '../components/ClickPopover';
 
 const fetcher = (...args: Parameters<typeof fetch>) =>

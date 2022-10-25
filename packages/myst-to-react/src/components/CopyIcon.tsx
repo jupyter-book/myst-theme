@@ -1,5 +1,4 @@
-import DuplicateIcon from '@heroicons/react/outline/DuplicateIcon';
-import CheckIcon from '@heroicons/react/outline/CheckIcon';
+import { DocumentDuplicateIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import classNames from 'classnames';
 
@@ -33,7 +32,7 @@ export function CopyIcon({ text }: { text: string }) {
       {copied ? (
         <CheckIcon className="w-[24px] h-[24px] text-success" />
       ) : (
-        <DuplicateIcon className="w-[24px] h-[24px]" />
+        <DocumentDuplicateIcon className="w-[24px] h-[24px]" />
       )}
     </button>
   );

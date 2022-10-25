@@ -1,5 +1,5 @@
 import { Link as RemixLink } from '@remix-run/react';
-import { ExternalLinkIcon } from '@heroicons/react/outline';
+import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 
 export function LinkCard({

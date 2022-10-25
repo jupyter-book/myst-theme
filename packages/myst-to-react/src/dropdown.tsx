@@ -1,6 +1,6 @@
 import React from 'react';
 import type { NodeRenderer } from './types';
-import { ChevronRightIcon } from '@heroicons/react/solid';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
 
 type DropdownSpec = {

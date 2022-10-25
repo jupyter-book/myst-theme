@@ -14,7 +14,7 @@
     "lint:format": "prettier --check \"react/**/*.{ts,tsx,md}\""
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
+    "@heroicons/react": "^2.0.12",
     "classnames": "^2.3.1"
   },
   "peerDependencies": {

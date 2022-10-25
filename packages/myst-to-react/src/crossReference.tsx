@@ -2,8 +2,10 @@ import { selectAll } from 'unist-util-select';
 import { EXIT, SKIP, visit } from 'unist-util-visit';
 import type { Root } from 'mdast';
 import type { CrossReference } from 'myst-spec';
-import LinkIcon from '@heroicons/react/outline/LinkIcon';
-import ExternalLinkIcon from '@heroicons/react/outline/ExternalLinkIcon';
+import {
+  LinkIcon,
+  ArrowTopRightOnSquareIcon as ExternalLinkIcon,
+} from '@heroicons/react/24/outline';
 import { useReferences, useXRefState, XRefProvider } from '@curvenote/ui-providers';
 import { useParse } from '.';
 import { InlineError } from './inlineError';

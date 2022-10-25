@@ -18,7 +18,7 @@
     "@curvenote/nbtx": "^0.1.11",
     "@curvenote/ui-providers": "*",
     "@headlessui/react": "^1.6.5",
-    "@heroicons/react": "^1.0.6",
+    "@heroicons/react": "^2.0.12",
     "@popperjs/core": "^2.11.5",
     "ansi-to-react": "^6.1.6",
     "buffer": "^6.0.3",

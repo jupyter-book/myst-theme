@@ -1,16 +1,25 @@
 import { useTheme } from '@curvenote/ui-providers';
-import { MoonIcon } from '@heroicons/react/solid';
-import { SunIcon } from '@heroicons/react/outline';
+import { MoonIcon } from '@heroicons/react/24/solid';
+import { SunIcon } from '@heroicons/react/24/outline';
+import classNames from 'classnames';
 
-export function ThemeButton() {
+export function ThemeButton({ className = 'mx-3 h-8 w-8' }: { className?: string }) {
   const { isDark, nextTheme } = useTheme();
   return (
     <button
-      className="theme rounded-full border border-white border-solid mx-3 overflow-hidden text-white hover:text-stone-500 hover:bg-white"
+      className={classNames(
+        'theme rounded-full border border-white border-solid overflow-hidden text-white hover:text-stone-500 hover:bg-white',
+        className,
+      )}
+      title={`Change theme to ${isDark ? 'light' : 'dark'} mode.`}
       aria-label={`Change theme to ${isDark ? 'light' : 'dark'} mode.`}
       onClick={nextTheme}
     >
-      {isDark ? <MoonIcon className="h-8 w-8 p-1" /> : <SunIcon className="h-8 w-8 p-1" />}
+      {isDark ? (
+        <MoonIcon className="h-full w-full p-0.5" />
+      ) : (
+        <SunIcon className="h-full w-full p-0.5" />
+      )}
     </button>
   );
 }

@@ -3,19 +3,19 @@ import React, { useState } from 'react';
 import type { NodeRenderer } from './types';
 import {
   InformationCircleIcon,
-  ExclamationIcon as OExclamationIcon,
-  SpeakerphoneIcon,
-  PencilAltIcon,
-  ArrowCircleRightIcon,
-} from '@heroicons/react/outline';
+  ExclamationCircleIcon as OExclamationIcon,
+  MegaphoneIcon,
+  PencilSquareIcon,
+  ArrowRightCircleIcon,
+  LightBulbIcon,
+} from '@heroicons/react/24/outline';
 import {
-  ExclamationIcon as SExclamationIcon,
+  ExclamationTriangleIcon as SExclamationIcon,
   ExclamationCircleIcon as SExclamationCircleIcon,
   XCircleIcon,
-  LightBulbIcon,
-  LightningBoltIcon,
+  BoltIcon,
   ChevronRightIcon,
-} from '@heroicons/react/solid';
+} from '@heroicons/react/24/solid';
 import classNames from 'classnames';
 // import { AdmonitionKind } from 'mystjs';
 
@@ -96,11 +96,11 @@ function AdmonitionIcon({ kind }: { kind: AdmonitionKind }) {
   if (kind === AdmonitionKind.warning) return <SExclamationIcon className={iconClass} />;
   if (kind === AdmonitionKind.danger) return <SExclamationCircleIcon className={iconClass} />;
   if (kind === AdmonitionKind.error) return <XCircleIcon className={iconClass} />;
-  if (kind === AdmonitionKind.attention) return <SpeakerphoneIcon className={iconClass} />;
-  if (kind === AdmonitionKind.tip) return <PencilAltIcon className={iconClass} />;
+  if (kind === AdmonitionKind.attention) return <MegaphoneIcon className={iconClass} />;
+  if (kind === AdmonitionKind.tip) return <PencilSquareIcon className={iconClass} />;
   if (kind === AdmonitionKind.hint) return <LightBulbIcon className={iconClass} />;
-  if (kind === AdmonitionKind.important) return <LightningBoltIcon className={iconClass} />;
-  if (kind === AdmonitionKind.seealso) return <ArrowCircleRightIcon className={iconClass} />;
+  if (kind === AdmonitionKind.important) return <BoltIcon className={iconClass} />;
+  if (kind === AdmonitionKind.seealso) return <ArrowRightCircleIcon className={iconClass} />;
   return <InformationCircleIcon className={iconClass} />;
 }
 

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ExclamationIcon } from '@heroicons/react/outline';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import type { InlineMath, Math } from 'myst-spec';
 import { InlineError } from './inlineError';
 import { HashLink } from './heading';
@@ -42,7 +42,7 @@ const mathRenderer: NodeRenderer<MathLike> = (node) => {
       return (
         <pre key={node.key} title={node.message}>
           <span className="text-red-500">
-            <ExclamationIcon className="inline h-[1em] mr-1" />
+            <ExclamationCircleIcon className="inline h-[1em] mr-1" />
             {node.message}
             {'\n\n'}
           </span>

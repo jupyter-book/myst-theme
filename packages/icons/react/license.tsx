@@ -1,4 +1,4 @@
-import ScaleIcon from '@heroicons/react/outline/ScaleIcon';
+import { ScaleIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 
 function CreativeCommons(

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Link } from '@remix-run/react';
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/outline';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { FooterLinks, NavigationLink } from '../types';
 
 const FooterLink = ({ title, url, group, right }: NavigationLink & { right?: boolean }) => {

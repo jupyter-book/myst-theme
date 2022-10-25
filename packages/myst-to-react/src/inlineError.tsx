@@ -1,4 +1,4 @@
-import { ExclamationIcon } from '@heroicons/react/outline';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 interface Props {
   value: string;
@@ -8,7 +8,7 @@ interface Props {
 export function InlineError({ value, message }: Props) {
   return (
     <span className="text-yellow-600" title={message || value}>
-      <ExclamationIcon className="inline h-[1em] mr-1" />
+      <ExclamationCircleIcon className="inline h-[1em] mr-1" />
       {value}
     </span>
   );

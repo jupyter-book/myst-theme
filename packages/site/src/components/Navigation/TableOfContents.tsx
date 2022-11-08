@@ -105,11 +105,13 @@ export const TableOfContents = ({
   top,
   height,
   urlbase,
+  showFooter = true,
 }: {
   top?: number;
   height?: number;
   projectSlug?: string;
   urlbase?: string;
+  showFooter?: boolean;
 }) => {
   const [open] = useNavOpen();
   const config = useSiteManifest();
@@ -149,9 +151,11 @@ export const TableOfContents = ({
           urlbase={urlbase}
         />
       </nav>
-      <div className="flex-none py-4">
-        <CreatedInCurvenote />
-      </div>
+      {showFooter && (
+        <div className="flex-none py-4">
+          <CreatedInCurvenote />
+        </div>
+      )}
     </div>
   );
 };

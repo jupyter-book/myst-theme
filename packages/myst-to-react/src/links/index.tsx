@@ -4,7 +4,7 @@ import {
   ArrowTopRightOnSquareIcon as ExternalLinkIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline';
-import { useSiteManifest } from '@curvenote/ui-providers';
+import { useSiteManifest, useUrlbase, withUrlbase } from '@curvenote/ui-providers';
 import type { ManifestProjectPage, SiteManifest } from '@curvenote/site-common';
 import type { NodeRenderer } from '../types';
 import { HoverPopover } from '../components/HoverPopover';
@@ -30,10 +30,11 @@ function getPageInfo(
 function InternalLink({ url, children }: { url: string; children: React.ReactNode }) {
   const site = useSiteManifest();
   const page = getPageInfo(site, url);
+  const urlbase = useUrlbase();
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (
-      <RemixLink to={url} prefetch="intent">
+      <RemixLink to={withUrlbase(url, urlbase)} prefetch="intent">
         {children}
       </RemixLink>
     );
@@ -50,7 +51,7 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
         />
       }
     >
-      <RemixLink to={url} prefetch="intent">
+      <RemixLink to={withUrlbase(url, urlbase)} prefetch="intent">
         {children}
       </RemixLink>
     </HoverPopover>

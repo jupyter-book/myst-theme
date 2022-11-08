@@ -6,7 +6,13 @@ import {
   LinkIcon,
   ArrowTopRightOnSquareIcon as ExternalLinkIcon,
 } from '@heroicons/react/24/outline';
-import { useReferences, useXRefState, XRefProvider } from '@curvenote/ui-providers';
+import {
+  useReferences,
+  useUrlbase,
+  useXRefState,
+  withUrlbase,
+  XRefProvider,
+} from '@curvenote/ui-providers';
 import { useParse } from '.';
 import { InlineError } from './inlineError';
 import type { NodeRenderer } from './types';
@@ -56,9 +62,10 @@ export function ReferencedContent({
   identifier: string;
   close: () => void;
 }) {
+  const urlbase = useUrlbase();
   const { remote, url } = useXRefState();
   const external = url?.startsWith('http') ?? false;
-  const lookupUrl = external ? `/api/lookup?url=${url}.json` : `${url}.json`;
+  const lookupUrl = external ? `/api/lookup?url=${url}.json` : `${withUrlbase(url, urlbase)}.json`;
   const { data, error } = useSWR(remote ? lookupUrl : null, fetcher);
   const references = useReferences();
   const mdast = data?.mdast ?? references?.article;

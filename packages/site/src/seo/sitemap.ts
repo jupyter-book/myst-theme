@@ -165,8 +165,7 @@ export function createSitemapIndex(
   const sitemapsXml = sitemaps
     .map((sitemap) => `  <sitemap>\n    <loc>${domain}${sitemap}</loc>\n  </sitemap>`)
     .join('\n');
-  return `
-<?xml version="1.0" encoding="UTF-8"?>
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="${domain}${style}" ?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapsXml}
@@ -182,8 +181,7 @@ export function createSitemap(domain: string, pages: string[], style = '/sitemap
 <?xml-stylesheet type="text/xsl" href="${domain}${style}" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlsXml}
-</urlset>
-`;
+</urlset>`;
 }
 
 export function sitemapStylesheetIndexResponse() {
@@ -195,6 +193,13 @@ export function sitemapStylesheetIndexResponse() {
 
 export async function sitemapStylesheetResponse() {
   return new Response(sitemapStylesheet(), {
+    status: 200,
+    headers: { 'Content-Type': 'application/xml' },
+  });
+}
+
+export function createSitemapIndexResponse(domain: string, pages: string[]) {
+  return new Response(createSitemapIndex(domain, pages), {
     status: 200,
     headers: { 'Content-Type': 'application/xml' },
   });

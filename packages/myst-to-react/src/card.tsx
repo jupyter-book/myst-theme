@@ -2,6 +2,7 @@ import React from 'react';
 import type { NodeRenderer } from './types';
 import classNames from 'classnames';
 import { Link } from '@remix-run/react';
+import { useUrlbase, withUrlbase } from '@curvenote/ui-providers';
 // import { AdmonitionKind } from 'mystjs';
 
 type CardSpec = {
@@ -82,6 +83,7 @@ function ExternalOrInternalLink({
   prefetch?: 'intent' | 'render' | 'none';
   children: React.ReactNode;
 }) {
+  const urlbase = useUrlbase();
   if (to.startsWith('http') || isStatic) {
     return (
       <a href={to} className={className} target="_blank" rel="noopener noreferrer">
@@ -90,7 +92,7 @@ function ExternalOrInternalLink({
     );
   }
   return (
-    <Link to={to} className={className} prefetch={prefetch}>
+    <Link to={withUrlbase(to, urlbase)} className={className} prefetch={prefetch}>
       {children}
     </Link>
   );
@@ -108,7 +110,7 @@ function Card({
   const parts = getParts(children);
   const link = !!url;
   const sharedStyle =
-    'rounded-md shadow dark:shadow-neutral-800 overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col';
+    'my-4 rounded-md shadow dark:shadow-neutral-800 overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col';
   if (link) {
     return (
       <ExternalOrInternalLink

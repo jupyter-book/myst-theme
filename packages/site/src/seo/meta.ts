@@ -11,12 +11,12 @@ type SocialArticle = {
   // TODO: canonical
   title: string;
   description?: string;
-  image?: string;
+  image?: string | null;
   twitter?: string;
   keywords?: string[];
 };
 
-function allDefined(meta: Record<string, string | undefined>): HtmlMetaDescriptor {
+function allDefined(meta: Record<string, string | null | undefined>): HtmlMetaDescriptor {
   return Object.fromEntries(Object.entries(meta).filter(([, v]) => v)) as HtmlMetaDescriptor;
 }
 

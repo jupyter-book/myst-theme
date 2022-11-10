@@ -75,7 +75,7 @@ export async function getConfig(hostname: string): Promise<Config> {
 export async function getObjectsInv(hostname: string): Promise<Buffer | undefined> {
   const id = await getCdnPath(hostname);
   if (!id) return;
-  const url = `${CDN}${id}/public/_static/objects.inv`;
+  const url = `${CDN}${id}/objects.inv`;
   const response = await fetch(url);
   if (response.status === 404) return;
   const buffer = await response.buffer();

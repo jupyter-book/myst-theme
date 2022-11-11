@@ -4,13 +4,11 @@ import { TableOfContents } from './TableOfContents';
 export function Navigation({
   children,
   projectSlug,
-  urlbase,
   top,
   height,
   hide_toc,
 }: {
   children?: React.ReactNode;
-  urlbase?: string;
   projectSlug?: string;
   top?: number;
   height?: number;
@@ -27,7 +25,7 @@ export function Navigation({
         ></div>
       )}
       {children}
-      <TableOfContents projectSlug={projectSlug} urlbase={urlbase} top={top} height={height} />
+      <TableOfContents projectSlug={projectSlug} top={top} height={height} />
     </>
   );
 }

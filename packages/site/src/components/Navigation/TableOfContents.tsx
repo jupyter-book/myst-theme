@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { NavLink, useParams, useLocation } from '@remix-run/react';
 import type { ManifestProject } from '@curvenote/site-common';
 import { CreatedInCurvenote } from '@curvenote/icons';
-import { useNavOpen, useSiteManifest } from '@curvenote/ui-providers';
+import { useNavOpen, useSiteManifest, useUrlbase, withUrlbase } from '@curvenote/ui-providers';
 import { getProjectHeadings } from '../../loaders';
 import type { Heading } from '../../types';
 
@@ -11,7 +11,6 @@ type Props = {
   folder?: string;
   headings: Heading[];
   sections?: ManifestProject[];
-  urlbase?: string;
 };
 
 const HeadingLink = ({
@@ -27,6 +26,7 @@ const HeadingLink = ({
 }) => {
   const { pathname } = useLocation();
   const exact = pathname === path;
+  const urlbase = useUrlbase();
   const [, setOpen] = useNavOpen();
   return (
     <NavLink
@@ -42,7 +42,7 @@ const HeadingLink = ({
           'border-blue-500': isIndex && exact,
         })
       }
-      to={path}
+      to={withUrlbase(path, urlbase)}
       suppressHydrationWarning // The pathname is not defined on the server always.
       onClick={() => {
         // Close the nav panel if it is open
@@ -55,7 +55,7 @@ const HeadingLink = ({
 };
 
 const HEADING_CLASSES = 'text-slate-900 text-lg leading-6 dark:text-slate-100';
-const Headings = ({ folder, headings, sections, urlbase }: Props) => {
+const Headings = ({ folder, headings, sections }: Props) => {
   const secs = sections || [];
   return (
     <ul className="text-slate-500 dark:text-slate-300 leading-6">
@@ -92,7 +92,7 @@ const Headings = ({ folder, headings, sections, urlbase }: Props) => {
         }
         return (
           <li key={sec.slug} className={classNames('p-1 my-2 lg:hidden', HEADING_CLASSES)}>
-            <HeadingLink path={`${urlbase ?? ''}/${sec.slug}`}>{sec.title}</HeadingLink>
+            <HeadingLink path={`/${sec.slug}`}>{sec.title}</HeadingLink>
           </li>
         );
       })}
@@ -104,13 +104,11 @@ export const TableOfContents = ({
   projectSlug,
   top,
   height,
-  urlbase,
   showFooter = true,
 }: {
   top?: number;
   height?: number;
   projectSlug?: string;
-  urlbase?: string;
   showFooter?: boolean;
 }) => {
   const [open] = useNavOpen();
@@ -120,7 +118,6 @@ export const TableOfContents = ({
   if (!config) return null;
   const headings = getProjectHeadings(config, resolvedProjectSlug, {
     addGroups: false,
-    urlbase,
   });
   if (!headings) return null;
   return (
@@ -144,12 +141,7 @@ export const TableOfContents = ({
         className="flex-grow pt-10 pb-3 px-8 overflow-y-auto transition-opacity"
         style={{ opacity: height && height > 150 ? undefined : 0 }}
       >
-        <Headings
-          folder={resolvedProjectSlug}
-          headings={headings}
-          sections={config?.projects}
-          urlbase={urlbase}
-        />
+        <Headings folder={resolvedProjectSlug} headings={headings} sections={config?.projects} />
       </nav>
       {showFooter && (
         <div className="flex-none py-4">

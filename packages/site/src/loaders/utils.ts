@@ -21,22 +21,20 @@ export function getProject(
 export function getProjectHeadings(
   config: SiteManifest,
   projectSlug?: string,
-  opts: { addGroups: boolean; urlbase?: string } = { addGroups: false },
+  opts: { addGroups: boolean } = { addGroups: false },
 ): Heading[] | undefined {
   const project = getProject(config, projectSlug);
   if (!project) return undefined;
-  // Ensure there is a leading /
-  const urlbase = opts.urlbase?.replace(/^\/?/, '/') ?? '';
   const headings: Heading[] = [
     {
       title: project.title,
       slug: project.index,
-      path: `${urlbase}/${project.slug}`,
+      path: `/${project.slug}`,
       level: 'index',
     },
     ...project.pages.map((p) => {
       if (!('slug' in p)) return p;
-      return { ...p, path: `${urlbase}/${project.slug}/${p.slug}` };
+      return { ...p, path: `/${project.slug}/${p.slug}` };
     }),
   ];
   if (opts.addGroups) {
@@ -67,12 +65,10 @@ export function getFooterLinks(
   config?: SiteManifest,
   projectSlug?: string,
   slug?: string,
-  urlbase?: string,
 ): FooterLinks {
   if (!projectSlug || !slug || !config) return {};
   const pages = getProjectHeadings(config, projectSlug, {
     addGroups: true,
-    urlbase,
   });
   const found = pages?.findIndex(({ slug: s }) => s === slug) ?? -1;
   if (found === -1) return {};

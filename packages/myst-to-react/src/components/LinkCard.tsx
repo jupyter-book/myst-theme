@@ -9,6 +9,7 @@ export function LinkCard({
   loading = false,
   description,
   thumbnail,
+  className = 'w-[300px]',
 }: {
   url: string;
   internal?: boolean;
@@ -16,9 +17,10 @@ export function LinkCard({
   title: React.ReactNode;
   description?: React.ReactNode;
   thumbnail?: string;
+  className?: string;
 }) {
   return (
-    <div className={classNames('w-[300px]', { 'animate-pulse': loading })}>
+    <div className={classNames(className, { 'animate-pulse': loading })}>
       {internal && (
         <RemixLink to={url} className="block" prefetch="intent">
           {title}

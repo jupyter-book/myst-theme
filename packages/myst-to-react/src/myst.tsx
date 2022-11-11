@@ -53,6 +53,7 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
     enumerateTargetsPlugin,
     resolveReferencesPlugin,
     WikiTransformer,
+    // GithubTransformer,
     DOITransformer,
     RRIDTransformer,
     linksPlugin,
@@ -62,7 +63,12 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
   const { default: mystToTex } = await import('myst-to-tex');
   const myst = new MyST();
   const mdast = myst.parse(text);
-  const linkTransforms = [new WikiTransformer(), new DOITransformer(), new RRIDTransformer()];
+  const linkTransforms = [
+    new WikiTransformer(),
+    // new GithubTransformer(),
+    new DOITransformer(),
+    new RRIDTransformer(),
+  ];
   // For the mdast that we show, duplicate, strip positions and dump to yaml
   // Also run some of the transforms, like the links
   const mdastPre = JSON.parse(JSON.stringify(mdast));

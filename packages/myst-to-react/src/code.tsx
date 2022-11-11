@@ -14,6 +14,7 @@ type Props = {
   showLineNumbers?: boolean;
   startingLineNumber?: number;
   emphasizeLines?: number[];
+  filename?: string;
   className?: string;
 };
 
@@ -27,11 +28,13 @@ export function CodeBlock(props: Props) {
     className,
     showCopy = true,
     startingLineNumber = 1,
+    filename,
   } = props;
   const highlightLines = new Set(emphasizeLines);
 
   return (
     <div className={classNames('relative group not-prose overflow-auto', className)}>
+      {filename && <div className="leading-3 mt-1 p-1">{filename}</div>}
       <SyntaxHighlighter
         language={lang}
         startingLineNumber={startingLineNumber}

@@ -11,6 +11,7 @@ import { HoverPopover } from '../components/HoverPopover';
 import { LinkCard } from '../components/LinkCard';
 import { WikiLink } from './wiki';
 import { RRIDLink } from './rrid';
+import { GithubLink } from './github';
 
 type TransformedLink = Link & { internal?: boolean; protocol?: string };
 
@@ -73,6 +74,21 @@ export const link: NodeRenderer<TransformedLink> = (node, children) => {
         >
           {children}
         </WikiLink>
+      );
+    case 'github':
+      return (
+        <GithubLink
+          key={node.key}
+          url={node.url}
+          org={node.data?.org as string}
+          repo={node.data?.repo as string}
+          raw={node.data?.raw as string}
+          file={node.data?.file as string}
+          from={node.data?.from as number | undefined}
+          to={node.data?.to as number | undefined}
+        >
+          {children}
+        </GithubLink>
       );
     case 'rrid':
       return <RRIDLink key={node.key} rrid={node.data?.rrid as string} />;

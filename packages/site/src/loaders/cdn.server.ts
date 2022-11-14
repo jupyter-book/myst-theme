@@ -57,6 +57,15 @@ function withCDN<T extends string | undefined>(id: string, url: T): T {
   return `${CDN}${id}/public${url}` as T;
 }
 
+/**
+ * If the site title and the first nav item are the same, remove it.
+ */
+function removeSingleNavItems(config: Config) {
+  if (config?.nav?.length === 1 && config.nav[0].title === config.title) {
+    config.nav = [];
+  }
+}
+
 export async function getConfig(hostname: string): Promise<Config> {
   const id = await getCdnPath(hostname);
   if (!id) throw responseNoSite();
@@ -67,6 +76,7 @@ export async function getConfig(hostname: string): Promise<Config> {
   if (response.status === 404) throw responseNoSite();
   const data = (await response.json()) as Config;
   data.id = id;
+  removeSingleNavItems(data);
   updateSiteManifestStaticLinksInplace(data, (url) => withCDN(id, url));
   getConfigCache().set<Config>(id, data);
   return data;

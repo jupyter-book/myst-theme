@@ -58,10 +58,20 @@ function withCDN<T extends string | undefined>(id: string, url: T): T {
 }
 
 /**
+ * Basic comparison for checking that the title and (possible) slug are the same
+ */
+function foldTitleString(title?: string): string | undefined {
+  return title?.replace(/[-\s_]/g, '').toLowerCase();
+}
+
+/**
  * If the site title and the first nav item are the same, remove it.
  */
 function removeSingleNavItems(config: Config) {
-  if (config?.nav?.length === 1 && config.nav[0].title === config.title) {
+  if (
+    config?.nav?.length === 1 &&
+    foldTitleString(config.nav[0].title) === foldTitleString(config.title)
+  ) {
     config.nav = [];
   }
 }

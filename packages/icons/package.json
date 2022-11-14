@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "eslint": "^8.21.0",
-    "eslint-config-curvenote": "*",
+    "eslint-config-curvenote": "latest",
     "tsconfig": "*",
     "typescript": "latest"
   }

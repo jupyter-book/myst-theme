@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@curvenote/site-common": "^0.0.18",
-    "myst-frontmatter": "^0.0.2"
+    "myst-frontmatter": "^0.0.3"
   },
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "eslint": "^8.21.0",
-    "eslint-config-curvenote": "*",
+    "eslint-config-curvenote": "latest",
     "tsconfig": "*",
     "typescript": "latest"
   }

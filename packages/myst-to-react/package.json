@@ -13,10 +13,10 @@
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
   "dependencies": {
-    "@curvenote/blocks": "^1.5.15",
-    "@curvenote/connect": "^0.0.6",
+    "@curvenote/blocks": "^1.5.16",
+    "@curvenote/connect": "0.0.6",
     "@curvenote/nbtx": "^0.1.11",
-    "@curvenote/ui-providers": "*",
+    "@curvenote/ui-providers": "^0.0.16",
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^2.0.12",
     "@popperjs/core": "^2.11.5",
@@ -25,10 +25,10 @@
     "classnames": "^2.3.1",
     "mermaid": "^9.1.7",
     "myst-spec": "^0.0.4",
-    "myst-to-docx": "*",
-    "myst-to-tex": "*",
-    "myst-transforms": "*",
-    "mystjs": "^0.0.13",
+    "myst-to-docx": "^0.0.3",
+    "myst-to-tex": "^0.0.7",
+    "myst-transforms": "^0.0.8",
+    "mystjs": "^0.0.14",
     "nanoid": "^4.0.0",
     "react-popper": "^2.3.0",
     "react-syntax-highlighter": "^15.5.0",
@@ -36,8 +36,8 @@
     "unist-util-select": "^4.0.1"
   },
   "peerDependencies": {
-    "@remix-run/node": "^1.7.2",
-    "@remix-run/react": "^1.7.2",
+    "@remix-run/node": "^1.7.5",
+    "@remix-run/react": "^1.7.5",
     "@types/react": "^16.8 || ^17.0 || ^18.0",
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "react": "^16.8 || ^17.0 || ^18.0",
@@ -49,7 +49,7 @@
     "@types/mermaid": "^8.2.9",
     "@types/react-syntax-highlighter": "^15.5.5",
     "eslint": "^8.21.0",
-    "eslint-config-curvenote": "*",
+    "eslint-config-curvenote": "latest",
     "tsconfig": "*",
     "typescript": "latest"
   },

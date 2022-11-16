@@ -13,6 +13,7 @@ import {
   ExclamationTriangleIcon,
   ExclamationCircleIcon,
   InformationCircleIcon,
+  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 import { CopyIcon } from './components/CopyIcon';
 import { CodeBlock } from './code';
@@ -164,7 +165,7 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
       {/* The `exclude-from-outline` class is excluded from the document outline */}
       <div className="exclude-from-outline relative min-h-1 pt-[50px] px-6 pb-6 dark:bg-slate-900">
         <div className="absolute cursor-pointer top-0 left-0 border dark:border-slate-600">
-          {['DEMO', 'AST', 'HTML', 'LaTeX'].map((show) => (
+          {['DEMO', 'AST', 'HTML', 'LaTeX', 'DOCX'].map((show) => (
             <button
               key={show}
               className={classnames('px-2', {
@@ -180,17 +181,6 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
               {show}
             </button>
           ))}
-          <button
-            className={classnames(
-              'px-2',
-              'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700',
-            )}
-            title={`Download Micorsoft Word`}
-            aria-label={`Download Micorsoft Word`}
-            onClick={() => saveDocxFile('demo.docx', references.article, references.footnotes)}
-          >
-            DOCX
-          </button>
         </div>
         {previewType === 'DEMO' && (
           <ReferencesProvider references={references} frontmatter={frontmatter}>
@@ -200,6 +190,18 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
         {previewType === 'AST' && <CodeBlock lang="yaml" value={mdastYaml} showCopy={false} />}
         {previewType === 'HTML' && <CodeBlock lang="xml" value={html} showCopy={false} />}
         {previewType === 'LaTeX' && <CodeBlock lang="latex" value={tex} showCopy={false} />}
+        {previewType === 'DOCX' && (
+          <div>
+            <button
+              className="rounded border p-3"
+              onClick={() => saveDocxFile('demo.docx', references.article, references.footnotes)}
+              title={`Download Micorsoft Word`}
+              aria-label={`Download Micorsoft Word`}
+            >
+              <ArrowDownTrayIcon className="inline h-[1.3em] mr-1" /> Download as Microsoft Word
+            </button>
+          </div>
+        )}
       </div>
       {previewType === 'DEMO' && warnings.length > 0 && (
         <div>

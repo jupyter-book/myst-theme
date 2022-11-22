@@ -1,6 +1,7 @@
 import { useParse } from '.';
 import { VFile } from 'vfile';
 import type { LatexResult } from 'myst-to-tex'; // Only import the type!!
+import type { JatsResult } from 'myst-to-jats'; // Only import the type!!
 import type { VFileMessage } from 'vfile-message';
 import yaml from 'js-yaml';
 import type { References } from '@curvenote/site-common';
@@ -62,6 +63,7 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
     getFrontmatter,
   } = await import('myst-transforms');
   const { default: mystToTex } = await import('myst-to-tex');
+  const { default: mystToJats } = await import('myst-to-jats');
   const myst = new MyST();
   const mdast = myst.parse(text);
   const linkTransforms = [
@@ -99,6 +101,10 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
   const tex = unified()
     .use(mystToTex)
     .stringify(mdast as any).result as LatexResult;
+  const jatsFile = new VFile();
+  const jats = unified()
+    .use(mystToJats, { spaces: 2 })
+    .stringify(mdast as any, jatsFile).result as JatsResult;
   const content = useParse(mdast as any);
   return {
     frontmatter,
@@ -106,6 +112,8 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
     references: { ...references, article: mdast } as References,
     html: htmlString,
     tex: tex.value,
+    jats: jats.value,
+    jatsWarnings: jatsFile.messages,
     content,
     warnings: file.messages,
   };
@@ -119,6 +127,8 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
   const [mdastYaml, setYaml] = useState<string>('Loading...');
   const [html, setHtml] = useState<string>('Loading...');
   const [tex, setTex] = useState<string>('Loading...');
+  const [jats, setJats] = useState<string>('Loading...');
+  const [jatsWarnings, setJatsWarnings] = useState<VFileMessage[]>([]);
   const [warnings, setWarnings] = useState<VFileMessage[]>([]);
   const [content, setContent] = useState<React.ReactNode>(<p>{value}</p>);
   const [previewType, setPreviewType] = useState('DEMO');
@@ -132,6 +142,8 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
       setReferences(result.references);
       setHtml(result.html);
       setTex(result.tex);
+      setJats(result.jats);
+      setJatsWarnings(result.jatsWarnings);
       setContent(result.content);
       setWarnings(result.warnings);
     });
@@ -146,6 +158,17 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
     area.current.style.height = `${area.current.scrollHeight}px`;
   }, [text]);
 
+  let currentWarnings: VFileMessage[] = [];
+  switch (previewType) {
+    case 'DEMO':
+      currentWarnings = warnings;
+      break;
+    case 'JATS':
+      currentWarnings = jatsWarnings;
+      break;
+    default:
+      break;
+  }
   return (
     <figure className="relative shadow-lg rounded">
       <div className="absolute right-0 p-1">
@@ -165,7 +188,7 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
       {/* The `exclude-from-outline` class is excluded from the document outline */}
       <div className="exclude-from-outline relative min-h-1 pt-[50px] px-6 pb-6 dark:bg-slate-900">
         <div className="absolute cursor-pointer top-0 left-0 border dark:border-slate-600">
-          {['DEMO', 'AST', 'HTML', 'LaTeX', 'DOCX'].map((show) => (
+          {['DEMO', 'AST', 'HTML', 'LaTeX', 'JATS', 'DOCX'].map((show) => (
             <button
               key={show}
               className={classnames('px-2', {
@@ -190,6 +213,7 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
         {previewType === 'AST' && <CodeBlock lang="yaml" value={mdastYaml} showCopy={false} />}
         {previewType === 'HTML' && <CodeBlock lang="xml" value={html} showCopy={false} />}
         {previewType === 'LaTeX' && <CodeBlock lang="latex" value={tex} showCopy={false} />}
+        {previewType === 'JATS' && <CodeBlock lang="xml" value={jats} showCopy={false} />}
         {previewType === 'DOCX' && (
           <div>
             <button
@@ -203,9 +227,9 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
           </div>
         )}
       </div>
-      {previewType === 'DEMO' && warnings.length > 0 && (
+      {currentWarnings.length > 0 && (
         <div>
-          {warnings.map((m) => (
+          {currentWarnings.map((m) => (
             <div
               className={classnames('p-1 shadow-inner text-white not-prose', {
                 'bg-red-500 dark:bg-red-800': m.fatal === true,

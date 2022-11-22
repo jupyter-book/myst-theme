@@ -26,6 +26,7 @@
     "mermaid": "^9.1.7",
     "myst-spec": "^0.0.4",
     "myst-to-docx": "^0.0.3",
+    "myst-to-jats": "^0.0.2",
     "myst-to-tex": "^0.0.7",
     "myst-transforms": "^0.0.8",
     "mystjs": "^0.0.14",

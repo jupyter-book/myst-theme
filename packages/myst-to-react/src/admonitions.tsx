@@ -114,7 +114,7 @@ function Admonition({
   color,
   dropdown,
   children,
-}: ColorAndKind & { title: React.ReactNode; children: React.ReactNode[]; dropdown: boolean }) {
+}: ColorAndKind & { title?: React.ReactNode; children: React.ReactNode[]; dropdown: boolean }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -129,32 +129,34 @@ function Admonition({
         },
       )}
     >
-      <p
-        className={classNames('admonition-header m-0 text-lg font-medium py-1', {
-          'text-blue-600 bg-blue-50 dark:bg-slate-900': color === 'blue',
-          'text-green-600 bg-green-50 dark:bg-slate-900': color === 'green',
-          'text-amber-600 bg-amber-50 dark:bg-slate-900': color === 'yellow',
-          'text-red-600 bg-red-50 dark:bg-slate-900': color === 'red',
-          'cursor-pointer hover:shadow-[inset_0_0_0px_20px_#00000003] dark:hover:shadow-[inset_0_0_0px_20px_#FFFFFF03]':
-            dropdown,
-        })}
-        onClick={dropdown ? () => setOpen(!open) : undefined}
-      >
-        <AdmonitionIcon kind={kind} />
-        <span className="text-neutral-900 dark:text-white">
-          {dropdown && (
-            <span className="block float-right font-thin text-sm text-neutral-700 dark:text-neutral-200">
-              {!open && 'Click to show'}
-              <ChevronRightIcon
-                className={classNames(iconClass, 'transition-transform', {
-                  'rotate-90 -translate-y-[5px]': open,
-                })}
-              />
-            </span>
-          )}
-          {title}
-        </span>
-      </p>
+      {title && (
+        <p
+          className={classNames('admonition-header m-0 text-lg font-medium py-1', {
+            'text-blue-600 bg-blue-50 dark:bg-slate-900': color === 'blue',
+            'text-green-600 bg-green-50 dark:bg-slate-900': color === 'green',
+            'text-amber-600 bg-amber-50 dark:bg-slate-900': color === 'yellow',
+            'text-red-600 bg-red-50 dark:bg-slate-900': color === 'red',
+            'cursor-pointer hover:shadow-[inset_0_0_0px_20px_#00000003] dark:hover:shadow-[inset_0_0_0px_20px_#FFFFFF03]':
+              dropdown,
+          })}
+          onClick={dropdown ? () => setOpen(!open) : undefined}
+        >
+          <AdmonitionIcon kind={kind} />
+          <span className="text-neutral-900 dark:text-white">
+            {dropdown && (
+              <span className="block float-right font-thin text-sm text-neutral-700 dark:text-neutral-200">
+                {!open && 'Click to show'}
+                <ChevronRightIcon
+                  className={classNames(iconClass, 'transition-transform', {
+                    'rotate-90 -translate-y-[5px]': open,
+                  })}
+                />
+              </span>
+            )}
+            {title}
+          </span>
+        </p>
+      )}
       {(!dropdown || open) && (
         <div className="px-4 py-1 bg-gray-50 dark:bg-stone-800">{children}</div>
       )}
@@ -168,8 +170,17 @@ export const AdmonitionRenderer: NodeRenderer<spec.Admonition> = (node, children
   const { kind, color } = getFirstKind({ kind: node.kind, classes });
   const isDropdown = classes.includes('dropdown');
 
+  const useTitle = node.children?.[0].type === 'admonitionTitle';
+
   return (
-    <Admonition key={node.key} title={title} kind={kind} color={color} dropdown={isDropdown}>
+    <Admonition
+      key={node.key}
+      title={useTitle ? title : undefined}
+      kind={kind}
+      color={color}
+      dropdown={isDropdown}
+    >
+      {!useTitle && title}
       {rest}
     </Admonition>
   );

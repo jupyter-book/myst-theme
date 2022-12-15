@@ -1,7 +1,8 @@
 import type { KINDS } from '@curvenote/blocks';
 import type { Root } from 'mdast';
+import type { References } from 'myst-common';
+import type { SiteManifest } from 'myst-config';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import type { References, SiteManifest } from '@curvenote/site-common';
 import type { Theme } from '@curvenote/ui-providers';
 
 export type Heading = {

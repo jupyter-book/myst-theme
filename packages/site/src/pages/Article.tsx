@@ -5,7 +5,7 @@ import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 import type { PageLoader } from '../types';
 
 export function ArticlePage({ article }: { article: PageLoader }) {
-  const { hide_title_block, hide_footer_links } = article.frontmatter?.design ?? {};
+  const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}

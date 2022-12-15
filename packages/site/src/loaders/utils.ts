@@ -1,6 +1,6 @@
 import type { MinifiedOutput } from '@curvenote/nbtx';
 import { walkPaths } from '@curvenote/nbtx';
-import type { ManifestProject, SiteManifest, ManifestProjectPage } from '@curvenote/site-common';
+import type { SiteManifest } from 'myst-config';
 import { selectAll } from 'unist-util-select';
 import type { Image as ImageSpec, Link as LinkSpec } from 'myst-spec';
 import type { FooterLinks, Heading, NavigationLink, PageLoader } from '../types';
@@ -9,12 +9,15 @@ type Image = ImageSpec & { urlOptimized?: string };
 type Link = LinkSpec & { static?: boolean };
 type Output = { data?: MinifiedOutput[] };
 
+type ManifestProject = Required<SiteManifest>['projects'][0];
+type ManifestProjectItem = ManifestProject['pages'][0];
+
 export function getProject(
   config?: SiteManifest,
   projectSlug?: string,
 ): ManifestProject | undefined {
   if (!projectSlug || !config) return undefined;
-  const project = config.projects.find((p) => p.slug === projectSlug);
+  const project = config.projects?.find((p) => p.slug === projectSlug);
   return project;
 }
 
@@ -86,15 +89,15 @@ export function updateSiteManifestStaticLinksInplace(
   data: SiteManifest,
   updateUrl: UpdateUrl,
 ): SiteManifest {
-  data.actions.forEach((action) => {
+  data.actions?.forEach((action) => {
     if (!action.static) return;
     action.url = updateUrl(action.url);
   });
   if (data.logo) data.logo = updateUrl(data.logo);
   // Update the thumbnails to point at the CDN
-  data.projects.forEach((project) => {
+  data.projects?.forEach((project) => {
     project.pages
-      .filter((page): page is ManifestProjectPage => 'slug' in page)
+      .filter((page): page is ManifestProjectItem => 'slug' in page)
       .forEach((page) => {
         if (page.thumbnail) page.thumbnail = updateUrl(page.thumbnail);
         if (page.thumbnailOptimized) page.thumbnailOptimized = updateUrl(page.thumbnailOptimized);

@@ -14,7 +14,6 @@ All dependencies for `@curvenote/theme-base` are included in this repository (a 
 - `ui-providers`: React providers for references and site configuration
 - `myst-to-react`: expose MyST content as an article, built with React
 - `site`: components and utilities for building React and Remix sites
-- `site-common`: utilities and types that are used in the CLI, APIs and sites, does not include React
 - `icons`: icons used throughout our projects, built for React
 
 Each package and app is 100% [TypeScript](https://www.typescriptlang.org/) and is provided as uncompiled tsx files.

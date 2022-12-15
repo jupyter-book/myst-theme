@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import type { SiteManifest } from '@curvenote/site-common';
+import type { SiteManifest } from 'myst-config';
 
 const SiteContext = React.createContext<SiteManifest | undefined>(undefined);
 

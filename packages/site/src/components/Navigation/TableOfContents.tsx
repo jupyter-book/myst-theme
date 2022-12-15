@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { NavLink, useParams, useLocation } from '@remix-run/react';
-import type { ManifestProject } from '@curvenote/site-common';
+import type { SiteManifest } from 'myst-config';
 import { CreatedInCurvenote } from '@curvenote/icons';
 import { useNavOpen, useSiteManifest, useUrlbase, withUrlbase } from '@curvenote/ui-providers';
 import { getProjectHeadings } from '../../loaders';
@@ -12,6 +12,8 @@ type Props = {
   headings: Heading[];
   sections?: ManifestProject[];
 };
+
+type ManifestProject = Required<SiteManifest>['projects'][0];
 
 const HeadingLink = ({
   path,

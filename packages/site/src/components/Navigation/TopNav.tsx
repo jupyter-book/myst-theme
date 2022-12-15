@@ -7,7 +7,7 @@ import {
   Bars3Icon as MenuIcon,
   ChevronDownIcon,
 } from '@heroicons/react/24/solid';
-import type { SiteManifest, SiteNavItem } from '@curvenote/site-common';
+import type { SiteManifest, SiteNavItem } from 'myst-config';
 import { ThemeButton } from './ThemeButton';
 import { useNavOpen, useSiteManifest } from '@curvenote/ui-providers';
 import { CurvenoteLogo } from '@curvenote/icons';
@@ -56,7 +56,7 @@ function NavItem({ item }: { item: SiteNavItem }) {
       <div className="relative grow-0 inline-block mx-2">
         <ExternalOrInternalLink
           nav
-          to={item.url}
+          to={item.url ?? ''}
           className={({ isActive }) =>
             classNames(
               'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
@@ -205,7 +205,7 @@ function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; 
 export function TopNav() {
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
-  const { logo, logo_text, logoText, actions, title, nav } = config ?? {};
+  const { logo, logo_text, logoText, actions, title, nav } = config ?? ({} as SiteManifest);
   return (
     <div className="bg-stone-700 p-3 md:px-8 fixed w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-wrap max-w-[1440px] mx-auto">

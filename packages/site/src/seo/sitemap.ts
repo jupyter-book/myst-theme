@@ -1,4 +1,6 @@
-import type { ManifestProjectPage, SiteManifest } from '@curvenote/site-common';
+import type { SiteManifest } from 'myst-config';
+
+type ManifestProjectItem = Required<SiteManifest>['projects'][0]['pages'][0];
 
 export function sitemapStylesheetIndex() {
   return `<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9" version="1.0" exclude-result-prefixes="sitemap">
@@ -140,20 +142,21 @@ export function getSiteSlugs(
   baseurl = '',
   opts?: { excludeIndex?: boolean; explicitIndex?: boolean },
 ): string[] {
-  const slugs = site.projects
-    .map((project) => {
-      const pages = project.pages
-        .filter((page): page is ManifestProjectPage => 'slug' in page)
-        .map((page) => `${baseurl}/${project.slug}/${page.slug}`);
-      if (opts?.excludeIndex) return [...pages];
-      return [
-        opts?.explicitIndex
-          ? `${baseurl}/${project.slug}/${project.index}`
-          : `${baseurl}/${project.slug}`,
-        ...pages,
-      ];
-    })
-    .flat();
+  const slugs =
+    site.projects
+      ?.map((project) => {
+        const pages = project.pages
+          .filter((page): page is ManifestProjectItem => 'slug' in page)
+          .map((page) => `${baseurl}/${project.slug}/${page.slug}`);
+        if (opts?.excludeIndex) return [...pages];
+        return [
+          opts?.explicitIndex
+            ? `${baseurl}/${project.slug}/${project.index}`
+            : `${baseurl}/${project.slug}`,
+          ...pages,
+        ];
+      })
+      .flat() ?? [];
   return slugs;
 }
 

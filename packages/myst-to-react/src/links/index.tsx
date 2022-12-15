@@ -5,7 +5,7 @@ import {
   LinkIcon,
 } from '@heroicons/react/24/outline';
 import { useSiteManifest, useUrlbase, withUrlbase } from '@curvenote/ui-providers';
-import type { ManifestProjectPage, SiteManifest } from '@curvenote/site-common';
+import type { SiteManifest } from 'myst-config';
 import type { NodeRenderer } from '../types';
 import { HoverPopover } from '../components/HoverPopover';
 import { LinkCard } from '../components/LinkCard';
@@ -15,17 +15,19 @@ import { GithubLink } from './github';
 
 type TransformedLink = Link & { internal?: boolean; protocol?: string };
 
+type ManifestProjectItem = Required<SiteManifest>['projects'][0]['pages'][0];
+
 function getPageInfo(
   site: SiteManifest | undefined,
   path: string,
-): ManifestProjectPage | undefined {
+): ManifestProjectItem | undefined {
   if (!site) return undefined;
   const [projectSlug, pageSlug] = path.replace(/^\//, '').split('/');
-  const project = site.projects.find((p) => p.slug === projectSlug);
+  const project = site.projects?.find((p) => p.slug === projectSlug);
   if (!project) return undefined;
   return project.pages.find(
-    (p) => (p as ManifestProjectPage).slug === pageSlug,
-  ) as ManifestProjectPage;
+    (p) => (p as ManifestProjectItem).slug === pageSlug,
+  ) as ManifestProjectItem;
 }
 
 function InternalLink({ url, children }: { url: string; children: React.ReactNode }) {

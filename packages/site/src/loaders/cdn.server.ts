@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import NodeCache from 'node-cache';
-import type { SiteManifest as Config } from '@curvenote/site-common';
+import type { SiteManifest as Config } from 'myst-config';
 import { responseNoArticle, responseNoSite } from './errors.server';
 import {
   getFooterLinks,

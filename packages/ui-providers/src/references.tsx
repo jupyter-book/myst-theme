@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
+import type { References } from 'myst-common';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import type { References } from '@curvenote/site-common';
 
 const ReferencesContext = React.createContext<{
   frontmatter?: PageFrontmatter;

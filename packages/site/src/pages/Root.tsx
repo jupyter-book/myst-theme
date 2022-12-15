@@ -1,4 +1,4 @@
-import type { SiteManifest } from '@curvenote/site-common';
+import type { SiteManifest } from 'myst-config';
 import type { SiteLoader } from '../types';
 import { SiteProvider, Theme, ThemeProvider } from '@curvenote/ui-providers';
 import {
@@ -36,7 +36,10 @@ export function Document({
         {title && <title>{title}</title>}
         <Meta />
         <Links />
-        <Analytics analytics={config?.analytics} />
+        <Analytics
+          analytics_google={config?.analytics_google}
+          analytics_plausible={config?.analytics_plausible}
+        />
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <ThemeProvider theme={theme}>

@@ -1,27 +1,30 @@
-import type { SiteAnalytics } from 'myst-config';
+type SiteAnalytics = {
+  analytics_google?: string;
+  analytics_plausible?: string;
+};
 
 const getGoogleAnalyticsScript = (tag: string) =>
   `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${tag}');`;
 
-export function Analytics({ analytics }: { analytics?: SiteAnalytics }) {
+export function Analytics({ analytics_google, analytics_plausible }: SiteAnalytics) {
   return (
     <>
-      {analytics?.plausible && (
+      {analytics_plausible && (
         <script
           defer
-          data-domain={analytics.plausible}
+          data-domain={analytics_plausible}
           src="https://plausible.io/js/plausible.js"
         ></script>
       )}
-      {analytics?.google && (
+      {analytics_google && (
         <>
           <script
             async
-            src={`https://www.googletagmanager.com/gtag/js?id=${analytics.google}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${analytics_google}`}
           ></script>
           <script
             dangerouslySetInnerHTML={{
-              __html: getGoogleAnalyticsScript(analytics.google),
+              __html: getGoogleAnalyticsScript(analytics_google),
             }}
           />
         </>

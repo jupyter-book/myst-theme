@@ -73,7 +73,7 @@ export const OSI = ({ className }: { className?: string }) => (
 );
 
 type License = {
-  title: string;
+  name: string;
   url: string;
   id: string;
   free?: boolean;
@@ -92,7 +92,7 @@ export function CreativeCommonsBadge({
 }) {
   const match = /^([CBYSAND0-]+)(?:(?:-)([0-9].[0-9]))?$/.exec(license.id);
   if (!license.CC || !match) return null;
-  const title = `${preamble}${license.title} (${license.id})`;
+  const title = `${preamble}${license.name ?? (license as any).title} (${license.id})`;
   const kind = match[1].toUpperCase();
   return (
     <a
@@ -145,7 +145,7 @@ function SingleLicenseBadge({
   if (!possibleLicense) return null;
   const license =
     typeof possibleLicense === 'string'
-      ? { title: '', url: '', id: possibleLicense }
+      ? { name: '', url: '', id: possibleLicense }
       : possibleLicense;
   if (!license) return null;
   if (license.CC) {
@@ -156,7 +156,7 @@ function SingleLicenseBadge({
       href={license.url || undefined}
       target="_blank"
       rel="noopener noreferrer"
-      title={`${preamble}${license.title} (${license.id})`}
+      title={`${preamble}${license.name ?? (license as any).title} (${license.id})`}
     >
       {!license.osi && (
         <ScaleIcon

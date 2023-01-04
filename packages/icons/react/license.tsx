@@ -166,7 +166,7 @@ function SingleLicenseBadge({
       {license.osi && (
         <OSI
           className={classNames(
-            'h-[1.3em] px-1 opacity-70 hover:opacity-100 grayscale hover:grayscale-0',
+            'h-[1.3em] translate-y-[0.1em] px-1 opacity-70 hover:opacity-100 grayscale hover:grayscale-0',
             className,
           )}
         />

@@ -222,6 +222,30 @@ export function Journal({
   );
 }
 
+export function Export({ url, filename }: { url: string; filename: string }) {
+  return (
+    <a href={url} target="_blank" download={filename}>
+      {filename}
+    </a>
+  );
+}
+
+export function Exports({
+  exports,
+}: {
+  exports?: { format: string; filename: string; url: string }[];
+}) {
+  if (!exports || exports.length === 0) return null;
+  return (
+    <div>
+      Downloads:
+      {exports.map((exp) => (
+        <Export url={exp.url} filename={exp.filename} />
+      ))}
+    </div>
+  );
+}
+
 export function FrontmatterBlock({
   frontmatter,
   kind = KINDS.Article,
@@ -230,7 +254,7 @@ export function FrontmatterBlock({
   kind?: KINDS;
 }) {
   const { isDark } = useTheme();
-  const { subject, doi, open_access, license, github, venue, biblio } = frontmatter;
+  const { subject, doi, open_access, license, github, venue, biblio, exports } = frontmatter;
   const hasHeaders = subject || doi || open_access || license || github || venue || biblio || true;
   return (
     <>
@@ -252,6 +276,11 @@ export function FrontmatterBlock({
           <LicenseBadges license={license} />
           <OpenAccessBadge open_access={open_access} />
           <DoiBadge doi={doi} />
+        </div>
+      )}
+      {exports && (
+        <div>
+          <Exports exports={exports as any} />
         </div>
       )}
       <h1 className={classNames('title', { 'mb-2': frontmatter.subtitle })}>{frontmatter.title}</h1>

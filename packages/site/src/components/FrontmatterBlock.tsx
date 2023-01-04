@@ -223,11 +223,11 @@ export function Journal({
 }
 
 export function FrontmatterBlock({
-  kind,
   frontmatter,
+  kind = KINDS.Article,
 }: {
-  kind: KINDS;
   frontmatter: PageFrontmatter;
+  kind?: KINDS;
 }) {
   const { isDark } = useTheme();
   const { subject, doi, open_access, license, github, venue, biblio } = frontmatter;

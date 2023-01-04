@@ -6,6 +6,7 @@ import type { VFileMessage } from 'vfile-message';
 import yaml from 'js-yaml';
 import type { References } from 'myst-common';
 import type { DocxResult } from 'myst-to-docx';
+import { validatePageFrontmatter } from 'myst-frontmatter';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import type { NodeRenderer } from './types';
 import React, { useEffect, useRef, useState } from 'react';
@@ -84,7 +85,14 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
     cite: { order: [], data: {} },
     footnotes: {},
   };
-  const { frontmatter } = getFrontmatter(mdast, { removeYaml: true, removeHeading: false });
+  const { frontmatter: frontmatterRaw } = getFrontmatter(mdast, {
+    removeYaml: true,
+    removeHeading: false,
+  });
+  const frontmatter = validatePageFrontmatter(frontmatterRaw, {
+    property: 'frontmatter',
+    messages: {},
+  });
   const state = new ReferenceState({
     numbering: frontmatter.numbering ?? defaultFrontmatter?.numbering,
     file,
@@ -119,7 +127,23 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
   };
 }
 
-export function MySTRenderer({ value, numbering }: { value: string; numbering: any }) {
+export function MySTRenderer({
+  value,
+  column,
+  fullscreen,
+  numbering,
+  TitleBlock,
+  captureTab,
+  className,
+}: {
+  value: string;
+  column?: boolean;
+  fullscreen?: boolean;
+  captureTab?: boolean;
+  TitleBlock?: (props: { frontmatter: PageFrontmatter }) => JSX.Element;
+  numbering?: any;
+  className?: string;
+}) {
   const area = useRef<HTMLTextAreaElement | null>(null);
   const [text, setText] = useState<string>(value.trim());
   const [references, setReferences] = useState<References>({});
@@ -154,9 +178,23 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
 
   useEffect(() => {
     if (!area.current) return;
+    if (column) {
+      area.current.style.height = '';
+      return;
+    }
     area.current.style.height = 'auto'; // for the scroll area in the next step!
     area.current.style.height = `${area.current.scrollHeight}px`;
-  }, [text]);
+  }, [text, column]);
+
+  // Bit of a hack for now while still a basic text editor
+  useEffect(() => {
+    if (!area.current || !captureTab) return;
+    area.current.addEventListener('keydown', (ev) => {
+      if (ev.key !== 'Tab') return;
+      ev.preventDefault();
+      ev.stopPropagation();
+    });
+  }, [area, captureTab]);
 
   let currentWarnings: VFileMessage[] = [];
   switch (previewType) {
@@ -169,82 +207,114 @@ export function MySTRenderer({ value, numbering }: { value: string; numbering: a
     default:
       break;
   }
+  const demoMenu = (
+    <div className="cursor-pointer text-sm self-center border dark:border-slate-600">
+      {['DEMO', 'AST', 'HTML', 'LaTeX', 'JATS', 'DOCX'].map((show) => (
+        <button
+          key={show}
+          className={classnames('px-2 py-1', {
+            'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
+              previewType !== show,
+            'bg-blue-800 text-white': previewType === show,
+          })}
+          title={`Show the ${show}`}
+          aria-label={`Show the ${show}`}
+          aria-pressed={previewType === show ? 'true' : 'false'}
+          onClick={() => setPreviewType(show)}
+        >
+          {show}
+        </button>
+      ))}
+    </div>
+  );
+
   return (
-    <figure className="relative shadow-lg rounded">
-      <div className="absolute right-0 p-1">
-        <CopyIcon text={text} />
-      </div>
-      <div className="myst">
+    <figure
+      className={classnames(
+        'relative',
+        {
+          'grid grid-cols-2 gap-0 grid-rows-[3rem_1fr]': column,
+          'shadow-lg rounded': !fullscreen,
+          'm-0': fullscreen,
+        },
+        className,
+      )}
+    >
+      {column && (
+        <div className="col-span-2 border dark:border-slate-600 flex flex-row items-stretch h-full px-2">
+          <div className="flex-grow"></div>
+          {demoMenu}
+        </div>
+      )}
+      <div className={classnames('myst relative', { 'overflow-auto': column })}>
+        <div className="absolute right-0 p-1">
+          <CopyIcon text={text} />
+        </div>
         <label>
-          <span className="sr-only">Edit the MyST text</span>
+          <span className="sr-only">Edit the MyST Markdown text</span>
           <textarea
             ref={area}
             value={text}
-            className="block p-6 shadow-inner resize-none w-full font-mono bg-slate-50 dark:bg-slate-800 outline-none"
+            className={classnames(
+              'block p-6 shadow-inner resize-none w-full font-mono bg-slate-50 dark:bg-slate-800 outline-none',
+              { 'h-full': column },
+            )}
             onChange={(e) => setText(e.target.value)}
           ></textarea>
         </label>
       </div>
       {/* The `exclude-from-outline` class is excluded from the document outline */}
-      <div className="exclude-from-outline relative min-h-1 pt-[50px] px-6 pb-6 dark:bg-slate-900">
-        <div className="absolute cursor-pointer top-0 left-0 border dark:border-slate-600">
-          {['DEMO', 'AST', 'HTML', 'LaTeX', 'JATS', 'DOCX'].map((show) => (
-            <button
-              key={show}
-              className={classnames('px-2', {
-                'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
-                  previewType !== show,
-                'bg-blue-800 text-white': previewType === show,
-              })}
-              title={`Show the ${show}`}
-              aria-label={`Show the ${show}`}
-              aria-pressed={previewType === show ? 'true' : 'false'}
-              onClick={() => setPreviewType(show)}
-            >
-              {show}
-            </button>
-          ))}
+      <div
+        className={classnames('exclude-from-outline relative min-h-1 dark:bg-slate-900', {
+          'overflow-auto': column,
+        })}
+      >
+        {!column && <div className="absolute top-0 left-0">{demoMenu}</div>}
+        <div className={classnames('px-6 pb-6', { 'pt-[40px]': !column, 'pt-4': column })}>
+          {previewType === 'DEMO' && (
+            <>
+              <ReferencesProvider references={references} frontmatter={frontmatter}>
+                {TitleBlock && <TitleBlock frontmatter={frontmatter}></TitleBlock>}
+                {content}
+              </ReferencesProvider>
+            </>
+          )}
+          {previewType === 'AST' && <CodeBlock lang="yaml" value={mdastYaml} showCopy={false} />}
+          {previewType === 'HTML' && <CodeBlock lang="xml" value={html} showCopy={false} />}
+          {previewType === 'LaTeX' && <CodeBlock lang="latex" value={tex} showCopy={false} />}
+          {previewType === 'JATS' && <CodeBlock lang="xml" value={jats} showCopy={false} />}
+          {previewType === 'DOCX' && (
+            <div>
+              <button
+                className="rounded border p-3"
+                onClick={() => saveDocxFile('demo.docx', references.article, references.footnotes)}
+                title={`Download Micorsoft Word`}
+                aria-label={`Download Micorsoft Word`}
+              >
+                <ArrowDownTrayIcon className="inline h-[1.3em] mr-1" /> Download as Microsoft Word
+              </button>
+            </div>
+          )}
         </div>
-        {previewType === 'DEMO' && (
-          <ReferencesProvider references={references} frontmatter={frontmatter}>
-            {content}
-          </ReferencesProvider>
-        )}
-        {previewType === 'AST' && <CodeBlock lang="yaml" value={mdastYaml} showCopy={false} />}
-        {previewType === 'HTML' && <CodeBlock lang="xml" value={html} showCopy={false} />}
-        {previewType === 'LaTeX' && <CodeBlock lang="latex" value={tex} showCopy={false} />}
-        {previewType === 'JATS' && <CodeBlock lang="xml" value={jats} showCopy={false} />}
-        {previewType === 'DOCX' && (
-          <div>
-            <button
-              className="rounded border p-3"
-              onClick={() => saveDocxFile('demo.docx', references.article, references.footnotes)}
-              title={`Download Micorsoft Word`}
-              aria-label={`Download Micorsoft Word`}
-            >
-              <ArrowDownTrayIcon className="inline h-[1.3em] mr-1" /> Download as Microsoft Word
-            </button>
+        {currentWarnings.length > 0 && (
+          <div className={classnames('w-full', { 'absolute bottom-0': column })}>
+            {currentWarnings.map((m) => (
+              <div
+                className={classnames('p-1 shadow-inner text-white not-prose', {
+                  'bg-red-500 dark:bg-red-800': m.fatal === true,
+                  'bg-orange-500 dark:bg-orange-700': m.fatal === false,
+                  'bg-slate-500 dark:bg-slate-800': m.fatal === null,
+                })}
+              >
+                {m.fatal === true && <ExclamationCircleIcon className="inline h-[1.3em] mr-1" />}
+                {m.fatal === false && <ExclamationTriangleIcon className="inline h-[1.3em] mr-1" />}
+                {m.fatal === null && <InformationCircleIcon className="inline h-[1.3em] mr-1" />}
+                <code>{m.ruleId || m.source}</code>: {m.message}
+              </div>
+            ))}
           </div>
         )}
       </div>
-      {currentWarnings.length > 0 && (
-        <div>
-          {currentWarnings.map((m) => (
-            <div
-              className={classnames('p-1 shadow-inner text-white not-prose', {
-                'bg-red-500 dark:bg-red-800': m.fatal === true,
-                'bg-orange-500 dark:bg-orange-700': m.fatal === false,
-                'bg-slate-500 dark:bg-slate-800': m.fatal === null,
-              })}
-            >
-              {m.fatal === true && <ExclamationCircleIcon className="inline h-[1.3em] mr-1" />}
-              {m.fatal === false && <ExclamationTriangleIcon className="inline h-[1.3em] mr-1" />}
-              {m.fatal === null && <InformationCircleIcon className="inline h-[1.3em] mr-1" />}
-              <code>{m.ruleId || m.source}</code>: {m.message}
-            </div>
-          ))}
-        </div>
-      )}
     </figure>
   );
 }

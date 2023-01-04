@@ -45,7 +45,7 @@
     "@types/node-fetch": "^2.6.2",
     "eslint": "^8.21.0",
     "eslint-config-curvenote": "latest",
-    "tsconfig": "*",
+    "tsconfig": "latest",
     "typescript": "latest"
   }
 }

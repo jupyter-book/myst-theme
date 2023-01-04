@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useCallback } from 'react';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import { KINDS } from '@curvenote/blocks';
 import { LicenseBadges, Email, GitHub, OpenAccess, Orcid, Jupyter, ROR } from '@curvenote/icons';
@@ -222,11 +222,63 @@ export function Journal({
   );
 }
 
+/**
+ * triggerDirectDownload - aims to trigger a direct download for the
+ *
+ * @param url - url or resource to download
+ * @param filename - default filename and extension for dialog / system
+ * @returns - true or throws
+ */
+export async function triggerDirectDownload(url: string, filename: string) {
+  const resp = await fetch(url);
+  const blob = await resp.blob();
+
+  return triggerBlobDownload(blob, filename);
+}
+
+/**
+ * triggerBlobDownload - aims to trigger a direct download for the
+ *
+ * @param blob - blob to download
+ * @param filename - default filename and extension for dialog / system
+ * @returns - true or throws
+ */
+export async function triggerBlobDownload(blob: Blob, filename: string) {
+  if (window.navigator && (window.navigator as any).msSaveOrOpenBlob)
+    return (window.navigator as any).msSaveOrOpenBlob(blob);
+
+  const objectUrl = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = objectUrl;
+  a.download = filename;
+  a.style.display = 'none';
+
+  a.dispatchEvent(
+    new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    }),
+  );
+
+  setTimeout(() => {
+    // For Firefox it is necessary to delay revoking the ObjectURL
+    URL.revokeObjectURL(objectUrl);
+    a.remove();
+  }, 100);
+
+  return true;
+}
+
 export function Export({ url, filename }: { url: string; filename: string }) {
+  const clickExport = useCallback(() => {
+    triggerDirectDownload(url, filename);
+  }, [url, filename]);
   return (
-    <a href={url} target="_blank" download={filename}>
+    <span className="text-gray-400 hover:text-blue-400 cursor-pointer" onClick={clickExport}>
       {filename}
-    </a>
+    </span>
   );
 }
 

@@ -4,7 +4,8 @@ import type { PageFrontmatter } from 'myst-frontmatter';
 import { KINDS } from '@curvenote/blocks';
 import { LicenseBadges, Email, GitHub, OpenAccess, Orcid, Jupyter, ROR } from '@curvenote/icons';
 import { useTheme } from '@curvenote/ui-providers';
-import { ExternalOrInternalLink } from './ExternalOrInternalLink';
+import { ExternalOrInternalLink } from '../ExternalOrInternalLink';
+import { DownloadsDropdown } from './downloads';
 
 export function Author({
   author,
@@ -230,8 +231,9 @@ export function FrontmatterBlock({
   kind?: KINDS;
 }) {
   const { isDark } = useTheme();
-  const { subject, doi, open_access, license, github, venue, biblio } = frontmatter;
-  const hasHeaders = subject || doi || open_access || license || github || venue || biblio || true;
+  const { subject, doi, open_access, license, github, venue, biblio, exports } = frontmatter;
+  const hasHeaders = subject || github || venue || biblio;
+  const hasLicenses = doi || open_access || license;
   return (
     <>
       {hasHeaders && (
@@ -249,14 +251,19 @@ export function FrontmatterBlock({
           <div className="flex-grow"></div>
           {kind === KINDS.Notebook && <Jupyter isDark={isDark} />}
           <GitHubLink github={github} />
-          <LicenseBadges license={license} />
-          <OpenAccessBadge open_access={open_access} />
-          <DoiBadge doi={doi} />
+          <DownloadsDropdown exports={exports as any} />
         </div>
       )}
       <h1 className={classNames('title', { 'mb-2': frontmatter.subtitle })}>{frontmatter.title}</h1>
       {frontmatter.subtitle && (
         <h2 className="title mt-0 text-zinc-600 dark:text-zinc-400">{frontmatter.subtitle}</h2>
+      )}
+      {hasLicenses && (
+        <div className="flex mt-3 mb-5 text-sm font-light">
+          <LicenseBadges license={license} />
+          <OpenAccessBadge open_access={open_access} />
+          <DoiBadge doi={doi} />
+        </div>
       )}
       <AuthorAndAffiliations authors={frontmatter.authors} />
     </>

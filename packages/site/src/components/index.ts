@@ -1,5 +1,5 @@
 export { ContentBlocks } from './ContentBlocks';
-export * from './FrontmatterBlock';
+export * from './frontmatter';
 export { DocumentOutline } from './DocumentOutline';
 export { FooterLinksBlock } from './FooterLinksBlock';
 export { ContentReload } from './ContentReload';

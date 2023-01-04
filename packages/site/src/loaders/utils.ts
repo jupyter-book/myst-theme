@@ -113,6 +113,12 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
   if (data?.frontmatter?.thumbnailOptimized) {
     data.frontmatter.thumbnailOptimized = updateUrl(data.frontmatter.thumbnailOptimized);
   }
+  if (data?.frontmatter?.exports) {
+    data.frontmatter.exports = data.frontmatter.exports.map((exp) => {
+      if (!exp.url) return exp;
+      return { ...exp, url: updateUrl(exp.url) };
+    });
+  }
   // Fix all of the images to point to the CDN
   const images = selectAll('image', data.mdast) as Image[];
   images.forEach((node) => {

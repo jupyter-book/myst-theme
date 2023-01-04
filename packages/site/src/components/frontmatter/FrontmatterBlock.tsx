@@ -1,10 +1,11 @@
 import classNames from 'classnames';
-import React, { MouseEventHandler, useCallback } from 'react';
+import React from 'react';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import { KINDS } from '@curvenote/blocks';
 import { LicenseBadges, Email, GitHub, OpenAccess, Orcid, Jupyter, ROR } from '@curvenote/icons';
 import { useTheme } from '@curvenote/ui-providers';
-import { ExternalOrInternalLink } from './ExternalOrInternalLink';
+import { ExternalOrInternalLink } from '../ExternalOrInternalLink';
+import { DownloadsDropdown } from './downloads';
 
 export function Author({
   author,
@@ -222,86 +223,6 @@ export function Journal({
   );
 }
 
-/**
- * triggerDirectDownload - aims to trigger a direct download for the
- *
- * @param url - url or resource to download
- * @param filename - default filename and extension for dialog / system
- * @returns - true or throws
- */
-export async function triggerDirectDownload(url: string, filename: string) {
-  const resp = await fetch(url);
-  const blob = await resp.blob();
-
-  return triggerBlobDownload(blob, filename);
-}
-
-/**
- * triggerBlobDownload - aims to trigger a direct download for the
- *
- * @param blob - blob to download
- * @param filename - default filename and extension for dialog / system
- * @returns - true or throws
- */
-export async function triggerBlobDownload(blob: Blob, filename: string) {
-  if (window.navigator && (window.navigator as any).msSaveOrOpenBlob)
-    return (window.navigator as any).msSaveOrOpenBlob(blob);
-
-  const objectUrl = URL.createObjectURL(blob);
-
-  const a = document.createElement('a');
-  a.href = objectUrl;
-  a.download = filename;
-  a.style.display = 'none';
-
-  a.dispatchEvent(
-    new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-    }),
-  );
-
-  setTimeout(() => {
-    // For Firefox it is necessary to delay revoking the ObjectURL
-    URL.revokeObjectURL(objectUrl);
-    a.remove();
-  }, 100);
-
-  return true;
-}
-
-export function Export({ url, filename }: { url: string; filename: string }) {
-  const clickExport = useCallback(
-    (e: any) => {
-      e.preventDefault();
-      triggerDirectDownload(url, filename);
-    },
-    [url, filename],
-  );
-  return (
-    <a href={url} className="hover:text-blue-400" onClick={clickExport}>
-      {filename}
-    </a>
-  );
-}
-
-export function Exports({
-  exports,
-}: {
-  exports?: { format: string; filename: string; url: string }[];
-}) {
-  if (!exports || exports.length === 0) return null;
-  return (
-    <div>
-      Downloads:
-      {exports.map((exp) => (
-        <Export url={exp.url} filename={exp.filename} />
-      ))}
-    </div>
-  );
-}
-
 export function FrontmatterBlock({
   frontmatter,
   kind = KINDS.Article,
@@ -311,7 +232,8 @@ export function FrontmatterBlock({
 }) {
   const { isDark } = useTheme();
   const { subject, doi, open_access, license, github, venue, biblio, exports } = frontmatter;
-  const hasHeaders = subject || doi || open_access || license || github || venue || biblio || true;
+  const hasHeaders = subject || github || venue || biblio;
+  const hasLicenses = doi || open_access || license;
   return (
     <>
       {hasHeaders && (
@@ -329,19 +251,19 @@ export function FrontmatterBlock({
           <div className="flex-grow"></div>
           {kind === KINDS.Notebook && <Jupyter isDark={isDark} />}
           <GitHubLink github={github} />
-          <LicenseBadges license={license} />
-          <OpenAccessBadge open_access={open_access} />
-          <DoiBadge doi={doi} />
-        </div>
-      )}
-      {exports && (
-        <div>
-          <Exports exports={exports as any} />
+          <DownloadsDropdown exports={exports as any} />
         </div>
       )}
       <h1 className={classNames('title', { 'mb-2': frontmatter.subtitle })}>{frontmatter.title}</h1>
       {frontmatter.subtitle && (
         <h2 className="title mt-0 text-zinc-600 dark:text-zinc-400">{frontmatter.subtitle}</h2>
+      )}
+      {hasLicenses && (
+        <div className="flex mt-3 mb-5 text-sm font-light">
+          <LicenseBadges license={license} />
+          <OpenAccessBadge open_access={open_access} />
+          <DoiBadge doi={doi} />
+        </div>
       )}
       <AuthorAndAffiliations authors={frontmatter.authors} />
     </>

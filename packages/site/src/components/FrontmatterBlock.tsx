@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback } from 'react';
+import React, { MouseEventHandler, useCallback } from 'react';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import { KINDS } from '@curvenote/blocks';
 import { LicenseBadges, Email, GitHub, OpenAccess, Orcid, Jupyter, ROR } from '@curvenote/icons';
@@ -272,13 +272,17 @@ export async function triggerBlobDownload(blob: Blob, filename: string) {
 }
 
 export function Export({ url, filename }: { url: string; filename: string }) {
-  const clickExport = useCallback(() => {
-    triggerDirectDownload(url, filename);
-  }, [url, filename]);
+  const clickExport = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      triggerDirectDownload(url, filename);
+    },
+    [url, filename],
+  );
   return (
-    <span className="text-gray-400 hover:text-blue-400 cursor-pointer" onClick={clickExport}>
+    <a href={url} className="hover:text-blue-400" onClick={clickExport}>
       {filename}
-    </span>
+    </a>
   );
 }
 

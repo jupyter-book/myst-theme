@@ -1,0 +1,44 @@
+{
+  "name": "@myst-theme/frontmatter",
+  "version": "0.0.1",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf dist",
+    "compile": "tsc",
+    "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.js",
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "dev": "npm-run-all --parallel \"build:* -- --watch\"",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build:esm": "tsc --module es2020 --outDir dist/esm",
+    "build:types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist/types",
+    "build": "npm-run-all -l clean -p build:cjs build:esm build:types"
+  },
+  "dependencies": {
+    "@curvenote/ui-providers": "^0.0.16",
+    "@headlessui/react": "^1.6.6",
+    "@heroicons/react": "^2.0.12",
+    "@scienceicons/react": "^0.0.1",
+    "classnames": "^2.3.2",
+    "myst-frontmatter": "*"
+  },
+  "peerDependencies": {
+    "@types/react": "^16.8 || ^17.0 || ^18.0",
+    "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
+    "react": "^16.8 || ^17.0 || ^18.0",
+    "react-dom": "^16.8 || ^17.0 || ^18.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "eslint": "^8.21.0",
+    "eslint-config-curvenote": "latest",
+    "npm-run-all": "^4.1.5",
+    "tsconfig": "latest",
+    "typescript": "latest"
+  }
+}

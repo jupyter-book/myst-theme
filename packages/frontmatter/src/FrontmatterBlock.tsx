@@ -1,11 +1,39 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import { KINDS } from '@curvenote/blocks';
-import { LicenseBadges, Email, GitHub, OpenAccess, Orcid, Jupyter, ROR } from '@curvenote/icons';
-import { useTheme } from '@curvenote/ui-providers';
-import { ExternalOrInternalLink } from '../ExternalOrInternalLink';
+import {
+  JupyterIcon,
+  OrcidIcon,
+  OpenAccessIcon,
+  GithubIcon,
+  EmailIcon,
+  RorIcon,
+} from '@scienceicons/react/24/solid';
+import { LicenseBadges } from './licenses';
 import { DownloadsDropdown } from './downloads';
+
+enum KINDS {
+  Article = 'Article',
+  Notebook = 'Notebook',
+}
+
+function ExternalOrInternalLink({
+  to,
+  className,
+  title,
+  children,
+}: {
+  to: string;
+  className?: string;
+  title?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a href={to} className={className} title={title}>
+      {children}
+    </a>
+  );
+}
 
 export function Author({
   author,
@@ -19,22 +47,24 @@ export function Author({
       {author.name}
       {author.email && author.corresponding && (
         <a
+          className="ml-1"
           href={`mailto:${author.email}`}
           title={`${author.name} <${author.email}>`}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Email className="ml-2 inline-block h-[1.2em] w-[1.2em] -translate-y-[2px] text-gray-400 hover:text-blue-400" />
+          <EmailIcon className="w-4 h-4 inline-block text-gray-400 hover:text-blue-400 -translate-y-[0.1em]" />
         </a>
       )}
       {author.orcid && (
         <a
+          className="ml-1"
           href={`https://orcid.org/${author.orcid}`}
           target="_blank"
           rel="noopener noreferrer"
           title="ORCID (Open Researcher and Contributor ID)"
         >
-          <Orcid className="ml-2 inline-block h-[1.2em] w-[1.2em] -translate-y-[2px] grayscale hover:grayscale-0" />
+          <OrcidIcon className="w-4 h-4 inline-block text-gray-400 hover:text-[#A9C751] -translate-y-[0.1em]" />
         </a>
       )}
     </span>
@@ -81,7 +111,7 @@ export function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['a
         {authors.length > 1 && (
           <>
             <div className="font-thin text-xs uppercase pb-2">Authors</div>
-            <div className="font-thin text-xs uppercase pb-2 hidden sm:block">Affiliations</div>
+            <div className="font-thin text-xs uppercase pb-2">Affiliations</div>
           </>
         )}
         {authors.map((author) => (
@@ -89,7 +119,7 @@ export function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['a
             <div>
               <Author author={author} />
             </div>
-            <div className="text-sm hidden sm:block">
+            <div className="text-sm">
               {author.affiliations?.map((affil, i) => {
                 if (typeof affil === 'string') {
                   return <div key={i}>{affil}</div>;
@@ -108,7 +138,7 @@ export function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['a
                         rel="noopener noreferrer"
                         title="ROR (Research Organization Registry)"
                       >
-                        <ROR className="ml-2 inline-block h-[2em] w-[2em] grayscale hover:grayscale-0 -translate-y-[1px]" />
+                        <RorIcon className="ml-2 inline-block h-[2em] w-[2em] grayscale hover:grayscale-0 -translate-y-[1px]" />
                       </a>
                     </div>
                   );
@@ -145,7 +175,10 @@ export function DoiBadge({ doi: possibleLink, className }: { doi?: string; class
   const doi = possibleLink.replace(/^(https?:\/\/)?(dx\.)?doi\.org\//, '');
   const url = `https://doi.org/${doi}`;
   return (
-    <div className={classNames('flex-none', className)} title="DOI (Digital Object Identifier)">
+    <div
+      className={classNames('flex-none pl-1', className)}
+      title="DOI (Digital Object Identifier)"
+    >
       DOI:
       <a
         className="font-light no-underline pl-1"
@@ -169,7 +202,7 @@ export function GitHubLink({ github: possibleLink }: { github?: string }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <GitHub className="h-[1.3em] translate-y-[0.1em] px-2 opacity-60 hover:opacity-100 dark:invert" />
+      <GithubIcon className="w-5 h-5 opacity-60 hover:opacity-100" />
     </a>
   );
 }
@@ -178,13 +211,13 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
   if (!open_access) return null;
   return (
     <a
-      className="grayscale hover:grayscale-0"
+      className="opacity-60 hover:opacity-100"
       href="https://en.wikipedia.org/wiki/Open_access"
       target="_blank"
       rel="noopener noreferrer"
       title="Open Access"
     >
-      <OpenAccess className="h-[1.3em] translate-y-[0.1em] px-2" />
+      <OpenAccessIcon className="w-5 h-5" />
     </a>
   );
 }
@@ -214,7 +247,7 @@ export function Journal({
         <span className="smallcaps font-semibold">{title}</span>
       )}
       {volume != null && (
-        <span className="ml-2 pl-2 border-l hidden lg:inline-block">
+        <span className="ml-2 pl-2 border-l">
           Volume {volume}
           {issue != null && <>, Issue {issue}</>}
         </span>
@@ -230,7 +263,6 @@ export function FrontmatterBlock({
   frontmatter: PageFrontmatter;
   kind?: KINDS;
 }) {
-  const { isDark } = useTheme();
   const { subject, doi, open_access, license, github, venue, biblio, exports } = frontmatter;
   const hasHeaders = subject || github || venue || biblio;
   const hasLicenses = doi || open_access || license;
@@ -240,7 +272,7 @@ export function FrontmatterBlock({
         <div className="flex mt-3 mb-5 text-sm font-light">
           {subject && (
             <div
-              className={classNames('flex-none pr-2 smallcaps  hidden lg:inline-block', {
+              className={classNames('flex-none pr-2 smallcaps', {
                 'border-r mr-2': venue,
               })}
             >
@@ -249,7 +281,7 @@ export function FrontmatterBlock({
           )}
           <Journal venue={venue} biblio={biblio} />
           <div className="flex-grow"></div>
-          {kind === KINDS.Notebook && <Jupyter isDark={isDark} />}
+          {kind === KINDS.Notebook && <JupyterIcon className="h-5 w-5" />}
           <GitHubLink github={github} />
           <DownloadsDropdown exports={exports as any} />
         </div>

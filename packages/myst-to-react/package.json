@@ -1,16 +1,21 @@
 {
   "name": "myst-to-react",
   "version": "0.1.18",
-  "main": "./src/index.tsx",
-  "types": "./src/index.tsx",
+  "main": "dist/cjs/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
-    "src"
+    "dist"
   ],
   "license": "MIT",
   "scripts": {
+    "clean": "rimraf dist",
     "compile": "tsc",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.js",
-    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "dev": "npm-run-all --parallel \"build:* -- --watch\"",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build:types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist/types",
+    "build": "npm-run-all -l clean -p build:cjs build:types"
   },
   "dependencies": {
     "@curvenote/blocks": "^1.5.17",
@@ -24,14 +29,9 @@
     "buffer": "^6.0.3",
     "classnames": "^2.3.1",
     "mermaid": "^9.1.7",
-    "myst-common": "^0.0.11",
+    "myst-common": "^0.0.12",
     "myst-config": "^0.0.6",
     "myst-spec": "^0.0.4",
-    "myst-to-docx": "^0.0.4",
-    "myst-to-jats": "^0.0.8",
-    "myst-to-tex": "^0.0.9",
-    "myst-transforms": "^0.0.12",
-    "mystjs": "^0.0.15",
     "nanoid": "^4.0.0",
     "react-popper": "^2.3.0",
     "react-syntax-highlighter": "^15.5.0",
@@ -53,6 +53,7 @@
     "@types/react-syntax-highlighter": "^15.5.5",
     "eslint": "^8.21.0",
     "eslint-config-curvenote": "latest",
+    "npm-run-all": "^4.1.5",
     "tsconfig": "latest",
     "typescript": "latest"
   },

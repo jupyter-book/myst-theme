@@ -1,32 +1,19 @@
-import type { NodeRenderer } from 'myst-to-react';
 import { useParse, DEFAULT_RENDERERS } from 'myst-to-react';
 import type { Parent } from 'myst-spec';
+import { useNodeRenderers } from '@curvenote/ui-providers';
 
-function Block({
-  id,
-  node,
-  renderers = DEFAULT_RENDERERS,
-}: {
-  id: string;
-  node: Parent;
-  renderers?: Record<string, NodeRenderer>;
-}) {
+function Block({ id, node }: { id: string; node: Parent }) {
+  const renderers = useNodeRenderers() ?? DEFAULT_RENDERERS;
   const children = useParse(node, renderers);
   return <div id={id}>{children}</div>;
 }
 
-export function ContentBlocks({
-  mdast,
-  renderers,
-}: {
-  mdast: Parent;
-  renderers?: Record<string, NodeRenderer>;
-}) {
+export function ContentBlocks({ mdast }: { mdast: Parent }) {
   const blocks = mdast.children as Parent[];
   return (
     <>
       {blocks.map((node, index) => {
-        return <Block key={(node as any).key} id={`${index}`} node={node} renderers={renderers} />;
+        return <Block key={(node as any).key} id={`${index}`} node={node} />;
       })}
     </>
   );

@@ -1,5 +1,6 @@
 import { ReferencesProvider } from '@curvenote/ui-providers';
-import { Bibliography, ContentBlocks, FooterLinksBlock, FrontmatterBlock } from '../components';
+import { FrontmatterBlock } from '@myst-theme/frontmatter';
+import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 import type { PageLoader } from '../types';

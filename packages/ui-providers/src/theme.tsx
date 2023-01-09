@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { NodeRenderer } from './types';
 
 export enum Theme {
   light = 'light',
@@ -9,7 +10,11 @@ export function isTheme(value: unknown): value is Theme {
   return typeof value === 'string' && Object.values(Theme).includes(value as Theme);
 }
 
-type ThemeContextType = [Theme | null, (theme: Theme) => void];
+type ThemeContextType = {
+  theme: Theme | null;
+  setTheme: (theme: Theme) => void;
+  renderers?: Record<string, NodeRenderer>;
+};
 
 const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
 ThemeContext.displayName = 'ThemeContext';
@@ -19,9 +24,11 @@ const prefersLightMQ = '(prefers-color-scheme: light)';
 export function ThemeProvider({
   children,
   theme: startingTheme,
+  renderers,
 }: {
   children: React.ReactNode;
   theme: Theme | null;
+  renderers?: Record<string, NodeRenderer>;
 }) {
   const [theme, setTheme] = React.useState<Theme | null>(() => {
     if (startingTheme) {
@@ -47,15 +54,31 @@ export function ThemeProvider({
     [theme],
   );
 
-  return <ThemeContext.Provider value={[theme, nextTheme]}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme: nextTheme, renderers }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
 export function useTheme() {
   const context = React.useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    const error = 'useTheme should be used within a ThemeProvider';
+    const throwError = () => {
+      throw new Error(error);
+    };
+    // Just log an error if the theme is asked for
+    console.error(error);
+    return {
+      theme: Theme.light,
+      isLight: true,
+      isDark: false,
+      setTheme: throwError,
+      nextTheme: throwError,
+    };
   }
-  const [theme, setTheme] = context;
+  const { theme, setTheme } = context;
   const isDark = theme === Theme.dark;
   const isLight = theme === Theme.light;
   const nextTheme = React.useCallback(() => {
@@ -63,4 +86,10 @@ export function useTheme() {
     setTheme(next);
   }, [theme]);
   return { theme, isLight, isDark, setTheme, nextTheme };
+}
+
+export function useNodeRenderers(): Record<string, NodeRenderer> | undefined {
+  const context = React.useContext(ThemeContext);
+  const { renderers } = context ?? {};
+  return renderers;
 }

@@ -1,0 +1,17 @@
+{
+  "name": "@myst-theme/styles",
+  "scripts": {
+    "build": "tailwindcss -m -i ./app.css -o ../docs/public/tailwind.css",
+    "dev": "tailwindcss -w -i ./app.css -o ../docs/public/tailwind.css"
+  },
+  "author": "Rowan Cockett <rowan@curvenote.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/executablebooks/myst-theme/issues"
+  },
+  "homepage": "https://github.com/executablebooks/myst-theme",
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.8",
+    "tailwindcss": "^3.2.1"
+  }
+}

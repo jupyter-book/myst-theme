@@ -1,5 +1,6 @@
 {
   "name": "@myst-theme/styles",
+  "private": true,
   "scripts": {
     "build": "tailwindcss -m -i ./app.css -o ../docs/public/tailwind.css",
     "dev": "tailwindcss -w -i ./app.css -o ../docs/public/tailwind.css"

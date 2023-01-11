@@ -1,5 +1,6 @@
 {
   "name": "@myst-theme/docs",
+  "private": true,
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "npm run build:css && build-storybook"

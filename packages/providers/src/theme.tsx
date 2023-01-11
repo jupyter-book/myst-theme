@@ -6,6 +6,22 @@ export enum Theme {
   dark = 'dark',
 }
 
+export type LinkProps = {
+  to: string;
+  prefetch?: 'intent' | 'render' | 'none' | string;
+  className?: string;
+  children: React.ReactNode;
+};
+export type Link = (props: LinkProps) => JSX.Element;
+
+function HtmlLink({ to, className, children }: LinkProps) {
+  return (
+    <a href={to} className={className}>
+      {children}
+    </a>
+  );
+}
+
 export function isTheme(value: unknown): value is Theme {
   return typeof value === 'string' && Object.values(Theme).includes(value as Theme);
 }
@@ -14,6 +30,7 @@ type ThemeContextType = {
   theme: Theme | null;
   setTheme: (theme: Theme) => void;
   renderers?: Record<string, NodeRenderer>;
+  Link?: Link;
 };
 
 const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
@@ -92,4 +109,10 @@ export function useNodeRenderers(): Record<string, NodeRenderer> | undefined {
   const context = React.useContext(ThemeContext);
   const { renderers } = context ?? {};
   return renderers;
+}
+
+export function useLinkProvider(): Link {
+  const context = React.useContext(ThemeContext);
+  const { Link } = context ?? {};
+  return Link ?? HtmlLink;
 }

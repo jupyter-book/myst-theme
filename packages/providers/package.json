@@ -1,5 +1,5 @@
 {
-  "name": "@curvenote/ui-providers",
+  "name": "@myst-theme/providers",
   "version": "0.0.16",
   "main": "dist/cjs/index.js",
   "types": "dist/types/index.d.ts",
@@ -18,7 +18,7 @@
     "build": "npm-run-all -l clean -p build:cjs build:types"
   },
   "dependencies": {
-    "myst-common": "^0.0.11",
+    "myst-common": "^0.0.12",
     "myst-config": "^0.0.6",
     "myst-frontmatter": "^0.0.5"
   },

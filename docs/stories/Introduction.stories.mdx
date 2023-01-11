@@ -1,0 +1,32 @@
+import { Meta, Preview } from '@storybook/addon-docs';
+import { FrontmatterBlock } from '@myst-theme/frontmatter';
+import { Admonition } from 'myst-to-react';
+
+<Meta title="Example/Introduction" />
+
+<div className="prose max-w-none">
+  <FrontmatterBlock
+    frontmatter={{
+      subject: '@myst-theme',
+      venue: { title: 'Executable Books' },
+      title: 'Welcome to MyST Theme',
+      github: 'https://github.com/executablebooks/myst-theme',
+    }}
+  />
+</div>
+
+`@myst-theme` is a set of open-source, community-driven components designed for scientific communication that are designed to work with [myst.tools](https://myst.tools), which includes a powerful authoring framework that supports blogs, online books, scientific papers, reports and journals articles.
+
+## Components
+
+The components in this repository are designed to support many different themes in the MyST ecosystem. Components are mostly focused on how to turn MyST into react-components (e.g. admonitions, links, and cross-references).
+
+## UI-Providers
+
+The library also has a number of UI-providers that help coordinate interactions between components (e.g. cross-reference look ups, references, and theme components). Links require special attention, and we have gone with an approach to provide this at the "theme" level. For example, in `nextjs` or `remix` there are often special links that the frameworks provide to accelerate page-loading based on `prefetch`. That same link in `JupyterLab` requires a very different interaction (e.g. open a tab with another notebook). By default, links are just a simple `<a>` HTML component.
+
+<Admonition title="Note" kind="note" dropdown>
+
+We can also use these components in this documentation, which is going to be great. 🚀
+
+</Admonition>

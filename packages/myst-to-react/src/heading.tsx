@@ -2,7 +2,7 @@ import { Heading } from 'myst-spec';
 import type { NodeRenderer } from './types';
 import { createElement as e } from 'react';
 import classNames from 'classnames';
-import { useXRefState } from '@curvenote/ui-providers';
+import { useXRefState } from '@myst-theme/providers';
 
 function getHelpHashText(kind: string) {
   return `Link to this ${kind}`;

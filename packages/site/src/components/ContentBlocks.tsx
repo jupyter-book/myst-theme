@@ -1,6 +1,6 @@
 import { useParse, DEFAULT_RENDERERS } from 'myst-to-react';
 import type { Parent } from 'myst-spec';
-import { useNodeRenderers } from '@curvenote/ui-providers';
+import { useNodeRenderers } from '@myst-theme/providers';
 
 function Block({ id, node }: { id: string; node: Parent }) {
   const renderers = useNodeRenderers() ?? DEFAULT_RENDERERS;

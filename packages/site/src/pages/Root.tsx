@@ -1,6 +1,6 @@
 import type { SiteManifest } from 'myst-config';
 import type { SiteLoader } from '../types';
-import { SiteProvider, Theme, ThemeProvider } from '@curvenote/ui-providers';
+import { SiteProvider, Theme, ThemeProvider } from '@myst-theme/providers';
 import {
   Links,
   LiveReload,

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { NavLink, useParams, useLocation } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
 import { CreatedInCurvenote } from '@curvenote/icons';
-import { useNavOpen, useSiteManifest, useUrlbase, withUrlbase } from '@curvenote/ui-providers';
+import { useNavOpen, useSiteManifest, useUrlbase, withUrlbase } from '@myst-theme/providers';
 import { getProjectHeadings } from '../../loaders';
 import type { Heading } from '../../types';
 

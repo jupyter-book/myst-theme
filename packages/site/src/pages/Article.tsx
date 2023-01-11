@@ -1,4 +1,4 @@
-import { ReferencesProvider } from '@curvenote/ui-providers';
+import { ReferencesProvider } from '@myst-theme/providers';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';

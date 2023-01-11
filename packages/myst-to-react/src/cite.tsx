@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useReferences } from '@curvenote/ui-providers';
+import { useReferences } from '@myst-theme/providers';
 import type { NodeRenderer } from './types';
 import { ClickPopover } from './components/ClickPopover';
 import { InlineError } from './inlineError';

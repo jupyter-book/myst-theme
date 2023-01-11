@@ -17,7 +17,7 @@ import {
   InformationCircleIcon,
   ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
-import { ReferencesProvider } from '@curvenote/ui-providers';
+import { ReferencesProvider } from '@myst-theme/providers';
 
 function downloadBlob(filename: string, blob: Blob) {
   const a = document.createElement('a');

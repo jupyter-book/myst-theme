@@ -1,10 +1,9 @@
 import type { Link } from 'myst-spec';
-import { Link as RemixLink } from '@remix-run/react';
 import {
   ArrowTopRightOnSquareIcon as ExternalLinkIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline';
-import { useSiteManifest, useUrlbase, withUrlbase } from '@curvenote/ui-providers';
+import { useLinkProvider, useSiteManifest, useUrlbase, withUrlbase } from '@myst-theme/providers';
 import type { SiteManifest } from 'myst-config';
 import type { NodeRenderer } from '../types';
 import { HoverPopover } from '../components/HoverPopover';
@@ -31,15 +30,16 @@ function getPageInfo(
 }
 
 function InternalLink({ url, children }: { url: string; children: React.ReactNode }) {
+  const Link = useLinkProvider();
   const site = useSiteManifest();
   const page = getPageInfo(site, url);
   const urlbase = useUrlbase();
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (
-      <RemixLink to={withUrlbase(url, urlbase)} prefetch="intent">
+      <Link to={withUrlbase(url, urlbase)} prefetch="intent">
         {children}
-      </RemixLink>
+      </Link>
     );
   }
   return (
@@ -54,9 +54,9 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
         />
       }
     >
-      <RemixLink to={withUrlbase(url, urlbase)} prefetch="intent">
+      <Link to={withUrlbase(url, urlbase)} prefetch="intent">
         {children}
-      </RemixLink>
+      </Link>
     </HoverPopover>
   );
 }
@@ -128,9 +128,9 @@ export const linkBlock: NodeRenderer<TransformedLink> = (node, children) => {
 
   if (internal) {
     return (
-      <RemixLink key={node.key} to={node.url} prefetch="intent" className={containerClass}>
+      <a key={node.key} href={node.url} className={containerClass}>
         {nested}
-      </RemixLink>
+      </a>
     );
   }
   return (

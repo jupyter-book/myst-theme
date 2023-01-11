@@ -1,4 +1,4 @@
-import { useIsTabOpen, useTabSet } from '@curvenote/ui-providers';
+import { useIsTabOpen, useTabSet } from '@myst-theme/providers';
 import classNames from 'classnames';
 import type { GenericNode } from 'mystjs';
 import { useEffect } from 'react';

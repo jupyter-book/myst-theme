@@ -20,7 +20,7 @@ import classNames from 'classnames';
 // import { AdmonitionKind } from 'mystjs';
 
 // TODO: get this from myst-spec?
-enum AdmonitionKind {
+export enum AdmonitionKind {
   admonition = 'admonition',
   attention = 'attention',
   caution = 'caution',
@@ -34,9 +34,10 @@ enum AdmonitionKind {
   warning = 'warning',
 }
 
+type Color = 'blue' | 'green' | 'yellow' | 'red';
 type ColorAndKind = {
   kind: AdmonitionKind;
-  color: 'blue' | 'green' | 'yellow' | 'red';
+  color: Color;
 };
 
 function getClasses(className?: string) {
@@ -108,13 +109,19 @@ export const AdmonitionTitle: NodeRenderer<spec.AdmonitionTitle> = (node, childr
   return children;
 };
 
-function Admonition({
+export function Admonition({
   title,
   kind,
   color,
   dropdown,
   children,
-}: ColorAndKind & { title?: React.ReactNode; children: React.ReactNode[]; dropdown: boolean }) {
+}: {
+  title?: React.ReactNode;
+  color?: Color;
+  kind?: AdmonitionKind;
+  children: React.ReactNode;
+  dropdown?: boolean;
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -122,7 +129,7 @@ function Admonition({
       className={classNames(
         'admonition rounded-md my-4 border-l-4 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
         {
-          'border-blue-500': color === 'blue',
+          'border-blue-500': !color || color === 'blue',
           'border-green-600': color === 'green',
           'border-amber-600': color === 'yellow',
           'border-red-600': color === 'red',
@@ -132,7 +139,7 @@ function Admonition({
       {title && (
         <p
           className={classNames('admonition-header m-0 text-lg font-medium py-1', {
-            'text-blue-600 bg-blue-50 dark:bg-slate-900': color === 'blue',
+            'text-blue-600 bg-blue-50 dark:bg-slate-900': !color || color === 'blue',
             'text-green-600 bg-green-50 dark:bg-slate-900': color === 'green',
             'text-amber-600 bg-amber-50 dark:bg-slate-900': color === 'yellow',
             'text-red-600 bg-red-50 dark:bg-slate-900': color === 'red',
@@ -141,7 +148,7 @@ function Admonition({
           })}
           onClick={dropdown ? () => setOpen(!open) : undefined}
         >
-          <AdmonitionIcon kind={kind} />
+          <AdmonitionIcon kind={kind ?? AdmonitionKind.note} />
           <span className="text-neutral-900 dark:text-white">
             {dropdown && (
               <span className="block float-right font-thin text-sm text-neutral-700 dark:text-neutral-200">

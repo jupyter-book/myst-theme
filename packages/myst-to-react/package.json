@@ -1,6 +1,6 @@
 {
   "name": "myst-to-react",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "main": "dist/cjs/index.js",
   "types": "dist/types/index.d.ts",
   "files": [
@@ -21,7 +21,7 @@
     "@curvenote/blocks": "^1.5.17",
     "@curvenote/connect": "0.0.6",
     "@curvenote/nbtx": "^0.1.11",
-    "@curvenote/ui-providers": "^0.0.16",
+    "@myst-theme/providers": "^0.1.19",
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^2.0.12",
     "@popperjs/core": "^2.11.5",

@@ -1,15 +1,18 @@
 {
-  "name": "@curvenote/theme-base",
+  "name": "myst-theme",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "styles",
+    "docs"
   ],
   "scripts": {
     "compile": "turbo run compile",
     "build": "turbo run build",
-    "build:web": "turbo run build --filter=@curvespace/default",
     "dev": "turbo run dev --parallel",
+    "storybook": "cd docs && npm run storybook",
+    "build-storybook": "cd docs && build-storybook",
     "clean": "turbo run clean --parallel && find . -name '.turbo' -type d -prune -exec rm -rf '{}' +",
     "lint": "turbo run lint",
     "lint:format": "turbo run lint:format",
@@ -25,12 +28,14 @@
     "@remix-run/react": "^1.7.5",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
+    "@tailwindcss/typography": "^0.5.8",
     "esbuild": "^0.14.53",
     "eslint-config-curvenote": "latest",
     "prettier": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "turbo": "latest"
+    "turbo": "latest",
+    "tailwindcss": "^3.2.1"
   },
   "engines": {
     "npm": ">=7.0.0",

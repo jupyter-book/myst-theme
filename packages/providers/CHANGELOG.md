@@ -1,5 +1,7 @@
 # @curvenote/ui-providers
 
+## 0.1.19
+
 ## 0.0.16
 
 ### Patch Changes

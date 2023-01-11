@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.1.19
+
+### Patch Changes
+
+- Change components to use @myst-theme
+- ba0424a: Upgrade heroicons to v2
+  - @myst-theme/providers@0.1.19
+
 ## 0.1.18
 
 ### Patch Changes

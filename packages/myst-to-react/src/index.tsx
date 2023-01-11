@@ -14,7 +14,6 @@ import REACTIVE_RENDERERS from './reactive';
 import IFRAME_RENDERERS from './iframe';
 import IMAGE_RENDERERS from './image';
 import LINK_RENDERERS from './links';
-import OUTPUT_RENDERERS from './output';
 import HEADING_RENDERERS from './heading';
 import CROSS_REFERENCE_RENDERERS from './crossReference';
 import TAB_RENDERERS from './tabs';
@@ -37,7 +36,6 @@ export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...FOOTNOTE_RENDERERS,
   ...ADMONITION_RENDERERS,
   ...REACTIVE_RENDERERS,
-  ...OUTPUT_RENDERERS,
   ...HEADING_RENDERERS,
   ...CROSS_REFERENCE_RENDERERS,
   ...DROPDOWN_RENDERERS,

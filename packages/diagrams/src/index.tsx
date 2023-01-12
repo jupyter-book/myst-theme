@@ -1,3 +1,4 @@
+import type { NodeRenderer } from '@myst-theme/providers';
 import { useEffect, useState } from 'react';
 
 async function parse(id: string, text: string): Promise<string> {
@@ -36,3 +37,7 @@ export function MermaidRenderer({ id, value }: { value: string; id: string }) {
     </figure>
   );
 }
+
+export const MermaidNodeRenderer: NodeRenderer = (node) => {
+  return <MermaidRenderer key={node.key} id={node.key} value={node.value} />;
+};

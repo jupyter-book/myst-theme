@@ -4,6 +4,6 @@ export default create({
   base: 'light',
   brandTitle: '@myst-theme',
   brandUrl: '/',
-  brandImage: '/logo.svg',
+  brandImage: 'logo.svg',
   brandTarget: '_self',
 });

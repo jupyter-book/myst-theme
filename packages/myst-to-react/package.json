@@ -9,7 +9,6 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "compile": "tsc",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.js",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "dev": "npm-run-all --parallel \"build:* -- --watch\"",

@@ -1,5 +1,5 @@
 import { createCookieSessionStorage, json } from '@remix-run/node';
-import { isTheme, Theme } from '@curvenote/ui-providers';
+import { isTheme, Theme } from '@myst-theme/providers';
 import type { ActionFunction } from '@remix-run/node';
 
 export const themeStorage = createCookieSessionStorage({

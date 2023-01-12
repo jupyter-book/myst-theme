@@ -1,0 +1,54 @@
+{
+  "name": "myst-demo",
+  "version": "0.1.20",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf dist",
+    "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.js",
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "dev": "npm-run-all --parallel \"build:* -- --watch\"",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build:esm": "tsc --module es2020 --outDir dist/esm",
+    "build:types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist/types",
+    "build": "npm-run-all -l clean -p build:cjs build:esm build:types"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.0.13",
+    "classnames": "^2.3.2",
+    "js-yaml": "^4.1.0",
+    "myst-common": "^0.0.12",
+    "myst-config": "^0.0.6",
+    "myst-frontmatter": "^0.0.5",
+    "myst-spec": "^0.0.4",
+    "myst-to-docx": "^0.0.5",
+    "myst-to-jats": "^0.0.9",
+    "myst-to-react": "^0.1.20",
+    "myst-to-tex": "^0.0.10",
+    "myst-transforms": "^0.0.13",
+    "mystjs": "^0.0.15",
+    "unified": "^10.1.2",
+    "unist-util-visit": "^4.1.1",
+    "vfile": "^5.3.6",
+    "vfile-message": "^3.1.3"
+  },
+  "peerDependencies": {
+    "@types/react": "^16.8 || ^17.0 || ^18.0",
+    "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
+    "react": "^16.8 || ^17.0 || ^18.0",
+    "react-dom": "^16.8 || ^17.0 || ^18.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "eslint": "^8.21.0",
+    "eslint-config-curvenote": "latest",
+    "npm-run-all": "^4.1.5",
+    "tsconfig": "latest",
+    "typescript": "latest"
+  }
+}

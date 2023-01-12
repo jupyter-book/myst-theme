@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
 
 type GridSpec = {
   type: 'grid';

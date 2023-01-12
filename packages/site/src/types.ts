@@ -1,9 +1,13 @@
-import type { KINDS } from '@curvenote/blocks';
 import type { Root } from 'mdast';
 import type { References } from 'myst-common';
 import type { SiteManifest } from 'myst-config';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import type { Theme } from '@curvenote/ui-providers';
+import type { Theme } from '@myst-theme/providers';
+
+enum KINDS {
+  Article = 'Article',
+  Notebook = 'Notebook',
+}
 
 export type Heading = {
   slug?: string;

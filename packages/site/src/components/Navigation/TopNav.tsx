@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/24/solid';
 import type { SiteManifest, SiteNavItem } from 'myst-config';
 import { ThemeButton } from './ThemeButton';
-import { useNavOpen, useSiteManifest } from '@curvenote/ui-providers';
+import { useNavOpen, useSiteManifest } from '@myst-theme/providers';
 import { CurvenoteLogo } from '@curvenote/icons';
 import { LoadingBar } from './Loading';
 

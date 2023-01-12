@@ -2,16 +2,22 @@
   "name": "@curvenote/icons",
   "version": "0.0.3",
   "sideEffects": false,
-  "main": "./react/index.tsx",
-  "types": "./react/index.tsx",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
-    "react"
+    "dist"
   ],
   "license": "MIT",
   "scripts": {
-    "compile": "tsc",
-    "lint": "eslint react/**/**.ts*",
-    "lint:format": "prettier --check \"react/**/*.{ts,tsx,md}\""
+    "clean": "rimraf dist",
+    "lint": "eslint src/**/**.ts*",
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "dev": "npm-run-all --parallel \"build:* -- --watch\"",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build:esm": "tsc --module es2020 --outDir dist/esm",
+    "build:types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist/types",
+    "build": "npm-run-all -l clean -p build:cjs build:esm build:types"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
@@ -26,6 +32,7 @@
   "devDependencies": {
     "eslint": "^8.21.0",
     "eslint-config-curvenote": "latest",
+    "npm-run-all": "^4.1.5",
     "tsconfig": "latest",
     "typescript": "latest"
   }

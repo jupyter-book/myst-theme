@@ -1,37 +1,31 @@
 {
   "name": "myst-to-react",
-  "version": "0.1.18",
-  "main": "./src/index.tsx",
-  "types": "./src/index.tsx",
+  "version": "0.1.20",
+  "main": "dist/cjs/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
-    "src"
+    "dist"
   ],
   "license": "MIT",
   "scripts": {
-    "compile": "tsc",
+    "clean": "rimraf dist",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.js",
-    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "dev": "npm-run-all --parallel \"build:* -- --watch\"",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build:types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist/types",
+    "build": "npm-run-all -l clean -p build:cjs build:types"
   },
   "dependencies": {
-    "@curvenote/blocks": "^1.5.17",
-    "@curvenote/connect": "0.0.6",
-    "@curvenote/nbtx": "^0.1.11",
-    "@curvenote/ui-providers": "^0.0.16",
-    "@headlessui/react": "^1.6.5",
-    "@heroicons/react": "^2.0.12",
-    "@popperjs/core": "^2.11.5",
-    "ansi-to-react": "^6.1.6",
+    "@myst-theme/providers": "^0.1.20",
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^2.0.13",
+    "@popperjs/core": "^2.11.6",
     "buffer": "^6.0.3",
-    "classnames": "^2.3.1",
-    "mermaid": "^9.1.7",
-    "myst-common": "^0.0.11",
+    "classnames": "^2.3.2",
+    "myst-common": "^0.0.12",
     "myst-config": "^0.0.6",
     "myst-spec": "^0.0.4",
-    "myst-to-docx": "^0.0.4",
-    "myst-to-jats": "^0.0.8",
-    "myst-to-tex": "^0.0.9",
-    "myst-transforms": "^0.0.12",
-    "mystjs": "^0.0.15",
     "nanoid": "^4.0.0",
     "react-popper": "^2.3.0",
     "react-syntax-highlighter": "^15.5.0",
@@ -39,8 +33,6 @@
     "unist-util-select": "^4.0.1"
   },
   "peerDependencies": {
-    "@remix-run/node": "^1.7.5",
-    "@remix-run/react": "^1.7.5",
     "@types/react": "^16.8 || ^17.0 || ^18.0",
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "react": "^16.8 || ^17.0 || ^18.0",
@@ -49,10 +41,11 @@
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",
-    "@types/mermaid": "^8.2.9",
-    "@types/react-syntax-highlighter": "^15.5.5",
+    "@types/react-syntax-highlighter": "^15.5.6",
     "eslint": "^8.21.0",
     "eslint-config-curvenote": "latest",
+    "npm-run-all": "^4.1.5",
+    "react-redux": "^8.0.5",
     "tsconfig": "latest",
     "typescript": "latest"
   },

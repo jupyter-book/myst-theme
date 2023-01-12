@@ -1,6 +1,6 @@
-import type { GenericParent } from 'mystjs';
-import { useReferences } from '@curvenote/ui-providers';
-import type { NodeRenderer } from '.';
+import type { GenericParent } from 'myst-common';
+import type { NodeRenderer } from '@myst-theme/providers';
+import { useReferences } from '@myst-theme/providers';
 import { useParse } from '.';
 import { ClickPopover } from './components/ClickPopover';
 

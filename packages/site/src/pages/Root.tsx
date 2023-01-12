@@ -1,6 +1,6 @@
 import type { SiteManifest } from 'myst-config';
 import type { SiteLoader } from '../types';
-import { SiteProvider, Theme, ThemeProvider } from '@curvenote/ui-providers';
+import { SiteProvider, Theme, ThemeProvider } from '@myst-theme/providers';
 import {
   Links,
   LiveReload,
@@ -10,8 +10,9 @@ import {
   ScrollRestoration,
   useCatch,
   useLoaderData,
+  Link as RemixLink,
 } from '@remix-run/react';
-import { ContentReload } from '../components';
+import { ContentReload, renderers } from '../components';
 import { Analytics } from '../seo';
 import { ErrorSiteNotFound } from './ErrorSiteNotFound';
 
@@ -42,7 +43,7 @@ export function Document({
         />
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme} renderers={renderers} Link={RemixLink as any}>
           <SiteProvider config={config}>{children}</SiteProvider>
         </ThemeProvider>
         <ScrollRestoration />

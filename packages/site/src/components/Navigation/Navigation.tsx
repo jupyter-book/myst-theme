@@ -1,4 +1,4 @@
-import { useNavOpen } from '@curvenote/ui-providers';
+import { useNavOpen } from '@myst-theme/providers';
 import { TableOfContents } from './TableOfContents';
 
 export function Navigation({

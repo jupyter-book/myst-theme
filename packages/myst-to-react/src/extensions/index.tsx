@@ -1,4 +1,4 @@
-import type { NodeRenderer } from '../types';
+import type { NodeRenderer } from '@myst-theme/providers';
 import CHEM_RENDERERS from './chemicalFormula';
 import SI_RENDERERS from './siunits';
 

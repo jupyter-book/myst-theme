@@ -1,4 +1,4 @@
-import { Link as RemixLink } from '@remix-run/react';
+import { useLinkProvider } from '@myst-theme/providers';
 import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 
@@ -19,12 +19,13 @@ export function LinkCard({
   thumbnail?: string;
   className?: string;
 }) {
+  const Link = useLinkProvider();
   return (
     <div className={classNames(className, { 'animate-pulse': loading })}>
       {internal && (
-        <RemixLink to={url} className="block" prefetch="intent">
+        <Link to={url} className="block" prefetch="intent">
           {title}
-        </RemixLink>
+        </Link>
       )}
       {!internal && (
         <a href={url} className="block" target="_blank" rel="noreferrer">

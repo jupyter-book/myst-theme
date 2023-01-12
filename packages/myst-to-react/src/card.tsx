@@ -1,9 +1,7 @@
 import React from 'react';
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
-import { Link } from '@remix-run/react';
-import { useUrlbase, withUrlbase } from '@curvenote/ui-providers';
-// import { AdmonitionKind } from 'mystjs';
+import { useLinkProvider, useUrlbase, withUrlbase } from '@myst-theme/providers';
 
 type CardSpec = {
   type: 'card';
@@ -83,6 +81,7 @@ function ExternalOrInternalLink({
   prefetch?: 'intent' | 'render' | 'none';
   children: React.ReactNode;
 }) {
+  const Link = useLinkProvider();
   const urlbase = useUrlbase();
   if (to.startsWith('http') || isStatic) {
     return (

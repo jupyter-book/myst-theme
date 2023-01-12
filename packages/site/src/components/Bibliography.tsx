@@ -1,4 +1,4 @@
-import { useReferences } from '@curvenote/ui-providers';
+import { useReferences } from '@myst-theme/providers';
 import { useState } from 'react';
 
 const HIDE_OVER_N_REFERENCES = 5;

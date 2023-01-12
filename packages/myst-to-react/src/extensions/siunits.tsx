@@ -1,4 +1,4 @@
-import type { NodeRenderer } from '../types';
+import type { NodeRenderer } from '@myst-theme/providers';
 
 export const SIUnits: NodeRenderer = (node) => {
   return (

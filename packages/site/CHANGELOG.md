@@ -1,5 +1,26 @@
 # @curvenote/site
 
+## 0.0.18
+
+### Patch Changes
+
+- Updates for repackaging for jupyterlab-myst
+- Updated dependencies
+  - myst-to-react@0.1.20
+  - @myst-theme/frontmatter@0.1.20
+  - myst-demo@0.1.20
+
+## 0.0.17
+
+### Patch Changes
+
+- ba0424a: Upgrade heroicons to v2
+- Updated dependencies
+- Updated dependencies [ba0424a]
+  - myst-to-react@0.1.19
+  - @myst-theme/frontmatter@0.1.19
+  - myst-demo@0.1.19
+
 ## 0.0.16
 
 ### Patch Changes

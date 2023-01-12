@@ -1,4 +1,4 @@
-import { useTheme } from '@curvenote/ui-providers';
+import { useTheme } from '@myst-theme/providers';
 import { MoonIcon } from '@heroicons/react/24/solid';
 import { SunIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';

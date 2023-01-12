@@ -7,18 +7,19 @@ import {
   ArrowTopRightOnSquareIcon as ExternalLinkIcon,
 } from '@heroicons/react/24/outline';
 import {
+  useLinkProvider,
+  useNodeRenderers,
   useReferences,
   useUrlbase,
   useXRefState,
   withUrlbase,
   XRefProvider,
-} from '@curvenote/ui-providers';
+} from '@myst-theme/providers';
 import { useParse } from '.';
 import { InlineError } from './inlineError';
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
 import { ClickPopover } from './components/ClickPopover';
 import useSWR from 'swr';
-import { Link } from '@remix-run/react';
 
 const MAX_NODES = 3; // Max nodes to show after a header
 
@@ -62,6 +63,7 @@ export function ReferencedContent({
   identifier: string;
   close: () => void;
 }) {
+  const Link = useLinkProvider();
   const urlbase = useUrlbase();
   const { remote, url } = useXRefState();
   const external = url?.startsWith('http') ?? false;
@@ -80,7 +82,8 @@ export function ReferencedContent({
       el?.scrollIntoView({ behavior: 'smooth' });
     }, 10);
   };
-  const children = useParse({ type: 'block', children: nodes });
+  const renderers = useNodeRenderers();
+  const children = useParse({ type: 'block', children: nodes }, renderers);
   if (remote && !data) {
     return <>Loading...</>;
   }

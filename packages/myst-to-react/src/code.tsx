@@ -15,6 +15,7 @@ type Props = {
   startingLineNumber?: number;
   emphasizeLines?: number[];
   filename?: string;
+  border?: boolean;
   className?: string;
 };
 
@@ -29,11 +30,17 @@ export function CodeBlock(props: Props) {
     showCopy = true,
     startingLineNumber = 1,
     filename,
+    border,
   } = props;
   const highlightLines = new Set(emphasizeLines);
-
+  const borderClass =
+    'rounded shadow-md dark:shadow-2xl dark:shadow-neutral-900 my-8 text-sm border border-l-4 border-l-blue-400 border-gray-200 dark:border-l-blue-400 dark:border-gray-800';
   return (
-    <div className={classNames('relative group not-prose overflow-auto', className)}>
+    <div
+      className={classNames('relative group not-prose overflow-auto', className, {
+        [borderClass]: border,
+      })}
+    >
       {filename && <div className="leading-3 mt-1 p-1">{filename}</div>}
       <SyntaxHighlighter
         language={lang}
@@ -77,12 +84,12 @@ const code: NodeRenderer<Code> = (node) => {
   return (
     <CodeBlock
       key={node.key}
-      className="rounded shadow-md dark:shadow-2xl dark:shadow-neutral-900 my-8 text-sm border border-l-4 border-l-blue-400 border-gray-200 dark:border-l-blue-400 dark:border-gray-800"
       value={node.value || ''}
       lang={node.lang}
       emphasizeLines={node.emphasizeLines}
       showLineNumbers={node.showLineNumbers}
       startingLineNumber={node.startingLineNumber}
+      border
     />
   );
 };

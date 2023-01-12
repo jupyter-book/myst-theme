@@ -8,6 +8,7 @@ import {
 } from '@heroicons/react/24/outline';
 import {
   useLinkProvider,
+  useNodeRenderers,
   useReferences,
   useUrlbase,
   useXRefState,
@@ -16,7 +17,7 @@ import {
 } from '@myst-theme/providers';
 import { useParse } from '.';
 import { InlineError } from './inlineError';
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
 import { ClickPopover } from './components/ClickPopover';
 import useSWR from 'swr';
 
@@ -81,7 +82,8 @@ export function ReferencedContent({
       el?.scrollIntoView({ behavior: 'smooth' });
     }, 10);
   };
-  const children = useParse({ type: 'block', children: nodes });
+  const renderers = useNodeRenderers();
+  const children = useParse({ type: 'block', children: nodes }, renderers);
   if (remote && !data) {
     return <>Loading...</>;
   }

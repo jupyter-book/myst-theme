@@ -3,7 +3,7 @@ import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import type { InlineMath, Math } from 'myst-spec';
 import { InlineError } from './inlineError';
 import { HashLink } from './heading';
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
 
 // function Math({ value, html }: { value: string; html: string }) {
 //   const [loaded, setLoaded] = useState(false);

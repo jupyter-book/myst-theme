@@ -7,7 +7,7 @@ import type { References } from 'myst-common';
 import type { DocxResult } from 'myst-to-docx';
 import { validatePageFrontmatter } from 'myst-frontmatter';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import type { NodeRenderer } from 'myst-to-react';
+import type { NodeRenderer } from '@myst-theme/providers';
 import { CopyIcon, CodeBlock, useParse } from 'myst-to-react';
 import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';

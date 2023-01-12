@@ -1,5 +1,5 @@
 import type { Image as ImageNodeSpec } from 'myst-spec';
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
 
 type Alignment = 'left' | 'center' | 'right';
 

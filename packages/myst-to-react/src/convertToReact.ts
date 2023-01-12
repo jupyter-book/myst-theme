@@ -1,7 +1,7 @@
 import type React from 'react';
 import { createElement as e } from 'react';
-import type { NodeRenderer } from './types';
-import type { GenericNode } from 'mystjs';
+import type { NodeRenderer } from '@myst-theme/providers';
+import type { GenericNode } from 'myst-common';
 
 export function toReact(
   fragment: GenericNode[],

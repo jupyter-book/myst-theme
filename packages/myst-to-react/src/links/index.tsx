@@ -5,7 +5,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useLinkProvider, useSiteManifest, useUrlbase, withUrlbase } from '@myst-theme/providers';
 import type { SiteManifest } from 'myst-config';
-import type { NodeRenderer } from '../types';
+import type { NodeRenderer } from '@myst-theme/providers';
 import { HoverPopover } from '../components/HoverPopover';
 import { LinkCard } from '../components/LinkCard';
 import { WikiLink } from './wiki';

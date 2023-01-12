@@ -8,10 +8,11 @@ export enum Theme {
 
 export type LinkProps = {
   to: string;
-  prefetch?: 'intent' | 'render' | 'none' | string;
+  prefetch?: 'intent' | 'render' | 'none';
   className?: string;
   children: React.ReactNode;
 };
+
 export type Link = (props: LinkProps) => JSX.Element;
 
 function HtmlLink({ to, className, children }: LinkProps) {
@@ -42,10 +43,12 @@ export function ThemeProvider({
   children,
   theme: startingTheme,
   renderers,
+  Link,
 }: {
   children: React.ReactNode;
   theme: Theme | null;
   renderers?: Record<string, NodeRenderer>;
+  Link?: Link;
 }) {
   const [theme, setTheme] = React.useState<Theme | null>(() => {
     if (startingTheme) {
@@ -72,7 +75,7 @@ export function ThemeProvider({
   );
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme: nextTheme, renderers }}>
+    <ThemeContext.Provider value={{ theme, setTheme: nextTheme, renderers, Link }}>
       {children}
     </ThemeContext.Provider>
   );

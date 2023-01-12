@@ -1,6 +1,6 @@
 import type * as spec from 'myst-spec';
 import { HashLink } from './heading';
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
 
 type TableExts = {
   rowspan?: number;

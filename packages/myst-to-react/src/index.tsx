@@ -1,4 +1,4 @@
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
 import type { GenericParent } from 'myst-common';
 import { mystToReact } from './convertToReact';
 import BASIC_RENDERERS from './basic';
@@ -19,7 +19,6 @@ import CROSS_REFERENCE_RENDERERS from './crossReference';
 import TAB_RENDERERS from './tabs';
 import EXT_RENDERERS from './extensions';
 
-export type { NodeRenderer } from './types';
 export { CopyIcon } from './components/CopyIcon';
 export { CodeBlock } from './code';
 export { Admonition, AdmonitionKind } from './admonitions';

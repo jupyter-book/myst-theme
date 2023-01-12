@@ -1,4 +1,4 @@
-import type { NodeRenderer } from '../types';
+import type { NodeRenderer } from '@myst-theme/providers';
 
 /**
  * Separate numbers and letters so that numbers can be <sub>2</sub>

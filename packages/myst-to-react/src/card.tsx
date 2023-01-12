@@ -1,5 +1,5 @@
 import React from 'react';
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { useLinkProvider, useUrlbase, withUrlbase } from '@myst-theme/providers';
 

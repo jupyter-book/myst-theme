@@ -1,8 +1,8 @@
 import { Heading } from 'myst-spec';
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
+import { useXRefState } from '@myst-theme/providers';
 import { createElement as e } from 'react';
 import classNames from 'classnames';
-import { useXRefState } from '@myst-theme/providers';
 
 function getHelpHashText(kind: string) {
   return `Link to this ${kind}`;

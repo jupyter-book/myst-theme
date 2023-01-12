@@ -10,6 +10,7 @@ import {
   ScrollRestoration,
   useCatch,
   useLoaderData,
+  Link as RemixLink,
 } from '@remix-run/react';
 import { ContentReload, renderers } from '../components';
 import { Analytics } from '../seo';
@@ -42,7 +43,7 @@ export function Document({
         />
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
-        <ThemeProvider theme={theme} renderers={renderers}>
+        <ThemeProvider theme={theme} renderers={renderers} Link={RemixLink as any}>
           <SiteProvider config={config}>{children}</SiteProvider>
         </ThemeProvider>
         <ScrollRestoration />

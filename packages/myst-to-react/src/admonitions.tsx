@@ -1,6 +1,6 @@
 import type * as spec from 'myst-spec';
 import React, { useState } from 'react';
-import type { NodeRenderer } from './types';
+import type { NodeRenderer } from '@myst-theme/providers';
 import {
   InformationCircleIcon,
   ExclamationCircleIcon as OExclamationIcon,

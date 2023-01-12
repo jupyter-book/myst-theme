@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.1.20
+
+### Patch Changes
+
+- Updates for repackaging for jupyterlab-myst
+- Updated dependencies
+  - @myst-theme/providers@0.1.20
+
 ## 0.1.19
 
 ### Patch Changes

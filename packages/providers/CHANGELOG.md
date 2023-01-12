@@ -1,5 +1,11 @@
 # @curvenote/ui-providers
 
+## 0.1.20
+
+### Patch Changes
+
+- Updates for repackaging for jupyterlab-myst
+
 ## 0.1.19
 
 ## 0.0.16

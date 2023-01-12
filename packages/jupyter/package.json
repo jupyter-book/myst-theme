@@ -1,7 +1,6 @@
 {
   "name": "@myst-theme/jupyter",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.1",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
@@ -24,7 +23,7 @@
     "@curvenote/blocks": "^1.5.17",
     "@curvenote/connect": "0.0.6",
     "@curvenote/nbtx": "^0.1.11",
-    "@myst-theme/providers": "^0.1.19",
+    "@myst-theme/providers": "^0.1.20",
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^2.0.12",
     "@popperjs/core": "^2.11.5",

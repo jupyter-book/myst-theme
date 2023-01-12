@@ -1,5 +1,15 @@
 # @curvenote/site
 
+## 0.0.18
+
+### Patch Changes
+
+- Updates for repackaging for jupyterlab-myst
+- Updated dependencies
+  - myst-to-react@0.1.20
+  - @myst-theme/frontmatter@0.1.20
+  - myst-demo@0.1.20
+
 ## 0.0.17
 
 ### Patch Changes

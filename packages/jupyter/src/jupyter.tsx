@@ -28,7 +28,7 @@ export const NativeJupyterOutputs = ({
 
   const uid = useMemo(nanoid, []);
 
-  const height = useSelector((state: State) => selectIFrameHeight(state, uid));
+  const { height } = useSelector((state: State) => selectIFrameHeight(state, uid)) ?? {};
   const rendererReady = useSelector((state: State) => selectIFrameReady(state, uid));
 
   const iframeRef = useRef<HTMLIFrameElement | null>(null);

@@ -100,12 +100,17 @@ function SingleLicenseBadge({
       title={`${preamble}${license.name ?? (license as any).title} (${license.id})`}
     >
       {!license.osi && (
-        <ScaleIcon className={classNames('h-5 w-5 mx-1 opacity-60 hover:opacity-100', className)} />
+        <ScaleIcon
+          className={classNames(
+            'h-5 w-5 mx-1 inline-block opacity-60 hover:opacity-100',
+            className,
+          )}
+        />
       )}
       {license.osi && (
         <OsiIcon
           className={classNames(
-            'h-5 w-5 mx-1 opacity-70 hover:opacity-100 grayscale hover:grayscale-0',
+            'h-5 w-5 mx-1 inline-block opacity-60 hover:opacity-100',
             className,
           )}
         />

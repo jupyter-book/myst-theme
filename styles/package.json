@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/executablebooks/myst-theme",
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.8",
-    "tailwindcss": "^3.2.1"
+    "@tailwindcss/typography": "^0.5.9",
+    "tailwindcss": "^3.2.4"
   }
 }

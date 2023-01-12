@@ -19,8 +19,8 @@
     "build": "npm-run-all -l clean -p build:cjs build:esm build:types"
   },
   "dependencies": {
-    "@headlessui/react": "^1.6.6",
-    "@heroicons/react": "^2.0.12",
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^2.0.13",
     "@scienceicons/react": "^0.0.1",
     "classnames": "^2.3.2",
     "myst-frontmatter": "*"

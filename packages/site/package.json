@@ -14,18 +14,18 @@
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
   "dependencies": {
-    "@curvenote/blocks": "^1.5.16",
+    "@curvenote/blocks": "^1.5.17",
     "@curvenote/connect": "0.0.6",
     "@curvenote/icons": "^0.0.3",
     "@curvenote/nbtx": "^0.1.11",
     "@curvenote/runtime": "^0.2.9",
     "@curvenote/ui-providers": "^0.0.16",
-    "@headlessui/react": "^1.6.6",
-    "@heroicons/react": "^2.0.12",
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^2.0.13",
     "@myst-theme/frontmatter": "^0.1.20",
     "classnames": "^2.3.2",
     "lodash.throttle": "^4.1.1",
-    "myst-common": "^0.0.11",
+    "myst-common": "^0.0.12",
     "myst-config": "^0.0.6",
     "myst-demo": "^0.1.20",
     "myst-to-react": "^0.1.20",
@@ -35,8 +35,8 @@
     "unist-util-select": "^4.0.1"
   },
   "peerDependencies": {
-    "@remix-run/node": "^1.7.5",
-    "@remix-run/react": "^1.7.5",
+    "@remix-run/node": "^1.10.0",
+    "@remix-run/react": "^1.10.0",
     "@types/react": "^16.8 || ^17.0 || ^18.0",
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "react": "^16.8 || ^17.0 || ^18.0",

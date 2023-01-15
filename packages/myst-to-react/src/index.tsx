@@ -22,6 +22,7 @@ import EXT_RENDERERS from './extensions';
 export { CopyIcon } from './components/CopyIcon';
 export { CodeBlock } from './code';
 export { Admonition, AdmonitionKind } from './admonitions';
+export { TabSet, TabItem } from './tabs';
 
 export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...BASIC_RENDERERS,

@@ -1,57 +1,103 @@
-import { useIsTabOpen, useTabSet } from '@myst-theme/providers';
 import classNames from 'classnames';
 import type { GenericNode } from 'myst-common';
-import { useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { selectAll } from 'unist-util-select';
 import type { NodeRenderer } from '@myst-theme/providers';
+import { useTabSet } from '@myst-theme/providers';
 
 interface TabItem extends GenericNode {
   key: string;
   title: string;
   sync?: string;
+  selected?: boolean;
+}
+
+const TabSetContext = createContext<string | undefined>(undefined);
+
+// Create a provider for components to consume and subscribe to changes
+function TabSetStateProvider({ active, children }: { active: string; children: React.ReactNode }) {
+  return <TabSetContext.Provider value={active}>{children}</TabSetContext.Provider>;
+}
+
+type Tab = { title: string | React.ReactNode; id: string; sync?: string; selected?: boolean };
+
+export function TabSet({ tabs, children }: { tabs: Tab[]; children: React.ReactNode }) {
+  const [lastClickedTab, onClickSyncedTab] = useTabSet() ?? [];
+  const [active, setActive] = useState<string>(tabs.find((t) => t.selected)?.id ?? tabs[0].id);
+  const onClick = (tab: Tab) => {
+    setActive(tab.id);
+    if (tab.sync) {
+      if (!onClickSyncedTab) {
+        console.error('TabStateProvider is not defined, synced tabs will not work.');
+      }
+      onClickSyncedTab?.(tab.sync);
+    }
+  };
+
+  useEffect(() => {
+    if (!lastClickedTab) return;
+    const tab = tabs.find((item) => item.sync === lastClickedTab);
+    if (!tab) return;
+    setActive(tab?.id);
+  }, [tabs, lastClickedTab, setActive]);
+
+  return (
+    <TabSetStateProvider active={active}>
+      <div>
+        <div className="flex flex-row border-b border-b-gray-100 overflow-x-auto">
+          {tabs.map((tab) => {
+            return (
+              <div
+                key={tab.id}
+                className={classNames('flex-none px-3 py-1 font-semibold cursor-pointer', {
+                  'text-blue-600 border-b-2 border-b-blue-600 dark:border-b-white dark:text-white':
+                    active === tab.id,
+                  'text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100':
+                    active !== tab.id,
+                })}
+                onClick={() => onClick(tab)}
+              >
+                {tab.title}
+              </div>
+            );
+          })}
+        </div>
+        <div className="shadow flex">
+          <div className="w-full px-6">{children}</div>
+        </div>
+      </div>
+    </TabSetStateProvider>
+  );
+}
+
+export function TabItem({
+  id,
+  children,
+}: Omit<Tab, 'title' | 'sync'> & { children: React.ReactNode }) {
+  const active = useContext(TabSetContext);
+  const open = active === id;
+  return <div className={classNames({ hidden: !open })}>{children}</div>;
 }
 
 export const TabSetRenderer: NodeRenderer = (node, children) => {
-  const items = selectAll('tabItem', node) as TabItem[];
-  const keys = items.map((item) => item.sync || item.key);
-  const { onClick, active } = useTabSet(keys);
-  useEffect(() => {
-    onClick(items[0]?.sync || items[0]?.key);
-  }, []);
+  // Add the key as the ID (key is special in react)
+  const tabs = (selectAll('tabItem', node) as TabItem[]).map((tab) => ({
+    title: tab.title,
+    id: tab.key,
+    sync: tab.sync,
+  }));
   return (
-    <div key={node.key} className="">
-      <div className="flex flex-row border-b border-b-gray-100 overflow-x-auto">
-        {items.map((item) => {
-          const key = item.sync || item.key;
-          return (
-            <div
-              key={item.key}
-              className={classNames('flex-none px-3 py-1 font-semibold cursor-pointer', {
-                'text-blue-600 border-b-2 border-b-blue-600 dark:border-b-white dark:text-white':
-                  active[key],
-                'text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100':
-                  !active[key],
-              })}
-              onClick={() => onClick(key)}
-            >
-              {item.title}
-            </div>
-          );
-        })}
-      </div>
-      <div className="shadow flex">
-        <div className="w-full px-6">{children}</div>
-      </div>
-    </div>
+    <TabSet key={node.key} tabs={tabs}>
+      {children}
+    </TabSet>
   );
 };
 
 export const TabItemRenderer: NodeRenderer<TabItem> = (node, children) => {
-  const open = useIsTabOpen(node.sync || node.key);
   return (
-    <div key={node.key} className={classNames({ hidden: !open })}>
+    <TabItem key={node.key} id={node.key}>
       {children}
-    </div>
+    </TabItem>
   );
 };
 

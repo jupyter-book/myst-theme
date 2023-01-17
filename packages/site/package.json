@@ -29,7 +29,7 @@
     "myst-demo": "^0.1.20",
     "myst-to-react": "^0.1.20",
     "mystjs": "^0.0.15",
-    "nbtx": "^0.2.2",
+    "nbtx": "^0.2.3",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.7",
     "unist-util-select": "^4.0.1"

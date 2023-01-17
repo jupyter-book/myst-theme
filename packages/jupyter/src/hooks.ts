@@ -5,8 +5,8 @@ import type {
   MinifiedMimePayload,
   MinifiedOutput,
   MinifiedStreamOutput,
-} from '@curvenote/nbtx/dist/minify/types';
-import { walkPaths } from '@curvenote/nbtx/dist/minify/utils';
+} from 'nbtx';
+import { walkOutputs } from 'nbtx';
 import { useState, useLayoutEffect } from 'react';
 
 /**
@@ -32,11 +32,29 @@ interface LongContent {
   content: string;
 }
 
-const fetcher = (...args: Parameters<typeof fetch>) =>
-  fetch(...args).then((res) => {
-    if (res.status === 200) return res.json();
-    throw new Error(`Content returned with status ${res.status}.`);
-  });
+async function fetcher(url: string) {
+  const resp = await fetch(url);
+  if (resp.status === 200) {
+    const content = await resp.text();
+    if (url.endsWith('.json')) {
+      // This is for backward compatibility, previously we saved as:
+      // { content: string, content_type: string }
+      // This is now directly saved as the content (e.g. an image, json, html, text, etc.)
+      try {
+        const data = JSON.parse(content);
+        const keys = Object.keys(data);
+        if (keys.length === 2 && keys.includes('content') && keys.includes('content_type')) {
+          return data;
+        }
+        // pass
+      } catch (error) {
+        // pass
+      }
+    }
+    return { content } as any;
+  }
+  throw new Error(`Content returned with status ${resp.status}.`);
+}
 
 export function useLongContent(
   content?: string,
@@ -72,16 +90,20 @@ function shallowCloneOutputs(outputs: MinifiedOutput[]) {
   });
 }
 
-export function useFetchAnyTruncatedContent(outputs: MinifiedOutput[]) {
+export function useFetchAnyTruncatedContent(outputs: MinifiedOutput[]): {
+  data: MinifiedOutput[] | undefined;
+  error: any | undefined;
+} {
   const itemsWithPaths: ObjectWithPath[] = [];
   const updated = shallowCloneOutputs(outputs);
 
-  walkPaths(updated, (path, obj) => {
+  walkOutputs(updated, (obj) => {
     // images have paths, but we don't need to fetch them
     if ('content_type' in obj && (obj as MinifiedMimePayload).content_type.startsWith('image/'))
       return;
-    obj.path = path;
-    itemsWithPaths.push(obj);
+    if (obj.path) {
+      itemsWithPaths.push(obj);
+    }
   });
 
   const { data, error } = useSWRImmutable<LongContent[]>(
@@ -91,9 +113,16 @@ export function useFetchAnyTruncatedContent(outputs: MinifiedOutput[]) {
 
   data?.forEach(({ content }, idx) => {
     const obj = itemsWithPaths[idx];
-    if ('text' in obj) obj.text = content; // stream
-    if ('traceback' in obj) obj.traceback = content; // error
-    if ('content' in obj) obj.content = content; // mimeoutput
+    if ('text' in obj) {
+      // stream
+      obj.text = content;
+    } else if ('traceback' in obj) {
+      // error
+      obj.traceback = content as any;
+    } else {
+      // mimeoutput
+      obj.content = content;
+    }
     obj.path = undefined;
   });
 

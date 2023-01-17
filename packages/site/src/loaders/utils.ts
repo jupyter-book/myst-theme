@@ -1,5 +1,5 @@
-import type { MinifiedOutput } from '@curvenote/nbtx';
-import { walkPaths } from '@curvenote/nbtx';
+import type { MinifiedOutput } from 'nbtx';
+import { walkOutputs } from 'nbtx';
 import type { SiteManifest } from 'myst-config';
 import { selectAll } from 'unist-util-select';
 import type { Image as ImageSpec, Link as LinkSpec } from 'myst-spec';
@@ -136,9 +136,11 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
   const outputs = selectAll('output', data.mdast) as Output[];
   outputs.forEach((node) => {
     if (!node.data) return;
-    walkPaths(node.data, (path, obj) => {
-      obj.path = updateUrl(path);
-      obj.content = updateUrl(obj.content as string);
+    walkOutputs(node.data, (obj) => {
+      // The path will be defined from output of myst-cli
+      // Here we are re-asigning it to the current domain
+      if (!obj.path) return;
+      obj.path = updateUrl(obj.path);
     });
   });
   return data;

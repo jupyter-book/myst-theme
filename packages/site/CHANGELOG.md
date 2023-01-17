@@ -33,7 +33,7 @@
 - Updated dependencies [59d1788]
 - Updated dependencies [4a8a317]
 - Updated dependencies [a19e590]
-  - @curvenote/ui-providers@0.0.16
+  - @myst-theme/providers@0.0.16
   - @curvenote/icons@0.0.3
   - myst-to-react@0.1.18
 
@@ -50,7 +50,7 @@
   - myst-to-react@0.1.16
   - @curvenote/blocks@1.5.15
   - @curvenote/site-common@0.0.15
-  - @curvenote/ui-providers@0.0.15
+  - @myst-theme/providers@0.0.15
 
 ## 0.0.14
 
@@ -62,7 +62,7 @@
   - @curvenote/icons@0.0.3
   - myst-to-react@0.1.15
   - @curvenote/site-common@0.0.14
-  - @curvenote/ui-providers@0.0.14
+  - @myst-theme/providers@0.0.14
 
 ## 0.0.13
 
@@ -76,7 +76,7 @@
 - Updated dependencies [edf10cd]
   - myst-to-react@0.1.14
   - @curvenote/site-common@0.0.13
-  - @curvenote/ui-providers@0.0.13
+  - @myst-theme/providers@0.0.13
 
 ## 0.0.12
 
@@ -87,7 +87,7 @@
 - Updated dependencies [b63638b]
 - Updated dependencies [b63638b]
   - myst-to-react@0.1.13
-  - @curvenote/ui-providers@0.0.12
+  - @myst-theme/providers@0.0.12
   - @curvenote/site-common@0.0.12
 
 ## 0.0.11
@@ -96,7 +96,7 @@
 
 - Updated dependencies [4b5a4c9]
   - @curvenote/site-common@0.0.11
-  - @curvenote/ui-providers@0.0.11
+  - @myst-theme/providers@0.0.11
 
 ## 0.0.10
 
@@ -108,7 +108,7 @@
   - @curvenote/blocks@1.5.14
   - myst-to-react@0.1.11
   - @curvenote/site-common@0.0.10
-  - @curvenote/ui-providers@0.0.10
+  - @myst-theme/providers@0.0.10
 
 ## 0.0.9
 
@@ -120,7 +120,7 @@
   - @curvenote/blocks@1.5.13
   - @curvenote/site-common@0.0.9
   - myst-to-react@0.1.10
-  - @curvenote/ui-providers@0.0.9
+  - @myst-theme/providers@0.0.9
 
 ## 0.0.8
 
@@ -130,7 +130,7 @@
 - Updated dependencies [3d68483]
   - myst-to-react@0.1.8
   - @curvenote/site-common@0.0.8
-  - @curvenote/ui-providers@0.0.8
+  - @myst-theme/providers@0.0.8
 
 ## 0.0.7
 
@@ -142,7 +142,7 @@
 - Updated dependencies [3f8249c]
 - Updated dependencies [bc337d0]
   - myst-to-react@0.1.6
-  - @curvenote/ui-providers@0.0.7
+  - @myst-theme/providers@0.0.7
   - @curvenote/site-common@0.0.7
 
 ## 0.0.6
@@ -151,7 +151,7 @@
 
 - a41df47: Update table of contents to allow not setting a urlbase
   - @curvenote/site-common@0.0.6
-  - @curvenote/ui-providers@0.0.6
+  - @myst-theme/providers@0.0.6
 
 ## 0.0.5
 
@@ -164,7 +164,7 @@
   - @curvenote/icons@0.0.2
   - myst-to-react@0.1.5
   - @curvenote/site-common@0.0.5
-  - @curvenote/ui-providers@0.0.5
+  - @myst-theme/providers@0.0.5
 
 ## 0.0.4
 
@@ -172,7 +172,7 @@
 
 - 7da0e71: Add options of `excludeIndex` and `explicitIndex` to `getSiteSlugs`
   - @curvenote/site-common@0.0.4
-  - @curvenote/ui-providers@0.0.4
+  - @myst-theme/providers@0.0.4
 
 ## 0.0.3
 
@@ -185,7 +185,7 @@
 - Updated dependencies [3fe3e21]
   - @curvenote/site-common@0.0.3
   - myst-to-react@0.1.4
-  - @curvenote/ui-providers@0.0.3
+  - @myst-theme/providers@0.0.3
 
 ## 0.0.2
 
@@ -194,4 +194,4 @@
 - Updated dependencies [45e7cb6]
   - myst-to-react@0.1.2
   - @curvenote/site-common@0.0.2
-  - @curvenote/ui-providers@0.0.2
+  - @myst-theme/providers@0.0.2

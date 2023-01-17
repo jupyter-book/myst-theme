@@ -1,9 +1,5 @@
-import { KnownCellOutputMimeTypes } from '@curvenote/blocks/dist/blocks/types/jupyter';
-import type {
-  MinifiedMimeBundle,
-  MinifiedMimePayload,
-  MinifiedOutput,
-} from '@curvenote/nbtx/dist/minify/types';
+import { KnownCellOutputMimeTypes } from 'nbtx';
+import type { MinifiedMimeBundle, MinifiedMimePayload, MinifiedOutput } from 'nbtx';
 import Stream from './stream';
 import Error from './error';
 import Ansi from 'ansi-to-react';

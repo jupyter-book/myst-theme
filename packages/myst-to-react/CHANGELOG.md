@@ -25,7 +25,7 @@
 - a19e590: Move Bibliography to @curvenote/site
 - Updated dependencies [a19e590]
 - Updated dependencies [4a8a317]
-  - @curvenote/ui-providers@0.0.16
+  - @myst-theme/providers@0.0.16
 
 ## 0.1.17
 
@@ -52,7 +52,7 @@
   - myst-to-docx@0.0.2
   - myst-transforms@0.0.6
   - @curvenote/blocks@1.5.15
-  - @curvenote/ui-providers@0.0.15
+  - @myst-theme/providers@0.0.15
 
 ## 0.1.15
 
@@ -63,7 +63,7 @@
   - @curvenote/blocks@1.5.15
   - myst-to-tex@0.0.4
   - myst-transforms@0.0.5
-  - @curvenote/ui-providers@0.0.14
+  - @myst-theme/providers@0.0.14
 
 ## 0.1.14
 
@@ -85,7 +85,7 @@
 - Updated dependencies [5460169]
   - myst-transforms@0.0.4
   - myst-to-tex@0.0.3
-  - @curvenote/ui-providers@0.0.13
+  - @myst-theme/providers@0.0.13
 
 ## 0.1.13
 
@@ -101,7 +101,7 @@
 - Updated dependencies [b63638b]
   - myst-transforms@0.0.3
   - myst-to-tex@0.0.2
-  - @curvenote/ui-providers@0.0.12
+  - @myst-theme/providers@0.0.12
 
 ## 0.1.12
 
@@ -125,7 +125,7 @@
 - Updated dependencies [58adf87]
 - Updated dependencies [9ae455e]
   - @curvenote/blocks@1.5.14
-  - @curvenote/ui-providers@0.0.10
+  - @myst-theme/providers@0.0.10
 
 ## 0.1.10
 
@@ -134,7 +134,7 @@
 - b1efcf6: Export MySTRenderer as React Component
 - Updated dependencies [e29e889]
   - @curvenote/blocks@1.5.13
-  - @curvenote/ui-providers@0.0.9
+  - @myst-theme/providers@0.0.9
 
 ## 0.1.9
 
@@ -147,7 +147,7 @@
 ### Patch Changes
 
 - 3d68483: Update to mystjs 0.0.13
-  - @curvenote/ui-providers@0.0.8
+  - @myst-theme/providers@0.0.8
 
 ## 0.1.7
 
@@ -164,7 +164,7 @@
 - 3f8249c: Node `abbr` is actually `abbreviation`, this was updated
 - bc337d0: Added a MyST Demo Component
 - Updated dependencies [01f73de]
-  - @curvenote/ui-providers@0.0.7
+  - @myst-theme/providers@0.0.7
 
 ## 0.1.5
 
@@ -174,14 +174,14 @@
 - Updated dependencies [0a1509c]
 - Updated dependencies [1b23694]
   - @curvenote/blocks@1.5.9
-  - @curvenote/ui-providers@0.0.5
+  - @myst-theme/providers@0.0.5
 
 ## 0.1.4
 
 ### Patch Changes
 
 - 3fe3e21: 👓 Improve contrast on blue text
-  - @curvenote/ui-providers@0.0.3
+  - @myst-theme/providers@0.0.3
 
 ## 0.1.3
 
@@ -194,4 +194,4 @@
 ### Patch Changes
 
 - 45e7cb6: Introduce `thumbnailOptimized` using webp and create images that have a srcset in the web output.
-  - @curvenote/ui-providers@0.0.2
+  - @myst-theme/providers@0.0.2

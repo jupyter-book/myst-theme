@@ -1,6 +1,6 @@
 import Ansi from 'ansi-to-react';
-import { ensureString } from '@curvenote/blocks';
-import type { MinifiedStreamOutput } from '@curvenote/nbtx';
+import { ensureString } from 'nbtx';
+import type { MinifiedStreamOutput } from 'nbtx';
 import { MaybeLongContent } from './components';
 
 export default function Stream({ output }: { output: MinifiedStreamOutput }) {

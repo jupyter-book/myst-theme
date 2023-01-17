@@ -1,4 +1,4 @@
-# @curvenote/ui-providers
+# @myst-theme/providers
 
 ## 0.1.20
 

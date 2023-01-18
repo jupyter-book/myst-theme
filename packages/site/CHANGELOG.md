@@ -1,5 +1,15 @@
 # @curvenote/site
 
+## 0.0.19
+
+### Patch Changes
+
+- 5ccf410: Update @curvenote/connect to 0.0.7
+- 5ccf410: Move to nbtx, remove @curvenote/blocks
+- Updated dependencies [5ccf410]
+- Updated dependencies [5ccf410]
+  - @myst-theme/jupyter@0.0.2
+
 ## 0.0.18
 
 ### Patch Changes

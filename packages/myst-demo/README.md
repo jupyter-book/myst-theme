@@ -5,7 +5,11 @@
 
 A demo component for MyST Markdown, for example, [in the sanbox](https://myst.tools/sandbox).
 
-![](/images/sandbox.png)
+[![](/images/myst-demo.png)](https://myst.tools/sandbox)
+
+## Usage
+
+The `<MySTRenderer>` is a React component that can take a string `value` that is the markdown that you want to render. It can work in two-column mode or in a column. The component shows the preview, the abstract syntax tree (AST), HTML, LaTeX, JATS and can download a Word Document all in the browser!!
 
 ```jsx
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
@@ -16,18 +20,11 @@ function MySTSandbox({ value }: { value: string }) {
   return (
     <TabStateProvider>
       <UiStateProvider>
-        <main ref={ref} className="article p-0">
-          <MySTRenderer
-            value={value}
-            column
-            fullscreen
-            captureTab
-            className="h-[calc(100vh-60px)]"
-            TitleBlock={FrontmatterBlock}
-          />
-        </main>
+        <MySTRenderer value={value} column fullscreen TitleBlock={FrontmatterBlock} />
       </UiStateProvider>
     </TabStateProvider>
   );
 }
 ```
+
+For full functionality between components, you can wrap the component with various providers from `@myst-theme/providers`. These provide user interface state, such as synced tabs, dark-mode, etc.

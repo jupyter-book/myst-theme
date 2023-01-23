@@ -82,11 +82,11 @@ const Headings = ({ folder, headings, sections }: Props) => {
                   path={heading.path}
                   isIndex={heading.level === 'index'}
                 >
-                  {heading.title}
+                  {heading.short_title || heading.title}
                 </HeadingLink>
               ) : (
                 <h5 className="text-slate-900 font-semibold my-2 text-md leading-6 dark:text-slate-100 break-words">
-                  {heading.title}
+                  {heading.short_title || heading.title}
                 </h5>
               )}
             </li>
@@ -94,7 +94,7 @@ const Headings = ({ folder, headings, sections }: Props) => {
         }
         return (
           <li key={sec.slug} className={classNames('p-1 my-2 lg:hidden', HEADING_CLASSES)}>
-            <HeadingLink path={`/${sec.slug}`}>{sec.title}</HeadingLink>
+            <HeadingLink path={`/${sec.slug}`}>{sec.short_title || sec.title}</HeadingLink>
           </li>
         );
       })}

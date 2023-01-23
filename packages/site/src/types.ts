@@ -13,6 +13,7 @@ export type Heading = {
   slug?: string;
   path?: string;
   title: string;
+  short_title?: string;
   level: number | 'index';
   group?: string;
 };

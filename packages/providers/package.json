@@ -18,8 +18,8 @@
   },
   "dependencies": {
     "myst-common": "^0.0.12",
-    "myst-config": "^0.0.6",
-    "myst-frontmatter": "^0.0.5"
+    "myst-config": "^0.0.7",
+    "myst-frontmatter": "^0.0.6"
   },
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",

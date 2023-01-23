@@ -28,7 +28,7 @@
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
     "myst-common": "^0.0.12",
-    "myst-config": "^0.0.6",
+    "myst-config": "^0.0.7",
     "myst-spec": "^0.0.4",
     "nanoid": "^4.0.0",
     "nbtx": "^0.2.3",

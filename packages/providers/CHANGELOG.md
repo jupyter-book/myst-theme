@@ -1,5 +1,11 @@
 # @myst-theme/providers
 
+## 0.1.21
+
+### Patch Changes
+
+- 90ffec2: Updates to myst dependencies
+
 ## 0.1.20
 
 ### Patch Changes

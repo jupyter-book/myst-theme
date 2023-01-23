@@ -1,5 +1,20 @@
 # @curvenote/site
 
+## 0.0.20
+
+### Patch Changes
+
+- 90ffec2: Allow for the short_title to be shown in the navigation
+- 90ffec2: Updates to myst dependencies
+- Updated dependencies [7aae603]
+- Updated dependencies [90ffec2]
+  - myst-demo@0.1.21
+  - myst-to-react@0.1.21
+  - @myst-theme/providers@0.1.21
+  - @myst-theme/jupyter@0.0.3
+  - @myst-theme/diagrams@0.1.2
+  - @myst-theme/frontmatter@0.1.21
+
 ## 0.0.19
 
 ### Patch Changes

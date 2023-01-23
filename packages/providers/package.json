@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/providers",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "main": "dist/cjs/index.js",
   "types": "dist/types/index.d.ts",
   "files": [

@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.0.3
+
+### Patch Changes
+
+- 90ffec2: Updates to myst dependencies
+- Updated dependencies [90ffec2]
+  - @myst-theme/providers@0.1.21
+
 ## 0.0.2
 
 ### Patch Changes

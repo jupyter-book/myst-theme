@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 0.1.22
+
+### Patch Changes
+
+- b314737: Remove redux
+  - @myst-theme/providers@0.1.22
+
 ## 0.1.21
 
 ### Patch Changes

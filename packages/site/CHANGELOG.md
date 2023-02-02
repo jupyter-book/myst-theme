@@ -1,5 +1,19 @@
 # @curvenote/site
 
+## 0.1.22
+
+### Patch Changes
+
+- b314737: Remove specific curvenote redux handlers
+- Updated dependencies [b314737]
+- Updated dependencies [b314737]
+  - @myst-theme/jupyter@0.1.22
+  - myst-to-react@0.1.22
+  - @myst-theme/providers@0.1.22
+  - @myst-theme/frontmatter@0.1.22
+  - @myst-theme/diagrams@0.1.22
+  - myst-demo@0.1.22
+
 ## 0.0.20
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @myst-theme/jupyter
 
+## 0.1.22
+
+### Patch Changes
+
+- b314737: Introduce thebe-core!
+  - @myst-theme/providers@0.1.22
+
 ## 0.0.3
 
 ### Patch Changes

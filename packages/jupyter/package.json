@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/jupyter",
-  "version": "0.0.3",
+  "version": "0.1.22",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
@@ -21,7 +21,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
-    "@myst-theme/providers": "^0.1.21",
+    "@myst-theme/providers": "^0.1.22",
     "@popperjs/core": "^2.11.6",
     "ansi-to-react": "^6.1.6",
     "buffer": "^6.0.3",

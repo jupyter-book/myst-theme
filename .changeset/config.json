@@ -2,7 +2,17 @@
   "$schema": "https://unpkg.com/@changesets/config@2.0.1/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [["@myst-theme/frontmatter", "@myst-theme/providers", "myst-to-react", "myst-demo"]],
+  "fixed": [
+    [
+      "@myst-theme/providers",
+      "@myst-theme/frontmatter",
+      "@myst-theme/diagrams",
+      "@myst-theme/jupyter",
+      "@myst-theme/site",
+      "myst-to-react",
+      "myst-demo"
+    ]
+  ],
   "linked": [],
   "access": "public",
   "baseBranch": "main",

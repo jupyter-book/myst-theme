@@ -1,5 +1,5 @@
 import type * as spec from 'myst-spec';
-import React, { useState } from 'react';
+import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import {
   InformationCircleIcon,
@@ -89,7 +89,7 @@ function getFirstKind({
   return { kind: AdmonitionKind.note, color: 'blue' };
 }
 
-const iconClass = 'h-8 w-8 inline-block pl-2 mr-2 -translate-y-[1px]';
+const iconClass = 'h-8 w-8 inline-block pl-2 mr-2 self-center flex-none';
 
 function AdmonitionIcon({ kind }: { kind: AdmonitionKind }) {
   if (kind === AdmonitionKind.note) return <InformationCircleIcon className={iconClass} />;
@@ -109,6 +109,32 @@ export const AdmonitionTitle: NodeRenderer<spec.AdmonitionTitle> = (node, childr
   return children;
 };
 
+const WrapperElement = ({
+  dropdown,
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+  dropdown?: boolean;
+}) => {
+  if (dropdown) return <details className={className}>{children}</details>;
+  return <aside className={className}>{children}</aside>;
+};
+
+const HeaderElement = ({
+  dropdown,
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+  dropdown?: boolean;
+}) => {
+  if (dropdown) return <summary className={className}>{children}</summary>;
+  return <div className={className}>{children}</div>;
+};
+
 export function Admonition({
   title,
   kind,
@@ -122,12 +148,13 @@ export function Admonition({
   children: React.ReactNode;
   dropdown?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
-
   return (
-    <aside
+    <WrapperElement
+      dropdown={dropdown}
       className={classNames(
         'admonition rounded-md my-4 border-l-4 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
+        'bg-gray-50 dark:bg-stone-800',
+        'overflow-hidden',
         {
           'border-blue-500': !color || color === 'blue',
           'border-green-600': color === 'green',
@@ -137,8 +164,9 @@ export function Admonition({
       )}
     >
       {title && (
-        <p
-          className={classNames('admonition-header m-0 text-lg font-medium py-1', {
+        <HeaderElement
+          dropdown={dropdown}
+          className={classNames('admonition-header m-0 text-lg font-medium py-1 flex min-w-0', {
             'text-blue-600 bg-blue-50 dark:bg-slate-900': !color || color === 'blue',
             'text-green-600 bg-green-50 dark:bg-slate-900': color === 'green',
             'text-amber-600 bg-amber-50 dark:bg-slate-900': color === 'yellow',
@@ -146,28 +174,22 @@ export function Admonition({
             'cursor-pointer hover:shadow-[inset_0_0_0px_20px_#00000003] dark:hover:shadow-[inset_0_0_0px_20px_#FFFFFF03]':
               dropdown,
           })}
-          onClick={dropdown ? () => setOpen(!open) : undefined}
         >
           <AdmonitionIcon kind={kind ?? AdmonitionKind.note} />
-          <span className="text-neutral-900 dark:text-white">
-            {dropdown && (
-              <span className="block float-right font-thin text-sm text-neutral-700 dark:text-neutral-200">
-                {!open && 'Click to show'}
-                <ChevronRightIcon
-                  className={classNames(iconClass, 'transition-transform', {
-                    'rotate-90 -translate-y-[5px]': open,
-                  })}
-                />
-              </span>
-            )}
+          <div className="text-neutral-900 dark:text-white grow self-center overflow-hidden break-words">
             {title}
-          </span>
-        </p>
+          </div>
+          {dropdown && (
+            <div className="font-thin text-sm text-neutral-700 dark:text-neutral-200 self-center flex-none">
+              <ChevronRightIcon
+                className={classNames(iconClass, 'transition-transform details-toggle')}
+              />
+            </div>
+          )}
+        </HeaderElement>
       )}
-      {(!dropdown || open) && (
-        <div className="px-4 py-1 bg-gray-50 dark:bg-stone-800">{children}</div>
-      )}
-    </aside>
+      <div className="px-4 py-1 details-body">{children}</div>
+    </WrapperElement>
   );
 }
 

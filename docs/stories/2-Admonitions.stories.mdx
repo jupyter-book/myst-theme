@@ -1,0 +1,211 @@
+import { Meta, Preview, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import { FrontmatterBlock } from '@myst-theme/frontmatter';
+import { Admonition, AdmonitionKind } from 'myst-to-react';
+
+<Meta title="Components/Admonitions" component={Admonition} />
+
+export const Template = (args) => (
+  <article className="prose m-auto mt-6 max-w-[80ch]">
+    <Admonition {...args}>This is an admonition!</Admonition>
+  </article>
+);
+
+<div className="prose max-w-none">
+  <FrontmatterBlock
+    frontmatter={{
+      subject: '@myst-theme',
+      venue: { title: 'Executable Books' },
+      title: 'Admonitions',
+      github: 'https://github.com/executablebooks/myst-theme',
+    }}
+  />
+</div>
+
+In MyST Markdown an admonition is created using:
+
+```markdown
+:::{admonition} Admonition Title
+:class: dropdown
+
+Admonitions content
+:::
+```
+
+An admonition is a styled element that creates a callout as an `aside` html element.
+It the admonition has a class of "dropdown", then the element is turned into a styled details/summary html element.
+This allows the element to work without javascript.
+
+<Canvas withToolbar>
+  <Story
+    inline
+    name="Simple Admonition"
+    args={{
+      title: 'Simple Admonition',
+      kind: AdmonitionKind.note,
+      color: 'blue',
+      dropdown: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Simple Admonition" />
+
+You can make the dropdown start by being open with `<Details title="Title" open>{children}</Details>`:
+
+## Named admonitions
+
+In MyST Markdown there are ten types of named admonitions:
+
+- `note`
+- `important`
+- `hint`
+- `seealso`
+- `tip`
+- `attention`
+- `caution`
+- `warning`
+- `danger`
+- `error`
+
+They are directives that can be created as:
+
+```markdown
+:::{note}
+
+# Admonition Title
+
+Admonitions content
+:::
+```
+
+<Story
+  inline
+  name="Note"
+  args={{
+    title: 'Note',
+    kind: AdmonitionKind.note,
+    color: 'blue',
+    dropdown: false,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+<Story
+  inline
+  name="Warning"
+  args={{
+    title: 'Warning',
+    kind: AdmonitionKind.warning,
+    color: 'yellow',
+    dropdown: false,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+<Story
+  inline
+  name="Attention"
+  args={{
+    title: 'Attention',
+    kind: AdmonitionKind.attention,
+    color: 'yellow',
+    dropdown: false,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+<Story
+  inline
+  name="Caution"
+  args={{
+    title: 'Caution',
+    kind: AdmonitionKind.caution,
+    color: 'yellow',
+    dropdown: false,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+<Story
+  inline
+  name="Danger"
+  args={{
+    title: 'Danger',
+    kind: AdmonitionKind.danger,
+    color: 'red',
+    dropdown: false,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+<Story
+  inline
+  name="Error"
+  args={{
+    title: 'Error',
+    kind: AdmonitionKind.error,
+    color: 'red',
+    dropdown: false,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+<Story
+  inline
+  name="Important"
+  args={{
+    title: 'Important',
+    kind: AdmonitionKind.important,
+    color: 'blue',
+    dropdown: false,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+<Story
+  inline
+  name="Hint"
+  args={{
+    title: 'Hint',
+    kind: AdmonitionKind.hint,
+    color: 'blue',
+    dropdown: false,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+<Story
+  inline
+  name="SeeAlso"
+  args={{
+    title: 'See Also',
+    kind: AdmonitionKind.seealso,
+    color: 'green',
+    dropdown: false,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+<Story
+  inline
+  name="Tip"
+  args={{
+    title: 'Tip',
+    kind: AdmonitionKind.tip,
+    color: 'green',
+    dropdown: false,
+  }}
+>
+  {Template.bind({})}
+</Story>

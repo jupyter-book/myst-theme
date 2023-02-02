@@ -1,0 +1,85 @@
+import { Meta, Preview, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import { FrontmatterBlock } from '@myst-theme/frontmatter';
+import { Details } from 'myst-to-react';
+
+<Meta title="Components/Dropdown" component={Details} />
+
+export const Template = (args) => (
+  <article className="prose m-auto mt-6 max-w-[80ch]">
+    <Details {...args}>This is a dropdown element!</Details>
+  </article>
+);
+
+<div className="prose max-w-none">
+  <FrontmatterBlock
+    frontmatter={{
+      subject: '@myst-theme',
+      venue: { title: 'Executable Books' },
+      title: 'Dropdowns',
+      github: 'https://github.com/executablebooks/myst-theme',
+    }}
+  />
+</div>
+
+In MyST Markdown a dropdown is created using:
+
+```markdown
+:::{dropdown} Dropdown Title
+:open:
+
+Dropdown content
+:::
+```
+
+A dropdown is a simple unstyled element that creates a details/summary html element.
+
+<Canvas withToolbar>
+  <Story
+    inline
+    name="Simple Dropdown"
+    args={{
+      title: 'Simple Dropdown',
+      open: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="Simple Dropdown" />
+
+You can make the dropdown start by being open with `<Details title="Title" open>{children}</Details>`:
+
+<Story
+  name="Open Dropdown"
+  args={{
+    title: 'Open Dropdown',
+    open: true,
+  }}
+>
+  {Template.bind({})}
+</Story>
+
+## Style
+
+Both admonitions and dropdowns can make use of two CSS classes `.details-toggle` and `.details-body`,
+which are used to rotate an icon as well as provide a CSS-only animation on opening and closing the dropdown or admonition.
+
+```css
+/* Allow the bottom margin to animate */
+details > summary {
+  transition: margin 150ms ease-out;
+}
+/* Fake the expand animation using the bottom margin, content disapears but seems like it expands */
+details[open] summary {
+  margin-bottom: 10px;
+}
+/* But keep the placement */
+details[open] .details-body {
+  margin-top: -10px;
+}
+/* Rotate the details arrow icon when the details panel is open */
+details[open] > summary .details-toggle {
+  transform: rotate(90deg) translateX(-5px) translateY(-5px);
+}
+```

@@ -1,16 +1,26 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import useWindowSize, { useFetchAnyTruncatedContent } from './hooks';
-import { nanoid } from 'nanoid';
-import { useSelector } from 'react-redux';
-import { host, actions } from '@curvenote/connect';
+import React, { useEffect, useRef, useState } from 'react';
+import type { IOutput } from '@jupyterlab/nbformat';
+import { useFetchAnyTruncatedContent } from './hooks';
 import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
-import { ChevronDoubleDownIcon } from '@heroicons/react/24/outline';
 import { fetchAndEncodeOutputImages } from './convertImages';
-import type { State } from './selectors';
-import { selectIFrameHeight, selectIFrameReady } from './selectors';
+import type { ThebeCore } from './thebe-provider';
+import { useThebeCore } from './thebe-provider';
 
-const PERCENT_OF_WINDOW = 0.9;
+function OutputRenderer({ id, data, core }: { id: string; data: IOutput[]; core: ThebeCore }) {
+  const [cell] = useState(new core.PassiveCellRenderer(id));
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    cell.render(data);
+  }, [data, cell]);
+  useEffect(() => {
+    if (!ref.current) return;
+    cell.attachToDOM(ref.current);
+  }, [ref]);
+  return <div ref={ref} />;
+}
+
+const MemoOutputRenderer = React.memo(OutputRenderer);
 
 export const NativeJupyterOutputs = ({
   id,
@@ -19,40 +29,19 @@ export const NativeJupyterOutputs = ({
   id: string;
   outputs: MinifiedOutput[];
 }) => {
-  const windowSize = useWindowSize();
-
+  const { core } = useThebeCore();
   const { data, error } = useFetchAnyTruncatedContent(outputs);
-
-  const [loading, setLoading] = useState(true);
-  const [frameHeight, setFrameHeight] = useState(0);
-  const [clamped, setClamped] = useState(false);
-
-  const uid = useMemo(nanoid, []);
-
-  const { height } = useSelector((state: State) => selectIFrameHeight(state, uid)) ?? {};
-  const rendererReady = useSelector((state: State) => selectIFrameReady(state, uid));
-
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  const [fullOutputs, setFullOutputs] = useState<IOutput[] | null>(null);
 
   useEffect(() => {
-    if (iframeRef.current == null || !rendererReady || !data) return;
+    if (!data || loaded) return;
+    setLoaded(true);
     fetchAndEncodeOutputImages(data).then((out) => {
       const compactOutputs = convertToIOutputs(out, {});
-      host.commsDispatch(iframeRef.current, actions.connectHostSendContent(uid, compactOutputs));
+      setFullOutputs(compactOutputs);
     });
-  }, [id, iframeRef.current, rendererReady]);
-
-  useEffect(() => {
-    if (height == null) return;
-    if (height > PERCENT_OF_WINDOW * windowSize.height) {
-      setFrameHeight(PERCENT_OF_WINDOW * windowSize.height);
-      setClamped(true);
-    } else {
-      setFrameHeight(height + 25);
-      setClamped(false);
-    }
-    setLoading(false);
-  }, [height]);
+  }, [id, data]);
 
   if (error) {
     return <div className="text-red-500">Error rendering output: {error.message}</div>;
@@ -60,29 +49,8 @@ export const NativeJupyterOutputs = ({
 
   return (
     <div>
-      {loading && <div className="p-2.5">Loading...</div>}
-      <iframe
-        ref={iframeRef}
-        id={uid}
-        name={uid}
-        title={uid}
-        src="https://next.curvenote.run"
-        width={'100%'}
-        height={frameHeight}
-        sandbox="allow-scripts"
-      ></iframe>
-      {clamped && (
-        <div
-          className="cursor-pointer p-1 pb-2 hover:bg-gray-50 dark:hover:bg-gray-700 text-center text-gray-500 hover:text-gray-600 dark:text-gray-200 dark:hover:text-gray-50"
-          title="Expand"
-          onClick={() => {
-            setFrameHeight(height ?? 0);
-            setClamped(false);
-          }}
-        >
-          <ChevronDoubleDownIcon className="w-5 h-5 inline"></ChevronDoubleDownIcon>
-        </div>
-      )}
+      {!fullOutputs && <div className="p-2.5">Loading...</div>}
+      {fullOutputs && core && <MemoOutputRenderer id={id} core={core} data={fullOutputs} />}
     </div>
   );
 };

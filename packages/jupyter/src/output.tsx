@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { SafeOutputs } from './safe';
 import { NativeJupyterOutputs as JupyterOutputs } from './jupyter';
 import ClientOnly from './ClientOnly';
+import { ThebeCoreProvider } from './thebe-provider';
 
 const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -44,7 +45,9 @@ export function Output(node: GenericNode) {
     // Hide the iframe if rendering on the server
     component = (
       <ClientOnly>
-        <JupyterOutputs id={node.key} outputs={outputs} />
+        <ThebeCoreProvider>
+          <JupyterOutputs id={node.key} outputs={outputs} />
+        </ThebeCoreProvider>
       </ClientOnly>
     );
   }

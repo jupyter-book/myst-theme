@@ -19,7 +19,6 @@
     "build": "npm-run-all -l clean -p build:cjs build:esm build:types"
   },
   "dependencies": {
-    "@curvenote/connect": "^0.0.7",
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
     "@myst-theme/providers": "^0.1.21",
@@ -35,6 +34,7 @@
     "react-popper": "^2.3.0",
     "react-syntax-highlighter": "^15.5.0",
     "swr": "^1.3.0",
+    "thebe-core": "^0.1.1",
     "unist-util-select": "^4.0.1"
   },
   "peerDependencies": {

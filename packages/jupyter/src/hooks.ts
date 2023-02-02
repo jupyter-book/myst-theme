@@ -9,24 +9,6 @@ import type {
 import { walkOutputs } from 'nbtx';
 import { useState, useLayoutEffect } from 'react';
 
-/**
- * Truncation vs Summarization
- *
- * In Curvespace, we're decided to change our data structure for outputs to align it as
- * closely as possible with Jupyters nbformat.IOutput[] type, but in a way that still allows
- * us to truncate output content and push that to storage.
- *
- * This will be used only in the CLI and Curvespace initially but should be ported back to
- * the rest of the code base. This will mean
- *
- * - changing the DB schema
- * - migration
- * - changing API response
- * - changing the frontend
- * - changing the extension
- *
- */
-
 interface LongContent {
   content_type?: string;
   content: string;

@@ -34,7 +34,7 @@ export function CreativeCommonsBadge({
   const kind = match[1].toUpperCase();
   return (
     <a
-      className={classNames('opacity-50 hover:opacity-100 dark:invert', className)}
+      className={classNames('opacity-50 hover:opacity-100', className)}
       href={license.url}
       target="_blank"
       rel="noopener noreferrer"

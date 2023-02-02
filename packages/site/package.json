@@ -14,7 +14,6 @@
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
   "dependencies": {
-    "@curvenote/icons": "^0.0.3",
     "@headlessui/react": "^1.7.8",
     "@heroicons/react": "^2.0.14",
     "@myst-theme/diagrams": "^0.1.22",

@@ -10,7 +10,6 @@ import {
 import type { SiteManifest, SiteNavItem } from 'myst-config';
 import { ThemeButton } from './ThemeButton';
 import { useNavOpen, useSiteManifest } from '@myst-theme/providers';
-import { CurvenoteLogo } from '@curvenote/icons';
 import { LoadingBar } from './Loading';
 
 export const DEFAULT_NAV_HEIGHT = 60;
@@ -190,13 +189,12 @@ function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; 
       prefetch="intent"
     >
       {logo && <img src={logo} className="h-9 mr-3" alt={logoText || name} height="2.25rem"></img>}
-      {nothingSet && <CurvenoteLogo className="mr-3" fill="#FFF" size={30} />}
       <span
         className={classNames('text-md sm:text-xl tracking-tight sm:mr-5', {
           'sr-only': !(logoText || nothingSet),
         })}
       >
-        {logoText || 'Curvenote'}
+        {logoText || 'Made with MyST'}
       </span>
     </Link>
   );

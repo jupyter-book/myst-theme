@@ -1,6 +1,6 @@
 {
-  "name": "@curvenote/icons",
-  "version": "0.0.3",
+  "name": "@myst-theme/icons",
+  "version": "0.1.0",
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -19,10 +19,7 @@
     "build:types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist/types",
     "build": "npm-run-all -l clean -p build:cjs build:esm build:types"
   },
-  "dependencies": {
-    "@heroicons/react": "^2.0.13",
-    "classnames": "^2.3.2"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0",

@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import { NavLink, useParams, useLocation } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
-import { CreatedInCurvenote } from '@curvenote/icons';
 import { useNavOpen, useSiteManifest, useUrlbase, withUrlbase } from '@myst-theme/providers';
 import { getProjectHeadings } from '../../loaders';
 import type { Heading } from '../../types';
@@ -106,12 +105,12 @@ export const TableOfContents = ({
   projectSlug,
   top,
   height,
-  showFooter = true,
+  footer,
 }: {
   top?: number;
   height?: number;
   projectSlug?: string;
-  showFooter?: boolean;
+  footer?: React.ReactNode;
 }) => {
   const [open] = useNavOpen();
   const config = useSiteManifest();
@@ -145,11 +144,7 @@ export const TableOfContents = ({
       >
         <Headings folder={resolvedProjectSlug} headings={headings} sections={config?.projects} />
       </nav>
-      {showFooter && (
-        <div className="flex-none py-4">
-          <CreatedInCurvenote />
-        </div>
-      )}
+      {footer && <div className="flex-none py-4">{footer}</div>}
     </div>
   );
 };

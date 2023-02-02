@@ -7,12 +7,14 @@ export function Navigation({
   top,
   height,
   hide_toc,
+  footer,
 }: {
   children?: React.ReactNode;
   projectSlug?: string;
   top?: number;
   height?: number;
   hide_toc?: boolean;
+  footer?: React.ReactNode;
 }) {
   const [open, setOpen] = useNavOpen();
   if (hide_toc) return <>{children}</>;
@@ -25,7 +27,7 @@ export function Navigation({
         ></div>
       )}
       {children}
-      <TableOfContents projectSlug={projectSlug} top={top} height={height} />
+      <TableOfContents projectSlug={projectSlug} top={top} height={height} footer={footer} />
     </>
   );
 }

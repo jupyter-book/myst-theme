@@ -127,7 +127,7 @@ details > summary::-webkit-details-marker /* Safari */ {
 details[open] > summary .details-toggle {
   transform: rotate(90deg) translateX(-5px) translateY(-5px);
 }
-details[open] summary {
+details[open] > summary {
   /* Fake the animation */
   margin-bottom: 10px;
 }

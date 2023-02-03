@@ -34,11 +34,11 @@ export function MystLogo({
   );
 }
 
-export function MadeWithMyst() {
+export function MadeWithMyst({ url = 'https://myst-tools.org/made-with-myst' }: { url?: string }) {
   return (
     <a
       className="flex w-fit mx-auto text-gray-700 hover:text-blue-700 dark:text-gray-200 dark:hover:text-blue-400"
-      href="https://curvenote.com"
+      href={url}
       target="_blank"
       rel="noreferrer"
     >

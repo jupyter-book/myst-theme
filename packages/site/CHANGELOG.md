@@ -1,5 +1,21 @@
 # @curvenote/site
 
+## 0.1.23
+
+### Patch Changes
+
+- f100460: Remove Curvenote branding and allow it to be passed in
+- 1db7188: Strange bug in active theme, add spaces around the created class as a temporary fix to allow the classes to move through
+- Updated dependencies [ce48dce]
+- Updated dependencies [21302d9]
+- Updated dependencies [fddad13]
+  - myst-to-react@0.1.23
+  - @myst-theme/frontmatter@0.1.23
+  - @myst-theme/providers@0.1.23
+  - @myst-theme/diagrams@0.1.23
+  - @myst-theme/jupyter@0.1.23
+  - myst-demo@0.1.23
+
 ## 0.1.22
 
 ### Patch Changes

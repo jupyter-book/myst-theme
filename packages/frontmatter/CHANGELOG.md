@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.1.23
+
+### Patch Changes
+
+- 21302d9: Fix dark-mode licenses
+
 ## 0.1.22
 
 ## 0.1.21

@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.1.23
+
+### Patch Changes
+
+- ce48dce: Improve admonitions spacing and semantics when in dropdown.
+- fddad13: Change copy icon to render on server by default
+  - @myst-theme/providers@0.1.23
+
 ## 0.1.22
 
 ### Patch Changes

@@ -50,14 +50,20 @@ These are included as submodules, use `git clone --recursive` when first cloning
 ## Development
 
 This repository depends on themes which are brought in as a sub-module.
-When installing, use `git clone --recursive` when first cloning.
+When first cloning the repository use `git clone --recursive`,
+then install the various dependencies:
+
+```
+git clone --recursive https://github.com/executablebooks/myst-theme.git
+cd myst-theme
+npm install
+```
 
 ### Build
 
-To build all apps and packages, run the following command:
+To build all themes and packages, run the following command:
 
 ```
-cd myst-theme
 npm run build
 ```
 
@@ -66,7 +72,6 @@ npm run build
 These packages are best shown using `storybook` a UI library that powers the docs.
 
 ```
-cd myst-theme
 npm run storybook
 # and in another terminal
 npm run dev

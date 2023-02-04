@@ -1,3 +1,6 @@
 [submodule "themes/book-theme"]
 	path = themes/book-theme
 	url = https://github.com/executablebooks/myst-book-theme
+[submodule "themes/article-theme"]
+	path = themes/article-theme
+	url = https://github.com/executablebooks/myst-article-theme

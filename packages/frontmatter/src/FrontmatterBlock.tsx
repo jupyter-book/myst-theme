@@ -217,7 +217,7 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
       rel="noopener noreferrer"
       title="Open Access"
     >
-      <OpenAccessIcon className="w-5 h-5" />
+      <OpenAccessIcon className="w-5 h-5 inline-block" />
     </a>
   );
 }

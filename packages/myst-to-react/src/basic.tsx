@@ -158,10 +158,9 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       typeof children === 'string' ? backwardsCompatibleLabel(children, node.kind) : children;
     const id = node.html_id || node.identifier || node.key;
     return (
-      <span key={node.key} className="font-bold mr-1 select-none relative">
-        <HashLink id={id} align="left" kind={node.kind} />
+      <HashLink key={node.key} id={id} kind={node.kind} className="mr-1 text-inherit font-semibold">
         {label}
-      </span>
+      </HashLink>
     );
   },
   table(node, children) {

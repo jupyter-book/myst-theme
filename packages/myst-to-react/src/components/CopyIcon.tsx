@@ -18,8 +18,8 @@ export function CopyIcon({ text }: { text: string }) {
         'inline-flex items-center opacity-60 hover:opacity-100 active:opacity-40 cursor-pointer ml-2',
         'transition-color duration-200 ease-in-out',
         {
-          'text-primary-500 border-primary-500': !copied,
-          'text-success border-success ': copied,
+          'text-blue-500 border-blue-500': !copied,
+          'text-green-500 border-green-500 ': copied,
         },
       )}
       onClick={onClick}

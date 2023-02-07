@@ -1,5 +1,14 @@
 # myst-demo
 
+## 0.1.24
+
+### Patch Changes
+
+- Updated dependencies [f3479f7]
+- Updated dependencies [2b4e2ab]
+- Updated dependencies [1979ca2]
+  - myst-to-react@0.1.24
+
 ## 0.1.23
 
 ### Patch Changes

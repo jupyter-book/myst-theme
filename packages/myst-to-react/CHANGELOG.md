@@ -1,5 +1,14 @@
 # myst-to-react
 
+## 0.1.24
+
+### Patch Changes
+
+- f3479f7: Introduce a grid-system
+- 2b4e2ab: Simplify the copy-button styles
+- 1979ca2: HashLinks for equations, figures and headers are now inside margins.
+  - @myst-theme/providers@0.1.24
+
 ## 0.1.23
 
 ### Patch Changes

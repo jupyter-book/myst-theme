@@ -1,5 +1,27 @@
 # @curvenote/site
 
+## 0.1.24
+
+### Patch Changes
+
+- f3479f7: Introduce a grid-system
+- 5312cde: Inline the TOC and document outline styles for now
+- Updated dependencies [8d14293]
+- Updated dependencies [f3479f7]
+- Updated dependencies [530037b]
+- Updated dependencies [2bba655]
+- Updated dependencies [db27a90]
+- Updated dependencies [2b4e2ab]
+- Updated dependencies [8d14293]
+- Updated dependencies [e90b43e]
+- Updated dependencies [1979ca2]
+  - @myst-theme/frontmatter@0.1.24
+  - myst-to-react@0.1.24
+  - @myst-theme/providers@0.1.24
+  - @myst-theme/diagrams@0.1.24
+  - @myst-theme/jupyter@0.1.24
+  - myst-demo@0.1.24
+
 ## 0.1.23
 
 ### Patch Changes

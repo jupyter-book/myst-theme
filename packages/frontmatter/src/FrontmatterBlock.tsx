@@ -301,7 +301,11 @@ export function FrontmatterBlock({
           <LicenseBadges license={license} />
           <OpenAccessBadge open_access={open_access} />
           <GitHubLink github={github} />
-          {isJupyter && <JupyterIcon className="h-5 w-5 inline-block" />}
+          {isJupyter && (
+            <span>
+              <JupyterIcon className="h-5 w-5 inline-block" />
+            </span>
+          )}
           <DownloadsDropdown exports={exports as any} />
         </div>
       )}

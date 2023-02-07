@@ -11,7 +11,9 @@
   "scripts": {
     "compile": "turbo run compile",
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
+    "dev": "turbo run dev --parallel --filter='./packages/*'",
+    "theme:book": "turbo run dev --parallel --filter='./themes/book-theme'",
+    "theme:article": "turbo run dev --parallel --filter='./themes/article-theme'",
     "storybook": "cd docs && npm run storybook",
     "build-storybook": "npm run build && cd docs && build-storybook",
     "clean": "turbo run clean --parallel && find . -name '.turbo' -type d -prune -exec rm -rf '{}' +",

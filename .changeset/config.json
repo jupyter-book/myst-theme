@@ -9,6 +9,7 @@
       "@myst-theme/diagrams",
       "@myst-theme/jupyter",
       "@myst-theme/site",
+      "@myst-theme/styles",
       "myst-to-react",
       "myst-demo"
     ]

@@ -1,0 +1,6 @@
+.text-spacer:after {
+  content: '\a0\2219\a0';
+}
+.text-comma:after {
+  content: ',\a0\a0';
+}

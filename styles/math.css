@@ -1,0 +1,6 @@
+/* Hide katex generated equation numbers */
+.katex .eqn-num {
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+}

@@ -1,0 +1,18 @@
+cite {
+  font-style: normal;
+}
+.cite-group.parenthetical cite::after {
+  content: ';\00a0';
+}
+.cite-group.narrative cite::after {
+  content: ',\00a0';
+}
+.cite-group > span:last-of-type cite::after {
+  content: '';
+}
+.cite-group.parenthetical:before {
+  content: '(';
+}
+.cite-group.parenthetical:after {
+  content: ')';
+}

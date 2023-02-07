@@ -1,0 +1,10 @@
+.font-system {
+  font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+}
+.jupyter-error {
+  background-color: rgb(255, 221, 221);
+}
+/* Hide the output prompts from jupyter by default */
+.jp-OutputPrompt {
+  display: none;
+}

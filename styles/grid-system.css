@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .article-grid {
+    @apply grid grid-cols-article-sm md:grid-cols-article-md lg:grid-cols-article-lg xl:grid-cols-article-xl 2xl:grid-cols-article-2xl;
+  }
+  .article-grid > * {
+    /* The default is spanning the body for any child component */
+    @apply col-body;
+  }
+  .article-grid-gap {
+    @apply gap-1 md:gap-2 xl:gap-3 2xl:gap-4;
+  }
+  .article-subgrid-gap {
+    @apply gap-x-1 md:gap-x-2 xl:gap-x-3 2xl:gap-x-4;
+  }
+  /* These columns need more responsive design */
+  .col-margin-left {
+    @apply col-margin-left-sm xl:col-margin-left-lg;
+  }
+  .col-margin-right,
+  .col-margin {
+    @apply col-margin-right-sm lg:col-margin-right-lg;
+  }
+  .col-gutter-page-right {
+    @apply col-gutter-page-right-sm md:col-gutter-page-right-md lg:col-gutter-page-right-lg;
+  }
+  .col-gutter-page-left {
+    @apply col-gutter-page-left-sm md:col-gutter-page-left-md lg:col-gutter-page-left-lg;
+  }
+  .col-body-inset-right {
+    @apply col-body-inset-right-sm lg:col-body-inset-right-lg;
+  }
+  .col-body-inset-left {
+    @apply col-body-inset-left-sm lg:col-body-inset-left-lg;
+  }
+  .col-page-middle {
+    @apply col-page-middle-sm lg:col-page-middle-lg;
+  }
+  .error-content {
+    @apply pt-[80px] prose prose-stone dark:prose-invert break-words mx-5 p-3 max-w-none sm:pl-10 md:max-w-2xl lg:mx-auto xl:max-w-4xl;
+  }
+}

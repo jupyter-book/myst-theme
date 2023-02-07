@@ -31,6 +31,7 @@ The core themes are also included in this repository to aid in development.
 These are included as submodules, use `git clone --recursive` when first cloning.
 
 - `@myst-theme/book`: Designed to mimic the look-and-feel of an interactive book.
+- `@myst-theme/article`: A single-page view of an article with associated notebooks or supporting sub-articles.
 
 ### Versioning & Publishing
 
@@ -76,23 +77,3 @@ npm run storybook
 # and in another terminal
 npm run dev
 ```
-
-## Working with themes
-
-To interact with the themes in development mode (e.g. with live-reload of components and styles as you are making changes), you need three things running:
-
-1. a content server
-2. the renderer/application (theme)
-3. a process watching all components
-
-```bash
-# In a directory with content
-myst start --headless
-# In myst-theme
-npm run theme:book
-# In another terminal, watch for changes and rebuild
-npm run dev
-```
-
-> **Note**: in the future, this repository will likely have it's own content to test out with the themes.
-> You can currently look to the mystjs/docs folder, or an [article](https://github.com/simpeg/tle-finitevolume) or a [thesis](https://github.com/rowanc1/phd-thesis).

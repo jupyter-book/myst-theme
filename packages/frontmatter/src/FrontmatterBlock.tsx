@@ -76,11 +76,11 @@ export function AuthorsList({ authors }: { authors: PageFrontmatter['authors'] }
   return (
     <div>
       {authors.map((a, i) => (
-        <span key={a.name} className={'mr-2'}>
+        <span key={a.name}>
           <Author
             author={a}
             className={classNames('inline-block', {
-              "after:content-[','] after:mr-1": i < authors.length - 1,
+              'text-comma': i < authors.length - 1,
             })}
           />
         </span>
@@ -183,6 +183,28 @@ export function DoiBadge({ doi: possibleLink, className }: { doi?: string; class
   );
 }
 
+export function DateString({
+  date,
+  format = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  },
+  spacer,
+}: {
+  date?: string;
+  format?: Intl.DateTimeFormatOptions;
+  spacer?: boolean;
+}) {
+  if (!date) return null;
+  const dateString = new Date(date).toLocaleDateString('en-US', format);
+  return (
+    <time dateTime={date} className={classNames({ 'text-spacer': spacer })}>
+      {dateString}
+    </time>
+  );
+}
+
 export function GitHubLink({ github: possibleLink }: { github?: string }) {
   if (!possibleLink) return null;
   const github = possibleLink.replace(/^(https?:\/\/)?github\.com\//, '');
@@ -193,7 +215,7 @@ export function GitHubLink({ github: possibleLink }: { github?: string }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <GithubIcon className="w-5 h-5 opacity-60 hover:opacity-100" />
+      <GithubIcon className="w-5 h-5 mr-1 inline-block opacity-60 hover:opacity-100" />
     </a>
   );
 }
@@ -202,13 +224,12 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
   if (!open_access) return null;
   return (
     <a
-      className="opacity-60 hover:opacity-100"
       href="https://en.wikipedia.org/wiki/Open_access"
       target="_blank"
       rel="noopener noreferrer"
       title="Open Access"
     >
-      <OpenAccessIcon className="w-5 h-5 inline-block" />
+      <OpenAccessIcon className="w-5 h-5 mr-1 inline-block opacity-60 hover:opacity-100 hover:text-[#E18435]" />
     </a>
   );
 }
@@ -250,13 +271,18 @@ export function Journal({
 export function FrontmatterBlock({
   frontmatter,
   kind = KINDS.Article,
+  authorStyle = 'block',
 }: {
   frontmatter: PageFrontmatter;
   kind?: KINDS;
+  authorStyle?: 'block' | 'list';
 }) {
-  const { subject, doi, open_access, license, github, venue, biblio, exports } = frontmatter;
-  const hasHeaders = subject || github || venue || biblio;
-  const hasLicenses = doi || open_access || license;
+  const { subject, doi, open_access, license, github, venue, biblio, exports, date } = frontmatter;
+  const isJupyter = kind === KINDS.Notebook;
+  const hasExports = exports && exports.length > 0;
+  const hasHeaders =
+    subject || github || venue || biblio || open_access || license || hasExports || isJupyter;
+  const hasDateOrDoi = doi || date;
   return (
     <>
       {hasHeaders && (
@@ -272,8 +298,10 @@ export function FrontmatterBlock({
           )}
           <Journal venue={venue} biblio={biblio} />
           <div className="flex-grow"></div>
-          {kind === KINDS.Notebook && <JupyterIcon className="h-5 w-5" />}
+          <LicenseBadges license={license} />
+          <OpenAccessBadge open_access={open_access} />
           <GitHubLink github={github} />
+          {isJupyter && <JupyterIcon className="h-5 w-5 inline-block" />}
           <DownloadsDropdown exports={exports as any} />
         </div>
       )}
@@ -281,14 +309,14 @@ export function FrontmatterBlock({
       {frontmatter.subtitle && (
         <h2 className="title mt-0 text-zinc-600 dark:text-zinc-400">{frontmatter.subtitle}</h2>
       )}
-      {hasLicenses && (
-        <div className="flex mt-3 mb-5 text-sm font-light">
-          <LicenseBadges license={license} />
-          <OpenAccessBadge open_access={open_access} />
+      {authorStyle === 'list' && <AuthorsList authors={frontmatter.authors} />}
+      {authorStyle === 'block' && <AuthorAndAffiliations authors={frontmatter.authors} />}
+      {hasDateOrDoi && (
+        <div className="flex my-6 text-sm font-light">
+          <DateString date={date} spacer={!!doi} />
           <DoiBadge doi={doi} />
         </div>
       )}
-      <AuthorAndAffiliations authors={frontmatter.authors} />
     </>
   );
 }

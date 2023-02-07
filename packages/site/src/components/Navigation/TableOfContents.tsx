@@ -101,6 +101,9 @@ const Headings = ({ folder, headings, sections }: Props) => {
   );
 };
 
+const TOC_CLASS =
+  'flex-col fixed z-30 bottom-0 left-[max(0px,calc(50%-45rem))] w-[19.5rem] border-r border-stone-200 dark:border-stone-700';
+
 export const TableOfContents = ({
   projectSlug,
   top,
@@ -123,7 +126,7 @@ export const TableOfContents = ({
   if (!headings) return null;
   return (
     <div
-      className={classNames('toc overflow-hidden', {
+      className={classNames(TOC_CLASS, 'overflow-hidden', {
         flex: open,
         'bg-white dark:bg-stone-900': open, // just apply when open, so that theme can transition
         'hidden xl:flex': !open,

@@ -151,10 +151,13 @@ const useIntersectionObserver = (highlight: () => void, onScreen: Set<HTMLHeadin
   return { observer };
 };
 
+const DOC_OUTLINE_CLASS =
+  'fixed z-10 bottom-0 right-[max(0px,calc(50%-45rem))] w-[14rem] lg:w-[18rem] py-10 px-4 lg:px-8 overflow-y-auto hidden md:block';
+
 export const DocumentOutline = ({
   top,
   height,
-  className = 'document-outline',
+  className = DOC_OUTLINE_CLASS,
 }: {
   top?: number;
   height?: number;

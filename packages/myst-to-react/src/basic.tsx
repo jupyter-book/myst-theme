@@ -1,6 +1,7 @@
 import type * as spec from 'myst-spec';
 import { HashLink } from './heading';
 import type { NodeRenderer } from '@myst-theme/providers';
+import classNames from 'classnames';
 
 type TableExts = {
   rowspan?: number;
@@ -130,7 +131,11 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   container(node, children) {
     return (
-      <figure key={node.key} id={node.html_id || node.identifier || node.key} className={node.kind}>
+      <figure
+        key={node.key}
+        id={node.html_id || node.identifier || node.key}
+        className={classNames(node.kind, node.class)}
+      >
         {children}
       </figure>
     );

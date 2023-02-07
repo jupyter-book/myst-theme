@@ -175,18 +175,9 @@ export function DoiBadge({ doi: possibleLink, className }: { doi?: string; class
   const doi = possibleLink.replace(/^(https?:\/\/)?(dx\.)?doi\.org\//, '');
   const url = `https://doi.org/${doi}`;
   return (
-    <div
-      className={classNames('flex-none pl-1', className)}
-      title="DOI (Digital Object Identifier)"
-    >
-      DOI:
-      <a
-        className="font-light no-underline pl-1"
-        target="_blank"
-        rel="noopener noreferrer"
-        href={url}
-      >
-        {doi}
+    <div className={classNames('flex-none', className)} title="DOI (Digital Object Identifier)">
+      <a className="font-light no-underline" target="_blank" rel="noopener noreferrer" href={url}>
+        {url}
       </a>
     </div>
   );

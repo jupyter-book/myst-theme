@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .shaded {
+    @apply p-2 bg-slate-100;
+  }
+  .shaded-children > * {
+    @apply p-2 bg-slate-100;
+  }
+  .rounded-children > * {
+    @apply rounded;
+  }
+}

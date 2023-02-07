@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .popout > h1,
+  .popout > h2,
+  .popout > h3,
+  .popout > h4,
+  .popout > h5,
+  .popout > h6 {
+    margin-top: 0;
+  }
+}

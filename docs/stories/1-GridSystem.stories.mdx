@@ -1,0 +1,70 @@
+import { Meta, Preview } from '@storybook/addon-docs';
+import { FrontmatterBlock } from '@myst-theme/frontmatter';
+import { Admonition } from 'myst-to-react';
+
+<Meta title="Components/Grid-System" />
+
+# Grid System
+
+The following shows the classes for the grid-system in articles.
+The column names are:
+
+1. screen (+ inset)
+2. page (+ inset)
+3. body (+ outset + inset)
+4. middle
+
+The body has 6 equal columns, and the `middle` four columns can also be reffered to. The body `gutter`s are two columns on either side, and the `gutter-page` take one column and can be used with `middle` or `body-inset-left/right`.
+
+These can be overridden by any theme, but genreally the layout should:
+
+1. collapse the left margin first
+2. collapse the right margin second
+3. keep gutters to the sides in all views (including mobile)
+
+When collapsed, the column content should take up the full body width (with the exception of body-gutters). The two `gutter-page` columns are also large enough that they should be full-body width.
+
+When using in tailwind and `css` you need to import:
+
+1. In your `app.css`, `@import '@myst-theme/styles/grid-system.css'`
+2. In your tailwind config, `require('@myst-theme/styles').themeExtensions` (at least `gridTemplateColumns` and `gridColumn`)
+3. (optional) Include the safe list of class names for all columns in your tailwind config: `require('@myst-theme/styles').safeList`
+
+## Column Names
+
+Note: this view is a bit squished as it is going off of screen width rather than container width.
+
+<article className="article article-grid article-grid-gap">
+  <div className="rounded p-3 bg-gray-200 col-page">col-page</div>
+  <div className="rounded p-3 bg-gray-200 col-page-inset">col-page-inset</div>
+  <div className="rounded p-3 bg-gray-200 col-body-outset">col-body-outset</div>
+  <div className="rounded p-3 bg-gray-200 col-body-inset">col-body-inset</div>
+  <div className="rounded p-3 bg-gray-200 col-margin-left">col-margin-left</div>
+  <div className="rounded p-3 bg-gray-200 col-body">col-body</div>
+  <div className="rounded p-3 bg-gray-200 col-margin">col-margin</div>
+  <div className="rounded p-3 bg-gray-200 col-gutter-left">col-gutter-left</div>
+  <div className="rounded p-3 bg-gray-200 col-body-right row-span-2">col-body-right</div>
+  <div className="rounded p-3 bg-gray-200 col-gutter-outset-left">col-gutter-outset-left</div>
+  <div className="rounded p-3 bg-gray-200 col-body-left row-span-2">col-body-left</div>
+  <div className="rounded p-3 bg-gray-200 col-gutter-right">col-gutter-right</div>
+  <div className="rounded p-3 bg-gray-200 col-gutter-outset-right">col-gutter-outset-right</div>
+  <div className="rounded p-3 bg-gray-200 col-screen-right">col-screen-right</div>
+  <div className="rounded p-3 bg-gray-200 col-screen-inset-right">col-screen-inset-right</div>
+  <div className="rounded p-3 bg-gray-200 col-page-right">col-page-right</div>
+  <div className="rounded p-3 bg-gray-200 col-page-inset-right">col-page-inset-right</div>
+  <div className="rounded p-3 bg-gray-200 col-body-outset-right">col-body-outset-right</div>
+  <div className="rounded p-3 bg-gray-200 col-body-inset-right">col-body-inset-right</div>
+  <div className="rounded p-3 bg-gray-200 col-gutter-page-right row-span-2">
+    col-gutter-page-right
+  </div>
+  <div className="rounded p-3 bg-gray-200 col-gutter-page-left row-span-2">
+    col-gutter-page-left
+  </div>
+  <div className="rounded p-3 bg-gray-200 col-page-middle">col-page-middle</div>
+  <div className="rounded p-3 bg-gray-200 col-body-inset-left">col-body-inset-left</div>
+  <div className="rounded p-3 bg-gray-200 col-body-outset-left">col-body-outset-left</div>
+  <div className="rounded p-3 bg-gray-200 col-page-inset-left">col-page-inset-left</div>
+  <div className="rounded p-3 bg-gray-200 col-page-left">col-page-left</div>
+  <div className="rounded p-3 bg-gray-200 col-screen-inset-left">col-screen-inset-left</div>
+  <div className="rounded p-3 bg-gray-200 col-screen-left">col-screen-left</div>
+</article>

@@ -11,7 +11,7 @@ export function Bibliography() {
   if (!filtered || !data || filtered.length === 0) return null;
   const refs = hidden ? filtered.slice(0, HIDE_OVER_N_REFERENCES) : filtered;
   return (
-    <section>
+    <section className="article-grid article-subgrid-gap col-screen">
       {filtered.length > HIDE_OVER_N_REFERENCES && (
         <button
           onClick={() => setHidden(!hidden)}

@@ -15,6 +15,7 @@ import {
 import { ContentReload, renderers } from '../components';
 import { Analytics } from '../seo';
 import { ErrorSiteNotFound } from './ErrorSiteNotFound';
+import classNames from 'classnames';
 
 export function Document({
   children,
@@ -22,15 +23,17 @@ export function Document({
   config,
   title,
   CONTENT_CDN_PORT,
+  scrollTopClass = 'scroll-p-20',
 }: {
   children: React.ReactNode;
   theme: Theme;
   config?: SiteManifest;
   title?: string;
   CONTENT_CDN_PORT?: number | string;
+  scrollTopClass?: string;
 }) {
   return (
-    <html lang="en" className={theme}>
+    <html lang="en" className={classNames(theme, scrollTopClass)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -69,7 +72,7 @@ export function AppCatchBoundary() {
   return (
     <Document theme={Theme.light} title={caught.statusText}>
       <article className="content">
-        <main className="error-content">
+        <main className="article-grid article-subgrid-gap col-screen">
           <ErrorSiteNotFound />
         </main>
       </article>
@@ -81,7 +84,7 @@ export function AppDebugErrorBoundary({ error }: { error: { message: string; sta
   return (
     <Document theme={Theme.light} title="Error">
       <div className="mt-16">
-        <main className="error-content">
+        <main className="article-grid article-subgrid-gap col-screen">
           <h1>An Error Occurred</h1>
           <code>{error.message}</code>
           <pre>{error.stack}</pre>

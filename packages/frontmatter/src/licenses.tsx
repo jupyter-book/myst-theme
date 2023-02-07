@@ -110,7 +110,7 @@ function SingleLicenseBadge({
       {license.osi && (
         <OsiIcon
           className={classNames(
-            'h-5 w-5 mx-1 inline-block opacity-60 hover:opacity-100',
+            'h-5 w-5 mx-1 inline-block opacity-60 hover:opacity-100 hover:text-[#599F46]',
             className,
           )}
         />

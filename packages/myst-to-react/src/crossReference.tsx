@@ -105,7 +105,7 @@ export function ReferencedContent({
         </a>
       )}
       {remote && !external && (
-        <Link to={link} className="absolute top-4 right-1" prefetch="intent">
+        <Link to={withUrlbase(url, urlbase)} className="absolute top-4 right-1" prefetch="intent">
           <ExternalLinkIcon className="w-4 h-4" />
         </Link>
       )}

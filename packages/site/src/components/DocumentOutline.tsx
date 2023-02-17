@@ -27,23 +27,24 @@ const Headings = ({ headings, activeId, highlight }: Props) => (
     {headings.map((heading) => (
       <li
         key={heading.id}
-        className={classNames('border-l-2', {
+        className={classNames('border-l-2 hover:border-l-blue-500', {
           'text-blue-600': heading.id === activeId,
-          'border-l-gray-300 dark:border-l-gray-50 hover:border-l-blue-500':
-            heading.id !== activeId,
+          'border-l-gray-300 dark:border-l-gray-50': heading.id !== activeId,
           'border-l-blue-500': heading.id === activeId,
           'bg-blue-50 dark:bg-slate-800': heading.id === activeId,
         })}
       >
         <a
-          className={classNames('block p-1 pl-2 text-slate-800 dark:text-slate-100', {
-            'text-blue-600 dark:text-white font-semibold': heading.id === activeId,
+          className={classNames('block p-1 pl-2', {
+            'text-slate-900 dark:text-slate-50': heading.level < 3 && heading.id !== activeId,
+            'text-slate-500 dark:text-slate-300': heading.level >= 3 && heading.id !== activeId,
+            'text-blue-600 dark:text-white font-bold': heading.id === activeId,
             'pr-2': heading.id !== activeId,
-            'pl-3': heading.level === 2,
+            'pl-2': heading.level === 2,
             'pl-4': heading.level === 3,
-            'pl-5': heading.level === 4,
-            'pl-6': heading.level === 5,
-            'pl-7': heading.level === 6,
+            'pl-8 text-xs': heading.level === 4,
+            'pl-10 text-xs font-light': heading.level === 5,
+            'pl-12 text-xs font-extralight': heading.level === 6,
           })}
           href={`#${heading.id}`}
           onClick={(e) => {
@@ -152,7 +153,7 @@ const useIntersectionObserver = (highlight: () => void, onScreen: Set<HTMLHeadin
 };
 
 const DOC_OUTLINE_CLASS =
-  'fixed z-10 bottom-0 right-[max(0px,calc(50%-45rem))] w-[14rem] lg:w-[18rem] py-10 px-4 lg:px-8 overflow-y-auto hidden md:block';
+  'fixed z-10 bottom-0 right-[max(0px,calc(50%-45rem))] w-[14rem] lg:w-[18rem] py-10 px-4 lg:px-8 overflow-y-auto hidden lg:block';
 
 export const DocumentOutline = ({
   top,

@@ -1,4 +1,4 @@
-import type { GenericNode } from 'mystjs';
+import type { GenericNode } from 'myst-common';
 import { createElement as e } from 'react';
 
 export const RVar = (node: GenericNode) => {

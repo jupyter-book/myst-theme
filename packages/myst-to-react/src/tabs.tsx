@@ -23,7 +23,7 @@ type Tab = { title: string | React.ReactNode; id: string; sync?: string; selecte
 
 export function TabSet({ tabs, children }: { tabs: Tab[]; children: React.ReactNode }) {
   const [lastClickedTab, onClickSyncedTab] = useTabSet() ?? [];
-  const [active, setActive] = useState<string>(tabs.find((t) => t.selected)?.id ?? tabs[0].id);
+  const [active, setActive] = useState<string>(tabs.find((t) => t.selected)?.id ?? tabs?.[0]?.id);
   const onClick = (tab: Tab) => {
     setActive(tab.id);
     if (tab.sync) {

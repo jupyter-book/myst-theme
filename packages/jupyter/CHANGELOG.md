@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.1.25
+
+### Patch Changes
+
+- 28fc827: Update components to new myst-parser
+- Updated dependencies [28fc827]
+  - @myst-theme/providers@0.1.25
+
 ## 0.1.24
 
 ### Patch Changes

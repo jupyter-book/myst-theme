@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/diagrams",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
@@ -19,7 +19,7 @@
     "build": "npm-run-all -l clean -p build:cjs build:esm build:types"
   },
   "dependencies": {
-    "@myst-theme/providers": "^0.1.24",
+    "@myst-theme/providers": "^0.1.25",
     "mermaid": "^9.3.0"
   },
   "peerDependencies": {

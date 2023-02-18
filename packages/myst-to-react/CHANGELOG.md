@@ -1,5 +1,16 @@
 # myst-to-react
 
+## 0.1.25
+
+### Patch Changes
+
+- 4e20392: Fix bug in tab set when it doesn't have items
+- d221bf9: Update urlbase on crossReference links
+- 28fc827: Update components to new myst-parser
+- a3399e5: Simple admonitions and hide the icons
+- Updated dependencies [28fc827]
+  - @myst-theme/providers@0.1.25
+
 ## 0.1.24
 
 ### Patch Changes

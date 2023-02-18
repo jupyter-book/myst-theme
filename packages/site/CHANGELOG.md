@@ -1,5 +1,22 @@
 # @curvenote/site
 
+## 0.1.25
+
+### Patch Changes
+
+- ca93d93: Improve the document outline
+- 28fc827: Update components to new myst-parser
+- Updated dependencies [4e20392]
+- Updated dependencies [d221bf9]
+- Updated dependencies [28fc827]
+- Updated dependencies [a3399e5]
+  - myst-to-react@0.1.25
+  - myst-demo@0.1.25
+  - @myst-theme/providers@0.1.25
+  - @myst-theme/jupyter@0.1.25
+  - @myst-theme/frontmatter@0.1.25
+  - @myst-theme/diagrams@0.1.25
+
 ## 0.1.24
 
 ### Patch Changes

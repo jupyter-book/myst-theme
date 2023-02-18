@@ -35,12 +35,13 @@ const HeadingLink = ({
       title={title}
       className={({ isActive }: { isActive: boolean }) =>
         classNames('block break-words', {
-          'text-blue-600 dark:text-white': !isIndex && isActive,
+          'mb-8 lg:mb-3 font-semibold': isIndex,
+          'text-slate-900 dark:text-slate-200': isIndex && !exact,
+          'text-blue-500 dark:text-blue-400': isIndex && exact,
+          'border-l pl-4 text-blue-500 border-current dark:text-blue-400': !isIndex && isActive,
           'font-semibold': isActive,
-          'hover:text-slate-800 dark:hover:text-slate-100': !isActive,
-          'border-b pb-1': isIndex,
-          'border-stone-200 dark:border-stone-700': isIndex && !exact,
-          'border-blue-500': isIndex && exact,
+          'border-l pl-4 border-transparent hover:border-slate-400 dark:hover:border-slate-500 text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300':
+            !isActive,
         })
       }
       to={withUrlbase(path, urlbase)}
@@ -55,24 +56,24 @@ const HeadingLink = ({
   );
 };
 
-const HEADING_CLASSES = 'text-slate-900 text-lg leading-6 dark:text-slate-100';
+const HEADING_CLASSES = 'text-slate-900 leading-5 dark:text-slate-100';
 const Headings = ({ folder, headings, sections }: Props) => {
   const secs = sections || [];
   return (
-    <ul className="text-slate-500 dark:text-slate-300 leading-6">
+    <ul className="space-y-6 lg:space-y-2">
       {secs.map((sec) => {
         if (sec.slug === folder) {
           return headings.map((heading, index) => (
             <li
               key={heading.slug || index}
-              className={classNames('p-1', {
+              className={classNames('', {
                 [HEADING_CLASSES]: heading.level === 'index',
                 'font-semibold': heading.level === 'index',
-                'pl-4': heading.level === 2,
-                'pl-6': heading.level === 3,
-                'pl-8': heading.level === 4,
-                'pl-10': heading.level === 5,
-                'pl-12': heading.level === 6,
+                // 'pl-4': heading.level === 2,
+                // 'pl-6': heading.level === 3,
+                // 'pl-8': heading.level === 4,
+                // 'pl-10': heading.level === 5,
+                // 'pl-12': heading.level === 6,
               })}
             >
               {heading.path ? (
@@ -84,7 +85,7 @@ const Headings = ({ folder, headings, sections }: Props) => {
                   {heading.short_title || heading.title}
                 </HeadingLink>
               ) : (
-                <h5 className="text-slate-900 font-semibold my-2 text-md leading-6 dark:text-slate-100 break-words">
+                <h5 className="mb-3 lg:mt-8 font-semibold break-words dark:text-white">
                   {heading.short_title || heading.title}
                 </h5>
               )}
@@ -100,9 +101,6 @@ const Headings = ({ folder, headings, sections }: Props) => {
     </ul>
   );
 };
-
-const TOC_CLASS =
-  'flex-col fixed z-30 bottom-0 left-[max(0px,calc(50%-45rem))] w-[19.5rem] border-r border-stone-200 dark:border-stone-700';
 
 export const TableOfContents = ({
   projectSlug,
@@ -126,28 +124,34 @@ export const TableOfContents = ({
   if (!headings) return null;
   return (
     <div
-      className={classNames(TOC_CLASS, 'overflow-hidden', {
-        flex: open,
-        'bg-white dark:bg-stone-900': open, // just apply when open, so that theme can transition
-        'hidden xl:flex': !open,
-      })}
+      className="fixed article-grid article-grid-gap w-screen z-30 pointer-events-none"
       style={{
         top: top ?? 0,
-        height:
-          typeof document === 'undefined' || (height && height > window.innerHeight - (top ?? 0))
-            ? undefined
-            : height,
+        height: `calc(100vh - ${top ?? 0}px)`,
       }}
-      suppressHydrationWarning
     >
-      <nav
-        aria-label="Table of Contents"
-        className="flex-grow pt-10 pb-3 px-8 overflow-y-auto transition-opacity"
-        style={{ opacity: height && height > 150 ? undefined : 0 }}
+      <div
+        className={classNames(
+          'pointer-events-auto',
+          'col-margin-left flex-col',
+          'overflow-hidden',
+          // 'border-r border-stone-200 dark:border-stone-700',
+          {
+            flex: open,
+            'bg-white dark:bg-stone-900': open, // just apply when open, so that theme can transition
+            'hidden xl:flex': !open,
+          },
+        )}
       >
-        <Headings folder={resolvedProjectSlug} headings={headings} sections={config?.projects} />
-      </nav>
-      {footer && <div className="flex-none py-4">{footer}</div>}
+        <nav
+          aria-label="Table of Contents"
+          className="flex-grow overflow-y-auto transition-opacity mt-6 mr-3"
+          style={{ opacity: height && height > 150 ? undefined : 0 }}
+        >
+          <Headings folder={resolvedProjectSlug} headings={headings} sections={config?.projects} />
+        </nav>
+        {footer && <div className="flex-none py-4">{footer}</div>}
+      </div>
     </div>
   );
 };

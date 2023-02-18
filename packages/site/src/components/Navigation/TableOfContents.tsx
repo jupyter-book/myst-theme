@@ -124,16 +124,16 @@ export const TableOfContents = ({
   if (!headings) return null;
   return (
     <div
-      className="fixed article-grid article-grid-gap w-screen z-30 pointer-events-none"
+      className="fixed xl:article-grid article-grid-gap xl:w-screen z-30 xl:pointer-events-none overflow-auto max-xl:min-w-[300px]"
       style={{
         top: top ?? 0,
-        height: `calc(100vh - ${top ?? 0}px)`,
+        height: `min(calc(100vh - ${top ?? 0}px), ${height}px)`,
       }}
     >
       <div
         className={classNames(
           'pointer-events-auto',
-          'col-margin-left flex-col',
+          'xl:col-margin-left flex-col',
           'overflow-hidden',
           // 'border-r border-stone-200 dark:border-stone-700',
           {
@@ -145,7 +145,7 @@ export const TableOfContents = ({
       >
         <nav
           aria-label="Table of Contents"
-          className="flex-grow overflow-y-auto transition-opacity mt-6 mr-3"
+          className="flex-grow overflow-y-auto transition-opacity mt-6 mb-3 ml-3 xl:ml-0 mr-3"
           style={{ opacity: height && height > 150 ? undefined : 0 }}
         >
           <Headings folder={resolvedProjectSlug} headings={headings} sections={config?.projects} />

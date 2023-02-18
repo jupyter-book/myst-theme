@@ -8,6 +8,7 @@ import type { DocxResult } from 'myst-to-docx';
 import { validatePageFrontmatter } from 'myst-frontmatter';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import type { NodeRenderer } from '@myst-theme/providers';
+import { useNodeRenderers, ReferencesProvider } from '@myst-theme/providers';
 import { CopyIcon, CodeBlock, useParse } from 'myst-to-react';
 import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';
@@ -17,7 +18,6 @@ import {
   InformationCircleIcon,
   ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
-import { ReferencesProvider } from '@myst-theme/providers';
 
 function downloadBlob(filename: string, blob: Blob) {
   const a = document.createElement('a');
@@ -41,11 +41,15 @@ async function saveDocxFile(filename: string, mdast: any, footnotes?: any) {
   downloadBlob(filename, docxBlob as Blob);
 }
 
-async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
+async function parse(
+  text: string,
+  defaultFrontmatter?: PageFrontmatter,
+  renderers?: Record<string, NodeRenderer>,
+) {
   // Ensure that any imports from myst are async and scoped to this function
   const { visit } = await import('unist-util-visit');
   const { unified } = await import('unified');
-  const { MyST } = await import('mystjs');
+  const { mystParse } = await import('myst-parser');
   const {
     mathPlugin,
     footnotesPlugin,
@@ -63,8 +67,17 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
   } = await import('myst-transforms');
   const { default: mystToTex } = await import('myst-to-tex');
   const { default: mystToJats } = await import('myst-to-jats');
-  const myst = new MyST();
-  const mdast = myst.parse(text);
+  const { mystToHtml } = await import('myst-to-html');
+  const { cardDirective } = await import('myst-ext-card');
+  const { gridDirective } = await import('myst-ext-grid');
+  const { tabDirectives } = await import('myst-ext-tabs');
+  const file = new VFile();
+  const mdast = mystParse(text, {
+    markdownit: { linkify: true },
+    directives: [cardDirective, gridDirective, ...tabDirectives],
+    // roles: [reactiveRole],
+    vfile: file,
+  });
   const linkTransforms = [
     new WikiTransformer(),
     new GithubTransformer(),
@@ -77,8 +90,7 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
   unified().use(linksPlugin, { transformers: linkTransforms }).runSync(mdastPre);
   visit(mdastPre, (n) => delete n.position);
   const mdastString = yaml.dump(mdastPre);
-  const htmlString = myst.renderMdast(mdastPre);
-  const file = new VFile();
+  const htmlString = mystToHtml(mdastPre);
   const references = {
     cite: { order: [], data: {} },
     footnotes: {},
@@ -111,7 +123,7 @@ async function parse(text: string, defaultFrontmatter?: PageFrontmatter) {
   const jats = unified()
     .use(mystToJats, { spaces: 2 })
     .stringify(mdast as any, jatsFile).result as JatsResult;
-  const content = useParse(mdast as any);
+  const content = useParse(mdast as any, renderers);
   return {
     frontmatter,
     yaml: mdastString,
@@ -142,6 +154,7 @@ export function MySTRenderer({
   numbering?: any;
   className?: string;
 }) {
+  const renderers = useNodeRenderers();
   const area = useRef<HTMLTextAreaElement | null>(null);
   const [text, setText] = useState<string>(value.trim());
   const [references, setReferences] = useState<References>({});
@@ -157,7 +170,7 @@ export function MySTRenderer({
 
   useEffect(() => {
     const ref = { current: true };
-    parse(text, { numbering }).then((result) => {
+    parse(text, { numbering }, renderers).then((result) => {
       if (!ref.current) return;
       setFrontmatter(result.frontmatter);
       setYaml(result.yaml);
@@ -172,7 +185,7 @@ export function MySTRenderer({
     return () => {
       ref.current = false;
     };
-  }, [text]);
+  }, [text, renderers]);
 
   useEffect(() => {
     if (!area.current) return;

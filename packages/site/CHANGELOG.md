@@ -1,5 +1,17 @@
 # @curvenote/site
 
+## 0.1.26
+
+### Patch Changes
+
+- 3790356: Update mobile navigation
+  - @myst-theme/providers@0.1.26
+  - @myst-theme/frontmatter@0.1.26
+  - @myst-theme/diagrams@0.1.26
+  - @myst-theme/jupyter@0.1.26
+  - myst-to-react@0.1.26
+  - myst-demo@0.1.26
+
 ## 0.1.25
 
 ### Patch Changes

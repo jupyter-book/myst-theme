@@ -12,7 +12,7 @@ export function HashLink({
   id,
   kind,
   align = 'inline',
-  children = '#',
+  children = '¶',
   hover,
   className = 'font-normal',
 }: {

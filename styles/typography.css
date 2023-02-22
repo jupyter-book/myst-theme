@@ -30,6 +30,10 @@
   .prose dd {
     @apply ml-8;
   }
+  .prose p img {
+    margin: 0;
+    display: inline-block;
+  }
   article.content {
     min-height: calc(100vh);
   }

@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.1.27
+
+### Patch Changes
+
+- 6083890: Upgrade myst to v0.1.17
+- Updated dependencies [6083890]
+  - @myst-theme/providers@0.1.27
+
 ## 0.1.26
 
 ### Patch Changes

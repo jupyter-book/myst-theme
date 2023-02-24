@@ -1,5 +1,21 @@
 # @curvenote/site
 
+## 0.1.27
+
+### Patch Changes
+
+- 6083890: Upgrade myst to v0.1.17
+- Updated dependencies [7eec01a]
+- Updated dependencies [e1ecd26]
+- Updated dependencies [6083890]
+- Updated dependencies [0faf722]
+  - myst-to-react@0.1.27
+  - myst-demo@0.1.27
+  - @myst-theme/providers@0.1.27
+  - @myst-theme/jupyter@0.1.27
+  - @myst-theme/frontmatter@0.1.27
+  - @myst-theme/diagrams@0.1.27
+
 ## 0.1.26
 
 ### Patch Changes

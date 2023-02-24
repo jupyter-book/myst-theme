@@ -1,5 +1,16 @@
 # myst-to-react
 
+## 0.1.27
+
+### Patch Changes
+
+- 7eec01a: Fix iframe width
+- e1ecd26: parse footnote references in tex export
+- 6083890: Upgrade myst to v0.1.17
+- 0faf722: Change to a pilcrow marker `¶` instead of a hash link `#` for headers
+- Updated dependencies [6083890]
+  - @myst-theme/providers@0.1.27
+
 ## 0.1.26
 
 ### Patch Changes

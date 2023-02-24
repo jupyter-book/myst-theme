@@ -1,5 +1,11 @@
 # @myst-theme/providers
 
+## 0.1.27
+
+### Patch Changes
+
+- 6083890: Upgrade myst to v0.1.17
+
 ## 0.1.26
 
 ## 0.1.25

@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@myst-theme/frontmatter": "*",
-    "myst-frontmatter": "^0.0.7",
+    "myst-frontmatter": "^0.0.9",
     "myst-to-react": "*"
   }
 }

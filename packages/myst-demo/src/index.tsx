@@ -117,7 +117,7 @@ async function parse(
     .use(keysPlugin)
     .runSync(mdast as any, file);
   const tex = unified()
-    .use(mystToTex)
+    .use(mystToTex, { references })
     .stringify(mdast as any).result as LatexResult;
   const jatsFile = new VFile();
   const jats = unified()

@@ -116,9 +116,10 @@ async function parse(
     .use(resolveReferencesPlugin, { state })
     .use(keysPlugin)
     .runSync(mdast as any, file);
+  const texFile = new VFile();
   const tex = unified()
     .use(mystToTex, { references })
-    .stringify(mdast as any).result as LatexResult;
+    .stringify(mdast as any, texFile).result as LatexResult;
   const jatsFile = new VFile();
   const jats = unified()
     .use(mystToJats, { spaces: 2 })
@@ -130,6 +131,7 @@ async function parse(
     references: { ...references, article: mdast } as References,
     html: htmlString,
     tex: tex.value,
+    texWarnings: texFile.messages,
     jats: jats.value,
     jatsWarnings: jatsFile.messages,
     content,
@@ -162,6 +164,7 @@ export function MySTRenderer({
   const [mdastYaml, setYaml] = useState<string>('Loading...');
   const [html, setHtml] = useState<string>('Loading...');
   const [tex, setTex] = useState<string>('Loading...');
+  const [texWarnings, setTexWarnings] = useState<VFileMessage[]>([]);
   const [jats, setJats] = useState<string>('Loading...');
   const [jatsWarnings, setJatsWarnings] = useState<VFileMessage[]>([]);
   const [warnings, setWarnings] = useState<VFileMessage[]>([]);
@@ -177,6 +180,7 @@ export function MySTRenderer({
       setReferences(result.references);
       setHtml(result.html);
       setTex(result.tex);
+      setTexWarnings(result.texWarnings);
       setJats(result.jats);
       setJatsWarnings(result.jatsWarnings);
       setContent(result.content);
@@ -211,6 +215,9 @@ export function MySTRenderer({
   switch (previewType) {
     case 'DEMO':
       currentWarnings = warnings;
+      break;
+    case 'LaTeX':
+      currentWarnings = texWarnings;
       break;
     case 'JATS':
       currentWarnings = jatsWarnings;

@@ -34,10 +34,10 @@ export function CreativeCommonsBadge({
   const kind = match[1].toUpperCase();
   return (
     <a
-      className={classNames('opacity-50 hover:opacity-100', className)}
       href={license.url}
       target="_blank"
       rel="noopener noreferrer"
+      className={classNames('opacity-50 hover:opacity-100 text-inherit', className)}
     >
       <CcIcon className="h-5 w-5 mx-1 inline-block" title={`${title}`} />
       {(kind.startsWith('CC0') || kind.startsWith('CC-0') || kind.includes('ZERO')) && (
@@ -88,7 +88,7 @@ function SingleLicenseBadge({
     typeof possibleLicense === 'string'
       ? { name: '', url: '', id: possibleLicense }
       : possibleLicense;
-  if (!license) return null;
+  if (!license || Object.keys(license).length === 0) return null;
   if (license.CC) {
     return <CreativeCommonsBadge license={license} preamble={preamble} className={className} />;
   }
@@ -98,6 +98,7 @@ function SingleLicenseBadge({
       target="_blank"
       rel="noopener noreferrer"
       title={`${preamble}${license.name ?? (license as any).title} (${license.id})`}
+      className="text-inherit"
     >
       {!license.osi && (
         <ScaleIcon

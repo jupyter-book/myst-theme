@@ -312,9 +312,9 @@ export function FrontmatterBlock({
           <DownloadsDropdown exports={exports as any} />
         </div>
       )}
-      <h1 className={classNames('title', { 'mb-2': frontmatter.subtitle })}>{frontmatter.title}</h1>
+      <h1 className={classNames({ 'mb-2': frontmatter.subtitle })}>{frontmatter.title}</h1>
       {frontmatter.subtitle && (
-        <h2 className="title mt-0 text-zinc-600 dark:text-zinc-400">{frontmatter.subtitle}</h2>
+        <p className="lead mt-0 text-zinc-600 dark:text-zinc-400">{frontmatter.subtitle}</p>
       )}
       {authorStyle === 'list' && <AuthorsList authors={frontmatter.authors} />}
       {authorStyle === 'block' && <AuthorAndAffiliations authors={frontmatter.authors} />}

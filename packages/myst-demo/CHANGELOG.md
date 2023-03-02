@@ -1,5 +1,12 @@
 # myst-demo
 
+## 0.1.28
+
+### Patch Changes
+
+- 229720c: Display tex warnings in myst-demo
+  - myst-to-react@0.1.28
+
 ## 0.1.27
 
 ### Patch Changes

@@ -1,5 +1,22 @@
 # @curvenote/site
 
+## 0.1.28
+
+### Patch Changes
+
+- cdd10c3: Fix nav on smaller screens
+- Updated dependencies [50529e0]
+- Updated dependencies [aceee8a]
+- Updated dependencies [aceee8a]
+- Updated dependencies [229720c]
+- Updated dependencies [4b57aa3]
+  - @myst-theme/frontmatter@0.1.28
+  - myst-demo@0.1.28
+  - @myst-theme/providers@0.1.28
+  - @myst-theme/diagrams@0.1.28
+  - @myst-theme/jupyter@0.1.28
+  - myst-to-react@0.1.28
+
 ## 0.1.27
 
 ### Patch Changes

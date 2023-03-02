@@ -1,5 +1,14 @@
 # @myst-theme/frontmatter
 
+## 0.1.28
+
+### Patch Changes
+
+- 50529e0: Change subtitle to a paragraph lead, not a semantic heading
+- aceee8a: License icons should inherit text color
+- aceee8a: Empty license object should be hidden
+- 4b57aa3: Decrease spacing in author/date list
+
 ## 0.1.27
 
 ## 0.1.26

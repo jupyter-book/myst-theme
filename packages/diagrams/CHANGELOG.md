@@ -1,5 +1,11 @@
 # @myst-theme/diagrams
 
+## 0.1.28
+
+### Patch Changes
+
+- @myst-theme/providers@0.1.28
+
 ## 0.1.27
 
 ### Patch Changes

@@ -124,7 +124,10 @@ export const TableOfContents = ({
   if (!headings) return null;
   return (
     <div
-      className="fixed xl:article-grid article-grid-gap xl:w-screen z-30 xl:pointer-events-none overflow-auto max-xl:min-w-[300px]"
+      className={classNames(
+        'fixed xl:article-grid article-grid-gap xl:w-screen z-30 xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
+        { hidden: !open },
+      )}
       style={{
         top: top ?? 0,
         height: `min(calc(100vh - ${top ?? 0}px), ${height}px)`,

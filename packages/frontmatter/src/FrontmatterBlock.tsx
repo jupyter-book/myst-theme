@@ -97,7 +97,7 @@ export function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['a
   );
   if (!hasAffliations) {
     return (
-      <header className="not-prose mb-10">
+      <header className="not-prose mb-2">
         {authors.length > 1 && <div className="font-thin text-xs uppercase pb-2">Authors</div>}
         {authors.map((author) => (
           <Author key={author.name} author={author} />
@@ -106,7 +106,7 @@ export function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['a
     );
   }
   return (
-    <header className="not-prose mb-10">
+    <header className="not-prose mb-2">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-1">
         {authors.length > 1 && (
           <>
@@ -137,6 +137,7 @@ export function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['a
                         target="_blank"
                         rel="noopener noreferrer"
                         title="ROR (Research Organization Registry)"
+                        className="text-inherit"
                       >
                         <RorIcon className="ml-2 inline-block h-[2em] w-[2em] grayscale hover:grayscale-0 -translate-y-[1px]" />
                       </a>
@@ -214,6 +215,7 @@ export function GitHubLink({ github: possibleLink }: { github?: string }) {
       title={`GitHub Repository: ${github}`}
       target="_blank"
       rel="noopener noreferrer"
+      className="text-inherit"
     >
       <GithubIcon className="w-5 h-5 mr-1 inline-block opacity-60 hover:opacity-100" />
     </a>
@@ -228,6 +230,7 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
       target="_blank"
       rel="noopener noreferrer"
       title="Open Access"
+      className="text-inherit"
     >
       <OpenAccessIcon className="w-5 h-5 mr-1 inline-block opacity-60 hover:opacity-100 hover:text-[#E18435]" />
     </a>
@@ -316,7 +319,7 @@ export function FrontmatterBlock({
       {authorStyle === 'list' && <AuthorsList authors={frontmatter.authors} />}
       {authorStyle === 'block' && <AuthorAndAffiliations authors={frontmatter.authors} />}
       {hasDateOrDoi && (
-        <div className="flex my-6 text-sm font-light">
+        <div className="flex my-2 text-sm font-light">
           <DateString date={date} spacer={!!doi} />
           <DoiBadge doi={doi} />
         </div>

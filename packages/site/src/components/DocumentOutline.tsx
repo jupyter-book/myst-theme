@@ -171,13 +171,14 @@ export const DocumentOutline = ({
     <nav
       aria-label="Document Outline"
       suppressHydrationWarning
-      className={classNames('not-prose transition-opacity', className)}
+      className={classNames('not-prose transition-opacity overflow-y-auto', className)}
       style={{
         top: top ?? 0,
         height:
           typeof document === 'undefined' || (height && height > window.innerHeight)
             ? undefined
             : height,
+        maxHeight: `calc(100vh - ${(top ?? 0) + 20}px)`,
         opacity: height && height > 300 ? undefined : 0,
         pointerEvents: height && height > 300 ? undefined : 'none',
       }}

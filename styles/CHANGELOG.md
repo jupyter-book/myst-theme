@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.1.29
+
+### Patch Changes
+
+- 15da35f: Align article grids to content start (top of page) instead of stretching
+
 ## 0.1.28
 
 ## 0.1.27

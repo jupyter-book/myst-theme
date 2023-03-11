@@ -1,5 +1,19 @@
 # @curvenote/site
 
+## 0.1.29
+
+### Patch Changes
+
+- 6db4d05: Show all references should be on one line!
+- d60aa6a: Overflow in document outline
+- 3c12c67: Update CDN server to allow for different hosts
+  - @myst-theme/providers@0.1.29
+  - @myst-theme/frontmatter@0.1.29
+  - @myst-theme/diagrams@0.1.29
+  - @myst-theme/jupyter@0.1.29
+  - myst-to-react@0.1.29
+  - myst-demo@0.1.29
+
 ## 0.1.28
 
 ### Patch Changes

@@ -7,9 +7,9 @@ import { NativeJupyterOutputs as JupyterOutputs } from './jupyter';
 import ClientOnly from './ClientOnly';
 import { ThebeCoreProvider } from './thebe-provider';
 
-const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
+export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
-const DIRECT_MIME_TYPES = new Set([
+export const DIRECT_MIME_TYPES = new Set([
   KnownCellOutputMimeTypes.TextPlain,
   KnownCellOutputMimeTypes.ImagePng,
   KnownCellOutputMimeTypes.ImageGif,
@@ -23,7 +23,7 @@ export function allOutputsAreSafe(
   directMimeTypes: Set<string>,
 ) {
   return outputs.reduce((flag, output) => {
-    if (directOutputTypes.has(output.output_type)) return true;
+    if (directOutputTypes.has(output.output_type)) return flag && true;
     const data = (output as MinifiedMimeOutput).data;
     const mimetypes = data ? Object.keys(data) : [];
     const safe =
@@ -51,6 +51,8 @@ export function Output(node: GenericNode) {
       </ClientOnly>
     );
   }
+
+  console.log('Output', allSafe, outputs);
 
   return (
     <figure

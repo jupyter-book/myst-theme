@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.1.30
+
+### Patch Changes
+
+- e35e10e: Update packages (especially headlessui)
+
 ## 0.1.29
 
 ## 0.1.28

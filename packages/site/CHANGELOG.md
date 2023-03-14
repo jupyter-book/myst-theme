@@ -1,5 +1,19 @@
 # @curvenote/site
 
+## 0.1.30
+
+### Patch Changes
+
+- e35e10e: Update packages (especially headlessui)
+- Updated dependencies [f03ceba]
+- Updated dependencies [e35e10e]
+  - @myst-theme/jupyter@0.1.30
+  - myst-to-react@0.1.30
+  - @myst-theme/frontmatter@0.1.30
+  - myst-demo@0.1.30
+  - @myst-theme/providers@0.1.30
+  - @myst-theme/diagrams@0.1.30
+
 ## 0.1.29
 
 ### Patch Changes

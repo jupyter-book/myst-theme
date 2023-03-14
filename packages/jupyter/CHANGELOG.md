@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.1.30
+
+### Patch Changes
+
+- f03ceba: Fixes logic that identified outputs as all safe when unsafe outputs were mixed with safe in the same output array. [issue 34](https://github.com/executablebooks/myst-theme/issues/34)
+- e35e10e: Update packages (especially headlessui)
+  - @myst-theme/providers@0.1.30
+
 ## 0.1.29
 
 ### Patch Changes

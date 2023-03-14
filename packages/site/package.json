@@ -14,7 +14,7 @@
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.8",
+    "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.14",
     "@myst-theme/diagrams": "^0.1.29",
     "@myst-theme/frontmatter": "^0.1.29",

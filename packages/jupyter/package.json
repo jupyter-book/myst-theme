@@ -20,7 +20,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.7",
+    "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.13",
     "@myst-theme/providers": "^0.1.29",
     "@popperjs/core": "^2.11.6",

@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.1.31
+
+### Patch Changes
+
+- 1c05efd: Update links to be un-effected by downstream style changes in Jupyter
+
 ## 0.1.30
 
 ### Patch Changes

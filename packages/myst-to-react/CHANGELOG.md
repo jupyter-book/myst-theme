@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 0.1.31
+
+### Patch Changes
+
+- 1c05efd: Update links to be un-effected by downstream style changes in Jupyter
+  - @myst-theme/providers@0.1.31
+
 ## 0.1.30
 
 ### Patch Changes

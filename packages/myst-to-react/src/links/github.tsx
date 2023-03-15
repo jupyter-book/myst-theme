@@ -54,7 +54,12 @@ function GithubFilePreview({
   if (error) {
     return (
       <span>
-        <a href={url} className="block" target="_blank" rel="noreferrer">
+        <a
+          href={url}
+          className="block text-inherit hover:text-inherit"
+          target="_blank"
+          rel="noreferrer"
+        >
           <ExternalLinkIcon className="w-4 h-4 float-right" />
         </a>
         <div className="mt-2">Error loading "{file}" from GitHub.</div>

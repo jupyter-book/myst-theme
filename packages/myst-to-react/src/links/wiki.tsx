@@ -79,7 +79,12 @@ function WikiChild({ page, wiki, open }: { page: string; wiki: string; open: boo
   if (error) {
     return (
       <span>
-        <a href={url} className="block" target="_blank" rel="noreferrer">
+        <a
+          href={url}
+          className="block text-inherit hover:text-inherit"
+          target="_blank"
+          rel="noreferrer"
+        >
           <ExternalLinkIcon className="w-4 h-4 float-right" />
           <WikiTextMark />
         </a>

@@ -137,7 +137,7 @@ export function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['a
                         target="_blank"
                         rel="noopener noreferrer"
                         title="ROR (Research Organization Registry)"
-                        className="text-inherit"
+                        className="text-inherit hover:text-inherit"
                       >
                         <RorIcon className="ml-2 inline-block h-[2em] w-[2em] grayscale hover:grayscale-0 -translate-y-[1px]" />
                       </a>
@@ -160,7 +160,7 @@ export function DoiText({ doi: possibleLink, className }: { doi?: string; classN
   const url = `https://doi.org/${doi}`;
   return (
     <a
-      className={classNames('no-underline', className)}
+      className={classNames('no-underline text-inherit hover:text-inherit', className)}
       target="_blank"
       rel="noopener noreferrer"
       href={url}
@@ -177,7 +177,12 @@ export function DoiBadge({ doi: possibleLink, className }: { doi?: string; class
   const url = `https://doi.org/${doi}`;
   return (
     <div className={classNames('flex-none', className)} title="DOI (Digital Object Identifier)">
-      <a className="font-light no-underline" target="_blank" rel="noopener noreferrer" href={url}>
+      <a
+        className="font-light hover:font-light no-underline text-inherit hover:text-inherit"
+        target="_blank"
+        rel="noopener noreferrer"
+        href={url}
+      >
         {url}
       </a>
     </div>
@@ -215,7 +220,7 @@ export function GitHubLink({ github: possibleLink }: { github?: string }) {
       title={`GitHub Repository: ${github}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-inherit"
+      className="text-inherit hover:text-inherit"
     >
       <GithubIcon className="w-5 h-5 mr-1 inline-block opacity-60 hover:opacity-100" />
     </a>
@@ -230,7 +235,7 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
       target="_blank"
       rel="noopener noreferrer"
       title="Open Access"
-      className="text-inherit"
+      className="text-inherit hover:text-inherit"
     >
       <OpenAccessIcon className="w-5 h-5 mr-1 inline-block opacity-60 hover:opacity-100 hover:text-[#E18435]" />
     </a>

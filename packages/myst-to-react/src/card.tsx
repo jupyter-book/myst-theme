@@ -117,7 +117,8 @@ function Card({
         isStatic={isStatic}
         className={classNames(
           sharedStyle,
-          'block font-normal no-underline cursor-pointer group',
+          'text-inherit hover:text-inherit',
+          'block font-normal no-underline hover:no-underline cursor-pointer group',
           'hover:border-blue-500 dark:hover:border-blue-400',
         )}
       >

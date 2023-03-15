@@ -163,7 +163,12 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       typeof children === 'string' ? backwardsCompatibleLabel(children, node.kind) : children;
     const id = node.html_id || node.identifier || node.key;
     return (
-      <HashLink key={node.key} id={id} kind={node.kind} className="mr-1 text-inherit font-semibold">
+      <HashLink
+        key={node.key}
+        id={id}
+        kind={node.kind}
+        className="mr-1 text-inherit hover:text-inherit font-semibold hover:font-semibold"
+      >
         {label}
       </HashLink>
     );

@@ -23,12 +23,17 @@ export function LinkCard({
   return (
     <div className={classNames(className, { 'animate-pulse': loading })}>
       {internal && (
-        <Link to={url} className="block" prefetch="intent">
+        <Link to={url} className="block text-inherit hover:text-inherit" prefetch="intent">
           {title}
         </Link>
       )}
       {!internal && (
-        <a href={url} className="block" target="_blank" rel="noreferrer">
+        <a
+          href={url}
+          className="block text-inherit hover:text-inherit"
+          target="_blank"
+          rel="noreferrer"
+        >
           <ExternalLinkIcon className="w-4 h-4 float-right" />
           {title}
         </a>

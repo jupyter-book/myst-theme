@@ -59,7 +59,12 @@ const mathRenderer: NodeRenderer<MathLike> = (node) => {
         />
         {node.enumerator && (
           <div className="flex-none text-right m-0 pl-2 self-center relative select-none">
-            <HashLink id={id} align="inline" kind="Equation">
+            <HashLink
+              id={id}
+              align="inline"
+              kind="Equation"
+              className="text-inherit hover:text-inherit"
+            >
               ({node.enumerator})
             </HashLink>
           </div>

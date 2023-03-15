@@ -37,7 +37,10 @@ export function CreativeCommonsBadge({
       href={license.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={classNames('opacity-50 hover:opacity-100 text-inherit', className)}
+      className={classNames(
+        'opacity-50 hover:opacity-100 text-inherit hover:text-inherit',
+        className,
+      )}
     >
       <CcIcon className="h-5 w-5 mx-1 inline-block" title={`${title}`} />
       {(kind.startsWith('CC0') || kind.startsWith('CC-0') || kind.includes('ZERO')) && (
@@ -98,7 +101,7 @@ function SingleLicenseBadge({
       target="_blank"
       rel="noopener noreferrer"
       title={`${preamble}${license.name ?? (license as any).title} (${license.id})`}
-      className="text-inherit"
+      className="text-inherit hover:text-inherit"
     >
       {!license.osi && (
         <ScaleIcon

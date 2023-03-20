@@ -317,7 +317,9 @@ export function FrontmatterBlock({
           <DownloadsDropdown exports={exports as any} />
         </div>
       )}
-      <h1 className={classNames({ 'mb-2': frontmatter.subtitle })}>{frontmatter.title}</h1>
+      {frontmatter.title && (
+        <h1 className={classNames({ 'mb-2': frontmatter.subtitle })}>{frontmatter.title}</h1>
+      )}
       {frontmatter.subtitle && (
         <p className="lead mt-0 text-zinc-600 dark:text-zinc-400">{frontmatter.subtitle}</p>
       )}

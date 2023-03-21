@@ -184,7 +184,7 @@ export function Admonition({
             'text-green-600 bg-green-50 dark:bg-slate-900': !simple && color === 'green',
             'text-amber-600 bg-amber-50 dark:bg-slate-900': !simple && color === 'yellow',
             'text-red-600 bg-red-50 dark:bg-slate-900': !simple && color === 'red',
-            'cursor-pointer hover:shadow-[inset_0_0_0px_20px_#00000003] dark:hover:shadow-[inset_0_0_0px_20px_#FFFFFF03]':
+            'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           })}
         >

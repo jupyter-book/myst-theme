@@ -37,7 +37,7 @@ export function Details({
       <summary
         className={classNames(
           'm-0 text-lg font-medium py-1 min-h-[2em] pl-3',
-          'cursor-pointer hover:shadow-[inset_0_0_0px_20px_#00000003] dark:hover:shadow-[inset_0_0_0px_20px_#FFFFFF03]',
+          'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]',
           'bg-gray-100 dark:bg-slate-900',
         )}
       >

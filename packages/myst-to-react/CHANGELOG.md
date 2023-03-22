@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.1.32
+
+### Patch Changes
+
+- ae5b378: Fix shadow in callout in environments (jupyterlab) that have larger padding
+- cc5a023: Add tasklists and update packages
+  - @myst-theme/providers@0.1.32
+
 ## 0.1.31
 
 ### Patch Changes

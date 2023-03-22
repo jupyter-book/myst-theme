@@ -1,5 +1,14 @@
 # myst-demo
 
+## 0.1.32
+
+### Patch Changes
+
+- cc5a023: Add tasklists and update packages
+- Updated dependencies [ae5b378]
+- Updated dependencies [cc5a023]
+  - myst-to-react@0.1.32
+
 ## 0.1.31
 
 ### Patch Changes

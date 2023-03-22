@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.1.32
+
+### Patch Changes
+
+- cc5a023: Add tasklists and update packages
+
 ## 0.1.31
 
 ## 0.1.30

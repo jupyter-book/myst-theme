@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.1.32
+
+### Patch Changes
+
+- 8da3c65: Do not show H1 if it does not exist in the frontmatter
+
 ## 0.1.31
 
 ### Patch Changes

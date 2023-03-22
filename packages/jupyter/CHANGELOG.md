@@ -1,5 +1,11 @@
 # @myst-theme/jupyter
 
+## 0.1.32
+
+### Patch Changes
+
+- @myst-theme/providers@0.1.32
+
 ## 0.1.31
 
 ### Patch Changes

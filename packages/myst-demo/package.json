@@ -1,6 +1,6 @@
 {
   "name": "myst-demo",
-  "version": "0.1.31",
+  "version": "0.1.32",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
@@ -33,7 +33,7 @@
     "myst-to-docx": "^0.0.18",
     "myst-to-html": "^0.0.23",
     "myst-to-jats": "^0.0.20",
-    "myst-to-react": "^0.1.31",
+    "myst-to-react": "^0.1.32",
     "myst-to-tex": "^0.0.21",
     "myst-transforms": "^0.0.23",
     "unified": "^10.1.2",

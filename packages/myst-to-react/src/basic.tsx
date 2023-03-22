@@ -47,7 +47,7 @@ type BasicNodeRenderers = {
   inlineMath: NodeRenderer<spec.InlineMath>;
   math: NodeRenderer<spec.Math>;
   list: NodeRenderer<spec.List>;
-  listItem: NodeRenderer<spec.ListItem>;
+  listItem: NodeRenderer<spec.ListItem & { checked?: boolean }>;
   container: NodeRenderer<spec.Container>;
   caption: NodeRenderer<spec.Caption>;
   blockquote: NodeRenderer<spec.Blockquote>;
@@ -127,7 +127,15 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     return <ul key={node.key}>{children}</ul>;
   },
   listItem(node, children) {
-    return <li key={node.key}>{children}</li>;
+    if (node.checked == null) {
+      return <li key={node.key}>{children}</li>;
+    }
+    return (
+      <li key={node.key} className="task-list-item">
+        <input type="checkbox" className="task-list-item-checkbox" defaultChecked={node.checked} />
+        {children}
+      </li>
+    );
   },
   container(node, children) {
     return (

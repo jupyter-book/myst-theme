@@ -1,5 +1,12 @@
 # myst-demo
 
+## 0.1.33
+
+### Patch Changes
+
+- 3927ed5: Remove double header when there is a frontmatter title block.
+  - myst-to-react@0.1.33
+
 ## 0.1.32
 
 ### Patch Changes

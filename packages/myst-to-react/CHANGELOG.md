@@ -1,5 +1,11 @@
 # myst-to-react
 
+## 0.1.33
+
+### Patch Changes
+
+- @myst-theme/providers@0.1.33
+
 ## 0.1.32
 
 ### Patch Changes

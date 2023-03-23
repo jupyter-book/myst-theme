@@ -44,7 +44,7 @@ async function saveDocxFile(filename: string, mdast: any, footnotes?: any) {
 async function parse(
   text: string,
   defaultFrontmatter?: PageFrontmatter,
-  renderers?: Record<string, NodeRenderer>,
+  options?: { renderers?: Record<string, NodeRenderer>; removeHeading?: boolean },
 ) {
   // Ensure that any imports from myst are async and scoped to this function
   const { visit } = await import('unist-util-visit');
@@ -97,7 +97,7 @@ async function parse(
   };
   const { frontmatter: frontmatterRaw } = getFrontmatter(mdast, {
     removeYaml: true,
-    removeHeading: false,
+    removeHeading: options?.removeHeading ?? false,
   });
   const frontmatter = validatePageFrontmatter(frontmatterRaw, {
     property: 'frontmatter',
@@ -124,7 +124,7 @@ async function parse(
   const jats = unified()
     .use(mystToJats, { spaces: 2 })
     .stringify(mdast as any, jatsFile).result as JatsResult;
-  const content = useParse(mdast as any, renderers);
+  const content = useParse(mdast as any, options?.renderers);
   return {
     frontmatter,
     yaml: mdastString,
@@ -173,7 +173,7 @@ export function MySTRenderer({
 
   useEffect(() => {
     const ref = { current: true };
-    parse(text, { numbering }, renderers).then((result) => {
+    parse(text, { numbering }, { renderers, removeHeading: !!TitleBlock }).then((result) => {
       if (!ref.current) return;
       setFrontmatter(result.frontmatter);
       setYaml(result.yaml);

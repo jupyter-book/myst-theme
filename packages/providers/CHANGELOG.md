@@ -1,5 +1,11 @@
 # @myst-theme/providers
 
+## 0.1.34
+
+### Patch Changes
+
+- f125d15: Update packages to latest versions. Add JATS support.
+
 ## 0.1.33
 
 ## 0.1.32

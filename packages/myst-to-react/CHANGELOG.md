@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.1.34
+
+### Patch Changes
+
+- f125d15: Update packages to latest versions. Add JATS support.
+- Updated dependencies [f125d15]
+  - @myst-theme/providers@0.1.34
+
 ## 0.1.33
 
 ### Patch Changes

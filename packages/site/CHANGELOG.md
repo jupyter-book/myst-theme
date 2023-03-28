@@ -1,5 +1,19 @@
 # @curvenote/site
 
+## 0.1.34
+
+### Patch Changes
+
+- f125d15: Update packages to latest versions. Add JATS support.
+- Updated dependencies [f125d15]
+- Updated dependencies [f125d15]
+  - myst-to-react@0.1.34
+  - myst-demo@0.1.34
+  - @myst-theme/providers@0.1.34
+  - @myst-theme/jupyter@0.1.34
+  - @myst-theme/frontmatter@0.1.34
+  - @myst-theme/diagrams@0.1.34
+
 ## 0.1.33
 
 ### Patch Changes

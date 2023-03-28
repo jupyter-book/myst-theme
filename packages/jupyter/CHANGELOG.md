@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.1.34
+
+### Patch Changes
+
+- f125d15: Update packages to latest versions. Add JATS support.
+- f125d15: Remove console.log
+- Updated dependencies [f125d15]
+  - @myst-theme/providers@0.1.34
+
 ## 0.1.33
 
 ### Patch Changes

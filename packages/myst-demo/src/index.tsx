@@ -27,13 +27,11 @@ function downloadBlob(filename: string, blob: Blob) {
   a.click();
 }
 
-async function saveDocxFile(filename: string, mdast: any, footnotes?: any) {
+async function saveDocxFile(filename: string, mdast: any) {
   const { unified } = await import('unified');
   const { mystToDocx, fetchImagesAsBuffers } = await import('myst-to-docx');
   // Clone the tree
   const tree = JSON.parse(JSON.stringify(mdast));
-  // Put the footnotes back in
-  if (footnotes) tree.children.push(...Object.values(footnotes));
   const opts = await fetchImagesAsBuffers(tree);
   const docxBlob = await (unified()
     .use(mystToDocx, opts)
@@ -44,7 +42,11 @@ async function saveDocxFile(filename: string, mdast: any, footnotes?: any) {
 async function parse(
   text: string,
   defaultFrontmatter?: PageFrontmatter,
-  options?: { renderers?: Record<string, NodeRenderer>; removeHeading?: boolean },
+  options?: {
+    renderers?: Record<string, NodeRenderer>;
+    removeHeading?: boolean;
+    jats?: { fullArticle?: boolean };
+  },
 ) {
   // Ensure that any imports from myst are async and scoped to this function
   const { visit } = await import('unist-util-visit');
@@ -112,7 +114,7 @@ async function parse(
     .use(mathPlugin, { macros: frontmatter?.math ?? {} }) // This must happen before enumeration, as it can add labels
     .use(enumerateTargetsPlugin, { state })
     .use(linksPlugin, { transformers: linkTransforms })
-    .use(footnotesPlugin, { references })
+    .use(footnotesPlugin)
     .use(resolveReferencesPlugin, { state })
     .use(keysPlugin)
     .runSync(mdast as any, file);
@@ -122,7 +124,7 @@ async function parse(
     .stringify(mdast as any, texFile).result as LatexResult;
   const jatsFile = new VFile();
   const jats = unified()
-    .use(mystToJats, { spaces: 2 })
+    .use(mystToJats, { spaces: 2, fullArticle: options?.jats?.fullArticle, frontmatter })
     .stringify(mdast as any, jatsFile).result as JatsResult;
   const content = useParse(mdast as any, options?.renderers);
   return {
@@ -173,7 +175,11 @@ export function MySTRenderer({
 
   useEffect(() => {
     const ref = { current: true };
-    parse(text, { numbering }, { renderers, removeHeading: !!TitleBlock }).then((result) => {
+    parse(
+      text,
+      { numbering },
+      { renderers, removeHeading: !!TitleBlock, jats: { fullArticle: true } },
+    ).then((result) => {
       if (!ref.current) return;
       setFrontmatter(result.frontmatter);
       setYaml(result.yaml);
@@ -305,7 +311,7 @@ export function MySTRenderer({
             <div>
               <button
                 className="rounded border p-3"
-                onClick={() => saveDocxFile('demo.docx', references.article, references.footnotes)}
+                onClick={() => saveDocxFile('demo.docx', references.article)}
                 title={`Download Micorsoft Word`}
                 aria-label={`Download Micorsoft Word`}
               >

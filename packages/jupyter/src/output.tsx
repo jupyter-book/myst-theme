@@ -52,8 +52,6 @@ export function Output(node: GenericNode) {
     );
   }
 
-  console.log('Output', allSafe, outputs);
-
   return (
     <figure
       key={node.key}

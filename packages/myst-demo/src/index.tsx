@@ -68,7 +68,7 @@ async function parse(
     getFrontmatter,
   } = await import('myst-transforms');
   const { default: mystToTex } = await import('myst-to-tex');
-  const { default: mystToJats } = await import('myst-to-jats');
+  const { default: mystToJats } = await import('myst-to-jats').catch(() => ({ default: null }));
   const { mystToHtml } = await import('myst-to-html');
   const { cardDirective } = await import('myst-ext-card');
   const { gridDirective } = await import('myst-ext-grid');
@@ -123,9 +123,11 @@ async function parse(
     .use(mystToTex, { references })
     .stringify(mdast as any, texFile).result as LatexResult;
   const jatsFile = new VFile();
-  const jats = unified()
-    .use(mystToJats, { spaces: 2, fullArticle: options?.jats?.fullArticle, frontmatter })
-    .stringify(mdast as any, jatsFile).result as JatsResult;
+  const jats = mystToJats
+    ? (unified()
+        .use(mystToJats, { spaces: 2, fullArticle: options?.jats?.fullArticle, frontmatter })
+        .stringify(mdast as any, jatsFile).result as JatsResult)
+    : { value: 'Problem loading myst-to-jats' };
   const content = useParse(mdast as any, options?.renderers);
   return {
     frontmatter,

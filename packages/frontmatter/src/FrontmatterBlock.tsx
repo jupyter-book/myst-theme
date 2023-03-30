@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
+import { SourceFileKind } from 'myst-common';
 import {
   JupyterIcon,
   OrcidIcon,
@@ -11,11 +12,6 @@ import {
 } from '@scienceicons/react/24/solid';
 import { LicenseBadges } from './licenses';
 import { DownloadsDropdown } from './downloads';
-
-enum KINDS {
-  Article = 'Article',
-  Notebook = 'Notebook',
-}
 
 function ExternalOrInternalLink({
   to,
@@ -278,15 +274,15 @@ export function Journal({
 
 export function FrontmatterBlock({
   frontmatter,
-  kind = KINDS.Article,
+  kind = SourceFileKind.Article,
   authorStyle = 'block',
 }: {
   frontmatter: PageFrontmatter;
-  kind?: KINDS;
+  kind?: SourceFileKind;
   authorStyle?: 'block' | 'list';
 }) {
   const { subject, doi, open_access, license, github, venue, biblio, exports, date } = frontmatter;
-  const isJupyter = kind === KINDS.Notebook;
+  const isJupyter = kind === SourceFileKind.Notebook;
   const hasExports = exports && exports.length > 0;
   const hasHeaders =
     subject || github || venue || biblio || open_access || license || hasExports || isJupyter;

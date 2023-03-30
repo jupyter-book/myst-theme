@@ -1,5 +1,17 @@
 # @curvenote/site
 
+## 0.1.35
+
+### Patch Changes
+
+- Updated dependencies
+  - myst-demo@0.1.35
+  - @myst-theme/providers@0.1.35
+  - @myst-theme/frontmatter@0.1.35
+  - @myst-theme/diagrams@0.1.35
+  - @myst-theme/jupyter@0.1.35
+  - myst-to-react@0.1.35
+
 ## 0.1.34
 
 ### Patch Changes

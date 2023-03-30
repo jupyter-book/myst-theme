@@ -1,5 +1,12 @@
 # myst-demo
 
+## 0.1.35
+
+### Patch Changes
+
+- updates to JATS and wiki parsing
+  - myst-to-react@0.1.35
+
 ## 0.1.34
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/frontmatter",
-  "version": "0.1.34",
+  "version": "0.1.35",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",

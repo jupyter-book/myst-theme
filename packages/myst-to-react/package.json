@@ -1,6 +1,6 @@
 {
   "name": "myst-to-react",
-  "version": "0.1.34",
+  "version": "0.1.35",
   "main": "dist/cjs/index.js",
   "types": "dist/types/index.d.ts",
   "files": [
@@ -17,7 +17,7 @@
     "build": "npm-run-all -l clean -p build:cjs build:types"
   },
   "dependencies": {
-    "@myst-theme/providers": "^0.1.34",
+    "@myst-theme/providers": "^0.1.35",
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.13",
     "@popperjs/core": "^2.11.6",

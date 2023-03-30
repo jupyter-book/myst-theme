@@ -1,13 +1,8 @@
 import type { Root } from 'mdast';
-import type { References } from 'myst-common';
+import type { References, Dependency, SourceFileKind } from 'myst-common';
 import type { SiteManifest } from 'myst-config';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import type { Theme } from '@myst-theme/providers';
-
-enum KINDS {
-  Article = 'Article',
-  Notebook = 'Notebook',
-}
 
 export type Heading = {
   slug?: string;
@@ -38,7 +33,7 @@ export type FooterLinks = {
 };
 
 export type PageLoader = {
-  kind: KINDS;
+  kind: SourceFileKind;
   file: string;
   sha256: string;
   slug: string;
@@ -47,4 +42,6 @@ export type PageLoader = {
   mdast: Root;
   references: References;
   footer?: FooterLinks;
+  // This may not be defined
+  dependencies?: Dependency[];
 };

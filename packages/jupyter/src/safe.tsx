@@ -59,7 +59,7 @@ function SafeOutput({ output }: { output: MinifiedOutput }) {
       if (image) return <OutputImage image={image} text={text} />;
       if (text)
         return (
-          <div>
+          <div className="whitespace-pre-wrap font-mono text-sm">
             <Ansi>{text.content}</Ansi>
           </div>
         );

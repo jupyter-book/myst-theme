@@ -1,5 +1,6 @@
 import { Menu } from '@headlessui/react';
-import { DocumentIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon';
+import ArrowDownTrayIcon from '@heroicons/react/24/outline/ArrowDownTrayIcon';
 import classNames from 'classnames';
 import { useCallback } from 'react';
 

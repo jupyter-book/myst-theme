@@ -1,6 +1,6 @@
 import { useTheme } from '@myst-theme/providers';
-import { MoonIcon } from '@heroicons/react/24/solid';
-import { SunIcon } from '@heroicons/react/24/outline';
+import MoonIcon from '@heroicons/react/24/solid/MoonIcon';
+import SunIcon from '@heroicons/react/24/outline/SunIcon';
 import classNames from 'classnames';
 
 export function ThemeButton({ className = 'mx-3 h-8 w-8' }: { className?: string }) {

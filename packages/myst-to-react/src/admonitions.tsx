@@ -4,21 +4,17 @@ import type {
 } from 'myst-spec';
 import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
-import {
-  InformationCircleIcon,
-  ExclamationCircleIcon as OExclamationIcon,
-  MegaphoneIcon,
-  PencilSquareIcon,
-  ArrowRightCircleIcon,
-  LightBulbIcon,
-} from '@heroicons/react/24/outline';
-import {
-  ExclamationTriangleIcon as SExclamationIcon,
-  ExclamationCircleIcon as SExclamationCircleIcon,
-  XCircleIcon,
-  BoltIcon,
-  ChevronRightIcon,
-} from '@heroicons/react/24/solid';
+import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircleIcon';
+import OExclamationIcon from '@heroicons/react/24/outline/ExclamationCircleIcon';
+import MegaphoneIcon from '@heroicons/react/24/outline/MegaphoneIcon';
+import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon';
+import ArrowRightCircleIcon from '@heroicons/react/24/outline/ArrowRightCircleIcon';
+import LightBulbIcon from '@heroicons/react/24/outline/LightBulbIcon';
+import SExclamationIcon from '@heroicons/react/24/solid/ExclamationTriangleIcon';
+import SExclamationCircleIcon from '@heroicons/react/24/solid/ExclamationCircleIcon';
+import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
+import BoltIcon from '@heroicons/react/24/solid/BoltIcon';
+import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
 import classNames from 'classnames';
 // import { AdmonitionKind } from 'myst-common';
 

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { Link } from '@remix-run/react';
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import ArrowLeftIcon from '@heroicons/react/24/outline/ArrowLeftIcon';
+import ArrowRightIcon from '@heroicons/react/24/outline/ArrowRightIcon';
 import type { FooterLinks, NavigationLink } from '../types';
 import { useUrlbase, withUrlbase } from '@myst-theme/providers';
 

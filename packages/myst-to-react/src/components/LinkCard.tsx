@@ -1,5 +1,5 @@
 import { useLinkProvider } from '@myst-theme/providers';
-import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
+import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import classNames from 'classnames';
 
 export function LinkCard({

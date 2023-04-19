@@ -12,12 +12,10 @@ import { useNodeRenderers, ReferencesProvider } from '@myst-theme/providers';
 import { CopyIcon, CodeBlock, useParse } from 'myst-to-react';
 import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';
-import {
-  ExclamationTriangleIcon,
-  ExclamationCircleIcon,
-  InformationCircleIcon,
-  ArrowDownTrayIcon,
-} from '@heroicons/react/24/outline';
+import ExclamationTriangleIcon from '@heroicons/react/24/outline/ExclamationTriangleIcon';
+import ExclamationCircleIcon from '@heroicons/react/24/outline/ExclamationCircleIcon';
+import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircleIcon';
+import ArrowDownTrayIcon from '@heroicons/react/24/outline/ArrowDownTrayIcon';
 
 function downloadBlob(filename: string, blob: Blob) {
   const a = document.createElement('a');

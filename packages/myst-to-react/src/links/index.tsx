@@ -1,8 +1,6 @@
 import type { Link } from 'myst-spec';
-import {
-  ArrowTopRightOnSquareIcon as ExternalLinkIcon,
-  LinkIcon,
-} from '@heroicons/react/24/outline';
+import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
+import LinkIcon from '@heroicons/react/24/outline/LinkIcon';
 import { useLinkProvider, useSiteManifest, useUrlbase, withUrlbase } from '@myst-theme/providers';
 import type { SiteManifest } from 'myst-config';
 import type { NodeRenderer } from '@myst-theme/providers';

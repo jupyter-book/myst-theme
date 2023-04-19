@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
+import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import { HoverPopover } from '../components/HoverPopover';
 import { LinkCard } from '../components/LinkCard';
 import React, { useEffect, useState } from 'react';

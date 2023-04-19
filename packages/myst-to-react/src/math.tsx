@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import ExclamationCircleIcon from '@heroicons/react/24/outline/ExclamationCircleIcon';
 import type { InlineMath, Math } from 'myst-spec';
 import { InlineError } from './inlineError';
 import { HashLink } from './heading';

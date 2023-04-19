@@ -12,7 +12,6 @@ import {
 } from '@scienceicons/react/24/solid';
 import { LicenseBadges } from './licenses';
 import { DownloadsDropdown } from './downloads';
-import { EnableCompute } from './EnableCompute';
 
 function ExternalOrInternalLink({
   to,
@@ -288,7 +287,6 @@ export function FrontmatterBlock({
   const hasHeaders =
     subject || github || venue || biblio || open_access || license || hasExports || isJupyter;
   const hasDateOrDoi = doi || date;
-  console.log('FRONTMATTER BLOCK', kind);
   return (
     <>
       {hasHeaders && (
@@ -327,13 +325,6 @@ export function FrontmatterBlock({
         <div className="flex my-2 text-sm font-light">
           <DateString date={date} spacer={!!doi} />
           <DoiBadge doi={doi} />
-          {/**
-           * Added this compute here for now, it introduces a dep. on thebe-react in this package.
-           * Should this stay here? where will server configuration be specified in future?
-           * per article frontmatter? per site configuration?
-           */}
-          <div className="flex-grow"></div>
-          <EnableCompute canCompute={true} />
         </div>
       )}
     </>

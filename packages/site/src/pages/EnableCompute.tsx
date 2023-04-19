@@ -1,6 +1,9 @@
 import { useThebeCore, useThebeServer, useThebeSession } from 'thebe-react';
 
-export function EnableCompute({ canCompute }: { canCompute: boolean }) {
+export function EnableCompute({
+  canCompute,
+  children,
+}: React.PropsWithChildren<{ canCompute: boolean }>) {
   const { load, loading, core, error: loadError } = useThebeCore();
   const { connect, connecting, ready: serverReady, error: serverError } = useThebeServer();
   const { start, starting, ready: sessionReady, error: sessionError } = useThebeSession();
@@ -27,12 +30,13 @@ export function EnableCompute({ canCompute }: { canCompute: boolean }) {
   else classes += idleClasses;
 
   return (
-    <div className="inline-block mx-1">
+    <div className="flex mx-1">
       <button
         className={classes}
         onClick={startSetup}
         disabled={busy || serverReady || sessionReady}
       ></button>
+      {serverReady && sessionReady && <>{children}</>}
     </div>
   );
 }

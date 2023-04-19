@@ -30,7 +30,7 @@
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.7",
     "unist-util-select": "^4.0.1",
-    "thebe-react": "^0.0.4"
+    "thebe-react": "^0.0.5"
   },
   "peerDependencies": {
     "@remix-run/node": "^1.12.0",

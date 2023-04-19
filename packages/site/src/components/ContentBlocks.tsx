@@ -1,13 +1,95 @@
 import { useParse, DEFAULT_RENDERERS } from 'myst-to-react';
-import type { Parent } from 'myst-spec';
+import type { GenericNode, GenericParent } from 'myst-common';
+import type { NodeRenderer } from '@myst-theme/providers';
 import { useNodeRenderers } from '@myst-theme/providers';
 import classNames from 'classnames';
-import { useNotebook, useNotebookFromSource, useThebeSession } from 'thebe-react';
-import { useEffect, useState } from 'react';
+import { useCellRefRegistry } from '../pages/NotebookProvider';
+import { CellRun } from './CellRun';
 
-function Block({ id, node, className }: { id: string; node: Parent; className?: string }) {
-  const renderers = useNodeRenderers() ?? DEFAULT_RENDERERS;
-  const children = useParse(node, renderers);
+function activeCodeRendererFactory(parentId: string, BaseRenderer: NodeRenderer<any>) {
+  return function ActiveCode(node: GenericNode) {
+    const code = BaseRenderer(node);
+    return (
+      <div
+        className="relative"
+        key={node.key}
+        data-cell-id={parentId}
+        data-mdast-node-type={node.type}
+        data-mdast-node-id={node.key}
+      >
+        {/* <div className="rounded bg-blue-500 text-xs text-white px-2 py-1">
+          [CODE] block id: {parentId} | node.id: {node.id ?? 'none'} | node.key:{' '}
+          {node.key ?? 'none'}
+        </div> */}
+        {code}
+        {node.kind !== 'inline' && <CellRun id={parentId} />}
+      </div>
+    );
+  };
+}
+
+function activeOutputRendererFactory(parentId: string, BaseRenderer: NodeRenderer<any>) {
+  // TODO could take a prop here to show some UI to start compute etc...
+  // then the output is rendered in isolation, without it's code cell
+  return function ActiveOutput(node: GenericNode) {
+    const { register } = useCellRefRegistry();
+    const output = BaseRenderer(node);
+    console.log('ActiveOutput', { parentId, id: node.id, register });
+    return (
+      <div
+        className="not-prose"
+        key={node.key}
+        data-cell-id={parentId}
+        data-mdast-node-type={node.type}
+        data-mdast-node-id={node.key}
+      >
+        {/* <div className="rounded bg-green-500 text-xs text-white px-2 py-1">
+          [OUTPUT] block id: {parentId} | node.id: {node.id} | node.key: {node.key ?? 'none'}
+        </div> */}
+        <div ref={register(parentId)}>{output}</div>
+      </div>
+    );
+  };
+}
+
+function ensureCodeBlocksHaveAnOutput(node: GenericParent) {
+  if (node.children.length === 1 && node.children[0].type === 'code') {
+    return {
+      ...node,
+      children: [
+        ...node.children,
+        {
+          type: 'output',
+          key: 'injected',
+          data: [],
+        },
+      ],
+    };
+  }
+  if (
+    node.children.length === 2 &&
+    node.children[0].type === 'code' &&
+    node.children[1].type === 'output'
+  )
+    return node;
+
+  return {
+    ...node,
+    children: node.children.map((n) => (n.type === 'code' ? { ...n, kind: 'inline' } : n)),
+  };
+}
+
+function Block({ id, node, className }: { id: string; node: GenericParent; className?: string }) {
+  const { code, output, ...otherRenderers } = useNodeRenderers() ?? DEFAULT_RENDERERS;
+  console.log({ node });
+
+  // TODO - do we need these wrapper components? are we able to push the custom logic
+  // down into the standard code/output renderers and we decorate the node with data we need?
+  const children = useParse(ensureCodeBlocksHaveAnOutput(node), {
+    ...otherRenderers,
+    code: activeCodeRendererFactory(id, code),
+    output: activeOutputRendererFactory(id, output),
+  });
   const subGrid = 'article-grid article-subgrid-gap col-screen';
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
   // Hide the subgrid if either the dataClass or the className exists and includes `col-`
@@ -15,56 +97,36 @@ function Block({ id, node, className }: { id: string; node: Parent; className?: 
     (dataClassName && dataClassName.includes('col-')) || (className && className.includes('col-'));
   return (
     <div
+      key={id}
       id={id}
       className={classNames(className, dataClassName, {
         [subGrid]: !noSubGrid,
       })}
     >
+      {/* <pre className="text-xs">
+        block {node.type} | # children: {node.children.length} |
+        {node.children.map((n) => ` ${n.type} |`)}
+      </pre> */}
       {children}
     </div>
   );
 }
 
-export function ContentBlocks({ mdast, className }: { mdast: Parent; className?: string }) {
-  const blocks = mdast.children as Parent[];
-  const [executed, setExecuted] = useState(false);
-  // const { name, session, ready, start, starting } = useThebeSession();
-  // const { notebook, busy, execute, attach, cellRefs } = useNotebookFromSource([
-  //   'import matplotlib.pyplot as plt;\nimport ipywidgets',
-  //   'ipywidgets.interact(lambda x, y: plt.plot([1,x,y]), x=5, y=5);',
-  // ]);
-
-  // console.log({ name, session, ready, start, starting });
-  // console.log({ notebook, busy, execute, attach, cellRefs });
-
-  // const clear = () => {
-  //   notebook?.clear();
-  // };
-  // const go = () => {
-  //   execute();
-  // };
-
-  // useEffect(() => {
-  //   if (executed || !ready || !notebook || !session || !execute) return;
-  //   attach(session);
-  //   setExecuted(true);
-  //   execute();
-  // }, [session, ready, notebook, execute, executed]);
-
+export function ContentBlocks({
+  name,
+  mdast,
+  className,
+}: {
+  name: string;
+  mdast: GenericParent;
+  className?: string;
+}) {
+  const blocks = mdast.children as GenericParent[];
   return (
     <>
-      {/* <button onClick={clear}>Clear!</button>
-      <button onClick={go}>Execute</button> */}
-      {/* {ready ? (
-        <div className="bg-green-500">READY!</div>
-      ) : (
-        <div className="bg-red-500">Starting</div>
-      )} */}
-      {/* <div ref={cellRefs[0]}>output 1</div>
-      <div ref={cellRefs[1]}>output 2</div> */}
-      {blocks.map((node, index) => {
-        return <Block key={(node as any).key} id={`${index}`} node={node} className={className} />;
-      })}
+      {blocks.map((node) => (
+        <Block key={node.key} id={node.key} node={node} className={className} />
+      ))}
     </>
   );
 }

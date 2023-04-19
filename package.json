@@ -9,6 +9,7 @@
     "docs"
   ],
   "scripts": {
+    "postinstall": "patch-package",
     "compile": "turbo run compile",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel --filter='./packages/*'",
@@ -36,6 +37,7 @@
     "@types/react-dom": "^18.0.10",
     "eslint-config-curvenote": "latest",
     "jest": "^29.5.0",
+    "patch-package": "^6.5.1",
     "prettier": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -54,5 +56,6 @@
       "react-dom": "^18.2.0"
     }
   },
-  "packageManager": "npm@8.10.0"
+  "packageManager": "npm@8.10.0",
+  "dependencies": {}
 }

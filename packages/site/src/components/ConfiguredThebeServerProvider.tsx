@@ -4,6 +4,7 @@ import { ThebeServerProvider } from 'thebe-react';
 
 function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {
   const config = useSiteManifest();
+  console.log('Site Manifest', { config });
   // TODO configure [default] server connection from the SiteManifest?
   const options = useMemo(
     () => ({

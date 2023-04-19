@@ -24,8 +24,6 @@ export function ArticlePage({ article }: { article: PageLoader }) {
           <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
         )}
         <NotebookProvider siteConfig={false} page={article}>
-          {/* will slug always be a valid session name? */}
-
           {/**
            * Added this compute here for now, it introduces a dep. on thebe-react in this package.
            * Should this stay here? where will server configuration be specified in future?

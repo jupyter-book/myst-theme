@@ -1,5 +1,6 @@
 import { useThebeCore, useThebeServer, useThebeSession } from 'thebe-react';
 import { PowerIcon } from '@heroicons/react/24/outline';
+import { useHasNotebookProvider } from '@myst-theme/jupyter';
 
 export function EnableCompute({
   canCompute,
@@ -8,6 +9,7 @@ export function EnableCompute({
   const { load, loading, core, error: loadError } = useThebeCore();
   const { connect, connecting, ready: serverReady, error: serverError } = useThebeServer();
   const { start, starting, ready: sessionReady, error: sessionError } = useThebeSession();
+  const hasNotebookProvider = useHasNotebookProvider();
   const busy = loading || connecting || starting;
 
   const startSetup = () => {
@@ -17,7 +19,7 @@ export function EnableCompute({
     if (!sessionReady) start();
   };
 
-  if (!canCompute) return null;
+  if (!canCompute || !hasNotebookProvider) return null;
   let classes = 'text-center mr-1 cursor-pointer rounded-full';
   const idleClasses = 'text-blue-700 hover:opacity-100 opacity-60';
   const busyClasses = 'bg-yellow-700 text-yellow-700 opacity-100 font-semibold';

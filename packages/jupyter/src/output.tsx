@@ -34,12 +34,12 @@ export function allOutputsAreSafe(
 }
 
 export function Output(node: GenericNode) {
-  const { ready } = useNotebookCellExecution(node.key);
+  const exec = useNotebookCellExecution(node.key);
   const outputs: MinifiedOutput[] = node.data;
   const allSafe = allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES);
 
   let component;
-  if (allSafe && !ready) {
+  if (allSafe && !exec?.ready) {
     component = <SafeOutputs keyStub={node.key} outputs={outputs} />;
   } else {
     component = <JupyterOutputs id={node.key} outputs={outputs} />;

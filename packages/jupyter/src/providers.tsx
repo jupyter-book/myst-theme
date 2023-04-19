@@ -177,22 +177,22 @@ export function NotebookProvider({
   );
 }
 
+export function useHasNotebookProvider() {
+  const notebookState = useContext(NotebookContext);
+  return notebookState !== undefined;
+}
+
 export function useCellRefRegistry() {
   const notebookState = useContext(NotebookContext);
-  if (notebookState === undefined) {
-    throw new Error('useCellRefRegistry called outside of NotebookProvider');
-  }
+  if (notebookState === undefined) return undefined;
   return { register: notebookState.register };
 }
 
 export function useCellRef(id: string) {
   const notebookState = useContext(NotebookContext);
-  if (notebookState === undefined) {
-    throw new Error('useCellRef called outside of NotebookProvider');
-  }
+  if (notebookState === undefined) return undefined;
 
   const { registry, idkMap } = notebookState;
-
   const entry = Object.entries(notebookState.registry).find(([cellId]) => cellId === idkMap[id]);
   console.debug('useCellRef', { id, registry, idkMap, entry });
   return { el: entry?.[1] ?? null };
@@ -200,24 +200,18 @@ export function useCellRef(id: string) {
 
 export function useMDASTNotebook() {
   const notebookState = useContext(NotebookContext);
-
-  if (notebookState === undefined) {
-    throw new Error('useMDASTNotebook called outside of NotebookProvider');
-  }
-
   return notebookState;
 }
 
 export function useNotebookCellExecution(id: string) {
   // setup a cell only executing state
   const [executing, setExecuting] = useState(false);
-  const {
-    ready,
-    notebook,
-    executing: notebookIsExecuting,
-    executeSome,
-    idkMap,
-  } = useMDASTNotebook();
+
+  const notebookState = useContext(NotebookContext);
+  if (!notebookState) return undefined;
+
+  const { ready, notebook, executing: notebookIsExecuting, executeSome, idkMap } = notebookState;
+
   const cellId = idkMap[id];
   async function execute(options?: NotebookExecuteOptions) {
     setExecuting(true);

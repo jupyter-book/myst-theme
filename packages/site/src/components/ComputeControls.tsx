@@ -65,21 +65,26 @@ export function Clear({
 }
 
 export function RunCell({ id }: { id: string }) {
-  const { ready, executing, notebookIsExecuting, execute } = useNotebookCellExecution(id);
-  if (!ready) return null;
+  const exec = useNotebookCellExecution(id);
+  if (!exec?.ready) return null;
+  const { ready, executing, notebookIsExecuting, execute } = exec;
   return (
     <Run ready={ready} executing={executing} disabled={notebookIsExecuting} execute={execute} />
   );
 }
 
 export function ClearCell({ id }: { id: string }) {
-  const { ready, executing, notebookIsExecuting, clear } = useNotebookCellExecution(id);
-  if (!ready) return null;
+  const exec = useNotebookCellExecution(id);
+  if (!exec?.ready) return null;
+  const { ready, executing, notebookIsExecuting, clear } = exec;
   return <Clear ready={ready} executing={executing} disabled={notebookIsExecuting} clear={clear} />;
 }
 
 export function NotebookRunAll() {
-  const { ready, executing, executeAll, restart, clear } = useMDASTNotebook();
+  const exec = useMDASTNotebook();
+
+  if (!exec?.ready) return null;
+  const { ready, executing, executeAll, restart, clear } = exec;
 
   return (
     <div className="inline-block">

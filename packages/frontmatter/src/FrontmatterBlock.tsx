@@ -290,7 +290,7 @@ export function FrontmatterBlock({
   return (
     <>
       {hasHeaders && (
-        <div className="flex mt-3 mb-5 text-sm font-light items-center">
+        <div className="flex mt-3 mb-5 text-sm font-light items-center h-6">
           {subject && (
             <div
               className={classNames('flex-none pr-2 smallcaps', {

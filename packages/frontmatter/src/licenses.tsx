@@ -7,7 +7,7 @@ import {
   CcZeroIcon,
   OsiIcon,
 } from '@scienceicons/react/24/solid';
-import { ScaleIcon } from '@heroicons/react/24/outline';
+import ScaleIcon from '@heroicons/react/24/outline/ScaleIcon';
 import classNames from 'classnames';
 
 type License = {

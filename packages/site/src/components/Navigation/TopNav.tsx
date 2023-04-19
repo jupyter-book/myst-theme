@@ -56,7 +56,7 @@ function NavItem({ item }: { item: SiteNavItem }) {
           to={item.url ?? ''}
           className={({ isActive }) =>
             classNames(
-              'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
+              'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
               {
                 'border-b border-stone-200': isActive,
               },
@@ -71,7 +71,7 @@ function NavItem({ item }: { item: SiteNavItem }) {
   return (
     <Menu as="div" className="relative grow-0 inline-block mx-2">
       <div className="inline-block">
-        <Menu.Button className="inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium text-white rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+        <Menu.Button className="inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium text-stone-900 dark:text-white rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
           <span>{item.title}</span>
           <ChevronDownIcon
             className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
@@ -182,11 +182,15 @@ function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; 
   const nothingSet = !logo && !logoText;
   return (
     <Link
-      className="flex items-center text-white w-fit ml-3 md:ml-5 xl:ml-7"
+      className="flex items-center dark:text-white w-fit ml-3 md:ml-5 xl:ml-7"
       to="/"
       prefetch="intent"
     >
-      {logo && <img src={logo} className="h-9 mr-3" alt={logoText || name} height="2.25rem"></img>}
+      {logo && (
+        <div className="dark:bg-white dark:rounded p-1 mr-3">
+          <img src={logo} className="h-9" alt={logoText || name} height="2.25rem"></img>
+        </div>
+      )}
       <span
         className={classNames('text-md sm:text-xl tracking-tight sm:mr-5', {
           'sr-only': !(logoText || nothingSet),
@@ -203,7 +207,7 @@ export function TopNav() {
   const config = useSiteManifest();
   const { logo, logo_text, logoText, actions, title, nav } = config ?? ({} as SiteManifest);
   return (
-    <div className="bg-stone-700 p-3 md:px-8 fixed w-screen top-0 z-30 h-[60px]">
+    <div className="bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 fixed w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-wrap max-w-[1440px] mx-auto">
         <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center">
           <div className="block xl:hidden">
@@ -230,7 +234,7 @@ export function TopNav() {
             {actions?.map((action, index) => (
               <ExternalOrInternalLink
                 key={action.url || index}
-                className="inline-block text-md px-4 py-2 mx-1 leading-none border rounded text-white border-white hover:border-transparent hover:text-stone-500 hover:bg-white mt-0"
+                className="inline-block text-md px-4 py-2 mx-1 leading-none border rounded border-stone-700 dark:border-white text-stone-700 dark:text-white hover:text-stone-500 dark:hover:text-neutral-800 hover:bg-neutral-100 mt-0"
                 to={action.url}
               >
                 {action.title}

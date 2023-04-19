@@ -82,6 +82,7 @@ type CellRefRegistry = Record<string, HTMLDivElement>;
 type IdKeyMap = Record<string, string>;
 
 interface NotebookContextType {
+  kind: SourceFileKind;
   ready: boolean;
   attached: boolean;
   executing: boolean;
@@ -155,6 +156,7 @@ export function NotebookProvider({
   return (
     <NotebookContext.Provider
       value={{
+        kind: page.kind,
         ready,
         attached,
         executing,
@@ -208,7 +210,14 @@ export function useNotebookCellExecution(id: string) {
   const notebookState = useContext(NotebookContext);
   if (!notebookState) return undefined;
 
-  const { ready, notebook, executing: notebookIsExecuting, executeSome, idkMap } = notebookState;
+  const {
+    kind,
+    ready,
+    notebook,
+    executing: notebookIsExecuting,
+    executeSome,
+    idkMap,
+  } = notebookState;
 
   const cellId = idkMap[id];
   async function execute(options?: NotebookExecuteOptions) {
@@ -218,5 +227,5 @@ export function useNotebookCellExecution(id: string) {
     return execReturn;
   }
   const cell = notebook?.getCellById(cellId);
-  return { ready, cell, executing, notebookIsExecuting, execute, clear: () => cell?.clear() };
+  return { kind, ready, cell, executing, notebookIsExecuting, execute, clear: () => cell?.clear() };
 }

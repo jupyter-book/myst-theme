@@ -7,6 +7,7 @@ import { fetchAndEncodeOutputImages } from './convertImages';
 import type { ThebeCore } from 'thebe-core';
 import { useThebeCore } from 'thebe-react';
 import { useCellRef, useCellRefRegistry, useNotebookCellExecution } from './providers';
+import { SourceFileKind } from 'myst-common';
 
 function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
   const ref = useCellRef(id);
@@ -28,12 +29,16 @@ function PassiveOutputRenderer({
   id,
   data,
   core,
+  kind,
 }: {
   id: string;
   data: IOutput[];
   core: ThebeCore;
+  kind: SourceFileKind;
 }) {
-  const [cell] = useState(new core.PassiveCellRenderer(id));
+  const [cell] = useState(
+    new core.PassiveCellRenderer(id, undefined, undefined, kind === SourceFileKind.Article),
+  );
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     cell.render(data);
@@ -90,6 +95,7 @@ export const JupyterOutputs = ({ id, outputs }: { id: string; outputs: MinifiedO
           id={id}
           data={fullOutputs}
           core={core}
+          kind={exec?.kind ?? SourceFileKind.Notebook}
         ></MemoPassiveOutputRenderer>
       )}
     </>

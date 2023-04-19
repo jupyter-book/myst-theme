@@ -13,7 +13,8 @@ import { NotebookProvider, BinderBadge } from '@myst-theme/jupyter';
 
 export function ArticlePage({ article }: { article: PageLoader }) {
   const { canCompute } = useComputeOptions();
-  const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
+  const { hide_title_block, hide_footer_links, binder } =
+    (article.frontmatter as any)?.design ?? {};
   const isJupyter = article?.kind && article.kind === SourceFileKind.Notebook;
   return (
     <ReferencesProvider
@@ -27,7 +28,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
         <NotebookProvider siteConfig={false} page={article}>
           <div className="flex items-center">
             <div className="flex-grow"></div>
-            {article.frontmatter.binder && <BinderBadge binder={article.frontmatter.binder} />}
+            {binder && <BinderBadge binder={binder} />}
             {canCompute && isJupyter && (
               <EnableCompute canCompute={true}>
                 <NotebookRunAll />

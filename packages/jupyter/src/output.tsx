@@ -57,9 +57,6 @@ export function Output(node: GenericNode) {
         'text-right': node.align === 'right',
       })}
     >
-      <div className="rounded bg-green-500 text-xs text-white px-2 py-1">
-        [OUTPUT] block id: {node.parent} | node.id: {node.id} | node.key: {node.key ?? 'none'}
-      </div>
       {component}
     </figure>
   );

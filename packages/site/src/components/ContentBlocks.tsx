@@ -2,18 +2,16 @@ import { useParse, DEFAULT_RENDERERS } from 'myst-to-react';
 import type { GenericParent, SourceFileKind } from 'myst-common';
 import { useNodeRenderers } from '@myst-theme/providers';
 import classNames from 'classnames';
+import { ClearCell, RunCell } from './ComputeControls';
 
-// maybe better in a react provider
-// function addParentKeyAndContext(parent: string, node: GenericParent): GenericParent {
-//   return {
-//     ...node,
-//     children: node.children.map((child) => ({
-//       ...child,
-//       parent,
-//       context: SourceFileKind.Notebook,
-//     })),
-//   };
-// }
+function isACodeCell(node: GenericParent) {
+  return (
+    node.type === 'block' &&
+    node.children.length === 2 &&
+    node.children[0].type === 'code' &&
+    node.children[1].type === 'output'
+  );
+}
 
 function Block({
   id,
@@ -36,11 +34,17 @@ function Block({
     <div
       key={id}
       id={id}
-      className={classNames(className, dataClassName, {
+      className={classNames('relative group', className, dataClassName, {
         [subGrid]: !noSubGrid,
       })}
     >
       {children}
+      {isACodeCell(node) && (
+        <div className="flex md:flex-col absolute -top-[28px] md:top-0 right-0 md:-right-[28px] mt-8">
+          <RunCell id={id} />
+          <ClearCell id={id} />
+        </div>
+      )}
     </div>
   );
 }

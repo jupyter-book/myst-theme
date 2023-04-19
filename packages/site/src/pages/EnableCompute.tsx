@@ -1,4 +1,5 @@
 import { useThebeCore, useThebeServer, useThebeSession } from 'thebe-react';
+import { PowerIcon } from '@heroicons/react/24/outline';
 
 export function EnableCompute({
   canCompute,
@@ -17,12 +18,11 @@ export function EnableCompute({
   };
 
   if (!canCompute) return null;
-  let classes =
-    'h-[1.5em] w-[1.5em] rounded-full border text-sm text-center align-center mr-1 cursor-pointer opacity-90';
-  const idleClasses = ' border-blue-700 bg-blue-200 text-blue-700 hover:opacity-100';
-  const busyClasses = ' border-yellow-700 bg-yellow-200 text-yellow-700';
-  const readyClasses = ' border-green-700 bg-green-200 text-green-700';
-  const errorClasses = ' border-red-700 bg-red-200 text-red-700';
+  let classes = 'text-center mr-1 cursor-pointer rounded-full';
+  const idleClasses = 'text-blue-700 hover:opacity-100 opacity-60';
+  const busyClasses = 'bg-yellow-700 text-yellow-700 opacity-100 font-semibold';
+  const readyClasses = 'bg-green-700 text-green-700 opacity-100 font-semibold';
+  const errorClasses = 'bg-red-700 text-red-700 opacity-100';
 
   if (loading || connecting || starting) classes += busyClasses;
   else if (serverReady && sessionReady) classes += readyClasses;
@@ -30,12 +30,14 @@ export function EnableCompute({
   else classes += idleClasses;
 
   return (
-    <div className="flex mx-1">
+    <div className="flex mx-1 items-bottom">
       <button
         className={classes}
         onClick={startSetup}
         disabled={busy || serverReady || sessionReady}
-      ></button>
+      >
+        <PowerIcon className="h-6 w-6 mx-1 inline-block align-top" title="enable compute" />
+      </button>
       {serverReady && sessionReady && <>{children}</>}
     </div>
   );

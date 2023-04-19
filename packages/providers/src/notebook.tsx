@@ -190,7 +190,13 @@ export function useMDASTNotebook() {
 export function useNotebookCellExecution(id: string) {
   // setup a cell only executing state
   const [executing, setExecuting] = useState(false);
-  const { ready, notebook, executeSome, idkMap } = useMDASTNotebook();
+  const {
+    ready,
+    notebook,
+    executing: notebookIsExecuting,
+    executeSome,
+    idkMap,
+  } = useMDASTNotebook();
   const cellId = idkMap[id];
   async function execute(options?: NotebookExecuteOptions) {
     setExecuting(true);
@@ -199,5 +205,5 @@ export function useNotebookCellExecution(id: string) {
     return execReturn;
   }
   const cell = notebook?.getCellById(cellId);
-  return { ready, cell, executing, execute, clear: () => cell?.clear() };
+  return { ready, cell, executing, notebookIsExecuting, execute, clear: () => cell?.clear() };
 }

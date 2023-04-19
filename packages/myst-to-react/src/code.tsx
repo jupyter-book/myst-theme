@@ -78,11 +78,6 @@ export function CodeBlock(props: Props) {
           <CopyIcon text={value} />
         </div>
       )}
-      {executable && (
-        <div className="absolute hidden bottom-1 right-1 group-hover:block text-gray-500 text-xs uppercase">
-          <div>executable</div>
-        </div>
-      )}
     </div>
   );
 }

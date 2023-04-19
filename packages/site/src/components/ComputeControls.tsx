@@ -1,10 +1,8 @@
 import { Spinner } from './Spinner';
-import {
-  PlayCircleIcon,
-  ArrowPathIcon,
-  MinusCircleIcon,
-  ArrowTopRightOnSquareIcon,
-} from '@heroicons/react/24/outline';
+import PlayCircleIcon from '@heroicons/react/24/outline/PlayCircleIcon';
+import ArrowPathIcon from '@heroicons/react/24/outline/ArrowPathIcon';
+import MinusCircleIcon from '@heroicons/react/24/outline/MinusCircleIcon';
+import ArrowTopRightOnSquareIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import classNames from 'classnames';
 import type { NotebookExecuteOptions } from 'thebe-react';
 import { useThebeServer } from 'thebe-react';

@@ -1,5 +1,5 @@
 import { useThebeCore, useThebeServer, useThebeSession } from 'thebe-react';
-import { PowerIcon } from '@heroicons/react/24/outline';
+import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 import { useHasNotebookProvider } from '@myst-theme/jupyter';
 import { useNavigation } from '@remix-run/react';
 import { useEffect, useState } from 'react';

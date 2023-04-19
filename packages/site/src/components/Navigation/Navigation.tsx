@@ -23,6 +23,7 @@ export function Navigation({
       {open && (
         <div
           className="fixed inset-0 bg-black opacity-50 z-30"
+          style={{ marginTop: top }}
           onClick={() => setOpen(false)}
         ></div>
       )}

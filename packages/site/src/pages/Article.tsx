@@ -1,3 +1,4 @@
+import React from 'react';
 import { ReferencesProvider, useComputeOptions } from '@myst-theme/providers';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
@@ -11,7 +12,7 @@ import { EnableCompute } from '../components/EnableCompute';
 import { NotebookRunAll } from '../components/ComputeControls';
 import { NotebookProvider, BinderBadge } from '@myst-theme/jupyter';
 
-export function ArticlePage({ article }: { article: PageLoader }) {
+export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
   const { canCompute } = useComputeOptions();
   const { hide_title_block, hide_footer_links, binder } =
     (article.frontmatter as any)?.design ?? {};
@@ -46,7 +47,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
       </ThebeSessionProvider>
     </ReferencesProvider>
   );
-}
+});
 
 export function ProjectPageCatchBoundary() {
   return <ErrorProjectNotFound />;

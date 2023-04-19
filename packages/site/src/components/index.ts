@@ -1,5 +1,5 @@
 export { ContentBlocks } from './ContentBlocks';
-export { DocumentOutline } from './DocumentOutline';
+export { DocumentOutline, useOutlineHeight } from './DocumentOutline';
 export { FooterLinksBlock } from './FooterLinksBlock';
 export { ContentReload } from './ContentReload';
 export { Bibliography } from './Bibliography';

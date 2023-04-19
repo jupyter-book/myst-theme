@@ -2,10 +2,8 @@ import type { GenericNode } from 'myst-common';
 import { KnownCellOutputMimeTypes } from 'nbtx';
 import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
-import { ThebeCoreProvider } from 'thebe-react';
 import { SafeOutputs } from './safe';
 import { NativeJupyterOutputs as JupyterOutputs } from './jupyter';
-import { ClientOnly } from './ClientOnly';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -42,11 +40,7 @@ export function Output(node: GenericNode) {
   if (allSafe) {
     component = <SafeOutputs keyStub={node.key} outputs={outputs} />;
   } else {
-    component = (
-      <ThebeCoreProvider>
-        <JupyterOutputs id={node.key} outputs={outputs} />
-      </ThebeCoreProvider>
-    );
+    component = <JupyterOutputs id={node.key} outputs={outputs} />;
   }
 
   return (

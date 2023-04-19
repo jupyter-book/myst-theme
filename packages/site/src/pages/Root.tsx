@@ -17,6 +17,7 @@ import { Analytics } from '../seo';
 import { ErrorSiteNotFound } from './ErrorSiteNotFound';
 import classNames from 'classnames';
 import { ThebeCoreProvider } from 'thebe-react';
+import ConfiguredThebeServerProvider from '../components/ConfiguredThebeServerProvider';
 
 export function Document({
   children,
@@ -33,6 +34,7 @@ export function Document({
   CONTENT_CDN_PORT?: number | string;
   scrollTopClass?: string;
 }) {
+  console.log('ROOT');
   return (
     <html lang="en" className={classNames(theme, scrollTopClass)}>
       <head>
@@ -49,7 +51,9 @@ export function Document({
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <ThemeProvider theme={theme} renderers={renderers} Link={RemixLink as any}>
           <ThebeCoreProvider>
-            <SiteProvider config={config}>{children}</SiteProvider>
+            <SiteProvider config={config}>
+              <ConfiguredThebeServerProvider>{children}</ConfiguredThebeServerProvider>
+            </SiteProvider>
           </ThebeCoreProvider>
         </ThemeProvider>
         <ScrollRestoration />

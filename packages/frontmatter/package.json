@@ -22,7 +22,7 @@
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.13",
     "@scienceicons/react": "^0.0.1",
-    "@myst-theme/jupyter": "^0.1.29",
+    "@myst-theme/jupyter": "^0.1.35",
     "classnames": "^2.3.2",
     "myst-common": "*",
     "thebe-react": "^0.0.5",

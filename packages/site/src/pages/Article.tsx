@@ -4,15 +4,15 @@ import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 import type { PageLoader } from '../types';
-import { KINDS } from '../types';
 import { ThebeSessionProvider } from 'thebe-react';
 import type { GenericParent } from 'myst-common';
+import { SourceFileKind } from 'myst-common';
 import { EnableCompute } from './EnableCompute';
 import { NotebookRunAll } from '../components/NotebookRunAll';
 
 export function ArticlePage({ article }: { article: PageLoader }) {
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
-  const isJupyter = article?.kind && article.kind === KINDS.Notebook;
+  const isJupyter = article?.kind && article.kind === SourceFileKind.Notebook;
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}

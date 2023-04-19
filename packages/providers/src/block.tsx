@@ -1,22 +1,20 @@
+import type { SourceFileKind } from 'myst-common';
 import React, { useContext } from 'react';
-import type { KINDS } from './types';
 
 type BlockContextType = {
   parent: string;
-  context: KINDS;
+  context: SourceFileKind;
 };
 
 const BlockContext = React.createContext<BlockContextType | undefined>(undefined);
 
 export function BlockContextProvider({
   id,
-  pageKind,
+  kind,
   children,
-}: React.PropsWithChildren<{ id: string; pageKind: KINDS }>) {
+}: React.PropsWithChildren<{ id: string; kind: SourceFileKind }>) {
   return (
-    <BlockContext.Provider value={{ parent: id, context: pageKind }}>
-      {children}
-    </BlockContext.Provider>
+    <BlockContext.Provider value={{ parent: id, context: kind }}>{children}</BlockContext.Provider>
   );
 }
 

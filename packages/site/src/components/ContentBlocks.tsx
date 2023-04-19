@@ -1,15 +1,18 @@
 import { useParse, DEFAULT_RENDERERS } from 'myst-to-react';
 import type { GenericParent } from 'myst-common';
-import { useNodeRenderers } from '@myst-theme/providers';
+import { SourceFileKind } from 'myst-common';
+import { useNodeRenderers, BlockContextProvider } from '@myst-theme/providers';
 import classNames from 'classnames';
-import { KINDS } from '../types';
-import { BlockContextProvider } from '@myst-theme/providers';
 
 // maybe better in a react provider
 function addParentKeyAndContext(parent: string, node: GenericParent): GenericParent {
   return {
     ...node,
-    children: node.children.map((child) => ({ ...child, parent, context: KINDS.Notebook })),
+    children: node.children.map((child) => ({
+      ...child,
+      parent,
+      context: SourceFileKind.Notebook,
+    })),
   };
 }
 
@@ -20,7 +23,7 @@ function Block({
   className,
 }: {
   id: string;
-  pageKind: KINDS;
+  pageKind: SourceFileKind;
   node: GenericParent;
   className?: string;
 }) {
@@ -35,7 +38,7 @@ function Block({
   const noSubGrid =
     (dataClassName && dataClassName.includes('col-')) || (className && className.includes('col-'));
   return (
-    <BlockContextProvider id={id} pageKind={pageKind}>
+    <BlockContextProvider id={id} kind={pageKind}>
       <div
         key={id}
         id={id}

@@ -1,4 +1,4 @@
-import type { GenericParent } from 'myst-common';
+import { GenericParent, SourceFileKind } from 'myst-common';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import type {
   Config,
@@ -10,7 +10,6 @@ import type {
 import type { IThebeNotebookError, NotebookExecuteOptions } from 'thebe-react';
 import { useNotebookBase, useThebeConfig, useThebeCore } from 'thebe-react';
 import type { PartialPage } from './types';
-import { KINDS } from './types';
 
 export function notebookFromMdast(
   core: ThebeCore,
@@ -105,7 +104,7 @@ export function NotebookProvider({
 
   useEffect(() => {
     if (!core || !config || notebook) return;
-    if (page.kind !== KINDS.Notebook) return;
+    if (page.kind !== SourceFileKind.Notebook) return;
     const nb = notebookFromMdast(core, config, page.mdast as GenericParent);
     setNotebook(nb);
   }, [core, config, page]);

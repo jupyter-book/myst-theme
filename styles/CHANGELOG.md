@@ -1,5 +1,12 @@
 # @myst-theme/styles
 
+## 0.1.36
+
+### Patch Changes
+
+- 1a153e21: Include icons in the style exports
+- 7df5b23d: Add pandas dataframe styles to default jupyter outputs
+
 ## 0.1.35
 
 ## 0.1.34

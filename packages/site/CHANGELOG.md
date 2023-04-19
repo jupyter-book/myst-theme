@@ -1,5 +1,34 @@
 # @curvenote/site
 
+## 0.1.36
+
+### Patch Changes
+
+- 147dc2c5: Update navigation and spacing for outline and toc
+- 5feddf51: Treeshake @heroicons
+- b7012467: Backdrop on the nav needs to exclude the top-nav.
+- 82cf01f5: Change the default site from dark nav to white nav
+- 8af808bf: Remove css updates for document nav and outline from React state
+
+  ```tsx
+  const { container, toc } = useTocHeight(top);
+
+  // Update the nav and article, removing the height
+  <Navigation tocRef={toc} ... />
+  <article ref={container} ... />
+  ```
+
+- Updated dependencies [4ad8313a]
+- Updated dependencies [5feddf51]
+- Updated dependencies [fa347259]
+- Updated dependencies [43e26206]
+  - myst-to-react@0.1.36
+  - @myst-theme/jupyter@0.1.36
+  - @myst-theme/frontmatter@0.1.36
+  - myst-demo@0.1.36
+  - @myst-theme/providers@0.1.36
+  - @myst-theme/diagrams@0.1.36
+
 ## 0.1.35
 
 ### Patch Changes

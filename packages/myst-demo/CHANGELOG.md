@@ -1,5 +1,15 @@
 # myst-demo
 
+## 0.1.36
+
+### Patch Changes
+
+- 5feddf51: Treeshake @heroicons
+- Updated dependencies [4ad8313a]
+- Updated dependencies [5feddf51]
+- Updated dependencies [43e26206]
+  - myst-to-react@0.1.36
+
 ## 0.1.35
 
 ### Patch Changes

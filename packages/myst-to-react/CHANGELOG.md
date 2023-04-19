@@ -1,5 +1,14 @@
 # myst-to-react
 
+## 0.1.36
+
+### Patch Changes
+
+- 4ad8313a: Improve the rendering of code outputs in jupyter
+- 5feddf51: Treeshake @heroicons
+- 43e26206: Improve SIUnits
+  - @myst-theme/providers@0.1.36
+
 ## 0.1.35
 
 ### Patch Changes

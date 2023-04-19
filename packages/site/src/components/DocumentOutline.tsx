@@ -1,3 +1,4 @@
+import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -155,32 +156,51 @@ const useIntersectionObserver = (highlight: () => void, onScreen: Set<HTMLHeadin
 const DOC_OUTLINE_CLASS =
   'fixed z-10 bottom-0 right-[max(0px,calc(50%-45rem))] w-[14rem] lg:w-[18rem] py-10 px-4 lg:px-8 overflow-y-auto hidden lg:block';
 
+export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
+  const container = useRef<T>(null);
+  const outline = useRef<T>(null);
+  const transitionState = useNavigation().state;
+  const setHeight = () => {
+    if (!container.current || !outline.current) return;
+    const height = container.current.offsetHeight - window.scrollY;
+    outline.current.style.display = height < 50 ? 'none' : 'block';
+    outline.current.style.height = height > window.innerHeight ? '' : `${height}px`;
+    outline.current.style.opacity = height && height > 300 ? '' : '0';
+    outline.current.style.pointerEvents = height && height > 300 ? '' : 'none';
+  };
+  useEffect(() => {
+    setHeight();
+    setTimeout(setHeight, 100); // Some lag sometimes
+    const handleScroll = () => setHeight();
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [container, outline, transitionState]);
+  return { container, outline };
+}
+
 export const DocumentOutline = ({
+  outlineRef,
   top,
-  height,
   className = DOC_OUTLINE_CLASS,
 }: {
+  outlineRef?: React.RefObject<HTMLElement>;
   top?: number;
   height?: number;
   className?: string;
 }) => {
   const { activeId, headings, highlight } = useHeaders();
-  if (height && height < 50) return null;
   if (headings.length <= 1) return <nav suppressHydrationWarning />;
   return (
     <nav
+      ref={outlineRef}
       aria-label="Document Outline"
       suppressHydrationWarning
       className={classNames('not-prose transition-opacity overflow-y-auto', className)}
       style={{
         top: top ?? 0,
-        height:
-          typeof document === 'undefined' || (height && height > window.innerHeight)
-            ? undefined
-            : height,
         maxHeight: `calc(100vh - ${(top ?? 0) + 20}px)`,
-        opacity: height && height > 300 ? undefined : 0,
-        pointerEvents: height && height > 300 ? undefined : 'none',
       }}
     >
       <div className="text-slate-900 mb-4 text-sm leading-6 dark:text-slate-100 uppercase">

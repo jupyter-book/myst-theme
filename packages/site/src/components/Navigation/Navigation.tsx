@@ -5,14 +5,14 @@ export function Navigation({
   children,
   projectSlug,
   top,
-  height,
+  tocRef,
   hide_toc,
   footer,
 }: {
   children?: React.ReactNode;
   projectSlug?: string;
   top?: number;
-  height?: number;
+  tocRef?: React.RefObject<HTMLDivElement>;
   hide_toc?: boolean;
   footer?: React.ReactNode;
 }) {
@@ -28,7 +28,7 @@ export function Navigation({
         ></div>
       )}
       {children}
-      <TableOfContents projectSlug={projectSlug} top={top} height={height} footer={footer} />
+      <TableOfContents tocRef={tocRef} projectSlug={projectSlug} top={top} footer={footer} />
     </>
   );
 }

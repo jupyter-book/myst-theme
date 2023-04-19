@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { NavLink, useParams, useLocation } from '@remix-run/react';
+import { NavLink, useParams, useLocation, useNavigation } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
 import { useNavOpen, useSiteManifest, useUrlbase, withUrlbase } from '@myst-theme/providers';
 import { getProjectHeadings } from '../../loaders';
@@ -102,14 +102,37 @@ const Headings = ({ folder, headings, sections }: Props) => {
   );
 };
 
+export function useTocHeight<T extends HTMLElement = HTMLElement>(top?: number) {
+  const container = useRef<T>(null);
+  const toc = useRef<HTMLDivElement>(null);
+  const transitionState = useNavigation().state;
+  const setHeight = () => {
+    if (!container.current || !toc.current) return;
+    const height = container.current.offsetHeight - window.scrollY;
+    toc.current.style.height = `min(calc(100vh - ${top ?? 0}px), ${height}px)`;
+    const nav = toc.current.querySelector('nav');
+    if (nav) nav.style.opacity = height > 150 ? '1' : '0';
+  };
+  useEffect(() => {
+    setHeight();
+    setTimeout(setHeight, 100); // Some lag sometimes
+    const handleScroll = () => setHeight();
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [container, toc, transitionState]);
+  return { container, toc };
+}
+
 export const TableOfContents = ({
   projectSlug,
   top,
-  height,
+  tocRef,
   footer,
 }: {
   top?: number;
-  height?: number;
+  tocRef?: React.RefObject<HTMLDivElement>;
   projectSlug?: string;
   footer?: React.ReactNode;
 }) => {
@@ -124,13 +147,13 @@ export const TableOfContents = ({
   if (!headings) return null;
   return (
     <div
+      ref={tocRef}
       className={classNames(
         'fixed xl:article-grid article-grid-gap xl:w-screen z-30 xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
         { hidden: !open },
       )}
       style={{
         top: top ?? 0,
-        height: `min(calc(100vh - ${top ?? 0}px), ${height}px)`,
       }}
     >
       <div
@@ -149,7 +172,6 @@ export const TableOfContents = ({
         <nav
           aria-label="Table of Contents"
           className="flex-grow overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3"
-          style={{ opacity: height && height > 150 ? undefined : 0 }}
         >
           <Headings folder={resolvedProjectSlug} headings={headings} sections={config?.projects} />
         </nav>

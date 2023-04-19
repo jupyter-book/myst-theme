@@ -4,8 +4,8 @@ import { useFetchAnyTruncatedContent } from './hooks';
 import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages';
-import type { ThebeCore } from './thebe-provider';
-import { useThebeCore } from './thebe-provider';
+import type { ThebeCore } from 'thebe-react';
+import { useThebeCore } from 'thebe-react';
 
 function OutputRenderer({ id, data, core }: { id: string; data: IOutput[]; core: ThebeCore }) {
   const [cell] = useState(new core.PassiveCellRenderer(id));

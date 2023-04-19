@@ -2,10 +2,10 @@ import type { GenericNode } from 'myst-common';
 import { KnownCellOutputMimeTypes } from 'nbtx';
 import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
+import { ThebeCoreProvider } from 'thebe-react';
 import { SafeOutputs } from './safe';
 import { NativeJupyterOutputs as JupyterOutputs } from './jupyter';
-import ClientOnly from './ClientOnly';
-import { ThebeCoreProvider } from './thebe-provider';
+import { ClientOnly } from './ClientOnly';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 

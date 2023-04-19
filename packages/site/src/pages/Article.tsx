@@ -38,7 +38,11 @@ export function ArticlePage({ article }: { article: PageLoader }) {
               </EnableCompute>
             )}
           </div>
-          <ContentBlocks name={article.slug} mdast={article.mdast as GenericParent} />
+          <ContentBlocks
+            name={article.slug}
+            pageKind={article.kind}
+            mdast={article.mdast as GenericParent}
+          />
           <Bibliography />
           {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
         </NotebookProvider>

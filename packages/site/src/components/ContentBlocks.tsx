@@ -34,13 +34,13 @@ function Block({
     <div
       key={id}
       id={id}
-      className={classNames('relative group', className, dataClassName, {
+      className={classNames('relative group/block', className, dataClassName, {
         [subGrid]: !noSubGrid,
       })}
     >
       {children}
       {isACodeCell(node) && (
-        <div className="hidden group-hover:flex md:flex-col absolute -top-[28px] md:top-0 right-0 md:-right-[28px] mt-8">
+        <div className="hidden group-hover/block:flex md:flex-col absolute -top-[28px] md:top-0 right-0 md:-right-[28px] mt-8">
           <RunCell id={id} />
           <ClearCell id={id} />
         </div>

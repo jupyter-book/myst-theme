@@ -47,21 +47,11 @@ export function EnableCompute({
   }, [shutdown, navigation]);
 
   return (
-    <div className="flex flex-col">
-      <div className="flex mx-1 items-center">
-        <button
-          className={classes}
-          onClick={() => setEnabling(true)}
-          disabled={enabling || enabled}
-        >
-          <PowerIcon className="h-6 w-6 mx-1 inline-block align-top" title="enable compute" />
-        </button>
-        {enabled && <>{children}</>}
-      </div>
-      <div className="flex flex-col my-1">
-        <div>serverReady: {serverReady ? 'ready' : 'not-ready'}</div>
-        <div>sessionReady: {sessionReady ? 'ready' : 'not-ready'}</div>
-      </div>
+    <div className="flex mx-1 items-center">
+      <button className={classes} onClick={() => setEnabling(true)} disabled={enabling || enabled}>
+        <PowerIcon className="h-6 w-6 mx-1 inline-block align-top" title="enable compute" />
+      </button>
+      {enabled && <>{children}</>}
     </div>
   );
 }

@@ -12,6 +12,7 @@ import { SourceFileKind } from 'myst-common';
 function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
   const ref = useCellRef(id);
   const exec = useNotebookCellExecution(id);
+
   useEffect(() => {
     if (!ref?.el || !exec?.cell) return;
     console.debug(`Attaching cell ${exec.cell.id} to DOM at:`, {
@@ -37,12 +38,10 @@ function PassiveOutputRenderer({
   core: ThebeCore;
   kind: SourceFileKind;
 }) {
-  const [cell] = useState(
-    new core.PassiveCellRenderer(id, undefined, undefined, kind === SourceFileKind.Article),
-  );
+  const [cell] = useState(new core.PassiveCellRenderer(id, undefined, undefined));
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    cell.render(data);
+    cell.render(data, kind === SourceFileKind.Article);
   }, [data, cell]);
   useEffect(() => {
     if (!ref.current) return;
@@ -79,7 +78,7 @@ export const JupyterOutputs = ({ id, outputs }: { id: string; outputs: MinifiedO
     return <div className="text-red-500">Error rendering output: {error.message}</div>;
   }
 
-  if (registry && exec?.ready) {
+  if (registry && exec?.cell) {
     return (
       <div ref={registry?.register(id)} data-thebe-active-ref="true">
         {!fullOutputs && <div className="p-2.5">Loading...</div>}

@@ -10,7 +10,14 @@ export function EnableCompute({
 }: React.PropsWithChildren<{ canCompute: boolean }>) {
   const { load, loading, core } = useThebeCore();
   const { connect, connecting, ready: serverReady, error: serverError } = useThebeServer();
-  const { start, starting, shutdown, ready: sessionReady, error: sessionError } = useThebeSession();
+  const {
+    start,
+    starting,
+    shutdown,
+    session,
+    ready: sessionReady,
+    error: sessionError,
+  } = useThebeSession();
   const hasNotebookProvider = useHasNotebookProvider();
   const navigation = useNavigation();
   const [enabling, setEnabling] = useState(false);
@@ -19,8 +26,8 @@ export function EnableCompute({
 
   useEffect(() => {
     if (!enabling) return;
-    if (!core) load();
-    if (!serverReady) connect();
+    if (!core) return load();
+    if (!serverReady) return connect();
     if (!sessionReady) start();
     if (sessionReady) {
       setEnabled(true);
@@ -45,6 +52,8 @@ export function EnableCompute({
       shutdown();
     }
   }, [shutdown, navigation]);
+
+  console.log('active session', { session });
 
   return (
     <div className="flex mx-1 items-center">

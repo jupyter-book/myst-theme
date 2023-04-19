@@ -135,13 +135,13 @@ export function NotebookProvider({
 
   useEffect(() => {
     if (!core || !config) return;
+    registry.current = {};
+    idkMap.current = {};
     if (page.kind === SourceFileKind.Notebook) {
       const nb = notebookFromMdast(core, config, page.mdast as GenericParent, idkMap.current);
       setNotebook(nb);
     } else {
       // TODO will need do article relative notebook loading as appropriate once that is supported
-      registry.current = {};
-      idkMap.current = {};
       setNotebook(undefined);
     }
   }, [core, config, page]);
@@ -209,6 +209,16 @@ export function useMDASTNotebook() {
   return notebookState;
 }
 
+export function useNotebookExecution() {
+  const notebookState = useContext(NotebookContext);
+  if (!notebookState) return undefined;
+
+  const { ready, attached, executing, executed, errors, executeAll, notebook, clear } =
+    notebookState;
+
+  return { ready, attached, executing, executed, errors, execute: executeAll, notebook, clear };
+}
+
 export function useNotebookCellExecution(id: string) {
   // setup a cell only executing state
   const [executing, setExecuting] = useState(false);
@@ -233,5 +243,14 @@ export function useNotebookCellExecution(id: string) {
     return execReturn;
   }
   const cell = notebook?.getCellById(cellId);
-  return { kind, ready, cell, executing, notebookIsExecuting, execute, clear: () => cell?.clear() };
+  return {
+    kind,
+    ready,
+    cell,
+    executing,
+    notebookIsExecuting,
+    execute,
+    clear: () => cell?.clear(),
+    notebook,
+  };
 }

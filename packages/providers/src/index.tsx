@@ -7,4 +7,3 @@ export * from './tabs';
 export * from './xref';
 export * from './types';
 export * from './notebook';
-export * from './block';

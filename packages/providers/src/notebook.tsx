@@ -16,7 +16,8 @@ export function notebookFromMdast(
   core: ThebeCore,
   config: Config,
   mdast: GenericParent,
-): ThebeNotebook {
+  idkMap: Record<string, string>,
+) {
   const rendermime = undefined; // share rendermime beyond notebook scope?
   const notebook = new core.ThebeNotebook(mdast.key, config, rendermime);
 
@@ -24,8 +25,14 @@ export function notebookFromMdast(
   //Object.assign(notebook.metadata, ipynb.metadata);
   notebook.cells = (mdast.children as GenericParent[]).map((block: GenericParent) => {
     if (block.type !== 'block') console.warn(`Unexpected block type ${block.type}`);
-    if (block.children.length > 0 && block.children[0].type === 'code') {
-      const codeCell = block.children[0];
+    if (block.children.length == 2 && block.children[0].type === 'code') {
+      const [codeCell, output] = block.children;
+
+      // use the block.key to identify the cell but maintain a mapping
+      // to allow code or output keys to look up cells and refs
+      idkMap[block.key] = block.key;
+      idkMap[codeCell.key] = block.key;
+      idkMap[output.key] = block.key;
       return new core.ThebeCell(
         block.key,
         notebook.id,
@@ -53,6 +60,7 @@ export function notebookFromMdast(
 
 // registry[cellId]
 type CellRefRegistry = Record<string, HTMLDivElement>;
+type IdKeyMap = Record<string, string>;
 
 interface NotebookContextType {
   ready: boolean;
@@ -69,6 +77,7 @@ interface NotebookContextType {
   ) => Promise<(IThebeCellExecuteReturn | null)[]>;
   notebook: ThebeNotebook | undefined;
   registry: CellRefRegistry;
+  idkMap: IdKeyMap;
   register: (id: string) => (el: HTMLDivElement) => void;
   restart: () => Promise<void>;
   clear: () => void;
@@ -102,22 +111,23 @@ export function NotebookProvider({
   } = useNotebookBase();
 
   const registry = useRef<CellRefRegistry>({});
+  const idkMap = useRef<IdKeyMap>({});
 
   useEffect(() => {
     if (!core || !config || notebook) return;
     if (page.kind !== SourceFileKind.Notebook) return;
-    const nb = notebookFromMdast(core, config, page.mdast as GenericParent);
+    const nb = notebookFromMdast(core, config, page.mdast as GenericParent, idkMap.current);
     setNotebook(nb);
   }, [core, config, page]);
 
   function register(id: string) {
     return (el: HTMLDivElement) => {
-      if (el != null && registry.current[id] !== el) {
+      if (el != null && registry.current[idkMap.current[id]] !== el) {
         if (!el.isConnected) {
           console.debug(`skipping ref for cell ${id} as host is not connected`);
         } else {
           console.debug(`new ref for cell ${id} registered`);
-          registry.current[id] = el;
+          registry.current[idkMap.current[id]] = el;
         }
       }
     };
@@ -135,6 +145,7 @@ export function NotebookProvider({
         executeSome,
         notebook,
         registry: registry.current,
+        idkMap: idkMap.current,
         register,
         restart: () => session?.restart() ?? Promise.resolve(),
         clear,
@@ -158,8 +169,11 @@ export function useCellRef(id: string) {
   if (notebookState === undefined) {
     throw new Error('useCellRef called outside of NotebookProvider');
   }
-  console.log('useCellRef', { id, registry: notebookState.registry });
-  const entry = Object.entries(notebookState.registry).find(([cellId]) => cellId === id);
+
+  const { registry, idkMap } = notebookState;
+
+  const entry = Object.entries(notebookState.registry).find(([cellId]) => cellId === idkMap[id]);
+  console.debug('useCellRef', { id, registry, idkMap, entry });
   return { el: entry?.[1] ?? null };
 }
 
@@ -176,14 +190,14 @@ export function useMDASTNotebook() {
 export function useNotebookCellExecution(id: string) {
   // setup a cell only executing state
   const [executing, setExecuting] = useState(false);
-  const { ready, notebook, executeSome } = useMDASTNotebook();
-
+  const { ready, notebook, executeSome, idkMap } = useMDASTNotebook();
+  const cellId = idkMap[id];
   async function execute(options?: NotebookExecuteOptions) {
     setExecuting(true);
-    const execReturn = await executeSome((cell) => cell.id === id, options);
+    const execReturn = await executeSome((cell) => cell.id === cellId, options);
     setExecuting(false);
     return execReturn;
   }
-  const cell = notebook?.getCellById(id);
+  const cell = notebook?.getCellById(cellId);
   return { ready, cell, executing, execute, clear: () => cell?.clear() };
 }

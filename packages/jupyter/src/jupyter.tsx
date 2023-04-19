@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { IOutput } from '@jupyterlab/nbformat';
 import { useFetchAnyTruncatedContent } from './hooks';
 import type { MinifiedOutput } from 'nbtx';
@@ -7,12 +7,14 @@ import { fetchAndEncodeOutputImages } from './convertImages';
 import { useThebeCore } from 'thebe-react';
 import { useCellRefRegistry, useNotebookCellExecution, useCellRef } from '@myst-theme/providers';
 
-function ActiveOutputRenderer({ cellId, data }: { cellId: string; data: IOutput[] }) {
-  const { el } = useCellRef(cellId);
-  const { ready, executing, cell, execute, clear } = useNotebookCellExecution(cellId);
-
-  console.log('ActiveOutputRenderer', { el, cell });
-  console.log({ data });
+function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
+  // TODO
+  // having this as the only output renderer and having the dependency on these
+  // two hooks means a NotebookProvider needs to be in the tree, perhaps we should
+  // change that to render the ActiveOutput **only when** there  is a notebook renderer and
+  // otherwise fall back to the PassiveRender method we has before
+  const { el } = useCellRef(id);
+  const { cell } = useNotebookCellExecution(id);
   useEffect(() => {
     if (!el || !cell) return;
     console.debug(`Attaching cell ${cell.id} to DOM at:`, { el, connected: el.isConnected });
@@ -23,15 +25,7 @@ function ActiveOutputRenderer({ cellId, data }: { cellId: string; data: IOutput[
   return null;
 }
 
-export const JupyterOutputs = ({
-  id,
-  parent,
-  outputs,
-}: {
-  id: string;
-  parent: string;
-  outputs: MinifiedOutput[];
-}) => {
+export const JupyterOutputs = ({ id, outputs }: { id: string; outputs: MinifiedOutput[] }) => {
   const { core, load } = useThebeCore();
   const { data, error } = useFetchAnyTruncatedContent(outputs);
   const [loaded, setLoaded] = useState(false);
@@ -57,9 +51,9 @@ export const JupyterOutputs = ({
   }
 
   return (
-    <div ref={register(parent)} data-thebe-ref="true">
+    <div ref={register(id)} data-thebe-ref="true">
       {!fullOutputs && <div className="p-2.5">Loading...</div>}
-      {fullOutputs && core && <ActiveOutputRenderer cellId={parent} data={fullOutputs} />}
+      {fullOutputs && core && <ActiveOutputRenderer id={id} data={fullOutputs} />}
     </div>
   );
 };

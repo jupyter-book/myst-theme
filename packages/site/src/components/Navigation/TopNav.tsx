@@ -182,7 +182,7 @@ function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; 
   const nothingSet = !logo && !logoText;
   return (
     <Link
-      className="flex items-center text-white w-fit ml-3 md:ml-5 xl:ml-7"
+      className="flex items-center text-white w-fit ml-3 md:ml-5 xl:ml-7 dark:bg-white dark:rounded p-1"
       to="/"
       prefetch="intent"
     >
@@ -203,7 +203,7 @@ export function TopNav() {
   const config = useSiteManifest();
   const { logo, logo_text, logoText, actions, title, nav } = config ?? ({} as SiteManifest);
   return (
-    <div className="bg-stone-700 p-3 md:px-8 fixed w-screen top-0 z-30 h-[60px]">
+    <div className="bg-white dark:bg-stone-900 p-3 md:px-8 fixed w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-wrap max-w-[1440px] mx-auto">
         <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center">
           <div className="block xl:hidden">
@@ -230,7 +230,7 @@ export function TopNav() {
             {actions?.map((action, index) => (
               <ExternalOrInternalLink
                 key={action.url || index}
-                className="inline-block text-md px-4 py-2 mx-1 leading-none border rounded text-white border-white hover:border-transparent hover:text-stone-500 hover:bg-white mt-0"
+                className="inline-block text-md px-4 py-2 mx-1 leading-none border rounded border-stone-700 dark:border-white text-stone-700 dark:text-white hover:text-stone-500 dark:hover:text-neutral-800 hover:bg-neutral-100 mt-0"
                 to={action.url}
               >
                 {action.title}

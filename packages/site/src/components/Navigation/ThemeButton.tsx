@@ -8,7 +8,7 @@ export function ThemeButton({ className = 'mx-3 h-8 w-8' }: { className?: string
   return (
     <button
       className={classNames(
-        'theme rounded-full border border-white border-solid overflow-hidden text-white hover:text-stone-500 hover:bg-white',
+        'theme rounded-full border border-stone-700 dark:border-white hover:bg-neutral-100 border-solid overflow-hidden text-stone-700 dark:text-white hover:text-stone-500 dark:hover:text-neutral-800',
         className,
       )}
       title={`Change theme to ${isDark ? 'light' : 'dark'} mode.`}

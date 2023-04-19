@@ -9,7 +9,7 @@ import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
 import { EnableCompute } from './EnableCompute';
 import { NotebookRunAll } from '../components/ComputeControls';
-import { NotebookProvider } from '@myst-theme/jupyter';
+import { NotebookProvider, BinderBadge } from '@myst-theme/jupyter';
 
 export function ArticlePage({ article }: { article: PageLoader }) {
   const { canCompute } = useComputeOptions();
@@ -25,13 +25,9 @@ export function ArticlePage({ article }: { article: PageLoader }) {
           <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
         )}
         <NotebookProvider siteConfig={false} page={article}>
-          {/**
-           * Added this compute here for now, it introduces a dep. on thebe-react in this package.
-           * Should this stay here? where will server configuration be specified in future?
-           * per article frontmatter? per site configuration?
-           */}
-          <div className="flex">
+          <div className="flex items-center">
             {isJupyter && <div className="flex-grow"></div>}
+            {article.frontmatter.binder && <BinderBadge binder={article.frontmatter.binder} />}
             {canCompute && isJupyter && (
               <EnableCompute canCompute={true}>
                 <NotebookRunAll />

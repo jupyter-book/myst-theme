@@ -87,7 +87,7 @@ export function Download({
 export function DownloadsDropdown({ exports }: HasExports) {
   if (!exports || exports.length === 0) return null;
   return (
-    <Menu as="div" className="relative grow-0 inline-block mx-1">
+    <Menu as="div" className="flex relative grow-0 inline-block mx-1">
       <Menu.Button className="relative">
         <span className="sr-only">Downloads</span>
         <ArrowDownTrayIcon className="w-5 h-5 ml-2 -mr-1" aria-hidden="true" />

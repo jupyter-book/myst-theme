@@ -25,7 +25,7 @@ export function Run({
   ) => Promise<(IThebeCellExecuteReturn | null)[]>;
 }) {
   return (
-    <div className="inline-block relative text-sm">
+    <div className="flex relative text-sm">
       <button
         className={classNames(
           'cursor-pointer text-gray-700 active:text-green-700 hover:opacity-100',
@@ -61,7 +61,7 @@ export function Clear({
 }) {
   return (
     <button
-      className="cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
+      className="flex cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
       disabled={disabled || !ready || executing}
       onClick={() => clear()}
     >
@@ -99,19 +99,19 @@ export function NotebookRunAll() {
   };
 
   return (
-    <div className="inline-block">
+    <div className="flex">
       <div className="group flex relative space-x-1">
         <Run ready={ready} executing={executing} execute={executeAll} />
         <button
-          className="cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
+          className="flex items-center cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
           disabled={!ready || executing}
           onClick={() => restart()}
         >
-          <ArrowPathIcon className="h-6 w-6 inline-block align-top" title="restart kernel" />
+          <ArrowPathIcon className="h-6 w-6" title="restart kernel" />
         </button>
         <Clear ready={ready} executing={executing} clear={clear} />
         <button
-          className="cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
+          className="flex items-center cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
           disabled={!ready}
           onClick={clickLaunchInJupyter}
         >

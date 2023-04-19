@@ -20,7 +20,7 @@ export function EnableCompute({
   };
 
   if (!canCompute || !hasNotebookProvider) return null;
-  let classes = 'text-center mr-1 cursor-pointer rounded-full';
+  let classes = 'flex text-center mr-1 cursor-pointer rounded-full';
   const idleClasses = 'text-blue-700 hover:opacity-100 opacity-60';
   const busyClasses = 'bg-yellow-700 text-yellow-700 opacity-100 font-semibold';
   const readyClasses = 'bg-green-700 text-green-700 opacity-100 font-semibold';
@@ -32,7 +32,7 @@ export function EnableCompute({
   else classes += idleClasses;
 
   return (
-    <div className="flex mx-1 items-bottom">
+    <div className="flex mx-1 items-center">
       <button
         className={classes}
         onClick={startSetup}

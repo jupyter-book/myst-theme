@@ -26,7 +26,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
         )}
         <NotebookProvider siteConfig={false} page={article}>
           <div className="flex items-center">
-            {isJupyter && <div className="flex-grow"></div>}
+            <div className="flex-grow"></div>
             {article.frontmatter.binder && <BinderBadge binder={article.frontmatter.binder} />}
             {canCompute && isJupyter && (
               <EnableCompute canCompute={true}>

@@ -37,7 +37,7 @@ export function Output(node: GenericNode) {
   const allSafe = allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES);
 
   let component;
-  if (allSafe) {
+  if (false) {
     component = <SafeOutputs keyStub={node.key} outputs={outputs} />;
   } else {
     component = <JupyterOutputs id={node.key} outputs={outputs} />;

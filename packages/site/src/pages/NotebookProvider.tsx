@@ -107,16 +107,16 @@ export function NotebookProvider({
     // this could be included in notebookFromMdast but keeping it separate to illustrate
     // how this could be handled in a separate hook from the actual notebook loading
 
-    nb.cells.forEach((cell: IThebeCell) => {
-      const item = Object.entries(cellRefs.current).find(([id]) => id === cell.id);
-      if (item) {
-        const [_, el] = item;
-        console.debug(`Attached cell ${cell.id} to DOM at:`, { el, connected: el.isConnected });
-        cell.attachToDOM(el);
-      } else {
-        console.debug(`No cell ref found for ${cell.id} or type ${typeof cell}`);
-      }
-    });
+    // nb.cells.forEach((cell: IThebeCell) => {
+    //   const item = Object.entries(cellRefs.current).find(([id]) => id === cell.id);
+    //   if (item) {
+    //     const [_, el] = item;
+    //     console.debug(`Attached cell ${cell.id} to DOM at:`, { el, connected: el.isConnected });
+    //     cell.attachToDOM(el);
+    //   } else {
+    //     console.debug(`No cell ref found for ${cell.id} or type ${typeof cell}`);
+    //   }
+    // });
 
     setNotebook(nb);
   }, [core, config, page]);

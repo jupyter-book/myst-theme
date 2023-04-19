@@ -42,10 +42,12 @@ function activeOutputRendererFactory(parentId: string, BaseRenderer: NodeRendere
         data-mdast-node-type={node.type}
         data-mdast-node-id={node.key}
       >
-        {/* <div className="rounded bg-green-500 text-xs text-white px-2 py-1">
+        <div className="rounded bg-green-500 text-xs text-white px-2 py-1">
           [OUTPUT] block id: {parentId} | node.id: {node.id} | node.key: {node.key ?? 'none'}
-        </div> */}
-        <div ref={register(parentId)}>{output}</div>
+        </div>
+        <div ref={register(parentId)} data-active-output="true">
+          {output}
+        </div>
       </div>
     );
   };

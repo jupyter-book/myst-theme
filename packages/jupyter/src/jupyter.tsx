@@ -11,13 +11,16 @@ function OutputRenderer({ id, data, core }: { id: string; data: IOutput[]; core:
   const [cell] = useState(new core.PassiveCellRenderer(id));
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    cell.render(data);
-  }, [data, cell]);
-  useEffect(() => {
     if (!ref.current) return;
     cell.attachToDOM(ref.current);
   }, [ref]);
-  return <div ref={ref} />;
+  useEffect(() => {
+    if (!cell?.isAttachedToDOM) return;
+    console.log('OutputRenderer - cell.render');
+    cell.render(data);
+  }, [data, cell]);
+
+  return <div data-passive-renderer ref={ref} />;
 }
 
 const MemoOutputRenderer = React.memo(OutputRenderer);

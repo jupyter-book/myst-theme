@@ -163,7 +163,7 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
   const setHeight = () => {
     if (!container.current || !outline.current) return;
     const height = container.current.offsetHeight - window.scrollY;
-    outline.current.style.display = height < 50 ? 'none' : 'block';
+    outline.current.style.display = height < 50 ? 'none' : '';
     outline.current.style.height = height > window.innerHeight ? '' : `${height}px`;
     outline.current.style.opacity = height && height > 300 ? '' : '0';
     outline.current.style.pointerEvents = height && height > 300 ? '' : 'none';

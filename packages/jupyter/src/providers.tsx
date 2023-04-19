@@ -133,8 +133,10 @@ export function NotebookProvider({
   const registry = useRef<CellRefRegistry>({});
   const idkMap = useRef<IdKeyMap>({});
 
+  console.log('NotebookProvider', { notebook });
+
   useEffect(() => {
-    if (!core || !config || notebook) return;
+    if (!core || !config) return;
     if (page.kind !== SourceFileKind.Notebook) return;
     const nb = notebookFromMdast(core, config, page.mdast as GenericParent, idkMap.current);
     setNotebook(nb);

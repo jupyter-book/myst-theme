@@ -17,6 +17,7 @@ function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
     console.debug(`Attaching cell ${exec.cell.id} to DOM at:`, {
       el: ref.el,
       connected: ref.el.isConnected,
+      data,
     });
     exec.cell.attachToDOM(ref.el);
     exec.cell.render(data);

@@ -7,7 +7,7 @@ import type { PageLoader } from '../types';
 import { ThebeSessionProvider } from 'thebe-react';
 import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
-import { EnableCompute } from './EnableCompute';
+import { EnableCompute } from '../components/EnableCompute';
 import { NotebookRunAll } from '../components/ComputeControls';
 import { NotebookProvider, BinderBadge } from '@myst-theme/jupyter';
 
@@ -21,7 +21,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
-      <ThebeSessionProvider start name={article.slug}>
+      <ThebeSessionProvider start={false} name={article.slug}>
         {!hide_title_block && (
           <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
         )}
@@ -30,7 +30,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
             <div className="flex-grow"></div>
             {binder && <BinderBadge binder={binder} />}
             {canCompute && isJupyter && (
-              <EnableCompute canCompute={true}>
+              <EnableCompute canCompute={true} key={article.slug}>
                 <NotebookRunAll />
               </EnableCompute>
             )}

@@ -1,7 +1,13 @@
 import { Spinner } from './Spinner';
-import { PlayCircleIcon, ArrowPathIcon, MinusCircleIcon } from '@heroicons/react/24/outline';
+import {
+  PlayCircleIcon,
+  ArrowPathIcon,
+  MinusCircleIcon,
+  ArrowTopRightOnSquareIcon,
+} from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import type { NotebookExecuteOptions } from 'thebe-react';
+import { useThebeServer } from 'thebe-react';
 import type { IThebeCellExecuteReturn } from 'thebe-core';
 import { useMDASTNotebook, useNotebookCellExecution } from '@myst-theme/jupyter';
 
@@ -56,7 +62,7 @@ export function Clear({
   return (
     <button
       className="cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
-      disabled={!ready || executing}
+      disabled={disabled || !ready || executing}
       onClick={() => clear()}
     >
       <MinusCircleIcon className="h-6 w-6 inline-block align-top" title="clear all outputs" />
@@ -81,10 +87,16 @@ export function ClearCell({ id }: { id: string }) {
 }
 
 export function NotebookRunAll() {
+  const { ready: serverReady, server } = useThebeServer();
   const exec = useMDASTNotebook();
 
   if (!exec?.ready) return null;
   const { ready, executing, executeAll, restart, clear } = exec;
+
+  const clickLaunchInJupyter = () => {
+    if (!serverReady || !server?.settings) return;
+    window.open(server.settings.baseUrl, '_blank');
+  };
 
   return (
     <div className="inline-block">
@@ -98,6 +110,16 @@ export function NotebookRunAll() {
           <ArrowPathIcon className="h-6 w-6 inline-block align-top" title="restart kernel" />
         </button>
         <Clear ready={ready} executing={executing} clear={clear} />
+        <button
+          className="cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
+          disabled={!ready}
+          onClick={clickLaunchInJupyter}
+        >
+          <ArrowTopRightOnSquareIcon
+            className="h-6 w-6 inline-block align-top"
+            title="launch in juptyer"
+          />
+        </button>
       </div>
     </div>
   );

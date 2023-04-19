@@ -17,3 +17,15 @@ export function useSiteManifest() {
   const config = useContext(SiteContext);
   return config;
 }
+
+export function useComputeOptions() {
+  const config = useSiteManifest();
+  const mainProject = config?.projects?.[0];
+  const options = mainProject?.thebe;
+
+  return {
+    canCompute: options !== undefined,
+    thebe: options,
+    binderLink: true,
+  };
+}

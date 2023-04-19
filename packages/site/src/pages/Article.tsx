@@ -1,4 +1,4 @@
-import { ReferencesProvider } from '@myst-theme/providers';
+import { ReferencesProvider, useComputeOptions } from '@myst-theme/providers';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
@@ -12,6 +12,7 @@ import { NotebookRunAll } from '../components/ComputeControls';
 import { NotebookProvider } from '@myst-theme/jupyter';
 
 export function ArticlePage({ article }: { article: PageLoader }) {
+  const { canCompute } = useComputeOptions();
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
   const isJupyter = article?.kind && article.kind === SourceFileKind.Notebook;
   return (
@@ -31,7 +32,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
            */}
           <div className="flex">
             {isJupyter && <div className="flex-grow"></div>}
-            {isJupyter && (
+            {canCompute && isJupyter && (
               <EnableCompute canCompute={true}>
                 <NotebookRunAll />
               </EnableCompute>

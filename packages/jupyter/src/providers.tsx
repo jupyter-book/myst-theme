@@ -12,14 +12,12 @@ import type {
 import type { IThebeNotebookError, NotebookExecuteOptions } from 'thebe-react';
 import { useNotebookBase, useThebeConfig, useThebeCore, ThebeServerProvider } from 'thebe-react';
 import type { Root } from 'mdast';
-import { useSiteManifest } from '@myst-theme/providers';
+import { useComputeOptions } from '@myst-theme/providers';
 
 export function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {
-  const config = useSiteManifest();
-  const mainProject = config?.projects?.[0];
-  const options = mainProject?.thebe ?? {};
+  const { thebe } = useComputeOptions();
   return (
-    <ThebeServerProvider connect={false} options={options as CoreOptions}>
+    <ThebeServerProvider connect={false} options={thebe as CoreOptions}>
       {children}
     </ThebeServerProvider>
   );

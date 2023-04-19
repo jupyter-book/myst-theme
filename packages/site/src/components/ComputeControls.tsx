@@ -1,9 +1,9 @@
 import { Spinner } from './Spinner';
-import { useMDASTNotebook, useNotebookCellExecution } from '@myst-theme/providers';
 import { PlayCircleIcon, ArrowPathIcon, MinusCircleIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import type { NotebookExecuteOptions } from 'thebe-react';
 import type { IThebeCellExecuteReturn } from 'thebe-core';
+import { useMDASTNotebook, useNotebookCellExecution } from '@myst-theme/jupyter';
 
 export function Run({
   ready,

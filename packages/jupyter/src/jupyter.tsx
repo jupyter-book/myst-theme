@@ -5,7 +5,7 @@ import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages';
 import { useThebeCore } from 'thebe-react';
-import { useCellRefRegistry, useNotebookCellExecution, useCellRef } from '@myst-theme/providers';
+import { useCellRef, useCellRefRegistry, useNotebookCellExecution } from './providers';
 
 function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
   // TODO

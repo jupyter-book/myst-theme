@@ -17,7 +17,7 @@ import { Analytics } from '../seo';
 import { ErrorSiteNotFound } from './ErrorSiteNotFound';
 import classNames from 'classnames';
 import { ThebeCoreProvider } from 'thebe-react';
-import ConfiguredThebeServerProvider from '../components/ConfiguredThebeServerProvider';
+import { ConfiguredThebeServerProvider } from '@myst-theme/jupyter';
 
 export function Document({
   children,

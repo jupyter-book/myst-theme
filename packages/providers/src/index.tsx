@@ -6,4 +6,3 @@ export * from './site';
 export * from './tabs';
 export * from './xref';
 export * from './types';
-export * from './notebook';

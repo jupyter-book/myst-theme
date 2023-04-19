@@ -1,5 +1,5 @@
+import { useNotebookCellExecution } from '@myst-theme/jupyter';
 import { Spinner } from './Spinner';
-import { useNotebookCellExecution } from '@myst-theme/providers';
 
 export function CellRun({ id }: { id: string }) {
   const { ready, executing, execute, clear } = useNotebookCellExecution(id);

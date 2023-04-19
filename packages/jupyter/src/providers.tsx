@@ -3,14 +3,35 @@ import { SourceFileKind } from 'myst-common';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import type {
   Config,
+  CoreOptions,
   IThebeCell,
   IThebeCellExecuteReturn,
   ThebeCore,
   ThebeNotebook,
 } from 'thebe-core';
 import type { IThebeNotebookError, NotebookExecuteOptions } from 'thebe-react';
-import { useNotebookBase, useThebeConfig, useThebeCore } from 'thebe-react';
-import type { PartialPage } from './types';
+import { useNotebookBase, useThebeConfig, useThebeCore, ThebeServerProvider } from 'thebe-react';
+import type { Root } from 'mdast';
+import { useSiteManifest } from '@myst-theme/providers';
+
+export function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {
+  const config = useSiteManifest();
+  const mainProject = config?.projects?.[0];
+  const options = mainProject?.thebe ?? {};
+  return (
+    <ThebeServerProvider connect={false} options={options as CoreOptions}>
+      {children}
+    </ThebeServerProvider>
+  );
+}
+
+export type PartialPage = {
+  kind: SourceFileKind;
+  file: string;
+  sha256: string;
+  slug: string;
+  mdast: Root;
+};
 
 export function notebookFromMdast(
   core: ThebeCore,

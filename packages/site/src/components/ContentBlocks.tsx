@@ -40,7 +40,7 @@ function Block({
     >
       {children}
       {isACodeCell(node) && (
-        <div className="flex md:flex-col absolute -top-[28px] md:top-0 right-0 md:-right-[28px] mt-8">
+        <div className="hidden group-hover:flex md:flex-col absolute -top-[28px] md:top-0 right-0 md:-right-[28px] mt-8">
           <RunCell id={id} />
           <ClearCell id={id} />
         </div>

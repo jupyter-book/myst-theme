@@ -29,10 +29,15 @@ export const NativeJupyterOutputs = ({
   id: string;
   outputs: MinifiedOutput[];
 }) => {
-  const { core } = useThebeCore();
+  const { core, load } = useThebeCore();
   const { data, error } = useFetchAnyTruncatedContent(outputs);
   const [loaded, setLoaded] = useState(false);
   const [fullOutputs, setFullOutputs] = useState<IOutput[] | null>(null);
+
+  useEffect(() => {
+    if (core) return;
+    load();
+  }, [core, load]);
 
   useEffect(() => {
     if (!data || loaded) return;
@@ -50,7 +55,7 @@ export const NativeJupyterOutputs = ({
   return (
     <div>
       {!fullOutputs && <div className="p-2.5">Loading...</div>}
-      {fullOutputs && core && <MemoOutputRenderer id={id} core={core} data={fullOutputs} />}
+      {fullOutputs && core && <MemoOutputRenderer id={id} data={fullOutputs} core={core} />}
     </div>
   );
 };

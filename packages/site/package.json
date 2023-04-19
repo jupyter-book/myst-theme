@@ -29,7 +29,8 @@
     "nbtx": "^0.2.3",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.7",
-    "unist-util-select": "^4.0.1"
+    "unist-util-select": "^4.0.1",
+    "thebe-react": "^0.0.4"
   },
   "peerDependencies": {
     "@remix-run/node": "^1.12.0",

@@ -42,13 +42,10 @@ export function Output(node: GenericNode) {
   if (allSafe) {
     component = <SafeOutputs keyStub={node.key} outputs={outputs} />;
   } else {
-    // Hide the iframe if rendering on the server
     component = (
-      <ClientOnly>
-        <ThebeCoreProvider>
-          <JupyterOutputs id={node.key} outputs={outputs} />
-        </ThebeCoreProvider>
-      </ClientOnly>
+      <ThebeCoreProvider>
+        <JupyterOutputs id={node.key} outputs={outputs} />
+      </ThebeCoreProvider>
     );
   }
 

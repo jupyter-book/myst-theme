@@ -35,8 +35,7 @@
     "react-popper": "^2.3.0",
     "react-syntax-highlighter": "^15.5.0",
     "swr": "^1.3.0",
-    "thebe-core": "^0.1.1",
-    "thebe-react": "^0.0.2",
+    "thebe-react": "^0.0.4",
     "unist-util-select": "^4.0.1"
   },
   "peerDependencies": {

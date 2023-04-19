@@ -133,13 +133,17 @@ export function NotebookProvider({
   const registry = useRef<CellRefRegistry>({});
   const idkMap = useRef<IdKeyMap>({});
 
-  console.log('NotebookProvider', { notebook });
-
   useEffect(() => {
     if (!core || !config) return;
-    if (page.kind !== SourceFileKind.Notebook) return;
-    const nb = notebookFromMdast(core, config, page.mdast as GenericParent, idkMap.current);
-    setNotebook(nb);
+    if (page.kind === SourceFileKind.Notebook) {
+      const nb = notebookFromMdast(core, config, page.mdast as GenericParent, idkMap.current);
+      setNotebook(nb);
+    } else {
+      // TODO will need do article relative notebook loading as appropriate once that is supported
+      registry.current = {};
+      idkMap.current = {};
+      setNotebook(undefined);
+    }
   }, [core, config, page]);
 
   function register(id: string) {

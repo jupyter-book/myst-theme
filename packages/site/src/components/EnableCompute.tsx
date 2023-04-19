@@ -53,8 +53,6 @@ export function EnableCompute({
     }
   }, [shutdown, navigation]);
 
-  console.log('active session', { session });
-
   return (
     <div className="flex mx-1 items-center">
       <button className={classes} onClick={() => setEnabling(true)} disabled={enabling || enabled}>

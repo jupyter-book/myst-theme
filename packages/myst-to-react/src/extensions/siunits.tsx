@@ -1,10 +1,12 @@
 import type { NodeRenderer } from '@myst-theme/providers';
 
 export const SIUnits: NodeRenderer = (node) => {
+  const space = node.number == null ? '' : ' ';
+  const title = `${node.number ?? ''}${space}${node.alt}`;
   return (
-    <code key={node.key} className="text-inherit" title={`${node.num} ${node.units}`}>
+    <span key={node.key} title={title}>
       {node.value}
-    </code>
+    </span>
   );
 };
 

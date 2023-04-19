@@ -14,7 +14,8 @@ export function ArticlePage({ article }: { article: PageLoader }) {
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
-      <ThebeSessionProvider start>
+      {/* will slug always be a valid session name? */}
+      <ThebeSessionProvider start name={article.slug}>
         {!hide_title_block && (
           <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
         )}

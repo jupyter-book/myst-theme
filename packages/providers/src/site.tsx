@@ -20,6 +20,8 @@ export function useSiteManifest() {
 
 export function useComputeOptions() {
   const config = useSiteManifest();
+  // TODO there may be multiple projects?
+  // useProjectManifest?
   const mainProject = config?.projects?.[0];
   const options = mainProject?.thebe;
 

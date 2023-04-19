@@ -9,16 +9,19 @@ import type {
 } from 'thebe-core';
 import type { IThebeNotebookError, NotebookExecuteOptions } from 'thebe-react';
 import { useNotebookBase, useThebeConfig, useThebeCore } from 'thebe-react';
-import type { PageLoader } from '../types';
-import { KINDS } from '../types';
+import type { PartialPage } from './types';
+import { KINDS } from './types';
 
-function notebookFromMdast(core: ThebeCore, config: Config, mdast: GenericParent): ThebeNotebook {
+export function notebookFromMdast(
+  core: ThebeCore,
+  config: Config,
+  mdast: GenericParent,
+): ThebeNotebook {
   const rendermime = undefined; // share rendermime beyond notebook scope?
   const notebook = new core.ThebeNotebook(mdast.key, config, rendermime);
 
   // no metadata included in mdast yet
   //Object.assign(notebook.metadata, ipynb.metadata);
-
   notebook.cells = (mdast.children as GenericParent[]).map((block: GenericParent) => {
     if (block.type !== 'block') console.warn(`Unexpected block type ${block.type}`);
     if (block.children.length > 0 && block.children[0].type === 'code') {
@@ -65,6 +68,7 @@ interface NotebookContextType {
     options?: NotebookExecuteOptions | undefined,
   ) => Promise<(IThebeCellExecuteReturn | null)[]>;
   notebook: ThebeNotebook | undefined;
+  registry: CellRefRegistry;
   register: (id: string) => (el: HTMLDivElement) => void;
   restart: () => Promise<void>;
   clear: () => void;
@@ -76,7 +80,7 @@ export function NotebookProvider({
   siteConfig,
   page,
   children,
-}: React.PropsWithChildren<{ siteConfig: boolean; page: PageLoader }>) {
+}: React.PropsWithChildren<{ siteConfig: boolean; page: PartialPage }>) {
   // so at some point this gets the whole site config and can
   // be use to lookup notebooks and recover ThebeNotebooks that
   // can be used to execute notebook pages or blocks in articles
@@ -97,7 +101,7 @@ export function NotebookProvider({
     setNotebook,
   } = useNotebookBase();
 
-  const cellRefs = useRef<CellRefRegistry>({});
+  const registry = useRef<CellRefRegistry>({});
 
   useEffect(() => {
     if (!core || !config || notebook) return;
@@ -123,12 +127,12 @@ export function NotebookProvider({
 
   function register(id: string) {
     return (el: HTMLDivElement) => {
-      if (el != null && cellRefs.current[id] !== el) {
+      if (el != null && registry.current[id] !== el) {
         if (!el.isConnected) {
           console.debug(`skipping ref for cell ${id} as host is not connected`);
         } else {
           console.debug(`new ref for cell ${id} registered`);
-          cellRefs.current[id] = el;
+          registry.current[id] = el;
         }
       }
     };
@@ -145,6 +149,7 @@ export function NotebookProvider({
         executeAll,
         executeSome,
         notebook,
+        registry: registry.current,
         register,
         restart: () => session?.restart() ?? Promise.resolve(),
         clear,
@@ -161,6 +166,16 @@ export function useCellRefRegistry() {
     throw new Error('useCellRefRegistry called outside of NotebookProvider');
   }
   return { register: notebookState.register };
+}
+
+export function useCellRef(id: string) {
+  const notebookState = useContext(NotebookContext);
+  if (notebookState === undefined) {
+    throw new Error('useCellRef called outside of NotebookProvider');
+  }
+  console.log('useCellRef', { id, registry: notebookState.registry });
+  const entry = Object.entries(notebookState.registry).find(([cellId]) => cellId === id);
+  return { el: entry?.[1] ?? null };
 }
 
 export function useMDASTNotebook() {

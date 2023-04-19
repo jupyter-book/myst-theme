@@ -1,4 +1,4 @@
-import { ReferencesProvider } from '@myst-theme/providers';
+import { ReferencesProvider, NotebookProvider } from '@myst-theme/providers';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
@@ -9,7 +9,6 @@ import { ThebeSessionProvider } from 'thebe-react';
 import type { GenericParent } from 'myst-common';
 import { EnableCompute } from './EnableCompute';
 import { NotebookRunAll } from '../components/NotebookRunAll';
-import { NotebookProvider } from './NotebookProvider';
 
 export function ArticlePage({ article }: { article: PageLoader }) {
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};

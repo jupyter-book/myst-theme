@@ -4,38 +4,39 @@ import { useFetchAnyTruncatedContent } from './hooks';
 import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages';
-import type { ThebeCore } from 'thebe-react';
 import { useThebeCore } from 'thebe-react';
+import { useCellRefRegistry, useNotebookCellExecution, useCellRef } from '@myst-theme/providers';
 
-function OutputRenderer({ id, data, core }: { id: string; data: IOutput[]; core: ThebeCore }) {
-  const [cell] = useState(new core.PassiveCellRenderer(id));
-  const ref = useRef<HTMLDivElement>(null);
+function ActiveOutputRenderer({ cellId, data }: { cellId: string; data: IOutput[] }) {
+  const { el } = useCellRef(cellId);
+  const { ready, executing, cell, execute, clear } = useNotebookCellExecution(cellId);
+
+  console.log('ActiveOutputRenderer', { el, cell });
+  console.log({ data });
   useEffect(() => {
-    if (!ref.current) return;
-    cell.attachToDOM(ref.current);
-  }, [ref]);
-  useEffect(() => {
-    if (!cell?.isAttachedToDOM) return;
-    console.log('OutputRenderer - cell.render');
+    if (!el || !cell) return;
+    console.debug(`Attaching cell ${cell.id} to DOM at:`, { el, connected: el.isConnected });
+    cell.attachToDOM(el);
     cell.render(data);
-  }, [data, cell]);
+  }, [el, cell]);
 
-  return <div data-passive-renderer ref={ref} />;
+  return null;
 }
 
-const MemoOutputRenderer = React.memo(OutputRenderer);
-
-export const NativeJupyterOutputs = ({
+export const JupyterOutputs = ({
   id,
+  parent,
   outputs,
 }: {
   id: string;
+  parent: string;
   outputs: MinifiedOutput[];
 }) => {
   const { core, load } = useThebeCore();
   const { data, error } = useFetchAnyTruncatedContent(outputs);
   const [loaded, setLoaded] = useState(false);
   const [fullOutputs, setFullOutputs] = useState<IOutput[] | null>(null);
+  const { register } = useCellRefRegistry();
 
   useEffect(() => {
     if (core) return;
@@ -56,9 +57,9 @@ export const NativeJupyterOutputs = ({
   }
 
   return (
-    <div>
+    <div ref={register(parent)} data-thebe-ref="true">
       {!fullOutputs && <div className="p-2.5">Loading...</div>}
-      {fullOutputs && core && <MemoOutputRenderer id={id} data={fullOutputs} core={core} />}
+      {fullOutputs && core && <ActiveOutputRenderer cellId={parent} data={fullOutputs} />}
     </div>
   );
 };

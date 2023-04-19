@@ -1,9 +1,10 @@
-import type { GenericNode } from 'myst-common';
+import type { GenericNode, GenericParent } from 'myst-common';
 import { KnownCellOutputMimeTypes } from 'nbtx';
 import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
 import { SafeOutputs } from './safe';
-import { NativeJupyterOutputs as JupyterOutputs } from './jupyter';
+import { JupyterOutputs } from './jupyter';
+import { KINDS } from './types';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -32,7 +33,7 @@ export function allOutputsAreSafe(
   }, true);
 }
 
-export function Output(node: GenericNode) {
+export function Output(node: GenericNode & { parent: string; context: KINDS }) {
   const outputs: MinifiedOutput[] = node.data;
   const allSafe = allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES);
 
@@ -40,19 +41,30 @@ export function Output(node: GenericNode) {
   if (false) {
     component = <SafeOutputs keyStub={node.key} outputs={outputs} />;
   } else {
-    component = <JupyterOutputs id={node.key} outputs={outputs} />;
+    component = <JupyterOutputs id={node.key} parent={node.parent} outputs={outputs} />;
   }
 
   return (
     <figure
       key={node.key}
       id={node.identifier || undefined}
+      data-cell-id={node.parent}
+      data-mdast-node-type={node.type}
+      data-mdast-node-id={node.key}
       className={classNames('max-w-full overflow-auto m-0 group not-prose relative', {
         'text-left': !node.align || node.align === 'left',
         'text-center': node.align === 'center',
         'text-right': node.align === 'right',
       })}
     >
+      <div className="rounded bg-green-500 text-xs text-white px-2 py-1">
+        [OUTPUT] block id: {node.key} | node.id: {node.id} | node.key: {node.key ?? 'none'}
+      </div>
+      {node.context !== KINDS.Notebook && (
+        <div className="bg-blue-500 text-white">
+          [Make Interactive] | [Execute Figure] | [Reset]
+        </div>
+      )}
       {component}
     </figure>
   );

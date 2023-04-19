@@ -1,5 +1,5 @@
 import { Spinner } from './Spinner';
-import { useMDASTNotebook } from '../pages/NotebookProvider';
+import { useMDASTNotebook } from '@myst-theme/providers';
 
 export function NotebookRunAll() {
   const { ready, attached, notebook, executing, executeAll, restart, clear } = useMDASTNotebook();

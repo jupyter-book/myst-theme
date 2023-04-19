@@ -1,0 +1,12 @@
+diff --git a/node_modules/@jupyterlab/coreutils/lib/url.js b/node_modules/@jupyterlab/coreutils/lib/url.js
+index c3d8fef..f5e119b 100644
+--- a/node_modules/@jupyterlab/coreutils/lib/url.js
++++ b/node_modules/@jupyterlab/coreutils/lib/url.js
+@@ -7,6 +7,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.URLExt = void 0;
+ const path_1 = require("path");
++path_1.posix = path_1;
+ const url_parse_1 = __importDefault(require("url-parse"));
+ /**
+  * The namespace for URL-related functions.

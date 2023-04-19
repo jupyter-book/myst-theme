@@ -34,7 +34,6 @@ export function Document({
   CONTENT_CDN_PORT?: number | string;
   scrollTopClass?: string;
 }) {
-  console.log('ROOT');
   return (
     <html lang="en" className={classNames(theme, scrollTopClass)}>
       <head>

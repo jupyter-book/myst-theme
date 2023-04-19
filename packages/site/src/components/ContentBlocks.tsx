@@ -34,7 +34,6 @@ function activeOutputRendererFactory(parentId: string, BaseRenderer: NodeRendere
   return function ActiveOutput(node: GenericNode) {
     const { register } = useCellRefRegistry();
     const output = BaseRenderer(node);
-    console.log('ActiveOutput', { parentId, id: node.id, register });
     return (
       <div
         className="not-prose"
@@ -81,7 +80,6 @@ function ensureCodeBlocksHaveAnOutput(node: GenericParent) {
 
 function Block({ id, node, className }: { id: string; node: GenericParent; className?: string }) {
   const { code, output, ...otherRenderers } = useNodeRenderers() ?? DEFAULT_RENDERERS;
-  console.log({ node });
 
   // TODO - do we need these wrapper components? are we able to push the custom logic
   // down into the standard code/output renderers and we decorate the node with data we need?

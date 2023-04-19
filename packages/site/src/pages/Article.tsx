@@ -14,7 +14,6 @@ import { NotebookProvider } from './NotebookProvider';
 export function ArticlePage({ article }: { article: PageLoader }) {
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
   const isJupyter = article?.kind && article.kind === KINDS.Notebook;
-  console.log({ root: article.mdast });
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}

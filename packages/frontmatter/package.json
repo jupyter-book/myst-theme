@@ -25,7 +25,7 @@
     "@myst-theme/jupyter": "^0.1.35",
     "classnames": "^2.3.2",
     "myst-common": "*",
-    "thebe-react": "^0.0.6",
+    "thebe-react": "^0.0.7",
     "myst-frontmatter": "*"
   },
   "peerDependencies": {

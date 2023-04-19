@@ -55,7 +55,7 @@ export function Document({
             </SiteProvider>
           </ThebeCoreProvider>
         </ThemeProvider>
-        {/* <ScrollRestoration /> */}
+        <ScrollRestoration />
         <Scripts />
         <LiveReload />
         <ContentReload port={CONTENT_CDN_PORT} />

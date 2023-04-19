@@ -1,4 +1,5 @@
-import { GenericParent, SourceFileKind } from 'myst-common';
+import type { GenericParent } from 'myst-common';
+import { SourceFileKind } from 'myst-common';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import type {
   Config,

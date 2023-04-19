@@ -109,7 +109,9 @@ export function useTocHeight<T extends HTMLElement = HTMLElement>(top?: number) 
   const setHeight = () => {
     if (!container.current || !toc.current) return;
     const height = container.current.offsetHeight - window.scrollY;
-    toc.current.style.height = `min(calc(100vh - ${top ?? 0}px), ${height}px)`;
+    const div = toc.current.firstChild as HTMLDivElement;
+    const MAGIC_PADDING = 16; // I dunno, just go with it ...
+    if (div) div.style.height = `min(calc(100vh - ${top ?? 0}px), ${height + MAGIC_PADDING}px)`;
     const nav = toc.current.querySelector('nav');
     if (nav) nav.style.opacity = height > 150 ? '1' : '0';
   };

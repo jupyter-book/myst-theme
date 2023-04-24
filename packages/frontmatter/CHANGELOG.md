@@ -1,5 +1,12 @@
 # @myst-theme/frontmatter
 
+## 0.1.36
+
+### Patch Changes
+
+- 5feddf51: Treeshake @heroicons
+- fa347259: Aria label on link
+
 ## 0.1.35
 
 ## 0.1.34

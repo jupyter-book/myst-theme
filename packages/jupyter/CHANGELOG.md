@@ -1,5 +1,12 @@
 # @myst-theme/jupyter
 
+## 0.1.36
+
+### Patch Changes
+
+- 4ad8313a: Improve the rendering of code outputs in jupyter
+  - @myst-theme/providers@0.1.36
+
 ## 0.1.35
 
 ### Patch Changes

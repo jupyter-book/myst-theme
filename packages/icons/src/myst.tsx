@@ -42,7 +42,7 @@ export function MadeWithMyst({ url = 'https://myst-tools.org/made-with-myst' }: 
       target="_blank"
       rel="noreferrer"
     >
-      <MystLogo />
+      <MystLogo fill="currentColor" />
       <span className="self-center text-sm ml-2">Made with MyST</span>
     </a>
   );

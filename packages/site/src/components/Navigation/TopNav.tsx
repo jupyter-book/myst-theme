@@ -73,10 +73,7 @@ function NavItem({ item }: { item: SiteNavItem }) {
       <div className="inline-block">
         <Menu.Button className="inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium text-stone-900 dark:text-white rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
           <span>{item.title}</span>
-          <ChevronDownIcon
-            className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
-            aria-hidden="true"
-          />
+          <ChevronDownIcon className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100" />
         </Menu.Button>
       </div>
       <Transition
@@ -212,13 +209,13 @@ export function TopNav() {
         <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center">
           <div className="block xl:hidden">
             <button
-              className="flex items-center text-stone-200 border-stone-400 hover:text-white"
+              className="flex items-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100"
               onClick={() => {
                 setOpen(!open);
               }}
             >
+              <MenuIcon className="h-8 w-8 p-1" />
               <span className="sr-only">Open Menu</span>
-              <MenuIcon className="fill-current h-8 w-8 p-1" />
             </button>
           </div>
           <HomeLink name={title} logo={logo} logoText={logo_text || logoText} />

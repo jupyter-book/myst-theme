@@ -6,12 +6,14 @@ import type {
   CoreOptions,
   IThebeCell,
   IThebeCellExecuteReturn,
+  RepoProvider,
   ThebeCore,
   ThebeNotebook,
 } from 'thebe-core';
 import type { IThebeNotebookError, NotebookExecuteOptions } from 'thebe-react';
 import { useNotebookBase, useThebeConfig, useThebeCore, ThebeServerProvider } from 'thebe-react';
 import type { Root } from 'mdast';
+import type { Thebe, ThebeServerOptions, ThebeLocalOptions } from 'myst-frontmatter';
 import { useComputeOptions } from '@myst-theme/providers';
 
 function getThebeOptions(): CoreOptions {
@@ -25,7 +27,7 @@ function getThebeOptions(): CoreOptions {
     sessionName,
     disableSessionSaving,
     local,
-  } = thebe;
+  } = (thebe as Thebe | undefined) ?? {};
   const output: CoreOptions = { mathjaxUrl, mathjaxConfig };
   if (binder) {
     const useBinder = binder === true ? {} : binder;
@@ -33,10 +35,10 @@ function getThebeOptions(): CoreOptions {
       binderUrl: useBinder.url ?? binderUrl,
       ref: useBinder.ref,
       repo: useBinder.repo,
-      repoProvider: useBinder.provider,
+      repoProvider: useBinder.provider as RepoProvider | undefined,
     };
   }
-  const useServer = local ?? server;
+  const useServer = (local ?? server) as ThebeServerOptions | ThebeLocalOptions;
   if (server) {
     const splitUrl = useServer.url?.split('://');
     const wsUrl = splitUrl?.length === 2 ? `ws://${splitUrl[1]}` : undefined;
@@ -48,9 +50,9 @@ function getThebeOptions(): CoreOptions {
     };
   }
   output.kernelOptions = {
-    kernelName: useServer?.kernelName ?? kernelName,
-    name: useServer?.kernelName ?? kernelName,
-    path: useServer?.sessionName ?? sessionName,
+    kernelName: kernelName,
+    name: kernelName,
+    path: sessionName,
   };
   if (!disableSessionSaving) {
     output.savedSessionOptions = {

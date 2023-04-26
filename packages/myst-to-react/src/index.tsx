@@ -18,6 +18,7 @@ import HEADING_RENDERERS from './heading';
 import CROSS_REFERENCE_RENDERERS from './crossReference';
 import TAB_RENDERERS from './tabs';
 import EXT_RENDERERS from './extensions';
+import INLINE_EXPRESSION_RENDERERS from './inlineExpression';
 
 export { CopyIcon } from './components/CopyIcon';
 export { CodeBlock } from './code';
@@ -42,6 +43,7 @@ export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...DROPDOWN_RENDERERS,
   ...CARD_RENDERERS,
   ...GRID_RENDERERS,
+  ...INLINE_EXPRESSION_RENDERERS,
   ...EXT_RENDERERS,
 };
 

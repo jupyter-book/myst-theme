@@ -28,6 +28,7 @@ export function useComputeOptions() {
   return {
     canCompute: options !== undefined,
     thebe: options,
+    binderUrl: mainProject?.binder,
     binderLink: true,
   };
 }

@@ -14,10 +14,58 @@ import { useNotebookBase, useThebeConfig, useThebeCore, ThebeServerProvider } fr
 import type { Root } from 'mdast';
 import { useComputeOptions } from '@myst-theme/providers';
 
+function getThebeOptions(): CoreOptions {
+  const { thebe, binderUrl } = useComputeOptions();
+  const {
+    mathjaxUrl,
+    mathjaxConfig,
+    binder,
+    server,
+    kernelName,
+    sessionName,
+    disableSessionSaving,
+    local,
+  } = thebe;
+  const output: CoreOptions = { mathjaxUrl, mathjaxConfig };
+  if (binder) {
+    const useBinder = binder === true ? {} : binder;
+    output.binderOptions = {
+      binderUrl: useBinder.url ?? binderUrl,
+      ref: useBinder.ref,
+      repo: useBinder.repo,
+      repoProvider: useBinder.provider,
+    };
+  }
+  const useServer = server ?? local;
+  if (server) {
+    const splitUrl = useServer.url?.split('://');
+    const wsUrl = splitUrl?.length === 2 ? `ws://${splitUrl[1]}` : undefined;
+    output.serverSettings = {
+      baseUrl: useServer.url,
+      token: useServer.token,
+      wsUrl,
+      appendToken: true,
+    };
+  }
+  output.kernelOptions = {
+    kernelName: useServer?.kernelName ?? kernelName,
+    name: useServer?.kernelName ?? kernelName,
+    path: useServer?.sessionName ?? sessionName,
+  };
+  if (!disableSessionSaving) {
+    output.savedSessionOptions = {
+      enabled: true,
+      maxAge: 38300,
+      storagePrefix: 'thebe',
+    };
+  }
+  return output;
+}
+
 export function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {
-  const { thebe } = useComputeOptions();
+  const thebe = getThebeOptions();
   return (
-    <ThebeServerProvider connect={false} options={thebe as CoreOptions}>
+    <ThebeServerProvider connect={false} options={thebe}>
       {children}
     </ThebeServerProvider>
   );

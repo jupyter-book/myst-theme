@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.1.37
+
+### Patch Changes
+
+- ae4848dd: Add Thebe to theme
+
 ## 0.1.36
 
 ### Patch Changes

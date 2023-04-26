@@ -1,5 +1,14 @@
 # myst-to-react
 
+## 0.1.37
+
+### Patch Changes
+
+- 0858c076: Add inline expressions
+- ae4848dd: Add Thebe to theme
+- Updated dependencies [ae4848dd]
+  - @myst-theme/providers@0.1.37
+
 ## 0.1.36
 
 ### Patch Changes

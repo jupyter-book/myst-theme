@@ -1,5 +1,19 @@
 # @curvenote/site
 
+## 0.1.37
+
+### Patch Changes
+
+- ae4848dd: Add Thebe to theme
+- Updated dependencies [0858c076]
+- Updated dependencies [ae4848dd]
+  - myst-to-react@0.1.37
+  - @myst-theme/frontmatter@0.1.37
+  - @myst-theme/providers@0.1.37
+  - @myst-theme/jupyter@0.1.37
+  - @myst-theme/diagrams@0.1.37
+  - myst-demo@0.1.37
+
 ## 0.1.36
 
 ### Patch Changes

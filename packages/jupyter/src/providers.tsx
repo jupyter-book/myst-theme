@@ -36,7 +36,7 @@ function getThebeOptions(): CoreOptions {
       repoProvider: useBinder.provider,
     };
   }
-  const useServer = server ?? local;
+  const useServer = local ?? server;
   if (server) {
     const splitUrl = useServer.url?.split('://');
     const wsUrl = splitUrl?.length === 2 ? `ws://${splitUrl[1]}` : undefined;

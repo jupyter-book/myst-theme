@@ -6,4 +6,4 @@
 	url = https://github.com/executablebooks/myst-article-theme
 [submodule "patches"]
 	path = patches
-	url = git@github.com:executablebooks/myst-theme-patches.git
+	url = https://github.com/executablebooks/myst-theme-patches

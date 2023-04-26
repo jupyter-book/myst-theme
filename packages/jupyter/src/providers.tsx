@@ -6,18 +6,68 @@ import type {
   CoreOptions,
   IThebeCell,
   IThebeCellExecuteReturn,
+  RepoProvider,
   ThebeCore,
   ThebeNotebook,
 } from 'thebe-core';
 import type { IThebeNotebookError, NotebookExecuteOptions } from 'thebe-react';
 import { useNotebookBase, useThebeConfig, useThebeCore, ThebeServerProvider } from 'thebe-react';
 import type { Root } from 'mdast';
+import type { Thebe, ThebeServerOptions, ThebeLocalOptions } from 'myst-frontmatter';
 import { useComputeOptions } from '@myst-theme/providers';
 
+function getThebeOptions(): CoreOptions {
+  const { thebe, binderUrl } = useComputeOptions();
+  const {
+    mathjaxUrl,
+    mathjaxConfig,
+    binder,
+    server,
+    kernelName,
+    sessionName,
+    disableSessionSaving,
+    local,
+  } = (thebe as Thebe | undefined) ?? {};
+  const output: CoreOptions = { mathjaxUrl, mathjaxConfig };
+  if (binder) {
+    const useBinder = binder === true ? {} : binder;
+    output.binderOptions = {
+      binderUrl: useBinder.url ?? binderUrl,
+      ref: useBinder.ref,
+      repo: useBinder.repo,
+      repoProvider: useBinder.provider as RepoProvider | undefined,
+    };
+  }
+  const useServer = (local ?? server) as ThebeServerOptions | ThebeLocalOptions;
+  if (server) {
+    const splitUrl = useServer.url?.split('://');
+    const wsUrl = splitUrl?.length === 2 ? `ws://${splitUrl[1]}` : undefined;
+    output.serverSettings = {
+      baseUrl: useServer.url,
+      token: useServer.token,
+      wsUrl,
+      appendToken: true,
+    };
+  }
+  output.kernelOptions = {
+    kernelName: kernelName,
+    name: kernelName,
+    path: sessionName,
+  };
+  if (!disableSessionSaving) {
+    output.savedSessionOptions = {
+      enabled: true,
+      maxAge: 38300,
+      storagePrefix: 'thebe',
+    };
+  }
+  return output;
+}
+
 export function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {
-  const { thebe } = useComputeOptions();
+  const thebe = getThebeOptions();
   return (
-    <ThebeServerProvider connect={false} options={thebe as CoreOptions}>
+    <ThebeServerProvider connect={false} options={thebe}>
       {children}
     </ThebeServerProvider>
   );

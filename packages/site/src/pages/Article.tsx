@@ -13,7 +13,8 @@ import { NotebookRunAll } from '../components/ComputeControls';
 import { NotebookProvider, BinderBadge } from '@myst-theme/jupyter';
 
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
-  const { canCompute } = useComputeOptions();
+  const computeOptions = useComputeOptions();
+  const canCompute = computeOptions.canCompute && (article.frontmatter as any)?.thebe !== false;
   const { hide_title_block, hide_footer_links, binder } =
     (article.frontmatter as any)?.design ?? {};
   const isJupyter = article?.kind && article.kind === SourceFileKind.Notebook;

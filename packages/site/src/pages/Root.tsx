@@ -16,6 +16,8 @@ import { ContentReload, renderers } from '../components';
 import { Analytics } from '../seo';
 import { ErrorSiteNotFound } from './ErrorSiteNotFound';
 import classNames from 'classnames';
+import { ThebeCoreProvider } from 'thebe-react';
+import { ConfiguredThebeServerProvider } from '@myst-theme/jupyter';
 
 export function Document({
   children,
@@ -47,7 +49,11 @@ export function Document({
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <ThemeProvider theme={theme} renderers={renderers} Link={RemixLink as any}>
-          <SiteProvider config={config}>{children}</SiteProvider>
+          <ThebeCoreProvider>
+            <SiteProvider config={config}>
+              <ConfiguredThebeServerProvider>{children}</ConfiguredThebeServerProvider>
+            </SiteProvider>
+          </ThebeCoreProvider>
         </ThemeProvider>
         <ScrollRestoration />
         <Scripts />

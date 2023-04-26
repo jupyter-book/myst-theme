@@ -290,7 +290,7 @@ export function FrontmatterBlock({
   return (
     <>
       {hasHeaders && (
-        <div className="flex mt-3 mb-5 text-sm font-light">
+        <div className="flex mt-3 mb-5 text-sm font-light items-center h-6">
           {subject && (
             <div
               className={classNames('flex-none pr-2 smallcaps', {
@@ -306,9 +306,9 @@ export function FrontmatterBlock({
           <OpenAccessBadge open_access={open_access} />
           <GitHubLink github={github} />
           {isJupyter && (
-            <span>
+            <div className="inline-block mr-1">
               <JupyterIcon className="h-5 w-5 inline-block" />
-            </span>
+            </div>
           )}
           <DownloadsDropdown exports={exports as any} />
         </div>

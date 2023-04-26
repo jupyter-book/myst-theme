@@ -3,9 +3,8 @@ import { KnownCellOutputMimeTypes } from 'nbtx';
 import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
 import { SafeOutputs } from './safe';
-import { NativeJupyterOutputs as JupyterOutputs } from './jupyter';
-import ClientOnly from './ClientOnly';
-import { ThebeCoreProvider } from './thebe-provider';
+import { JupyterOutputs } from './jupyter';
+import { useNotebookCellExecution } from './providers';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -35,27 +34,23 @@ export function allOutputsAreSafe(
 }
 
 export function Output(node: GenericNode) {
+  const exec = useNotebookCellExecution(node.key);
   const outputs: MinifiedOutput[] = node.data;
   const allSafe = allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES);
 
   let component;
-  if (allSafe) {
+  if (allSafe && !exec?.ready) {
     component = <SafeOutputs keyStub={node.key} outputs={outputs} />;
   } else {
-    // Hide the iframe if rendering on the server
-    component = (
-      <ClientOnly>
-        <ThebeCoreProvider>
-          <JupyterOutputs id={node.key} outputs={outputs} />
-        </ThebeCoreProvider>
-      </ClientOnly>
-    );
+    component = <JupyterOutputs id={node.key} outputs={outputs} />;
   }
 
   return (
     <figure
       key={node.key}
       id={node.identifier || undefined}
+      data-mdast-node-type={node.type}
+      data-mdast-node-id={node.key}
       className={classNames('max-w-full overflow-auto m-0 group not-prose relative', {
         'text-left': !node.align || node.align === 'left',
         'text-center': node.align === 'center',

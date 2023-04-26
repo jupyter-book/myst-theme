@@ -10,6 +10,7 @@ import { CopyIcon } from './components/CopyIcon';
 type Props = {
   value: string;
   lang?: string;
+  executable?: boolean;
   showCopy?: boolean;
   showLineNumbers?: boolean;
   startingLineNumber?: number;
@@ -24,6 +25,7 @@ export function CodeBlock(props: Props) {
   const {
     value,
     lang,
+    executable,
     emphasizeLines,
     showLineNumbers,
     className,
@@ -80,12 +82,16 @@ export function CodeBlock(props: Props) {
   );
 }
 
-const code: NodeRenderer<Code> = (node) => {
+const code: NodeRenderer<Code & { executable: boolean }> = (node) => {
   return (
     <CodeBlock
       key={node.key}
+      // data-cell-id={node.executable ? parentId : undefined}
+      data-mdast-node-type={node.type}
+      data-mdast-node-id={node.key}
       value={node.value || ''}
       lang={node.lang}
+      executable={node.executable}
       emphasizeLines={node.emphasizeLines}
       showLineNumbers={node.showLineNumbers}
       startingLineNumber={node.startingLineNumber}

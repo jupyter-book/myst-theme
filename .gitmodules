@@ -4,3 +4,6 @@
 [submodule "themes/article-theme"]
 	path = themes/article-theme
 	url = https://github.com/executablebooks/myst-article-theme
+[submodule "patches"]
+	path = patches
+	url = https://github.com/executablebooks/myst-theme-patches

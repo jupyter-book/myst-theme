@@ -1,5 +1,6 @@
 {
   "name": "@myst-theme/template",
+  "version": "VERSION",
   "private": true,
   "sideEffects": false,
   "scripts": {

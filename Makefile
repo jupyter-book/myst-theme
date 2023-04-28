@@ -17,6 +17,7 @@ build-theme:
 	cp -r themes/$(THEME)/build .deploy/$(THEME)/build
 	cp -r themes/$(THEME)/template.yml .deploy/$(THEME)/template.yml
 	sed -i.bak "s/template/$(THEME)/g" .deploy/$(THEME)/package.json
+	sed -i.bak "s/VERSION/$(VERSION)/g" .deploy/$(THEME)/package.json
 	rm .deploy/$(THEME)/package.json.bak
 	cd .deploy/$(THEME) && npm install
 

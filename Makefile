@@ -9,7 +9,7 @@ THEME=article
 build-theme:
 	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
-	git clone https://github.com/myst-templates/$(THEME)-theme .deploy/$(THEME)
+	git clone --depth 1 https://github.com/myst-templates/$(THEME)-theme .deploy/$(THEME)
 	rm -rf .deploy/$(THEME)/public .deploy/$(THEME)/build .deploy/$(THEME)/package.json .deploy/$(THEME)/package-lock.json .deploy/$(THEME)/template.yml .deploy/$(THEME)/server.js
 	find template -type f  -exec cp {} .deploy/$(THEME) \;
 	cd themes/$(THEME) && npm run prod:build

@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const getPort = require('get-port');
 const compression = require('compression');
 const morgan = require('morgan');
 const { createRequestHandler } = require('@remix-run/express');
@@ -32,8 +33,13 @@ app.all(
     mode: process.env.NODE_ENV,
   }),
 );
-const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`);
-});
+async function start() {
+  // Find an open port if the env is not specified
+  const port = process.env.PORT || (await getPort({ port: getPort.makeRange(3000, 3100) }));
+  app.listen(port, () => {
+    console.log(`Server started at http://localhost:${port}`);
+  });
+}
+
+start();

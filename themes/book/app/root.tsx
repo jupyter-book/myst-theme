@@ -3,7 +3,12 @@ import tailwind from '~/styles/app.css';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/site';
-import { App, responseNoSite, getMetaTagsForSite, getThemeSession } from '@myst-theme/site';
+import {
+  AppWithReload,
+  responseNoSite,
+  getMetaTagsForSite,
+  getThemeSession,
+} from '@myst-theme/site';
 export {
   AppCatchBoundary as CatchBoundary,
   AppDebugErrorBoundary as ErrorBoundary,
@@ -45,4 +50,4 @@ export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> =
   return data;
 };
 
-export default App;
+export default AppWithReload;

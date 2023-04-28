@@ -21,17 +21,17 @@ import { ConfiguredThebeServerProvider } from '@myst-theme/jupyter';
 
 export function Document({
   children,
+  scripts,
   theme,
   config,
   title,
-  CONTENT_CDN_PORT,
   scrollTopClass = 'scroll-p-20',
 }: {
   children: React.ReactNode;
+  scripts?: React.ReactNode;
   theme: Theme;
   config?: SiteManifest;
   title?: string;
-  CONTENT_CDN_PORT?: number | string;
   scrollTopClass?: string;
 }) {
   return (
@@ -58,16 +58,25 @@ export function Document({
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        <ContentReload port={CONTENT_CDN_PORT} />
+        {scripts}
       </body>
     </html>
   );
 }
 
 export function App() {
+  const { theme, config } = useLoaderData<SiteLoader>();
+  return (
+    <Document theme={theme} config={config}>
+      <Outlet />
+    </Document>
+  );
+}
+
+export function AppWithReload() {
   const { theme, config, CONTENT_CDN_PORT } = useLoaderData<SiteLoader>();
   return (
-    <Document theme={theme} config={config} CONTENT_CDN_PORT={CONTENT_CDN_PORT}>
+    <Document theme={theme} config={config} scripts={<ContentReload port={CONTENT_CDN_PORT} />}>
       <Outlet />
     </Document>
   );

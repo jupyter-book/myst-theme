@@ -1,0 +1,36 @@
+jtex: v1
+title: Book Theme
+description: Simple site for displaying multiple articles and notebooks with a table of contents.
+version: 1.0.0
+license: MIT
+source: https://github.com/executablebooks/myst-book-theme
+thumbnail: ./thumbnail.png
+authors:
+  - name: Rowan Cockett
+    website: https://curvenote.com
+    affiliations:
+      - Curvenote
+tags:
+  - book
+options:
+  - type: boolean
+    id: hide_toc
+    description: Hide the table of contents
+  - type: string
+    id: twitter
+    description: Twitter handle related to the site
+  - type: file
+    id: logo
+    description: Local path to logo image
+  - type: string
+    id: logo_text
+    description: Short text to display next to logo at the top of all pages
+  - type: string
+    id: analytics_google
+    description: Google analytics key
+  - type: string
+    id: analytics_plausible
+    description: Plausible analytics key
+build:
+  install: npm install
+  start: npm run start

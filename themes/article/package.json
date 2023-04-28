@@ -1,0 +1,58 @@
+{
+  "name": "@myst-theme/article",
+  "version": "0.0.0",
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
+    "dev:copy": "cp remix.config.dev.js remix.config.js",
+    "prod:copy": "cp remix.config.prod.js remix.config.js",
+    "clean": "rimraf public/build build api",
+    "prod:build": "npm run prod:copy && npm run build:css && remix build",
+    "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
+    "dev": "npm run dev:copy && concurrently \"npm run dev:css\" \"remix dev\"",
+    "start": "npm run build:css && remix dev"
+  },
+  "dependencies": {
+    "@myst-theme/icons": "^0.1.2",
+    "@myst-theme/jupyter": "^0.1.37",
+    "@myst-theme/providers": "^0.1.37",
+    "@myst-theme/site": "^0.1.37",
+    "@myst-theme/styles": "^0.1.36",
+    "@remix-run/node": "^1.14.2",
+    "@remix-run/react": "^1.14.2",
+    "@remix-run/vercel": "^1.14.2",
+    "css-selector-parser": "^1.4.1",
+    "myst-common": "^0.0.16",
+    "myst-config": "^0.0.14",
+    "node-fetch": "^2.6.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.14.2",
+    "@remix-run/eslint-config": "^1.14.2",
+    "@remix-run/serve": "^1.14.2",
+    "@tailwindcss/typography": "^0.5.9",
+    "@types/node-fetch": "^2.6.2",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vercel/node": "^2.9.12",
+    "concurrently": "^7.6.0",
+    "eslint": "^8.23.1",
+    "patch-package": "^7.0.0",
+    "prettier": "latest",
+    "tailwindcss": "^3.2.7",
+    "typescript": "^4.9.5"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "packageManager": "npm@8.10.0",
+  "overrides": {
+    "ansi-to-react": {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0"
+    }
+  }
+}

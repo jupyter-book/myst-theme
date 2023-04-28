@@ -5,6 +5,7 @@ node_modules
 .pnp
 .pnp.js
 .ipynb_checkpoints
+.deploy
 
 # testing
 coverage

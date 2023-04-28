@@ -1,6 +1,8 @@
 .PHONY: build-theme build-article build-book deploy-theme deploy-article deploy-book
 
 COMMIT = $(shell git rev-parse --short HEAD)
+# You may need to install jq for this to work!
+VERSION = $(shell cat packages/site/package.json | jq -r '.version')
 
 THEME=article
 
@@ -27,7 +29,7 @@ build-book:
 deploy-theme:
 	make THEME=$(THEME) build-theme
 	cd .deploy/$(THEME) && git add .
-	cd .deploy/$(THEME) && git commit -m "Release $(COMMIT)"
+	cd .deploy/$(THEME) && git commit -m "🚀 v$(VERSION) from $(COMMIT)"
 	cd .deploy/$(THEME) && git push -u origin main
 
 deploy-article:

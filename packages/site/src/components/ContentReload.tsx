@@ -55,12 +55,9 @@ async function mystLiveReloadConnect(config: { onOpen?: () => void; port?: strin
 }
 
 // Inspired by the LiveReload component in Remix
-export const ContentReload =
-  process.env.NODE_ENV !== 'development'
-    ? () => null
-    : ({ port }: { port?: string | number }) => {
-        useEffect(() => {
-          mystLiveReloadConnect({ port });
-        }, []);
-        return null;
-      };
+export function ContentReload({ port }: { port?: string | number }) {
+  useEffect(() => {
+    mystLiveReloadConnect({ port });
+  }, []);
+  return null;
+}

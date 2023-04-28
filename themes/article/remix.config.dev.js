@@ -1,0 +1,37 @@
+/** @type {import('@remix-run/dev').AppConfig} */
+module.exports = {
+  serverBuildTarget: 'vercel',
+  // When running locally in development mode, we use the built in remix
+  // server. This does not understand the vercel lambda module format,
+  // so we default back to the standard build output.
+  server: process.env.NODE_ENV === 'development' ? undefined : './server.js',
+  ignoredRouteFiles: ['**/.*'],
+  // appDirectory: "app",
+  // assetsBuildDirectory: "public/build",
+  // serverBuildPath: "api/index.js",
+  // publicPath: "/build/",
+  serverDependenciesToBundle: [
+    /^rehype.*/,
+    /^remark.*/,
+    /^unified.*/,
+    /^unist.*/,
+    'bail',
+    'is-plain-obj',
+    'trough',
+    'zwitch',
+    'nanoid',
+    /^vfile.*/,
+    'myst-common',
+    'myst-to-react',
+    'myst-demo',
+    '@myst-theme/providers',
+    '@myst-theme/icons',
+    '@myst-theme/site',
+    '@myst-theme/jupyter',
+    '@myst-theme/frontmatter',
+    'react-syntax-highlighter',
+    '@jupyterlab/rendermime',
+    '@jupyterlab/rendermime-interfaces',
+  ],
+  watchPaths: ['../../packages/**/*'],
+};

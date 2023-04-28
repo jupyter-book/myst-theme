@@ -1,0 +1,18 @@
+node_modules
+
+.cache
+.env
+.vercel
+.output
+.turbo
+.yalc
+yalc.lock
+
+/public/build
+/api/*
+/build/*
+
+/app/styles/app.css
+
+# This is ignored as it is built
+remix.config.js

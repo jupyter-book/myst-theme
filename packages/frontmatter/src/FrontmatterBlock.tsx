@@ -281,6 +281,7 @@ export function FrontmatterBlock({
   kind?: SourceFileKind;
   authorStyle?: 'block' | 'list';
 }) {
+  if (!frontmatter) return null;
   const { subject, doi, open_access, license, github, venue, biblio, exports, date } = frontmatter;
   const isJupyter = kind === SourceFileKind.Notebook;
   const hasExports = exports && exports.length > 0;

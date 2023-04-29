@@ -93,8 +93,8 @@ export function DownloadsDropdown({ exports }: HasExports) {
         <ArrowDownTrayIcon className="w-5 h-5 ml-2 -mr-1" aria-hidden="true" />
       </Menu.Button>
       <Menu.Items className="absolute -right-1 bg-white dark:bg-slate-800 rounded-sm overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-        {exports.map(({ format, filename, url }) => (
-          <Menu.Item key={url}>
+        {exports.map(({ format, filename, url }, index) => (
+          <Menu.Item key={index}>
             <Download
               className="block hover:bg-stone-700 dark:hover:bg-stone-200 hover:text-white dark:hover:text-black p-3 no-underline"
               url={url}

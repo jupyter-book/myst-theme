@@ -1,4 +1,4 @@
-import { useTransition } from '@remix-run/react';
+import { useNavigation } from '@remix-run/react';
 import { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 
@@ -6,7 +6,7 @@ import classNames from 'classnames';
  * Show a loading progess bad if the load takes more than 150ms
  */
 function useLoading() {
-  const transitionState = useTransition().state;
+  const transitionState = useNavigation().state;
   const ref = useMemo<{ start?: NodeJS.Timeout; finish?: NodeJS.Timeout }>(() => ({}), []);
   const [showLoading, setShowLoading] = useState(false);
 

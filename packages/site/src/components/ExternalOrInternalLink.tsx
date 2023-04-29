@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react';
+import { useLinkProvider } from '@myst-theme/providers';
 
 export function ExternalOrInternalLink({
   to,
@@ -15,6 +15,7 @@ export function ExternalOrInternalLink({
   title?: string;
   children: React.ReactNode;
 }) {
+  const Link = useLinkProvider();
   if (to.startsWith('http') || isStatic) {
     return (
       <a href={to} className={className} target="_blank" rel="noopener noreferrer" title={title}>

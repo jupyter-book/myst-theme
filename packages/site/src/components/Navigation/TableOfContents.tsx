@@ -138,6 +138,7 @@ export const TableOfContents = ({
   projectSlug?: string;
   footer?: React.ReactNode;
 }) => {
+  const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
   const config = useSiteManifest();
   const { folder, project } = useParams();
@@ -146,6 +147,13 @@ export const TableOfContents = ({
   const headings = getProjectHeadings(config, resolvedProjectSlug, {
     addGroups: false,
   });
+  useEffect(() => {
+    setTimeout(() => {
+      if (!footerRef.current) return;
+      footerRef.current.style.opacity = '1';
+      footerRef.current.style.transform = 'none';
+    }, 500);
+  }, [footerRef]);
   if (!headings) return null;
   return (
     <div
@@ -177,7 +185,14 @@ export const TableOfContents = ({
         >
           <Headings folder={resolvedProjectSlug} headings={headings} sections={config?.projects} />
         </nav>
-        {footer && <div className="flex-none py-4">{footer}</div>}
+        {footer && (
+          <div
+            className="flex-none py-4 opacity-0 transition-all duration-700 translate-y-6"
+            ref={footerRef}
+          >
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   );

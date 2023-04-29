@@ -1,7 +1,7 @@
 import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const SELECTOR = [1, 2, 3, 4, 5, 6].map((n) => `main h${n}`).join(', ');
 const HIGHLIGHT_CLASS = 'highlight';
@@ -157,6 +157,7 @@ const DOC_OUTLINE_CLASS =
   'fixed z-10 bottom-0 right-[max(0px,calc(50%-45rem))] w-[14rem] lg:w-[18rem] py-10 px-4 lg:px-8 overflow-y-auto hidden lg:block';
 
 export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
+  const timer = useMemo(() => ({ current: undefined as NodeJS.Timeout | undefined }), []);
   const container = useRef<T>(null);
   const outline = useRef<T>(null);
   const transitionState = useNavigation().state;
@@ -165,7 +166,11 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
     const height = container.current.offsetHeight - window.scrollY;
     outline.current.style.display = height < 50 ? 'none' : '';
     outline.current.style.height = height > window.innerHeight ? '' : `${height}px`;
-    outline.current.style.opacity = height && height > 300 ? '' : '0';
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      if (!outline.current) return;
+      outline.current.style.opacity = height && height > 300 ? '1' : '0';
+    }, 500);
     outline.current.style.pointerEvents = height && height > 300 ? '' : 'none';
   };
   useEffect(() => {
@@ -191,22 +196,28 @@ export const DocumentOutline = ({
   className?: string;
 }) => {
   const { activeId, headings, highlight } = useHeaders();
-  if (headings.length <= 1) return <nav suppressHydrationWarning />;
+  if (headings.length <= 1 || !onClient) {
+    return <nav ref={outlineRef} suppressHydrationWarning style={{ opacity: 0 }} />;
+  }
   return (
     <nav
       ref={outlineRef}
       aria-label="Document Outline"
-      suppressHydrationWarning
-      className={classNames('not-prose transition-opacity overflow-y-auto', className)}
+      className={classNames(
+        'not-prose overflow-y-auto hidden',
+        'transition-opacity duration-700', // Animation on load
+        className,
+      )}
       style={{
         top: top ?? 0,
         maxHeight: `calc(100vh - ${(top ?? 0) + 20}px)`,
+        opacity: 0,
       }}
     >
       <div className="text-slate-900 mb-4 text-sm leading-6 dark:text-slate-100 uppercase">
         In this article
       </div>
-      {onClient && <Headings headings={headings} activeId={activeId} highlight={highlight} />}
+      <Headings headings={headings} activeId={activeId} highlight={highlight} />
     </nav>
   );
 };

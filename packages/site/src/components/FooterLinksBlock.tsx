@@ -1,13 +1,12 @@
 import classNames from 'classnames';
-import { Link } from '@remix-run/react';
 import ArrowLeftIcon from '@heroicons/react/24/outline/ArrowLeftIcon';
 import ArrowRightIcon from '@heroicons/react/24/outline/ArrowRightIcon';
 import type { FooterLinks, NavigationLink } from '../types';
-import { useUrlbase, withUrlbase } from '@myst-theme/providers';
-import { useEffect, useState } from 'react';
+import { useLinkProvider, useUrlbase, withUrlbase } from '@myst-theme/providers';
 
 const FooterLink = ({ title, url, group, right }: NavigationLink & { right?: boolean }) => {
   const urlbase = useUrlbase();
+  const Link = useLinkProvider();
   return (
     <Link
       prefetch="intent"

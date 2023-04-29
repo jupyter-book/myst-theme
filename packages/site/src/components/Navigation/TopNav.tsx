@@ -1,4 +1,4 @@
-import { Link, NavLink } from '@remix-run/react';
+import { NavLink } from '@remix-run/react';
 import { Fragment } from 'react';
 import classNames from 'classnames';
 import { Menu, Transition } from '@headlessui/react';
@@ -7,7 +7,7 @@ import MenuIcon from '@heroicons/react/24/solid/Bars3Icon';
 import ChevronDownIcon from '@heroicons/react/24/solid/ChevronDownIcon';
 import type { SiteManifest, SiteNavItem } from 'myst-config';
 import { ThemeButton } from './ThemeButton';
-import { useNavOpen, useSiteManifest } from '@myst-theme/providers';
+import { useLinkProvider, useNavOpen, useSiteManifest } from '@myst-theme/providers';
 import { LoadingBar } from './Loading';
 
 export const DEFAULT_NAV_HEIGHT = 60;
@@ -25,6 +25,7 @@ function ExternalOrInternalLink({
   nav?: boolean;
   prefetch?: 'intent' | 'render' | 'none';
 }) {
+  const Link = useLinkProvider();
   const staticClass = typeof className === 'function' ? className({ isActive: false }) : className;
   if (to.startsWith('http') || to.startsWith('mailto:')) {
     return (
@@ -176,6 +177,7 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
 }
 
 function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; name?: string }) {
+  const Link = useLinkProvider();
   const nothingSet = !logo && !logoText;
   return (
     <Link

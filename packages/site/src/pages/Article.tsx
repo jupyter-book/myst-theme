@@ -37,11 +37,7 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
               </EnableCompute>
             )}
           </div>
-          <ContentBlocks
-            name={article.slug}
-            pageKind={article.kind}
-            mdast={article.mdast as GenericParent}
-          />
+          <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
           <Bibliography />
           {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
         </NotebookProvider>

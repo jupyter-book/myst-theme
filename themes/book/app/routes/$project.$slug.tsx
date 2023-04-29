@@ -35,7 +35,8 @@ export const links: LinksFunction = () => [KatexCSS];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const { project, slug } = params;
-  return getPage(request, { project, slug, redirect: true });
+  const page = await getPage(request, { project, slug, redirect: true });
+  return page;
 };
 
 export function ArticlePageAndNavigation({

@@ -157,7 +157,6 @@ const DOC_OUTLINE_CLASS =
   'fixed z-10 bottom-0 right-[max(0px,calc(50%-45rem))] w-[14rem] lg:w-[18rem] py-10 px-4 lg:px-8 overflow-y-auto hidden lg:block';
 
 export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
-  const timer = useMemo(() => ({ current: undefined as NodeJS.Timeout | undefined }), []);
   const container = useRef<T>(null);
   const outline = useRef<T>(null);
   const transitionState = useNavigation().state;
@@ -166,11 +165,7 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
     const height = container.current.offsetHeight - window.scrollY;
     outline.current.style.display = height < 50 ? 'none' : '';
     outline.current.style.height = height > window.innerHeight ? '' : `${height}px`;
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      if (!outline.current) return;
-      outline.current.style.opacity = height && height > 300 ? '1' : '0';
-    }, 500);
+    outline.current.style.opacity = height && height > 300 ? '' : '0';
     outline.current.style.pointerEvents = height && height > 300 ? '' : 'none';
   };
   useEffect(() => {
@@ -181,7 +176,7 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [container, outline, transitionState]);
+  }, [container.current, outline.current, transitionState]);
   return { container, outline };
 }
 
@@ -197,7 +192,7 @@ export const DocumentOutline = ({
 }) => {
   const { activeId, headings, highlight } = useHeaders();
   if (headings.length <= 1 || !onClient) {
-    return <nav ref={outlineRef} suppressHydrationWarning style={{ opacity: 0 }} />;
+    return <nav suppressHydrationWarning />;
   }
   return (
     <nav
@@ -211,7 +206,6 @@ export const DocumentOutline = ({
       style={{
         top: top ?? 0,
         maxHeight: `calc(100vh - ${(top ?? 0) + 20}px)`,
-        opacity: 0,
       }}
     >
       <div className="text-slate-900 mb-4 text-sm leading-6 dark:text-slate-100 uppercase">

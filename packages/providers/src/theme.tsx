@@ -9,6 +9,7 @@ export enum Theme {
 export type LinkProps = {
   to: string;
   prefetch?: 'intent' | 'render' | 'none';
+  title?: string;
   className?: string;
   children: React.ReactNode;
 };

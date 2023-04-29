@@ -15,14 +15,16 @@ import {
 } from '@myst-theme/site';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { getPage } from '~/utils/loaders.server';
-import { Link, NavLink, useLoaderData, useLocation } from '@remix-run/react';
+import { NavLink, useLoaderData, useLocation } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
 import {
   ReferencesProvider,
   TabStateProvider,
   UiStateProvider,
+  useLinkProvider,
   useSiteManifest,
 } from '@myst-theme/providers';
+import type { GenericParent } from 'myst-common';
 import { extractPart, copyNode } from 'myst-common';
 import classNames from 'classnames';
 import { MadeWithMyst } from '@myst-theme/icons';
@@ -67,6 +69,7 @@ export function ArticlePageAndNavigation({
 
 function ArticleNavigation() {
   const site = useSiteManifest();
+  const Link = useLinkProvider();
   const { pathname } = useLocation();
   const project = site?.projects?.[0];
   const exact = pathname === `/${project?.slug}`;
@@ -116,7 +119,7 @@ export function Article({ article }: { article: PageLoader }) {
         <>
           <span className="font-semibold">Abstract</span>
           <div className="bg-slate-50 dark:bg-slate-800 px-6 py-1 rounded-sm m-3">
-            <ContentBlocks mdast={abstract} className="col-body" />
+            <ContentBlocks mdast={abstract as GenericParent} className="col-body" />
           </div>
         </>
       )}
@@ -135,7 +138,7 @@ export function Article({ article }: { article: PageLoader }) {
           ))}
         </div>
       )}
-      <ContentBlocks mdast={tree} />
+      <ContentBlocks mdast={tree as GenericParent} />
       <Bibliography />
     </ReferencesProvider>
   );

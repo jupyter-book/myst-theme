@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
 import type { SiteManifest } from 'myst-config';
 import type { PageLoader } from '@myst-theme/site';
-import { getDomainFromRequest } from '@myst-theme/site';
 import {
+  getDomainFromRequest,
   getFooterLinks,
   getProject,
   responseNoArticle,
@@ -52,7 +52,7 @@ export async function getPage(
     loadIndexPage?: boolean;
     slug?: string;
     redirect?: boolean;
-  }
+  },
 ) {
   const projectName = opts.project;
   const config = await getConfig();

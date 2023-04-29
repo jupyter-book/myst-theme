@@ -1,5 +1,6 @@
 import { useParse, DEFAULT_RENDERERS } from 'myst-to-react';
-import type { GenericParent, SourceFileKind } from 'myst-common';
+import { SourceFileKind } from 'myst-common';
+import type { GenericParent } from 'myst-common';
 import { useNodeRenderers } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { ClearCell, RunCell } from './ComputeControls';
@@ -50,16 +51,15 @@ function Block({
 }
 
 export function ContentBlocks({
-  name,
-  pageKind,
   mdast,
+  pageKind = SourceFileKind.Article,
   className,
 }: {
-  name: string;
-  pageKind: SourceFileKind;
   mdast: GenericParent;
+  pageKind?: SourceFileKind;
   className?: string;
 }) {
+  if (!mdast) return null;
   const blocks = mdast.children as GenericParent[];
   return (
     <>

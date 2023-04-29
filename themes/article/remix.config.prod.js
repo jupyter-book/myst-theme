@@ -7,4 +7,8 @@ module.exports = {
   publicPath: '/build/',
   ignoredRouteFiles: ['**/.*'],
   serverDependenciesToBundle: [/.*/],
+  future: {
+    v2_routeConvention: true,
+    v2_normalizeFormMethod: true,
+  },
 };

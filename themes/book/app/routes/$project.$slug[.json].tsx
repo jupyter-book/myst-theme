@@ -8,7 +8,7 @@ function api404(message = 'No API route found at this URL') {
       status: 404,
       message,
     },
-    { status: 404 }
+    { status: 404 },
   );
 }
 

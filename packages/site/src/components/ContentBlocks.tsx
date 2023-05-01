@@ -7,8 +7,10 @@ import { ClearCell, RunCell } from './ComputeControls';
 
 function isACodeCell(node: GenericParent) {
   return (
+    node &&
     node.type === 'block' &&
-    node.children.length === 2 &&
+    node.children &&
+    node.children?.length === 2 &&
     node.children[0].type === 'code' &&
     node.children[1].type === 'output'
   );

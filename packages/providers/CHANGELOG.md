@@ -1,5 +1,11 @@
 # @myst-theme/providers
 
+## 0.1.38
+
+### Patch Changes
+
+- 8615bb06: Add title as optional type on Link
+
 ## 0.1.37
 
 ### Patch Changes

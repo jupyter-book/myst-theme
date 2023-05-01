@@ -1,5 +1,24 @@
 # @curvenote/site
 
+## 0.1.38
+
+### Patch Changes
+
+- 26b0cb87: Be more defensive about code cell children
+- f7571c49: Use link providers in more places
+- 6da29408: Rearrange deployment of sites
+- 269a487f: Fade in the footer and table of contents
+- 923cbbf3: Upgrade useNavigation from useTransition
+- Updated dependencies [8615bb06]
+- Updated dependencies [75a1bc79]
+- Updated dependencies [06b83f08]
+  - @myst-theme/providers@0.1.38
+  - @myst-theme/frontmatter@0.1.38
+  - @myst-theme/diagrams@0.1.38
+  - @myst-theme/jupyter@0.1.38
+  - myst-to-react@0.1.38
+  - myst-demo@0.1.38
+
 ## 0.1.37
 
 ### Patch Changes

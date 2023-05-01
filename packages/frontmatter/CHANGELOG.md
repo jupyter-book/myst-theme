@@ -1,5 +1,12 @@
 # @myst-theme/frontmatter
 
+## 0.1.38
+
+### Patch Changes
+
+- 75a1bc79: Return early if there is no frontmatter
+- 06b83f08: Change the keys from url --> index to avoid errors
+
 ## 0.1.37
 
 ### Patch Changes

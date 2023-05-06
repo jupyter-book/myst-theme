@@ -1,12 +1,9 @@
 import { useNotebook, useThebeCore, useThebeServer, useThebeSession } from 'thebe-react';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
-import {
-  useHasNotebookProvider,
-  useNotebookExecution,
-  useNotebookLoader,
-} from '@myst-theme/jupyter';
+import { useHasNotebookProvider, useComputeOptions, useNotebookLoader } from '@myst-theme/jupyter';
 import { useNavigation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
+import { LiteLogo } from './liteLogo';
 
 export function EnableCompute({
   canCompute,
@@ -14,6 +11,7 @@ export function EnableCompute({
 }: React.PropsWithChildren<{ canCompute: boolean }>) {
   const { load, loading, core } = useThebeCore();
   const { connect, connecting, ready: serverReady, error: serverError } = useThebeServer();
+  const { thebe } = useComputeOptions();
   const {
     start,
     starting,
@@ -34,7 +32,6 @@ export function EnableCompute({
     if (!core) load();
     else if (!serverReady) connect();
     else if (!sessionReady) start();
-    else if (!loader?.ready) loader?.loadNotebook();
     else if (sessionReady && loader?.ready) {
       setEnabled(true);
       setEnabling(false);
@@ -43,7 +40,7 @@ export function EnableCompute({
 
   if (!canCompute || !hasNotebookProvider) return null;
   let classes = 'flex text-center mr-1 cursor-pointer rounded-full';
-  const idleClasses = 'text-blue-700 hover:opacity-100 opacity-60';
+  const idleClasses = 'text-blue-700 hover:opacity-100 opacity-90 animate-pulse';
   const busyClasses = 'bg-yellow-700 text-yellow-700 opacity-100 font-semibold';
   const readyClasses = 'bg-green-700 text-green-700 opacity-100 font-semibold';
   const errorClasses = 'bg-red-700 text-red-700 opacity-100';
@@ -62,6 +59,11 @@ export function EnableCompute({
 
   return (
     <div className="flex mx-1 items-center">
+      {thebe?.useJupyterLite && (
+        <span className={enabled || enabling ? 'animate-pulse' : ''}>
+          <LiteLogo />
+        </span>
+      )}
       <button className={classes} onClick={() => setEnabling(true)} disabled={enabling || enabled}>
         <PowerIcon className="h-6 w-6 mx-1 inline-block align-top" title="enable compute" />
       </button>

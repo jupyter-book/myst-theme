@@ -59,6 +59,7 @@ export function Document({
           analytics_google={config?.analytics_google}
           analytics_plausible={config?.analytics_plausible}
         />
+        <script src="/lite/thebe-lite.min.js" async defer></script>
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <ThemeProvider theme={theme} renderers={renderers} {...links}>

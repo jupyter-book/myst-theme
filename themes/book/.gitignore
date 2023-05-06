@@ -9,6 +9,7 @@ node_modules
 yalc.lock
 
 /public/build
+/public/lite
 /api/*
 /build/*
 

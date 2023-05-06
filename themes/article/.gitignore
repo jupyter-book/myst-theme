@@ -11,6 +11,7 @@ yalc.lock
 /public/build
 /api/*
 /build/*
+/public/lite
 
 /app/styles/app.css
 

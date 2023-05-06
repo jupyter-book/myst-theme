@@ -7,10 +7,11 @@
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
     "dev:copy": "cp remix.config.dev.js remix.config.js",
     "prod:copy": "cp remix.config.prod.js remix.config.js",
+    "copy:lite": "mkdir -p public/lite; cp -R ../../node_modules/thebe-lite/dist/lib/* public/lite",
     "clean": "rimraf public/build build api",
-    "prod:build": "npm run prod:copy && npm run build:css && remix build",
+    "prod:build": "npm run prod:copy && npm run copy:lite && npm run build:css && remix build",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
-    "dev": "npm run dev:copy && concurrently \"npm run dev:css\" \"remix dev\"",
+    "dev": "npm run dev:copy && npm run copy:lite && concurrently \"npm run dev:css\" \"remix dev\"",
     "start": "npm run build:css && remix dev"
   },
   "dependencies": {

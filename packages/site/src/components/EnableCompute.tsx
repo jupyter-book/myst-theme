@@ -32,6 +32,7 @@ export function EnableCompute({
     if (!core) load();
     else if (!serverReady) connect();
     else if (!sessionReady) start();
+    else if (!loader?.ready) loader?.loadNotebook();
     else if (sessionReady && loader?.ready) {
       setEnabled(true);
       setEnabling(false);

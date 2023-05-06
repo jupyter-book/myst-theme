@@ -1,6 +1,11 @@
 import { useNotebook, useThebeCore, useThebeServer, useThebeSession } from 'thebe-react';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
-import { useHasNotebookProvider, useComputeOptions, useNotebookLoader } from '@myst-theme/jupyter';
+import {
+  useHasNotebookProvider,
+  useComputeOptions,
+  useNotebookLoader,
+  useNotebookExecution,
+} from '@myst-theme/jupyter';
 import { useNavigation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { LiteLogo } from './liteLogo';
@@ -12,6 +17,7 @@ export function EnableCompute({
   const { load, loading, core } = useThebeCore();
   const { connect, connecting, ready: serverReady, error: serverError } = useThebeServer();
   const { thebe } = useComputeOptions();
+  const { executing } = useNotebookExecution();
   const {
     start,
     starting,
@@ -61,7 +67,7 @@ export function EnableCompute({
   return (
     <div className="flex mx-1 items-center">
       {thebe?.useJupyterLite && (
-        <span className={enabled || enabling ? 'animate-pulse' : ''}>
+        <span className={enabling || connecting || starting || executing ? 'animate-pulse' : ''}>
           <LiteLogo />
         </span>
       )}

@@ -17,6 +17,7 @@ function extToLanguage(ext?: string): string | undefined {
       ts: 'typescript',
       js: 'javascript',
       py: 'python',
+      md: 'markdown',
     }[ext ?? ''] ?? ext
   );
 }

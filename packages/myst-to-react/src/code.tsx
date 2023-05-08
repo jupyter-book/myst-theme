@@ -20,6 +20,15 @@ type Props = {
   className?: string;
 };
 
+function normalizeLanguage(lang?: string): string | undefined {
+  switch (lang) {
+    case 'html':
+      return 'xml';
+    default:
+      return lang;
+  }
+}
+
 export function CodeBlock(props: Props) {
   const { isLight } = useTheme();
   const {
@@ -45,7 +54,7 @@ export function CodeBlock(props: Props) {
     >
       {filename && <div className="leading-3 mt-1 p-1">{filename}</div>}
       <SyntaxHighlighter
-        language={lang}
+        language={normalizeLanguage(lang)}
         startingLineNumber={startingLineNumber}
         showLineNumbers={showLineNumbers}
         style={isLight ? light : dark}

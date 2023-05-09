@@ -280,7 +280,7 @@ export function MySTRenderer({
             ref={area}
             value={text}
             className={classnames(
-              'block p-6 shadow-inner resize-none w-full font-mono bg-slate-50 dark:bg-slate-800 outline-none',
+              'block p-6 shadow-inner resize-none w-full font-mono bg-slate-50/50 dark:bg-slate-800/50 outline-none',
               { 'h-full': column },
             )}
             onChange={(e) => setText(e.target.value)}

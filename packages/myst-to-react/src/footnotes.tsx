@@ -1,17 +1,18 @@
 import type { GenericParent } from 'myst-common';
 import type { NodeRenderer } from '@myst-theme/providers';
-import { useReferences } from '@myst-theme/providers';
+import { XRefProvider, useNodeRenderers, useReferences } from '@myst-theme/providers';
 import { useParse } from '.';
 import { ClickPopover } from './components/ClickPopover';
 import { select } from 'unist-util-select';
 
-export function FootnoteDefinition({ identifier }: { identifier: string }) {
+function FootnoteDefinition({ identifier }: { identifier: string }) {
   const references = useReferences();
+  const renderers = useNodeRenderers();
   const node =
     (references as any)?.footnotes?.[identifier] ??
     select(`footnoteDefinition[identifier=${identifier}]`, references?.article);
-  const children = useParse(node as GenericParent);
-  return <>{children}</>;
+  const children = useParse(node as GenericParent, renderers);
+  return <XRefProvider>{children}</XRefProvider>;
 }
 
 export const FootnoteReference: NodeRenderer = (node) => {

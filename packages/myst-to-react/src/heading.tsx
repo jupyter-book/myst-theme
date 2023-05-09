@@ -4,40 +4,40 @@ import { useXRefState } from '@myst-theme/providers';
 import { createElement as e } from 'react';
 import classNames from 'classnames';
 
-function getHelpHashText(kind: string) {
-  return `Link to this ${kind}`;
-}
-
 export function HashLink({
   id,
   kind,
-  align = 'inline',
+  title = `Link to this ${kind}`,
   children = '¶',
   hover,
   className = 'font-normal',
+  hideInPopup,
 }: {
   id: string;
   kind: string;
+  title?: string;
   hover?: boolean;
-  align?: 'inline' | 'left' | 'right';
   children?: '#' | '¶' | React.ReactNode;
   className?: string;
+  hideInPopup?: boolean;
 }) {
   const { inCrossRef } = useXRefState();
-  // If we are in a cross-reference popout, hide the hash links
-  if (inCrossRef) return null;
-  const helpText = getHelpHashText(kind);
+  if (inCrossRef) {
+    // If we are in a cross-reference pop-out, either hide hash link
+    // or return something that is **not** a link
+    return hideInPopup ? null : (
+      <span className={classNames('select-none', className)}>{children}</span>
+    );
+  }
   return (
     <a
       className={classNames('select-none no-underline', className, {
-        'absolute top-0 left-0 -translate-x-[100%] pr-3': align === 'left',
-        'absolute top-0 right-0 translate-x-[100%] pl-3': align === 'right',
         'transition-opacity opacity-0 group-hover:opacity-70': hover,
         'hover:underline': !hover,
       })}
       href={`#${id}`}
-      title={helpText}
-      aria-label={helpText}
+      title={title}
+      aria-label={title}
     >
       {children}
     </a>
@@ -51,7 +51,7 @@ const Heading: NodeRenderer<Heading> = (node, children) => {
     <>
       {enumerator && <span className="select-none mr-3">{enumerator}</span>}
       <span className="heading-text">{children}</span>
-      <HashLink id={id} align="inline" kind="Section" className="px-2 font-normal" hover />
+      <HashLink id={id} kind="Section" className="px-2 font-normal" hover hideInPopup />
     </>
   );
   // The `heading-text` class is picked up in the Outline to select without the enumerator and "#" link

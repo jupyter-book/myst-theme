@@ -8,6 +8,7 @@ import type { ThebeCore } from 'thebe-core';
 import { useThebeCore } from 'thebe-react';
 import { useCellRef, useCellRefRegistry, useNotebookCellExecution } from './providers';
 import { SourceFileKind } from 'myst-common';
+import { useXRefState } from '@myst-theme/providers';
 
 function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
   const ref = useCellRef(id);
@@ -54,6 +55,7 @@ const MemoPassiveOutputRenderer = React.memo(PassiveOutputRenderer);
 
 export const JupyterOutputs = ({ id, outputs }: { id: string; outputs: MinifiedOutput[] }) => {
   const { core, load } = useThebeCore();
+  const { inCrossRef } = useXRefState();
   const { data, error } = useFetchAnyTruncatedContent(outputs);
   const [loaded, setLoaded] = useState(false);
   const [fullOutputs, setFullOutputs] = useState<IOutput[] | null>(null);
@@ -66,19 +68,19 @@ export const JupyterOutputs = ({ id, outputs }: { id: string; outputs: MinifiedO
   }, [core, load]);
 
   useEffect(() => {
-    if (!data || loaded) return;
+    if (!data || loaded || fullOutputs != null) return;
     setLoaded(true);
     fetchAndEncodeOutputImages(data).then((out) => {
       const compactOutputs = convertToIOutputs(out, {});
       setFullOutputs(compactOutputs);
     });
-  }, [id, data]);
+  }, [id, data, fullOutputs]);
 
   if (error) {
     return <div className="text-red-500">Error rendering output: {error.message}</div>;
   }
 
-  if (registry && exec?.cell) {
+  if (!inCrossRef && registry && exec?.cell) {
     return (
       <div ref={registry?.register(id)} data-thebe-active-ref="true">
         {!fullOutputs && <div className="p-2.5">Loading...</div>}

@@ -174,7 +174,7 @@ export function DoiBadge({ doi: possibleLink, className }: { doi?: string; class
   return (
     <div className={classNames('flex-none', className)} title="DOI (Digital Object Identifier)">
       <a
-        className="font-light hover:font-light no-underline text-inherit hover:text-inherit"
+        className="font-light hover:font-light no-underline hover:underline text-inherit hover:text-inherit"
         target="_blank"
         rel="noopener noreferrer"
         href={url}
@@ -289,7 +289,7 @@ export function FrontmatterBlock({
     subject || github || venue || biblio || open_access || license || hasExports || isJupyter;
   const hasDateOrDoi = doi || date;
   return (
-    <>
+    <div className="mb-8">
       {hasHeaders && (
         <div className="flex mt-3 mb-5 text-sm font-light items-center h-6">
           {subject && (
@@ -328,6 +328,6 @@ export function FrontmatterBlock({
           <DoiBadge doi={doi} />
         </div>
       )}
-    </>
+    </div>
   );
 }

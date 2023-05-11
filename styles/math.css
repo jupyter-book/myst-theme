@@ -1,3 +1,6 @@
+.katex-display {
+  margin: 0 !important;
+}
 /* Hide katex generated equation numbers */
 .katex .eqn-num {
   opacity: 0;

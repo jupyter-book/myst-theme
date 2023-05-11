@@ -9,6 +9,8 @@
   .article-grid > * {
     /* The default is spanning the body for any child component */
     @apply col-body;
+    /* Grids do not have margin-collapse, so each direct child needs to be addressed */
+    margin-top: 0 !important;
   }
   .article-grid-gap {
     @apply gap-1 md:gap-2 xl:gap-3 2xl:gap-4;

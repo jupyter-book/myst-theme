@@ -29,7 +29,7 @@ export function Details({
   return (
     <details
       className={classNames(
-        'rounded-md my-4 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
+        'rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
         'bg-gray-50 dark:bg-stone-800',
       )}
       open={open}

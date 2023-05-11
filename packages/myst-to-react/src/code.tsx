@@ -45,7 +45,7 @@ export function CodeBlock(props: Props) {
   } = props;
   const highlightLines = new Set(emphasizeLines);
   const borderClass =
-    'rounded shadow-md dark:shadow-2xl dark:shadow-neutral-900 my-4 text-sm border border-l-4 border-l-blue-400 border-gray-200 dark:border-l-blue-400 dark:border-gray-800';
+    'rounded shadow-md dark:shadow-2xl dark:shadow-neutral-900 my-5 text-sm border border-l-4 border-l-blue-400 border-gray-200 dark:border-l-blue-400 dark:border-gray-800';
   return (
     <div
       className={classNames('relative group not-prose overflow-auto', className, {

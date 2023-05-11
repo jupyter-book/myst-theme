@@ -156,7 +156,7 @@ export function Admonition({
     <WrapperElement
       dropdown={dropdown}
       className={classNames(
-        'my-4 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
+        'my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
         'bg-gray-50 dark:bg-stone-800',
         'overflow-hidden',
         {

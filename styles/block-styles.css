@@ -4,10 +4,10 @@
 
 @layer base {
   .shaded {
-    @apply p-2 bg-slate-100;
+    @apply pt-5 bg-slate-100 dark:bg-slate-800 mb-3;
   }
   .shaded-children > * {
-    @apply p-2 bg-slate-100;
+    @apply p-2 bg-slate-100 dark:bg-slate-800;
   }
   .rounded-children > * {
     @apply rounded;

@@ -8,3 +8,11 @@ figure.quote figcaption > p:before {
 figure.code > div {
   margin: 0;
 }
+figure figcaption > p {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+figure img {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}

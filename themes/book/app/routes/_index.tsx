@@ -1,18 +1,19 @@
-import { responseNoArticle, responseNoSite } from '@myst-theme/site';
-import type { LoaderFunction } from '@remix-run/node';
+import { KatexCSS, responseNoArticle, responseNoSite } from '@myst-theme/site';
+import type { LinksFunction, LoaderFunction } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
-import { Outlet } from '@remix-run/react';
-import { getConfig } from '~/utils/loaders.server';
+import { getConfig, getPage } from '~/utils/loaders.server';
+import Page from './$';
 
-export const loader: LoaderFunction = async (): Promise<Response | null> => {
+export const links: LinksFunction = () => [KatexCSS];
+
+export const loader: LoaderFunction = async ({ params, request }) => {
   const config = await getConfig();
   if (!config) throw responseNoSite();
   const project = config?.projects?.[0];
   if (!project) throw responseNoArticle();
-  return redirect(`/${project.slug}`);
+  if (project.slug) return redirect(`/${project.slug}`);
+  const page = await getPage(request, { slug: project.index });
+  return page;
 };
 
-// Note this is necessary to propagate catch boundaries, even though there is a redirect
-export default function Index() {
-  return <Outlet />;
-}
+export default Page;

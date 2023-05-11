@@ -442,7 +442,7 @@
 
 ### Patch Changes
 
-- a41df47: Update table of contents to allow not setting a urlbase
+- a41df47: Update table of contents to allow not setting a baseurl
   - @curvenote/site-common@0.0.6
   - @myst-theme/providers@0.0.6
 

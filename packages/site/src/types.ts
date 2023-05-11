@@ -17,6 +17,8 @@ export type SiteLoader = {
   theme: Theme;
   config?: SiteManifest;
   CONTENT_CDN_PORT?: string | number;
+  MODE?: 'app' | 'static';
+  BASE_URL?: string;
 };
 
 export type NavigationLink = {
@@ -38,6 +40,7 @@ export type PageLoader = {
   sha256: string;
   slug: string;
   domain: string; // This is written in at render time in the site
+  project: string; // This is written in at render time in the site
   frontmatter: PageFrontmatter;
   mdast: Root;
   references: References;

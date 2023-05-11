@@ -1,8 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { NavLink, useParams, useLocation, useNavigation } from '@remix-run/react';
+import { useLocation, useNavigation } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
-import { useNavOpen, useSiteManifest, useUrlbase, withUrlbase } from '@myst-theme/providers';
+import {
+  useNavLinkProvider,
+  useNavOpen,
+  useSiteManifest,
+  useBaseurl,
+  withBaseurl,
+} from '@myst-theme/providers';
 import { getProjectHeadings } from '../../loaders';
 import type { Heading } from '../../types';
 
@@ -26,8 +32,9 @@ const HeadingLink = ({
   children: React.ReactNode;
 }) => {
   const { pathname } = useLocation();
+  const NavLink = useNavLinkProvider();
   const exact = pathname === path;
-  const urlbase = useUrlbase();
+  const baseurl = useBaseurl();
   const [, setOpen] = useNavOpen();
   return (
     <NavLink
@@ -44,7 +51,7 @@ const HeadingLink = ({
             !isActive,
         })
       }
-      to={withUrlbase(path, urlbase)}
+      to={withBaseurl(path, baseurl)}
       suppressHydrationWarning // The pathname is not defined on the server always.
       onClick={() => {
         // Close the nav panel if it is open
@@ -141,10 +148,8 @@ export const TableOfContents = ({
   const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
   const config = useSiteManifest();
-  const { folder, project } = useParams();
-  const resolvedProjectSlug = projectSlug || (folder ?? project);
   if (!config) return null;
-  const headings = getProjectHeadings(config, resolvedProjectSlug, {
+  const headings = getProjectHeadings(config, projectSlug, {
     addGroups: false,
   });
   useEffect(() => {
@@ -183,7 +188,7 @@ export const TableOfContents = ({
           aria-label="Table of Contents"
           className="flex-grow overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3"
         >
-          <Headings folder={resolvedProjectSlug} headings={headings} sections={config?.projects} />
+          <Headings folder={projectSlug} headings={headings} sections={config?.projects} />
         </nav>
         {footer && (
           <div

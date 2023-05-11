@@ -8,9 +8,9 @@ import {
   useLinkProvider,
   useNodeRenderers,
   useReferences,
-  useUrlbase,
+  useBaseurl,
   useXRefState,
-  withUrlbase,
+  withBaseurl,
   XRefProvider,
 } from '@myst-theme/providers';
 import type { GenericNode } from 'myst-common';
@@ -71,10 +71,16 @@ export function ReferencedContent({
   close: () => void;
 }) {
   const Link = useLinkProvider();
-  const urlbase = useUrlbase();
-  const { remote, url } = useXRefState();
+  const baseurl = useBaseurl();
+  const { dataUrl, remote, url } = useXRefState();
+  // dataUrl should point directly to the cross reference mdast data.
+  // If dataUrl is not provided, it will be computed by appending .json to the url.
   const external = url?.startsWith('http') ?? false;
-  const lookupUrl = external ? `/api/lookup?url=${url}.json` : `${withUrlbase(url, urlbase)}.json`;
+  const lookupUrl = external
+    ? `/api/lookup?url=${url}.json`
+    : dataUrl
+    ? `${withBaseurl(dataUrl, baseurl)}`
+    : `${withBaseurl(url, baseurl)}.json`;
   const { data, error } = useSWR(remote ? lookupUrl : null, fetcher);
   const references = useReferences();
   const mdast = data?.mdast ?? references?.article;
@@ -110,7 +116,7 @@ export function ReferencedContent({
         </a>
       )}
       {remote && !external && (
-        <Link to={withUrlbase(url, urlbase)} className="absolute top-4 right-1" prefetch="intent">
+        <Link to={withBaseurl(url, baseurl)} className="absolute top-4 right-1" prefetch="intent">
           <ExternalLinkIcon className="w-4 h-4" />
         </Link>
       )}
@@ -140,7 +146,11 @@ export const CrossReferenceNode: NodeRenderer<CrossReference> = (node, children)
     <ClickPopover
       key={node.key}
       card={({ close }) => (
-        <XRefProvider remote={(node as any).remote} url={(node as any).url}>
+        <XRefProvider
+          remote={(node as any).remote}
+          url={(node as any).url}
+          dataUrl={(node as any).dataUrl}
+        >
           <ReferencedContent identifier={node.identifier as string} close={close} />
         </XRefProvider>
       )}

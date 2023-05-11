@@ -145,14 +145,15 @@ export function getSiteSlugs(
   const slugs =
     site.projects
       ?.map((project) => {
+        const projectSlug = project.slug ? `/${project.slug}` : '';
         const pages = project.pages
           .filter((page): page is ManifestProjectItem => 'slug' in page)
-          .map((page) => `${baseurl}/${project.slug}/${page.slug}`);
+          .map((page) => `${baseurl}${projectSlug}/${page.slug}`);
         if (opts?.excludeIndex) return [...pages];
         return [
           opts?.explicitIndex
-            ? `${baseurl}/${project.slug}/${project.index}`
-            : `${baseurl}/${project.slug}`,
+            ? `${baseurl}${projectSlug}/${project.index}`
+            : `${baseurl}${projectSlug}`,
           ...pages,
         ];
       })

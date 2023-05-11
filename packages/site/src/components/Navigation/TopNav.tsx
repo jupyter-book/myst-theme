@@ -7,7 +7,13 @@ import MenuIcon from '@heroicons/react/24/solid/Bars3Icon';
 import ChevronDownIcon from '@heroicons/react/24/solid/ChevronDownIcon';
 import type { SiteManifest, SiteNavItem } from 'myst-config';
 import { ThemeButton } from './ThemeButton';
-import { useLinkProvider, useNavOpen, useSiteManifest } from '@myst-theme/providers';
+import {
+  useBaseurl,
+  useLinkProvider,
+  useNavOpen,
+  useSiteManifest,
+  withBaseurl,
+} from '@myst-theme/providers';
 import { LoadingBar } from './Loading';
 
 export const DEFAULT_NAV_HEIGHT = 60;
@@ -178,11 +184,12 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
 
 function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; name?: string }) {
   const Link = useLinkProvider();
+  const baseurl = useBaseurl();
   const nothingSet = !logo && !logoText;
   return (
     <Link
       className="flex items-center dark:text-white w-fit ml-3 md:ml-5 xl:ml-7"
-      to="/"
+      to={withBaseurl('/', baseurl)}
       prefetch="intent"
     >
       {logo && (

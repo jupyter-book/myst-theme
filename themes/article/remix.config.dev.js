@@ -1,6 +1,6 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  publicPath: '/build/',
+  publicPath: '/myst_assets_folder/',
   serverBuildPath: 'api/index.js',
   serverMainFields: ['main', 'module'],
   serverModuleFormat: 'cjs',

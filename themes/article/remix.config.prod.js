@@ -4,7 +4,7 @@ module.exports = {
   assetsBuildDirectory: 'public/build',
   serverBuildPath: 'build/index.js',
   serverMinify: true,
-  publicPath: '/build/',
+  publicPath: '/myst_assets_folder/',
   ignoredRouteFiles: ['**/.*'],
   serverDependenciesToBundle: [/.*/],
   future: {

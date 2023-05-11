@@ -12,7 +12,7 @@ import {
   TopNav,
   ArticlePageCatchBoundary,
 } from '@myst-theme/site';
-import { getPage } from '~/utils/loaders.server';
+import { getConfig, getPage, isFlatSite } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
 import { TabStateProvider, UiStateProvider } from '@myst-theme/providers';
@@ -34,24 +34,40 @@ export const meta: MetaFunction = (args) => {
 export const links: LinksFunction = () => [KatexCSS];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const { project, slug } = params;
-  const page = await getPage(request, { project, slug, redirect: true });
+  const [first, second] = new URL(request.url).pathname.slice(1).split('/');
+  const project = second ? first : undefined;
+  const slug = second || first;
+  const config = await getConfig();
+  const flat = isFlatSite(config);
+  const page = await getPage(request, {
+    project: flat ? project : project ?? slug,
+    slug: flat ? slug : project ? slug : undefined,
+    redirect: process.env.MODE === 'static' ? false : true,
+  });
   return page;
 };
 
 export function ArticlePageAndNavigation({
   children,
   hide_toc,
+  projectSlug,
   top = DEFAULT_NAV_HEIGHT,
 }: {
   top?: number;
   hide_toc?: boolean;
+  projectSlug?: string;
   children: React.ReactNode;
 }) {
   const { container, toc } = useTocHeight(top);
   return (
     <UiStateProvider>
-      <Navigation tocRef={toc} top={top} hide_toc={hide_toc} footer={<MadeWithMyst />}>
+      <Navigation
+        tocRef={toc}
+        top={top}
+        hide_toc={hide_toc}
+        footer={<MadeWithMyst />}
+        projectSlug={projectSlug}
+      >
         <TopNav />
       </Navigation>
       <TabStateProvider>
@@ -72,7 +88,7 @@ export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
   const article = useLoaderData<PageLoader>() as PageLoader;
   const { hide_outline, hide_toc } = (article.frontmatter as any)?.design ?? {};
   return (
-    <ArticlePageAndNavigation hide_toc={hide_toc}>
+    <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={article.project}>
       <main ref={container} className="article-grid article-subgrid-gap col-screen">
         <ArticlePage article={article} />
         {!hide_outline && <DocumentOutline outlineRef={outline} top={top} />}

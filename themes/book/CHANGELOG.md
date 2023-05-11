@@ -1,5 +1,21 @@
 # @myst-theme/book
 
+## 0.1.39
+
+### Patch Changes
+
+- Updated dependencies [a61aa03a]
+- Updated dependencies [e8802ba1]
+- Updated dependencies [e8802ba1]
+- Updated dependencies [e8802ba1]
+- Updated dependencies [e8802ba1]
+- Updated dependencies [e8802ba1]
+- Updated dependencies [e8802ba1]
+  - @myst-theme/styles@0.2.0
+  - @myst-theme/site@0.2.0
+  - @myst-theme/providers@0.2.0
+  - @myst-theme/jupyter@0.2.0
+
 ## 0.1.38
 
 ### Patch Changes

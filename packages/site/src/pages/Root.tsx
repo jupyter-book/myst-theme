@@ -8,7 +8,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
   useLoaderData,
   Link,
   NavLink,

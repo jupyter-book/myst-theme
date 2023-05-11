@@ -1,5 +1,33 @@
 # @curvenote/site
 
+## 0.2.0
+
+### Patch Changes
+
+- e8802ba1: Modify article theme to only serve one project with no project slug
+- e8802ba1: Add new baseurl provider and remove previous one in article references provider
+- e8802ba1: Consume dataUrl directly rather than imlpicitly constructing with appened .json
+- e8802ba1: Make the table of contents require a specific project slug
+- e8802ba1: Improve error message and remove debug error boundary
+- Updated dependencies [f23d39ee]
+- Updated dependencies [dc9fd53a]
+- Updated dependencies [a61aa03a]
+- Updated dependencies
+- Updated dependencies [e8802ba1]
+- Updated dependencies [a61aa03a]
+- Updated dependencies [feef2132]
+- Updated dependencies [e8802ba1]
+- Updated dependencies [e8802ba1]
+- Updated dependencies [feef2132]
+- Updated dependencies [c0f13f88]
+- Updated dependencies [957cb230]
+  - myst-to-react@0.2.0
+  - @myst-theme/frontmatter@0.2.0
+  - @myst-theme/providers@0.2.0
+  - myst-demo@0.2.0
+  - @myst-theme/diagrams@0.2.0
+  - @myst-theme/jupyter@0.2.0
+
 ## 0.1.38
 
 ### Patch Changes

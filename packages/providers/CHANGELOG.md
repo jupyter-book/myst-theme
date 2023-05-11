@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 0.2.0
+
+### Patch Changes
+
+- e8802ba1: Add new baseurl provider and remove previous one in article references provider
+- e8802ba1: Add NavLink to the providers in Theme
+- e8802ba1: Consume dataUrl directly rather than imlpicitly constructing with appened .json
+
 ## 0.1.38
 
 ### Patch Changes

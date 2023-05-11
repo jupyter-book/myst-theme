@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.2.0
+
+### Patch Changes
+
+- Updated dependencies [e8802ba1]
+- Updated dependencies [e8802ba1]
+- Updated dependencies [e8802ba1]
+  - @myst-theme/providers@0.2.0
+
 ## 0.1.38
 
 ### Patch Changes

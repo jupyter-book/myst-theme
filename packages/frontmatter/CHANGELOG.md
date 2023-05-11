@@ -1,5 +1,14 @@
 # @myst-theme/frontmatter
 
+## 0.2.0
+
+### Patch Changes
+
+- a61aa03a: Improve margins on children and balancing of callouts and equations.
+- a61aa03a: Add underline on hover to DOI link.
+- feef2132: Improve spacing under title
+- feef2132: Improve authors when there are no affiliations
+
 ## 0.1.38
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.2.0
+
+### Patch Changes
+
+- a61aa03a: Improve margins on children and balancing of callouts and equations.
+
 ## 0.1.38
 
 ## 0.1.37

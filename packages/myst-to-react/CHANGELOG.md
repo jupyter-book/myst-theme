@@ -1,5 +1,26 @@
 # myst-to-react
 
+## 0.2.0
+
+### Minor Changes
+
+- Deprecate urlbase and have flat sites
+
+### Patch Changes
+
+- f23d39ee: Fix cross references to code blocks
+- dc9fd53a: Add html --> xml and md --> markdown conversion in lang syntax
+- a61aa03a: Improve margins on children and balancing of callouts and equations.
+- e8802ba1: Add new baseurl provider and remove previous one in article references provider
+- e8802ba1: Add NavLink to the providers in Theme
+- e8802ba1: Consume dataUrl directly rather than imlpicitly constructing with appened .json
+- c0f13f88: Use renderers in footnote provider
+- 957cb230: Show hashlinks for figures and equations in cross-references
+- Updated dependencies [e8802ba1]
+- Updated dependencies [e8802ba1]
+- Updated dependencies [e8802ba1]
+  - @myst-theme/providers@0.2.0
+
 ## 0.1.38
 
 ### Patch Changes

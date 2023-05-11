@@ -8,10 +8,7 @@ import {
   getMetaTagsForSite,
   getThemeSession,
 } from '@myst-theme/site';
-export {
-  AppCatchBoundary as CatchBoundary,
-  AppDebugErrorBoundary as ErrorBoundary,
-} from '@myst-theme/site';
+export { AppCatchBoundary as CatchBoundary } from '@myst-theme/site';
 
 export const meta: MetaFunction = ({ data }) => {
   return getMetaTagsForSite({
@@ -34,6 +31,7 @@ export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> =
     theme: themeSession.getTheme(),
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
+    MODE: (process.env.MODE ?? 'app') as 'app' | 'static',
   };
   return data;
 };

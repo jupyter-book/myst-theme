@@ -1,7 +1,7 @@
 import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
-import { useLinkProvider, useUrlbase, withUrlbase } from '@myst-theme/providers';
+import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
 
 type CardSpec = {
   type: 'card';
@@ -82,7 +82,7 @@ function ExternalOrInternalLink({
   children: React.ReactNode;
 }) {
   const Link = useLinkProvider();
-  const urlbase = useUrlbase();
+  const baseurl = useBaseurl();
   if (to.startsWith('http') || isStatic) {
     return (
       <a href={to} className={className} target="_blank" rel="noopener noreferrer">
@@ -91,7 +91,7 @@ function ExternalOrInternalLink({
     );
   }
   return (
-    <Link to={withUrlbase(to, urlbase)} className={className} prefetch={prefetch}>
+    <Link to={withBaseurl(to, baseurl)} className={className} prefetch={prefetch}>
       {children}
     </Link>
   );

@@ -25,6 +25,10 @@ export async function getConfig(): Promise<SiteManifest> {
   return updateSiteManifestStaticLinksInplace(data, updateLink);
 }
 
+export function isFlatSite(config?: SiteManifest): boolean {
+  return config?.projects?.length === 1 && !config.projects[0].slug;
+}
+
 function updateLink(url: string) {
   if (!url) return url;
   try {
@@ -33,12 +37,16 @@ function updateLink(url: string) {
   } catch (error) {
     // pass
   }
+  if (process.env.MODE === 'static') {
+    return `/myst_assets_folder${url}`;
+  }
   return `${CONTENT_CDN}${url}`;
 }
 
 async function getStaticContent(project?: string, slug?: string): Promise<PageLoader | null> {
-  if (!project || !slug) return null;
-  const url = `${CONTENT_CDN}/content/${project}/${slug}.json`;
+  if (!slug) return null;
+  const projectSlug = project ? `${project}/` : '';
+  const url = `${CONTENT_CDN}/content/${projectSlug}${slug}.json`;
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
   const data = (await response.json()) as PageLoader;
@@ -60,13 +68,13 @@ export async function getPage(
   const project = getProject(config, projectName);
   if (!project) throw responseNoArticle();
   if (opts.slug === project.index && opts.redirect) {
-    return redirect(`/${projectName}`);
+    return redirect(projectName ? `/${projectName}` : '/');
   }
   const slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
   const loader = await getStaticContent(projectName, slug).catch(() => null);
   if (!loader) throw responseNoArticle();
   const footer = getFooterLinks(config, projectName, slug);
-  return { ...loader, footer, domain: getDomainFromRequest(request) };
+  return { ...loader, footer, domain: getDomainFromRequest(request), project: projectName };
 }
 
 export async function getObjectsInv(): Promise<Buffer | null> {

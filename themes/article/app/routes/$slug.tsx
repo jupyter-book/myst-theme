@@ -15,13 +15,14 @@ import {
 } from '@myst-theme/site';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { getPage } from '~/utils/loaders.server';
-import { NavLink, useLoaderData, useLocation } from '@remix-run/react';
+import { useLoaderData, useLocation } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
 import {
   ReferencesProvider,
   TabStateProvider,
   UiStateProvider,
   useLinkProvider,
+  useNavLinkProvider,
   useSiteManifest,
 } from '@myst-theme/providers';
 import type { GenericParent } from 'myst-common';
@@ -70,6 +71,7 @@ export function ArticlePageAndNavigation({
 function ArticleNavigation() {
   const site = useSiteManifest();
   const Link = useLinkProvider();
+  const NavLink = useNavLinkProvider();
   const { pathname } = useLocation();
   const project = site?.projects?.[0];
   const exact = pathname === `/`;

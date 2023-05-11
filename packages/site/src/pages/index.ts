@@ -1,5 +1,5 @@
 export { ErrorProjectNotFound } from './ErrorProjectNotFound';
 export { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
-export { ErrorSiteNotFound } from './ErrorSiteNotFound';
+export { Error404 } from './Error404';
 export { ArticlePage, ArticlePageCatchBoundary, ProjectPageCatchBoundary } from './Article';
-export { App, AppWithReload, Document, AppCatchBoundary, AppDebugErrorBoundary } from './Root';
+export { App, AppWithReload, Document, AppCatchBoundary } from './Root';

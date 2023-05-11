@@ -12,13 +12,29 @@ export type LinkProps = {
   title?: string;
   className?: string;
   children: React.ReactNode;
+  onClick?: () => void;
+  suppressHydrationWarning?: boolean;
+};
+
+export type NavLinkProps = Omit<LinkProps, 'className'> & {
+  className?: string | ((opts: { isActive: boolean }) => string);
 };
 
 export type Link = (props: LinkProps) => JSX.Element;
+export type NavLink = (props: NavLinkProps) => JSX.Element;
 
-function HtmlLink({ to, className, children }: LinkProps) {
+function HtmlLink({ to, className, children, ...props }: LinkProps) {
   return (
-    <a href={to} className={className}>
+    <a href={to} className={className} {...props}>
+      {children}
+    </a>
+  );
+}
+
+function HtmlNavLink({ to, className, children, ...props }: NavLinkProps) {
+  const staticClass = typeof className === 'function' ? className({ isActive: false }) : className;
+  return (
+    <a href={to} className={staticClass} {...props}>
       {children}
     </a>
   );
@@ -33,6 +49,7 @@ type ThemeContextType = {
   setTheme: (theme: Theme) => void;
   renderers?: Record<string, NodeRenderer>;
   Link?: Link;
+  NavLink?: NavLink;
 };
 
 const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
@@ -45,11 +62,13 @@ export function ThemeProvider({
   theme: startingTheme,
   renderers,
   Link,
+  NavLink,
 }: {
   children: React.ReactNode;
   theme: Theme | null;
   renderers?: Record<string, NodeRenderer>;
   Link?: Link;
+  NavLink?: NavLink;
 }) {
   const [theme, setTheme] = React.useState<Theme | null>(() => {
     if (startingTheme) {
@@ -74,9 +93,8 @@ export function ThemeProvider({
     },
     [theme],
   );
-
   return (
-    <ThemeContext.Provider value={{ theme, setTheme: nextTheme, renderers, Link }}>
+    <ThemeContext.Provider value={{ theme, setTheme: nextTheme, renderers, Link, NavLink }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -119,4 +137,10 @@ export function useLinkProvider(): Link {
   const context = React.useContext(ThemeContext);
   const { Link } = context ?? {};
   return Link ?? HtmlLink;
+}
+
+export function useNavLinkProvider(): NavLink {
+  const context = React.useContext(ThemeContext);
+  const { NavLink } = context ?? {};
+  return NavLink ?? HtmlNavLink;
 }

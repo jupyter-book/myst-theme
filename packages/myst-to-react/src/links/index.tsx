@@ -1,7 +1,7 @@
 import type { Link } from 'myst-spec';
 import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import LinkIcon from '@heroicons/react/24/outline/LinkIcon';
-import { useLinkProvider, useSiteManifest, useUrlbase, withUrlbase } from '@myst-theme/providers';
+import { useLinkProvider, useSiteManifest, useBaseurl, withBaseurl } from '@myst-theme/providers';
 import type { SiteManifest } from 'myst-config';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { HoverPopover } from '../components/HoverPopover';
@@ -12,30 +12,23 @@ import { GithubLink } from './github';
 
 type TransformedLink = Link & { internal?: boolean; protocol?: string };
 
-type ManifestProjectItem = Required<SiteManifest>['projects'][0]['pages'][0];
-
-function getPageInfo(
-  site: SiteManifest | undefined,
-  path: string,
-): ManifestProjectItem | undefined {
+function getPageInfo(site: SiteManifest | undefined, path: string) {
   if (!site) return undefined;
   const [projectSlug, pageSlug] = path.replace(/^\//, '').split('/');
-  const project = site.projects?.find((p) => p.slug === projectSlug);
+  const project = site.projects?.find((p) => p.slug === projectSlug || (!p.slug && !pageSlug));
   if (!project) return undefined;
-  return project.pages.find(
-    (p) => (p as ManifestProjectItem).slug === pageSlug,
-  ) as ManifestProjectItem;
+  return project.pages.find((p) => p.slug === (pageSlug || projectSlug));
 }
 
 function InternalLink({ url, children }: { url: string; children: React.ReactNode }) {
   const Link = useLinkProvider();
   const site = useSiteManifest();
   const page = getPageInfo(site, url);
-  const urlbase = useUrlbase();
+  const baseurl = useBaseurl();
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (
-      <Link to={withUrlbase(url, urlbase)} prefetch="intent">
+      <Link to={withBaseurl(url, baseurl)} prefetch="intent">
         {children}
       </Link>
     );
@@ -52,7 +45,7 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
         />
       }
     >
-      <Link to={withUrlbase(url, urlbase)} prefetch="intent">
+      <Link to={withBaseurl(url, baseurl)} prefetch="intent">
         {children}
       </Link>
     </HoverPopover>

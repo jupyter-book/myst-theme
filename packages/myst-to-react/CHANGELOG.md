@@ -101,7 +101,7 @@
 ### Patch Changes
 
 - 4e20392: Fix bug in tab set when it doesn't have items
-- d221bf9: Update urlbase on crossReference links
+- d221bf9: Update baseurl on crossReference links
 - 28fc827: Update components to new myst-parser
 - a3399e5: Simple admonitions and hide the icons
 - Updated dependencies [28fc827]

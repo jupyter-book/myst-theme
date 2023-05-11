@@ -33,6 +33,9 @@ function updateLink(url: string) {
   } catch (error) {
     // pass
   }
+  if (process.env.MODE === 'static') {
+    return `/myst_assets_folder${url}`;
+  }
   return `${CONTENT_CDN}${url}`;
 }
 

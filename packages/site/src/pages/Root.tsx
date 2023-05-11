@@ -1,6 +1,6 @@
 import type { SiteManifest } from 'myst-config';
 import type { SiteLoader } from '../types';
-import { SiteProvider, Theme, ThemeProvider } from '@myst-theme/providers';
+import { BaseUrlProvider, SiteProvider, Theme, ThemeProvider } from '@myst-theme/providers';
 import {
   Links,
   LiveReload,
@@ -10,11 +10,12 @@ import {
   ScrollRestoration,
   useCatch,
   useLoaderData,
-  Link as RemixLink,
+  Link,
+  NavLink,
 } from '@remix-run/react';
 import { ContentReload, renderers } from '../components';
 import { Analytics } from '../seo';
-import { ErrorSiteNotFound } from './ErrorSiteNotFound';
+import { Error404 } from './Error404';
 import classNames from 'classnames';
 import { ThebeCoreProvider } from 'thebe-react';
 import { ConfiguredThebeServerProvider } from '@myst-theme/jupyter';
@@ -26,6 +27,8 @@ export function Document({
   config,
   title,
   scrollTopClass = 'scroll-p-20',
+  staticBuild,
+  baseurl,
 }: {
   children: React.ReactNode;
   scripts?: React.ReactNode;
@@ -33,7 +36,18 @@ export function Document({
   config?: SiteManifest;
   title?: string;
   scrollTopClass?: string;
+  staticBuild?: boolean;
+  baseurl?: string;
 }) {
+  const links = staticBuild
+    ? {
+        Link: (props: any) => <Link {...{ ...props, reloadDocument: true }} />,
+        NavLink: (props: any) => <NavLink {...{ ...props, reloadDocument: true }} />,
+      }
+    : {
+        Link: Link as any,
+        NavLink: NavLink as any,
+      };
   return (
     <html lang="en" className={classNames(theme, scrollTopClass)}>
       <head>
@@ -48,16 +62,18 @@ export function Document({
         />
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
-        <ThemeProvider theme={theme} renderers={renderers} Link={RemixLink as any}>
-          <ThebeCoreProvider>
-            <SiteProvider config={config}>
-              <ConfiguredThebeServerProvider>{children}</ConfiguredThebeServerProvider>
-            </SiteProvider>
-          </ThebeCoreProvider>
+        <ThemeProvider theme={theme} renderers={renderers} {...links}>
+          <BaseUrlProvider baseurl={baseurl}>
+            <ThebeCoreProvider>
+              <SiteProvider config={config}>
+                <ConfiguredThebeServerProvider>{children}</ConfiguredThebeServerProvider>
+              </SiteProvider>
+            </ThebeCoreProvider>
+          </BaseUrlProvider>
         </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
+        {!staticBuild && <LiveReload />}
         {scripts}
       </body>
     </html>
@@ -74,37 +90,28 @@ export function App() {
 }
 
 export function AppWithReload() {
-  const { theme, config, CONTENT_CDN_PORT } = useLoaderData<SiteLoader>();
+  const { theme, config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
   return (
-    <Document theme={theme} config={config} scripts={<ContentReload port={CONTENT_CDN_PORT} />}>
+    <Document
+      theme={theme}
+      config={config}
+      scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
+      staticBuild={MODE === 'static'}
+      baseurl={BASE_URL}
+    >
       <Outlet />
     </Document>
   );
 }
 
 export function AppCatchBoundary() {
-  const caught = useCatch();
   return (
-    <Document theme={Theme.light} title={caught.statusText}>
-      <article className="content">
+    <Document theme={Theme.light}>
+      <article className="article">
         <main className="article-grid article-subgrid-gap col-screen">
-          <ErrorSiteNotFound />
+          <Error404 />
         </main>
       </article>
-    </Document>
-  );
-}
-
-export function AppDebugErrorBoundary({ error }: { error: { message: string; stack: string } }) {
-  return (
-    <Document theme={Theme.light} title="Error">
-      <div className="mt-16">
-        <main className="article-grid article-subgrid-gap col-screen">
-          <h1>An Error Occurred</h1>
-          <code>{error.message}</code>
-          <pre>{error.stack}</pre>
-        </main>
-      </div>
     </Document>
   );
 }

@@ -41,13 +41,15 @@ function Block({
         [subGrid]: !noSubGrid,
       })}
     >
-      {children}
-      {isACodeCell(node) && (
-        <div className="hidden group-hover/block:flex md:flex-col absolute -top-[28px] md:top-0 right-0 md:-right-[28px] mt-8">
-          <RunCell id={id} />
-          <ClearCell id={id} />
-        </div>
-      )}
+      <div>
+        {children}
+        {isACodeCell(node) && (
+          <div className="hidden group-hover/block:flex md:flex-col absolute -top-[28px] md:top-0 right-0 md:-right-[28px] mt-8">
+            <RunCell id={id} />
+            <ClearCell id={id} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

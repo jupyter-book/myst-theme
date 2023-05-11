@@ -12,12 +12,13 @@ import {
   useXRefState,
   withUrlbase,
   XRefProvider,
+  NodeRenderer,
 } from '@myst-theme/providers';
 import { useParse } from '.';
 import { InlineError } from './inlineError';
-import type { NodeRenderer } from '@myst-theme/providers';
 import { ClickPopover } from './components/ClickPopover';
 import useSWR from 'swr';
+import type { GenericNode } from 'myst-common';
 
 const MAX_NODES = 3; // Max nodes to show after a header
 
@@ -54,6 +55,14 @@ const fetcher = (...args: Parameters<typeof fetch>) =>
     throw new Error(`Content returned with status ${res.status}.`);
   });
 
+// This is a small component that must be distinct based on the nodes
+// This is because the useParse can have different numbers of hooks, which breaks things
+function NodeRenderer({ nodes }: { nodes: GenericNode[] }) {
+  const renderers = useNodeRenderers();
+  const children = useParse({ type: 'block', children: nodes }, renderers);
+  return <>{children}</>;
+}
+
 export function ReferencedContent({
   identifier,
   close,
@@ -80,8 +89,6 @@ export function ReferencedContent({
       el?.scrollIntoView({ behavior: 'smooth' });
     }, 10);
   };
-  const renderers = useNodeRenderers();
-  const children = useParse({ type: 'block', children: nodes }, renderers);
   if (remote && !data) {
     return <>Loading...</>;
   }
@@ -112,7 +119,9 @@ export function ReferencedContent({
           <LinkIcon className="w-4 h-4" />
         </button>
       )}
-      <div className="popout">{children}</div>
+      <div className="popout">
+        <NodeRenderer nodes={nodes} />
+      </div>
     </div>
   );
 }

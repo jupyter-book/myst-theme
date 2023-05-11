@@ -93,16 +93,13 @@ export function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['a
   );
   if (!hasAffliations) {
     return (
-      <header className="not-prose mb-2">
-        {authors.length > 1 && <div className="font-thin text-xs uppercase pb-2">Authors</div>}
-        {authors.map((author) => (
-          <Author key={author.name} author={author} />
-        ))}
+      <header className="not-prose mt-4">
+        <AuthorsList authors={authors} />
       </header>
     );
   }
   return (
-    <header className="not-prose mb-2">
+    <header className="not-prose mt-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-1">
         {authors.length > 1 && (
           <>
@@ -314,16 +311,14 @@ export function FrontmatterBlock({
           <DownloadsDropdown exports={exports as any} />
         </div>
       )}
-      {frontmatter.title && (
-        <h1 className={classNames({ 'mb-2': frontmatter.subtitle })}>{frontmatter.title}</h1>
-      )}
+      {frontmatter.title && <h1 className="mb-0">{frontmatter.title}</h1>}
       {frontmatter.subtitle && (
-        <p className="lead mt-0 text-zinc-600 dark:text-zinc-400">{frontmatter.subtitle}</p>
+        <p className="lead mt-2 mb-0 text-zinc-600 dark:text-zinc-400">{frontmatter.subtitle}</p>
       )}
       {authorStyle === 'list' && <AuthorsList authors={frontmatter.authors} />}
       {authorStyle === 'block' && <AuthorAndAffiliations authors={frontmatter.authors} />}
       {hasDateOrDoi && (
-        <div className="flex my-2 text-sm font-light">
+        <div className="flex mt-2 text-sm font-light">
           <DateString date={date} spacer={!!doi} />
           <DoiBadge doi={doi} />
         </div>

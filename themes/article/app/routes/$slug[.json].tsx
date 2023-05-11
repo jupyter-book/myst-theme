@@ -8,13 +8,13 @@ function api404(message = 'No API route found at this URL') {
       status: 404,
       message,
     },
-    { status: 404 }
+    { status: 404 },
   );
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { project, slug } = params;
-  const data = await getPage(request, { project, slug }).catch(() => null);
+  const { slug } = params;
+  const data = await getPage(request, { slug }).catch(() => null);
   if (!data) return api404('No page found at this URL.');
   return json(data);
 };

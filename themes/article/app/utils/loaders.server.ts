@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
 import type { SiteManifest } from 'myst-config';
 import type { PageLoader } from '@myst-theme/site';
-import { getDomainFromRequest } from '@myst-theme/site';
 import {
+  getDomainFromRequest,
   getFooterLinks,
   getProject,
   responseNoArticle,
@@ -36,9 +36,9 @@ function updateLink(url: string) {
   return `${CONTENT_CDN}${url}`;
 }
 
-async function getStaticContent(project?: string, slug?: string): Promise<PageLoader | null> {
-  if (!project || !slug) return null;
-  const url = `${CONTENT_CDN}/content/${project}/${slug}.json`;
+async function getStaticContent(slug?: string): Promise<PageLoader | null> {
+  if (!slug) return null;
+  const url = `${CONTENT_CDN}/content/${slug}.json`;
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
   const data = (await response.json()) as PageLoader;
@@ -52,7 +52,7 @@ export async function getPage(
     loadIndexPage?: boolean;
     slug?: string;
     redirect?: boolean;
-  }
+  },
 ) {
   const projectName = opts.project;
   const config = await getConfig();
@@ -60,10 +60,10 @@ export async function getPage(
   const project = getProject(config, projectName);
   if (!project) throw responseNoArticle();
   if (opts.slug === project.index && opts.redirect) {
-    return redirect(`/${projectName}`);
+    return redirect(`/`);
   }
   const slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
-  const loader = await getStaticContent(projectName, slug).catch(() => null);
+  const loader = await getStaticContent(slug).catch(() => null);
   if (!loader) throw responseNoArticle();
   const footer = getFooterLinks(config, projectName, slug);
   return { ...loader, footer, domain: getDomainFromRequest(request) };

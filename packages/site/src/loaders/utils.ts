@@ -16,7 +16,8 @@ export function getProject(
   config?: SiteManifest,
   projectSlug?: string,
 ): ManifestProject | undefined {
-  if (!projectSlug || !config) return undefined;
+  if (!config) return undefined;
+  if (!projectSlug) return config.projects?.[0];
   const project = config.projects?.find((p) => p.slug === projectSlug);
   return project;
 }
@@ -32,12 +33,12 @@ export function getProjectHeadings(
     {
       title: project.title,
       slug: project.index,
-      path: `/${project.slug}`,
+      path: project.slug ? `/${project.slug}` : '/',
       level: 'index',
     },
     ...project.pages.map((p) => {
       if (!('slug' in p)) return p;
-      return { ...p, path: `/${project.slug}/${p.slug}` };
+      return { ...p, path: projectSlug ? `/${project.slug}/${p.slug}` : `/${p.slug}` };
     }),
   ];
   if (opts.addGroups) {

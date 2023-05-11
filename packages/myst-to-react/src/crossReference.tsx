@@ -72,9 +72,15 @@ export function ReferencedContent({
 }) {
   const Link = useLinkProvider();
   const urlbase = useUrlbase();
-  const { remote, url } = useXRefState();
+  const { dataUrl, remote, url } = useXRefState();
+  // dataUrl should point directly to the cross reference mdast data.
+  // If dataUrl is not provided, it will be computed by appending .json to the url.
   const external = url?.startsWith('http') ?? false;
-  const lookupUrl = external ? `/api/lookup?url=${url}.json` : `${withUrlbase(url, urlbase)}.json`;
+  const lookupUrl = external
+    ? `/api/lookup?url=${url}.json`
+    : dataUrl
+    ? `${withUrlbase(dataUrl, urlbase)}`
+    : `${withUrlbase(url, urlbase)}.json`;
   const { data, error } = useSWR(remote ? lookupUrl : null, fetcher);
   const references = useReferences();
   const mdast = data?.mdast ?? references?.article;
@@ -140,7 +146,11 @@ export const CrossReferenceNode: NodeRenderer<CrossReference> = (node, children)
     <ClickPopover
       key={node.key}
       card={({ close }) => (
-        <XRefProvider remote={(node as any).remote} url={(node as any).url}>
+        <XRefProvider
+          remote={(node as any).remote}
+          url={(node as any).url}
+          dataUrl={(node as any).dataUrl}
+        >
           <ReferencedContent identifier={node.identifier as string} close={close} />
         </XRefProvider>
       )}

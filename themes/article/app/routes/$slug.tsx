@@ -45,8 +45,8 @@ export const meta: MetaFunction = (args) => {
 export const links: LinksFunction = () => [KatexCSS];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const { project, slug } = params;
-  return getPage(request, { project, slug, redirect: true });
+  const { slug } = params;
+  return getPage(request, { slug, redirect: true });
 };
 
 export function ArticlePageAndNavigation({
@@ -72,12 +72,12 @@ function ArticleNavigation() {
   const Link = useLinkProvider();
   const { pathname } = useLocation();
   const project = site?.projects?.[0];
-  const exact = pathname === `/${project?.slug}`;
+  const exact = pathname === `/`;
   return (
     <nav className="col-page-inset">
       <div className="border-y border-gray-200 py-3 mt-4 mb-6 flex flex-row justify-around">
         <Link
-          to={`/${project?.slug}`}
+          to={`/`}
           prefetch="intent"
           className={classNames('no-underline', { 'text-blue-600': exact })}
         >
@@ -86,20 +86,18 @@ function ArticleNavigation() {
         {project?.pages
           .filter((p) => 'slug' in p)
           .map((p) => {
-            if (p.level === 1)
-              return (
-                <NavLink
-                  key={p.slug}
-                  to={`/${project?.slug}/${p.slug}`}
-                  prefetch="intent"
-                  className={({ isActive }) =>
-                    classNames('no-underline', { 'text-blue-600': isActive })
-                  }
-                >
-                  {p.title}
-                </NavLink>
-              );
-            return null;
+            return (
+              <NavLink
+                key={p.slug}
+                to={`/${p.slug}`}
+                prefetch="intent"
+                className={({ isActive }) =>
+                  classNames('no-underline', { 'text-blue-600': isActive })
+                }
+              >
+                {p.title}
+              </NavLink>
+            );
           })}
       </div>
     </nav>

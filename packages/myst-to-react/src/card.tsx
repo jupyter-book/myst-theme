@@ -109,7 +109,7 @@ function Card({
   const parts = getParts(children);
   const link = !!url;
   const sharedStyle =
-    'my-4 rounded-md shadow dark:shadow-neutral-800 overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col';
+    'my-5 rounded-md shadow dark:shadow-neutral-800 overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col';
   if (link) {
     return (
       <ExternalOrInternalLink

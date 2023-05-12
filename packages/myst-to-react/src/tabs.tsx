@@ -43,7 +43,7 @@ export function TabSet({ tabs, children }: { tabs: Tab[]; children: React.ReactN
 
   return (
     <TabSetStateProvider active={active}>
-      <div>
+      <div className="my-5">
         <div className="flex flex-row border-b border-b-gray-100 overflow-x-auto">
           {tabs.map((tab) => {
             return (

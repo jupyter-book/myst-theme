@@ -109,7 +109,9 @@ function gridColumnClasses(columns?: number[]): string {
 function Grid({ columns, children }: { columns?: number[]; children: React.ReactNode }) {
   const gridClasses = gridColumnClasses(columns);
   const gutterClasses = 'gap-4';
-  return <div className={classNames('grid', gridClasses, gutterClasses)}>{children}</div>;
+  return (
+    <div className={classNames('myst-grid grid my-5', gridClasses, gutterClasses)}>{children}</div>
+  );
 }
 
 export const GridRenderer: NodeRenderer<GridSpec> = (node, children) => {

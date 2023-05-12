@@ -159,7 +159,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     return <blockquote key={node.key}>{children}</blockquote>;
   },
   thematicBreak(node) {
-    return <hr key={node.key} />;
+    return <hr key={node.key} className="py-2 my-5 translate-y-2" />;
   },
   captionNumber(node, children) {
     function backwardsCompatibleLabel(value: string, kind?: string) {
@@ -222,7 +222,11 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     return null;
   },
   definitionList(node, children) {
-    return <dl key={node.key}>{children}</dl>;
+    return (
+      <dl key={node.key} className="my-5">
+        {children}
+      </dl>
+    );
   },
   definitionTerm(node, children) {
     let strongChildren: React.ReactNode = children;

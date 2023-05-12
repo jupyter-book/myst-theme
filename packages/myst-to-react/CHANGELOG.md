@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.2.1
+
+### Patch Changes
+
+- 4f90db5e: Handle an image being an mp4
+- d3c1038b: Updates to margins for improved alignment of elements
+  - @myst-theme/providers@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.2.1
+
+### Patch Changes
+
+- 2ffaab08: Added a 'framed' style for blocks
+
 ## 0.2.0
 
 ### Patch Changes

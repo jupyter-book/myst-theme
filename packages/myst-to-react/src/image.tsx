@@ -54,6 +54,21 @@ function Picture({
   height?: string;
   align?: Alignment;
 }) {
+  if (src.endsWith('.mp4')) {
+    return (
+      <video
+        style={{
+          width: getStyleValue(width),
+          height: getStyleValue(height),
+          ...alignToMargin(align),
+        }}
+        src={src}
+        data-canonical-url={urlSource}
+        autoPlay
+        loop
+      />
+    );
+  }
   const image = (
     <img
       style={{

@@ -173,6 +173,7 @@ const safeList = [
   'col-span-6',
   // Utilities
   'shaded',
+  'framed',
   'shaded-children',
   'rounded-children',
 ];

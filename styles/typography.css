@@ -24,6 +24,9 @@
   .prose table tr:hover td {
     @apply bg-slate-50 dark:bg-stone-800;
   }
+  .prose table td dl {
+    margin: 0;
+  }
   .prose dt > strong {
     @apply font-bold text-blue-900 dark:text-blue-100;
   }

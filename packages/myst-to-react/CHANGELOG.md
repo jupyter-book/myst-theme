@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 0.2.4
+
+### Patch Changes
+
+- 98b77049: Add support for proofs, theorems and examples
+  - @myst-theme/providers@0.2.4
+
 ## 0.2.3
 
 ### Patch Changes

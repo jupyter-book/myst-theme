@@ -1,5 +1,18 @@
 # @curvenote/site
 
+## 0.2.4
+
+### Patch Changes
+
+- 30ae97c2: Document outline takes up height when it has no children
+- Updated dependencies [98b77049]
+  - myst-to-react@0.2.4
+  - @myst-theme/providers@0.2.4
+  - @myst-theme/frontmatter@0.2.4
+  - @myst-theme/diagrams@0.2.4
+  - @myst-theme/jupyter@0.2.4
+  - myst-demo@0.2.4
+
 ## 0.2.3
 
 ### Patch Changes

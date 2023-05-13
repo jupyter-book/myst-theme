@@ -37,6 +37,38 @@ function alignToMargin(align: string) {
   }
 }
 
+function Video({
+  src,
+  urlSource,
+  align = 'center',
+  width,
+  height,
+}: {
+  src: string;
+  urlSource?: string;
+  width?: string;
+  height?: string;
+  align?: Alignment;
+}) {
+  return (
+    <video
+      style={{
+        width: getStyleValue(width),
+        height: getStyleValue(height),
+        ...alignToMargin(align),
+      }}
+      src={src}
+      data-canonical-url={urlSource}
+      autoPlay
+      // For autoplay, the element needs to be muted to actually start!
+      muted
+      webkit-playsinline="true"
+      playsInline
+      loop
+    />
+  );
+}
+
 function Picture({
   src,
   srcOptimized,
@@ -55,19 +87,7 @@ function Picture({
   align?: Alignment;
 }) {
   if (src.endsWith('.mp4')) {
-    return (
-      <video
-        style={{
-          width: getStyleValue(width),
-          height: getStyleValue(height),
-          ...alignToMargin(align),
-        }}
-        src={src}
-        data-canonical-url={urlSource}
-        autoPlay
-        loop
-      />
-    );
+    return <Video width={width} height={height} align={align} src={src} urlSource={urlSource} />;
   }
   const image = (
     <img

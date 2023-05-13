@@ -130,10 +130,11 @@ async function getData(
   project?: string,
   slug?: string,
 ): Promise<PageLoader | null> {
-  if (!project || !slug || !config) throw responseNoArticle();
+  if (!slug || !config) throw responseNoArticle();
   const { id } = config;
   if (!id) throw responseNoSite();
-  const response = await fetch(withBaseUrl(baseUrl, `content/${project}/${slug}.json`));
+  const projectPart = project ? `${project}/` : '';
+  const response = await fetch(withBaseUrl(baseUrl, `content/${projectPart}${slug}.json`));
   if (response.status === 404) throw responseNoArticle();
   const data = (await response.json()) as PageLoader;
   return updatePageStaticLinksInplace(data, (url) => withPublicFolderUrl(baseUrl, url));
@@ -156,7 +157,9 @@ export async function getPage(
   const project = getProject(config, projectName);
   if (!project) throw responseNoArticle();
   if (opts.slug === project.index && opts.redirect) {
-    return redirect(`${typeof opts.redirect === 'string' ? opts.redirect : '/'}${projectName}`);
+    return redirect(
+      `${typeof opts.redirect === 'string' ? opts.redirect : '/'}${projectName ?? ''}`,
+    );
   }
   const slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
   const loader = await getData(baseUrl, config, projectName, slug).catch((e) => {

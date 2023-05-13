@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 0.2.3
+
+### Patch Changes
+
+- aaa79100: Mute videos for autoplay
+  - @myst-theme/providers@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes

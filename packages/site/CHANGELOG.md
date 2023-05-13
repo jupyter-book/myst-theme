@@ -1,5 +1,18 @@
 # @curvenote/site
 
+## 0.2.3
+
+### Patch Changes
+
+- c6b967ef: Update the CDN data provider to account for no project slug
+- Updated dependencies [aaa79100]
+  - myst-to-react@0.2.3
+  - @myst-theme/providers@0.2.3
+  - @myst-theme/frontmatter@0.2.3
+  - @myst-theme/diagrams@0.2.3
+  - @myst-theme/jupyter@0.2.3
+  - myst-demo@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes

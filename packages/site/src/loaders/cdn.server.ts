@@ -165,5 +165,5 @@ export async function getPage(
   });
   if (!loader) throw responseNoArticle();
   const footer = getFooterLinks(config, projectName, slug);
-  return { ...loader, footer, domain: opts.domain as string };
+  return { ...loader, footer, domain: opts.domain as string, project: projectName as string };
 }

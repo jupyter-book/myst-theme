@@ -192,7 +192,7 @@ export const DocumentOutline = ({
 }) => {
   const { activeId, headings, highlight } = useHeaders();
   if (headings.length <= 1 || !onClient) {
-    return <nav suppressHydrationWarning />;
+    return <nav suppressHydrationWarning style={{ display: 'none' }} />;
   }
   return (
     <nav

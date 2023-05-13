@@ -1,5 +1,17 @@
 # @curvenote/site
 
+## 0.2.2
+
+### Patch Changes
+
+- 7f1c7257: Add the project slug to the page loader on cdn
+  - @myst-theme/providers@0.2.2
+  - @myst-theme/frontmatter@0.2.2
+  - @myst-theme/diagrams@0.2.2
+  - @myst-theme/jupyter@0.2.2
+  - myst-to-react@0.2.2
+  - myst-demo@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes

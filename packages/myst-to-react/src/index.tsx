@@ -19,6 +19,7 @@ import CROSS_REFERENCE_RENDERERS from './crossReference';
 import TAB_RENDERERS from './tabs';
 import EXT_RENDERERS from './extensions';
 import INLINE_EXPRESSION_RENDERERS from './inlineExpression';
+import PROOF_RENDERERS from './proof';
 
 export { CopyIcon } from './components/CopyIcon';
 export { CodeBlock } from './code';
@@ -45,6 +46,7 @@ export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...GRID_RENDERERS,
   ...INLINE_EXPRESSION_RENDERERS,
   ...EXT_RENDERERS,
+  ...PROOF_RENDERERS,
 };
 
 export function useParse(

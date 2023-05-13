@@ -13,7 +13,7 @@ export function HashLink({
   className = 'font-normal',
   hideInPopup,
 }: {
-  id: string;
+  id?: string;
   kind: string;
   title?: string;
   hover?: boolean;
@@ -22,7 +22,7 @@ export function HashLink({
   hideInPopup?: boolean;
 }) {
   const { inCrossRef } = useXRefState();
-  if (inCrossRef) {
+  if (inCrossRef || !id) {
     // If we are in a cross-reference pop-out, either hide hash link
     // or return something that is **not** a link
     return hideInPopup ? null : (

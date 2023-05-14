@@ -1,4 +1,4 @@
-import { useLinkProvider } from '@myst-theme/providers';
+import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
 import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import classNames from 'classnames';
 
@@ -20,16 +20,18 @@ export function LinkCard({
   className?: string;
 }) {
   const Link = useLinkProvider();
+  const baseurl = useBaseurl();
+  const to = withBaseurl(url, baseurl);
   return (
     <div className={classNames(className, { 'animate-pulse': loading })}>
       {internal && (
-        <Link to={url} className="block text-inherit hover:text-inherit" prefetch="intent">
+        <Link to={to} className="block text-inherit hover:text-inherit" prefetch="intent">
           {title}
         </Link>
       )}
       {!internal && (
         <a
-          href={url}
+          href={to}
           className="block text-inherit hover:text-inherit"
           target="_blank"
           rel="noreferrer"

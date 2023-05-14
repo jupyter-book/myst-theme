@@ -199,7 +199,7 @@ export function Admonition({
           <div
             className={classNames(
               'text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
-              { 'ml-2': hideIcon },
+              { 'ml-4': hideIcon },
             )}
           >
             {title}

@@ -28,7 +28,7 @@ function Block({
 }) {
   const renderers = useNodeRenderers() ?? DEFAULT_RENDERERS;
   const children = useParse(node, renderers);
-  const subGrid = 'article-grid article-subgrid-gap col-screen';
+  const subGrid = 'article-grid article-subgrid-gap col-screen mb-10';
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
   // Hide the subgrid if either the dataClass or the className exists and includes `col-`
   const noSubGrid =

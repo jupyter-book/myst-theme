@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.2.5
+
+### Patch Changes
+
+- 4232ab31: Move to hover links rather than click links
+
 ## 0.2.4
 
 ## 0.2.3

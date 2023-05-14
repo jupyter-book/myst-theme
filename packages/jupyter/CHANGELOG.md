@@ -1,5 +1,12 @@
 # @myst-theme/jupyter
 
+## 0.2.5
+
+### Patch Changes
+
+- 4232ab31: Move to hover links rather than click links
+  - @myst-theme/providers@0.2.5
+
 ## 0.2.4
 
 ### Patch Changes

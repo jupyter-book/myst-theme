@@ -1,5 +1,16 @@
 # @myst-theme/book
 
+## 0.1.40
+
+### Patch Changes
+
+- 4232ab31: Move to hover links rather than click links
+- Updated dependencies [4232ab31]
+  - @myst-theme/jupyter@0.2.5
+  - @myst-theme/site@0.2.5
+  - @myst-theme/styles@0.2.5
+  - @myst-theme/providers@0.2.5
+
 ## 0.1.39
 
 ### Patch Changes

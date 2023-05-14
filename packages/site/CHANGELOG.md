@@ -1,5 +1,19 @@
 # @curvenote/site
 
+## 0.2.5
+
+### Patch Changes
+
+- 4232ab31: Move to hover links rather than click links
+- Updated dependencies [4232ab31]
+- Updated dependencies [f2a69cab]
+  - myst-to-react@0.2.5
+  - @myst-theme/jupyter@0.2.5
+  - @myst-theme/providers@0.2.5
+  - @myst-theme/frontmatter@0.2.5
+  - @myst-theme/diagrams@0.2.5
+  - myst-demo@0.2.5
+
 ## 0.2.4
 
 ### Patch Changes

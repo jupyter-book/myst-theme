@@ -2,14 +2,11 @@ import { selectAll } from 'unist-util-select';
 import { EXIT, SKIP, visit } from 'unist-util-visit';
 import type { Root } from 'mdast';
 import type { CrossReference } from 'myst-spec';
-import LinkIcon from '@heroicons/react/24/outline/LinkIcon';
-import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import {
   useLinkProvider,
   useNodeRenderers,
   useReferences,
   useBaseurl,
-  useXRefState,
   withBaseurl,
   XRefProvider,
 } from '@myst-theme/providers';
@@ -17,8 +14,8 @@ import type { GenericNode } from 'myst-common';
 import { useParse } from '.';
 import { InlineError } from './inlineError';
 import type { NodeRenderer } from '@myst-theme/providers';
-import { ClickPopover } from './components/ClickPopover';
 import useSWR from 'swr';
+import { HoverPopover } from './components/HoverPopover';
 
 const MAX_NODES = 3; // Max nodes to show after a header
 
@@ -57,22 +54,51 @@ const fetcher = (...args: Parameters<typeof fetch>) =>
 
 // This is a small component that must be distinct based on the nodes
 // This is because the useParse can have different numbers of hooks, which breaks things
-function XrefChildren({ nodes }: { nodes: GenericNode[] }) {
+function XrefChildren({
+  nodes,
+  loading,
+  error,
+  identifier,
+}: {
+  nodes: GenericNode[];
+  loading?: boolean;
+  error?: boolean;
+  identifier?: string;
+}) {
   const renderers = useNodeRenderers();
   const children = useParse({ type: 'block', children: nodes }, renderers);
+
+  if (loading) {
+    return <>Loading...</>;
+  }
+  if (error) {
+    return <>Error loading remote page.</>;
+  }
+  if (!nodes || nodes.length === 0) {
+    return (
+      <>
+        <InlineError value={identifier || 'No Label'} message="Cross Reference Not Found" />
+      </>
+    );
+  }
   return <>{children}</>;
 }
 
-export function ReferencedContent({
+export function CrossReferenceHover({
+  url,
+  dataUrl,
+  remote,
+  children,
   identifier,
-  close,
 }: {
+  remote?: boolean;
+  url?: string;
+  dataUrl?: string;
   identifier: string;
-  close: () => void;
+  children: React.ReactNode;
 }) {
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
-  const { dataUrl, remote, url } = useXRefState();
   // dataUrl should point directly to the cross reference mdast data.
   // If dataUrl is not provided, it will be computed by appending .json to the url.
   const external = url?.startsWith('http') ?? false;
@@ -87,48 +113,48 @@ export function ReferencedContent({
   const nodes = selectMdastNodes(mdast, identifier);
   const htmlId = (nodes[0] as any)?.html_id || (nodes[0] as any)?.identifier;
   const link = `${url}${htmlId ? `#${htmlId}` : ''}`;
-  const onClose = () => {
-    // Need to close it first because the ID is on the page twice ...
-    close();
-    setTimeout(() => {
-      const el = document.getElementById(htmlId);
-      el?.scrollIntoView({ behavior: 'smooth' });
-    }, 10);
+  const scroll: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    e.preventDefault();
+    const el = document.getElementById(htmlId);
+    el?.scrollIntoView({ behavior: 'smooth' });
   };
-  if (remote && !data) {
-    return <>Loading...</>;
-  }
-  if (remote && error) {
-    return <>Error loading remote page.</>;
-  }
-  if (!nodes || nodes.length === 0) {
-    return (
-      <>
-        <InlineError value={identifier || 'No Label'} message="Cross Reference Not Found" />
-      </>
-    );
-  }
   return (
-    <div className="exclude-from-outline">
-      {remote && external && (
-        <a href={link} className="absolute top-4 right-1" target="_blank">
-          <ExternalLinkIcon className="w-4 h-4" />
-        </a>
-      )}
-      {remote && !external && (
-        <Link to={withBaseurl(url, baseurl)} className="absolute top-4 right-1" prefetch="intent">
-          <ExternalLinkIcon className="w-4 h-4" />
-        </Link>
-      )}
-      {!remote && (
-        <button onClick={onClose} className="absolute top-4 right-1">
-          <LinkIcon className="w-4 h-4" />
-        </button>
-      )}
-      <div className="popout">
-        <XrefChildren nodes={nodes} />
-      </div>
-    </div>
+    <HoverPopover
+      card={
+        <XRefProvider remote={remote} url={url} dataUrl={dataUrl}>
+          <div className="hover-document px-3">
+            <XrefChildren
+              nodes={nodes}
+              loading={remote && !data}
+              error={remote && error}
+              identifier={identifier}
+            />
+          </div>
+        </XRefProvider>
+      }
+    >
+      <span>
+        {remote && external && (
+          <a href={link} target="_blank" className="hover-link">
+            {children}
+          </a>
+        )}
+        {remote && !external && (
+          <Link
+            to={`${withBaseurl(url, baseurl)}#${htmlId}`}
+            prefetch="intent"
+            className="hover-link"
+          >
+            {children}
+          </Link>
+        )}
+        {!remote && (
+          <a href={`#${htmlId}`} onClick={scroll} className="hover-link">
+            {children}
+          </a>
+        )}
+      </span>
+    </HoverPopover>
   );
 }
 
@@ -142,22 +168,17 @@ export const CrossReferenceNode: NodeRenderer<CrossReference> = (node, children)
       />
     );
   }
+  const { remote, url, dataUrl, identifier } = node as any;
   return (
-    <ClickPopover
+    <CrossReferenceHover
       key={node.key}
-      card={({ close }) => (
-        <XRefProvider
-          remote={(node as any).remote}
-          url={(node as any).url}
-          dataUrl={(node as any).dataUrl}
-        >
-          <ReferencedContent identifier={node.identifier as string} close={close} />
-        </XRefProvider>
-      )}
-      as="span"
+      identifier={identifier}
+      remote={remote}
+      url={url}
+      dataUrl={dataUrl}
     >
       {children}
-    </ClickPopover>
+    </CrossReferenceHover>
   );
 };
 

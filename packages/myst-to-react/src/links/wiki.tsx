@@ -71,8 +71,8 @@ function createWikiApiUrl(name: string, wiki?: string): string {
   return `${wiki || ENGLISH_WIKIPEDIA}api/rest_v1/page/summary/${name}`;
 }
 
-function WikiChild({ page, wiki, open }: { page: string; wiki: string; open: boolean }) {
-  const { data, error } = useSWR(open ? createWikiApiUrl(page, wiki) : null, fetcher);
+function WikiChild({ page, wiki, load }: { page: string; wiki: string; load: boolean }) {
+  const { data, error } = useSWR(load ? createWikiApiUrl(page, wiki) : null, fetcher);
   const { thumbnail, extract, content_urls } = data ?? {};
   const url = content_urls?.desktop?.page ?? createWikiUrl(page);
   const image = thumbnail?.source;
@@ -115,7 +115,7 @@ export function WikiLink({
   wiki: string;
 }) {
   return (
-    <HoverPopover card={({ open }) => <WikiChild wiki={wiki} page={page} open={open} />}>
+    <HoverPopover card={({ load }) => <WikiChild wiki={wiki} page={page} load={load} />}>
       <a href={url} className="italic" target="_blank" rel="noreferrer">
         {children}
       </a>

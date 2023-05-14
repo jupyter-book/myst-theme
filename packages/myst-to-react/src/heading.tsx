@@ -29,12 +29,18 @@ export function HashLink({
       <span className={classNames('select-none', className)}>{children}</span>
     );
   }
+  const scroll: React.MouseEventHandler<HTMLAnchorElement> = (evt) => {
+    evt.preventDefault();
+    const el = document.getElementById(id);
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
   return (
     <a
       className={classNames('select-none no-underline', className, {
         'transition-opacity opacity-0 group-hover:opacity-70': hover,
         'hover:underline': !hover,
       })}
+      onClick={scroll}
       href={`#${id}`}
       title={title}
       aria-label={title}

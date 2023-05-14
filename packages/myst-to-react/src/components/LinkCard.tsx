@@ -9,7 +9,7 @@ export function LinkCard({
   loading = false,
   description,
   thumbnail,
-  className = 'w-[300px]',
+  className = 'w-[300px] sm:max-w-[500px] bg-white rounded shadow-md',
 }: {
   url: string;
   internal?: boolean;
@@ -23,16 +23,28 @@ export function LinkCard({
   const baseurl = useBaseurl();
   const to = withBaseurl(url, baseurl);
   return (
-    <div className={classNames(className, { 'animate-pulse': loading })}>
+    <div
+      className={classNames('hover-card-content rounded overflow-hidden', className, {
+        'animate-pulse': loading,
+      })}
+    >
+      {!loading && thumbnail && (
+        <img src={thumbnail} className="w-full h-[150px] object-cover object-top object-left m-0" />
+      )}
+      {loading && <div className="animate-pulse bg-slate-100 dark:bg-slate-800 w-full h-[150px]" />}
       {internal && (
-        <Link to={to} className="block text-inherit hover:text-inherit" prefetch="intent">
+        <Link
+          to={to}
+          className="block text-sm font-semibold text-inherit hover:text-inherit px-3 mt-3"
+          prefetch="intent"
+        >
           {title}
         </Link>
       )}
       {!internal && (
         <a
           href={to}
-          className="block text-inherit hover:text-inherit"
+          className="block text-sm font-semibold text-inherit hover:text-inherit px-3 mt-3"
           target="_blank"
           rel="noreferrer"
         >
@@ -40,13 +52,9 @@ export function LinkCard({
           {title}
         </a>
       )}
-      {!loading && thumbnail && (
-        <img src={thumbnail} className="w-full max-h-[200px] object-cover object-top" />
+      {!loading && description && (
+        <div className="p-3 prose text-sm max-h-[300px] overflow-hidden">{description}</div>
       )}
-      {loading && (
-        <div className="animate-pulse bg-slate-100 dark:bg-slate-800 w-full h-[150px] mt-4" />
-      )}
-      {!loading && description && <div className="mt-2">{description}</div>}
     </div>
   );
 }

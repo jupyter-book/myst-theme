@@ -20,14 +20,14 @@ export function Navigation({
   if (hide_toc) return <>{children}</>;
   return (
     <>
+      {children}
       {open && (
         <div
-          className="fixed inset-0 bg-black opacity-50 z-30"
+          className="fixed inset-0 bg-black opacity-50"
           style={{ marginTop: top }}
           onClick={() => setOpen(false)}
         ></div>
       )}
-      {children}
       <TableOfContents tocRef={tocRef} projectSlug={projectSlug} top={top} footer={footer} />
     </>
   );

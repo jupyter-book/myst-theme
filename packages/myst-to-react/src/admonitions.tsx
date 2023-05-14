@@ -157,11 +157,11 @@ export function Admonition({
       dropdown={dropdown}
       className={classNames(
         'my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
-        'bg-gray-50 dark:bg-stone-800',
+        'bg-gray-50/10 dark:bg-stone-800',
         'overflow-hidden',
         {
-          'rounded-md border-l-4': !simple,
-          'rounded border-l-2': simple,
+          'rounded border-l-4': !simple,
+          'border-l-2': simple,
           'border-blue-500': !color || color === 'blue',
           'border-green-600': color === 'green',
           'border-amber-600': color === 'yellow',

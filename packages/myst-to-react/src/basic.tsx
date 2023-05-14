@@ -2,6 +2,7 @@ import type * as spec from 'myst-spec';
 import { HashLink } from './heading';
 import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
+import { HoverPopover } from './components/HoverPopover';
 
 type TableExts = {
   rowspan?: number;
@@ -105,7 +106,11 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     );
   },
   paragraph(node, children) {
-    return <p key={node.key}>{children}</p>;
+    return (
+      <p key={node.key} id={node.html_id}>
+        {children}
+      </p>
+    );
   },
   break(node) {
     return <br key={node.key} />;
@@ -119,12 +124,16 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   list(node, children) {
     if (node.ordered) {
       return (
-        <ol key={node.key} start={node.start || undefined}>
+        <ol key={node.key} start={node.start || undefined} id={node.html_id}>
           {children}
         </ol>
       );
     }
-    return <ul key={node.key}>{children}</ul>;
+    return (
+      <ul key={node.key} id={node.html_id}>
+        {children}
+      </ul>
+    );
   },
   listItem(node, children) {
     if (node.checked == null) {
@@ -156,7 +165,11 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     );
   },
   blockquote(node, children) {
-    return <blockquote key={node.key}>{children}</blockquote>;
+    return (
+      <blockquote key={node.key} id={node.html_id}>
+        {children}
+      </blockquote>
+    );
   },
   thematicBreak(node) {
     return <hr key={node.key} className="py-2 my-5 translate-y-2" />;
@@ -210,9 +223,20 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   abbreviation(node, children) {
     return (
-      <abbr key={node.key} title={node.title}>
-        {children}
-      </abbr>
+      <HoverPopover
+        key={node.key}
+        side="top"
+        card={
+          <div className="bg-blue-900 text-white dark:bg-white dark:text-black text-xs p-1">
+            {node.title}
+          </div>
+        }
+        arrowClass="fill-blue-900 dark:fill-white"
+      >
+        <abbr aria-label={node.title} className="cursor-help border-b border-dotted">
+          {children}
+        </abbr>
+      </HoverPopover>
     );
   },
   mystComment() {
@@ -223,7 +247,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   definitionList(node, children) {
     return (
-      <dl key={node.key} className="my-5">
+      <dl key={node.key} className="my-5" id={node.html_id}>
         {children}
       </dl>
     );

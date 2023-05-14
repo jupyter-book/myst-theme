@@ -2,8 +2,8 @@ import type { GenericParent } from 'myst-common';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { XRefProvider, useNodeRenderers, useReferences } from '@myst-theme/providers';
 import { useParse } from '.';
-import { ClickPopover } from './components/ClickPopover';
 import { select } from 'unist-util-select';
+import { HoverPopover } from './components/HoverPopover';
 
 function FootnoteDefinition({ identifier }: { identifier: string }) {
   const references = useReferences();
@@ -12,18 +12,24 @@ function FootnoteDefinition({ identifier }: { identifier: string }) {
     (references as any)?.footnotes?.[identifier] ??
     select(`footnoteDefinition[identifier=${identifier}]`, references?.article);
   const children = useParse(node as GenericParent, renderers);
-  return <XRefProvider>{children}</XRefProvider>;
+  return (
+    <XRefProvider>
+      <div className="hover-document px-3">{children}</div>
+    </XRefProvider>
+  );
 }
 
 export const FootnoteReference: NodeRenderer = (node) => {
   return (
-    <ClickPopover
+    <HoverPopover
       key={node.key}
+      openDelay={0}
       card={<FootnoteDefinition identifier={node.identifier as string} />}
-      as="span"
     >
-      <sup>[{node.number ?? node.identifier}]</sup>
-    </ClickPopover>
+      <span>
+        <sup className="hover-link">[{node.number ?? node.identifier}]</sup>
+      </span>
+    </HoverPopover>
   );
 };
 

@@ -129,14 +129,26 @@ export function Proof({
     <WrapperElement
       id={identifier}
       dropdown={dropdown}
-      className="my-5 shadow dark:bg-stone-800 overflow-hidden"
+      className={classNames(
+        'my-5 shadow dark:bg-stone-800 overflow-hidden',
+        'dark:border-l-4 border-slate-400',
+        {
+          'dark:border-gray-500': !color || color === 'gray',
+          'dark:border-blue-500': color === 'blue',
+          'dark:border-green-500': color === 'green',
+          'dark:border-amber-500': color === 'yellow',
+          'dark:border-orange-500': color === 'orange',
+          'dark:border-red-500': color === 'red',
+          'dark:border-purple-500': color === 'purple',
+        },
+      )}
     >
       <HeaderElement
         dropdown={dropdown}
         className={classNames(
           'm-0 font-medium py-2 flex min-w-0',
           'text-md',
-          'border-y dark:border-y-0 dark:border-l-4 border-slate-400',
+          'border-y dark:border-y-0',
           {
             'bg-gray-50/80 dark:bg-slate-900 dark:border-gray-500': !color || color === 'gray',
             'bg-blue-50/80 dark:bg-slate-900 dark:border-blue-500': color === 'blue',
@@ -153,7 +165,7 @@ export function Proof({
         <div
           className={classNames(
             'text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
-            'ml-4 dark:ml-3', // No icon!
+            'ml-4', // No icon!
           )}
         >
           <HashLink id={identifier} kind={capitalize(kind)}>

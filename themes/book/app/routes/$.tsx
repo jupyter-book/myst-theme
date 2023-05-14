@@ -69,16 +69,16 @@ export function ArticlePageAndNavigation({
         projectSlug={projectSlug}
       >
         <TopNav />
+        <TabStateProvider>
+          <article
+            ref={container}
+            className="article content article-grid article-grid-gap"
+            style={{ marginTop: top + 16 }}
+          >
+            {children}
+          </article>
+        </TabStateProvider>
       </Navigation>
-      <TabStateProvider>
-        <article
-          ref={container}
-          className="article content article-grid article-grid-gap"
-          style={{ marginTop: top + 16 }}
-        >
-          {children}
-        </article>
-      </TabStateProvider>
     </UiStateProvider>
   );
 }

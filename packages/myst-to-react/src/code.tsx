@@ -9,13 +9,15 @@ import { CopyIcon } from './components/CopyIcon';
 
 type Props = {
   value: string;
+  identifier?: string;
   lang?: string;
-  executable?: boolean;
   showCopy?: boolean;
   showLineNumbers?: boolean;
   startingLineNumber?: number;
   emphasizeLines?: number[];
   filename?: string;
+  shadow?: boolean;
+  background?: boolean;
   border?: boolean;
   className?: string;
 };
@@ -34,22 +36,26 @@ export function CodeBlock(props: Props) {
   const {
     value,
     lang,
-    executable,
+    identifier,
     emphasizeLines,
     showLineNumbers,
     className,
     showCopy = true,
     startingLineNumber = 1,
     filename,
+    shadow,
+    background,
     border,
   } = props;
   const highlightLines = new Set(emphasizeLines);
-  const borderClass =
-    'rounded shadow-md dark:shadow-2xl dark:shadow-neutral-900 my-5 text-sm border border-l-4 border-l-blue-400 border-gray-200 dark:border-l-blue-400 dark:border-gray-800';
   return (
     <div
+      id={identifier}
       className={classNames('relative group not-prose overflow-auto', className, {
-        [borderClass]: border,
+        'shadow hover:shadow-md dark:shadow-2xl dark:shadow-neutral-900 my-5 text-sm': shadow,
+        'bg-stone-200/10': background,
+        'border border-l-4 border-l-blue-400 border-gray-200 dark:border-l-blue-400 dark:border-gray-800':
+          border,
       })}
     >
       {filename && <div className="leading-3 mt-1 p-1">{filename}</div>}
@@ -57,7 +63,7 @@ export function CodeBlock(props: Props) {
         language={normalizeLanguage(lang)}
         startingLineNumber={startingLineNumber}
         showLineNumbers={showLineNumbers}
-        style={isLight ? light : dark}
+        style={isLight ? { ...light, hljs: { ...light.hljs, background: 'transparent' } } : dark}
         wrapLines
         lineNumberContainerStyle={{
           // This stops page content shifts
@@ -95,16 +101,18 @@ const code: NodeRenderer<Code & { executable: boolean }> = (node) => {
   return (
     <CodeBlock
       key={node.key}
+      identifier={node.html_id}
       // data-cell-id={node.executable ? parentId : undefined}
       data-mdast-node-type={node.type}
       data-mdast-node-id={node.key}
       value={node.value || ''}
       lang={node.lang}
-      executable={node.executable}
       emphasizeLines={node.emphasizeLines}
       showLineNumbers={node.showLineNumbers}
       startingLineNumber={node.startingLineNumber}
-      border
+      shadow
+      border={node.executable}
+      background={!node.executable}
     />
   );
 };

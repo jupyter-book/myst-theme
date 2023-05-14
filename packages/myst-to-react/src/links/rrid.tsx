@@ -1,6 +1,5 @@
 import useSWR from 'swr';
-import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
-import { ClickPopover } from '../components/ClickPopover';
+import { HoverPopover } from '../components/HoverPopover';
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => {
@@ -11,11 +10,11 @@ const fetcher = (...args: Parameters<typeof fetch>) =>
 function RRIDChild({ rrid }: { rrid: string }) {
   const { data, error } = useSWR(`https://scicrunch.org/resolver/${rrid}.json`, fetcher);
   if (!data && !error) {
-    return <span className="animate-pulse">Loading...</span>;
+    return <div className="hover-document animate-pulse">Loading...</div>;
   }
   const hit = data?.hits?.hits?.[0];
   if (error || !hit) {
-    return <span>Error loading {rrid}.</span>;
+    return <div className="hover-document">Error loading {rrid}.</div>;
   }
   const {
     name: title,
@@ -29,15 +28,7 @@ function RRIDChild({ rrid }: { rrid: string }) {
   const types = (categories?.map(({ name }: { name: string }) => name) as string[]) ?? [];
   const tags = (keywords?.map(({ keyword }: { keyword: string }) => keyword) as string[]) ?? [];
   return (
-    <div>
-      <a
-        href={`https://scicrunch.org/resolver/${rrid}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="absolute top-4 right-1 opacity-70 hover:opacity-100"
-      >
-        <ExternalLinkIcon className="w-6 h-6" />
-      </a>
+    <div className="hover-document p-3">
       <p className="text-sm font-light">RRID: {category}</p>
       <div className="text-xl font-bold mb-4">
         {title} <code>{curie}</code>
@@ -73,9 +64,10 @@ function RRIDChild({ rrid }: { rrid: string }) {
 
 export function RRIDLink({ rrid }: { rrid: string }) {
   return (
-    <ClickPopover card={<RRIDChild rrid={rrid} />}>
-      <span>RRID: </span>
-      <cite className="italic">{rrid}</cite>
-    </ClickPopover>
+    <HoverPopover card={<RRIDChild rrid={rrid} />}>
+      <a href={`https://scicrunch.org/resolver/${rrid}`} target="_blank" rel="noopener noreferrer">
+        RRID: <cite className="italic">{rrid}</cite>
+      </a>
+    </HoverPopover>
   );
 }

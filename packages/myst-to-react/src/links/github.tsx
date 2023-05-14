@@ -54,7 +54,7 @@ function GithubFilePreview({
   let code = data;
   if (error) {
     return (
-      <span>
+      <div className="hover-document">
         <a
           href={url}
           className="block text-inherit hover:text-inherit"
@@ -64,7 +64,7 @@ function GithubFilePreview({
           <ExternalLinkIcon className="w-4 h-4 float-right" />
         </a>
         <div className="mt-2">Error loading "{file}" from GitHub.</div>
-      </span>
+      </div>
     );
   }
   const lang = extToLanguage(file?.split('.').pop());
@@ -107,7 +107,7 @@ function GithubFilePreview({
       url={url}
       title={`GitHub - ${org}/${repo}`}
       description={description}
-      className="max-w-[80vw]"
+      className="hover-document max-w-[80vw]"
     />
   );
 }
@@ -133,14 +133,14 @@ export function GithubLink({
 }) {
   return (
     <HoverPopover
-      card={({ open }) => (
+      card={({ load }) => (
         <GithubFilePreview
           url={url}
           raw={raw}
           file={file}
           from={from}
           to={to}
-          open={open}
+          open={load}
           org={org}
           repo={repo}
         />

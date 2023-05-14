@@ -7,7 +7,7 @@ cite {
 .cite-group.narrative cite::after {
   content: ',\00a0';
 }
-.cite-group > span:last-of-type cite::after {
+.cite-group > cite:last-of-type::after {
   content: '';
 }
 .cite-group.parenthetical:before {

@@ -1,13 +1,12 @@
 import classNames from 'classnames';
 import { useReferences } from '@myst-theme/providers';
 import type { NodeRenderer } from '@myst-theme/providers';
-import { ClickPopover } from './components/ClickPopover';
+import doi from 'doi-utils';
 import { InlineError } from './inlineError';
+import { HoverPopover } from './components/HoverPopover';
 
-function CiteChild({ label }: { label: string }) {
-  const references = useReferences();
-  const { html } = references?.cite?.data[label] ?? {};
-  return <div dangerouslySetInnerHTML={{ __html: html || '' }} />;
+function CiteChild({ html }: { html?: string }) {
+  return <div className="hover-document p-3" dangerouslySetInnerHTML={{ __html: html || '' }} />;
 }
 
 export const CiteGroup: NodeRenderer = (node, children) => {
@@ -25,13 +24,23 @@ export const CiteGroup: NodeRenderer = (node, children) => {
 };
 
 export const Cite: NodeRenderer = (node, children) => {
+  const references = useReferences();
+  const { html, doi: doiString } = references?.cite?.data[node.label] ?? {};
   if (node.error) {
     return <InlineError key={node.key} value={node.label} message={'Citation Not Found'} />;
   }
+  const doiUrl = doiString ? doi.buildUrl(doiString as string) : null;
   return (
-    <ClickPopover key={node.key} card={<CiteChild label={node.label as string} />}>
-      {children}
-    </ClickPopover>
+    <HoverPopover key={node.key} openDelay={300} card={<CiteChild html={html} />}>
+      <cite className="hover-link">
+        {doiUrl && (
+          <a href={doiUrl} target="_blank" rel="noreferrer" className="hover-link">
+            {children}
+          </a>
+        )}
+        {!doiUrl && children}
+      </cite>
+    </HoverPopover>
   );
 };
 

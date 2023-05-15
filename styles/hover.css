@@ -32,7 +32,7 @@
 }
 
 .hover-document {
-  @apply w-[500px] sm:max-w-[500px] bg-white dark:bg-slate-800 text-sm rounded border border-gray-50 shadow-xl article;
+  @apply bg-white dark:bg-slate-800 text-sm rounded border border-gray-50 shadow-xl article;
 }
 
 .hover-link {

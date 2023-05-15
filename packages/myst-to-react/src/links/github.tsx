@@ -243,7 +243,6 @@ export function GithubLink({
   return (
     <HoverPopover
       card={({ load }) => {
-        console.log('here', kind);
         if (kind === 'file') {
           return (
             <GithubFilePreview

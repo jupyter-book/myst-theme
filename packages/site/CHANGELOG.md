@@ -1,5 +1,21 @@
 # @curvenote/site
 
+## 0.2.6
+
+### Patch Changes
+
+- 7adbb049: Fix margins on admonitions and site footer
+- Updated dependencies [4c9b763a]
+- Updated dependencies [4c9b763a]
+- Updated dependencies [ab65900d]
+- Updated dependencies [7adbb049]
+  - myst-to-react@0.2.6
+  - @myst-theme/providers@0.2.6
+  - @myst-theme/frontmatter@0.2.6
+  - @myst-theme/diagrams@0.2.6
+  - @myst-theme/jupyter@0.2.6
+  - myst-demo@0.2.6
+
 ## 0.2.5
 
 ### Patch Changes

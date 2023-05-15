@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.2.6
+
+### Patch Changes
+
+- 4c9b763a: Add github issue and pull request previews
+- 4c9b763a: Updates to styles for hover documents
+- ab65900d: Align the proof header in darkmode
+- 7adbb049: Fix margins on admonitions and site footer
+  - @myst-theme/providers@0.2.6
+
 ## 0.2.5
 
 ### Patch Changes

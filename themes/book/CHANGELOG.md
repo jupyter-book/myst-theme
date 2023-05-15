@@ -1,5 +1,17 @@
 # @myst-theme/book
 
+## 0.1.41
+
+### Patch Changes
+
+- 7adbb049: Fix margins on admonitions and site footer
+- Updated dependencies [4c9b763a]
+- Updated dependencies [7adbb049]
+  - @myst-theme/styles@0.2.6
+  - @myst-theme/site@0.2.6
+  - @myst-theme/providers@0.2.6
+  - @myst-theme/jupyter@0.2.6
+
 ## 0.1.40
 
 ### Patch Changes

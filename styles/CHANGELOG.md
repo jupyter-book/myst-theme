@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.2.6
+
+### Patch Changes
+
+- 4c9b763a: Updates to styles for hover documents
+
 ## 0.2.5
 
 ### Patch Changes

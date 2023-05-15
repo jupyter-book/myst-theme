@@ -129,30 +129,34 @@ export function Proof({
     <WrapperElement
       id={identifier}
       dropdown={dropdown}
-      className={classNames('my-5 shadow', 'dark:bg-stone-800', 'overflow-hidden', {
-        // 'shadow-lg': !color || color === 'gray',
-        // 'border-l-2 border-blue-500': color === 'blue',
-        // 'border-l-2 border-green-500': color === 'green',
-        // 'border-l-2 border-amber-500': color === 'yellow',
-        // 'border-l-2 border-orange-500': color === 'orange',
-        // 'border-l-2 border-red-500': color === 'red',
-      })}
+      className={classNames(
+        'my-5 shadow dark:bg-stone-800 overflow-hidden',
+        'dark:border-l-4 border-slate-400',
+        {
+          'dark:border-gray-500/60': !color || color === 'gray',
+          'dark:border-blue-500/60': color === 'blue',
+          'dark:border-green-500/60': color === 'green',
+          'dark:border-amber-500/70': color === 'yellow',
+          'dark:border-orange-500/60': color === 'orange',
+          'dark:border-red-500/60': color === 'red',
+          'dark:border-purple-500/60': color === 'purple',
+        },
+      )}
     >
       <HeaderElement
         dropdown={dropdown}
         className={classNames(
           'm-0 font-medium py-2 flex min-w-0',
           'text-md',
-          '',
-          'border-y dark:border-y-0 dark:border-l-4 border-slate-400',
+          'border-y dark:border-y-0',
           {
-            'bg-gray-50/80 dark:bg-slate-900 dark:border-gray-500': !color || color === 'gray',
-            'bg-blue-50/80 dark:bg-slate-900 dark:border-blue-500': color === 'blue',
-            'bg-green-50/80 dark:bg-slate-900 dark:border-green-500': color === 'green',
-            'bg-amber-50/80 dark:bg-slate-900 dark:border-amber-500': color === 'yellow',
-            'bg-orange-50/80 dark:bg-slate-900 dark:border-orange-500': color === 'orange',
-            'bg-red-50/80 dark:bg-slate-900 dark:border-red-500': color === 'red',
-            'bg-purple-50/80 dark:bg-slate-900 dark:border-purple-500': color === 'purple',
+            'bg-gray-50/80 dark:bg-slate-900': !color || color === 'gray',
+            'bg-blue-50/80 dark:bg-slate-900': color === 'blue',
+            'bg-green-50/80 dark:bg-slate-900': color === 'green',
+            'bg-amber-50/80 dark:bg-slate-900': color === 'yellow',
+            'bg-orange-50/80 dark:bg-slate-900': color === 'orange',
+            'bg-red-50/80 dark:bg-slate-900': color === 'red',
+            'bg-purple-50/80 dark:bg-slate-900': color === 'purple',
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           },

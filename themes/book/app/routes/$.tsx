@@ -52,13 +52,14 @@ export function ArticlePageAndNavigation({
   hide_toc,
   projectSlug,
   top = DEFAULT_NAV_HEIGHT,
+  inset = 20,  // begin text 20px from the top (aligned with menu)
 }: {
   top?: number;
   hide_toc?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
 }) {
-  const { container, toc } = useTocHeight(top);
+  const { container, toc } = useTocHeight(top, inset);
   return (
     <UiStateProvider>
       <Navigation
@@ -73,7 +74,7 @@ export function ArticlePageAndNavigation({
           <article
             ref={container}
             className="article content article-grid article-grid-gap"
-            style={{ marginTop: top + 16 }}
+            style={{ marginTop: top + inset }}
           >
             {children}
           </article>

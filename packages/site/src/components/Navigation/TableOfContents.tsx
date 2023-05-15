@@ -109,7 +109,7 @@ const Headings = ({ folder, headings, sections }: Props) => {
   );
 };
 
-export function useTocHeight<T extends HTMLElement = HTMLElement>(top?: number) {
+export function useTocHeight<T extends HTMLElement = HTMLElement>(top = 0, inset = 0) {
   const container = useRef<T>(null);
   const toc = useRef<HTMLDivElement>(null);
   const transitionState = useNavigation().state;
@@ -117,8 +117,7 @@ export function useTocHeight<T extends HTMLElement = HTMLElement>(top?: number) 
     if (!container.current || !toc.current) return;
     const height = container.current.offsetHeight - window.scrollY;
     const div = toc.current.firstChild as HTMLDivElement;
-    const MAGIC_PADDING = 16; // I dunno, just go with it ...
-    if (div) div.style.height = `min(calc(100vh - ${top ?? 0}px), ${height + MAGIC_PADDING}px)`;
+    if (div) div.style.height = `min(calc(100vh - ${top}px), ${height + inset}px)`;
     const nav = toc.current.querySelector('nav');
     if (nav) nav.style.opacity = height > 150 ? '1' : '0';
   };

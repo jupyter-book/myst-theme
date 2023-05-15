@@ -14,7 +14,7 @@ function FootnoteDefinition({ identifier }: { identifier: string }) {
   const children = useParse(node as GenericParent, renderers);
   return (
     <XRefProvider>
-      <div className="hover-document px-3">{children}</div>
+      <div className="hover-document w-[500px] sm:max-w-[500px] px-3">{children}</div>
     </XRefProvider>
   );
 }

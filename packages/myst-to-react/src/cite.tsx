@@ -6,7 +6,12 @@ import { InlineError } from './inlineError';
 import { HoverPopover } from './components/HoverPopover';
 
 function CiteChild({ html }: { html?: string }) {
-  return <div className="hover-document p-3" dangerouslySetInnerHTML={{ __html: html || '' }} />;
+  return (
+    <div
+      className="hover-document w-[500px] sm:max-w-[500px] p-3"
+      dangerouslySetInnerHTML={{ __html: html || '' }}
+    />
+  );
 }
 
 export const CiteGroup: NodeRenderer = (node, children) => {

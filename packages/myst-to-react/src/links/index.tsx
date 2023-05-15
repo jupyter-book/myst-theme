@@ -72,6 +72,7 @@ export const link: NodeRenderer<TransformedLink> = (node, children) => {
       return (
         <GithubLink
           key={node.key}
+          kind={node.data?.kind as any}
           url={node.url}
           org={node.data?.org as string}
           repo={node.data?.repo as string}
@@ -79,6 +80,7 @@ export const link: NodeRenderer<TransformedLink> = (node, children) => {
           file={node.data?.file as string}
           from={node.data?.from as number | undefined}
           to={node.data?.to as number | undefined}
+          issue_number={node.data?.issue_number as number | undefined}
         >
           {children}
         </GithubLink>

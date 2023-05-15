@@ -10,11 +10,13 @@ const fetcher = (...args: Parameters<typeof fetch>) =>
 function RRIDChild({ rrid }: { rrid: string }) {
   const { data, error } = useSWR(`https://scicrunch.org/resolver/${rrid}.json`, fetcher);
   if (!data && !error) {
-    return <div className="hover-document animate-pulse">Loading...</div>;
+    return (
+      <div className="hover-document w-[500px] sm:max-w-[500px] animate-pulse">Loading...</div>
+    );
   }
   const hit = data?.hits?.hits?.[0];
   if (error || !hit) {
-    return <div className="hover-document">Error loading {rrid}.</div>;
+    return <div className="hover-document w-[500px] sm:max-w-[500px]">Error loading {rrid}.</div>;
   }
   const {
     name: title,
@@ -28,7 +30,7 @@ function RRIDChild({ rrid }: { rrid: string }) {
   const types = (categories?.map(({ name }: { name: string }) => name) as string[]) ?? [];
   const tags = (keywords?.map(({ keyword }: { keyword: string }) => keyword) as string[]) ?? [];
   return (
-    <div className="hover-document p-3">
+    <div className="hover-document w-[500px] sm:max-w-[500px] p-3">
       <p className="text-sm font-light">RRID: {category}</p>
       <div className="text-xl font-bold mb-4">
         {title} <code>{curie}</code>

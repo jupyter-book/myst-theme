@@ -78,7 +78,6 @@ npm run storybook
 npm run dev
 ```
 
-
 ## Working with themes
 
 To interact with the themes in development mode (e.g. with live-reload of components and styles as you are making changes), you need three things running:
@@ -98,3 +97,25 @@ npm run dev
 
 > **Note**: in the future, this repository will likely have it's own content to test out with the themes.
 > You can currently look to the mystjs/docs folder, or an [article](https://github.com/simpeg/tle-finitevolume) or a [thesis](https://github.com/rowanc1/phd-thesis).
+
+## Deployment
+
+To update the theme components on NPM:
+
+```bash
+npm run version
+npm run publish
+```
+
+To update the themes for use with the MyST CLI:
+
+```bash
+make deploy-book
+make deploy-article
+```
+
+This updates the git repository, and sometimes is a large diff and can cause git to hang, if that happens this command can help change the buffer size when sending the diff to GitHub:
+
+```bash
+git config --global http.postBuffer 157286400
+```

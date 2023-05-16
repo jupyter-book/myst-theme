@@ -36,7 +36,7 @@ export function HashLink({
   };
   return (
     <a
-      className={classNames('select-none no-underline', className, {
+      className={classNames('select-none no-underline text-inherit hover:text-inherit', className, {
         'transition-opacity opacity-0 group-hover:opacity-70': hover,
         'hover:underline': !hover,
       })}

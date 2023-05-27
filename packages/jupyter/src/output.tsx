@@ -33,31 +33,56 @@ export function allOutputsAreSafe(
   }, true);
 }
 
-export function Output(node: GenericNode) {
-  const exec = useNotebookCellExecution(node.key);
-  const outputs: MinifiedOutput[] = node.data;
+function JupyterOutput({
+  nodeKey,
+  nodeType,
+  identifier,
+  data,
+  align,
+}: {
+  nodeKey: string;
+  identifier?: string;
+  data: MinifiedOutput[];
+  nodeType?: string;
+  align?: 'left' | 'center' | 'right';
+}) {
+  const exec = useNotebookCellExecution(nodeKey);
+  const outputs: MinifiedOutput[] = data;
   const allSafe = allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES);
 
   let component;
   if (allSafe && !exec?.ready) {
-    component = <SafeOutputs keyStub={node.key} outputs={outputs} />;
+    component = <SafeOutputs keyStub={nodeKey} outputs={outputs} />;
   } else {
-    component = <JupyterOutputs id={node.key} outputs={outputs} />;
+    component = <JupyterOutputs id={nodeKey} outputs={outputs} />;
   }
 
   return (
     <figure
-      key={node.key}
-      id={node.identifier || undefined}
-      data-mdast-node-type={node.type}
-      data-mdast-node-id={node.key}
+      id={identifier || undefined}
+      data-mdast-node-type={nodeType}
+      data-mdast-node-id={nodeKey}
       className={classNames('max-w-full overflow-auto m-0 group not-prose relative', {
-        'text-left': !node.align || node.align === 'left',
-        'text-center': node.align === 'center',
-        'text-right': node.align === 'right',
+        'text-left': !align || align === 'left',
+        'text-center': align === 'center',
+        'text-right': align === 'right',
       })}
     >
       {component}
     </figure>
+  );
+}
+
+export function Output(node: GenericNode) {
+  // Note, NodeRenderer's can't have hooks in it directly!
+  return (
+    <JupyterOutput
+      key={node.key}
+      nodeKey={node.key}
+      nodeType={node.type}
+      identifier={node.identifier}
+      align={node.align}
+      data={node.data}
+    />
   );
 }

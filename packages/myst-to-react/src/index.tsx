@@ -20,6 +20,7 @@ import TAB_RENDERERS from './tabs';
 import EXT_RENDERERS from './extensions';
 import INLINE_EXPRESSION_RENDERERS from './inlineExpression';
 import PROOF_RENDERERS from './proof';
+import EXERCISE_RENDERERS from './exercise';
 
 export { CopyIcon } from './components/CopyIcon';
 export { CodeBlock } from './code';
@@ -47,6 +48,7 @@ export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...INLINE_EXPRESSION_RENDERERS,
   ...EXT_RENDERERS,
   ...PROOF_RENDERERS,
+  ...EXERCISE_RENDERERS,
 };
 
 export function useParse(

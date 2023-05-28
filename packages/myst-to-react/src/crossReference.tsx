@@ -117,6 +117,7 @@ export function CrossReferenceHover({
     e.preventDefault();
     const el = document.getElementById(htmlId);
     el?.scrollIntoView({ behavior: 'smooth' });
+    history.replaceState(undefined, '', `#${htmlId}`);
   };
   return (
     <HoverPopover

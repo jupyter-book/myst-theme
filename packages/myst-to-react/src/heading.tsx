@@ -33,6 +33,7 @@ export function HashLink({
     evt.preventDefault();
     const el = document.getElementById(id);
     el?.scrollIntoView({ behavior: 'smooth' });
+    history.replaceState(undefined, '', `#${id}`);
   };
   return (
     <a

@@ -58,6 +58,7 @@ const Headings = ({ headings, activeId, highlight }: Props) => (
             el.classList.add(HIGHLIGHT_CLASS);
             highlight?.();
             el.scrollIntoView({ behavior: 'smooth' });
+            history.replaceState(undefined, '', `#${heading.id}`);
           }}
           // Note that the title can have math in it!
           dangerouslySetInnerHTML={{ __html: heading.titleHTML }}

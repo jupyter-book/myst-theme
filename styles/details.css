@@ -13,6 +13,10 @@ details[open] > summary {
   /* Fake the animation */
   margin-bottom: 10px;
 }
+details .details-body {
+  /* Prevent margin collapse of children */
+  overflow: auto;
+}
 details[open] .details-body {
   /* But keep the placement */
   margin-top: -10px;

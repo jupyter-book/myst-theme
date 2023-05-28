@@ -239,7 +239,6 @@ export function GithubLink({
   issue_number?: string | number;
   to?: number;
 }) {
-  console.log(kind);
   return (
     <HoverPopover
       card={({ load }) => {

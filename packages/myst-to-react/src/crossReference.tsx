@@ -84,6 +84,14 @@ function XrefChildren({
   return <>{children}</>;
 }
 
+function openDetails(el: HTMLElement | null) {
+  if (!el) return;
+  if (el.nodeName === 'DETAILS') {
+    (el as HTMLDetailsElement).open = true;
+  }
+  openDetails(el.parentElement);
+}
+
 export function CrossReferenceHover({
   url,
   dataUrl,
@@ -116,6 +124,7 @@ export function CrossReferenceHover({
   const scroll: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
     e.preventDefault();
     const el = document.getElementById(htmlId);
+    openDetails(el);
     el?.scrollIntoView({ behavior: 'smooth' });
     history.replaceState(undefined, '', `#${htmlId}`);
   };

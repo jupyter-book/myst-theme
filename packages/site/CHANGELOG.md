@@ -1,5 +1,24 @@
 # @curvenote/site
 
+## 0.2.7
+
+### Patch Changes
+
+- c5aeda42: Replace the url with the current hash for cross references and document outlines
+- Updated dependencies [d759a2b1]
+- Updated dependencies [8003d1d1]
+- Updated dependencies [c5aeda42]
+- Updated dependencies [941b59cd]
+- Updated dependencies [3420bb75]
+- Updated dependencies [116cb0a0]
+- Updated dependencies [415180df]
+  - myst-to-react@0.2.7
+  - @myst-theme/jupyter@0.2.7
+  - @myst-theme/providers@0.2.7
+  - @myst-theme/frontmatter@0.2.7
+  - @myst-theme/diagrams@0.2.7
+  - myst-demo@0.2.7
+
 ## 0.2.6
 
 ### Patch Changes

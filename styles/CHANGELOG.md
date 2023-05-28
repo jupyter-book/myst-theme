@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.2.7
+
+### Patch Changes
+
+- 3d1daa78: Improve dropdown animation for margin-collapsed paragraphs
+
 ## 0.2.6
 
 ### Patch Changes

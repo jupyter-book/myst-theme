@@ -1,5 +1,12 @@
 # @myst-theme/jupyter
 
+## 0.2.7
+
+### Patch Changes
+
+- 941b59cd: Avoid hooks inside of node-renderers
+  - @myst-theme/providers@0.2.7
+
 ## 0.2.6
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # myst-to-react
 
+## 0.2.7
+
+### Patch Changes
+
+- d759a2b1: Remove log message from github code
+- 8003d1d1: Add sphinx exercise clone
+- c5aeda42: Replace the url with the current hash for cross references and document outlines
+- 3420bb75: Text color inherit for proof label
+- 116cb0a0: Fix math scrollbars
+- 415180df: Open details for local cross references
+  - @myst-theme/providers@0.2.7
+
 ## 0.2.6
 
 ### Patch Changes

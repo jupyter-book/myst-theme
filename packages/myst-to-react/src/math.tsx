@@ -55,7 +55,7 @@ const mathRenderer: NodeRenderer<MathLike> = (node) => {
       <div key={node.key} id={id} className="flex group my-5">
         <div
           dangerouslySetInnerHTML={{ __html: node.html }}
-          className="overflow-x-auto flex-grow"
+          className="overflow-x-auto overflow-y-hidden flex-grow"
         />
         {node.enumerator && (
           <div className="flex-none text-right m-0 pl-2 self-center relative select-none">

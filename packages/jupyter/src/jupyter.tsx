@@ -15,7 +15,10 @@ function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
   const exec = useNotebookCellExecution(id);
 
   useEffect(() => {
-    if (!ref?.el || !exec?.cell) return;
+    if (!ref?.el || !exec?.cell) {
+      console.debug(`No cell ref available for cell ${exec?.cell?.id}`);
+      return;
+    }
     console.debug(`Attaching cell ${exec.cell.id} to DOM at:`, {
       el: ref.el,
       connected: ref.el.isConnected,

@@ -1,6 +1,6 @@
 import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import type {
   Config,
   CoreOptions,
@@ -150,6 +150,8 @@ interface NotebookContextType {
   idkMap: IdKeyMap;
   register: (id: string) => (el: HTMLDivElement) => void;
   restart: () => Promise<void>;
+  loadNotebook: () => void;
+  resetNotebook: () => void;
   clear: () => void;
 }
 
@@ -183,16 +185,12 @@ export function NotebookProvider({
   const registry = useRef<CellRefRegistry>({});
   const idkMap = useRef<IdKeyMap>({});
 
-  useEffect(() => {
+  const loadNotebook = useCallback(() => {
     if (!core || !config) return;
-    registry.current = {};
-    idkMap.current = {};
     if (page.kind === SourceFileKind.Notebook) {
       const nb = notebookFromMdast(core, config, page.mdast as GenericParent, idkMap.current);
+      console.log('nb', { nb });
       setNotebook(nb);
-    } else {
-      // TODO will need do article relative notebook loading as appropriate once that is supported
-      setNotebook(undefined);
     }
   }, [core, config, page]);
 
@@ -225,12 +223,23 @@ export function NotebookProvider({
         idkMap: idkMap.current,
         register,
         restart: () => session?.restart() ?? Promise.resolve(),
+        loadNotebook,
+        resetNotebook: () => setNotebook(undefined),
         clear,
       }}
     >
       {children}
     </NotebookContext.Provider>
   );
+}
+
+export function useNotebookLoader() {
+  const notebookState = useContext(NotebookContext);
+  if (notebookState === undefined) return undefined;
+
+  const { ready, loadNotebook, resetNotebook } = notebookState;
+
+  return { ready, loadNotebook, resetNotebook };
 }
 
 export function useHasNotebookProvider() {

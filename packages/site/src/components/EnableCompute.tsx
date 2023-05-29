@@ -1,6 +1,10 @@
-import { useThebeCore, useThebeServer, useThebeSession } from 'thebe-react';
+import { useNotebook, useThebeCore, useThebeServer, useThebeSession } from 'thebe-react';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
-import { useHasNotebookProvider } from '@myst-theme/jupyter';
+import {
+  useHasNotebookProvider,
+  useNotebookExecution,
+  useNotebookLoader,
+} from '@myst-theme/jupyter';
 import { useNavigation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 
@@ -19,6 +23,7 @@ export function EnableCompute({
     error: sessionError,
   } = useThebeSession();
   const hasNotebookProvider = useHasNotebookProvider();
+  const loader = useNotebookLoader();
   const navigation = useNavigation();
   const [enabling, setEnabling] = useState(false);
   const [enabled, setEnabled] = useState(false);
@@ -29,11 +34,12 @@ export function EnableCompute({
     if (!core) return load();
     if (!serverReady) return connect();
     if (!sessionReady) start();
-    if (sessionReady) {
+    if (!loader?.ready) loader?.loadNotebook();
+    if (sessionReady && loader?.ready) {
       setEnabled(true);
       setEnabling(false);
     }
-  }, [enabling, core, serverReady, sessionReady]);
+  }, [enabling, core, serverReady, sessionReady, loader]);
 
   if (!canCompute || !hasNotebookProvider) return null;
   let classes = 'flex text-center mr-1 cursor-pointer rounded-full';
@@ -50,8 +56,9 @@ export function EnableCompute({
   useEffect(() => {
     if (navigation.state === 'loading') {
       shutdown();
+      loader?.resetNotebook();
     }
-  }, [shutdown, navigation]);
+  }, [shutdown, navigation, loader]);
 
   return (
     <div className="flex mx-1 items-center">

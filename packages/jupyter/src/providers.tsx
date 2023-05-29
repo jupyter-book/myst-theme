@@ -3,7 +3,6 @@ import { SourceFileKind } from 'myst-common';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import type {
   Config,
-  CoreOptions,
   IThebeCell,
   IThebeCellExecuteReturn,
   ThebeCore,
@@ -141,7 +140,6 @@ interface NotebookContextType {
 const NotebookContext = React.createContext<NotebookContextType | undefined>(undefined);
 
 export function NotebookProvider({
-  siteConfig,
   page,
   children,
 }: React.PropsWithChildren<{ siteConfig: boolean; page: PartialPage }>) {

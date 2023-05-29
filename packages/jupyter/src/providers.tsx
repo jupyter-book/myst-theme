@@ -65,7 +65,7 @@ function getThebeOptions(): CoreOptions {
 }
 
 export function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {
-  const thebe = getThebeOptions();
+  const thebe = React.useMemo(() => getThebeOptions(), []);
   return (
     <ThebeServerProvider connect={false} options={thebe}>
       {children}

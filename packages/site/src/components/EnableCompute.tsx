@@ -31,11 +31,11 @@ export function EnableCompute({
 
   useEffect(() => {
     if (!enabling) return;
-    if (!core) return load();
-    if (!serverReady) return connect();
-    if (!sessionReady) start();
-    if (!loader?.ready) loader?.loadNotebook();
-    if (sessionReady && loader?.ready) {
+    if (!core) load();
+    else if (!serverReady) connect();
+    else if (!sessionReady) start();
+    else if (!loader?.ready) loader?.loadNotebook();
+    else if (sessionReady && loader?.ready) {
       setEnabled(true);
       setEnabling(false);
     }

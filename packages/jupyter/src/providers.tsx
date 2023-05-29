@@ -6,68 +6,51 @@ import type {
   CoreOptions,
   IThebeCell,
   IThebeCellExecuteReturn,
-  RepoProvider,
   ThebeCore,
   ThebeNotebook,
 } from 'thebe-core';
 import type { IThebeNotebookError, NotebookExecuteOptions } from 'thebe-react';
 import { useNotebookBase, useThebeConfig, useThebeCore, ThebeServerProvider } from 'thebe-react';
 import type { Root } from 'mdast';
-import type { Thebe, ThebeServerOptions, ThebeLocalOptions } from 'myst-frontmatter';
-import { useComputeOptions } from '@myst-theme/providers';
+import { useSiteManifest } from '@myst-theme/providers';
+import { thebeFrontmatterToOptions } from './utils';
 
-function useThebeOptions(): CoreOptions {
-  const { thebe, binderUrl } = useComputeOptions();
-  const {
-    mathjaxUrl,
-    mathjaxConfig,
-    binder,
-    server,
-    kernelName,
-    sessionName,
-    disableSessionSaving,
-    local,
-  } = (thebe as Thebe | undefined) ?? {};
-  const output: CoreOptions = { mathjaxUrl, mathjaxConfig };
-  if (binder) {
-    const useBinder = binder === true ? {} : binder;
-    output.binderOptions = {
-      binderUrl: useBinder.url ?? binderUrl,
-      ref: useBinder.ref,
-      repo: useBinder.repo,
-      repoProvider: useBinder.provider as RepoProvider | undefined,
+export function useComputeOptions() {
+  const config = useSiteManifest();
+  const makeOptions = () => {
+    if (!config) return { canCompute: false };
+    // TODO there may be multiple projects?
+    // useProjectManifest?
+    const mainProject = config?.projects?.[0];
+    const thebeFrontmatter = mainProject?.thebe;
+    const githubBadgeUrl = mainProject?.github;
+    const binderBadgeUrl = mainProject?.binder;
+    const thebeOptions = thebeFrontmatterToOptions(
+      thebeFrontmatter,
+      githubBadgeUrl,
+      binderBadgeUrl,
+    );
+    console.debug('myst-theme:useComputeOptions:thebe', {
+      thebeFrontmatter,
+      githubBadgeUrl,
+      binderBadgeUrl,
+      thebeOptions,
+    });
+    return {
+      canCompute: thebeFrontmatter !== undefined && thebeFrontmatter !== false,
+      thebe: thebeOptions,
+      githubBadgeUrl,
+      binderBadgeUrl,
     };
-  }
-  const useServer = (local ?? server) as ThebeServerOptions | ThebeLocalOptions;
-  if (server) {
-    const splitUrl = useServer.url?.split('://');
-    const wsUrl = splitUrl?.length === 2 ? `ws://${splitUrl[1]}` : undefined;
-    output.serverSettings = {
-      baseUrl: useServer.url,
-      token: useServer.token,
-      wsUrl,
-      appendToken: true,
-    };
-  }
-  output.kernelOptions = {
-    kernelName: kernelName,
-    name: kernelName,
-    path: sessionName,
   };
-  if (!disableSessionSaving) {
-    output.savedSessionOptions = {
-      enabled: true,
-      maxAge: 38300,
-      storagePrefix: 'thebe',
-    };
-  }
-  return React.useMemo(() => output, []);
+
+  return React.useMemo(makeOptions, [config]);
 }
 
 export const ConfiguredThebeServerProvider = ({ children }: React.PropsWithChildren) => {
-  const thebe = useThebeOptions();
+  const { thebe } = useComputeOptions();
   return (
-    <ThebeServerProvider connect={false} options={thebe}>
+    <ThebeServerProvider connect={false} options={thebe} useBinder={thebe?.useBinder}>
       {children}
     </ThebeServerProvider>
   );

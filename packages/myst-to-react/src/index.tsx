@@ -21,6 +21,7 @@ import EXT_RENDERERS from './extensions';
 import INLINE_EXPRESSION_RENDERERS from './inlineExpression';
 import PROOF_RENDERERS from './proof';
 import EXERCISE_RENDERERS from './exercise';
+import UNKNOWN_MYST_RENDERERS from './unknown';
 
 export { CopyIcon } from './components/CopyIcon';
 export { CodeBlock } from './code';
@@ -30,6 +31,7 @@ export { TabSet, TabItem } from './tabs';
 
 export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...BASIC_RENDERERS,
+  ...UNKNOWN_MYST_RENDERERS,
   ...IMAGE_RENDERERS,
   ...LINK_RENDERERS,
   ...CODE_RENDERERS,

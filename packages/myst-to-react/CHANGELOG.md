@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.2.8
+
+### Patch Changes
+
+- bab1c8ca: Unknown directives
+- 194936be: Update citation to avoid bad hook pattern
+  - @myst-theme/providers@0.2.8
+
 ## 0.2.7
 
 ### Patch Changes

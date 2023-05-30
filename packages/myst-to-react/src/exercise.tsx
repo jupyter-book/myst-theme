@@ -77,12 +77,14 @@ export function Callout({
   dropdown,
   children,
   identifier,
+  Icon,
 }: {
   title?: React.ReactNode;
   color?: Color;
   children: React.ReactNode;
   dropdown?: boolean;
   identifier?: string;
+  Icon?: (props: { className?: string }) => JSX.Element;
 }) {
   return (
     <WrapperElement
@@ -121,10 +123,26 @@ export function Callout({
           },
         )}
       >
+        {Icon && (
+          <Icon
+            className={classNames(
+              'h-8 w-8 inline-block pl-2 mr-2 self-center flex-none',
+              classNames({
+                'text-gray-600': !color || color === 'gray',
+                'text-blue-600': color === 'blue',
+                'text-green-600': color === 'green',
+                'text-amber-600': color === 'yellow',
+                'text-orange-600': color === 'orange',
+                'text-red-600': color === 'red',
+                'text-purple-600': color === 'purple',
+              }),
+            )}
+          />
+        )}
         <div
           className={classNames(
             'text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
-            'ml-4', // No icon!
+            { 'ml-4': !Icon }, // No icon!
             'group', // For nested cross-reference links
           )}
         >

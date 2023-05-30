@@ -28,15 +28,26 @@ export const CiteGroup: NodeRenderer = (node, children) => {
   );
 };
 
-export const Cite: NodeRenderer = (node, children) => {
+export const Cite = ({
+  label,
+  error,
+  children,
+}: {
+  label?: string;
+  error?: boolean;
+  children: React.ReactNode;
+}) => {
   const references = useReferences();
-  const { html, doi: doiString } = references?.cite?.data[node.label] ?? {};
-  if (node.error) {
-    return <InlineError key={node.key} value={node.label} message={'Citation Not Found'} />;
+  if (!label) {
+    return <InlineError value="cite (no label)" message={'Citation Has No Label'} />;
+  }
+  const { html, doi: doiString } = references?.cite?.data[label] ?? {};
+  if (error) {
+    return <InlineError value={label} message={'Citation Not Found'} />;
   }
   const doiUrl = doiString ? doi.buildUrl(doiString as string) : null;
   return (
-    <HoverPopover key={node.key} openDelay={300} card={<CiteChild html={html} />}>
+    <HoverPopover openDelay={300} card={<CiteChild html={html} />}>
       <cite className="hover-link">
         {doiUrl && (
           <a href={doiUrl} target="_blank" rel="noreferrer" className="hover-link">
@@ -49,9 +60,17 @@ export const Cite: NodeRenderer = (node, children) => {
   );
 };
 
+export const CiteRenderer: NodeRenderer = (node, children) => {
+  return (
+    <Cite key={node.key} label={node.label} error={node.error}>
+      {children}
+    </Cite>
+  );
+};
+
 const CITE_RENDERERS: Record<string, NodeRenderer> = {
   citeGroup: CiteGroup,
-  cite: Cite,
+  cite: CiteRenderer,
 };
 
 export default CITE_RENDERERS;

@@ -31,19 +31,26 @@ export function EnableCompute({
   const navigation = useNavigation();
   const [enabling, setEnabling] = useState(false);
   const [enabled, setEnabled] = useState(false);
+  const [loadingNotebook, setLoadingNotebook] = useState(false);
   const busy = enabling || loading || connecting || starting;
 
   useEffect(() => {
     if (!enabling) return;
+    console.log('enabling', loader);
     if (!core) load();
-    else if (!serverReady) connect();
-    else if (!sessionReady) start();
-    else if (!loader?.ready) loader?.loadNotebook();
-    else if (sessionReady && loader?.ready) {
-      setEnabled(true);
-      setEnabling(false);
+    else if (!loadingNotebook) {
+      setLoadingNotebook(true);
+      console.log('loading notebook');
+      loader?.loadNotebook();
+    } else {
+      if (!serverReady) connect();
+      else if (!sessionReady) start();
+      else if (sessionReady && loader?.ready) {
+        setEnabled(true);
+        setEnabling(false);
+      }
     }
-  }, [enabling, core, serverReady, sessionReady, loader]);
+  }, [enabling, core, serverReady, sessionReady, loader, loadingNotebook]);
 
   if (!canCompute || !hasNotebookProvider) return null;
   let classes = 'flex text-center mr-1 cursor-pointer rounded-full';
@@ -65,7 +72,7 @@ export function EnableCompute({
   }, [shutdown, navigation, loader]);
 
   return (
-    <div className="flex mx-1 items-center">
+    <div className="flex mx-1 items-center mb-2">
       {thebe?.useJupyterLite && (
         <span className={enabling || connecting || starting || executing ? 'animate-pulse' : ''}>
           <LiteLogo />

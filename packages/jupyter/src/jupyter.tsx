@@ -8,6 +8,7 @@ import { useThebeCore } from 'thebe-react';
 import { useCellRefRegistry, useNotebookCellExecution } from './providers';
 import { SourceFileKind } from 'myst-common';
 import { ActiveOutputRenderer, PassiveOutputRenderer } from './renderers';
+import { useXRefState } from '@myst-theme/providers';
 
 export const JupyterOutputs = ({ id, outputs }: { id: string; outputs: MinifiedOutput[] }) => {
   const { core, load } = useThebeCore();

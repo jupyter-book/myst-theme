@@ -29,12 +29,6 @@ export function useComputeOptions() {
       githubBadgeUrl,
       binderBadgeUrl,
     );
-    console.debug('myst-theme:useComputeOptions:thebe', {
-      thebeFrontmatter,
-      githubBadgeUrl,
-      binderBadgeUrl,
-      thebeOptions,
-    });
     return {
       canCompute: thebeFrontmatter !== undefined && thebeFrontmatter !== false,
       thebe: thebeOptions,
@@ -171,22 +165,28 @@ export function NotebookProvider({
   const registry = useRef<CellRefRegistry>({});
   const idkMap = useRef<IdKeyMap>({});
 
-  const loadNotebook = useCallback(() => {
+  const loadNotebook = () => {
     if (!core || !config) return;
     if (page.kind === SourceFileKind.Notebook) {
       const nb = notebookFromMdast(core, config, page.mdast as GenericParent, idkMap.current);
-      console.log('nb', { nb });
       setNotebook(nb);
+      console.debug('myst-theme:setNotebook', nb);
     }
-  }, [core, config, page]);
+  };
 
   function register(id: string) {
     return (el: HTMLDivElement) => {
       if (el != null && registry.current[idkMap.current[id]] !== el) {
         if (!el.isConnected) {
-          console.debug(`skipping ref for cell ${id} as host is not connected`);
+          console.debug(`'myst-theme: skipping ref for cell ${id} as host is not connected`);
         } else {
-          console.debug(`new ref for cell ${id} registered`);
+          console.debug(
+            `'myst-theme: new ref for cell ${id} registered ${JSON.stringify(
+              idkMap.current,
+              null,
+              2,
+            )}`,
+          );
           registry.current[idkMap.current[id]] = el;
         }
       }

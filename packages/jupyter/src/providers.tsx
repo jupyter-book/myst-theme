@@ -3,13 +3,20 @@ import { SourceFileKind } from 'myst-common';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import type {
   Config,
+  IRenderMimeRegistry,
   IThebeCell,
   IThebeCellExecuteReturn,
   ThebeCore,
   ThebeNotebook,
 } from 'thebe-core';
 import type { IThebeNotebookError, NotebookExecuteOptions } from 'thebe-react';
-import { useNotebookBase, useThebeConfig, useThebeCore, ThebeServerProvider } from 'thebe-react';
+import {
+  useRenderMimeRegistry,
+  useNotebookBase,
+  useThebeConfig,
+  useThebeCore,
+  ThebeServerProvider,
+} from 'thebe-react';
 import type { Root } from 'mdast';
 import { useSiteManifest } from '@myst-theme/providers';
 import { thebeFrontmatterToOptions } from './utils';
@@ -67,8 +74,8 @@ export function notebookFromMdast(
   config: Config,
   mdast: GenericParent,
   idkMap: Record<string, string>,
+  rendermime: IRenderMimeRegistry,
 ) {
-  const rendermime = undefined; // share rendermime beyond notebook scope?
   const notebook = new core.ThebeNotebook(mdast.key, config, rendermime);
 
   // no metadata included in mdast yet
@@ -147,6 +154,7 @@ export function NotebookProvider({
   // can be used to execute notebook pages or blocks in articles
   const { core } = useThebeCore();
   const { config } = useThebeConfig();
+  const rendermime = useRenderMimeRegistry();
 
   const {
     ready,
@@ -168,7 +176,13 @@ export function NotebookProvider({
   const loadNotebook = () => {
     if (!core || !config) return;
     if (page.kind === SourceFileKind.Notebook) {
-      const nb = notebookFromMdast(core, config, page.mdast as GenericParent, idkMap.current);
+      const nb = notebookFromMdast(
+        core,
+        config,
+        page.mdast as GenericParent,
+        idkMap.current,
+        rendermime,
+      );
       setNotebook(nb);
       console.debug('myst-theme:setNotebook', nb);
     }

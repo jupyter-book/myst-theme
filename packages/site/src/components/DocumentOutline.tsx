@@ -1,9 +1,9 @@
 import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-const SELECTOR = [1, 2, 3, 4, 5, 6].map((n) => `main h${n}`).join(', ');
+const SELECTOR = [1, 2, 3, 4].map((n) => `main h${n}`).join(', ');
 const HIGHLIGHT_CLASS = 'highlight';
 
 const onClient = typeof document !== 'undefined';
@@ -14,8 +14,10 @@ type Heading = {
   titleHTML: string;
   level: number;
 };
+
 type Props = {
   headings: Heading[];
+  selector: string;
   activeId?: string;
   highlight?: () => void;
 };
@@ -23,7 +25,7 @@ type Props = {
  * This renders an item in the table of contents list.
  * scrollIntoView is used to ensure that when a user clicks on an item, it will smoothly scroll.
  */
-const Headings = ({ headings, activeId, highlight }: Props) => (
+const Headings = ({ headings, activeId, highlight, selector }: Props) => (
   <ul className="text-slate-400 text-sm leading-6">
     {headings.map((heading) => (
       <li
@@ -36,11 +38,11 @@ const Headings = ({ headings, activeId, highlight }: Props) => (
         })}
       >
         <a
-          className={classNames('block p-1 pl-2', {
+          className={classNames('block p-1', {
             'text-slate-900 dark:text-slate-50': heading.level < 3 && heading.id !== activeId,
             'text-slate-500 dark:text-slate-300': heading.level >= 3 && heading.id !== activeId,
             'text-blue-600 dark:text-white font-bold': heading.id === activeId,
-            'pr-2': heading.id !== activeId,
+            'pr-2': heading.id !== activeId, // Allows for bold to change length
             'pl-2': heading.level === 2,
             'pl-4': heading.level === 3,
             'pl-8 text-xs': heading.level === 4,
@@ -52,7 +54,7 @@ const Headings = ({ headings, activeId, highlight }: Props) => (
             e.preventDefault();
             const el = document.querySelector(`#${heading.id}`);
             if (!el) return;
-            getHeaders().forEach((h) => {
+            getHeaders(selector).forEach((h) => {
               h.classList.remove(HIGHLIGHT_CLASS);
             });
             el.classList.add(HIGHLIGHT_CLASS);
@@ -68,15 +70,15 @@ const Headings = ({ headings, activeId, highlight }: Props) => (
   </ul>
 );
 
-function getHeaders(): HTMLHeadingElement[] {
-  const headers = Array.from(document.querySelectorAll(SELECTOR)).filter((e) => {
+function getHeaders(selector: string): HTMLHeadingElement[] {
+  const headers = Array.from(document.querySelectorAll(selector)).filter((e) => {
     const parent = e.closest('.exclude-from-outline');
     return !(e.classList.contains('title') || parent);
   });
   return headers as HTMLHeadingElement[];
 }
 
-function useHeaders() {
+function useHeaders(selector: string) {
   if (!onClient) return { activeId: '', headings: [] };
   const onScreen = useRef<Set<HTMLHeadingElement>>(new Set());
   const [activeId, setActiveId] = useState<string>();
@@ -96,7 +98,7 @@ function useHeaders() {
   const { observer } = useIntersectionObserver(highlight, onScreen.current);
   const [elements, setElements] = useState<HTMLHeadingElement[]>([]);
 
-  const render = throttle(() => setElements(getHeaders()), 500);
+  const render = throttle(() => setElements(getHeaders(selector)), 500);
   useEffect(() => {
     // We have to look at the document changes for reloads/mutations
     const main = document.querySelector('main');
@@ -185,13 +187,15 @@ export const DocumentOutline = ({
   outlineRef,
   top,
   className = DOC_OUTLINE_CLASS,
+  selector = SELECTOR,
 }: {
   outlineRef?: React.RefObject<HTMLElement>;
   top?: number;
   height?: number;
   className?: string;
+  selector?: string;
 }) => {
-  const { activeId, headings, highlight } = useHeaders();
+  const { activeId, headings, highlight } = useHeaders(selector);
   if (headings.length <= 1 || !onClient) {
     return <nav suppressHydrationWarning style={{ display: 'none' }} />;
   }
@@ -212,7 +216,7 @@ export const DocumentOutline = ({
       <div className="text-slate-900 mb-4 text-sm leading-6 dark:text-slate-100 uppercase">
         In this article
       </div>
-      <Headings headings={headings} activeId={activeId} highlight={highlight} />
+      <Headings headings={headings} activeId={activeId} highlight={highlight} selector={selector} />
     </nav>
   );
 };

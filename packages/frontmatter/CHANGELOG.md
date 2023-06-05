@@ -1,5 +1,12 @@
 # @myst-theme/frontmatter
 
+## 0.2.9
+
+### Patch Changes
+
+- 58ef28ff: Allow frontmatter block to have a className
+- 58ef28ff: Update spacing for footer and sub-article grids
+
 ## 0.2.8
 
 ## 0.2.7

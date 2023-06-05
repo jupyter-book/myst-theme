@@ -1,5 +1,21 @@
 # @curvenote/site
 
+## 0.2.9
+
+### Patch Changes
+
+- 64d16438: Allow document outline to have override for selectors
+- 58ef28ff: Update spacing for footer and sub-article grids
+- 64d16438: Document outline only picks H1-H4
+- Updated dependencies [58ef28ff]
+- Updated dependencies [58ef28ff]
+  - @myst-theme/frontmatter@0.2.9
+  - @myst-theme/providers@0.2.9
+  - @myst-theme/diagrams@0.2.9
+  - @myst-theme/jupyter@0.2.9
+  - myst-to-react@0.2.9
+  - myst-demo@0.2.9
+
 ## 0.2.8
 
 ### Patch Changes

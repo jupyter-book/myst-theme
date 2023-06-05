@@ -32,7 +32,7 @@ const FooterLink = ({ title, url, group, right }: NavigationLink & { right?: boo
 export function FooterLinksBlock({ links }: { links?: FooterLinks }) {
   if (!links) return null;
   return (
-    <div className="flex space-x-4 my-10">
+    <div className="flex space-x-4 pt-10 mb-10">
       {links.navigation?.prev && <FooterLink {...links.navigation?.prev} right />}
       {links.navigation?.next && <FooterLink {...links.navigation?.next} />}
     </div>

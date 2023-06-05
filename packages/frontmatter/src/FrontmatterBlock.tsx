@@ -273,20 +273,40 @@ export function FrontmatterBlock({
   frontmatter,
   kind = SourceFileKind.Article,
   authorStyle = 'block',
+  className,
 }: {
   frontmatter: PageFrontmatter;
   kind?: SourceFileKind;
   authorStyle?: 'block' | 'list';
+  className?: string;
 }) {
   if (!frontmatter) return null;
-  const { subject, doi, open_access, license, github, venue, biblio, exports, date } = frontmatter;
+  const {
+    title,
+    subtitle,
+    subject,
+    doi,
+    open_access,
+    license,
+    github,
+    venue,
+    biblio,
+    exports,
+    date,
+    authors,
+  } = frontmatter;
   const isJupyter = kind === SourceFileKind.Notebook;
   const hasExports = exports && exports.length > 0;
+  const hasAuthors = authors && authors.length > 0;
   const hasHeaders =
     subject || github || venue || biblio || open_access || license || hasExports || isJupyter;
   const hasDateOrDoi = doi || date;
+  if (!title && !subtitle && !hasHeaders && !hasAuthors && !hasDateOrDoi) {
+    // Nothing to show!
+    return null;
+  }
   return (
-    <div className="mb-8">
+    <div className={classNames('mb-8', className)}>
       {hasHeaders && (
         <div className="flex mt-3 mb-5 text-sm font-light items-center h-6">
           {subject && (
@@ -311,12 +331,12 @@ export function FrontmatterBlock({
           <DownloadsDropdown exports={exports as any} />
         </div>
       )}
-      {frontmatter.title && <h1 className="mb-0">{frontmatter.title}</h1>}
-      {frontmatter.subtitle && (
-        <p className="lead mt-2 mb-0 text-zinc-600 dark:text-zinc-400">{frontmatter.subtitle}</p>
+      {title && <h1 className="mb-0">{title}</h1>}
+      {subtitle && <p className="lead mt-2 mb-0 text-zinc-600 dark:text-zinc-400">{subtitle}</p>}
+      {hasAuthors && authorStyle === 'list' && <AuthorsList authors={frontmatter.authors} />}
+      {hasAuthors && authorStyle === 'block' && (
+        <AuthorAndAffiliations authors={frontmatter.authors} />
       )}
-      {authorStyle === 'list' && <AuthorsList authors={frontmatter.authors} />}
-      {authorStyle === 'block' && <AuthorAndAffiliations authors={frontmatter.authors} />}
       {hasDateOrDoi && (
         <div className="flex mt-2 text-sm font-light">
           <DateString date={date} spacer={!!doi} />

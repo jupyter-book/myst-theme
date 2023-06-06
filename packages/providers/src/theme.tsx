@@ -23,7 +23,8 @@ export type NavLinkProps = Omit<LinkProps, 'className'> & {
 export type Link = (props: LinkProps) => JSX.Element;
 export type NavLink = (props: NavLinkProps) => JSX.Element;
 
-function HtmlLink({ to, className, children, ...props }: LinkProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function HtmlLink({ to, className, children, prefetch, ...props }: LinkProps) {
   return (
     <a href={to} className={className} {...props}>
       {children}
@@ -31,7 +32,8 @@ function HtmlLink({ to, className, children, ...props }: LinkProps) {
   );
 }
 
-function HtmlNavLink({ to, className, children, ...props }: NavLinkProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function HtmlNavLink({ to, className, children, prefetch, ...props }: NavLinkProps) {
   const staticClass = typeof className === 'function' ? className({ isActive: false }) : className;
   return (
     <a href={to} className={staticClass} {...props}>

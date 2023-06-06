@@ -16,14 +16,13 @@
     "build:types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist/types",
     "build": "npm-run-all -l clean -p build:cjs build:types"
   },
-  "dependencies": {
-    "myst-common": "^0.0.16",
-    "myst-config": "^0.0.14",
-    "myst-frontmatter": "^0.0.13"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
+    "myst-common": "^0.0.16",
+    "myst-config": "^0.0.14",
+    "myst-frontmatter": "^0.0.13",
     "react": "^16.8 || ^17.0 || ^18.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0"
   },

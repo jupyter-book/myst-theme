@@ -25,6 +25,7 @@ export type NavigationLink = {
   group?: string;
   title: string;
   url: string;
+  short_title?: string;
 };
 
 export type FooterLinks = {

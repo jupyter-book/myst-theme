@@ -4,7 +4,13 @@ import ArrowRightIcon from '@heroicons/react/24/outline/ArrowRightIcon';
 import type { FooterLinks, NavigationLink } from '../types';
 import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
 
-const FooterLink = ({ title, url, group, right }: NavigationLink & { right?: boolean }) => {
+const FooterLink = ({
+  title,
+  short_title,
+  url,
+  group,
+  right,
+}: NavigationLink & { right?: boolean }) => {
   const baseurl = useBaseurl();
   const Link = useLinkProvider();
   return (
@@ -19,7 +25,7 @@ const FooterLink = ({ title, url, group, right }: NavigationLink & { right?: boo
         )}
         <div className={classNames('flex-grow', { 'text-right': right })}>
           <div className="text-xs text-gray-500 dark:text-gray-400">{group || ' '}</div>
-          {title}
+          {short_title || title}
         </div>
         {!right && (
           <ArrowRightIcon className="w-6 h-6 self-center transition-transform group-hover:translate-x-1" />

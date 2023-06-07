@@ -32,6 +32,7 @@ export function getProjectHeadings(
   const headings: Heading[] = [
     {
       title: project.title,
+      short_title: project.short_title,
       slug: project.index,
       path: project.slug ? `/${project.slug}` : '/',
       level: 'index',
@@ -42,10 +43,10 @@ export function getProjectHeadings(
     }),
   ];
   if (opts.addGroups) {
-    let lastTitle = project.title;
+    let lastTitle = project.short_title || project.title;
     return headings.map((heading) => {
       if (!heading.slug || heading.level === 'index') {
-        lastTitle = heading.title;
+        lastTitle = heading.short_title || heading.title;
       }
       return { ...heading, group: lastTitle };
     });
@@ -60,6 +61,7 @@ function getHeadingLink(currentSlug: string, headings?: Heading[]): NavigationLi
   if (!link?.path) return undefined;
   return {
     title: link.title,
+    short_title: link.short_title,
     url: link.path,
     group: link.group,
   };

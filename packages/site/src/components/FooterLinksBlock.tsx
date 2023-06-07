@@ -15,14 +15,14 @@ const FooterLink = ({ title, url, group, right }: NavigationLink & { right?: boo
     >
       <div className="flex align-middle h-full">
         {right && (
-          <ArrowLeftIcon className="w-6 h-6 self-center transition-transform group-hover:-translate-x-1" />
+          <ArrowLeftIcon className="w-6 h-6 self-center transition-transform group-hover:-translate-x-1 shrink-0" />
         )}
         <div className={classNames('flex-grow', { 'text-right': right })}>
           <div className="text-xs text-gray-500 dark:text-gray-400">{group || ' '}</div>
           {title}
         </div>
         {!right && (
-          <ArrowRightIcon className="w-6 h-6 self-center transition-transform group-hover:translate-x-1" />
+          <ArrowRightIcon className="w-6 h-6 self-center transition-transform group-hover:translate-x-1 shrink-0" />
         )}
       </div>
     </Link>

@@ -10,7 +10,7 @@ interface RemoteXRefState {
 const XRefContext = createContext<RemoteXRefState | undefined>(undefined);
 
 export function useXRefState(): RemoteXRefState {
-  const state = useContext(XRefContext) ?? { inCrossRef: false, remote: false, url: undefined };
+  const state = useContext(XRefContext) ?? { inCrossRef: false, remote: false };
   return state;
 }
 

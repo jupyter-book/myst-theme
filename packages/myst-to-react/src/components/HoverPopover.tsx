@@ -26,7 +26,7 @@ export function HoverPopover({
           sideOffset={5}
           side={side}
         >
-          {typeof card === 'function' ? card({ load }) : card}
+          {typeof card === 'function' ? load && card({ load }) : card}
           <HoverCard.Arrow className={arrowClass} />
         </HoverCard.Content>
       </HoverCard.Portal>

@@ -1,6 +1,5 @@
 import { selectAll } from 'unist-util-select';
 import { EXIT, SKIP, visit } from 'unist-util-visit';
-import type { Root } from 'mdast';
 import type { CrossReference } from 'myst-spec';
 import {
   useLinkProvider,
@@ -9,41 +8,78 @@ import {
   useBaseurl,
   withBaseurl,
   XRefProvider,
+  useXRefState,
 } from '@myst-theme/providers';
-import type { GenericNode } from 'myst-common';
+import type { GenericNode, GenericParent } from 'myst-common';
 import { useParse } from '.';
 import { InlineError } from './inlineError';
 import type { NodeRenderer } from '@myst-theme/providers';
 import useSWR from 'swr';
 import { HoverPopover } from './components/HoverPopover';
 
-const MAX_NODES = 3; // Max nodes to show after a header
+// Max nodes to show after a header
 
-function selectMdastNodes(mdast: Root, identifier: string) {
-  const identifiers = selectAll(`[identifier=${identifier}],[key=${identifier}]`, mdast);
-  const container = identifiers.filter(({ type }) => type === 'container' || type === 'math')[0];
-  const nodes = container ? [container] : [];
-  if (nodes.length === 0 && identifiers.length > 0 && mdast) {
-    let begin = false;
-    visit(mdast, (node) => {
-      if ((begin && node.type === 'heading') || nodes.length >= MAX_NODES) {
-        return EXIT;
-      }
-      if ((node as any).identifier === identifier && node.type === 'heading') begin = true;
-      if (begin) {
-        nodes.push(node);
-        return SKIP; // Don't traverse the children
-      }
-    });
+function selectHeadingNodes(mdast: GenericParent, identifier: string, maxNodes = 3) {
+  let begin = false;
+  let htmlId: string | undefined = undefined;
+  const nodes: GenericNode[] = [];
+  visit(mdast, (node) => {
+    if ((begin && node.type === 'heading') || nodes.length >= maxNodes) {
+      return EXIT;
+    }
+    if (node.identifier === identifier && node.type === 'heading') {
+      begin = true;
+      htmlId = node.html_id || node.identifier;
+    }
+    if (begin) {
+      nodes.push(node);
+      return SKIP; // Don't traverse the children
+    }
+  });
+  return { htmlId, nodes };
+}
+
+function selectDefinitionTerm(mdast: GenericParent, identifier: string) {
+  let begin = false;
+  const nodes: GenericNode[] = [];
+  visit(mdast, (node) => {
+    if (begin && node.type === 'definitionTerm') {
+      if (nodes.length > 1) return EXIT;
+    } else if (begin && node.type !== 'definitionDescription') {
+      return EXIT;
+    }
+    if (node.identifier === identifier && node.type === 'definitionTerm') {
+      nodes.push(node);
+      begin = true;
+    }
+    if (begin) {
+      if (node.type === 'definitionDescription') nodes.push(node);
+      return SKIP; // Don't traverse the children
+    }
+  });
+  return {
+    htmlId: nodes?.[0]?.html_id || nodes?.[0]?.identifier,
+    nodes: [{ type: 'definitionList', key: 'dl', children: nodes }],
+  };
+}
+
+function selectMdastNodes(
+  mdast: GenericParent,
+  identifier: string,
+): { htmlId?: string; nodes: GenericNode[] } {
+  // Select the first identifier that is not a crossReference or citation
+  const node = selectAll(`[identifier=${identifier}],[key=${identifier}]`, mdast).filter(
+    ({ type }) => type !== 'crossReference' && type !== 'cite',
+  )[0] as GenericNode | undefined;
+  if (!node) return { nodes: [] };
+  switch (node.type) {
+    case 'heading':
+      return selectHeadingNodes(mdast, identifier);
+    case 'definitionTerm':
+      return selectDefinitionTerm(mdast, identifier);
+    default:
+      return { htmlId: node.html_id || node.identifier, nodes: [node] };
   }
-  if (nodes.length === 0 && identifiers.length > 0) {
-    // If we haven't found anything, push the first identifier that isn't a cite or crossReference
-    const resolved = identifiers.filter(
-      (node) => node.type !== 'crossReference' && node.type !== 'cite',
-    )[0];
-    nodes.push(resolved ?? identifiers[0]);
-  }
-  return nodes;
 }
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
@@ -55,26 +91,30 @@ const fetcher = (...args: Parameters<typeof fetch>) =>
 // This is a small component that must be distinct based on the nodes
 // This is because the useParse can have different numbers of hooks, which breaks things
 function XrefChildren({
-  nodes,
-  loading,
-  error,
+  load,
+  remote,
+  url,
+  dataUrl,
   identifier,
 }: {
-  nodes: GenericNode[];
-  loading?: boolean;
-  error?: boolean;
-  identifier?: string;
+  load?: boolean;
+  remote?: boolean;
+  url?: string;
+  dataUrl?: string;
+  identifier: string;
 }) {
+  const data = useSelectNodes({ load, remote, url, dataUrl, identifier });
   const renderers = useNodeRenderers();
-  const children = useParse({ type: 'block', children: nodes }, renderers);
+  const children = useParse({ type: 'block', children: data?.nodes ?? [] }, renderers);
 
-  if (loading) {
+  if (!data) return null;
+  if (data.loading) {
     return <>Loading...</>;
   }
-  if (error) {
+  if (data.error) {
     return <>Error loading remote page.</>;
   }
-  if (!nodes || nodes.length === 0) {
+  if (!data.nodes || data.nodes.length === 0) {
     return (
       <>
         <InlineError value={identifier || 'No Label'} message="Cross Reference Not Found" />
@@ -92,23 +132,24 @@ function openDetails(el: HTMLElement | null) {
   openDetails(el.parentElement);
 }
 
-export function CrossReferenceHover({
+function useSelectNodes({
+  load,
+  remote,
   url,
   dataUrl,
-  remote,
-  children,
   identifier,
 }: {
+  load?: boolean;
   remote?: boolean;
   url?: string;
   dataUrl?: string;
   identifier: string;
-  children: React.ReactNode;
 }) {
-  const Link = useLinkProvider();
   const baseurl = useBaseurl();
+  const references = useReferences();
   // dataUrl should point directly to the cross reference mdast data.
   // If dataUrl is not provided, it will be computed by appending .json to the url.
+  if (!load) return;
   const external = url?.startsWith('http') ?? false;
   const lookupUrl = external
     ? `/api/lookup?url=${url}.json`
@@ -116,13 +157,36 @@ export function CrossReferenceHover({
     ? `${withBaseurl(dataUrl, baseurl)}`
     : `${withBaseurl(url, baseurl)}.json`;
   const { data, error } = useSWR(remote ? lookupUrl : null, fetcher);
-  const references = useReferences();
   const mdast = data?.mdast ?? references?.article;
-  const nodes = selectMdastNodes(mdast, identifier);
-  const htmlId = (nodes[0] as any)?.html_id || (nodes[0] as any)?.identifier;
-  const link = `${url}${htmlId ? `#${htmlId}` : ''}`;
+  const { nodes, htmlId } = selectMdastNodes(mdast, identifier);
+  return { htmlId, nodes, loading: remote && !data, error: remote && error };
+}
+
+export function CrossReferenceHover({
+  url: urlIn,
+  dataUrl: dataUrlIn,
+  remote: remoteIn,
+  children,
+  identifier,
+  htmlId = '',
+}: {
+  remote?: boolean;
+  url?: string;
+  dataUrl?: string;
+  identifier: string;
+  htmlId?: string;
+  children: React.ReactNode;
+}) {
+  const Link = useLinkProvider();
+  const baseurl = useBaseurl();
+  const parent = useXRefState();
+  const remote = parent.remote || remoteIn;
+  const url = parent.remote ? urlIn ?? parent.url : urlIn;
+  const dataUrl = parent.remote ? dataUrlIn ?? parent.dataUrl : dataUrlIn;
+  const external = url?.startsWith('http') ?? false;
   const scroll: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
     e.preventDefault();
+    if (!htmlId) return;
     const el = document.getElementById(htmlId);
     openDetails(el);
     el?.scrollIntoView({ behavior: 'smooth' });
@@ -130,28 +194,29 @@ export function CrossReferenceHover({
   };
   return (
     <HoverPopover
-      card={
+      card={({ load }) => (
         <XRefProvider remote={remote} url={url} dataUrl={dataUrl}>
           <div className="hover-document w-[500px] sm:max-w-[500px] px-3">
             <XrefChildren
-              nodes={nodes}
-              loading={remote && !data}
-              error={remote && error}
+              load={load}
+              remote={remote}
+              url={url}
+              dataUrl={dataUrl}
               identifier={identifier}
             />
           </div>
         </XRefProvider>
-      }
+      )}
     >
       <span>
         {remote && external && (
-          <a href={link} target="_blank" className="hover-link">
+          <a href={`${url}${htmlId ? `#${htmlId}` : ''}`} target="_blank" className="hover-link">
             {children}
           </a>
         )}
         {remote && !external && (
           <Link
-            to={`${withBaseurl(url, baseurl)}#${htmlId}`}
+            to={`${withBaseurl(url, baseurl)}${htmlId ? `#${htmlId}` : ''}`}
             prefetch="intent"
             className="hover-link"
           >
@@ -178,11 +243,12 @@ export const CrossReferenceNode: NodeRenderer<CrossReference> = (node, children)
       />
     );
   }
-  const { remote, url, dataUrl, identifier } = node as any;
+  const { remote, url, dataUrl, identifier, html_id } = node as any;
   return (
     <CrossReferenceHover
       key={node.key}
       identifier={identifier}
+      htmlId={html_id}
       remote={remote}
       url={url}
       dataUrl={dataUrl}

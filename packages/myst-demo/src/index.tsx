@@ -1,9 +1,9 @@
 import { VFile } from 'vfile';
 import type { LatexResult } from 'myst-to-tex'; // Only import the type!!
-import type { JatsResult } from 'myst-to-jats'; // Only import the type!!
 import type { VFileMessage } from 'vfile-message';
 import yaml from 'js-yaml';
 import type { References } from 'myst-common';
+import { SourceFileKind } from 'myst-common';
 import type { DocxResult } from 'myst-to-docx';
 import { validatePageFrontmatter } from 'myst-frontmatter';
 import type { PageFrontmatter } from 'myst-frontmatter';
@@ -64,6 +64,9 @@ async function parse(
     linksPlugin,
     ReferenceState,
     getFrontmatter,
+    abbreviationPlugin,
+    glossaryPlugin,
+    joinGatesPlugin,
   } = await import('myst-transforms');
   const { default: mystToTex } = await import('myst-to-tex');
   const { default: mystToJats } = await import('myst-to-jats').catch(() => ({ default: null }));
@@ -71,10 +74,18 @@ async function parse(
   const { cardDirective } = await import('myst-ext-card');
   const { gridDirective } = await import('myst-ext-grid');
   const { tabDirectives } = await import('myst-ext-tabs');
+  const { proofDirective } = await import('myst-ext-proof');
+  const { exerciseDirectives } = await import('myst-ext-exercise');
   const file = new VFile();
   const mdast = mystParse(text, {
     markdownit: { linkify: true },
-    directives: [cardDirective, gridDirective, ...tabDirectives],
+    directives: [
+      cardDirective,
+      gridDirective,
+      ...tabDirectives,
+      proofDirective,
+      ...exerciseDirectives,
+    ],
     // roles: [reactiveRole],
     vfile: file,
   });
@@ -110,9 +121,12 @@ async function parse(
   unified()
     .use(basicTransformationsPlugin)
     .use(mathPlugin, { macros: frontmatter?.math ?? {} }) // This must happen before enumeration, as it can add labels
+    .use(glossaryPlugin, { state }) // This should be before the enumerate plugins
+    .use(abbreviationPlugin, { abbreviations: frontmatter.abbreviations })
     .use(enumerateTargetsPlugin, { state })
     .use(linksPlugin, { transformers: linkTransforms })
     .use(footnotesPlugin)
+    .use(joinGatesPlugin)
     .use(resolveReferencesPlugin, { state })
     .use(keysPlugin)
     .runSync(mdast as any, file);
@@ -121,11 +135,14 @@ async function parse(
     .use(mystToTex, { references })
     .stringify(mdast as any, texFile).result as LatexResult;
   const jatsFile = new VFile();
-  const jats = mystToJats
-    ? (unified()
-        .use(mystToJats, { spaces: 2, fullArticle: options?.jats?.fullArticle, frontmatter })
-        .stringify(mdast as any, jatsFile).result as JatsResult)
-    : { value: 'Problem loading myst-to-jats' };
+  const jats: any = mystToJats
+    ? unified()
+        .use(mystToJats, SourceFileKind.Article, frontmatter, undefined, '', {
+          spaces: 2,
+          writeFullArticle: options?.jats?.fullArticle,
+        })
+        .stringify(mdast as any, jatsFile).result
+    : 'Problem loading myst-to-jats';
   const content = useParse(mdast as any, options?.renderers);
   return {
     frontmatter,
@@ -134,7 +151,7 @@ async function parse(
     html: htmlString,
     tex: tex.value,
     texWarnings: texFile.messages,
-    jats: jats.value,
+    jats: jats,
     jatsWarnings: jatsFile.messages,
     content,
     warnings: file.messages,
@@ -178,7 +195,7 @@ export function MySTRenderer({
     parse(
       text,
       { numbering },
-      { renderers, removeHeading: !!TitleBlock, jats: { fullArticle: true } },
+      { renderers, removeHeading: !!TitleBlock, jats: { fullArticle: !!TitleBlock } },
     ).then((result) => {
       if (!ref.current) return;
       setFrontmatter(result.frontmatter);
@@ -281,6 +298,7 @@ export function MySTRenderer({
             value={text}
             className={classnames(
               'block p-6 shadow-inner resize-none w-full font-mono bg-slate-50/50 dark:bg-slate-800/50 outline-none',
+              { 'text-sm': !column },
               { 'h-full': column },
             )}
             onChange={(e) => setText(e.target.value)}

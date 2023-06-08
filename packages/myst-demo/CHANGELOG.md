@@ -1,5 +1,15 @@
 # myst-demo
 
+## 0.2.10
+
+### Patch Changes
+
+- 067280cb: Upgrades to myst parsers and frontmatter
+- Updated dependencies [067280cb]
+- Updated dependencies [f3cdccd5]
+- Updated dependencies [f3cdccd5]
+  - myst-to-react@0.2.10
+
 ## 0.2.9
 
 ### Patch Changes

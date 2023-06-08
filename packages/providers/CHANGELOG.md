@@ -1,5 +1,14 @@
 # @myst-theme/providers
 
+## 0.2.10
+
+### Patch Changes
+
+- 067280cb: Upgrades to myst parsers and frontmatter
+- f3cdccd5: Improve cross references for remote references
+- f9729bd3: Remove prefetch from HTML links
+- f397bb2d: Move myst dependencies in providers to peer-deps
+
 ## 0.2.9
 
 ## 0.2.8

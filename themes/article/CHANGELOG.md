@@ -1,5 +1,21 @@
 # @myst-theme/article
 
+## 0.1.40
+
+### Patch Changes
+
+- 067280cb: Upgrades to myst parsers and frontmatter
+- Updated dependencies [6b937110]
+- Updated dependencies [067280cb]
+- Updated dependencies [f3cdccd5]
+- Updated dependencies [54efc13a]
+- Updated dependencies [f9729bd3]
+- Updated dependencies [f397bb2d]
+  - @myst-theme/site@0.2.10
+  - @myst-theme/providers@0.2.10
+  - @myst-theme/jupyter@0.2.10
+  - @myst-theme/styles@0.2.10
+
 ## 0.1.39
 
 ### Patch Changes

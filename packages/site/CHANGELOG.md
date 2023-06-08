@@ -1,5 +1,24 @@
 # @curvenote/site
 
+## 0.2.10
+
+### Patch Changes
+
+- 6b937110: Do not shrink arrows in footer
+- 067280cb: Upgrades to myst parsers and frontmatter
+- 54efc13a: Use short title in navigation elements when available
+- Updated dependencies [067280cb]
+- Updated dependencies [f3cdccd5]
+- Updated dependencies [f9729bd3]
+- Updated dependencies [f3cdccd5]
+- Updated dependencies [f397bb2d]
+  - myst-to-react@0.2.10
+  - myst-demo@0.2.10
+  - @myst-theme/providers@0.2.10
+  - @myst-theme/jupyter@0.2.10
+  - @myst-theme/frontmatter@0.2.10
+  - @myst-theme/diagrams@0.2.10
+
 ## 0.2.9
 
 ### Patch Changes

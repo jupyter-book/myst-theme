@@ -1,5 +1,18 @@
 # myst-to-react
 
+## 0.2.10
+
+### Patch Changes
+
+- 067280cb: Upgrades to myst parsers and frontmatter
+- f3cdccd5: Improve cross references for remote references
+- f3cdccd5: Select definition description as well as term in cross reference
+- Updated dependencies [067280cb]
+- Updated dependencies [f3cdccd5]
+- Updated dependencies [f9729bd3]
+- Updated dependencies [f397bb2d]
+  - @myst-theme/providers@0.2.10
+
 ## 0.2.9
 
 ### Patch Changes

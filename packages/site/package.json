@@ -22,15 +22,15 @@
     "@myst-theme/providers": "^0.2.9",
     "classnames": "^2.3.2",
     "lodash.throttle": "^4.1.1",
-    "myst-common": "^0.0.16",
-    "myst-config": "^0.0.14",
+    "myst-common": "^0.0.17",
+    "myst-config": "^0.0.16",
     "myst-demo": "^0.2.9",
     "myst-to-react": "^0.2.9",
     "nbtx": "^0.2.3",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.7",
-    "unist-util-select": "^4.0.1",
-    "thebe-react": "^0.0.7"
+    "thebe-react": "^0.0.7",
+    "unist-util-select": "^4.0.1"
   },
   "peerDependencies": {
     "@remix-run/node": "^1.12.0",

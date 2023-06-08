@@ -17,7 +17,7 @@
     "theme:article": "turbo run dev --parallel --filter='./themes/article'",
     "test": "turbo run test",
     "storybook": "cd docs && npm run storybook",
-    "build-storybook": "npm run build && cd docs && build-storybook",
+    "build-storybook": "npm run build && cd docs && storybook build",
     "clean": "turbo run clean --parallel && find . -name '.turbo' -type d -prune -exec rm -rf '{}' +",
     "lint": "turbo run lint",
     "lint:format": "turbo run lint:format",

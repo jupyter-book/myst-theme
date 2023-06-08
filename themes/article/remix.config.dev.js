@@ -38,5 +38,6 @@ module.exports = {
   future: {
     v2_routeConvention: true,
     v2_normalizeFormMethod: true,
+    v2_headers: true,
   },
 };

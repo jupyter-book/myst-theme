@@ -5,6 +5,11 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
   ],
-  framework: '@storybook/react',
-  staticDirs: [{ from: '../public', to: '/' }],
+  framework: '@storybook/react-vite',
+  staticDirs: [
+    {
+      from: '../public',
+      to: '/',
+    },
+  ],
 };

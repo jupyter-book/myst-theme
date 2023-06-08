@@ -17,9 +17,13 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import useSWR from 'swr';
 import { HoverPopover } from './components/HoverPopover';
 
-// Max nodes to show after a header
+const hiddenNodes = new Set(['comment', 'mystComment']);
 
-function selectHeadingNodes(mdast: GenericParent, identifier: string, maxNodes = 3) {
+function selectHeadingNodes(
+  mdast: GenericParent,
+  identifier: string,
+  maxNodes = 3, // Max nodes to show after a header
+) {
   let begin = false;
   let htmlId: string | undefined = undefined;
   const nodes: GenericNode[] = [];
@@ -32,7 +36,7 @@ function selectHeadingNodes(mdast: GenericParent, identifier: string, maxNodes =
       htmlId = node.html_id || node.identifier;
     }
     if (begin) {
-      nodes.push(node);
+      if (!hiddenNodes.has(node.type)) nodes.push(node);
       return SKIP; // Don't traverse the children
     }
   });

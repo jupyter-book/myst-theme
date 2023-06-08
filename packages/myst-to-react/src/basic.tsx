@@ -264,7 +264,11 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     } else if (typeof children === 'string') {
       strongChildren = <strong key={node.key + '0'}>{children}</strong>;
     }
-    return <dt key={node.key}>{strongChildren}</dt>;
+    return (
+      <dt key={node.key} id={node.html_id}>
+        {strongChildren}
+      </dt>
+    );
   },
   definitionDescription(node, children) {
     return <dd key={node.key}>{children}</dd>;

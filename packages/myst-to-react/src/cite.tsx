@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useReferences } from '@myst-theme/providers';
 import type { NodeRenderer } from '@myst-theme/providers';
-import doi from 'doi-utils';
+import { doi } from 'doi-utils';
 import { InlineError } from './inlineError';
 import { HoverPopover } from './components/HoverPopover';
 

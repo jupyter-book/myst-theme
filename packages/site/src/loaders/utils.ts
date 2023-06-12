@@ -72,7 +72,7 @@ export function getFooterLinks(
   projectSlug?: string,
   slug?: string,
 ): FooterLinks {
-  if (!projectSlug || !slug || !config) return {};
+  if (!slug || !config) return {};
   const pages = getProjectHeadings(config, projectSlug, {
     addGroups: true,
   });

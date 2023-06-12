@@ -9,13 +9,15 @@
   display: none;
 }
 /* Pandas tables */
-.dataframe table {
+/* Here we use important to overwrite mt from typography.css */
+table.dataframe {
   border: none;
   border-collapse: collapse;
   border-spacing: 0;
   color: black;
   font-size: 1em;
   table-layout: fixed;
+  margin: 0 !important;
 }
 .dataframe thead {
   border-bottom: 1px solid black;

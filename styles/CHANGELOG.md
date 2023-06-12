@@ -1,5 +1,15 @@
 # @myst-theme/styles
 
+## 0.3.0
+
+### Minor Changes
+
+- 6404d386: Update to myst v1 release (ESM)
+
+### Patch Changes
+
+- 9d52cdb7: Fix table margin for datatables
+
 ## 0.2.10
 
 ## 0.2.9

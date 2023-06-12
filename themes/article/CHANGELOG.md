@@ -1,5 +1,23 @@
 # @myst-theme/article
 
+## 0.3.0
+
+### Minor Changes
+
+- 6404d386: Update to myst v1 release (ESM)
+
+### Patch Changes
+
+- Updated dependencies [2a522516]
+- Updated dependencies [981c3f22]
+- Updated dependencies [9d52cdb7]
+- Updated dependencies [6404d386]
+  - @myst-theme/site@0.3.0
+  - @myst-theme/styles@0.3.0
+  - @myst-theme/providers@0.3.0
+  - @myst-theme/jupyter@0.3.0
+  - @myst-theme/icons@0.3.0
+
 ## 0.1.40
 
 ### Patch Changes

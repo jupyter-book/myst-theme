@@ -1,5 +1,24 @@
 # @curvenote/site
 
+## 0.3.0
+
+### Minor Changes
+
+- 6404d386: Update to myst v1 release (ESM)
+
+### Patch Changes
+
+- 2a522516: Footer links for single project mode
+- 981c3f22: max-width on table of contents
+- Updated dependencies [981c3f22]
+- Updated dependencies [6404d386]
+  - myst-to-react@0.3.0
+  - myst-demo@0.3.0
+  - @myst-theme/providers@0.3.0
+  - @myst-theme/jupyter@0.3.0
+  - @myst-theme/diagrams@0.3.0
+  - @myst-theme/frontmatter@0.3.0
+
 ## 0.2.10
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @myst-theme/jupyter
 
+## 0.3.0
+
+### Minor Changes
+
+- 6404d386: Update to myst v1 release (ESM)
+
+### Patch Changes
+
+- Updated dependencies [6404d386]
+  - @myst-theme/providers@0.3.0
+
 ## 0.2.10
 
 ### Patch Changes

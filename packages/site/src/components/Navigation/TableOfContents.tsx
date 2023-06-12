@@ -185,7 +185,7 @@ export const TableOfContents = ({
       >
         <nav
           aria-label="Table of Contents"
-          className="flex-grow overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3"
+          className="flex-grow overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px]"
         >
           <Headings folder={projectSlug} headings={headings} sections={config?.projects} />
         </nav>

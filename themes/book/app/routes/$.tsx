@@ -52,12 +52,13 @@ export function ArticlePageAndNavigation({
   hide_toc,
   projectSlug,
   top = DEFAULT_NAV_HEIGHT,
-  inset = 20,  // begin text 20px from the top (aligned with menu)
+  inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
   top?: number;
   hide_toc?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
+  inset?: number;
 }) {
   const { container, toc } = useTocHeight(top, inset);
   return (

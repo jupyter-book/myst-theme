@@ -99,7 +99,14 @@ export function NotebookRunAll() {
   return (
     <div className="flex">
       <div className="group flex relative space-x-1">
-        <Run ready={ready} executing={executing} execute={executeAll} />
+        <Run
+          ready={ready}
+          executing={executing}
+          execute={(options) => {
+            clear();
+            return executeAll(options);
+          }}
+        />
         <button
           className="flex items-center cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
           disabled={!ready || executing}

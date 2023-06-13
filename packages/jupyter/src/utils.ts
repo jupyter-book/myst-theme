@@ -12,7 +12,7 @@ export type ExtendedCoreOptions = CoreOptions & {
 };
 
 function extractGithubRepoInfo(url: string): { owner: string; repo: string } | null {
-  const pattern = /https?:\/\/github\.com\/([^\/]+)\/([^\/]+)/;
+  const pattern = /https?:\/\/github\.com\/([^/]+)\/([^/]+)/;
   const match = url.match(pattern);
 
   if (match) {
@@ -28,8 +28,7 @@ function extractGithubRepoInfo(url: string): { owner: string; repo: string } | n
 function extractBinderRepoInfo(
   url: string,
 ): { binderUrl: string; repoProvider: string; owner: string; repo: string; ref: string } | null {
-  const pattern =
-    /(https?:\/\/[^\/]+(?:\/[^\/]+)*?)\/(v\d+)\/([^\/]+)\/([^\/]+)\/([^\/]+)\/([^\/]+)/;
+  const pattern = /(https?:\/\/[^/]+(?:\/[^/]+)*?)\/(v\d+)\/([^/]+)\/([^/]+)\/([^/]+)\/([^/]+)/;
   const match = url.match(pattern);
 
   if (match) {

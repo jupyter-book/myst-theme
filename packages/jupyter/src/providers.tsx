@@ -22,7 +22,7 @@ import type { Root } from 'mdast';
 import type { Thebe, ThebeServerOptions, ThebeLocalOptions } from 'myst-frontmatter';
 import { useComputeOptions } from '@myst-theme/providers';
 
-function getThebeOptions(): CoreOptions {
+function useThebeOptions(): CoreOptions {
   const { thebe, binderUrl } = useComputeOptions();
   const {
     mathjaxUrl,
@@ -67,11 +67,11 @@ function getThebeOptions(): CoreOptions {
       storagePrefix: 'thebe',
     };
   }
-  return output;
+  return React.useMemo(() => output, []);
 }
 
 export function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {
-  const thebe = getThebeOptions();
+  const thebe = useThebeOptions();
 
   return (
     <ThebeServerProvider connect={false} options={thebe}>

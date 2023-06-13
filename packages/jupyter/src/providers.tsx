@@ -11,12 +11,16 @@ import type {
   ThebeCore,
   ThebeNotebook,
 } from 'thebe-core';
-import { IThebeNotebookError, NotebookExecuteOptions, useRenderMimeRegistry } from 'thebe-react';
-import { useNotebookBase, useThebeConfig, ThebeServerProvider } from 'thebe-react';
+import { IThebeNotebookError, NotebookExecuteOptions, useThebeLoader } from 'thebe-react';
+import {
+  useRenderMimeRegistry,
+  useNotebookBase,
+  useThebeConfig,
+  ThebeServerProvider,
+} from 'thebe-react';
 import type { Root } from 'mdast';
 import type { Thebe, ThebeServerOptions, ThebeLocalOptions } from 'myst-frontmatter';
 import { useComputeOptions } from '@myst-theme/providers';
-import { useThebeCoreBundle } from './core';
 
 function getThebeOptions(): CoreOptions {
   const { thebe, binderUrl } = useComputeOptions();
@@ -68,9 +72,9 @@ function getThebeOptions(): CoreOptions {
 
 export function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {
   const thebe = getThebeOptions();
-  const { core } = useThebeCoreBundle();
+
   return (
-    <ThebeServerProvider core={core} connect={false} options={thebe}>
+    <ThebeServerProvider connect={false} options={thebe}>
       {children}
     </ThebeServerProvider>
   );
@@ -166,7 +170,7 @@ export function NotebookProvider({
   // so at some point this gets the whole site config and can
   // be use to lookup notebooks and recover ThebeNotebooks that
   // can be used to execute notebook pages or blocks in articles
-  const { core } = useThebeCoreBundle();
+  const { core } = useThebeLoader();
   const { config } = useThebeConfig();
   const rendermime = useRenderMimeRegistry();
 

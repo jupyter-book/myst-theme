@@ -1,6 +1,6 @@
-import { useThebeServer, useThebeSession } from 'thebe-react';
+import { useThebeLoader, useThebeServer, useThebeSession } from 'thebe-react';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
-import { useHasNotebookProvider, useThebeCoreBundle } from '@myst-theme/jupyter';
+import { useHasNotebookProvider } from '@myst-theme/jupyter';
 import { useNavigation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 
@@ -8,7 +8,7 @@ export function EnableCompute({
   canCompute,
   children,
 }: React.PropsWithChildren<{ canCompute: boolean }>) {
-  const { load, loading, core } = useThebeCoreBundle();
+  const { load, loading, core } = useThebeLoader();
   const { connect, connecting, ready: serverReady, error: serverError } = useThebeServer();
   const {
     start,

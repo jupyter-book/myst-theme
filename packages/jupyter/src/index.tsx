@@ -6,6 +6,5 @@ const OUTPUT_RENDERERS = {
 
 export * from './BinderBadge';
 export * from './providers';
-export * from './core';
 
 export default OUTPUT_RENDERERS;

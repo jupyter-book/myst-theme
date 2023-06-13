@@ -8,7 +8,7 @@ import type { ThebeCore } from 'thebe-core';
 import { useCellRef, useCellRefRegistry, useNotebookCellExecution } from './providers';
 import { SourceFileKind } from 'myst-common';
 import { useXRefState } from '@myst-theme/providers';
-import { useThebeCoreBundle } from './core';
+import { useThebeLoader } from 'thebe-react';
 
 function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
   const ref = useCellRef(id);
@@ -54,7 +54,7 @@ function PassiveOutputRenderer({
 const MemoPassiveOutputRenderer = React.memo(PassiveOutputRenderer);
 
 export const JupyterOutputs = ({ id, outputs }: { id: string; outputs: MinifiedOutput[] }) => {
-  const { core, load } = useThebeCoreBundle();
+  const { core, load } = useThebeLoader();
   const { inCrossRef } = useXRefState();
   const { data, error } = useFetchAnyTruncatedContent(outputs);
   const [loaded, setLoaded] = useState(false);

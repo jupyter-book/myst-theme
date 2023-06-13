@@ -16,8 +16,8 @@ import { ContentReload, renderers } from '../components';
 import { Analytics } from '../seo';
 import { Error404 } from './Error404';
 import classNames from 'classnames';
-import { ConfiguredThebeServerProvider, ThebeCoreBundleProvider } from '@myst-theme/jupyter';
-import { ThebeRenderMimeRegistryProvider } from 'thebe-react';
+import { ConfiguredThebeServerProvider } from '@myst-theme/jupyter';
+import { ThebeBundleLoaderProvider } from 'thebe-react';
 
 export function Document({
   children,
@@ -63,13 +63,11 @@ export function Document({
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <ThemeProvider theme={theme} renderers={renderers} {...links}>
           <BaseUrlProvider baseurl={baseurl}>
-            <ThebeCoreBundleProvider loadThebeLite>
-              <ThebeRenderMimeRegistryProvider>
-                <SiteProvider config={config}>
-                  <ConfiguredThebeServerProvider>{children}</ConfiguredThebeServerProvider>
-                </SiteProvider>
-              </ThebeRenderMimeRegistryProvider>
-            </ThebeCoreBundleProvider>
+            <ThebeBundleLoaderProvider loadThebeLite>
+              <SiteProvider config={config}>
+                <ConfiguredThebeServerProvider>{children}</ConfiguredThebeServerProvider>
+              </SiteProvider>
+            </ThebeBundleLoaderProvider>
           </BaseUrlProvider>
         </ThemeProvider>
         <ScrollRestoration />

@@ -57,7 +57,12 @@ export function ConfiguredThebeServerProvider({ children }: React.PropsWithChild
   const { thebe } = useComputeOptions();
 
   return (
-    <ThebeServerProvider connect={false} options={thebe}>
+    <ThebeServerProvider
+      connect={false}
+      options={thebe}
+      useBinder={thebe?.useBinder}
+      useJupyterLite={thebe?.useJupyterLite}
+    >
       {children}
     </ThebeServerProvider>
   );

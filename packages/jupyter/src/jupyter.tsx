@@ -5,10 +5,10 @@ import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages';
 import type { ThebeCore } from 'thebe-core';
-import { useThebeCore } from 'thebe-react';
 import { useCellRef, useCellRefRegistry, useNotebookCellExecution } from './providers';
 import { SourceFileKind } from 'myst-common';
 import { useXRefState } from '@myst-theme/providers';
+import { useThebeCoreBundle } from './core';
 
 function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
   const ref = useCellRef(id);
@@ -54,7 +54,7 @@ function PassiveOutputRenderer({
 const MemoPassiveOutputRenderer = React.memo(PassiveOutputRenderer);
 
 export const JupyterOutputs = ({ id, outputs }: { id: string; outputs: MinifiedOutput[] }) => {
-  const { core, load } = useThebeCore();
+  const { core, load } = useThebeCoreBundle();
   const { inCrossRef } = useXRefState();
   const { data, error } = useFetchAnyTruncatedContent(outputs);
   const [loaded, setLoaded] = useState(false);

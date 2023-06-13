@@ -28,7 +28,7 @@
     "publish": "npm run clean && npm run build -- --force && changeset publish && git push --follow-tags"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.26.0",
+    "@changesets/cli": "^2.26.1",
     "@remix-run/node": "^1.12.0",
     "@remix-run/react": "^1.12.0",
     "@tailwindcss/typography": "^0.5.9",
@@ -56,6 +56,5 @@
       "react-dom": "^18.2.0"
     }
   },
-  "packageManager": "npm@8.10.0",
-  "dependencies": {}
+  "packageManager": "npm@8.10.0"
 }

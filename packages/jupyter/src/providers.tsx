@@ -4,17 +4,19 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import type {
   Config,
   CoreOptions,
+  IRenderMimeRegistry,
   IThebeCell,
   IThebeCellExecuteReturn,
   RepoProvider,
   ThebeCore,
   ThebeNotebook,
 } from 'thebe-core';
-import type { IThebeNotebookError, NotebookExecuteOptions } from 'thebe-react';
-import { useNotebookBase, useThebeConfig, useThebeCore, ThebeServerProvider } from 'thebe-react';
+import { IThebeNotebookError, NotebookExecuteOptions, useRenderMimeRegistry } from 'thebe-react';
+import { useNotebookBase, useThebeConfig, ThebeServerProvider } from 'thebe-react';
 import type { Root } from 'mdast';
 import type { Thebe, ThebeServerOptions, ThebeLocalOptions } from 'myst-frontmatter';
 import { useComputeOptions } from '@myst-theme/providers';
+import { useThebeCoreBundle } from './core';
 
 function getThebeOptions(): CoreOptions {
   const { thebe, binderUrl } = useComputeOptions();
@@ -66,8 +68,9 @@ function getThebeOptions(): CoreOptions {
 
 export function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {
   const thebe = getThebeOptions();
+  const { core } = useThebeCoreBundle();
   return (
-    <ThebeServerProvider connect={false} options={thebe}>
+    <ThebeServerProvider core={core} connect={false} options={thebe}>
       {children}
     </ThebeServerProvider>
   );
@@ -86,8 +89,8 @@ export function notebookFromMdast(
   config: Config,
   mdast: GenericParent,
   idkMap: Record<string, string>,
+  rendermime: IRenderMimeRegistry,
 ) {
-  const rendermime = undefined; // share rendermime beyond notebook scope?
   const notebook = new core.ThebeNotebook(mdast.key, config, rendermime);
 
   // no metadata included in mdast yet
@@ -163,8 +166,9 @@ export function NotebookProvider({
   // so at some point this gets the whole site config and can
   // be use to lookup notebooks and recover ThebeNotebooks that
   // can be used to execute notebook pages or blocks in articles
-  const { core } = useThebeCore();
+  const { core } = useThebeCoreBundle();
   const { config } = useThebeConfig();
+  const rendermime = useRenderMimeRegistry();
 
   const {
     ready,
@@ -188,7 +192,13 @@ export function NotebookProvider({
     registry.current = {};
     idkMap.current = {};
     if (page.kind === SourceFileKind.Notebook) {
-      const nb = notebookFromMdast(core, config, page.mdast as GenericParent, idkMap.current);
+      const nb = notebookFromMdast(
+        core,
+        config,
+        page.mdast as GenericParent,
+        idkMap.current,
+        rendermime,
+      );
       setNotebook(nb);
     } else {
       // TODO will need do article relative notebook loading as appropriate once that is supported

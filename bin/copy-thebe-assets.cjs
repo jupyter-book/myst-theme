@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { globSync } = require('glob');
 
 if (process.argv.length < 3) {
   console.error('Usage: node copyThebeAssets.cjs <output_dir>');
@@ -29,14 +30,20 @@ try {
   process.exit(1);
 }
 
-const pathToThebeCore = path.resolve(
-  path.join(path.dirname(require.resolve('thebe-core')), '..', 'lib', 'thebe-core.min.js'),
+const pathToThebeCoreLibFolder = path.resolve(
+  path.dirname(require.resolve('thebe-core')),
+  '..',
+  'lib',
 );
+const thebeCoreFiles = globSync(path.join(pathToThebeCoreLibFolder, '*.js'));
+
+const pathToThebeLite = path.dirname(require.resolve('thebe-lite'));
+const thebeLiteFiles = globSync(path.join(pathToThebeLite, '*.js'));
 
 const assets = [
-  pathToThebeCore,
-  path.join(path.dirname(pathToThebeCore), 'thebe-core.css'),
-  require.resolve('thebe-lite'),
+  ...thebeCoreFiles,
+  path.join(pathToThebeCoreLibFolder, 'thebe-core.css'),
+  ...thebeLiteFiles,
 ];
 
 console.log('Found thebe assets:');

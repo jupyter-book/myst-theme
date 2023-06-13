@@ -9,7 +9,8 @@ node_modules
 yalc.lock
 
 /public/build
-/public/thebe-*
+/public/*thebe*
+/public/service-worker-*.js
 /api/*
 /build/*
 

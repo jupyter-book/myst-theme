@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReferencesProvider, useComputeOptions } from '@myst-theme/providers';
+import { ReferencesProvider } from '@myst-theme/providers';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
@@ -10,7 +10,7 @@ import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
 import { EnableCompute } from '../components/EnableCompute';
 import { NotebookRunAll } from '../components/ComputeControls';
-import { NotebookProvider, BinderBadge } from '@myst-theme/jupyter';
+import { NotebookProvider, BinderBadge, useComputeOptions } from '@myst-theme/jupyter';
 
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
   const computeOptions = useComputeOptions();

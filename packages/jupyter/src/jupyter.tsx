@@ -5,13 +5,12 @@ import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages';
 import type { ThebeCore } from 'thebe-core';
-import { useCellRefRegistry, useNotebookCellExecution } from './providers';
+import { useNotebookCellExecution } from './providers';
 import { SourceFileKind } from 'myst-common';
 import { useXRefState } from '@myst-theme/providers';
 import { useThebeLoader } from 'thebe-react';
 
 function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
-  // const ref = useCellRef(id);
   const exec = useNotebookCellExecution(id);
   const ref = useRef<HTMLDivElement>(null);
 

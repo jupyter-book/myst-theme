@@ -122,8 +122,6 @@ export function notebookFromMdast(
   return notebook;
 }
 
-// registry[cellId]
-type CellRefRegistry = Record<string, HTMLDivElement>;
 type IdKeyMap = Record<string, string>;
 
 interface NotebookContextType {
@@ -141,9 +139,7 @@ interface NotebookContextType {
     options?: NotebookExecuteOptions | undefined,
   ) => Promise<(IThebeCellExecuteReturn | null)[]>;
   notebook: ThebeNotebook | undefined;
-  registry: CellRefRegistry;
   idkMap: IdKeyMap;
-  register: (id: string) => (el: HTMLDivElement) => void;
   restart: () => Promise<void>;
   clear: () => void;
 }
@@ -176,12 +172,10 @@ export function NotebookProvider({
     setNotebook,
   } = useNotebookBase();
 
-  const registry = useRef<CellRefRegistry>({});
   const idkMap = useRef<IdKeyMap>({});
 
   useEffect(() => {
     if (!core || !config) return;
-    registry.current = {};
     idkMap.current = {};
     if (page.kind === SourceFileKind.Notebook) {
       const nb = notebookFromMdast(
@@ -198,19 +192,6 @@ export function NotebookProvider({
     }
   }, [core, config, page]);
 
-  function register(id: string) {
-    return (el: HTMLDivElement) => {
-      if (el != null && registry.current[idkMap.current[id]] !== el) {
-        if (!el.isConnected) {
-          console.debug(`skipping ref for cell ${id} as host is not connected`);
-        } else {
-          console.debug(`new ref for cell ${id} registered`);
-          registry.current[idkMap.current[id]] = el;
-        }
-      }
-    };
-  }
-
   return (
     <NotebookContext.Provider
       value={{
@@ -223,9 +204,7 @@ export function NotebookProvider({
         executeAll,
         executeSome,
         notebook,
-        registry: registry.current,
         idkMap: idkMap.current,
-        register,
         restart: () => session?.restart() ?? Promise.resolve(),
         clear,
       }}
@@ -238,22 +217,6 @@ export function NotebookProvider({
 export function useHasNotebookProvider() {
   const notebookState = useContext(NotebookContext);
   return notebookState !== undefined;
-}
-
-export function useCellRefRegistry() {
-  const notebookState = useContext(NotebookContext);
-  if (notebookState === undefined) return undefined;
-  return { register: notebookState.register };
-}
-
-export function useCellRef(id: string) {
-  const notebookState = useContext(NotebookContext);
-  if (notebookState === undefined) return undefined;
-
-  const { registry, idkMap } = notebookState;
-  const entry = Object.entries(notebookState.registry).find(([cellId]) => cellId === idkMap[id]);
-  console.debug('useCellRef', JSON.stringify({ id, registry, idkMap, entry }, null, 2));
-  return { el: entry?.[1] ?? null };
 }
 
 export function useMDASTNotebook() {

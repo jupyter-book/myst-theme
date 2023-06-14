@@ -51,8 +51,8 @@ export function useLongContent(
   return { data, error };
 }
 
-const arrayFetcher = (...urls: string[]) => {
-  return Promise.all(urls.map((url) => fetcher(url)));
+const arrayFetcher = (...urls: string[][]) => {
+  return Promise.all(urls.map((url) => fetcher(url[0])));
 };
 
 type ObjectWithPath = MinifiedErrorOutput | MinifiedStreamOutput | MinifiedMimePayload;

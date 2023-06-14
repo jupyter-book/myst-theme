@@ -81,6 +81,7 @@ export const JupyterOutputs = React.memo(
     }, [id, data, fullOutputs]);
 
     if (error) {
+      console.error(error);
       return <div className="text-red-500">Error rendering output: {error.message}</div>;
     }
 

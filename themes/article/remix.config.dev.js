@@ -52,8 +52,6 @@ module.exports = {
     '@myst-theme/jupyter',
     '@myst-theme/frontmatter',
     'react-syntax-highlighter',
-    '@jupyterlab/rendermime',
-    '@jupyterlab/rendermime-interfaces',
   ],
   watchPaths: ['../../packages/**/*'],
   future: {

@@ -36,12 +36,6 @@ export function useComputeOptions() {
       githubBadgeUrl,
       binderBadgeUrl,
     );
-    console.debug('myst-theme:useComputeOptions:thebe', {
-      thebeFrontmatter,
-      githubBadgeUrl,
-      binderBadgeUrl,
-      thebeOptions,
-    });
     return {
       canCompute: thebeFrontmatter !== undefined && thebeFrontmatter !== false,
       thebe: thebeOptions,

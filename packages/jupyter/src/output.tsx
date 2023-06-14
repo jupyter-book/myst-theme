@@ -54,9 +54,6 @@ function JupyterOutput({
     [outputs],
   );
 
-  const renderCounter = useRef(0);
-  renderCounter.current = renderCounter.current + 1;
-
   let component;
   if (allSafe && !ready) {
     component = <SafeOutputs keyStub={nodeKey} outputs={outputs} />;
@@ -75,9 +72,6 @@ function JupyterOutput({
         'text-right': align === 'right',
       })}
     >
-      <div className="rounded p-1 absolute top -left-[40px] bg-red-600 text-gray-100 text-xs z-[1000] w-[25px]">
-        {renderCounter.current}
-      </div>
       {component}
     </figure>
   );

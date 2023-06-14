@@ -32,18 +32,7 @@ function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
     exec.cell.render(data);
   }, [ref?.current, exec?.cell]);
 
-  const renderCounter = useRef(0);
-  renderCounter.current = renderCounter.current + 1;
-
-  return (
-    <>
-      {' '}
-      <div className="rounded p-1 absolute top-[50px] -left-[40px] bg-green-600 text-gray-100 text-xs z-[1000] w-[25px]">
-        {renderCounter.current}
-      </div>
-      <div ref={ref} data-thebe-active-ref="true" className="relative" />
-    </>
-  );
+  return <div ref={ref} data-thebe-active-ref="true" className="relative" />;
 }
 
 function PassiveOutputRenderer({
@@ -66,17 +55,7 @@ function PassiveOutputRenderer({
     cell.current.render(data, kind === SourceFileKind.Article);
   }, [ref]);
 
-  const renderCounter = useRef(0);
-  renderCounter.current = renderCounter.current + 1;
-
-  return (
-    <>
-      <div className="rounded p-1 absolute top-[50px] -left-[40px] bg-orange-600 text-gray-100 text-xs z-[1000] w-[25px]">
-        {renderCounter.current}
-      </div>
-      <div ref={ref} data-thebe-passive-ref="true" />
-    </>
-  );
+  return <div ref={ref} data-thebe-passive-ref="true" />;
 }
 
 export const JupyterOutputs = React.memo(
@@ -101,9 +80,6 @@ export const JupyterOutputs = React.memo(
       });
     }, [id, data, fullOutputs]);
 
-    const renderCounter = useRef(0);
-    renderCounter.current = renderCounter.current + 1;
-
     if (error) {
       return <div className="text-red-500">Error rendering output: {error.message}</div>;
     }
@@ -111,9 +87,6 @@ export const JupyterOutputs = React.memo(
     if (!inCrossRef && exec?.ready) {
       return (
         <div>
-          <div className="rounded p-1 absolute top-[25px] -left-[40px] bg-blue-600 text-gray-100 text-xs z-[1000] w-[25px]">
-            {renderCounter.current}
-          </div>
           {!fullOutputs && <div className="p-2.5">Loading...</div>}
           {fullOutputs && <ActiveOutputRenderer id={id} data={fullOutputs} />}
         </div>
@@ -122,9 +95,6 @@ export const JupyterOutputs = React.memo(
 
     return (
       <div>
-        <div className="rounded p-1 absolute top-[25px] -left-[40px] bg-blue-600 text-gray-100 text-xs z-[1000] w-[25px]">
-          {renderCounter.current}
-        </div>
         {!fullOutputs && <div className="p-2.5">Loading...</div>}
         {fullOutputs && core && (
           <PassiveOutputRenderer

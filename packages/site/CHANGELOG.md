@@ -1,5 +1,19 @@
 # @curvenote/site
 
+## 0.3.1
+
+### Patch Changes
+
+- 27c412c3: upgraded to thebe 0.2.2
+- Updated dependencies [27c412c3]
+- Updated dependencies [069b1da0]
+  - @myst-theme/jupyter@0.3.1
+  - @myst-theme/providers@0.3.1
+  - @myst-theme/frontmatter@0.3.1
+  - @myst-theme/diagrams@0.3.1
+  - myst-to-react@0.3.1
+  - myst-demo@0.3.1
+
 ## 0.3.0
 
 ### Minor Changes

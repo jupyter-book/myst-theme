@@ -1,5 +1,12 @@
 # myst-demo
 
+## 0.3.2
+
+### Patch Changes
+
+- 69d0d701: Update myst-to-jats
+  - myst-to-react@0.3.2
+
 ## 0.3.1
 
 ### Patch Changes

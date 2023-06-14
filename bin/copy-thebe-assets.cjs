@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { globSync } = require('glob');
+const glob = require('glob');
 
 if (process.argv.length < 3) {
   console.error('Usage: node copyThebeAssets.cjs <output_dir>');
@@ -35,10 +35,10 @@ const pathToThebeCoreLibFolder = path.resolve(
   '..',
   'lib',
 );
-const thebeCoreFiles = globSync(path.join(pathToThebeCoreLibFolder, '*.js'));
+const thebeCoreFiles = glob.sync(path.join(pathToThebeCoreLibFolder, '*.js'));
 
 const pathToThebeLite = path.dirname(require.resolve('thebe-lite'));
-const thebeLiteFiles = globSync(path.join(pathToThebeLite, '*.js'));
+const thebeLiteFiles = glob.sync(path.join(pathToThebeLite, '*.js'));
 
 const assets = [
   ...thebeCoreFiles,

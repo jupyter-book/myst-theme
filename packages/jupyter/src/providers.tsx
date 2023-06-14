@@ -252,7 +252,7 @@ export function useCellRef(id: string) {
 
   const { registry, idkMap } = notebookState;
   const entry = Object.entries(notebookState.registry).find(([cellId]) => cellId === idkMap[id]);
-  console.debug('useCellRef', { id, registry, idkMap, entry });
+  console.debug('useCellRef', JSON.stringify({ id, registry, idkMap, entry }, null, 2));
   return { el: entry?.[1] ?? null };
 }
 
@@ -269,6 +269,11 @@ export function useNotebookExecution() {
     notebookState;
 
   return { ready, attached, executing, executed, errors, execute: executeAll, notebook, clear };
+}
+
+export function useReadyToExecute() {
+  const notebookState = useContext(NotebookContext);
+  return notebookState?.ready ?? false;
 }
 
 export function useNotebookCellExecution(id: string) {
@@ -295,14 +300,16 @@ export function useNotebookCellExecution(id: string) {
     return execReturn;
   }
   const cell = notebook?.getCellById(cellId);
-  return {
-    kind,
-    ready,
-    cell,
-    executing,
-    notebookIsExecuting,
-    execute,
-    clear: () => cell?.clear(),
-    notebook,
-  };
+  return notebook
+    ? {
+        kind,
+        ready,
+        cell,
+        executing,
+        notebookIsExecuting,
+        execute,
+        clear: () => cell?.clear(),
+        notebook,
+      }
+    : undefined;
 }

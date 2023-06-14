@@ -4,7 +4,8 @@ import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
 import { SafeOutputs } from './safe';
 import { JupyterOutputs } from './jupyter';
-import { useNotebookCellExecution } from './providers';
+import { useReadyToExecute } from './providers';
+import { useMemo, useRef } from 'react';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -46,12 +47,18 @@ function JupyterOutput({
   nodeType?: string;
   align?: 'left' | 'center' | 'right';
 }) {
-  const exec = useNotebookCellExecution(nodeKey);
+  const ready = useReadyToExecute();
   const outputs: MinifiedOutput[] = data;
-  const allSafe = allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES);
+  const allSafe = useMemo(
+    () => allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES),
+    [outputs],
+  );
+
+  const renderCounter = useRef(0);
+  renderCounter.current = renderCounter.current + 1;
 
   let component;
-  if (allSafe && !exec?.ready) {
+  if (allSafe && !ready) {
     component = <SafeOutputs keyStub={nodeKey} outputs={outputs} />;
   } else {
     component = <JupyterOutputs id={nodeKey} outputs={outputs} />;
@@ -62,12 +69,15 @@ function JupyterOutput({
       id={identifier || undefined}
       data-mdast-node-type={nodeType}
       data-mdast-node-id={nodeKey}
-      className={classNames('max-w-full overflow-auto m-0 group not-prose relative', {
+      className={classNames('max-w-full overflow-visible m-0 group not-prose relative', {
         'text-left': !align || align === 'left',
         'text-center': align === 'center',
         'text-right': align === 'right',
       })}
     >
+      <div className="rounded p-1 absolute top -left-[40px] bg-red-600 text-gray-100 text-xs z-[1000] w-[25px]">
+        {renderCounter.current}
+      </div>
       {component}
     </figure>
   );

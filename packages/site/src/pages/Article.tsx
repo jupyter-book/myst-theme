@@ -1,16 +1,16 @@
 import React from 'react';
-import { ReferencesProvider, useComputeOptions } from '@myst-theme/providers';
+import { ReferencesProvider } from '@myst-theme/providers';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 import type { PageLoader } from '../types';
-import { ThebeSessionProvider } from 'thebe-react';
+import { ThebeRenderMimeRegistryProvider, ThebeSessionProvider } from 'thebe-react';
 import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
 import { EnableCompute } from '../components/EnableCompute';
 import { NotebookRunAll } from '../components/ComputeControls';
-import { NotebookProvider, BinderBadge } from '@myst-theme/jupyter';
+import { NotebookProvider, BinderBadge, useComputeOptions } from '@myst-theme/jupyter';
 
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
   const computeOptions = useComputeOptions();
@@ -23,25 +23,27 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
-      <ThebeSessionProvider start={false} name={article.slug}>
-        {!hide_title_block && (
-          <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
-        )}
-        <NotebookProvider siteConfig={false} page={article}>
-          <div className="flex items-center">
-            <div className="flex-grow"></div>
-            {binder && <BinderBadge binder={binder} />}
-            {canCompute && isJupyter && (
-              <EnableCompute canCompute={true} key={article.slug}>
-                <NotebookRunAll />
-              </EnableCompute>
-            )}
-          </div>
-          <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
-          <Bibliography />
-          {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
-        </NotebookProvider>
-      </ThebeSessionProvider>
+      <ThebeRenderMimeRegistryProvider>
+        <ThebeSessionProvider start={false} name={article.slug}>
+          {!hide_title_block && (
+            <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
+          )}
+          <NotebookProvider siteConfig={false} page={article}>
+            <div className="flex items-center">
+              <div className="flex-grow"></div>
+              {binder && <BinderBadge binder={binder} />}
+              {canCompute && isJupyter && (
+                <EnableCompute canCompute={true} key={article.slug}>
+                  <NotebookRunAll />
+                </EnableCompute>
+              )}
+            </div>
+            <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
+            <Bibliography />
+            {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
+          </NotebookProvider>
+        </ThebeSessionProvider>
+      </ThebeRenderMimeRegistryProvider>
     </ReferencesProvider>
   );
 });

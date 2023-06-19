@@ -4,8 +4,8 @@ import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
 import { SafeOutputs } from './safe';
 import { JupyterOutputs } from './jupyter';
-import { useNotebookCellExecution } from './providers';
-import { useState } from 'react';
+import { useReadyToExecute } from './providers';
+import { useMemo, useRef, useState } from 'react';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -49,12 +49,15 @@ function JupyterOutput({
   align?: 'left' | 'center' | 'right';
   visibility?: string;
 }) {
-  const exec = useNotebookCellExecution(nodeKey);
+  const ready = useReadyToExecute();
   const outputs: MinifiedOutput[] = data;
-  const allSafe = allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES);
+  const allSafe = useMemo(
+    () => allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES),
+    [outputs],
+  );
 
   let component;
-  if (allSafe && !exec?.ready) {
+  if (allSafe && !ready) {
     component = <SafeOutputs keyStub={nodeKey} outputs={outputs} />;
   } else {
     component = <JupyterOutputs id={nodeKey} outputs={outputs} />;

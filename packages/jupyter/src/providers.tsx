@@ -3,71 +3,60 @@ import { SourceFileKind } from 'myst-common';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import type {
   Config,
-  CoreOptions,
+  IRenderMimeRegistry,
   IThebeCell,
   IThebeCellExecuteReturn,
-  RepoProvider,
   ThebeCore,
   ThebeNotebook,
 } from 'thebe-core';
 import type { IThebeNotebookError, NotebookExecuteOptions } from 'thebe-react';
-import { useNotebookBase, useThebeConfig, useThebeCore, ThebeServerProvider } from 'thebe-react';
+import {
+  useThebeLoader,
+  useRenderMimeRegistry,
+  useNotebookBase,
+  useThebeConfig,
+  ThebeServerProvider,
+} from 'thebe-react';
 import type { Root } from 'mdast';
-import type { Thebe, ThebeServerOptions, ThebeLocalOptions } from 'myst-frontmatter';
-import { useComputeOptions } from '@myst-theme/providers';
+import { useSiteManifest } from '@myst-theme/providers';
+import { thebeFrontmatterToOptions } from './utils';
 
-function getThebeOptions(): CoreOptions {
-  const { thebe, binderUrl } = useComputeOptions();
-  const {
-    mathjaxUrl,
-    mathjaxConfig,
-    binder,
-    server,
-    kernelName,
-    sessionName,
-    disableSessionSaving,
-    local,
-  } = (thebe as Thebe | undefined) ?? {};
-  const output: CoreOptions = { mathjaxUrl, mathjaxConfig };
-  if (binder) {
-    const useBinder = binder === true ? {} : binder;
-    output.binderOptions = {
-      binderUrl: useBinder.url ?? binderUrl,
-      ref: useBinder.ref,
-      repo: useBinder.repo,
-      repoProvider: useBinder.provider as RepoProvider | undefined,
+export function useComputeOptions() {
+  const config = useSiteManifest();
+  const makeOptions = () => {
+    if (!config) return { canCompute: false };
+    // TODO there may be multiple projects?
+    // useProjectManifest?
+    const mainProject = config?.projects?.[0];
+    const thebeFrontmatter = mainProject?.thebe;
+    const githubBadgeUrl = mainProject?.github;
+    const binderBadgeUrl = mainProject?.binder;
+    const thebeOptions = thebeFrontmatterToOptions(
+      thebeFrontmatter,
+      githubBadgeUrl,
+      binderBadgeUrl,
+    );
+    return {
+      canCompute: thebeFrontmatter !== undefined && thebeFrontmatter !== false,
+      thebe: thebeOptions,
+      githubBadgeUrl,
+      binderBadgeUrl,
     };
-  }
-  const useServer = (local ?? server) as ThebeServerOptions | ThebeLocalOptions;
-  if (server) {
-    const splitUrl = useServer.url?.split('://');
-    const wsUrl = splitUrl?.length === 2 ? `ws://${splitUrl[1]}` : undefined;
-    output.serverSettings = {
-      baseUrl: useServer.url,
-      token: useServer.token,
-      wsUrl,
-      appendToken: true,
-    };
-  }
-  output.kernelOptions = {
-    kernelName: kernelName,
-    name: kernelName,
-    path: sessionName,
   };
-  if (!disableSessionSaving) {
-    output.savedSessionOptions = {
-      enabled: true,
-      maxAge: 38300,
-      storagePrefix: 'thebe',
-    };
-  }
-  return output;
+
+  return React.useMemo(makeOptions, [config]);
 }
 
 export function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {
-  const thebe = getThebeOptions();
+  const { thebe } = useComputeOptions();
+
   return (
-    <ThebeServerProvider connect={false} options={thebe}>
+    <ThebeServerProvider
+      connect={false}
+      options={thebe}
+      useBinder={thebe?.useBinder}
+      useJupyterLite={thebe?.useJupyterLite}
+    >
       {children}
     </ThebeServerProvider>
   );
@@ -86,8 +75,8 @@ export function notebookFromMdast(
   config: Config,
   mdast: GenericParent,
   idkMap: Record<string, string>,
+  rendermime: IRenderMimeRegistry,
 ) {
-  const rendermime = undefined; // share rendermime beyond notebook scope?
   const notebook = new core.ThebeNotebook(mdast.key, config, rendermime);
 
   // no metadata included in mdast yet
@@ -127,8 +116,6 @@ export function notebookFromMdast(
   return notebook;
 }
 
-// registry[cellId]
-type CellRefRegistry = Record<string, HTMLDivElement>;
 type IdKeyMap = Record<string, string>;
 
 interface NotebookContextType {
@@ -146,9 +133,7 @@ interface NotebookContextType {
     options?: NotebookExecuteOptions | undefined,
   ) => Promise<(IThebeCellExecuteReturn | null)[]>;
   notebook: ThebeNotebook | undefined;
-  registry: CellRefRegistry;
   idkMap: IdKeyMap;
-  register: (id: string) => (el: HTMLDivElement) => void;
   restart: () => Promise<void>;
   clear: () => void;
 }
@@ -163,8 +148,9 @@ export function NotebookProvider({
   // so at some point this gets the whole site config and can
   // be use to lookup notebooks and recover ThebeNotebooks that
   // can be used to execute notebook pages or blocks in articles
-  const { core } = useThebeCore();
+  const { core } = useThebeLoader();
   const { config } = useThebeConfig();
+  const rendermime = useRenderMimeRegistry();
 
   const {
     ready,
@@ -180,34 +166,25 @@ export function NotebookProvider({
     setNotebook,
   } = useNotebookBase();
 
-  const registry = useRef<CellRefRegistry>({});
   const idkMap = useRef<IdKeyMap>({});
 
   useEffect(() => {
     if (!core || !config) return;
-    registry.current = {};
     idkMap.current = {};
     if (page.kind === SourceFileKind.Notebook) {
-      const nb = notebookFromMdast(core, config, page.mdast as GenericParent, idkMap.current);
+      const nb = notebookFromMdast(
+        core,
+        config,
+        page.mdast as GenericParent,
+        idkMap.current,
+        rendermime,
+      );
       setNotebook(nb);
     } else {
       // TODO will need do article relative notebook loading as appropriate once that is supported
       setNotebook(undefined);
     }
   }, [core, config, page]);
-
-  function register(id: string) {
-    return (el: HTMLDivElement) => {
-      if (el != null && registry.current[idkMap.current[id]] !== el) {
-        if (!el.isConnected) {
-          console.debug(`skipping ref for cell ${id} as host is not connected`);
-        } else {
-          console.debug(`new ref for cell ${id} registered`);
-          registry.current[idkMap.current[id]] = el;
-        }
-      }
-    };
-  }
 
   return (
     <NotebookContext.Provider
@@ -221,9 +198,7 @@ export function NotebookProvider({
         executeAll,
         executeSome,
         notebook,
-        registry: registry.current,
         idkMap: idkMap.current,
-        register,
         restart: () => session?.restart() ?? Promise.resolve(),
         clear,
       }}
@@ -236,22 +211,6 @@ export function NotebookProvider({
 export function useHasNotebookProvider() {
   const notebookState = useContext(NotebookContext);
   return notebookState !== undefined;
-}
-
-export function useCellRefRegistry() {
-  const notebookState = useContext(NotebookContext);
-  if (notebookState === undefined) return undefined;
-  return { register: notebookState.register };
-}
-
-export function useCellRef(id: string) {
-  const notebookState = useContext(NotebookContext);
-  if (notebookState === undefined) return undefined;
-
-  const { registry, idkMap } = notebookState;
-  const entry = Object.entries(notebookState.registry).find(([cellId]) => cellId === idkMap[id]);
-  console.debug('useCellRef', { id, registry, idkMap, entry });
-  return { el: entry?.[1] ?? null };
 }
 
 export function useMDASTNotebook() {
@@ -267,6 +226,11 @@ export function useNotebookExecution() {
     notebookState;
 
   return { ready, attached, executing, executed, errors, execute: executeAll, notebook, clear };
+}
+
+export function useReadyToExecute() {
+  const notebookState = useContext(NotebookContext);
+  return notebookState?.ready ?? false;
 }
 
 export function useNotebookCellExecution(id: string) {
@@ -293,14 +257,16 @@ export function useNotebookCellExecution(id: string) {
     return execReturn;
   }
   const cell = notebook?.getCellById(cellId);
-  return {
-    kind,
-    ready,
-    cell,
-    executing,
-    notebookIsExecuting,
-    execute,
-    clear: () => cell?.clear(),
-    notebook,
-  };
+  return notebook
+    ? {
+        kind,
+        ready,
+        cell,
+        executing,
+        notebookIsExecuting,
+        execute,
+        clear: () => cell?.clear(),
+        notebook,
+      }
+    : undefined;
 }

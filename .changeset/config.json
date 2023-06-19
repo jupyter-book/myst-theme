@@ -10,6 +10,9 @@
       "@myst-theme/jupyter",
       "@myst-theme/site",
       "@myst-theme/styles",
+      "@myst-theme/icons",
+      "@myst-theme/book",
+      "@myst-theme/article",
       "myst-to-react",
       "myst-demo"
     ]

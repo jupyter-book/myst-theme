@@ -1,4 +1,4 @@
-import { useThebeCore, useThebeServer, useThebeSession } from 'thebe-react';
+import { useThebeLoader, useThebeServer, useThebeSession } from 'thebe-react';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 import { useHasNotebookProvider } from '@myst-theme/jupyter';
 import { useNavigation } from '@remix-run/react';
@@ -8,7 +8,7 @@ export function EnableCompute({
   canCompute,
   children,
 }: React.PropsWithChildren<{ canCompute: boolean }>) {
-  const { load, loading, core } = useThebeCore();
+  const { load, loading, core } = useThebeLoader();
   const { connect, connecting, ready: serverReady, error: serverError } = useThebeServer();
   const {
     start,
@@ -54,7 +54,7 @@ export function EnableCompute({
   }, [shutdown, navigation]);
 
   return (
-    <div className="flex mx-1 items-center">
+    <div className="flex mx-1 items-center mb-2">
       <button className={classes} onClick={() => setEnabling(true)} disabled={enabling || enabled}>
         <PowerIcon className="h-6 w-6 mx-1 inline-block align-top" title="enable compute" />
       </button>

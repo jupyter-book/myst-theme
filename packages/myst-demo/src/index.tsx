@@ -171,7 +171,7 @@ export function MySTRenderer({
   column?: boolean;
   fullscreen?: boolean;
   captureTab?: boolean;
-  TitleBlock?: (props: { frontmatter: PageFrontmatter }) => JSX.Element;
+  TitleBlock?: (props: { frontmatter: PageFrontmatter }) => JSX.Element | null;
   numbering?: any;
   className?: string;
 }) {

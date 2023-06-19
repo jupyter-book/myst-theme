@@ -1,5 +1,15 @@
 # @myst-theme/providers
 
+## 0.3.2
+
+## 0.3.1
+
+## 0.3.0
+
+### Minor Changes
+
+- 6404d386: Update to myst v1 release (ESM)
+
 ## 0.2.10
 
 ### Patch Changes

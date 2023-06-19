@@ -1,5 +1,30 @@
 # myst-demo
 
+## 0.3.2
+
+### Patch Changes
+
+- 69d0d701: Update myst-to-jats
+  - myst-to-react@0.3.2
+
+## 0.3.1
+
+### Patch Changes
+
+- myst-to-react@0.3.1
+
+## 0.3.0
+
+### Minor Changes
+
+- 6404d386: Update to myst v1 release (ESM)
+
+### Patch Changes
+
+- Updated dependencies [981c3f22]
+- Updated dependencies [6404d386]
+  - myst-to-react@0.3.0
+
 ## 0.2.10
 
 ### Patch Changes

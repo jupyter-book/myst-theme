@@ -1,5 +1,50 @@
 # @curvenote/site
 
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies [69d0d701]
+  - myst-demo@0.3.2
+  - @myst-theme/providers@0.3.2
+  - @myst-theme/frontmatter@0.3.2
+  - @myst-theme/diagrams@0.3.2
+  - @myst-theme/jupyter@0.3.2
+  - myst-to-react@0.3.2
+
+## 0.3.1
+
+### Patch Changes
+
+- 27c412c3: upgraded to thebe 0.2.2
+- Updated dependencies [27c412c3]
+- Updated dependencies [069b1da0]
+  - @myst-theme/jupyter@0.3.1
+  - @myst-theme/providers@0.3.1
+  - @myst-theme/frontmatter@0.3.1
+  - @myst-theme/diagrams@0.3.1
+  - myst-to-react@0.3.1
+  - myst-demo@0.3.1
+
+## 0.3.0
+
+### Minor Changes
+
+- 6404d386: Update to myst v1 release (ESM)
+
+### Patch Changes
+
+- 2a522516: Footer links for single project mode
+- 981c3f22: max-width on table of contents
+- Updated dependencies [981c3f22]
+- Updated dependencies [6404d386]
+  - myst-to-react@0.3.0
+  - myst-demo@0.3.0
+  - @myst-theme/providers@0.3.0
+  - @myst-theme/jupyter@0.3.0
+  - @myst-theme/diagrams@0.3.0
+  - @myst-theme/frontmatter@0.3.0
+
 ## 0.2.10
 
 ### Patch Changes

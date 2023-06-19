@@ -6,8 +6,9 @@ import type { NodeRenderer } from '@myst-theme/providers';
  * @returns ['H', '2', '0']
  */
 function parseFormula(formula?: string) {
-  return [...(formula ?? '')].reduce((acc, letter) => {
+  return [...(formula ?? '')].reduce((acc, current) => {
     const last = acc.pop();
+    const letter = current === '+' ? '⁺' : current === '-' ? '⁻' : current;
     const isNumber = letter.match(/[0-9]/);
     const lastIsNumber = last?.match(/[0-9]/);
     if (isNumber) {
@@ -26,12 +27,12 @@ function parseFormula(formula?: string) {
 export const ChemicalFormula: NodeRenderer = (node) => {
   const parts = parseFormula(node.value);
   return (
-    <code key={node.key} className="text-inherit">
+    <span key={node.key} className="text-inherit" aria-roledescription="Chemical Formula">
       {parts.map((letter, index) => {
         if (letter.match(/[0-9]/)) return <sub key={index}>{letter}</sub>;
         return <span key={index}>{letter}</span>;
       })}
-    </code>
+    </span>
   );
 };
 

@@ -1,5 +1,46 @@
 # @myst-theme/book
 
+## 0.3.2
+
+### Patch Changes
+
+- @myst-theme/providers@0.3.2
+- @myst-theme/jupyter@0.3.2
+- @myst-theme/site@0.3.2
+- @myst-theme/styles@0.3.2
+- @myst-theme/icons@0.3.2
+
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [27c412c3]
+- Updated dependencies [069b1da0]
+  - @myst-theme/jupyter@0.3.1
+  - @myst-theme/site@0.3.1
+  - @myst-theme/providers@0.3.1
+  - @myst-theme/styles@0.3.1
+  - @myst-theme/icons@0.3.1
+
+## 0.3.0
+
+### Minor Changes
+
+- 6404d386: Update to myst v1 release (ESM)
+
+### Patch Changes
+
+- 981c3f22: Fix typescript error
+- Updated dependencies [2a522516]
+- Updated dependencies [981c3f22]
+- Updated dependencies [9d52cdb7]
+- Updated dependencies [6404d386]
+  - @myst-theme/site@0.3.0
+  - @myst-theme/styles@0.3.0
+  - @myst-theme/providers@0.3.0
+  - @myst-theme/jupyter@0.3.0
+  - @myst-theme/icons@0.3.0
+
 ## 0.1.42
 
 ### Patch Changes

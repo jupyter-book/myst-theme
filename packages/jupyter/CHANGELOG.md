@@ -1,5 +1,30 @@
 # @myst-theme/jupyter
 
+## 0.3.2
+
+### Patch Changes
+
+- @myst-theme/providers@0.3.2
+
+## 0.3.1
+
+### Patch Changes
+
+- 27c412c3: upgraded to thebe 0.2.2
+- 069b1da0: Improvements to thebe for initial rendering
+  - @myst-theme/providers@0.3.1
+
+## 0.3.0
+
+### Minor Changes
+
+- 6404d386: Update to myst v1 release (ESM)
+
+### Patch Changes
+
+- Updated dependencies [6404d386]
+  - @myst-theme/providers@0.3.0
+
 ## 0.2.10
 
 ### Patch Changes

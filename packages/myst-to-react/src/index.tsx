@@ -22,6 +22,7 @@ import INLINE_EXPRESSION_RENDERERS from './inlineExpression';
 import PROOF_RENDERERS from './proof';
 import EXERCISE_RENDERERS from './exercise';
 import UNKNOWN_MYST_RENDERERS from './unknown';
+import BLOCK_RENDERERS from './block';
 
 export { CopyIcon } from './components/CopyIcon';
 export { CodeBlock } from './code';
@@ -51,6 +52,7 @@ export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...EXT_RENDERERS,
   ...PROOF_RENDERERS,
   ...EXERCISE_RENDERERS,
+  ...BLOCK_RENDERERS,
 };
 
 export function useParse(

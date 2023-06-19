@@ -6,6 +6,7 @@ import light from 'react-syntax-highlighter/dist/cjs/styles/hljs/xcode';
 import dark from 'react-syntax-highlighter/dist/cjs/styles/hljs/vs2015';
 import classNames from 'classnames';
 import { CopyIcon } from './components/CopyIcon';
+import { useState } from 'react';
 
 type Props = {
   value: string;
@@ -20,6 +21,7 @@ type Props = {
   background?: boolean;
   border?: boolean;
   className?: string;
+  visibility?: string;
 };
 
 function normalizeLanguage(lang?: string): string | undefined {
@@ -46,53 +48,71 @@ export function CodeBlock(props: Props) {
     shadow,
     background,
     border,
+    visibility,
   } = props;
+  const [hidden, setHidden] = useState(true);
   const highlightLines = new Set(emphasizeLines);
   return (
-    <div
-      id={identifier}
-      className={classNames('relative group not-prose overflow-auto', className, {
-        'shadow hover:shadow-md dark:shadow-2xl dark:shadow-neutral-900 my-5 text-sm': shadow,
-        'bg-stone-200/10': background,
-        'border border-l-4 border-l-blue-400 border-gray-200 dark:border-l-blue-400 dark:border-gray-800':
-          border,
-      })}
-    >
-      {filename && <div className="leading-3 mt-1 p-1">{filename}</div>}
-      <SyntaxHighlighter
-        language={normalizeLanguage(lang)}
-        startingLineNumber={startingLineNumber}
-        showLineNumbers={showLineNumbers}
-        style={isLight ? { ...light, hljs: { ...light.hljs, background: 'transparent' } } : dark}
-        wrapLines
-        lineNumberContainerStyle={{
-          // This stops page content shifts
-          display: 'inline-block',
-          float: 'left',
-          minWidth: '1.25em',
-          paddingRight: '1em',
-          textAlign: 'right',
-          userSelect: 'none',
-          borderLeft: '4px solid transparent',
-        }}
-        lineProps={(line) => {
-          if (typeof line === 'boolean') return {};
-          return highlightLines.has(line)
-            ? ({
-                'data-line-number': `${line}`,
-                'data-highlight': 'true',
-              } as any)
-            : ({ 'data-line-number': `${line}` } as any);
-        }}
-        customStyle={{ padding: '0.8rem' }}
+    <div>
+      <div className={classNames('text-right', { hidden: visibility !== 'hide' })}>
+        <label className="relative inline-flex items-center">
+          <span className="mr-3 text-sm font-medium text-gray-900">
+            click to {hidden ? 'show' : 'hidden'} input
+          </span>
+          <input type="checkbox" defaultValue="" className="sr-only peer" />
+          <div
+            className="cursor-pointer w-11 h-6 bg-gray-200 rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[22px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-400"
+            onClick={() => setHidden(!hidden)}
+          />
+        </label>
+      </div>
+
+      <div
+        id={identifier}
+        className={classNames('relative group not-prose overflow-auto', className, {
+          'shadow hover:shadow-md dark:shadow-2xl dark:shadow-neutral-900 my-5 text-sm': shadow,
+          'bg-stone-200/10': background,
+          'border border-l-4 border-l-blue-400 border-gray-200 dark:border-l-blue-400 dark:border-gray-800':
+            border,
+          hidden: visibility === 'remove' || (hidden && visibility === 'hide'),
+        })}
       >
-        {value}
-      </SyntaxHighlighter>
-      {showCopy && (
-        <div className="absolute hidden top-1 right-1 group-hover:block">
-          <CopyIcon text={value} />
-        </div>
-      )}
+        {filename && <div className="leading-3 mt-1 p-1">{filename}</div>}
+        <SyntaxHighlighter
+          language={normalizeLanguage(lang)}
+          startingLineNumber={startingLineNumber}
+          showLineNumbers={showLineNumbers}
+          style={isLight ? { ...light, hljs: { ...light.hljs, background: 'transparent' } } : dark}
+          wrapLines
+          lineNumberContainerStyle={{
+            // This stops page content shifts
+            display: 'inline-block',
+            float: 'left',
+            minWidth: '1.25em',
+            paddingRight: '1em',
+            textAlign: 'right',
+            userSelect: 'none',
+            borderLeft: '4px solid transparent',
+          }}
+          lineProps={(line) => {
+            if (typeof line === 'boolean') return {};
+            return highlightLines.has(line)
+              ? ({
+                  'data-line-number': `${line}`,
+                  'data-highlight': 'true',
+                } as any)
+              : ({ 'data-line-number': `${line}` } as any);
+          }}
+          customStyle={{ padding: '0.8rem' }}
+        >
+          {value}
+        </SyntaxHighlighter>
+        {showCopy && (
+          <div className="absolute hidden top-1 right-1 group-hover:block">
+            <CopyIcon text={value} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -113,6 +133,7 @@ const code: NodeRenderer<Code & { executable: boolean }> = (node) => {
       shadow
       border={node.executable}
       background={!node.executable}
+      visibility={node.visibility}
     />
   );
 };

@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { SafeOutputs } from './safe';
 import { JupyterOutputs } from './jupyter';
 import { useNotebookCellExecution } from './providers';
+import { useState } from 'react';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -39,12 +40,14 @@ function JupyterOutput({
   identifier,
   data,
   align,
+  visibility,
 }: {
   nodeKey: string;
   identifier?: string;
   data: MinifiedOutput[];
   nodeType?: string;
   align?: 'left' | 'center' | 'right';
+  visibility?: string;
 }) {
   const exec = useNotebookCellExecution(nodeKey);
   const outputs: MinifiedOutput[] = data;
@@ -56,20 +59,36 @@ function JupyterOutput({
   } else {
     component = <JupyterOutputs id={nodeKey} outputs={outputs} />;
   }
+  const [hidden, setHidden] = useState(true);
 
   return (
-    <figure
-      id={identifier || undefined}
-      data-mdast-node-type={nodeType}
-      data-mdast-node-id={nodeKey}
-      className={classNames('max-w-full overflow-auto m-0 group not-prose relative', {
-        'text-left': !align || align === 'left',
-        'text-center': align === 'center',
-        'text-right': align === 'right',
-      })}
-    >
-      {component}
-    </figure>
+    <div>
+      <div className={classNames('text-right mb-5', { hidden: visibility !== 'hide' })}>
+        <label className="relative inline-flex items-center">
+          <span className="mr-3 text-sm font-medium text-gray-900">
+            click to {hidden ? 'show' : 'hidden'} output
+          </span>
+          <input type="checkbox" defaultValue="" className="sr-only peer" />
+          <div
+            className="cursor-pointer w-11 h-6 bg-gray-200 rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[22px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-400"
+            onClick={() => setHidden(!hidden)}
+          />
+        </label>
+      </div>
+      <figure
+        id={identifier || undefined}
+        data-mdast-node-type={nodeType}
+        data-mdast-node-id={nodeKey}
+        className={classNames('max-w-full overflow-auto m-0 group not-prose relative', {
+          'text-left': !align || align === 'left',
+          'text-center': align === 'center',
+          'text-right': align === 'right',
+          hidden: visibility === 'remove' || (hidden && visibility === 'hide'),
+        })}
+      >
+        {component}
+      </figure>
+    </div>
   );
 }
 
@@ -83,6 +102,7 @@ export function Output(node: GenericNode) {
       identifier={node.identifier}
       align={node.align}
       data={node.data}
+      visibility={node.visibility}
     />
   );
 }

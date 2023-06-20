@@ -182,7 +182,7 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
   );
 }
 
-function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; name?: string }) {
+function HomeLink({ logo, logoDark, logoText, name }: { logo?: string; logoText?: string; name?: string }) {
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
   const nothingSet = !logo && !logoText;
@@ -193,8 +193,9 @@ function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; 
       prefetch="intent"
     >
       {logo && (
-        <div className="dark:bg-white dark:rounded p-1 mr-3">
-          <img src={logo} className="h-9" alt={logoText || name} height="2.25rem"></img>
+        <div className="p-1 mr-3">
+          <img src={logo} className="h-9 dark:hidden" alt={logoText || name} height="2.25rem"></img>
+          <img src={logoDark} className="h-9 hidden dark:block" alt={logoText || name} height="2.25rem"></img>
         </div>
       )}
       <span
@@ -211,7 +212,7 @@ function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; 
 export function TopNav() {
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
-  const { logo, logo_text, logoText, actions, title, nav } = config ?? ({} as SiteManifest);
+  const { logo, logo_dark, logo_text, logoText, actions, title, nav } = config ?? ({} as SiteManifest);
   return (
     <div className="bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 fixed w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-wrap max-w-[1440px] mx-auto">
@@ -227,7 +228,7 @@ export function TopNav() {
               <span className="sr-only">Open Menu</span>
             </button>
           </div>
-          <HomeLink name={title} logo={logo} logoText={logo_text || logoText} />
+          <HomeLink name={title} logo={logo} logoDark={logo_dark} logoText={logo_text || logoText} />
         </div>
         <div className="flex-grow flex items-center w-auto">
           <NavItems nav={nav} />

@@ -71,7 +71,7 @@ function GithubFilePreview({
           target="_blank"
           rel="noreferrer"
         >
-          <ExternalLinkIcon className="w-4 h-4 float-right" />
+          <ExternalLinkIcon className="float-right w-4 h-4" />
         </a>
         <div className="mt-2">Error loading "{file}" from GitHub.</div>
       </div>
@@ -164,7 +164,7 @@ function GithubIssuePreview({
           target="_blank"
           rel="noreferrer"
         >
-          <ExternalLinkIcon className="w-4 h-4 float-right" />
+          <ExternalLinkIcon className="float-right w-4 h-4" />
         </a>
         <div className="mt-2">Error loading from GitHub.</div>
       </div>
@@ -180,12 +180,12 @@ function GithubIssuePreview({
       <div className="text-xs font-light">
         {org}/{repo}
       </div>
-      <div className="text-lg font-bold my-2 dark:text-white">
+      <div className="my-2 text-lg font-bold dark:text-white">
         {resp.state === 'open' && (
-          <PlusCircleIcon className="w-6 h-6 inline-block text-green-700 dark:text-green-500 mr-2 -translate-y-px" />
+          <PlusCircleIcon className="inline-block w-6 h-6 mr-2 text-green-700 dark:text-green-500 -translate-y-px" />
         )}
         {resp.state === 'closed' && (
-          <CheckCircleIcon className="w-6 h-6 inline-block text-purple-700 dark:text-purple-500 mr-2 -translate-y-px" />
+          <CheckCircleIcon className="inline-block w-6 h-6 mr-2 text-purple-700 dark:text-purple-500 -translate-y-px" />
         )}
         {resp.title}
       </div>

@@ -54,9 +54,9 @@ export function EnableCompute({
   }, [shutdown, navigation]);
 
   return (
-    <div className="flex mx-1 items-center mb-2">
+    <div className="flex items-center mx-1 mb-2">
       <button className={classes} onClick={() => setEnabling(true)} disabled={enabling || enabled}>
-        <PowerIcon className="h-6 w-6 mx-1 inline-block align-top" title="enable compute" />
+        <PowerIcon className="inline-block w-6 h-6 mx-1 align-top" title="enable compute" />
       </button>
       {enabled && <>{children}</>}
     </div>

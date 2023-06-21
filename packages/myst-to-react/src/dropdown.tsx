@@ -42,7 +42,7 @@ export function Details({
         )}
       >
         <span className="text-neutral-900 dark:text-white">
-          <span className="block float-right font-thin text-sm text-neutral-700 dark:text-neutral-200">
+          <span className="block float-right text-sm font-thin text-neutral-700 dark:text-neutral-200">
             <ChevronRightIcon
               className={classNames(iconClass, 'details-toggle', 'transition-transform')}
             />

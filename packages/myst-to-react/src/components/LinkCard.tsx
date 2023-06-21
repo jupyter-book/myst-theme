@@ -35,7 +35,7 @@ export function LinkCard({
       {internal && (
         <Link
           to={to}
-          className="block text-sm font-semibold text-inherit hover:text-inherit px-3 mt-3"
+          className="block px-3 mt-3 text-sm font-semibold text-inherit hover:text-inherit"
           prefetch="intent"
         >
           {title}
@@ -44,11 +44,11 @@ export function LinkCard({
       {!internal && (
         <a
           href={to}
-          className="block text-sm font-semibold text-inherit hover:text-inherit px-3 mt-3"
+          className="block px-3 mt-3 text-sm font-semibold text-inherit hover:text-inherit"
           target="_blank"
           rel="noreferrer"
         >
-          <ExternalLinkIcon className="w-4 h-4 float-right" />
+          <ExternalLinkIcon className="float-right w-4 h-4" />
           {title}
         </a>
       )}

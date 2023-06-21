@@ -149,7 +149,7 @@ export function Callout({
           {title}
         </div>
         {dropdown && (
-          <div className="font-thin text-sm text-neutral-700 dark:text-neutral-200 self-center flex-none">
+          <div className="self-center flex-none text-sm font-thin text-neutral-700 dark:text-neutral-200">
             <ChevronRightIcon
               className={classNames(iconClass, 'transition-transform details-toggle')}
             />

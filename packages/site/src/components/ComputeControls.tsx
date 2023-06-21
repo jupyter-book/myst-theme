@@ -23,7 +23,7 @@ export function Run({
   ) => Promise<(IThebeCellExecuteReturn | null)[]>;
 }) {
   return (
-    <div className="flex relative text-sm">
+    <div className="relative flex text-sm">
       <button
         className={classNames(
           'cursor-pointer text-gray-700 active:text-green-700 hover:opacity-100',
@@ -35,7 +35,7 @@ export function Run({
         disabled={disabled || !ready || executing}
         onClick={() => execute()}
       >
-        <PlayCircleIcon className="h-6 w-6 inline-block align-top" title="run all cells" />
+        <PlayCircleIcon className="inline-block w-6 h-6 align-top" title="run all cells" />
       </button>
       {executing && (
         <span className="absolute top-0 left-0 z-10 w-[22px] h-[22px] opacity-100">
@@ -59,11 +59,11 @@ export function Clear({
 }) {
   return (
     <button
-      className="flex cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
+      className="flex text-gray-700 cursor-pointer active:text-green-700 opacity-60 hover:opacity-100"
       disabled={disabled || !ready || executing}
       onClick={() => clear()}
     >
-      <MinusCircleIcon className="h-6 w-6 inline-block align-top" title="clear all outputs" />
+      <MinusCircleIcon className="inline-block w-6 h-6 align-top" title="clear all outputs" />
     </button>
   );
 }
@@ -98,7 +98,7 @@ export function NotebookRunAll() {
 
   return (
     <div className="flex">
-      <div className="group flex relative space-x-1">
+      <div className="relative flex group space-x-1">
         <Run
           ready={ready}
           executing={executing}
@@ -108,20 +108,20 @@ export function NotebookRunAll() {
           }}
         />
         <button
-          className="flex items-center cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
+          className="flex items-center text-gray-700 cursor-pointer active:text-green-700 opacity-60 hover:opacity-100"
           disabled={!ready || executing}
           onClick={() => restart()}
         >
-          <ArrowPathIcon className="h-6 w-6" title="restart kernel" />
+          <ArrowPathIcon className="w-6 h-6" title="restart kernel" />
         </button>
         <Clear ready={ready} executing={executing} clear={clear} />
         <button
-          className="flex items-center cursor-pointer text-gray-700 active:text-green-700 opacity-60 hover:opacity-100"
+          className="flex items-center text-gray-700 cursor-pointer active:text-green-700 opacity-60 hover:opacity-100"
           disabled={!ready}
           onClick={clickLaunchInJupyter}
         >
           <ArrowTopRightOnSquareIcon
-            className="h-6 w-6 inline-block align-top"
+            className="inline-block w-6 h-6 align-top"
             title="launch in juptyer"
           />
         </button>

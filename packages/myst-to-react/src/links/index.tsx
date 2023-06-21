@@ -109,7 +109,7 @@ export const linkBlock: NodeRenderer<TransformedLink> = (node, children) => {
     'flex-1 p-4 my-5 block border font-normal hover:border-blue-500 dark:hover:border-blue-400 no-underline hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-100 border-gray-200 dark:border-gray-500 rounded shadow-sm hover:shadow-lg dark:shadow-neutral-700';
   const internal = node.internal ?? false;
   const nested = (
-    <div className="flex align-middle h-full">
+    <div className="flex h-full align-middle">
       <div className="flex-grow">
         {node.title}
         <div className="text-xs text-gray-500 dark:text-gray-400">{children}</div>

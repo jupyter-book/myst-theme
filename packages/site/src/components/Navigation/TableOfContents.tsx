@@ -92,7 +92,7 @@ const Headings = ({ folder, headings, sections }: Props) => {
                   {heading.short_title || heading.title}
                 </HeadingLink>
               ) : (
-                <h5 className="mb-3 lg:mt-8 font-semibold break-words dark:text-white">
+                <h5 className="mb-3 font-semibold break-words lg:mt-8 dark:text-white">
                   {heading.short_title || heading.title}
                 </h5>
               )}

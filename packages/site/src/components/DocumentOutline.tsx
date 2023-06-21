@@ -26,7 +26,7 @@ type Props = {
  * scrollIntoView is used to ensure that when a user clicks on an item, it will smoothly scroll.
  */
 const Headings = ({ headings, activeId, highlight, selector }: Props) => (
-  <ul className="text-slate-400 text-sm leading-6">
+  <ul className="text-sm text-slate-400 leading-6">
     {headings.map((heading) => (
       <li
         key={heading.id}
@@ -213,7 +213,7 @@ export const DocumentOutline = ({
         maxHeight: `calc(100vh - ${(top ?? 0) + 20}px)`,
       }}
     >
-      <div className="text-slate-900 mb-4 text-sm leading-6 dark:text-slate-100 uppercase">
+      <div className="mb-4 text-sm uppercase text-slate-900 leading-6 dark:text-slate-100">
         In this article
       </div>
       <Headings headings={headings} activeId={activeId} highlight={highlight} selector={selector} />

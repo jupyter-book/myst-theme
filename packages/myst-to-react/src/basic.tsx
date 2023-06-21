@@ -188,7 +188,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
         key={node.key}
         id={id}
         kind={node.kind}
-        className="mr-1 text-inherit hover:text-inherit font-semibold hover:font-semibold"
+        className="mr-1 font-semibold text-inherit hover:text-inherit hover:font-semibold"
       >
         {label}
       </HashLink>
@@ -227,13 +227,13 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
         key={node.key}
         side="top"
         card={
-          <div className="bg-blue-900 text-white dark:bg-white dark:text-black text-xs p-1">
+          <div className="p-1 text-xs text-white bg-blue-900 dark:bg-white dark:text-black">
             {node.title}
           </div>
         }
         arrowClass="fill-blue-900 dark:fill-white"
       >
-        <abbr aria-label={node.title} className="cursor-help border-b border-dotted">
+        <abbr aria-label={node.title} className="border-b border-dotted cursor-help">
           {children}
         </abbr>
       </HoverPopover>

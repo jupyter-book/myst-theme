@@ -249,7 +249,7 @@ export function MySTRenderer({
       break;
   }
   const demoMenu = (
-    <div className="cursor-pointer text-sm self-center border dark:border-slate-600">
+    <div className="self-center text-sm border cursor-pointer dark:border-slate-600">
       {['DEMO', 'AST', 'HTML', 'LaTeX', 'JATS', 'DOCX'].map((show) => (
         <button
           key={show}
@@ -282,7 +282,7 @@ export function MySTRenderer({
       )}
     >
       {column && (
-        <div className="col-span-2 border dark:border-slate-600 flex flex-row items-stretch h-full px-2">
+        <div className="flex flex-row items-stretch h-full px-2 border col-span-2 dark:border-slate-600">
           <div className="flex-grow"></div>
           {demoMenu}
         </div>
@@ -328,7 +328,7 @@ export function MySTRenderer({
           {previewType === 'DOCX' && (
             <div>
               <button
-                className="rounded border p-3"
+                className="p-3 border rounded"
                 onClick={() => saveDocxFile('demo.docx', references.article)}
                 title={`Download Micorsoft Word`}
                 aria-label={`Download Micorsoft Word`}

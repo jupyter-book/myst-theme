@@ -60,6 +60,10 @@ cd myst-theme
 npm install
 ```
 
+### Recommended VSCode Extensions
+
+- [Headwind](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind): sorts the tailwind class names
+
 ### Build
 
 To build all themes and packages, run the following command:

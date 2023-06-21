@@ -3,7 +3,7 @@ import MoonIcon from '@heroicons/react/24/solid/MoonIcon';
 import SunIcon from '@heroicons/react/24/outline/SunIcon';
 import classNames from 'classnames';
 
-export function ThemeButton({ className = 'mx-3 h-8 w-8' }: { className?: string }) {
+export function ThemeButton({ className = 'w-8 h-8 mx-3' }: { className?: string }) {
   const { isDark, nextTheme } = useTheme();
   return (
     <button

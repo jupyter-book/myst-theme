@@ -43,34 +43,34 @@ export function CreativeCommonsBadge({
       )}
       aria-label={title}
     >
-      <CcIcon className="h-5 w-5 mx-1 inline-block" title={title} />
+      <CcIcon className="inline-block w-5 h-5 mx-1" title={title} />
       {(kind.startsWith('CC0') || kind.startsWith('CC-0') || kind.includes('ZERO')) && (
         <CcZeroIcon
-          className="h-5 w-5 mr-1 inline-block"
+          className="inline-block w-5 h-5 mr-1"
           title="CC0: Work is in the worldwide public domain"
         />
       )}
       {kind.includes('BY') && (
         <CcByIcon
-          className="h-5 w-5 mr-1 inline-block"
+          className="inline-block w-5 h-5 mr-1"
           title="Credit must be given to the creator"
         />
       )}
       {kind.includes('NC') && (
         <CcNcIcon
-          className="h-5 w-5 mr-1 inline-block"
+          className="inline-block w-5 h-5 mr-1"
           title="Only noncommercial uses of the work are permitted"
         />
       )}
       {kind.includes('SA') && (
         <CcSaIcon
-          className="h-5 w-5 mr-1 inline-block"
+          className="inline-block w-5 h-5 mr-1"
           title="Adaptations must be shared under the same terms"
         />
       )}
       {kind.includes('ND') && (
         <CcNdIcon
-          className="h-5 w-5 mr-1 inline-block"
+          className="inline-block w-5 h-5 mr-1"
           title="No derivatives or adaptations of the work are permitted"
         />
       )}

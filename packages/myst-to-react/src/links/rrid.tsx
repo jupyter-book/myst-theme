@@ -32,16 +32,16 @@ function RRIDChild({ rrid }: { rrid: string }) {
   return (
     <div className="hover-document w-[500px] sm:max-w-[500px] p-3">
       <p className="text-sm font-light">RRID: {category}</p>
-      <div className="text-xl font-bold mb-4">
+      <div className="mb-4 text-xl font-bold">
         {title} <code>{curie}</code>
       </div>
       <p className="text-md">{description}</p>
       {types.length > 0 && (
         <>
-          <div className="text-xs font-thin my-2">Categories</div>
+          <div className="my-2 text-xs font-thin">Categories</div>
           <div className="flex flex-wrap ml-1">
             {types?.map((tag) => (
-              <span className="ml-1 text-xs inline-flex items-center uppercase px-3 py-1 rounded-full border">
+              <span className="inline-flex items-center px-3 py-1 ml-1 text-xs uppercase border rounded-full">
                 {tag}
               </span>
             ))}
@@ -50,10 +50,10 @@ function RRIDChild({ rrid }: { rrid: string }) {
       )}
       {tags.length > 0 && (
         <>
-          <div className="text-xs font-thin my-2">Tags</div>
+          <div className="my-2 text-xs font-thin">Tags</div>
           <div className="flex flex-wrap ml-1">
             {tags?.map((tag) => (
-              <span className="ml-1 text-xs inline-flex items-center uppercase px-3 py-1 rounded-full border">
+              <span className="inline-flex items-center px-3 py-1 ml-1 text-xs uppercase border rounded-full">
                 {tag}
               </span>
             ))}

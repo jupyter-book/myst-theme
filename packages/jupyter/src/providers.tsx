@@ -80,7 +80,7 @@ export function notebookFromMdast(
   const notebook = new core.ThebeNotebook(mdast.key, config, rendermime);
 
   // no metadata included in mdast yet
-  //Object.assign(notebook.metadata, ipynb.metadata);
+  // Object.assign(notebook.metadata, ipynb.metadata);
   notebook.cells = (mdast.children as GenericParent[]).map((block: GenericParent) => {
     if (block.type !== 'block') console.warn(`Unexpected block type ${block.type}`);
     if (block.children.length == 2 && block.children[0].type === 'code') {

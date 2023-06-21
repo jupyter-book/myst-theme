@@ -16,14 +16,14 @@ export function Bibliography() {
         {filtered.length > HIDE_OVER_N_REFERENCES && (
           <button
             onClick={() => setHidden(!hidden)}
-            className="float-right text-xs p-1 px-2 border rounded hover:border-blue-500 dark:hover:border-blue-400"
+            className="float-right p-1 px-2 text-xs border rounded hover:border-blue-500 dark:hover:border-blue-400"
           >
             {hidden ? 'Show All' : 'Collapse'}
           </button>
         )}
         <header className="text-lg font-semibold text-stone-900 dark:text-white">References</header>
       </div>
-      <div className="text-xs mb-8 pl-3 text-stone-500 dark:text-stone-300">
+      <div className="pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300">
         <ol>
           {refs.map((label) => {
             const { html } = data[label];
@@ -37,7 +37,7 @@ export function Bibliography() {
             );
           })}
           {filtered.length > HIDE_OVER_N_REFERENCES && (
-            <li className="list-none text-center">
+            <li className="text-center list-none">
               <button
                 onClick={() => setHidden(!hidden)}
                 className="p-2 border rounded hover:border-blue-500 dark:hover:border-blue-400"

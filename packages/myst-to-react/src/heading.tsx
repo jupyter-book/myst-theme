@@ -56,7 +56,7 @@ const Heading: NodeRenderer<Heading> = (node, children) => {
   const id = html_id || identifier || key;
   const textContent = (
     <>
-      {enumerator && <span className="select-none mr-3">{enumerator}</span>}
+      {enumerator && <span className="mr-3 select-none">{enumerator}</span>}
       <span className="heading-text">{children}</span>
       <HashLink id={id} kind="Section" className="px-2 font-normal" hover hideInPopup />
     </>

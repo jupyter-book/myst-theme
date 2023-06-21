@@ -52,13 +52,13 @@ const mathRenderer: NodeRenderer<MathLike> = (node) => {
     }
     const id = node.html_id || node.identifier || node.key;
     return (
-      <div key={node.key} id={id} className="flex group my-5">
+      <div key={node.key} id={id} className="flex my-5 group">
         <div
           dangerouslySetInnerHTML={{ __html: node.html }}
-          className="overflow-x-auto overflow-y-hidden flex-grow"
+          className="flex-grow overflow-x-auto overflow-y-hidden"
         />
         {node.enumerator && (
-          <div className="flex-none text-right m-0 pl-2 self-center relative select-none">
+          <div className="relative self-center flex-none pl-2 m-0 text-right select-none">
             <HashLink id={id} kind="Equation" className="text-inherit hover:text-inherit">
               ({node.enumerator})
             </HashLink>

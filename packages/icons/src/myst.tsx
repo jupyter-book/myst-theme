@@ -37,13 +37,13 @@ export function MystLogo({
 export function MadeWithMyst({ url = 'https://mystmd.org/made-with-myst' }: { url?: string }) {
   return (
     <a
-      className="flex w-fit mx-auto text-gray-700 hover:text-blue-700 dark:text-gray-200 dark:hover:text-blue-400"
+      className="flex mx-auto text-gray-700 w-fit hover:text-blue-700 dark:text-gray-200 dark:hover:text-blue-400"
       href={url}
       target="_blank"
       rel="noreferrer"
     >
       <MystLogo fill="currentColor" />
-      <span className="self-center text-sm ml-2">Made with MyST</span>
+      <span className="self-center ml-2 text-sm">Made with MyST</span>
     </a>
   );
 }

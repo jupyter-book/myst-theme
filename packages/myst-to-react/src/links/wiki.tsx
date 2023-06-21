@@ -85,7 +85,7 @@ function WikiChild({ page, wiki, load }: { page: string; wiki: string; load: boo
           target="_blank"
           rel="noreferrer"
         >
-          <ExternalLinkIcon className="w-4 h-4 float-right" />
+          <ExternalLinkIcon className="float-right w-4 h-4" />
           <WikiTextMark />
         </a>
         <div className="mt-2">Error loading "{page}" from wikipedia.</div>

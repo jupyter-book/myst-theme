@@ -16,19 +16,19 @@ const FooterLink = ({
   return (
     <Link
       prefetch="intent"
-      className="group flex-1 p-4 block border font-normal hover:border-blue-600 dark:hover:border-blue-400 no-underline hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-100 border-gray-200 dark:border-gray-500 rounded shadow-sm hover:shadow-lg dark:shadow-neutral-700"
+      className="flex-1 block p-4 font-normal text-gray-600 no-underline border border-gray-200 rounded group hover:border-blue-600 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 dark:text-gray-100 dark:border-gray-500 shadow-sm hover:shadow-lg dark:shadow-neutral-700"
       to={withBaseurl(url, baseurl)}
     >
-      <div className="flex align-middle h-full">
+      <div className="flex h-full align-middle">
         {right && (
-          <ArrowLeftIcon className="w-6 h-6 self-center transition-transform group-hover:-translate-x-1 shrink-0" />
+          <ArrowLeftIcon className="self-center w-6 h-6 transition-transform group-hover:-translate-x-1 shrink-0" />
         )}
         <div className={classNames('flex-grow', { 'text-right': right })}>
           <div className="text-xs text-gray-500 dark:text-gray-400">{group || ' '}</div>
           {short_title || title}
         </div>
         {!right && (
-          <ArrowRightIcon className="w-6 h-6 self-center transition-transform group-hover:translate-x-1 shrink-0" />
+          <ArrowRightIcon className="self-center w-6 h-6 transition-transform group-hover:translate-x-1 shrink-0" />
         )}
       </div>
     </Link>
@@ -38,7 +38,7 @@ const FooterLink = ({
 export function FooterLinksBlock({ links }: { links?: FooterLinks }) {
   if (!links) return null;
   return (
-    <div className="flex space-x-4 pt-10 mb-10">
+    <div className="flex pt-10 mb-10 space-x-4">
       {links.navigation?.prev && <FooterLink {...links.navigation?.prev} right />}
       {links.navigation?.next && <FooterLink {...links.navigation?.next} />}
     </div>

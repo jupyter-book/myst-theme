@@ -78,7 +78,7 @@ export function Download({
   return (
     <a className={classNames(className, 'flex')} href={url} onClick={clickDownload}>
       <span className="sr-only">Download as {format}</span>
-      <DocumentIcon className="w-5 h-5 inline-block items-center mr-2" aria-hidden="true" />
+      <DocumentIcon className="items-center inline-block w-5 h-5 mr-2" aria-hidden="true" />
       {filename}
     </a>
   );
@@ -87,16 +87,16 @@ export function Download({
 export function DownloadsDropdown({ exports }: HasExports) {
   if (!exports || exports.length === 0) return null;
   return (
-    <Menu as="div" className="flex relative grow-0 inline-block mx-1">
+    <Menu as="div" className="relative flex inline-block mx-1 grow-0">
       <Menu.Button className="relative">
         <span className="sr-only">Downloads</span>
         <ArrowDownTrayIcon className="w-5 h-5 ml-2 -mr-1" aria-hidden="true" />
       </Menu.Button>
-      <Menu.Items className="absolute -right-1 bg-white dark:bg-slate-800 rounded-sm overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <Menu.Items className="absolute overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
         {exports.map(({ format, filename, url }, index) => (
           <Menu.Item key={index}>
             <Download
-              className="block hover:bg-stone-700 dark:hover:bg-stone-200 hover:text-white dark:hover:text-black p-3 no-underline"
+              className="block p-3 no-underline hover:bg-stone-700 dark:hover:bg-stone-200 hover:text-white dark:hover:text-black"
               url={url}
               filename={filename}
               format={format}

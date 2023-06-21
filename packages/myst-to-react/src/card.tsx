@@ -22,7 +22,7 @@ export const Header: NodeRenderer<HeaderSpec> = (node, children) => {
   return (
     <header
       key={node.key}
-      className="m-0 py-1 pl-3 bg-gray-50 dark:bg-slate-900 border-b border-gray-100 dark:border-gray-800"
+      className="py-1 pl-3 m-0 border-b border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800"
     >
       {children}
     </header>
@@ -33,7 +33,7 @@ export const Footer: NodeRenderer<FooterSpec> = (node, children) => {
   return (
     <footer
       key={node.key}
-      className="m-0 py-1 pl-3 bg-gray-50 dark:bg-slate-900 border-t border-gray-100 dark:border-gray-800"
+      className="py-1 pl-3 m-0 border-t border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800"
     >
       {children}
     </footer>
@@ -123,7 +123,7 @@ function Card({
         )}
       >
         {parts.header}
-        <div className="py-2 px-4 flex-grow">{parts.body}</div>
+        <div className="flex-grow px-4 py-2">{parts.body}</div>
         {parts.footer}
       </ExternalOrInternalLink>
     );
@@ -131,7 +131,7 @@ function Card({
   return (
     <div className={sharedStyle}>
       {parts.header}
-      <div className="py-2 px-4 flex-grow">{parts.body}</div>
+      <div className="flex-grow px-4 py-2">{parts.body}</div>
       {parts.footer}
     </div>
   );

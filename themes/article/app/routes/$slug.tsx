@@ -77,7 +77,7 @@ function ArticleNavigation() {
   const exact = pathname === `/`;
   return (
     <nav className="col-page-inset">
-      <div className="border-y border-gray-200 py-3 mt-4 mb-6 flex flex-row justify-around">
+      <div className="flex flex-row justify-around py-3 mt-4 mb-6 border-gray-200 border-y">
         <Link
           to={`/`}
           prefetch="intent"
@@ -118,14 +118,14 @@ export function Article({ article }: { article: PageLoader }) {
       {abstract && (
         <>
           <span className="font-semibold">Abstract</span>
-          <div className="bg-slate-50 dark:bg-slate-800 px-6 py-1 rounded-sm m-3">
+          <div className="px-6 py-1 m-3 rounded-sm bg-slate-50 dark:bg-slate-800">
             <ContentBlocks mdast={abstract as GenericParent} className="col-body" />
           </div>
         </>
       )}
       {keywords.length > 0 && (
         <div className="mb-10">
-          <span className="font-semibold mr-2">Keywords:</span>
+          <span className="mr-2 font-semibold">Keywords:</span>
           {keywords.map((k, i) => (
             <span
               key={k}

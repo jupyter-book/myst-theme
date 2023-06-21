@@ -58,7 +58,7 @@ export function CodeBlock(props: Props) {
           border,
       })}
     >
-      {filename && <div className="leading-3 mt-1 p-1">{filename}</div>}
+      {filename && <div className="p-1 mt-1 leading-3">{filename}</div>}
       <SyntaxHighlighter
         language={normalizeLanguage(lang)}
         startingLineNumber={startingLineNumber}
@@ -131,7 +131,7 @@ const inlineCode: NodeRenderer<InlineCode> = (node, children) => {
     return (
       <code
         key={node.key}
-        className="bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-100 px-1 rounded"
+        className="px-1 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-100"
       >
         {children}
         <span

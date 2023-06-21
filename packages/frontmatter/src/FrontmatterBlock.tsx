@@ -93,18 +93,18 @@ export function AuthorAndAffiliations({ authors }: { authors: PageFrontmatter['a
   );
   if (!hasAffliations) {
     return (
-      <header className="not-prose mt-4">
+      <header className="mt-4 not-prose">
         <AuthorsList authors={authors} />
       </header>
     );
   }
   return (
-    <header className="not-prose mt-4">
+    <header className="mt-4 not-prose">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-1">
         {authors.length > 1 && (
           <>
-            <div className="font-thin text-xs uppercase pb-2">Authors</div>
-            <div className="font-thin text-xs uppercase pb-2">Affiliations</div>
+            <div className="pb-2 text-xs font-thin uppercase">Authors</div>
+            <div className="pb-2 text-xs font-thin uppercase">Affiliations</div>
           </>
         )}
         {authors.map((author) => (
@@ -171,7 +171,7 @@ export function DoiBadge({ doi: possibleLink, className }: { doi?: string; class
   return (
     <div className={classNames('flex-none', className)} title="DOI (Digital Object Identifier)">
       <a
-        className="font-light hover:font-light no-underline hover:underline text-inherit hover:text-inherit"
+        className="font-light no-underline hover:font-light hover:underline text-inherit hover:text-inherit"
         target="_blank"
         rel="noopener noreferrer"
         href={url}
@@ -215,7 +215,7 @@ export function GitHubLink({ github: possibleLink }: { github?: string }) {
       rel="noopener noreferrer"
       className="text-inherit hover:text-inherit"
     >
-      <GithubIcon className="w-5 h-5 mr-1 inline-block opacity-60 hover:opacity-100" />
+      <GithubIcon className="inline-block w-5 h-5 mr-1 opacity-60 hover:opacity-100" />
     </a>
   );
 }
@@ -250,17 +250,17 @@ export function Journal({
     <div className="flex-none mr-2">
       {url ? (
         <ExternalOrInternalLink
-          className="smallcaps font-semibold no-underline"
+          className="font-semibold no-underline smallcaps"
           to={url}
           title={title}
         >
           {title}
         </ExternalOrInternalLink>
       ) : (
-        <span className="smallcaps font-semibold">{title}</span>
+        <span className="font-semibold smallcaps">{title}</span>
       )}
       {volume != null && (
-        <span className="ml-2 pl-2 border-l">
+        <span className="pl-2 ml-2 border-l">
           Volume {volume}
           {issue != null && <>, Issue {issue}</>}
         </span>
@@ -308,7 +308,7 @@ export function FrontmatterBlock({
   return (
     <div className={classNames('mb-8', className)}>
       {hasHeaders && (
-        <div className="flex mt-3 mb-5 text-sm font-light items-center h-6">
+        <div className="flex items-center h-6 mt-3 mb-5 text-sm font-light">
           {subject && (
             <div
               className={classNames('flex-none pr-2 smallcaps', {
@@ -325,14 +325,14 @@ export function FrontmatterBlock({
           <GitHubLink github={github} />
           {isJupyter && (
             <div className="inline-block mr-1">
-              <JupyterIcon className="h-5 w-5 inline-block" />
+              <JupyterIcon className="inline-block w-5 h-5" />
             </div>
           )}
           <DownloadsDropdown exports={exports as any} />
         </div>
       )}
       {title && <h1 className="mb-0">{title}</h1>}
-      {subtitle && <p className="lead mt-2 mb-0 text-zinc-600 dark:text-zinc-400">{subtitle}</p>}
+      {subtitle && <p className="mt-2 mb-0 lead text-zinc-600 dark:text-zinc-400">{subtitle}</p>}
       {hasAuthors && authorStyle === 'list' && <AuthorsList authors={frontmatter.authors} />}
       {hasAuthors && authorStyle === 'block' && (
         <AuthorAndAffiliations authors={frontmatter.authors} />

@@ -1,10 +1,13 @@
-.PHONY: build-theme build-article build-book deploy-theme deploy-article deploy-book
+.PHONY: build-theme build-article build-book deploy-theme deploy-article deploy-book check
 
 COMMIT = $(shell git rev-parse --short HEAD)
 # You may need to install jq for this to work!
 VERSION = $(shell cat packages/site/package.json | jq -r '.version')
 
 THEME=article
+
+check:
+	@which jq > /dev/null || (echo "Error: the jq linux command is not available. Please install it first (brew install jq | apt-get install jq)." && exit 1)
 
 build-theme:
 	mkdir .deploy || true
@@ -27,7 +30,9 @@ build-article:
 build-book:
 	make THEME=book build-theme
 
-deploy-theme:
+deploy-theme: check
+	echo "Deploying $(THEME) theme to myst-templates/$(THEME)-theme"
+	echo "Version: $(VERSION)"
 	make THEME=$(THEME) build-theme
 	cd .deploy/$(THEME) && git add .
 	cd .deploy/$(THEME) && git commit -m "🚀 v$(VERSION) from $(COMMIT)"

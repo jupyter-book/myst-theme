@@ -83,7 +83,7 @@ export function notebookFromMdast(
   // Object.assign(notebook.metadata, ipynb.metadata);
   notebook.cells = (mdast.children as GenericParent[]).map((block: GenericParent) => {
     if (block.type !== 'block') console.warn(`Unexpected block type ${block.type}`);
-    if (block.children.length == 2 && block.children[0].type === 'code') {
+    if (block.children && block.children.length == 2 && block.children[0].type === 'code') {
       const [codeCell, output] = block.children;
 
       // use the block.key to identify the cell but maintain a mapping
@@ -105,7 +105,7 @@ export function notebookFromMdast(
       const cell = new core.ThebeNonExecutableCell(
         block.key,
         notebook.id,
-        block.children.reduce((acc, child) => acc + '\n' + (child.value ?? ''), ''),
+        block.children?.reduce((acc, child) => acc + '\n' + (child.value ?? ''), '') ?? '',
         block.data ?? {},
         notebook.rendermime,
       );

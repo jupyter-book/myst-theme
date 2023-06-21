@@ -96,7 +96,9 @@ export function updateSiteManifestStaticLinksInplace(
     if (!action.static) return;
     action.url = updateUrl(action.url);
   });
+  // TODO: this needs to be based on the template.yml in the future
   if (data.logo) data.logo = updateUrl(data.logo);
+  if (data.logo_dark) data.logo_dark = updateUrl(data.logo_dark);
   // Update the thumbnails to point at the CDN
   data.projects?.forEach((project) => {
     project.pages

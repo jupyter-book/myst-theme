@@ -57,7 +57,7 @@ function ExternalOrInternalLink({
 function NavItem({ item }: { item: SiteNavItem }) {
   if (!('children' in item)) {
     return (
-      <div className="relative grow-0 inline-block mx-2">
+      <div className="relative inline-block mx-2 grow-0">
         <ExternalOrInternalLink
           nav
           to={item.url ?? ''}
@@ -76,9 +76,9 @@ function NavItem({ item }: { item: SiteNavItem }) {
     );
   }
   return (
-    <Menu as="div" className="relative grow-0 inline-block mx-2">
+    <Menu as="div" className="relative inline-block mx-2 grow-0">
       <div className="inline-block">
-        <Menu.Button className="inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium text-stone-900 dark:text-white rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+        <Menu.Button className="inline-flex items-center justify-center w-full py-1 mx-2 font-medium rounded-md text-md text-stone-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
           <span>{item.title}</span>
           <ChevronDownIcon className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100" />
         </Menu.Button>
@@ -92,7 +92,7 @@ function NavItem({ item }: { item: SiteNavItem }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-left absolute left-4 mt-2 w-48 rounded-sm shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute w-48 py-1 mt-2 origin-top-left bg-white rounded-sm shadow-lg left-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
           {item.children?.map((action) => (
             <Menu.Item key={action.url}>
               {/* This is really ugly, BUT, the action needs to be defined HERE or the click away doesn't work for some reason */}
@@ -131,7 +131,7 @@ function NavItem({ item }: { item: SiteNavItem }) {
 function NavItems({ nav }: { nav?: SiteManifest['nav'] }) {
   if (!nav) return null;
   return (
-    <div className="text-md flex-grow hidden lg:block">
+    <div className="flex-grow hidden text-md lg:block">
       {nav.map((item) => {
         return <NavItem key={'url' in item ? item.url : item.title} item={item} />;
       })}
@@ -144,10 +144,10 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
   return (
     <Menu as="div" className="relative">
       <div>
-        <Menu.Button className="bg-transparent flex text-sm rounded-full focus:outline-none">
+        <Menu.Button className="flex text-sm bg-transparent rounded-full focus:outline-none">
           <span className="sr-only">Open Menu</span>
           <div className="flex items-center text-stone-200 hover:text-white">
-            <EllipsisVerticalIcon className="h-8 w-8 p-1" />
+            <EllipsisVerticalIcon className="w-8 h-8 p-1" />
           </div>
         </Menu.Button>
       </div>
@@ -160,7 +160,7 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-sm shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           {actions?.map((action) => (
             <Menu.Item key={action.url}>
               {({ active }) => (
@@ -182,19 +182,46 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
   );
 }
 
-function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; name?: string }) {
+function HomeLink({
+  logo,
+  logoDark,
+  logoText,
+  name,
+}: {
+  logo?: string;
+  logoDark?: string;
+  logoText?: string;
+  name?: string;
+}) {
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
   const nothingSet = !logo && !logoText;
   return (
     <Link
-      className="flex items-center dark:text-white w-fit ml-3 md:ml-5 xl:ml-7"
+      className="flex items-center ml-3 dark:text-white w-fit md:ml-5 xl:ml-7"
       to={withBaseurl('/', baseurl)}
       prefetch="intent"
     >
       {logo && (
-        <div className="dark:bg-white dark:rounded p-1 mr-3">
-          <img src={logo} className="h-9" alt={logoText || name} height="2.25rem"></img>
+        <div
+          className={classNames('p-1 mr-3', {
+            'dark:bg-white dark:rounded': !logoDark,
+          })}
+        >
+          <img
+            src={logo}
+            className={classNames('h-9', { 'dark:hidden': !!logoDark })}
+            alt={logoText || name}
+            height="2.25rem"
+          ></img>
+          {logoDark && (
+            <img
+              src={logoDark}
+              className="hidden h-9 dark:block"
+              alt={logoText || name}
+              height="2.25rem"
+            ></img>
+          )}
         </div>
       )}
       <span
@@ -211,7 +238,8 @@ function HomeLink({ logo, logoText, name }: { logo?: string; logoText?: string; 
 export function TopNav() {
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
-  const { logo, logo_text, logoText, actions, title, nav } = config ?? ({} as SiteManifest);
+  const { logo, logo_dark, logo_text, logoText, actions, title, nav } =
+    config ?? ({} as SiteManifest);
   return (
     <div className="bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 fixed w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-wrap max-w-[1440px] mx-auto">
@@ -223,15 +251,20 @@ export function TopNav() {
                 setOpen(!open);
               }}
             >
-              <MenuIcon className="h-8 w-8 p-1" />
+              <MenuIcon className="w-8 h-8 p-1" />
               <span className="sr-only">Open Menu</span>
             </button>
           </div>
-          <HomeLink name={title} logo={logo} logoText={logo_text || logoText} />
+          <HomeLink
+            name={title}
+            logo={logo}
+            logoDark={logo_dark}
+            logoText={logo_text || logoText}
+          />
         </div>
-        <div className="flex-grow flex items-center w-auto">
+        <div className="flex items-center flex-grow w-auto">
           <NavItems nav={nav} />
-          <div className="block flex-grow"></div>
+          <div className="flex-grow block"></div>
           <ThemeButton />
           <div className="block sm:hidden">
             <ActionMenu actions={actions} />
@@ -240,7 +273,7 @@ export function TopNav() {
             {actions?.map((action, index) => (
               <ExternalOrInternalLink
                 key={action.url || index}
-                className="inline-block text-md px-4 py-2 mx-1 leading-none border rounded border-stone-700 dark:border-white text-stone-700 dark:text-white hover:text-stone-500 dark:hover:text-neutral-800 hover:bg-neutral-100 mt-0"
+                className="inline-block px-4 py-2 mx-1 mt-0 leading-none border rounded text-md border-stone-700 dark:border-white text-stone-700 dark:text-white hover:text-stone-500 dark:hover:text-neutral-800 hover:bg-neutral-100"
                 to={action.url}
               >
                 {action.title}

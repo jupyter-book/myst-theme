@@ -203,7 +203,12 @@ function HomeLink({
       prefetch="intent"
     >
       {logo && (
-        <div className="p-1 mr-3">
+        <div
+          className={classNames('p-1 mr-3', {
+            'bg-dark:bg-white': !logoDark,
+            'dark:rounded': !logoDark,
+          })}
+        >
           <img src={logo} className="h-9 dark:hidden" alt={logoText || name} height="2.25rem"></img>
           <img
             src={logoDark}

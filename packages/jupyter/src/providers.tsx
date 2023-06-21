@@ -105,7 +105,7 @@ export function notebookFromMdast(
       const cell = new core.ThebeNonExecutableCell(
         block.key,
         notebook.id,
-        block.children.reduce((acc, child) => acc + '\n' + (child.value ?? ''), ''),
+        block.children?.reduce((acc, child) => acc + '\n' + (child.value ?? ''), ''),
         block.data ?? {},
         notebook.rendermime,
       );

@@ -204,23 +204,24 @@ function HomeLink({
     >
       {logo && (
         <div
-          className={classNames(
-            'p-1 mr-3',
-            {
-              'dark:bg-white': !!logoDark,
-            },
-            {
-              'dark:rounded': !!logoDark,
-            },
-          )}
+          className={classNames('p-1 mr-3', {
+            'dark:bg-white dark:rounded': !logoDark,
+          })}
         >
-          <img src={logo} className="h-9 dark:hidden" alt={logoText || name} height="2.25rem"></img>
           <img
-            src={logoDark}
-            className="hidden h-9 dark:block"
+            src={logo}
+            className={classNames('h-9', { 'dark:hidden': !!logoDark })}
             alt={logoText || name}
             height="2.25rem"
           ></img>
+          {logoDark && (
+            <img
+              src={logoDark}
+              className="hidden h-9 dark:block"
+              alt={logoText || name}
+              height="2.25rem"
+            ></img>
+          )}
         </div>
       )}
       <span

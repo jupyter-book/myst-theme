@@ -22,6 +22,9 @@ options:
   - type: file
     id: logo
     description: Local path to logo image
+  - type: file
+    id: logo_dark
+    description: Local path to logo image for dark mode
   - type: string
     id: logo_text
     description: Short text to display next to logo at the top of all pages

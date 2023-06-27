@@ -90,7 +90,6 @@ export function App() {
 
 export function AppWithReload() {
   const { theme, config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
-  console.log('AppWithReload', { BASE_URL });
   return (
     <Document
       theme={theme}

@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
-import { useThebeLoader, useThebeServer, useThebeSession } from 'thebe-react';
+import { useEffect, useState } from 'react';
+import { useThebeServer, useThebeSession } from 'thebe-react';
 import { useComputeOptions } from './providers';
-import { ThebeEventCb, ThebeEventData, ThebeEventType } from 'thebe-core';
+import type { ThebeEventData, ThebeEventType } from 'thebe-core';
 
 export function ConnectionStatusTray() {
   const { thebe } = useComputeOptions();
@@ -26,7 +26,7 @@ export function ConnectionStatusTray() {
 
   useEffect(() => {
     if (!thebe) return;
-    if (true || thebe?.useBinder || thebe?.useJupyterLite) {
+    if (thebe?.useBinder || thebe?.useJupyterLite) {
       if (busy || error) {
         setShow(true);
       } else if (ready) {
@@ -42,7 +42,7 @@ export function ConnectionStatusTray() {
     }
   }, [thebe, busy, ready, error]);
 
-  let host = thebe?.useBinder ? 'Binder' : thebe?.useJupyterLite ? 'JupyterLite' : 'Local Server';
+  const host = thebe?.useBinder ? 'Binder' : thebe?.useJupyterLite ? 'JupyterLite' : 'Local Server';
 
   if (show && error) {
     return (

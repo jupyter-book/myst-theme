@@ -10,8 +10,12 @@ import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
 import { EnableCompute } from '../components/EnableCompute';
 import { NotebookRunAll } from '../components/ComputeControls';
-import { NotebookProvider, BinderBadge, useComputeOptions } from '@myst-theme/jupyter';
-import { ConnectionStatusTray } from '@myst-theme/jupyter';
+import {
+  NotebookProvider,
+  BinderBadge,
+  useComputeOptions,
+  ConnectionStatusTray,
+} from '@myst-theme/jupyter';
 
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
   const computeOptions = useComputeOptions();

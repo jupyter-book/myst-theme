@@ -11,14 +11,7 @@ export function EnableCompute({
 }: React.PropsWithChildren<{ canCompute: boolean }>) {
   const { load, loading, core } = useThebeLoader();
   const { connect, connecting, ready: serverReady, error: serverError } = useThebeServer();
-  const {
-    start,
-    starting,
-    shutdown,
-    session,
-    ready: sessionReady,
-    error: sessionError,
-  } = useThebeSession();
+  const { start, starting, shutdown, ready: sessionReady, error: sessionError } = useThebeSession();
   const hasNotebookProvider = useHasNotebookProvider();
   const navigation = useNavigation();
   const [enabling, setEnabling] = useState(false);

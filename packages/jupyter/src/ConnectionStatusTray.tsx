@@ -48,7 +48,7 @@ export function ConnectionStatusTray() {
     return (
       <div className="fixed p-3 text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
         <div className="mb-2 font-semibold text-center">⛔️ Error connecting to {host} ⛔️</div>
-        <div className="my-1 max-h-[5rem] mono overflow-hidden text-ellipsis">{error}</div>
+        <div className="my-1 max-h-[15rem] mono overflow-hidden text-ellipsis">{error}</div>
         <div className="flex justify-end">
           <div
             className="text-xs cursor-pointer hover:underline"
@@ -68,7 +68,7 @@ export function ConnectionStatusTray() {
         <div className="mb-1 font-semibold text-center">⚡️ Connecting to {host} ⚡️</div>
         {!ready && <div className="max-h-[5rem] mono overflow-hidden text-ellipsis">{status}</div>}
         {ready && (
-          <div className="max-h-[5rem] mono overflow-hidden text-ellipsis">
+          <div className="max-h-[15rem] mono overflow-hidden text-ellipsis">
             The in-browser JupyterLite server is ready, press run anytime.
           </div>
         )}
@@ -80,7 +80,7 @@ export function ConnectionStatusTray() {
     return (
       <div className="fixed p-3 text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
         <div className="mb-1 font-semibold text-center">⚡️ Connecting to {host} ⚡️</div>
-        <div className="max-h-[5rem] mono overflow-hidden text-ellipsis">{status}</div>
+        <div className="max-h-[15rem] mono overflow-hidden text-ellipsis">{status}</div>
       </div>
     );
   }

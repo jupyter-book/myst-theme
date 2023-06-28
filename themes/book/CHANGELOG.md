@@ -1,5 +1,20 @@
 # @myst-theme/book
 
+## 0.3.3
+
+### Patch Changes
+
+- fe11cb1c: Add logo_dark as a template option
+- 162c9eff: Remove console.log
+- Updated dependencies [beee0d67]
+- Updated dependencies [fe11cb1c]
+- Updated dependencies
+  - @myst-theme/jupyter@0.3.3
+  - @myst-theme/site@0.3.3
+  - @myst-theme/providers@0.3.3
+  - @myst-theme/styles@0.3.3
+  - @myst-theme/icons@0.3.3
+
 ## 0.3.2
 
 ### Patch Changes

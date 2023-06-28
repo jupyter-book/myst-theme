@@ -1,5 +1,22 @@
 # @curvenote/site
 
+## 0.3.3
+
+### Patch Changes
+
+- fe11cb1c: Add logo_dark as a template option
+- Add a status indicator for binder/jupyterlite
+- Updated dependencies [beee0d67]
+- Updated dependencies [162c9eff]
+- Updated dependencies [162c9eff]
+- Updated dependencies
+  - @myst-theme/jupyter@0.3.3
+  - myst-demo@0.3.3
+  - myst-to-react@0.3.3
+  - @myst-theme/providers@0.3.3
+  - @myst-theme/frontmatter@0.3.3
+  - @myst-theme/diagrams@0.3.3
+
 ## 0.3.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.3.3
+
+### Patch Changes
+
+- beee0d67: Patch myst-block bug
+- Add a status indicator for binder/jupyterlite
+  - @myst-theme/providers@0.3.3
+
 ## 0.3.2
 
 ### Patch Changes

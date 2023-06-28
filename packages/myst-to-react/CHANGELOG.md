@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 0.3.3
+
+### Patch Changes
+
+- 162c9eff: Update chemical formula parsing and presentation
+  - @myst-theme/providers@0.3.3
+
 ## 0.3.2
 
 ### Patch Changes

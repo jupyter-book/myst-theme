@@ -4,6 +4,7 @@ import { useHasNotebookProvider } from '@myst-theme/jupyter';
 import { useNavigation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { Spinner } from './Spinner';
+import classNames from 'classnames';
 
 export function EnableCompute({
   canCompute,
@@ -30,14 +31,9 @@ export function EnableCompute({
   }, [enabling, core, serverReady, sessionReady]);
 
   if (!canCompute || !hasNotebookProvider) return null;
-  let classes =
-    'flex text-center mr-1 cursor-pointer rounded-full disabled:opacity-10 text-gray-700';
-
   let title = 'Connect to a compute server';
   const error = !!sessionError || !!serverError;
-  const errorClasses = ' text-red-600 opacity-100';
-  if (serverError || sessionError) {
-    classes += errorClasses;
+  if (error) {
     title = 'Error connecting to compute server';
   }
   if (busy) {
@@ -54,7 +50,10 @@ export function EnableCompute({
     <div className="relative flex items-center mx-1 mb-2">
       {!enabled && (
         <button
-          className={classes}
+          className={classNames(
+            'flex text-center mr-1 cursor-pointer rounded-full disabled:opacity-10 text-gray-700',
+            { 'text-red-600 opacity-100': error },
+          )}
           onClick={() => setEnabling(true)}
           disabled={connecting || starting}
           title={title}

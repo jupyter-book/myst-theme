@@ -11,6 +11,7 @@ import { useThebeServer } from 'thebe-react';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 import { Spinner } from '../Spinner';
 import { Clear, Launch, Restart, Run } from './Buttons';
+import { useEffect, useState } from 'react';
 
 export function NotebookRunAll() {
   const { ready: serverReady, server } = useThebeServer();
@@ -46,8 +47,9 @@ export function NotebookRunAll() {
 
 export function NotebookToolbar({ autorun }: { autorun?: boolean }) {
   const { slug, ready, state, start, resetAll, clearAll, execute } = useExecuteScope();
+  const [firstRun, setFirstRun] = useState(false);
   const busy = useBusyScope();
-  const { connecting, connect, error: serverError } = useThebeServer();
+  const { connecting, connect, error: serverError, server } = useThebeServer();
   const computable = selectIsComputable(state, slug);
   const handleStart = () => {
     connect();
@@ -60,7 +62,21 @@ export function NotebookToolbar({ autorun }: { autorun?: boolean }) {
   const started = selectAreExecutionScopesReady(state, slug) && ready;
   const building = selectAreExecutionScopesBuilding(state, slug);
   const status = selectExecutionScopeStatus(state, slug);
-  const idle = !started && !building;
+
+  const clickLaunchInJupyter = () => {
+    if (!started || !server?.settings) return;
+    window.open(server.settings.baseUrl, '_blank');
+  };
+
+  useEffect(() => {
+    if (firstRun) return;
+    if (autorun && started) {
+      setFirstRun(true);
+      setTimeout(() => {
+        execute(slug);
+      }, 300);
+    }
+  }, [autorun, started, execute, slug, firstRun]);
 
   const error = !!serverError; // TODO broader build & session errors
   let title = 'Connect to a compute server';
@@ -97,6 +113,7 @@ export function NotebookToolbar({ autorun }: { autorun?: boolean }) {
           {started && <Run ready={ready} executing={busy.any(slug)} onClick={handleRun} />}
           {started && <Restart ready={ready} restarting={false} onClick={handleReset} />}
           {started && <Clear ready={ready} executing={busy.any(slug)} onClick={handleClear} />}
+          {started && <Launch ready={ready} onClick={clickLaunchInJupyter} />}
         </div>
       </div>
     );

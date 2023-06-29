@@ -73,7 +73,7 @@ function Scope({ slug }: { slug: string }) {
 }
 
 function ComputeToolbar({ slug, autorun }: { slug: string; autorun?: boolean }) {
-  const { ready, state, start, restart, execute } = useExecuteScope();
+  const { ready, state, start, resetAll, execute } = useExecuteScope();
   const busy = useBusyScope();
   const { connect } = useThebeServer();
   const computable = selectIsComputable(state, slug);
@@ -81,7 +81,7 @@ function ComputeToolbar({ slug, autorun }: { slug: string; autorun?: boolean }) 
     connect();
     start(slug);
   };
-  const handleRestart = () => restart(slug);
+  const handleReset = () => resetAll(slug);
   const handleRun = () => execute(slug);
 
   const started = selectAreExecutionScopesReady(state, slug) && ready;
@@ -117,10 +117,10 @@ function ComputeToolbar({ slug, autorun }: { slug: string; autorun?: boolean }) 
         {started && (
           <button
             className="px-2 text-xs text-red-500 border border-red-500 rounded"
-            onClick={handleRestart}
-            aria-label="restart the current compute session"
+            onClick={handleReset}
+            aria-label="reset the notebook and restart the compute session"
           >
-            restart
+            reset
           </button>
         )}
       </div>

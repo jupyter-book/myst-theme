@@ -52,14 +52,26 @@ export function useExecuteScope() {
     }, 100);
   };
 
-  const restart = useCallback((slug: string) => {
-    // directly interact with the session
-    console.error('restart not implemented', slug);
-  }, []);
+  const resetAll = useCallback(
+    (renderSlug: string) => {
+      // directly interact with the session & notebook
+      Object.entries(state.renderings[renderSlug].scopes).forEach(
+        ([notebookSlug, { notebook, session }]) => {
+          busy.set(renderSlug, notebookSlug);
+          setTimeout(async () => {
+            notebook.reset();
+            await session?.kernel?.restart();
+            busy.clear(renderSlug, notebookSlug);
+          }, 300);
+        },
+      );
+    },
+    [state],
+  );
 
   const ready = context.state.renderings[context.slug]?.ready;
 
-  return { ...context, ready, start, restart, execute };
+  return { ...context, ready, start, resetAll, execute };
 }
 
 /**
@@ -91,13 +103,13 @@ export function useCellExecution(id: IdOrKey) {
   const ready = context.state.renderings[context.slug]?.ready;
   const execute = () => alert('execute the notebook for this cell');
   const clear = () => alert('clear this cell');
-  const restart = () => alert('clear this cell');
+  const reset = (rdrSlug: string, nbSlug: string) => alert('clear this cell');
 
   // this needs to tie in to the cell executation status in context of the notebook
   // i.e. this cell may nnot be the origin of the execute click but should show busy if needed
   const executing = false;
 
-  return { ready, executing, execute, clear, restart, cell };
+  return { ready, executing, execute, clear, reset, cell };
 }
 
 export function useReadyToExecute() {

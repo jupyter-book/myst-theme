@@ -17,21 +17,62 @@ import {
   ConnectionStatusTray,
 } from '@myst-theme/jupyter';
 import { NotebookProvider, BinderBadge, useComputeOptions } from '@myst-theme/jupyter';
-import { ExecuteScopeProvider, useExecuteScope } from './executeScope';
+import {
+  ExecuteScopeProvider,
+  selectIsComputable,
+  selectIsExecutionScopeStarted,
+  useExecuteScope,
+} from './executeScope';
 
 function Scope({ slug }: { slug: string }) {
-  const { scope } = useExecuteScope();
+  const { store } = useExecuteScope();
 
-  const { article, ...rest } = scope.items[slug] ?? {};
+  const keys = Object.keys(store.mdast);
   return (
     <div className="relative group/scope">
       <div className="px-1 text-xs text-center text-white rounded-md bg-neutral-500">scope</div>
-      <div className="max-w-[900px] max-h-[600px] overflow-auto absolute top-0 right-0 z-50 invisible group-hover/scope:visible border rounded bg-white p-2">
-        <pre>{JSON.stringify(rest, null, 2)}</pre>
-        <pre>{JSON.stringify(article, null, 2)}</pre>
+      <div className="w-max max-w-[900px] max-h-[600px] overflow-auto absolute top-0 right-0 z-50 invisible group-hover/scope:visible border rounded bg-white p-2">
+        <div>current slug: {slug}</div>
+        <div>mdast keys: {keys.join(', ')}</div>
+        <pre>{JSON.stringify(store.scopes, null, 2)}</pre>
       </div>
     </div>
   );
+}
+
+function Computable({ slug }: { slug: string }) {
+  const { store, start, restart } = useExecuteScope();
+  const computable = selectIsComputable(slug, store);
+  const handleStart = () => start(slug);
+  const handleRestart = () => restart(slug);
+
+  const started = selectIsExecutionScopeStarted(slug, store);
+
+  if (computable)
+    return (
+      <div className="flex space-x-1">
+        <div className="px-2 text-xs text-white bg-green-500 rounded-md">computable</div>
+        {!started && (
+          <button
+            className="px-2 text-xs text-green-500 border border-green-500 rounded"
+            onClick={handleStart}
+            aria-label="start compute environment"
+          >
+            start
+          </button>
+        )}
+        {started && (
+          <button
+            className="px-2 text-xs text-red-500 border border-red-500 rounded"
+            onClick={handleRestart}
+            aria-label="restart the current compute session"
+          >
+            restart
+          </button>
+        )}
+      </div>
+    );
+  return null;
 }
 
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
@@ -46,8 +87,7 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
       frontmatter={article.frontmatter}
     >
       <ExecuteScopeProvider article={article}>
-        <div className="flex items-center">
-          <div className="flex-grow"></div>
+        <div className="flex flex-col items-end my-1 space-y-1">
           {/* {binder && <BinderBadge binder={binder} />}
           {canCompute && isJupyter && (
             <EnableCompute canCompute={true} key={article.slug}>
@@ -55,6 +95,7 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
             </EnableCompute>
           )} */}
           <Scope slug={article.slug} />
+          <Computable slug={article.slug} />
         </div>
         <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
         <Bibliography />

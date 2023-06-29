@@ -40,7 +40,30 @@ function Scope({ slug }: { slug: string }) {
         <div>builds:</div>
         <pre className="my-0">{JSON.stringify(state.builds, null, 2)}</pre>
         <div>renderings:</div>
-        <pre className="my-0">{JSON.stringify(state.renderings, null, 2)}</pre>
+        <pre className="my-0">
+          {JSON.stringify(
+            Object.fromEntries(
+              Object.entries(state.renderings).map(([k, r]) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { scopes, ...rest } = r;
+                return [
+                  k,
+                  {
+                    ...rest,
+                    scopes: Object.fromEntries(
+                      Object.entries(scopes).map(([s, scope]) => [
+                        s,
+                        Object.fromEntries(Object.entries(scope).map(([kk, v]) => [kk, !!v])),
+                      ]),
+                    ),
+                  },
+                ];
+              }),
+            ),
+            null,
+            2,
+          )}
+        </pre>
       </div>
     </div>
   );

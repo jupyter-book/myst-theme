@@ -3,21 +3,16 @@ import { SourceFileKind } from 'myst-common';
 import type { Root } from 'mdast';
 import React, { useEffect, useReducer, useRef } from 'react';
 import { selectAll } from 'unist-util-select';
-import type { ExecuteScopeAction, Computable } from './actions';
-import type { ExecuteScopeState } from './reducer';
+import type { ExecuteScopeAction, ExecuteScopeType } from './actions';
+import type { Computable, ExecuteScopeState, IdKeyMap } from './types';
 import { reducer } from './reducer';
-import { selectAreAllDependenciesReady, selectDependenciesToFetch } from './selectors';
+import {
+  selectAreAllDependenciesReady,
+  selectAreAllNotebookScopesBuilt,
+  selectDependenciesToFetch,
+  selectScopeNotebooksToBuild,
+} from './selectors';
 import { MdastFetcher, NotebookBuilder } from './leaves';
-
-interface ExecuteScopeType {
-  state: ExecuteScopeState;
-  dispatch: React.Dispatch<ExecuteScopeAction>;
-}
-
-export type IdOrKey = string; // any node key (block, codeCel, output)
-export type NotebookSlug = string; // the slug of the notebook
-export type CellId = string; // the id of a cell in a notebook, by convention it is the block.key
-export type IdKeyMap = Record<IdOrKey, { slug: NotebookSlug; cellId: CellId }>;
 
 export const ExecuteScopeContext = React.createContext<ExecuteScopeType | undefined>(undefined);
 
@@ -72,9 +67,11 @@ function useExecutionScopeFetcher({
 }) {
   useEffect(() => {
     if (!state.builds[slug]) return;
+    // TODO could be moved to the leaf
     if (state.builds[slug].status === 'pending') {
       dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'fetching' } });
     }
+    // TODO could be moved to the leaf
     if (state.builds[slug].status === 'fetching') {
       if (selectAreAllDependenciesReady(state, slug)) {
         dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'build-notebooks' } });
@@ -126,13 +123,13 @@ export function ExecuteScopeProvider({
   const idkMap = useRef<IdKeyMap>({});
 
   useScopeNavigate({ contents, state: state, dispatch });
+
+  // TODO phase this out as it is based on the current slug only!
   useExecutionScopeFetcher({ slug: contents.slug, state: state, dispatch });
 
-  // idkMap: idkMap.current
-  // build a list of all the dependencies we need to fetch
-
   const fetchTargets: { slug: string; url: string }[] = selectDependenciesToFetch(state);
-  const buildTargets = Object.values(state.builds).filter((b) => b.status === 'build-notebooks');
+  const notebookBuildTargets: { renderSlug: string; notebookSlug: string }[] =
+    selectScopeNotebooksToBuild(state);
 
   const memo = React.useMemo(() => ({ state, dispatch, idkMap }), [state]);
 
@@ -144,14 +141,25 @@ export function ExecuteScopeProvider({
         {fetchTargets.length > 0 && (
           <div className="p-1 pl-4">
             {fetchTargets.map(({ slug, url }) => (
-              <MdastFetcher key={slug} slug={slug} url={url} dispatch={dispatch} />
+              <MdastFetcher key={`fetch-${slug}`} slug={slug} url={url} dispatch={dispatch} />
             ))}
           </div>
         )}
         <div className="p-0 m-0">building-notebooks:</div>
-        {buildTargets.length === 0 && <div className="p-1 pl-4">no active building</div>}
-        {buildTargets.length > 0 && (
-          <NotebookBuilder slug={contents.slug} idkMap={idkMap} state={state} dispatch={dispatch} />
+        {notebookBuildTargets.length === 0 && <div className="p-1 pl-4">no active building</div>}
+        {notebookBuildTargets.length > 0 && (
+          <div className="p-1 pl-4">
+            {notebookBuildTargets.map(({ renderSlug, notebookSlug }) => (
+              <NotebookBuilder
+                key={`build-${renderSlug}-${notebookSlug}`}
+                renderSlug={renderSlug}
+                notebookSlug={notebookSlug}
+                idkMap={idkMap.current}
+                state={state}
+                dispatch={dispatch}
+              />
+            ))}
+          </div>
         )}
       </div>
       {children}

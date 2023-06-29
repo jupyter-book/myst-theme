@@ -1,11 +1,12 @@
 import type { Dependency, SourceFileKind } from 'myst-common';
 import type { Root } from 'mdast';
-import type { BuildStatus } from './reducer';
+import type { BuildStatus, Computable, ExecuteScopeState } from './types';
+import { IRenderMimeRegistry, ThebeNotebook } from 'thebe-core';
+import { Thebe } from 'myst-frontmatter';
 
-export interface Computable {
-  key: string;
-  label: string;
-  source: Dependency;
+export interface ExecuteScopeType {
+  state: ExecuteScopeState;
+  dispatch: React.Dispatch<ExecuteScopeAction>;
 }
 
 export function isNavigatePayload(payload: unknown): payload is NavigatePayload {
@@ -65,18 +66,35 @@ interface AddMdastPayload {
   mdast: Root;
 }
 
+export function isAddNotebookPayload(payload: unknown): payload is AddNotebookPayload {
+  const maybePayload = payload as AddNotebookPayload;
+  return (
+    typeof maybePayload.renderSlug === 'string' &&
+    typeof maybePayload.notebookSlug === 'string' &&
+    typeof maybePayload.notebook === 'object' &&
+    typeof maybePayload.rendermime === 'object'
+  );
+}
+
+interface AddNotebookPayload {
+  renderSlug: string;
+  notebookSlug: string;
+  notebook: ThebeNotebook;
+  rendermime: IRenderMimeRegistry;
+}
+
 export interface ExecuteScopeAction {
   type:
     | 'NAVIGATE'
-    | 'ENABLE_SCOPE'
     | 'REQUEST_BUILD'
     | 'BUILD_STATUS'
     | 'CLEAR_BUILD'
-    | 'ADD_MDAST';
+    | 'ADD_MDAST'
+    | 'ADD_NOTEBOOK';
   payload:
     | NavigatePayload
     | SlugPayload
     | BuildStatusPayload
-    | EnableScopePayload
-    | AddMdastPayload;
+    | AddMdastPayload
+    | AddNotebookPayload;
 }

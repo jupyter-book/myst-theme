@@ -1,48 +1,13 @@
-import type { Dependency } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
-import type { Root } from 'mdast';
-import type { Computable, ExecuteScopeAction } from './actions';
+import type { ExecuteScopeAction } from './actions';
 import {
   isAddMdastPayload,
+  isAddNotebookPayload,
   isBuildStatusPayload,
-  isEnableScopePayload,
   isNavigatePayload,
   isSlugPayload,
 } from './actions';
-
-export type BuildStatus = 'pending' | 'fetching' | 'build-notebooks' | 'start-session' | 'error';
-
-export interface ExecuteScopeState {
-  mdast: {
-    [slug: string]: {
-      root: Root;
-    };
-  };
-  renderings: {
-    [slug: string]: {
-      slug: string;
-      kind: SourceFileKind;
-      computable: boolean;
-      dependencies: Dependency[];
-      computables: Computable[];
-      ready: boolean;
-      scopes: {
-        [slug: string]: ExecutionScope;
-      };
-    };
-  };
-  builds: {
-    [slug: string]: {
-      status: BuildStatus;
-    };
-  };
-}
-
-export interface ExecutionScope {
-  rendermime: any;
-  session: any;
-  notebook: any;
-}
+import type { ExecuteScopeState } from './types';
 
 export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): ExecuteScopeState {
   switch (action.type) {
@@ -91,7 +56,7 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
     case 'REQUEST_BUILD': {
       if (!isSlugPayload(action.payload)) {
         console.error(action.payload);
-        throw new Error('invalid ENABLE_SCOPE payload');
+        throw new Error('invalid REQUEST_BUILD payload');
       }
       const { slug } = action.payload;
       if (!!state.builds[slug] && state.builds[slug].status === 'pending') return state;
@@ -141,25 +106,31 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
         builds,
       };
     }
-    case 'ENABLE_SCOPE': {
-      if (!isEnableScopePayload(action.payload)) {
+    case 'ADD_NOTEBOOK': {
+      if (!isAddNotebookPayload(action.payload)) {
         console.error(action.payload);
-        throw new Error('invalid ENABLE_SCOPE payload');
+        throw new Error('invalid ADD_NOTEBOOK payload');
       }
-      const { renderingSlug, scopeSlug } = action.payload;
-      if (state.renderings[renderingSlug].scopes[scopeSlug]) return state;
+      const { renderSlug, notebookSlug, notebook, rendermime } = action.payload;
+      if (!state.renderings[renderSlug]) {
+        console.error(state, action.payload);
+        throw new Error('Trying to add notebook when there is no rendering state');
+      }
+      if (state.renderings[renderSlug].scopes[notebookSlug]) {
+        console.warn('Trying to add notebook scope when rendering already has one', action.payload);
+        return state;
+      }
       return {
         ...state,
         renderings: {
           ...state.renderings,
-          [renderingSlug]: {
-            ...state.renderings[renderingSlug],
+          [renderSlug]: {
+            ...state.renderings[renderSlug],
             scopes: {
-              ...state.renderings[renderingSlug].scopes,
-              [scopeSlug]: {
-                rendermime: undefined,
-                session: undefined,
-                notebook: undefined,
+              ...state.renderings[renderSlug].scopes,
+              [notebookSlug]: {
+                notebook,
+                rendermime,
               },
             },
           },

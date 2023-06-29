@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import type { IdOrKey } from './provider';
+import type { IdOrKey } from './types';
 import { ExecuteScopeContext } from './provider';
 
 export function useExecuteScope() {

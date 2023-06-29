@@ -70,7 +70,7 @@ export type PartialPage = {
   mdast: Root;
 };
 
-export function notebookFromMdast(
+export function deprecated__notebookFromMdast(
   core: ThebeCore,
   config: Config,
   mdast: GenericParent,
@@ -172,7 +172,7 @@ export function NotebookProvider({
     if (!core || !config) return;
     idkMap.current = {};
     if (page.kind === SourceFileKind.Notebook) {
-      const nb = notebookFromMdast(
+      const nb = deprecated__notebookFromMdast(
         core,
         config,
         page.mdast as GenericParent,

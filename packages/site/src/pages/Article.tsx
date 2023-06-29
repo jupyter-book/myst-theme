@@ -1,11 +1,9 @@
 import React from 'react';
 import { ReferencesProvider } from '@myst-theme/providers';
-import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 import type { PageLoader } from '../types';
-import { ThebeRenderMimeRegistryProvider, ThebeSessionProvider } from 'thebe-react';
 import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
 import { EnableCompute } from '../components/EnableCompute';
@@ -17,12 +15,15 @@ import {
   ConnectionStatusTray,
 } from '@myst-theme/jupyter';
 import { NotebookProvider, BinderBadge, useComputeOptions } from '@myst-theme/jupyter';
+import { useComputeOptions } from '@myst-theme/jupyter';
+import { useExecuteScope } from './execute/hooks';
 import {
-  ExecuteScopeProvider,
   selectIsComputable,
-  selectIsExecutionScopeStarted,
-  useExecuteScope,
-} from './executeScope';
+  selectAreExecutionScopesReady,
+  selectAreExecutionScopesBuilding,
+  selectExecutionScopeStatus,
+} from './execute/selectors';
+import { ExecuteScopeProvider } from './execute/provider';
 
 function Scope({ slug }: { slug: string }) {
   const { store } = useExecuteScope();
@@ -34,7 +35,8 @@ function Scope({ slug }: { slug: string }) {
       <div className="w-max max-w-[900px] max-h-[600px] overflow-auto absolute top-0 right-0 z-50 invisible group-hover/scope:visible border rounded bg-white p-2">
         <div>current slug: {slug}</div>
         <div>mdast keys: {keys.join(', ')}</div>
-        <pre>{JSON.stringify(store.scopes, null, 2)}</pre>
+        <pre>{JSON.stringify(store.builds, null, 2)}</pre>
+        <pre>{JSON.stringify(store.renderings, null, 2)}</pre>
       </div>
     </div>
   );
@@ -46,13 +48,16 @@ function Computable({ slug }: { slug: string }) {
   const handleStart = () => start(slug);
   const handleRestart = () => restart(slug);
 
-  const started = selectIsExecutionScopeStarted(slug, store);
+  const started = selectAreExecutionScopesReady(slug, store);
+  const building = selectAreExecutionScopesBuilding(slug, store);
+  const status = selectExecutionScopeStatus(slug, store);
+  const idle = !started && !building;
 
   if (computable)
     return (
       <div className="flex space-x-1">
         <div className="px-2 text-xs text-white bg-green-500 rounded-md">computable</div>
-        {!started && (
+        {idle && (
           <button
             className="px-2 text-xs text-green-500 border border-green-500 rounded"
             onClick={handleStart}
@@ -60,6 +65,9 @@ function Computable({ slug }: { slug: string }) {
           >
             start
           </button>
+        )}
+        {building && (
+          <div className="px-2 text-xs text-white bg-yellow-500 rounded-md">{status}</div>
         )}
         {started && (
           <button

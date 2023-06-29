@@ -1,11 +1,11 @@
-import { useFetchMdast } from 'myst-to-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import type { ExecuteScopeAction } from './actions';
 import type { IdKeyMap, ExecuteScopeState } from './types';
 import { useThebeLoader, useThebeConfig, useThebeServer } from 'thebe-react';
 import { notebookFromMdast } from './utils';
 import type { GenericParent } from 'myst-common';
 import { selectAreAllNotebookScopesBuilt, selectAreAllSessionsStarted } from './selectors';
+import { useFetchMdast } from 'myst-to-react';
 
 export function MdastFetcher({
   slug,

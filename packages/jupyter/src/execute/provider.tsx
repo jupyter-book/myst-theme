@@ -13,7 +13,6 @@ import {
   selectSessionsToStart,
 } from './selectors';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
-import { useThebeLoader } from 'thebe-react';
 
 export interface ExecuteScopeType {
   slug: string;

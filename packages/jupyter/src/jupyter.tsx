@@ -10,7 +10,7 @@ import { useXRefState } from '@myst-theme/providers';
 import { useThebeLoader } from 'thebe-react';
 import { useCellExecution } from './execute';
 
-function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
+function ActiveOutputRenderer({ id, initialData }: { id: string; initialData: IOutput[] }) {
   const exec = useCellExecution(id);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -19,18 +19,31 @@ function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
       console.debug(`No cell ref available for cell ${exec?.cell?.id}`);
       return;
     }
-    if (exec.cell.isAttachedToDOM) {
-      console.debug(`Cell ${exec.cell.id} already attached to DOM`);
-      return;
-    }
-    console.debug(`Attaching cell ${exec.cell.id} to DOM at:`, {
+
+    const verb = exec.cell.isAttachedToDOM ? 'reattaching' : 'attaching';
+    console.debug(`${verb} cell ${exec.cell.id} to DOM at:`, {
       el: ref.current,
       connected: ref.current.isConnected,
-      data,
+      data: initialData,
     });
+
     exec.cell.attachToDOM(ref.current);
-    exec.cell.render(data);
+
+    console.log('attach rendering -- existing outputs', exec.cell.outputs);
+    console.log('attach rendering -- execution count', exec.cell.executionCount);
+    if (exec.cell.executionCount == null) {
+      exec.cell.initOutputs(initialData);
+    } else {
+      exec.cell.refresh();
+    }
   }, [ref?.current, exec?.cell]);
+
+  useEffect(
+    () => () => {
+      console.log('unmounting attached output renderer');
+    },
+    [],
+  );
 
   return (
     <div>
@@ -95,7 +108,7 @@ export const JupyterOutputs = React.memo(
       return (
         <div>
           {!fullOutputs && <div className="p-2.5">Loading...</div>}
-          {fullOutputs && <ActiveOutputRenderer id={id} data={fullOutputs} />}
+          {fullOutputs && <ActiveOutputRenderer key={id} id={id} initialData={fullOutputs} />}
         </div>
       );
     }

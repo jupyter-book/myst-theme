@@ -124,14 +124,14 @@ export function SessionStarter({
       const existing = sessions.find((s) => s.path === path);
 
       if (existing) {
-        console.log(`session already exists for ${renderSlug}-${notebookSlug}`, existing);
+        console.debug(`session already exists for ${renderSlug}-${notebookSlug}`, existing);
         server.connectToExistingSession(existing, scope.rendermime).then((sesh) => {
           if (sesh == null) {
             console.error(`Could not connect to session for ${renderSlug} ${notebookSlug}`);
             return;
           }
-          console.log(`reconnected to session for ${renderSlug}/${notebookSlug}`, sesh);
-          console.log('restarting session', sesh);
+          console.debug(`reconnected to session for ${renderSlug}/${notebookSlug}`, sesh);
+          console.debug('restarting session', sesh);
           sesh.kernel?.restart().then(() => {
             const notebook = state.renderings[renderSlug]?.scopes[notebookSlug].notebook;
             notebook.attachSession(sesh);
@@ -149,11 +149,11 @@ export function SessionStarter({
             if (sesh == null) {
               server?.getKernelSpecs().then((specs) => {
                 console.error(`Could not start session for ${renderSlug} ${notebookSlug}`);
-                console.log(`Available kernels: ${Object.keys(specs)}`);
+                console.debug(`Available kernels: ${Object.keys(specs)}`);
               });
               return;
             }
-            console.log(`session started for ${renderSlug}/${notebookSlug}`, sesh);
+            console.debug(`session started for ${renderSlug}/${notebookSlug}`, sesh);
             const notebook = state.renderings[renderSlug]?.scopes[notebookSlug].notebook;
             notebook.attachSession(sesh);
             dispatch({ type: 'ADD_SESSION', payload: { renderSlug, notebookSlug, session: sesh } });

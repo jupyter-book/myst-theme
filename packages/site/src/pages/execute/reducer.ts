@@ -10,7 +10,7 @@ import {
   isSlugPayload,
 } from './actions';
 
-export type BuildStatus = 'pending' | 'fetching' | 'scoping' | 'error';
+export type BuildStatus = 'pending' | 'fetching' | 'build-notebooks' | 'start-session' | 'error';
 
 export interface ExecuteScopeState {
   mdast: {

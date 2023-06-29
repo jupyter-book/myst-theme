@@ -26,9 +26,9 @@ import {
 import { ExecuteScopeProvider } from './execute/provider';
 
 function Scope({ slug }: { slug: string }) {
-  const { store } = useExecuteScope();
+  const { state } = useExecuteScope();
 
-  const keys = Object.keys(store.mdast);
+  const keys = Object.keys(state.mdast);
   return (
     <div className="relative z-[1000] group/scope">
       <div className="px-1 text-xs text-center text-white rounded-md bg-neutral-500">scope</div>
@@ -36,16 +36,16 @@ function Scope({ slug }: { slug: string }) {
         <div>current slug: {slug}</div>
         <div>mdast keys: {keys.join(', ')}</div>
         <div>builds:</div>
-        <pre className="my-0">{JSON.stringify(store.builds, null, 2)}</pre>
+        <pre className="my-0">{JSON.stringify(state.builds, null, 2)}</pre>
         <div>renderings:</div>
-        <pre className="my-0">{JSON.stringify(store.renderings, null, 2)}</pre>
+        <pre className="my-0">{JSON.stringify(state.renderings, null, 2)}</pre>
       </div>
     </div>
   );
 }
 
 function Computable({ slug }: { slug: string }) {
-  const { store, start, restart } = useExecuteScope();
+  const { state: store, start, restart } = useExecuteScope();
   const computable = selectIsComputable(slug, store);
   const handleStart = () => start(slug);
   const handleRestart = () => restart(slug);

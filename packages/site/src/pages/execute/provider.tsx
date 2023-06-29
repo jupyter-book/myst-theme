@@ -3,13 +3,13 @@ import React, { useEffect, useReducer, useRef } from 'react';
 import { selectAll } from 'unist-util-select';
 import type { PageLoader } from '~/types';
 import type { ExecuteScopeAction, Computable } from './actions';
-import type { BuildStatus, ExecuteScopeState } from './reducer';
+import type { ExecuteScopeState } from './reducer';
 import { reducer } from './reducer';
-import { useFetchMdast } from 'myst-to-react';
 import { selectAreAllDependenciesReady, selectDependenciesToFetch } from './selectors';
+import { MdastFetcher, NotebookBuilder } from './leaves';
 
 interface ExecuteScopeType {
-  store: ExecuteScopeState;
+  state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }
 
@@ -22,15 +22,15 @@ export const ExecuteScopeContext = React.createContext<ExecuteScopeType | undefi
 
 function useScopeNavigate({
   article,
-  store,
+  state,
   dispatch,
 }: {
   article: PageLoader;
-  store: ExecuteScopeState;
+  state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
   useEffect(() => {
-    if (store.renderings[article.slug]) {
+    if (state.renderings[article.slug]) {
       console.log(`ExecuteScopeProvider - ${article.slug} is already in scope`);
       return;
     }
@@ -57,64 +57,24 @@ function useScopeNavigate({
 
 function useExecutionScopeFetcher({
   slug,
-  store,
+  state,
   dispatch,
-  idkMap,
 }: {
   slug: string;
-  store: ExecuteScopeState;
+  state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
-  idkMap: IdKeyMap;
 }) {
   useEffect(() => {
-    if (store.builds[slug] && store.builds[slug].status === 'pending') {
+    if (!state.builds[slug]) return;
+    if (state.builds[slug].status === 'pending') {
       dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'fetching' } });
     }
-    if (store.builds[slug]) {
-      // are all of our dependencies ready?
-      console.log(
-        'checking if all dependencies are ready',
-        slug,
-        selectAreAllDependenciesReady(slug, store),
-        Object.keys(store.mdast).join(', '),
-      );
-      if (selectAreAllDependenciesReady(slug, store)) {
-        dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'scoping' } });
+    if (state.builds[slug].status === 'fetching') {
+      if (selectAreAllDependenciesReady(slug, state)) {
+        dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'build-notebooks' } });
       }
     }
-  }, [store.builds, store.mdast]);
-}
-
-function MdastFetcher({
-  slug,
-  url,
-  dispatch,
-}: {
-  slug: string;
-  url: string;
-  dispatch: React.Dispatch<ExecuteScopeAction>;
-}) {
-  const { data, error } = useFetchMdast({ remote: true, dataUrl: `${url}.json` });
-
-  console.log({ data, error });
-
-  useEffect(() => {
-    if (!data) return;
-    setTimeout(() => {
-      dispatch({ type: 'ADD_MDAST', payload: { slug, mdast: data.mdast } });
-    }, 1000);
-  }, [data]);
-
-  if (error) {
-    return (
-      <div>
-        error: {slug}
-        {error.message}
-      </div>
-    );
-  }
-
-  return <div>fetching: {`${slug}.json`}</div>;
+  }, [state.builds, state.mdast]);
 }
 
 /**
@@ -155,32 +115,39 @@ export function ExecuteScopeProvider({
     builds: {},
   };
 
-  const [store, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const idkMap = useRef<IdKeyMap>({});
 
-  const memo = React.useMemo(() => ({ store, dispatch, idkMap }), [store]);
+  useScopeNavigate({ article, state: state, dispatch });
+  useExecutionScopeFetcher({ slug: article.slug, state: state, dispatch });
 
-  useScopeNavigate({ article, store, dispatch });
-  useExecutionScopeFetcher({ slug: article.slug, store, dispatch, idkMap: idkMap.current });
-
+  // idkMap: idkMap.current
   // build a list of all the dependencies we need to fetch
-  const fetchTargets: { slug: string; url: string }[] = selectDependenciesToFetch(store);
+
+  const fetchTargets: { slug: string; url: string }[] = selectDependenciesToFetch(state);
+  const buildTargets = Object.values(state.builds).filter((b) => b.status === 'build-notebooks');
+
+  const memo = React.useMemo(() => ({ state, dispatch, idkMap }), [state]);
 
   return (
     <ExecuteScopeContext.Provider value={memo}>
-      {fetchTargets.length > 0 && (
-        <div className="fixed bottom-0 right-0 p-2 m-1 border rounded shadow-lg">
-          {fetchTargets.map(({ slug, url }) => (
-            <MdastFetcher key={slug} slug={slug} url={url} dispatch={dispatch} />
-          ))}
-        </div>
-      )}
-      {fetchTargets.length === 0 && (
-        <div className="fixed bottom-0 right-0 p-2 m-1 border rounded shadow-lg">
-          no active fetching
-        </div>
-      )}
+      <div className="fixed bottom-0 right-0 p-2 m-1 text-xs border rounded shadow-lg">
+        <div className="p-0 m-0">fetching:</div>
+        {fetchTargets.length === 0 && <div className="p-1 pl-4">no active fetching</div>}
+        {fetchTargets.length > 0 && (
+          <div className="p-1 pl-4">
+            {fetchTargets.map(({ slug, url }) => (
+              <MdastFetcher key={slug} slug={slug} url={url} dispatch={dispatch} />
+            ))}
+          </div>
+        )}
+        <div className="p-0 m-0">building-notebooks:</div>
+        {buildTargets.length === 0 && <div className="p-1 pl-4">no active building</div>}
+        {buildTargets.length > 0 && (
+          <NotebookBuilder slug={article.slug} idkMap={idkMap} state={state} dispatch={dispatch} />
+        )}
+      </div>
       {children}
     </ExecuteScopeContext.Provider>
   );

@@ -10,8 +10,9 @@ import {
   selectAreAllDependenciesReady,
   selectDependenciesToFetch,
   selectScopeNotebooksToBuild,
+  selectSessionsToStart,
 } from './selectors';
-import { BuildMonitor, MdastFetcher, NotebookBuilder, ServerMonitor } from './leaf';
+import { BuildMonitor, MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
 
 export const ExecuteScopeContext = React.createContext<ExecuteScopeType | undefined>(undefined);
 
@@ -129,12 +130,14 @@ export function ExecuteScopeProvider({
   const fetchTargets: { slug: string; url: string }[] = selectDependenciesToFetch(state);
   const notebookBuildTargets: { renderSlug: string; notebookSlug: string }[] =
     selectScopeNotebooksToBuild(state);
+  const sessionStartTargets: { renderSlug: string; notebookSlug: string }[] =
+    selectSessionsToStart(state);
 
   const memo = React.useMemo(() => ({ state, dispatch, idkMap }), [state]);
 
   return (
     <ExecuteScopeContext.Provider value={memo}>
-      <div className="fixed bottom-0 right-0 hidden p-2 m-1 text-xs border rounded shadow-lg">
+      <div className="fixed bottom-0 left-0 z-50 p-2 m-1 text-xs bg-white border rounded shadow-lg">
         <div className="p-0 m-0">fetching:</div>
         {fetchTargets.length === 0 && <div className="p-1 pl-4">no active fetching</div>}
         {fetchTargets.length > 0 && (
@@ -154,6 +157,21 @@ export function ExecuteScopeProvider({
                 renderSlug={renderSlug}
                 notebookSlug={notebookSlug}
                 idkMap={idkMap.current}
+                state={state}
+                dispatch={dispatch}
+              />
+            ))}
+          </div>
+        )}
+        <div className="p-0 m-0">starting-sessions:</div>
+        {sessionStartTargets.length === 0 && <div className="p-1 pl-4">no active sessions</div>}
+        {sessionStartTargets.length > 0 && (
+          <div className="p-1 pl-4">
+            {sessionStartTargets.map(({ renderSlug, notebookSlug }) => (
+              <SessionStarter
+                key={`session-${renderSlug}-${notebookSlug}`}
+                renderSlug={renderSlug}
+                notebookSlug={notebookSlug}
                 state={state}
                 dispatch={dispatch}
               />

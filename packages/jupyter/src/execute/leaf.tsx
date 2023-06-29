@@ -91,6 +91,24 @@ export function NotebookBuilder({
   );
 }
 
+export function SessionStarter({
+  renderSlug,
+  notebookSlug,
+  state,
+  dispatch,
+}: {
+  renderSlug: string;
+  notebookSlug: string;
+  state: ExecuteScopeState;
+  dispatch: React.Dispatch<ExecuteScopeAction>;
+}) {
+  return (
+    <div>
+      starting: {notebookSlug} for {renderSlug}
+    </div>
+  );
+}
+
 export function BuildMonitor({
   state,
   dispatch,
@@ -101,14 +119,16 @@ export function BuildMonitor({
   const { ready } = useThebeServer();
 
   // When server is ready, move any waiting builds onto the start session step
-  if (ready) {
-    // TODO optimize to do a single dispatch
-    Object.entries(state.builds).forEach(([slug, { status }]) => {
-      if (status === 'wait-for-server') {
-        dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'start-session' } });
-      }
-    });
-  }
+  useEffect(() => {
+    if (ready) {
+      // TODO optimize to do a single dispatch
+      Object.entries(state.builds).forEach(([slug, { status }]) => {
+        if (status === 'wait-for-server') {
+          dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'start-session' } });
+        }
+      });
+    }
+  }, [ready, state]);
 
   return null;
 }
@@ -122,7 +142,7 @@ export function ServerMonitor({ showMessages }: { showMessages?: boolean }) {
 
   if (error) {
     return (
-      <div className="fixed text-red-600 border rounded shadow-lg bottom-1 right-1">
+      <div className="fixed text-red-600 border rounded shadow-lg bottom-3 right-3 animate-bounce">
         <h2>Server Connection Error</h2>
         <p>{error}</p>
       </div>
@@ -132,17 +152,16 @@ export function ServerMonitor({ showMessages }: { showMessages?: boolean }) {
   if (showMessages) {
     if (connecting) {
       return (
-        <div className="fixed text-blue-600 border rounded shadow-lg bottom-2 right-2">
-          <h2>Connecting to Server</h2>
-          <p>loading... TODO hookup thebe events here!!</p>
+        <div className="fixed bottom-3 right-3">
+          <div className="h-[30px] w-[30px] bg-orange-600 rounded-full shadow-lg border animate-bounce border-red-300" />
         </div>
       );
     }
 
     if (ready) {
       return (
-        <div className="fixed bottom-2 right-2">
-          <div className="h-[30px] w-[30px] bg-green-600 rounded-full shadow-lg border border-green-300" />
+        <div className="fixed bottom-3 right-3">
+          <div className="animate-bounce h-[30px] w-[30px] bg-green-600 rounded-full shadow-lg border border-green-300" />
         </div>
       );
     }

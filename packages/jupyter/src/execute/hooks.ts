@@ -11,7 +11,7 @@ export function useExecuteScope() {
   const { dispatch } = context;
 
   const start = useCallback((slug: string) => {
-    console;
+    console.log('starting...', slug);
     dispatch({
       type: 'REQUEST_BUILD',
       payload: {

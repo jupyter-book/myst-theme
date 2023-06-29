@@ -1,21 +1,22 @@
 import type { ExecuteScopeState } from './reducer';
 
-export function selectIsComputable(slug: string, state: ExecuteScopeState) {
+export function selectIsComputable(state: ExecuteScopeState, slug: string) {
   return state.renderings[slug]?.computable ?? false;
 }
 
-export function selectAreExecutionScopesReady(slug: string, state: ExecuteScopeState) {
+export function selectAreExecutionScopesReady(state: ExecuteScopeState, slug: string) {
   return state.renderings[slug]?.ready;
 }
 
-export function selectAreExecutionScopesBuilding(slug: string, state: ExecuteScopeState) {
+export function selectAreExecutionScopesBuilding(state: ExecuteScopeState, slug: string) {
   return !state.renderings[slug]?.ready && !!state.builds[slug];
 }
 
-export function selectExecutionScopeStatus(slug: string, state: ExecuteScopeState) {
+export function selectExecutionScopeStatus(state: ExecuteScopeState, slug: string) {
   return state.renderings[slug]?.ready ? 'ready' : state.builds[slug]?.status ?? 'unknown';
 }
 
+// TODO Memoize
 export function selectDependenciesToFetch(state: ExecuteScopeState) {
   return Object.entries(state.builds).reduce<
     {
@@ -36,6 +37,6 @@ export function selectDependenciesToFetch(state: ExecuteScopeState) {
   );
 }
 
-export function selectAreAllDependenciesReady(slug: string, state: ExecuteScopeState) {
+export function selectAreAllDependenciesReady(state: ExecuteScopeState, slug: string) {
   return state.renderings[slug]?.dependencies.every((dep) => !!state.mdast[dep.slug ?? dep.url]);
 }

@@ -45,14 +45,14 @@ function Scope({ slug }: { slug: string }) {
 }
 
 function Computable({ slug }: { slug: string }) {
-  const { state: store, start, restart } = useExecuteScope();
-  const computable = selectIsComputable(slug, store);
+  const { state, start, restart } = useExecuteScope();
+  const computable = selectIsComputable(state, slug);
   const handleStart = () => start(slug);
   const handleRestart = () => restart(slug);
 
-  const started = selectAreExecutionScopesReady(slug, store);
-  const building = selectAreExecutionScopesBuilding(slug, store);
-  const status = selectExecutionScopeStatus(slug, store);
+  const started = selectAreExecutionScopesReady(state, slug);
+  const building = selectAreExecutionScopesBuilding(state, slug);
+  const status = selectExecutionScopeStatus(state, slug);
   const idle = !started && !building;
 
   if (computable)

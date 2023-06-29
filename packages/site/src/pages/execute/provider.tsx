@@ -70,7 +70,7 @@ function useExecutionScopeFetcher({
       dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'fetching' } });
     }
     if (state.builds[slug].status === 'fetching') {
-      if (selectAreAllDependenciesReady(slug, state)) {
+      if (selectAreAllDependenciesReady(state, slug)) {
         dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'build-notebooks' } });
       }
     }

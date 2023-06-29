@@ -6,8 +6,8 @@ import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 import type { PageLoader } from '../types';
 import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
-import { EnableCompute } from '../components/EnableCompute';
-import { NotebookRunAll } from '../components/ComputeControls';
+import { EnableCompute } from '../components/controls/EnableCompute';
+import { NotebookRunAll } from '../components/controls/NotebookCellControls';
 import {
   NotebookProvider,
   BinderBadge,
@@ -23,7 +23,7 @@ import {
   ExecuteScopeProvider,
   BusyScopeProvider,
 } from '@myst-theme/jupyter';
-import { ComputeToolbar } from '../components/ComputeToolbar';
+import { NotebookToolbar } from '../components/controls/NotebookToolbar';
 
 function Scope({ slug }: { slug: string }) {
   const { state } = useExecuteScope();
@@ -80,7 +80,7 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
     >
       <ExecuteScopeProvider contents={article}>
         <BusyScopeProvider>
-          <ComputeToolbar slug={article.slug} />
+          <NotebookToolbar slug={article.slug} />
           <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
           <Bibliography />
           {!hide_footer_links && <FooterLinksBlock links={article.footer} />}

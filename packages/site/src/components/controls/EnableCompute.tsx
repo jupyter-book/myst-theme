@@ -3,7 +3,7 @@ import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 import { useHasNotebookProvider } from '@myst-theme/jupyter';
 import { useNavigation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import { Spinner } from './Spinner';
+import { Spinner } from '../Spinner';
 import classNames from 'classnames';
 
 export function EnableCompute({

@@ -9,11 +9,13 @@ export function Run({
   ready,
   executing,
   disabled,
+  title,
   onClick,
 }: {
   ready: boolean;
   executing: boolean;
   disabled?: boolean;
+  title?: string;
   onClick: () => void;
 }) {
   return (
@@ -28,8 +30,10 @@ export function Run({
         )}
         disabled={disabled || !ready || executing}
         onClick={() => onClick()}
+        title={title ?? 'run all cells'}
+        aria-label={title ?? 'run all cells'}
       >
-        <PlayCircleIcon className="inline-block w-6 h-6 align-top" title="run all cells" />
+        <PlayCircleIcon className="inline-block w-6 h-6 align-top" />
       </button>
       {executing && (
         <span className="absolute top-0 left-0 z-10 w-[22px] h-[22px] opacity-100">
@@ -43,10 +47,12 @@ export function Run({
 export function Clear({
   ready,
   disabled,
+  title,
   onClick,
 }: {
   ready: boolean;
   disabled?: boolean;
+  title?: string;
   onClick: () => void;
 }) {
   return (
@@ -57,8 +63,10 @@ export function Clear({
       })}
       disabled={disabled || !ready}
       onClick={() => onClick()}
+      title={title ?? 'clear'}
+      aria-label={title ?? 'clear'}
     >
-      <MinusCircleIcon className="inline-block w-6 h-6 align-top" title="clear all outputs" />
+      <MinusCircleIcon className="inline-block w-6 h-6 align-top" />
     </button>
   );
 }
@@ -67,11 +75,13 @@ export function Restart({
   ready,
   restarting,
   disabled,
+  title,
   onClick,
 }: {
   ready: boolean;
   restarting: boolean;
   disabled?: boolean;
+  title?: string;
   onClick: (() => void) | (() => Promise<void>);
 }) {
   return (
@@ -80,8 +90,10 @@ export function Restart({
         className="flex items-center text-gray-700 cursor-pointer active:text-green-700 opacity-60 hover:opacity-100"
         disabled={disabled || !ready || restarting}
         onClick={() => onClick()}
+        title={title ?? 'restart kernel'}
+        aria-label={title ?? 'restart kernel'}
       >
-        <ArrowPathIcon className="w-6 h-6" title="restart kernel" />
+        <ArrowPathIcon className="w-6 h-6" />
       </button>
       {restarting && (
         <span className="absolute top-0 left-0 z-10 w-[22px] h-[22px] opacity-100">
@@ -95,10 +107,12 @@ export function Restart({
 export function Launch({
   ready,
   disabled,
+  title,
   onClick,
 }: {
   ready: boolean;
   disabled?: boolean;
+  title?: string;
   onClick: () => void;
 }) {
   return (
@@ -106,11 +120,10 @@ export function Launch({
       className="flex items-center text-gray-700 cursor-pointer active:text-green-700 opacity-60 hover:opacity-100"
       disabled={disabled || !ready}
       onClick={() => onClick()}
+      title={title ?? 'launch in jupyter'}
+      aria-label={title ?? 'launch in jupyter'}
     >
-      <ArrowTopRightOnSquareIcon
-        className="inline-block w-6 h-6 align-top"
-        title="launch in juptyer"
-      />
+      <ArrowTopRightOnSquareIcon className="inline-block w-6 h-6 align-top" />
     </button>
   );
 }

@@ -75,10 +75,8 @@ function JupyterOutput({
       })}
     >
       {showControls && (
-        <div className="sticky top-[60px] bg-blue-700 min-h-[16px]">
-          <div className="absolute -top-[28px] md:top-[30px] right-0 md:-right-[28px]">
-            [output]
-          </div>
+        <div className="sticky top-[60px]">
+          <div className="absolute -top-[28px] md:top-[30px] right-0 md:-right-[28px]">[O]</div>
         </div>
       )}
       {component}

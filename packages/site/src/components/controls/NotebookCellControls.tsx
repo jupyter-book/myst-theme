@@ -10,11 +10,19 @@ export function RunNotebookCell({ id }: { id: string }) {
 export function RunNotebookCellSpinnerOnly({ id }: { id: string }) {
   const { ready, isBusy } = useCellExecution(id);
   if (!ready || !isBusy) return null;
-  return <Run ready={ready} executing={isBusy} disabled={true} onClick={() => ({})} />;
+  return (
+    <Run
+      ready={ready}
+      executing={isBusy}
+      disabled={true}
+      onClick={() => ({})}
+      title="Run this cell"
+    />
+  );
 }
 
 export function ClearNotebookCell({ id }: { id: string }) {
   const { ready, anyBusy, clear } = useCellExecution(id);
   if (!ready) return null;
-  return <Clear ready={ready} disabled={anyBusy} onClick={clear} />;
+  return <Clear ready={ready} disabled={anyBusy} onClick={clear} title="Clear cell outputs" />;
 }

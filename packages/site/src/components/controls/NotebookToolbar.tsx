@@ -1,23 +1,20 @@
 import {
   useExecuteScope,
   selectIsComputable,
-  selectAreExecutionScopesReady,
   selectAreExecutionScopesBuilding,
   selectExecutionScopeStatus,
   useBusyScope,
-  useMDASTNotebook,
 } from '@myst-theme/jupyter';
 import { useThebeServer } from 'thebe-react';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 import { Spinner } from '../Spinner';
-import { Clear, Launch, Restart, Run } from './Buttons';
-import { useEffect, useState } from 'react';
+import { Clear, Restart, Run } from './Buttons';
+import classNames from 'classnames';
 
-export function NotebookToolbar({ autorun }: { autorun?: boolean }) {
+export function NotebookToolbar() {
   const { slug, ready, state, start, resetAll, clearAll, execute } = useExecuteScope();
-  const [firstRun, setFirstRun] = useState(false);
   const busy = useBusyScope();
-  const { connecting, connect, error: serverError, server } = useThebeServer();
+  const { connecting, connect, error: serverError } = useThebeServer();
   const computable = selectIsComputable(state, slug);
   const handleStart = () => {
     connect();
@@ -27,24 +24,8 @@ export function NotebookToolbar({ autorun }: { autorun?: boolean }) {
   const handleClear = () => clearAll(slug);
   const handleRun = () => execute(slug);
 
-  const started = selectAreExecutionScopesReady(state, slug) && ready;
   const building = selectAreExecutionScopesBuilding(state, slug);
   const status = selectExecutionScopeStatus(state, slug);
-
-  const clickLaunchInJupyter = () => {
-    if (!started || !server?.settings) return;
-    window.open(server.settings.baseUrl, '_blank');
-  };
-
-  useEffect(() => {
-    if (firstRun) return;
-    if (autorun && started) {
-      setFirstRun(true);
-      setTimeout(() => {
-        execute(slug);
-      }, 300);
-    }
-  }, [autorun, started, execute, slug, firstRun]);
 
   const error = !!serverError; // TODO broader build & session errors
   let title = 'Connect to a compute server';
@@ -58,10 +39,13 @@ export function NotebookToolbar({ autorun }: { autorun?: boolean }) {
     return (
       <div className="sticky top-[60px] flex justify-end w-full z-20">
         <div className="flex p-1 m-1 space-x-1 border rounded-full shadow border-stone-300 bg-white/80 dark:bg-stone-900/80 backdrop-blur">
-          {!started && (
+          {!ready && (
             <div className="rounded">
               <button
-                className="flex text-center rounded-full cursor-pointer text-stone-800 hover:opacity-100 opacity-60"
+                className={classNames(
+                  'flex text-center rounded-full cursor-pointer text-stone-800 hover:opacity-100 opacity-60',
+                  { 'opacity-30': connecting || building },
+                )}
                 onClick={handleStart}
                 disabled={building}
                 aria-label="start compute environment"
@@ -70,7 +54,7 @@ export function NotebookToolbar({ autorun }: { autorun?: boolean }) {
               </button>
               {(connecting || building) && !error && (
                 <span
-                  className="absolute top-0 left-1 z-10 w-[22px] h-[22px] opacity-100"
+                  className="absolute top-1 left-1 z-10 w-[22px] h-[22px] opacity-100"
                   title={title}
                 >
                   <Spinner size={24} />
@@ -78,10 +62,30 @@ export function NotebookToolbar({ autorun }: { autorun?: boolean }) {
               )}
             </div>
           )}
-          {started && <Run ready={ready} executing={busy.any(slug)} onClick={handleRun} />}
-          {started && <Restart ready={ready} restarting={false} onClick={handleReset} />}
-          {started && <Clear ready={ready} disabled={busy.any(slug)} onClick={handleClear} />}
-          {started && <Launch ready={ready} onClick={clickLaunchInJupyter} />}
+          {ready && (
+            <Run
+              ready={ready}
+              executing={busy.any(slug)}
+              onClick={handleRun}
+              title="Run all cells"
+            />
+          )}
+          {ready && (
+            <Restart
+              ready={ready}
+              restarting={false}
+              onClick={handleReset}
+              title="Reset notebook and restart kernel"
+            />
+          )}
+          {ready && (
+            <Clear
+              ready={ready}
+              disabled={busy.any(slug)}
+              onClick={handleClear}
+              title="Clear all cells"
+            />
+          )}
         </div>
       </div>
     );

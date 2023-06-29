@@ -98,7 +98,7 @@ export function NotebookRunAll() {
 
   return (
     <div className="flex">
-      <div className="relative flex group space-x-1">
+      <div className="relative flex space-x-1 group">
         <Run
           ready={ready}
           executing={executing}

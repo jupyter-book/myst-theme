@@ -1,7 +1,8 @@
+import type { Dependency } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
+import type { Root } from 'mdast';
 import React, { useEffect, useReducer, useRef } from 'react';
 import { selectAll } from 'unist-util-select';
-import type { PageLoader } from '~/types';
 import type { ExecuteScopeAction, Computable } from './actions';
 import type { ExecuteScopeState } from './reducer';
 import { reducer } from './reducer';
@@ -20,39 +21,44 @@ export type IdKeyMap = Record<IdOrKey, { slug: NotebookSlug; cellId: CellId }>;
 
 export const ExecuteScopeContext = React.createContext<ExecuteScopeType | undefined>(undefined);
 
+type ArticleContents = {
+  slug: string;
+  kind: SourceFileKind;
+  mdast: Root;
+  dependencies?: Dependency[];
+};
+
 function useScopeNavigate({
-  article,
+  contents: { slug, kind, mdast, dependencies },
   state,
   dispatch,
 }: {
-  article: PageLoader;
+  contents: ArticleContents;
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
   useEffect(() => {
-    if (state.renderings[article.slug]) {
-      console.log(`ExecuteScopeProvider - ${article.slug} is already in scope`);
+    if (state.renderings[slug]) {
+      console.log(`ExecuteScopeProvider - ${slug} is already in scope`);
       return;
     }
 
-    const computables: Computable[] = selectAll('container > embed', article.mdast).map(
-      (node: any) => {
-        const { key, label, source } = node;
-        return { key, label, source };
-      },
-    );
+    const computables: Computable[] = selectAll('container > embed', mdast).map((node: any) => {
+      const { key, label, source } = node;
+      return { key, label, source };
+    });
 
     dispatch({
       type: 'NAVIGATE',
       payload: {
-        kind: article.kind,
-        slug: article.slug,
-        mdast: article.mdast,
-        dependencies: article.dependencies ?? [],
+        kind: kind,
+        slug: slug,
+        mdast: mdast,
+        dependencies: dependencies ?? [],
         computables,
       },
     });
-  }, [article.slug]);
+  }, [slug]);
 }
 
 function useExecutionScopeFetcher({
@@ -87,10 +93,10 @@ function useExecutionScopeFetcher({
  */
 export function ExecuteScopeProvider({
   children,
-  article,
-}: React.PropsWithChildren<{ article: PageLoader }>) {
+  contents,
+}: React.PropsWithChildren<{ contents: ArticleContents }>) {
   // compute incoming for first render
-  const computables: Computable[] = selectAll('container > embed', article.mdast).map(
+  const computables: Computable[] = selectAll('container > embed', contents.mdast).map(
     (node: any) => {
       const { key, label, source } = node;
       return { key, label, source };
@@ -99,14 +105,14 @@ export function ExecuteScopeProvider({
 
   const initialState: ExecuteScopeState = {
     mdast: {
-      [article.slug]: { root: article.mdast },
+      [contents.slug]: { root: contents.mdast },
     },
     renderings: {
-      [article.slug]: {
-        computable: computables.length > 0 || article.kind === SourceFileKind.Notebook,
-        kind: article.kind,
-        slug: article.slug,
-        dependencies: article.dependencies ?? [],
+      [contents.slug]: {
+        computable: computables.length > 0 || contents.kind === SourceFileKind.Notebook,
+        kind: contents.kind,
+        slug: contents.slug,
+        dependencies: contents.dependencies ?? [],
         computables,
         ready: false,
         scopes: {},
@@ -119,8 +125,8 @@ export function ExecuteScopeProvider({
 
   const idkMap = useRef<IdKeyMap>({});
 
-  useScopeNavigate({ article, state: state, dispatch });
-  useExecutionScopeFetcher({ slug: article.slug, state: state, dispatch });
+  useScopeNavigate({ contents, state: state, dispatch });
+  useExecutionScopeFetcher({ slug: contents.slug, state: state, dispatch });
 
   // idkMap: idkMap.current
   // build a list of all the dependencies we need to fetch
@@ -145,7 +151,7 @@ export function ExecuteScopeProvider({
         <div className="p-0 m-0">building-notebooks:</div>
         {buildTargets.length === 0 && <div className="p-1 pl-4">no active building</div>}
         {buildTargets.length > 0 && (
-          <NotebookBuilder slug={article.slug} idkMap={idkMap} state={state} dispatch={dispatch} />
+          <NotebookBuilder slug={contents.slug} idkMap={idkMap} state={state} dispatch={dispatch} />
         )}
       </div>
       {children}

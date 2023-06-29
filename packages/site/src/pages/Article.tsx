@@ -18,12 +18,14 @@ import { NotebookProvider, BinderBadge, useComputeOptions } from '@myst-theme/ju
 import { useComputeOptions } from '@myst-theme/jupyter';
 import { useExecuteScope } from './execute/hooks';
 import {
+  useComputeOptions,
+  useExecuteScope,
   selectIsComputable,
   selectAreExecutionScopesReady,
   selectAreExecutionScopesBuilding,
   selectExecutionScopeStatus,
-} from './execute/selectors';
-import { ExecuteScopeProvider } from './execute/provider';
+  ExecuteScopeProvider,
+} from '@myst-theme/jupyter';
 
 function Scope({ slug }: { slug: string }) {
   const { state } = useExecuteScope();
@@ -96,7 +98,7 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
-      <ExecuteScopeProvider article={article}>
+      <ExecuteScopeProvider contents={article}>
         <div className="flex flex-col items-end my-1 space-y-1">
           {/* {binder && <BinderBadge binder={binder} />}
           {canCompute && isJupyter && (

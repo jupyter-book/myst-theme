@@ -155,6 +155,7 @@ function useSelectNodes({
   // If dataUrl is not provided, it will be computed by appending .json to the url.
   if (!load) return;
   const external = url?.startsWith('http') ?? false;
+  // TODO: extract to a function
   const lookupUrl = external
     ? `/api/lookup?url=${url}.json`
     : dataUrl

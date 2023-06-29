@@ -27,7 +27,6 @@ export function useExecuteScope() {
 
   const execute = (slug: string) => {
     // set busy
-    console.log('execute', slug);
     Object.keys(state.renderings[slug].scopes).forEach((notebookSlug) => {
       console.log('busy', slug, notebookSlug);
       busy.set(slug, notebookSlug);
@@ -52,9 +51,24 @@ export function useExecuteScope() {
     }, 100);
   };
 
+  /**
+   * clearAll clears all cells in all notebooks for a given rendering
+   *
+   */
+  const clearAll = useCallback(
+    (renderSlug: string) => {
+      Object.entries(state.renderings[renderSlug].scopes).forEach(([, { notebook }]) => {
+        notebook.clear();
+      });
+    },
+    [state],
+  );
+
+  /**
+   * resetAll resets all cells in all notebooks for a given rendering
+   */
   const resetAll = useCallback(
     (renderSlug: string) => {
-      // directly interact with the session & notebook
       Object.entries(state.renderings[renderSlug].scopes).forEach(
         ([notebookSlug, { notebook, session }]) => {
           busy.set(renderSlug, notebookSlug);
@@ -71,7 +85,7 @@ export function useExecuteScope() {
 
   const ready = context.state.renderings[context.slug]?.ready;
 
-  return { ...context, ready, start, resetAll, execute };
+  return { ...context, ready, start, clearAll, resetAll, execute };
 }
 
 /**
@@ -81,6 +95,7 @@ export function useExecuteScope() {
  * @returns
  */
 export function useCellExecution(id: IdOrKey) {
+  const busy = useBusyScope();
   const context = React.useContext(ExecuteScopeContext);
   if (context === undefined) {
     throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
@@ -101,15 +116,50 @@ export function useCellExecution(id: IdOrKey) {
   }
 
   const ready = context.state.renderings[context.slug]?.ready;
-  const execute = () => alert('execute the notebook for this cell');
-  const clear = () => alert('clear this cell');
-  const reset = (rdrSlug: string, nbSlug: string) => alert('clear this cell');
 
-  // this needs to tie in to the cell executation status in context of the notebook
-  // i.e. this cell may nnot be the origin of the execute click but should show busy if needed
-  const executing = false;
+  const execute = useCallback(
+    (rdrSlug: string, nbSlug: string) => {
+      // set busy
+      busy.set(rdrSlug, nbSlug);
+      // clear all notebook cell outputs
+      const { notebook: nb } = state.renderings[rdrSlug].scopes[nbSlug];
+      nb.clear();
+      // let busy state update prior to launching execute
+      setTimeout(() => {
+        // execute all cells on all notebooks
+        nb.executeAll(true).then((execReturns) => {
+          const errs = findErrors(execReturns);
+          if (errs != null) console.error('errors', errs);
+          // clear busy
+          busy.clear(rdrSlug, nbSlug);
+        });
+      }, 100);
+    },
+    [state],
+  );
 
-  return { ready, executing, execute, clear, reset, cell };
+  const clear = useCallback(
+    (rdrSlug: string, nbSlug: string) => {
+      const { notebook: nb } = state.renderings[rdrSlug].scopes[nbSlug];
+      nb.clear();
+    },
+    [state],
+  );
+
+  const reset = useCallback(
+    (rdrSlug: string, nbSlug: string) => {
+      const { notebook: nb, session } = state.renderings[rdrSlug].scopes[nbSlug];
+      busy.set(rdrSlug, nbSlug);
+      setTimeout(async () => {
+        nb.reset();
+        await session?.kernel?.restart();
+        busy.clear(rdrSlug, nbSlug);
+      }, 300);
+    },
+    [state],
+  );
+
+  return { ready, execute, clear, reset, cell };
 }
 
 export function useReadyToExecute() {

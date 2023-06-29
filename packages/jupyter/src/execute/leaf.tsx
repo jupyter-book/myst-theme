@@ -119,11 +119,12 @@ export function SessionStarter({
   useEffect(() => {
     if (!core || !server || scope.session || lock.current) return;
     lock.current = true;
+    console.log(`starting session for ${renderSlug}/${notebookSlug}`);
     server
       .startNewSession(scope.rendermime, {
         ...config?.kernels,
-        name: `${renderSlug}/${notebookSlug}`,
-        path: '/',
+        name: `${renderSlug}-${notebookSlug}.ipynb`,
+        path: `/${renderSlug}-${notebookSlug}.ipynb`,
       })
       .then((sesh) => {
         if (sesh == null) {
@@ -133,6 +134,7 @@ export function SessionStarter({
           });
           return;
         }
+        console.log(`session started for ${renderSlug}/${notebookSlug}`, sesh);
         const notebook = state.renderings[renderSlug]?.scopes[notebookSlug].notebook;
         notebook.attachSession(sesh);
         dispatch({ type: 'ADD_SESSION', payload: { renderSlug, notebookSlug, session: sesh } });

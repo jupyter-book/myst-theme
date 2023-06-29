@@ -12,7 +12,7 @@ import {
   selectScopeNotebooksToBuild,
   selectSessionsToStart,
 } from './selectors';
-import { BuildMonitor, MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
+import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
 
 export const ExecuteScopeContext = React.createContext<ExecuteScopeType | undefined>(undefined);
 
@@ -179,8 +179,7 @@ export function ExecuteScopeProvider({
           </div>
         )}
       </div>
-      <BuildMonitor state={state} dispatch={dispatch} />
-      <ServerMonitor showMessages={true} />
+      <ServerMonitor showMessages={true} state={state} dispatch={dispatch} />
       {children}
     </ExecuteScopeContext.Provider>
   );

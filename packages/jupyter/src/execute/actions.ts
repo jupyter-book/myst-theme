@@ -1,8 +1,7 @@
 import type { Dependency, SourceFileKind } from 'myst-common';
 import type { Root } from 'mdast';
 import type { BuildStatus, Computable, ExecuteScopeState } from './types';
-import { IRenderMimeRegistry, ThebeNotebook } from 'thebe-core';
-import { Thebe } from 'myst-frontmatter';
+import type { IRenderMimeRegistry, ThebeNotebook, ThebeSession } from 'thebe-core';
 
 export interface ExecuteScopeType {
   state: ExecuteScopeState;
@@ -83,6 +82,21 @@ interface AddNotebookPayload {
   rendermime: IRenderMimeRegistry;
 }
 
+export function isAddSessionPayload(payload: unknown): payload is AddSessionPayload {
+  const maybePayload = payload as AddSessionPayload;
+  return (
+    typeof maybePayload.renderSlug === 'string' &&
+    typeof maybePayload.notebookSlug === 'string' &&
+    typeof maybePayload.session === 'object'
+  );
+}
+
+interface AddSessionPayload {
+  renderSlug: string;
+  notebookSlug: string;
+  session: ThebeSession;
+}
+
 export interface ExecuteScopeAction {
   type:
     | 'NAVIGATE'
@@ -90,11 +104,14 @@ export interface ExecuteScopeAction {
     | 'BUILD_STATUS'
     | 'CLEAR_BUILD'
     | 'ADD_MDAST'
-    | 'ADD_NOTEBOOK';
+    | 'ADD_NOTEBOOK'
+    | 'ADD_SESSION'
+    | 'SET_RENDERING_READY';
   payload:
     | NavigatePayload
     | SlugPayload
     | BuildStatusPayload
     | AddMdastPayload
-    | AddNotebookPayload;
+    | AddNotebookPayload
+    | AddSessionPayload;
 }

@@ -5,7 +5,7 @@ import type { IdKeyMap, ExecuteScopeState } from './types';
 import { useThebeLoader, useThebeConfig, useThebeServer } from 'thebe-react';
 import { notebookFromMdast } from './utils';
 import type { GenericParent } from 'myst-common';
-import { selectAreAllNotebookScopesBuilt } from './selectors';
+import { selectAreAllNotebookScopesBuilt, selectAreAllSessionsStarted } from './selectors';
 
 export function MdastFetcher({
   slug,
@@ -51,7 +51,7 @@ export function NotebookBuilder({
   const { core } = useThebeLoader();
   const { config } = useThebeConfig();
 
-  const scopeHasNotebook = state.renderings[renderSlug]?.scopes[notebookSlug];
+  const scopeHasNotebook = !!state.renderings[renderSlug]?.scopes[notebookSlug];
 
   useEffect(() => {
     if (!core || !config || scopeHasNotebook) return;
@@ -67,17 +67,11 @@ export function NotebookBuilder({
       rendermime,
     );
 
-    console.log(`NotebookBuilder - ${notebookSlug} is built`, {
-      renderSlug,
-      notebookSlug,
-      rendermime,
-      notebook,
-    });
-
     dispatch({ type: 'ADD_NOTEBOOK', payload: { renderSlug, notebookSlug, rendermime, notebook } });
   }, [core, config, renderSlug, notebookSlug]);
 
-  // TODO move to BuildMonitor to avoid race condition with server
+  // TODO find a way to check if the all the notebooks are built and do a single dispatch
+  // potentilly use a move the loop down into this component
   const allNotebooksAreBuilt = selectAreAllNotebookScopesBuilt(state, renderSlug);
   useEffect(() => {
     if (!allNotebooksAreBuilt) return;
@@ -102,6 +96,39 @@ export function SessionStarter({
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
+  const { core } = useThebeLoader();
+  const { config, server } = useThebeServer();
+
+  const scope = state.renderings[renderSlug]?.scopes[notebookSlug];
+
+  useEffect(() => {
+    if (!core || !server || scope.session) return;
+    server
+      .startNewSession(scope.rendermime, {
+        ...config?.kernels,
+        name: notebookSlug,
+        path: notebookSlug,
+      })
+      .then((sesh) => {
+        if (sesh == null) {
+          server?.getKernelSpecs().then((specs) => {
+            console.error(`Could not start session for ${renderSlug} ${notebookSlug}`);
+            console.log(`Available kernels: ${Object.keys(specs)}`);
+          });
+          return;
+        }
+        // TODO maybe clear the build status here???
+        dispatch({ type: 'ADD_SESSION', payload: { renderSlug, notebookSlug, session: sesh } });
+      });
+  }, [core, config, renderSlug, notebookSlug]);
+
+  // TODO avoid multiple dispatch?
+  const allSessionsAreStarted = selectAreAllSessionsStarted(state, renderSlug);
+  useEffect(() => {
+    if (!allSessionsAreStarted) return;
+    dispatch({ type: 'SET_RENDERING_READY', payload: { slug: renderSlug } });
+  }, [allSessionsAreStarted]);
+
   return (
     <div>
       starting: {notebookSlug} for {renderSlug}
@@ -109,14 +136,16 @@ export function SessionStarter({
   );
 }
 
-export function BuildMonitor({
+export function ServerMonitor({
+  showMessages,
   state,
   dispatch,
 }: {
+  showMessages?: boolean;
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
-  const { ready } = useThebeServer();
+  const { connecting, ready, error } = useThebeServer();
 
   // When server is ready, move any waiting builds onto the start session step
   useEffect(() => {
@@ -129,12 +158,6 @@ export function BuildMonitor({
       });
     }
   }, [ready, state]);
-
-  return null;
-}
-
-export function ServerMonitor({ showMessages }: { showMessages?: boolean }) {
-  const { connecting, ready, error } = useThebeServer();
 
   useEffect(() => {
     if (!error) return;

@@ -68,51 +68,17 @@ function makeSelectScopeEventStatus(statusName: BuildStatus) {
 export const selectScopeNotebooksToBuild = makeSelectScopeEventStatus('build-notebooks');
 export const selectSessionsToStart = makeSelectScopeEventStatus('start-session');
 
-// // TODO Memoize?
-// export function selectScopeNotebooksToBuild(
-//   state: ExecuteScopeState,
-// ): { renderSlug: string; notebookSlug: string }[] {
-//   return Object.entries(state.builds)
-//     .filter(([, { status }]) => status === 'build-notebooks')
-//     .reduce<{ renderSlug: string; notebookSlug: string }[]>((all, [slug]) => {
-//       const targets = [];
-//       if (state.renderings[slug].kind === SourceFileKind.Notebook)
-//         targets.push({ renderSlug: slug, notebookSlug: slug });
-//       targets.push(
-//         ...state.renderings[slug].dependencies.map((d) => ({
-//           renderSlug: slug,
-//           notebookSlug: d.slug ?? d.url,
-//         })),
-//       );
-//       return [...all, ...targets];
-//     }, []);
-// }
-
-// // TODO Memoize?
-// export function selectSsessionsToStart(
-//   state: ExecuteScopeState,
-// ): { renderSlug: string; notebookSlug: string }[] {
-//   return Object.entries(state.builds)
-//     .filter(([, { status }]) => status === 'start-session')
-//     .reduce<{ renderSlug: string; notebookSlug: string }[]>((all, [slug]) => {
-//       const targets = [];
-//       if (state.renderings[slug].kind === SourceFileKind.Notebook)
-//         targets.push({ renderSlug: slug, notebookSlug: slug });
-//       targets.push(
-//         ...state.renderings[slug].dependencies.map((d) => ({
-//           renderSlug: slug,
-//           notebookSlug: d.slug ?? d.url,
-//         })),
-//       );
-//       return [...all, ...targets];
-//     }, []);
-// }
-
 export function selectAreAllDependenciesReady(state: ExecuteScopeState, slug: string) {
   return state.renderings[slug]?.dependencies.every((dep) => !!state.mdast[dep.slug ?? dep.url]);
 }
 
 export function selectAreAllNotebookScopesBuilt(state: ExecuteScopeState, slug: string) {
   const rendering = state.renderings[slug];
-  return rendering?.dependencies.every((dep) => rendering.scopes[dep.slug ?? dep.url]);
+  return rendering?.dependencies.every((dep) => !!rendering.scopes[dep.slug ?? dep.url]);
+}
+
+export function selectAreAllSessionsStarted(state: ExecuteScopeState, slug: string) {
+  const rendering = state.renderings[slug];
+  // TODO is this working??
+  return rendering?.dependencies.every((dep) => !!rendering.scopes[dep.slug ?? dep.url]?.session);
 }

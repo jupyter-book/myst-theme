@@ -30,7 +30,7 @@ function useScopeNavigate({
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
   useEffect(() => {
-    if (store.mdast[article.slug]) {
+    if (store.renderings[article.slug]) {
       console.log(`ExecuteScopeProvider - ${article.slug} is already in scope`);
       return;
     }

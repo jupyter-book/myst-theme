@@ -13,6 +13,7 @@ import {
   BusyScopeProvider,
 } from '@myst-theme/jupyter';
 import { NotebookToolbar } from '../components/controls/NotebookToolbar';
+import { ConnectionStatusTray } from '@myst-theme/jupyter';
 
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
   const computeOptions = useComputeOptions();
@@ -25,15 +26,16 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
-      <ExecuteScopeProvider contents={article}>
-        <BusyScopeProvider>
-          {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar autorun />}
-          {canCompute && article.kind === SourceFileKind.Article && <NotebookToolbar autorun />}
+      <BusyScopeProvider>
+        <ExecuteScopeProvider contents={article}>
+          {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar />}
+          {canCompute && article.kind === SourceFileKind.Article && <NotebookToolbar />}
           <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
           <Bibliography />
+          <ConnectionStatusTray />
           {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
-        </BusyScopeProvider>
-      </ExecuteScopeProvider>
+        </ExecuteScopeProvider>
+      </BusyScopeProvider>
     </ReferencesProvider>
   );
 });

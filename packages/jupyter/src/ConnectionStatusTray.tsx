@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useThebeServer, useThebeSession } from 'thebe-react';
+import { useThebeServer } from 'thebe-react';
 import { useComputeOptions } from './providers';
 import type { ThebeEventData, ThebeEventType } from 'thebe-core';
+import { selectAreExecutionScopesBuilding, useExecuteScope } from './execute';
 
 export function ConnectionStatusTray() {
   const { thebe } = useComputeOptions();
   const { connecting, ready: serverReady, error: serverError, events } = useThebeServer();
-  const { starting, ready: sessionReady, error: sessionError } = useThebeSession();
+  const { slug, ready: scopeReady, state } = useExecuteScope();
   const [show, setShow] = useState(false);
   const [unsub, setUnsub] = useState<() => void | undefined>();
   const [status, setStatus] = useState<string>('[client] Connecting...');
 
-  const error = serverError || sessionError;
-  const ready = serverReady && sessionReady;
-  const busy = connecting || starting;
+  const error = serverError; // TODO scope bulding error handling || sessionError;
+  const ready = serverReady && scopeReady;
+  const busy = connecting || selectAreExecutionScopesBuilding(state, slug);
 
   const handleStatus = (event: any, data: ThebeEventData) => {
     setStatus(`[${data.subject}]: ${data.message}`);
@@ -44,6 +45,7 @@ export function ConnectionStatusTray() {
 
   const host = thebe?.useBinder ? 'Binder' : thebe?.useJupyterLite ? 'JupyterLite' : 'Local Server';
 
+  // TODO radix ui toast!
   if (show && error) {
     return (
       <div className="fixed p-3 text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">

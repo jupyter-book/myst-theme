@@ -119,7 +119,7 @@ export function SessionStarter({
   useEffect(() => {
     if (!core || !server || scope.session || lock.current) return;
     lock.current = true;
-    console.log(`starting session for ${renderSlug}/${notebookSlug}`);
+    console.log(`starting session for ${renderSlug}-${notebookSlug}`);
     server
       .startNewSession(scope.rendermime, {
         ...config?.kernels,
@@ -164,7 +164,13 @@ export function ServerMonitor({
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
+  const { core, load, loading } = useThebeLoader();
   const { connecting, ready, error } = useThebeServer();
+
+  useEffect(() => {
+    if (core || loading) return;
+    load();
+  }, [core, load, loading]);
 
   // When server is ready, move any waiting builds onto the start session step
   useEffect(() => {

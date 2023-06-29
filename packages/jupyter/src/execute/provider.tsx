@@ -40,14 +40,6 @@ function useScopeNavigate({
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
-  const { core, load } = useThebeLoader();
-
-  useEffect(() => {
-    if (core) return;
-    if (!dependencies || dependencies.length === 0) return;
-    load();
-  }, [core, dependencies]);
-
   useEffect(() => {
     if (state.renderings[slug]) {
       console.log(`ExecuteScopeProvider - ${slug} is already in scope`);

@@ -166,7 +166,10 @@ export function SessionStarter({
   const allSessionsAreStarted = selectAreAllSessionsStarted(state, renderSlug);
   useEffect(() => {
     if (!allSessionsAreStarted) return;
-    dispatch({ type: 'SET_RENDERING_READY', payload: { slug: renderSlug } });
+    dispatch({
+      type: 'SET_RENDERING_READY',
+      payload: { slug: renderSlug },
+    });
   }, [allSessionsAreStarted]);
 
   return null;

@@ -5,6 +5,7 @@ import {
   isAddNotebookPayload,
   isAddSessionPayload,
   isBuildStatusPayload,
+  isDoubleSlugPayload,
   isNavigatePayload,
   isSlugPayload,
 } from './actions';

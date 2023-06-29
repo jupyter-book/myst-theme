@@ -35,7 +35,7 @@ export interface ExecuteScopeState {
     };
   };
   builds: {
-    [notebookSlug: string]: {
+    [renderSlug: string]: {
       status: BuildStatus;
     };
   };

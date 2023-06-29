@@ -29,6 +29,18 @@ interface SlugPayload {
   slug: string;
 }
 
+export function isDoubleSlugPayload(payload: unknown): payload is DoubleSlugPayload {
+  const maybePayload = payload as DoubleSlugPayload;
+  return (
+    typeof maybePayload.renderSlug === 'string' && typeof maybePayload.notebookSlug === 'string'
+  );
+}
+
+interface DoubleSlugPayload {
+  renderSlug: string;
+  notebookSlug: string;
+}
+
 export function isBuildStatusPayload(payload: unknown): payload is BuildStatusPayload {
   return typeof (payload as BuildStatusPayload).status === 'string' && isSlugPayload(payload);
 }
@@ -101,10 +113,12 @@ export interface ExecuteScopeAction {
     | 'ADD_MDAST'
     | 'ADD_NOTEBOOK'
     | 'ADD_SESSION'
+    | 'SET_FIRST_EXECUTION'
     | 'SET_RENDERING_READY';
   payload:
     | NavigatePayload
     | SlugPayload
+    | DoubleSlugPayload
     | BuildStatusPayload
     | AddMdastPayload
     | AddNotebookPayload

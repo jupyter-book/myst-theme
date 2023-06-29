@@ -2,14 +2,18 @@ import React, { useCallback } from 'react';
 import type { IdOrKey } from './types';
 import { ExecuteScopeContext } from './provider';
 import type { IThebeCell, ThebeNotebook } from 'thebe-core';
+import { useBusyScope } from './busy';
+import { findErrors } from 'thebe-react';
 
 export function useExecuteScope() {
   const context = React.useContext(ExecuteScopeContext);
+  const busy = useBusyScope();
+
   if (context === undefined) {
     throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
   }
 
-  const { dispatch } = context;
+  const { state, dispatch } = context;
 
   const start = useCallback((slug: string) => {
     console.log('starting...', slug);
@@ -21,14 +25,49 @@ export function useExecuteScope() {
     });
   }, []);
 
+  const execute = (slug: string) => {
+    // set busy
+    console.log('execute', slug);
+    Object.keys(state.renderings[slug].scopes).forEach((notebookSlug) => {
+      console.log('busy', slug, notebookSlug);
+      busy.set(slug, notebookSlug);
+    });
+    // clear all notebook cell outputs
+    Object.values(state.renderings[slug].scopes).forEach(({ notebook }) => {
+      notebook.clear();
+    });
+
+    // let busy state update prior to launching execute
+    setTimeout(() => {
+      // execute all cells on all notebooks
+      Object.entries(state.renderings[slug].scopes).forEach(([notebookSlug, { notebook }]) => {
+        console.log('executeAll', slug, { notebook });
+        notebook.executeAll(true).then((execReturns) => {
+          const errs = findErrors(execReturns);
+          if (errs != null) console.error('errors', errs);
+          // clear busy
+          busy.clear(slug, notebookSlug);
+        });
+      });
+    }, 100);
+  };
+
   const restart = useCallback((slug: string) => {
     // directly interact with the session
     console.error('restart not implemented', slug);
   }, []);
 
-  return { ...context, start, restart };
+  const ready = context.state.renderings[context.slug]?.ready;
+
+  return { ...context, ready, start, restart, execute };
 }
 
+/**
+ * useCellExecution a hook to govern the execute status and actions for a singel cell
+ *
+ * @param id
+ * @returns
+ */
 export function useCellExecution(id: IdOrKey) {
   const context = React.useContext(ExecuteScopeContext);
   if (context === undefined) {
@@ -49,7 +88,7 @@ export function useCellExecution(id: IdOrKey) {
     if (!cell) console.error('no cell found', { renderSlug, notebookSlug, cellId });
   }
 
-  const ready = context.state.renderings[context.slug].ready;
+  const ready = context.state.renderings[context.slug]?.ready;
   const execute = () => alert('execute the notebook for this cell');
   const clear = () => alert('clear this cell');
   const restart = () => alert('clear this cell');
@@ -67,5 +106,5 @@ export function useReadyToExecute() {
     throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
   }
 
-  return context.state.renderings[context.slug].ready ?? false;
+  return context.state.renderings[context.slug]?.ready ?? false;
 }

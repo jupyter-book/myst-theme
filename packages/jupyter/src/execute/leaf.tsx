@@ -1,7 +1,7 @@
 import { useFetchMdast } from 'myst-to-react';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ExecuteScopeAction } from './actions';
-import type { IdKeyMap, ExecuteScopeState, IdKeyMapTarget } from './types';
+import type { IdKeyMap, ExecuteScopeState } from './types';
 import { useThebeLoader, useThebeConfig, useThebeServer } from 'thebe-react';
 import { notebookFromMdast } from './utils';
 import type { GenericParent } from 'myst-common';
@@ -50,12 +50,13 @@ export function NotebookBuilder({
 }) {
   const { core } = useThebeLoader();
   const { config } = useThebeConfig();
+  const lock = useRef(false); // TODO can be removed if we solve double render from provider
 
   const scopeHasNotebook = !!state.renderings[renderSlug]?.scopes[notebookSlug];
 
   useEffect(() => {
-    if (!core || !config || scopeHasNotebook) return;
-
+    if (!core || !config || scopeHasNotebook || lock.current) return;
+    lock.current = true;
     console.log(`NotebookBuilder - ${notebookSlug} being added to scope ${renderSlug}`);
     const rendermime = core?.makeRenderMimeRegistry(config?.mathjax);
     const notebook = notebookFromMdast(
@@ -77,8 +78,11 @@ export function NotebookBuilder({
       }
     });
 
-    dispatch({ type: 'ADD_NOTEBOOK', payload: { renderSlug, notebookSlug, rendermime, notebook } });
-  }, [core, config, renderSlug, notebookSlug]);
+    dispatch({
+      type: 'ADD_NOTEBOOK',
+      payload: { renderSlug, notebookSlug, rendermime, notebook },
+    });
+  }, [core, config, renderSlug, notebookSlug, scopeHasNotebook, lock]);
 
   // TODO find a way to check if the all the notebooks are built and do a single dispatch
   // potentilly use a move the loop down into this component
@@ -108,16 +112,18 @@ export function SessionStarter({
 }) {
   const { core } = useThebeLoader();
   const { config, server } = useThebeServer();
+  const lock = useRef(false); // TODO can be removed if we solve double render from provider
 
   const scope = state.renderings[renderSlug]?.scopes[notebookSlug];
 
   useEffect(() => {
-    if (!core || !server || scope.session) return;
+    if (!core || !server || scope.session || lock.current) return;
+    lock.current = true;
     server
       .startNewSession(scope.rendermime, {
         ...config?.kernels,
-        name: notebookSlug,
-        path: notebookSlug,
+        name: `${renderSlug}/${notebookSlug}`,
+        path: '/',
       })
       .then((sesh) => {
         if (sesh == null) {
@@ -127,10 +133,11 @@ export function SessionStarter({
           });
           return;
         }
-        // TODO maybe clear the build status here???
+        const notebook = state.renderings[renderSlug]?.scopes[notebookSlug].notebook;
+        notebook.attachSession(sesh);
         dispatch({ type: 'ADD_SESSION', payload: { renderSlug, notebookSlug, session: sesh } });
       });
-  }, [core, config, renderSlug, notebookSlug]);
+  }, [core, config, renderSlug, notebookSlug, lock]);
 
   // TODO avoid multiple dispatch?
   const allSessionsAreStarted = selectAreAllSessionsStarted(state, renderSlug);

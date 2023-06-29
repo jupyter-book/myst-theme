@@ -13,6 +13,7 @@ import {
   selectSessionsToStart,
 } from './selectors';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
+import { useThebeLoader } from 'thebe-react';
 
 export interface ExecuteScopeType {
   slug: string;
@@ -39,6 +40,14 @@ function useScopeNavigate({
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
+  const { core, load } = useThebeLoader();
+
+  useEffect(() => {
+    if (core) return;
+    if (!dependencies || dependencies.length === 0) return;
+    load();
+  }, [core, dependencies]);
+
   useEffect(() => {
     if (state.renderings[slug]) {
       console.log(`ExecuteScopeProvider - ${slug} is already in scope`);
@@ -49,7 +58,7 @@ function useScopeNavigate({
       const { key, label, source } = node;
       const output = selectAll('output', node);
       if (output.length === 0) console.error(`embed must have exactly one output ${key}`);
-      if (output.length > 1) console.warn(`embed has mpre than one output block ${key}}`);
+      if (output.length > 1) console.warn(`embed has more than one output block ${key}}`);
       return { embedKey: key, outputKey: (output[0] as any).key, label, source };
     });
 
@@ -148,7 +157,7 @@ export function ExecuteScopeProvider({
 
   const memo = React.useMemo(
     () => ({ slug: contents.slug, state, dispatch, idkmap: idkmap.current }),
-    [state],
+    [state, contents.slug],
   );
 
   return (

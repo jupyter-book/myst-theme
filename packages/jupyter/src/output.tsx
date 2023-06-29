@@ -4,8 +4,8 @@ import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
 import { SafeOutputs } from './safe';
 import { JupyterOutputs } from './jupyter';
-import { useReadyToExecute } from './providers';
 import { useMemo } from 'react';
+import { useReadyToExecute } from './execute';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 

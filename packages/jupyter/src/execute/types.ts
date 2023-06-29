@@ -11,32 +11,31 @@ export type BuildStatus =
   | 'error';
 
 export type IdOrKey = string; // any node key (block, codeCel, output)
-export type RenderingSlug = string; // the slug of the page being rendered
-export type NotebookSlug = string; // the slug of the notebook
 export type CellId = string; // the id of a cell in a notebook, by convention it is the block.key
-export type IdKeyMap = Record<IdOrKey, { slug: NotebookSlug; cellId: CellId }>;
+export type IdKeyMapTarget = { renderSlug: string; notebookSlug: string; cellId: CellId };
+export type IdKeyMap = Record<IdOrKey, IdKeyMapTarget>;
 
 export interface ExecuteScopeState {
   mdast: {
-    [slug: RenderingSlug]: {
+    [slug: string]: {
       root: Root;
     };
   };
   renderings: {
-    [slug: RenderingSlug]: {
-      slug: RenderingSlug;
+    [renderSlug: string]: {
+      slug: string;
       kind: SourceFileKind;
       computable: boolean;
       dependencies: Dependency[];
       computables: Computable[];
       ready: boolean;
       scopes: {
-        [slug: NotebookSlug]: ExecutionScope;
+        [notebookSlug: string]: ExecutionScope;
       };
     };
   };
   builds: {
-    [slug: string]: {
+    [notebookSlug: string]: {
       status: BuildStatus;
     };
   };
@@ -49,7 +48,8 @@ export interface ExecutionScope {
 }
 
 export interface Computable {
-  key: string;
+  embedKey: string;
+  outputKey: string;
   label: string;
   source: Dependency;
 }

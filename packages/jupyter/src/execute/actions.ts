@@ -1,12 +1,7 @@
 import type { Dependency, SourceFileKind } from 'myst-common';
 import type { Root } from 'mdast';
-import type { BuildStatus, Computable, ExecuteScopeState } from './types';
+import type { BuildStatus, Computable } from './types';
 import type { IRenderMimeRegistry, ThebeNotebook, ThebeSession } from 'thebe-core';
-
-export interface ExecuteScopeType {
-  state: ExecuteScopeState;
-  dispatch: React.Dispatch<ExecuteScopeAction>;
-}
 
 export function isNavigatePayload(payload: unknown): payload is NavigatePayload {
   const maybePayload = payload as NavigatePayload;

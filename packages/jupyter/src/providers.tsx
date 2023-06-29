@@ -228,7 +228,7 @@ export function useNotebookExecution() {
   return { ready, attached, executing, executed, errors, execute: executeAll, notebook, clear };
 }
 
-export function useReadyToExecute() {
+export function deprecated__useReadyToExecute() {
   const notebookState = useContext(NotebookContext);
   return notebookState?.ready ?? false;
 }

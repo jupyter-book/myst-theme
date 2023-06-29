@@ -3,7 +3,7 @@ import { SourceFileKind } from 'myst-common';
 import type { Root } from 'mdast';
 import React, { useEffect, useReducer, useRef } from 'react';
 import { selectAll } from 'unist-util-select';
-import type { ExecuteScopeAction, ExecuteScopeType } from './actions';
+import type { ExecuteScopeAction } from './actions';
 import type { Computable, ExecuteScopeState, IdKeyMap } from './types';
 import { reducer } from './reducer';
 import {
@@ -13,6 +13,13 @@ import {
   selectSessionsToStart,
 } from './selectors';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
+
+export interface ExecuteScopeType {
+  slug: string;
+  state: ExecuteScopeState;
+  dispatch: React.Dispatch<ExecuteScopeAction>;
+  idkmap: IdKeyMap;
+}
 
 export const ExecuteScopeContext = React.createContext<ExecuteScopeType | undefined>(undefined);
 
@@ -40,7 +47,10 @@ function useScopeNavigate({
 
     const computables: Computable[] = selectAll('container > embed', mdast).map((node: any) => {
       const { key, label, source } = node;
-      return { key, label, source };
+      const output = selectAll('output', node);
+      if (output.length === 0) console.error(`embed must have exactly one output ${key}`);
+      if (output.length > 1) console.warn(`embed has mpre than one output block ${key}}`);
+      return { embedKey: key, outputKey: (output[0] as any).key, label, source };
     });
 
     dispatch({
@@ -96,7 +106,10 @@ export function ExecuteScopeProvider({
   const computables: Computable[] = selectAll('container > embed', contents.mdast).map(
     (node: any) => {
       const { key, label, source } = node;
-      return { key, label, source };
+      const output = selectAll('output', node);
+      if (output.length === 0) console.error(`embed must have exactly one output ${key}`);
+      if (output.length > 1) console.warn(`embed has mpre than one output block ${key}}`);
+      return { embedKey: key, outputKey: (output[0] as any).key, label, source };
     },
   );
 
@@ -120,7 +133,7 @@ export function ExecuteScopeProvider({
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const idkMap = useRef<IdKeyMap>({});
+  const idkmap = useRef<IdKeyMap>({});
 
   useScopeNavigate({ contents, state: state, dispatch });
 
@@ -133,7 +146,10 @@ export function ExecuteScopeProvider({
   const sessionStartTargets: { renderSlug: string; notebookSlug: string }[] =
     selectSessionsToStart(state);
 
-  const memo = React.useMemo(() => ({ state, dispatch, idkMap }), [state]);
+  const memo = React.useMemo(
+    () => ({ slug: contents.slug, state, dispatch, idkmap: idkmap.current }),
+    [state],
+  );
 
   return (
     <ExecuteScopeContext.Provider value={memo}>
@@ -156,7 +172,7 @@ export function ExecuteScopeProvider({
                 key={`build-${renderSlug}-${notebookSlug}`}
                 renderSlug={renderSlug}
                 notebookSlug={notebookSlug}
-                idkMap={idkMap.current}
+                idkmap={idkmap.current}
                 state={state}
                 dispatch={dispatch}
               />

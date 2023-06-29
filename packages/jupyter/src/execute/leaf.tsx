@@ -1,7 +1,7 @@
 import { useFetchMdast } from 'myst-to-react';
 import { useEffect } from 'react';
 import type { ExecuteScopeAction } from './actions';
-import type { IdKeyMap, ExecuteScopeState } from './types';
+import type { IdKeyMap, ExecuteScopeState, IdKeyMapTarget } from './types';
 import { useThebeLoader, useThebeConfig, useThebeServer } from 'thebe-react';
 import { notebookFromMdast } from './utils';
 import type { GenericParent } from 'myst-common';
@@ -38,13 +38,13 @@ export function MdastFetcher({
 export function NotebookBuilder({
   renderSlug,
   notebookSlug,
-  idkMap,
+  idkmap,
   state,
   dispatch,
 }: {
   renderSlug: string;
   notebookSlug: string;
-  idkMap: IdKeyMap;
+  idkmap: IdKeyMap;
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
@@ -56,16 +56,26 @@ export function NotebookBuilder({
   useEffect(() => {
     if (!core || !config || scopeHasNotebook) return;
 
-    console.log(`NotebookBuilder - ${notebookSlug} is not in scope`);
+    console.log(`NotebookBuilder - ${notebookSlug} being added to scope ${renderSlug}`);
     const rendermime = core?.makeRenderMimeRegistry(config?.mathjax);
     const notebook = notebookFromMdast(
       core,
       config,
-      `${renderSlug}-${notebookSlug}`,
+      renderSlug,
+      notebookSlug,
       state.mdast[notebookSlug].root as GenericParent,
-      idkMap,
+      idkmap,
       rendermime,
     );
+
+    // hook up computable targets
+    const computables = state.renderings[renderSlug]?.computables;
+    computables?.forEach((c) => {
+      if (idkmap[c.label]) {
+        idkmap[c.outputKey] = idkmap[c.label];
+        idkmap[c.embedKey] = idkmap[c.label];
+      }
+    });
 
     dispatch({ type: 'ADD_NOTEBOOK', payload: { renderSlug, notebookSlug, rendermime, notebook } });
   }, [core, config, renderSlug, notebookSlug]);

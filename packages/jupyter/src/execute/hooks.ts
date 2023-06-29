@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import type { IdOrKey } from './types';
 import { ExecuteScopeContext } from './provider';
+import type { IThebeCell, ThebeNotebook } from 'thebe-core';
 
 export function useExecuteScope() {
   const context = React.useContext(ExecuteScopeContext);
@@ -28,11 +29,43 @@ export function useExecuteScope() {
   return { ...context, start, restart };
 }
 
-export function useCellExecuteScope(id: IdOrKey) {
+export function useCellExecution(id: IdOrKey) {
   const context = React.useContext(ExecuteScopeContext);
   if (context === undefined) {
     throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
   }
 
-  return {};
+  const { state, idkmap } = context;
+  const target = idkmap[id] ?? {};
+  const { renderSlug, notebookSlug, cellId } = target;
+
+  let cell: IThebeCell | undefined;
+  let notebook: ThebeNotebook | undefined;
+
+  if (target && state.renderings[renderSlug]) {
+    notebook = state.renderings[renderSlug].scopes[notebookSlug].notebook;
+    if (!notebook) console.error('no notebook for', { renderSlug, notebookSlug, cellId });
+    cell = notebook?.getCellById(cellId);
+    if (!cell) console.error('no cell found', { renderSlug, notebookSlug, cellId });
+  }
+
+  const ready = context.state.renderings[context.slug].ready;
+  const execute = () => alert('execute the notebook for this cell');
+  const clear = () => alert('clear this cell');
+  const restart = () => alert('clear this cell');
+
+  // this needs to tie in to the cell executation status in context of the notebook
+  // i.e. this cell may nnot be the origin of the execute click but should show busy if needed
+  const executing = false;
+
+  return { ready, executing, execute, clear, restart, cell };
+}
+
+export function useReadyToExecute() {
+  const context = React.useContext(ExecuteScopeContext);
+  if (context === undefined) {
+    throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
+  }
+
+  return context.state.renderings[context.slug].ready ?? false;
 }

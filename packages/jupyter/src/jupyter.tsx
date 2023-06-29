@@ -5,13 +5,13 @@ import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages';
 import type { ThebeCore } from 'thebe-core';
-import { useNotebookCellExecution } from './providers';
 import { SourceFileKind } from 'myst-common';
 import { useXRefState } from '@myst-theme/providers';
 import { useThebeLoader } from 'thebe-react';
+import { useCellExecution } from './execute';
 
 function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
-  const exec = useNotebookCellExecution(id);
+  const exec = useCellExecution(id);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,7 +32,12 @@ function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
     exec.cell.render(data);
   }, [ref?.current, exec?.cell]);
 
-  return <div ref={ref} data-thebe-active-ref="true" className="relative" />;
+  return (
+    <div>
+      <div>ACTIVE</div>
+      <div ref={ref} data-thebe-active-ref="true" className="relative" />
+    </div>
+  );
 }
 
 function PassiveOutputRenderer({
@@ -64,7 +69,8 @@ export const JupyterOutputs = React.memo(
     const { inCrossRef } = useXRefState();
     const { data, error } = useFetchAnyTruncatedContent(outputs);
     const [fullOutputs, setFullOutputs] = useState<IOutput[] | null>(null);
-    const exec = useNotebookCellExecution(id);
+    // const exec = useNotebookCellExecution(id);
+    const exec = useCellExecution(id);
 
     useEffect(() => {
       if (core) return;
@@ -102,7 +108,7 @@ export const JupyterOutputs = React.memo(
             id={id}
             data={fullOutputs}
             core={core}
-            kind={exec?.kind ?? SourceFileKind.Notebook}
+            kind={SourceFileKind.Notebook}
           ></PassiveOutputRenderer>
         )}
       </div>

@@ -1,6 +1,6 @@
 import type { GenericParent } from 'myst-common';
 import type { Config, IRenderMimeRegistry, ThebeCore } from 'thebe-core';
-import type { IdKeyMap } from './types';
+import type { IdKeyMap, IdKeyMapTarget } from './types';
 
 /**
  * Use the mdast to create a ThebeNotebook from the mdast tree of a notebook.
@@ -16,7 +16,7 @@ import type { IdKeyMap } from './types';
  * @param config
  * @param renderSlug - slug identifying the render context used for key decoration
  * @param mdast - the notebook mdast
- * @param idkMap - map of scoped block keys to keys for code and output cells
+ * @param idkmap - map of scoped block keys to keys for code and output cells
  * @param rendermime
  * @returns
  */
@@ -24,12 +24,13 @@ import type { IdKeyMap } from './types';
 export function notebookFromMdast(
   core: ThebeCore,
   config: Config,
-  notebookId: string,
+  renderSlug: string,
+  notebookSlug: string,
   mdast: GenericParent,
-  idkMap: IdKeyMap,
+  idkmap: IdKeyMap,
   rendermime: IRenderMimeRegistry,
 ) {
-  const notebook = new core.ThebeNotebook(notebookId, config, rendermime);
+  const notebook = new core.ThebeNotebook(`${renderSlug}-${notebookSlug}`, config, rendermime);
 
   // no metadata included in mdast yet
   //Object.assign(notebook.metadata, ipynb.metadata);
@@ -39,12 +40,22 @@ export function notebookFromMdast(
       const [codeCell, output] = block.children;
 
       // use the block.key to identify the cell but maintain a mapping
-      // to allow code or output keys to look up cells and refs
-      idkMap[block.key] = block.key;
-      idkMap[codeCell.key] = block.key;
-      idkMap[output.key] = block.key;
+      // to allow code or output keys to look up cells and refs and idenifity
+      // the cell in the correct notebook
+      const target: IdKeyMapTarget = {
+        renderSlug,
+        notebookSlug,
+        cellId: block.key,
+      };
+
+      idkmap[block.key] = target;
+      idkmap[codeCell.key] = target;
+      idkmap[output.key] = target;
+      // include block labels to enable lookup by from embedded blocks
+      if (block.label) idkmap[block.label] = target;
+      if (block.identifier) idkmap[block.identifier] = target;
       return new core.ThebeCell(
-        block.key,
+        target.cellId,
         notebook.id,
         codeCell.value ?? '',
         config,

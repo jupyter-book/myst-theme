@@ -62,7 +62,7 @@ export function BusyScopeProvider({ children }: React.PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, { renderings: {} });
 
   const memo = React.useMemo(() => ({ state, dispatch }), [state]);
-
+  console.log('BusyScopeProvider', memo.state);
   return <BusyScopeContext.Provider value={memo}>{children}</BusyScopeContext.Provider>;
 }
 

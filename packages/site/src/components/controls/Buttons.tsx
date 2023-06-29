@@ -42,22 +42,20 @@ export function Run({
 
 export function Clear({
   ready,
-  executing,
   disabled,
   onClick,
 }: {
   ready: boolean;
-  executing: boolean;
   disabled?: boolean;
   onClick: () => void;
 }) {
   return (
     <button
       className={classNames('flex text-gray-700 opacity-60 ', {
-        'cursor-not-allowed': disabled || !ready || executing,
-        'active:text-green-700 hover:opacity-100 cursor-pointer': !executing && !disabled,
+        'cursor-not-allowed': disabled || !ready,
+        'active:text-green-700 hover:opacity-100 cursor-pointer': !disabled,
       })}
-      disabled={disabled || !ready || executing}
+      disabled={disabled || !ready}
       onClick={() => onClick()}
     >
       <MinusCircleIcon className="inline-block w-6 h-6 align-top" title="clear all outputs" />

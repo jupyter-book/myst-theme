@@ -13,38 +13,6 @@ import { Spinner } from '../Spinner';
 import { Clear, Launch, Restart, Run } from './Buttons';
 import { useEffect, useState } from 'react';
 
-export function NotebookRunAll() {
-  const { ready: serverReady, server } = useThebeServer();
-  const exec = useMDASTNotebook();
-
-  if (!exec?.ready) return null;
-  const { ready, executing, executeAll, restart, clear } = exec;
-
-  const clickLaunchInJupyter = () => {
-    if (!serverReady || !server?.settings) return;
-    window.open(server.settings.baseUrl, '_blank');
-  };
-
-  // TODO restrarting flag
-  return (
-    <div className="flex">
-      <div className="relative flex space-x-1 group">
-        <Run
-          ready={ready}
-          executing={executing}
-          onClick={() => {
-            clear();
-            return executeAll();
-          }}
-        />
-        <Restart ready={ready} restarting={false} onClick={restart} />
-        <Clear ready={ready} executing={executing} onClick={clear} />
-        <Launch ready={ready} onClick={clickLaunchInJupyter} />
-      </div>
-    </div>
-  );
-}
-
 export function NotebookToolbar({ autorun }: { autorun?: boolean }) {
   const { slug, ready, state, start, resetAll, clearAll, execute } = useExecuteScope();
   const [firstRun, setFirstRun] = useState(false);
@@ -112,7 +80,7 @@ export function NotebookToolbar({ autorun }: { autorun?: boolean }) {
           )}
           {started && <Run ready={ready} executing={busy.any(slug)} onClick={handleRun} />}
           {started && <Restart ready={ready} restarting={false} onClick={handleReset} />}
-          {started && <Clear ready={ready} executing={busy.any(slug)} onClick={handleClear} />}
+          {started && <Clear ready={ready} disabled={busy.any(slug)} onClick={handleClear} />}
           {started && <Launch ready={ready} onClick={clickLaunchInJupyter} />}
         </div>
       </div>

@@ -32,7 +32,7 @@ export function MdastFetcher({
     );
   }
 
-  return <div>fetching: {`${slug}.json`}</div>;
+  return null;
 }
 
 export function NotebookBuilder({
@@ -92,11 +92,7 @@ export function NotebookBuilder({
     dispatch({ type: 'BUILD_STATUS', payload: { slug: renderSlug, status: 'wait-for-server' } });
   }, [allNotebooksAreBuilt]);
 
-  return (
-    <div>
-      building: {notebookSlug} for {renderSlug}
-    </div>
-  );
+  return null;
 }
 
 export function SessionStarter({
@@ -120,25 +116,50 @@ export function SessionStarter({
     if (!core || !server || scope.session || lock.current) return;
     lock.current = true;
     console.log(`starting session for ${renderSlug}-${notebookSlug}`);
-    server
-      .startNewSession(scope.rendermime, {
-        ...config?.kernels,
-        name: `${renderSlug}-${notebookSlug}.ipynb`,
-        path: `/${renderSlug}-${notebookSlug}.ipynb`,
-      })
-      .then((sesh) => {
-        if (sesh == null) {
-          server?.getKernelSpecs().then((specs) => {
-            console.error(`Could not start session for ${renderSlug} ${notebookSlug}`);
-            console.log(`Available kernels: ${Object.keys(specs)}`);
+
+    server.listRunningSessions().then((sessions) => {
+      console.log('running sessions', sessions);
+      const path = `/${renderSlug}-${notebookSlug}.ipynb`;
+
+      const existing = sessions.find((s) => s.path === path);
+
+      if (existing) {
+        console.log(`session already exists for ${renderSlug}-${notebookSlug}`, existing);
+        server.connectToExistingSession(existing, scope.rendermime).then((sesh) => {
+          if (sesh == null) {
+            console.error(`Could not connect to session for ${renderSlug} ${notebookSlug}`);
+            return;
+          }
+          console.log(`reconnected to session for ${renderSlug}/${notebookSlug}`, sesh);
+          console.log('restarting session', sesh);
+          sesh.kernel?.restart().then(() => {
+            const notebook = state.renderings[renderSlug]?.scopes[notebookSlug].notebook;
+            notebook.attachSession(sesh);
+            dispatch({ type: 'ADD_SESSION', payload: { renderSlug, notebookSlug, session: sesh } });
           });
-          return;
-        }
-        console.log(`session started for ${renderSlug}/${notebookSlug}`, sesh);
-        const notebook = state.renderings[renderSlug]?.scopes[notebookSlug].notebook;
-        notebook.attachSession(sesh);
-        dispatch({ type: 'ADD_SESSION', payload: { renderSlug, notebookSlug, session: sesh } });
-      });
+        });
+      } else {
+        server
+          .startNewSession(scope.rendermime, {
+            ...config?.kernels,
+            name: `${renderSlug}-${notebookSlug}.ipynb`,
+            path,
+          })
+          .then((sesh) => {
+            if (sesh == null) {
+              server?.getKernelSpecs().then((specs) => {
+                console.error(`Could not start session for ${renderSlug} ${notebookSlug}`);
+                console.log(`Available kernels: ${Object.keys(specs)}`);
+              });
+              return;
+            }
+            console.log(`session started for ${renderSlug}/${notebookSlug}`, sesh);
+            const notebook = state.renderings[renderSlug]?.scopes[notebookSlug].notebook;
+            notebook.attachSession(sesh);
+            dispatch({ type: 'ADD_SESSION', payload: { renderSlug, notebookSlug, session: sesh } });
+          });
+      }
+    });
   }, [core, config, renderSlug, notebookSlug, lock]);
 
   // TODO avoid multiple dispatch?
@@ -148,24 +169,18 @@ export function SessionStarter({
     dispatch({ type: 'SET_RENDERING_READY', payload: { slug: renderSlug } });
   }, [allSessionsAreStarted]);
 
-  return (
-    <div>
-      starting: {notebookSlug} for {renderSlug}
-    </div>
-  );
+  return null;
 }
 
 export function ServerMonitor({
-  showMessages,
   state,
   dispatch,
 }: {
-  showMessages?: boolean;
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
   const { core, load, loading } = useThebeLoader();
-  const { connecting, ready, error } = useThebeServer();
+  const { ready, error } = useThebeServer();
 
   useEffect(() => {
     if (core || loading) return;
@@ -186,34 +201,9 @@ export function ServerMonitor({
 
   useEffect(() => {
     if (!error) return;
+    // TODO
+    // dispatch({ type: 'SERVER_ERROR', payload: error });
   }, [error]);
-
-  if (error) {
-    return (
-      <div className="fixed text-red-600 border rounded shadow-lg bottom-3 right-3 animate-bounce">
-        <h2>Server Connection Error</h2>
-        <p>{error}</p>
-      </div>
-    );
-  }
-
-  if (showMessages) {
-    if (connecting) {
-      return (
-        <div className="fixed bottom-3 right-3">
-          <div className="h-[30px] w-[30px] bg-orange-600 rounded-full shadow-lg border animate-bounce border-red-300" />
-        </div>
-      );
-    }
-
-    if (ready) {
-      return (
-        <div className="fixed bottom-3 right-3">
-          <div className="animate-bounce h-[30px] w-[30px] bg-green-600 rounded-full shadow-lg border border-green-300" />
-        </div>
-      );
-    }
-  }
 
   return null;
 }

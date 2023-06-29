@@ -45,12 +45,7 @@ function ActiveOutputRenderer({ id, initialData }: { id: string; initialData: IO
     [],
   );
 
-  return (
-    <div>
-      <div>ACTIVE</div>
-      <div ref={ref} data-thebe-active-ref="true" className="relative" />
-    </div>
-  );
+  return <div ref={ref} data-thebe-active-ref="true" className="relative" />;
 }
 
 function PassiveOutputRenderer({

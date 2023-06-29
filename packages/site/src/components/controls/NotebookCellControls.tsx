@@ -14,7 +14,7 @@ export function RunNotebookCellSpinnerOnly({ id }: { id: string }) {
 }
 
 export function ClearNotebookCell({ id }: { id: string }) {
-  const { ready, isBusy, anyBusy, clear } = useCellExecution(id);
+  const { ready, anyBusy, clear } = useCellExecution(id);
   if (!ready) return null;
-  return <Clear ready={ready} executing={isBusy} disabled={anyBusy} onClick={clear} />;
+  return <Clear ready={ready} disabled={anyBusy} onClick={clear} />;
 }

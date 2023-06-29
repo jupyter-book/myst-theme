@@ -153,9 +153,7 @@ export function ExecuteScopeProvider({
 
   return (
     <ExecuteScopeContext.Provider value={memo}>
-      <div className="fixed bottom-0 left-0 z-50 p-2 m-1 text-xs bg-white border rounded shadow-lg">
-        <div className="p-0 m-0">fetching:</div>
-        {fetchTargets.length === 0 && <div className="p-1 pl-4">no active fetching</div>}
+      <div className="hidden">
         {fetchTargets.length > 0 && (
           <div className="p-1 pl-4">
             {fetchTargets.map(({ slug, url }) => (
@@ -163,8 +161,6 @@ export function ExecuteScopeProvider({
             ))}
           </div>
         )}
-        <div className="p-0 m-0">building-notebooks:</div>
-        {notebookBuildTargets.length === 0 && <div className="p-1 pl-4">no active building</div>}
         {notebookBuildTargets.length > 0 && (
           <div className="p-1 pl-4">
             {notebookBuildTargets.map(({ renderSlug, notebookSlug }) => (
@@ -179,8 +175,6 @@ export function ExecuteScopeProvider({
             ))}
           </div>
         )}
-        <div className="p-0 m-0">starting-sessions:</div>
-        {sessionStartTargets.length === 0 && <div className="p-1 pl-4">no active sessions</div>}
         {sessionStartTargets.length > 0 && (
           <div className="p-1 pl-4">
             {sessionStartTargets.map(({ renderSlug, notebookSlug }) => (
@@ -195,7 +189,7 @@ export function ExecuteScopeProvider({
           </div>
         )}
       </div>
-      <ServerMonitor showMessages={true} state={state} dispatch={dispatch} />
+      <ServerMonitor state={state} dispatch={dispatch} />
       {children}
     </ExecuteScopeContext.Provider>
   );

@@ -2,7 +2,7 @@ import { useFetchMdast } from 'myst-to-react';
 import { useEffect } from 'react';
 import type { ExecuteScopeAction } from './actions';
 import type { IdKeyMap, ExecuteScopeState } from './types';
-import { useThebeLoader, useThebeConfig } from 'thebe-react';
+import { useThebeLoader, useThebeConfig, useThebeServer } from 'thebe-react';
 import { notebookFromMdast } from './utils';
 import type { GenericParent } from 'myst-common';
 import { selectAreAllNotebookScopesBuilt } from './selectors';
@@ -77,6 +77,7 @@ export function NotebookBuilder({
     dispatch({ type: 'ADD_NOTEBOOK', payload: { renderSlug, notebookSlug, rendermime, notebook } });
   }, [core, config, renderSlug, notebookSlug]);
 
+  // TODO move to BuildMonitor to avoid race condition with server
   const allNotebooksAreBuilt = selectAreAllNotebookScopesBuilt(state, renderSlug);
   useEffect(() => {
     if (!allNotebooksAreBuilt) return;
@@ -88,4 +89,64 @@ export function NotebookBuilder({
       building: {notebookSlug} for {renderSlug}
     </div>
   );
+}
+
+export function BuildMonitor({
+  state,
+  dispatch,
+}: {
+  state: ExecuteScopeState;
+  dispatch: React.Dispatch<ExecuteScopeAction>;
+}) {
+  const { ready } = useThebeServer();
+
+  // When server is ready, move any waiting builds onto the start session step
+  if (ready) {
+    // TODO optimize to do a single dispatch
+    Object.entries(state.builds).forEach(([slug, { status }]) => {
+      if (status === 'wait-for-server') {
+        dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'start-session' } });
+      }
+    });
+  }
+
+  return null;
+}
+
+export function ServerMonitor({ showMessages }: { showMessages?: boolean }) {
+  const { connecting, ready, error } = useThebeServer();
+
+  useEffect(() => {
+    if (!error) return;
+  }, [error]);
+
+  if (error) {
+    return (
+      <div className="fixed text-red-600 border rounded shadow-lg bottom-1 right-1">
+        <h2>Server Connection Error</h2>
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  if (showMessages) {
+    if (connecting) {
+      return (
+        <div className="fixed text-blue-600 border rounded shadow-lg bottom-2 right-2">
+          <h2>Connecting to Server</h2>
+          <p>loading... TODO hookup thebe events here!!</p>
+        </div>
+      );
+    }
+
+    if (ready) {
+      return (
+        <div className="fixed bottom-2 right-2">
+          <div className="h-[30px] w-[30px] bg-green-600 rounded-full shadow-lg border border-green-300" />
+        </div>
+      );
+    }
+  }
+
+  return null;
 }

@@ -8,11 +8,10 @@ import type { Computable, ExecuteScopeState, IdKeyMap } from './types';
 import { reducer } from './reducer';
 import {
   selectAreAllDependenciesReady,
-  selectAreAllNotebookScopesBuilt,
   selectDependenciesToFetch,
   selectScopeNotebooksToBuild,
 } from './selectors';
-import { MdastFetcher, NotebookBuilder } from './leaves';
+import { BuildMonitor, MdastFetcher, NotebookBuilder, ServerMonitor } from './leaf';
 
 export const ExecuteScopeContext = React.createContext<ExecuteScopeType | undefined>(undefined);
 
@@ -135,7 +134,7 @@ export function ExecuteScopeProvider({
 
   return (
     <ExecuteScopeContext.Provider value={memo}>
-      <div className="fixed bottom-0 right-0 p-2 m-1 text-xs border rounded shadow-lg">
+      <div className="fixed bottom-0 right-0 hidden p-2 m-1 text-xs border rounded shadow-lg">
         <div className="p-0 m-0">fetching:</div>
         {fetchTargets.length === 0 && <div className="p-1 pl-4">no active fetching</div>}
         {fetchTargets.length > 0 && (
@@ -162,6 +161,8 @@ export function ExecuteScopeProvider({
           </div>
         )}
       </div>
+      <BuildMonitor state={state} dispatch={dispatch} />
+      <ServerMonitor showMessages={true} />
       {children}
     </ExecuteScopeContext.Provider>
   );

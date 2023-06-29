@@ -26,6 +26,7 @@ import {
   selectExecutionScopeStatus,
   ExecuteScopeProvider,
 } from '@myst-theme/jupyter';
+import { useThebeServer } from 'thebe-react';
 
 function Scope({ slug }: { slug: string }) {
   const { state } = useExecuteScope();
@@ -71,8 +72,12 @@ function Scope({ slug }: { slug: string }) {
 
 function Computable({ slug }: { slug: string }) {
   const { state, start, restart } = useExecuteScope();
+  const { connecting, ready, error, connect } = useThebeServer();
   const computable = selectIsComputable(state, slug);
-  const handleStart = () => start(slug);
+  const handleStart = () => {
+    connect();
+    start(slug);
+  };
   const handleRestart = () => restart(slug);
 
   const started = selectAreExecutionScopesReady(state, slug);

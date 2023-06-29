@@ -3,8 +3,10 @@ import React, { useEffect, useReducer, useRef } from 'react';
 import { selectAll } from 'unist-util-select';
 import type { PageLoader } from '~/types';
 import type { ExecuteScopeAction, Computable } from './actions';
-import type { ExecuteScopeState } from './reducer';
+import type { BuildStatus, ExecuteScopeState } from './reducer';
 import { reducer } from './reducer';
+import { useFetchMdast } from 'myst-to-react';
+import { selectAreAllDependenciesReady, selectDependenciesToFetch } from './selectors';
 
 interface ExecuteScopeType {
   store: ExecuteScopeState;
@@ -65,13 +67,54 @@ function useExecutionScopeFetcher({
   idkMap: IdKeyMap;
 }) {
   useEffect(() => {
-    if (!store.builds[slug] || store.builds[slug]?.status !== 'pending') return;
-    dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'fetching' } });
+    if (store.builds[slug] && store.builds[slug].status === 'pending') {
+      dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'fetching' } });
+    }
+    if (store.builds[slug]) {
+      // are all of our dependencies ready?
+      console.log(
+        'checking if all dependencies are ready',
+        slug,
+        selectAreAllDependenciesReady(slug, store),
+        Object.keys(store.mdast).join(', '),
+      );
+      if (selectAreAllDependenciesReady(slug, store)) {
+        dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'scoping' } });
+      }
+    }
+  }, [store.builds, store.mdast]);
+}
+
+function MdastFetcher({
+  slug,
+  url,
+  dispatch,
+}: {
+  slug: string;
+  url: string;
+  dispatch: React.Dispatch<ExecuteScopeAction>;
+}) {
+  const { data, error } = useFetchMdast({ remote: true, dataUrl: `${url}.json` });
+
+  console.log({ data, error });
+
+  useEffect(() => {
+    if (!data) return;
     setTimeout(() => {
-      alert(`fetched depdenccies for ${slug}`);
-      dispatch({ type: 'BUILD_STATUS', payload: { slug, status: 'scoping' } });
-    }, 6000);
-  }, [store.builds]);
+      dispatch({ type: 'ADD_MDAST', payload: { slug, mdast: data.mdast } });
+    }, 1000);
+  }, [data]);
+
+  if (error) {
+    return (
+      <div>
+        error: {slug}
+        {error.message}
+      </div>
+    );
+  }
+
+  return <div>fetching: {`${slug}.json`}</div>;
 }
 
 /**
@@ -121,5 +164,24 @@ export function ExecuteScopeProvider({
   useScopeNavigate({ article, store, dispatch });
   useExecutionScopeFetcher({ slug: article.slug, store, dispatch, idkMap: idkMap.current });
 
-  return <ExecuteScopeContext.Provider value={memo}>{children}</ExecuteScopeContext.Provider>;
+  // build a list of all the dependencies we need to fetch
+  const fetchTargets: { slug: string; url: string }[] = selectDependenciesToFetch(store);
+
+  return (
+    <ExecuteScopeContext.Provider value={memo}>
+      {fetchTargets.length > 0 && (
+        <div className="fixed bottom-0 right-0 p-2 m-1 border rounded shadow-lg">
+          {fetchTargets.map(({ slug, url }) => (
+            <MdastFetcher key={slug} slug={slug} url={url} dispatch={dispatch} />
+          ))}
+        </div>
+      )}
+      {fetchTargets.length === 0 && (
+        <div className="fixed bottom-0 right-0 p-2 m-1 border rounded shadow-lg">
+          no active fetching
+        </div>
+      )}
+      {children}
+    </ExecuteScopeContext.Provider>
+  );
 }

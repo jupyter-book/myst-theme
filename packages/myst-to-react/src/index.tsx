@@ -28,6 +28,7 @@ export { CodeBlock } from './code';
 export { Admonition, AdmonitionKind } from './admonitions';
 export { Details } from './dropdown';
 export { TabSet, TabItem } from './tabs';
+export { useFetchMdast } from './crossReference';
 
 export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...BASIC_RENDERERS,

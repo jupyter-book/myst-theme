@@ -30,13 +30,15 @@ function Scope({ slug }: { slug: string }) {
 
   const keys = Object.keys(store.mdast);
   return (
-    <div className="relative group/scope">
+    <div className="relative z-[1000] group/scope">
       <div className="px-1 text-xs text-center text-white rounded-md bg-neutral-500">scope</div>
       <div className="w-max max-w-[900px] max-h-[600px] overflow-auto absolute top-0 right-0 z-50 invisible group-hover/scope:visible border rounded bg-white p-2">
         <div>current slug: {slug}</div>
         <div>mdast keys: {keys.join(', ')}</div>
-        <pre>{JSON.stringify(store.builds, null, 2)}</pre>
-        <pre>{JSON.stringify(store.renderings, null, 2)}</pre>
+        <div>builds:</div>
+        <pre className="my-0">{JSON.stringify(store.builds, null, 2)}</pre>
+        <div>renderings:</div>
+        <pre className="my-0">{JSON.stringify(store.renderings, null, 2)}</pre>
       </div>
     </div>
   );

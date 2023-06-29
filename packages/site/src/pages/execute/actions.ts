@@ -55,7 +55,28 @@ interface EnableScopePayload {
   scopeSlug: string;
 }
 
+export function isAddMdastPayload(payload: unknown): payload is AddMdastPayload {
+  const maybePayload = payload as AddMdastPayload;
+  return typeof maybePayload.slug === 'string' && typeof maybePayload.mdast === 'object';
+}
+
+interface AddMdastPayload {
+  slug: string;
+  mdast: Root;
+}
+
 export interface ExecuteScopeAction {
-  type: 'NAVIGATE' | 'ENABLE_SCOPE' | 'REQUEST_BUILD' | 'BUILD_STATUS' | 'CLEAR_BUILD';
-  payload: NavigatePayload | SlugPayload | BuildStatusPayload | EnableScopePayload;
+  type:
+    | 'NAVIGATE'
+    | 'ENABLE_SCOPE'
+    | 'REQUEST_BUILD'
+    | 'BUILD_STATUS'
+    | 'CLEAR_BUILD'
+    | 'ADD_MDAST';
+  payload:
+    | NavigatePayload
+    | SlugPayload
+    | BuildStatusPayload
+    | EnableScopePayload
+    | AddMdastPayload;
 }

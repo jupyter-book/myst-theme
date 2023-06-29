@@ -3,6 +3,7 @@ import { SourceFileKind } from 'myst-common';
 import type { Root } from 'mdast';
 import type { Computable, ExecuteScopeAction } from './actions';
 import {
+  isAddMdastPayload,
   isBuildStatusPayload,
   isEnableScopePayload,
   isNavigatePayload,
@@ -72,6 +73,21 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
         },
       };
     }
+    case 'ADD_MDAST': {
+      if (!isAddMdastPayload(action.payload)) {
+        console.error(action.payload);
+        throw new Error('invalid ADD_MDAST payload');
+      }
+      const { slug, mdast } = action.payload;
+      if (state.mdast[slug]) return state;
+      return {
+        ...state,
+        mdast: {
+          ...state.mdast,
+          [slug]: { root: mdast },
+        },
+      };
+    }
     case 'REQUEST_BUILD': {
       if (!isSlugPayload(action.payload)) {
         console.error(action.payload);
@@ -97,7 +113,7 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
       const { slug } = action.payload;
       if (!state.builds[slug]) {
         console.error(state, action.payload);
-        throw new Error('Trying to set build staus when there is no build state');
+        throw new Error('Trying to set build status when there is no build state');
       }
       if (state.builds[slug].status === action.payload.status) return state;
       return {

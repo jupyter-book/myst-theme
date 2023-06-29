@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer } from 'react';
+import React, { useCallback, useEffect, useReducer, useRef } from 'react';
 import type { PageLoader } from '..';
 import type { Dependency } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
@@ -35,6 +35,10 @@ interface ExecuteScopeState {
       };
     };
   };
+  build?: {
+    slug: string;
+    status: string; //'pending' | 'connecting' | 'building' | 'error';
+  };
 }
 
 interface Computable {
@@ -69,9 +73,17 @@ interface SlugPayload {
   slug: string;
 }
 
+function isBuildStatusPayload(payload: unknown): payload is BuildStatusPayload {
+  return typeof (payload as BuildStatusPayload).status === 'string';
+}
+
+interface BuildStatusPayload {
+  status: 'pending' | 'connecting' | 'building' | 'error';
+}
+
 interface ExecuteScopeAction {
-  type: 'NAVIGATE' | 'ENABLE_SCOPE';
-  payload: NavigatePayload | SlugPayload;
+  type: 'NAVIGATE' | 'ENABLE_SCOPE' | 'REQUEST_BUILD' | 'BUILD_STATUS' | 'CLEAR_BUILD';
+  payload: NavigatePayload | SlugPayload | BuildStatusPayload;
 }
 
 function rootReducer(state: ExecuteScopeState, action: ExecuteScopeAction) {
@@ -101,8 +113,46 @@ function rootReducer(state: ExecuteScopeState, action: ExecuteScopeAction) {
         },
       };
     }
+    case 'REQUEST_BUILD': {
+      if (!isSlugPayload(action.payload)) {
+        console.error(action.payload);
+        throw new Error('invalid ENABLE_SCOPE payload');
+      }
+      if (state.build?.slug === action.payload.slug && state.build?.status === 'pending')
+        return state;
+      return {
+        ...state,
+        build: {
+          slug: action.payload.slug,
+          status: 'pending',
+        },
+      };
+    }
+    case 'BUILD_STATUS': {
+      if (!isBuildStatusPayload(action.payload)) {
+        console.error(action.payload);
+        throw new Error('invalid BUILD_STATUS payload');
+      }
+      if (!state.build) {
+        console.error(state, action.payload);
+        throw new Error('Trying to set build staus when there is no build state');
+      }
+      if (state.build.status === action.payload.status) return state;
+      return {
+        ...state,
+        build: {
+          ...state.build,
+          status: action.payload.status,
+        },
+      };
+    }
+    case 'CLEAR_BUILD': {
+      if (!state.build) return state;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { build, ...rest } = state;
+      return rest;
+    }
     case 'ENABLE_SCOPE': {
-      console.log('ENABLE_SCOPE', action.payload);
       if (!isSlugPayload(action.payload)) {
         console.error(action.payload);
         throw new Error('invalid ENABLE_SCOPE payload');
@@ -131,15 +181,15 @@ function rootReducer(state: ExecuteScopeState, action: ExecuteScopeAction) {
 
 function useScopeNavigate({
   article,
-  scope,
+  store,
   dispatch,
 }: {
   article: PageLoader;
-  scope: ExecuteScopeState;
+  store: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
   useEffect(() => {
-    if (scope.mdast[article.slug]) {
+    if (store.mdast[article.slug]) {
       console.log(`ExecuteScopeProvider - ${article.slug} is already in scope`);
       return;
     }
@@ -172,6 +222,25 @@ export function selectIsExecutionScopeStarted(slug: string, state: ExecuteScopeS
   return !!state.scopes[slug]?.context;
 }
 
+type IdOrKey = string; // any node key (block, codeCel, output)
+type NotebookSlug = string; // the slug of the notebook
+type CellId = string; // the id of a cell in a notebook, by convention it is the block.key
+type IdKeyMap = Record<IdOrKey, { slug: NotebookSlug; cellId: CellId }>;
+
+function useExecutionScopeBuilder({
+  store,
+  dispatch,
+  idkMap,
+}: {
+  store: ExecuteScopeState;
+  dispatch: React.Dispatch<ExecuteScopeAction>;
+  idkMap: IdKeyMap;
+}) {
+  useEffect(() => {
+    if (!store.build || store.build.status !== 'pending') return;
+  }, [store.build]);
+}
+
 /**
  *  The ExecuteScopeProvider is responsible for maintaining the state of the
  *  execution scope. It is also responsible for fetching the json for dependencies
@@ -192,7 +261,7 @@ export function ExecuteScopeProvider({
     },
   );
 
-  const [store, dispatch] = useReducer(rootReducer, {
+  const initialState: ExecuteScopeState = {
     mdast: {
       [article.slug]: { root: article.mdast },
     },
@@ -205,11 +274,16 @@ export function ExecuteScopeProvider({
         computables,
       },
     },
-  });
+  };
 
-  const memo = React.useMemo(() => ({ store, dispatch }), [store]);
+  const [store, dispatch] = useReducer(rootReducer, initialState);
 
-  useScopeNavigate({ article, scope: store, dispatch });
+  const idkMap = useRef<IdKeyMap>({});
+
+  const memo = React.useMemo(() => ({ store, dispatch, idkMap }), [store]);
+
+  useScopeNavigate({ article, store, dispatch });
+  useExecutionScopeBuilder({ store, dispatch, idkMap: idkMap.current });
 
   return <ExecuteScopeContext.Provider value={memo}>{children}</ExecuteScopeContext.Provider>;
 }
@@ -238,4 +312,13 @@ export function useExecuteScope() {
   }, []);
 
   return { ...context, start, restart };
+}
+
+export function useCellExecuteScope(id: IdOrKey) {
+  const context = React.useContext(ExecuteScopeContext);
+  if (context === undefined) {
+    throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
+  }
+
+  return {};
 }

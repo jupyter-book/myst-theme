@@ -4,6 +4,7 @@ import { ExecuteScopeContext } from './provider';
 import type { IThebeCell, ThebeNotebook } from 'thebe-core';
 import { useBusyScope } from './busy';
 import { findErrors } from 'thebe-react';
+import { SourceFileKind } from 'myst-common';
 
 export function useExecuteScope() {
   const context = React.useContext(ExecuteScopeContext);
@@ -116,50 +117,67 @@ export function useCellExecution(id: IdOrKey) {
   }
 
   const ready = context.state.renderings[context.slug]?.ready;
+  const kind = context.state.renderings[context.slug]?.kind ?? SourceFileKind.Article;
 
-  const execute = useCallback(
-    (rdrSlug: string, nbSlug: string) => {
-      // set busy
-      busy.set(rdrSlug, nbSlug);
-      // clear all notebook cell outputs
-      const { notebook: nb } = state.renderings[rdrSlug].scopes[nbSlug];
-      nb.clear();
-      // let busy state update prior to launching execute
-      setTimeout(() => {
-        // execute all cells on all notebooks
-        nb.executeAll(true).then((execReturns) => {
-          const errs = findErrors(execReturns);
-          if (errs != null) console.error('errors', errs);
-          // clear busy
-          busy.clear(rdrSlug, nbSlug);
-        });
-      }, 100);
-    },
-    [state],
-  );
+  const execute = useCallback(() => {
+    // set busy
+    busy.set(renderSlug, notebookSlug);
+    // clear all notebook cell outputs
+    const { notebook: nb } = state.renderings[renderSlug].scopes[notebookSlug];
+    nb.clear();
+    // let busy state update prior to launching execute
+    setTimeout(() => {
+      // execute all cells on all notebooks
+      nb.executeAll(true).then((execReturns) => {
+        const errs = findErrors(execReturns);
+        if (errs != null) console.error('errors', errs);
+        // clear busy
+        busy.clear(renderSlug, notebookSlug);
+      });
+    }, 100);
+  }, [state]);
 
-  const clear = useCallback(
-    (rdrSlug: string, nbSlug: string) => {
-      const { notebook: nb } = state.renderings[rdrSlug].scopes[nbSlug];
-      nb.clear();
-    },
-    [state],
-  );
+  const clear = useCallback(() => {
+    const { notebook: nb } = state.renderings[renderSlug].scopes[notebookSlug];
+    nb.clear();
+  }, [state]);
 
-  const reset = useCallback(
-    (rdrSlug: string, nbSlug: string) => {
-      const { notebook: nb, session } = state.renderings[rdrSlug].scopes[nbSlug];
-      busy.set(rdrSlug, nbSlug);
-      setTimeout(async () => {
-        nb.reset();
-        await session?.kernel?.restart();
-        busy.clear(rdrSlug, nbSlug);
-      }, 300);
-    },
-    [state],
-  );
+  const reset = useCallback(() => {
+    const { notebook: nb, session } = state.renderings[renderSlug].scopes[notebookSlug];
+    busy.set(renderSlug, notebookSlug);
+    setTimeout(async () => {
+      nb.reset();
+      await session?.kernel?.restart();
+      busy.clear(renderSlug, notebookSlug);
+    }, 300);
+  }, [state]);
 
-  return { ready, execute, clear, reset, cell };
+  return {
+    kind,
+    ready,
+    execute,
+    clear,
+    reset,
+    isBusy: busy.is(renderSlug, notebookSlug),
+    anyBusy: busy.any(renderSlug),
+    cell,
+  };
+}
+
+export function useIsAComputableCell(id: IdOrKey) {
+  const context = React.useContext(ExecuteScopeContext);
+  if (context === undefined) {
+    throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
+  }
+
+  const { idkmap } = context;
+  const target = idkmap[id] ?? {};
+
+  return {
+    slug: context.slug,
+    computable: !!target,
+    ready: context.state.renderings[context.slug]?.ready ?? false,
+  };
 }
 
 export function useReadyToExecute() {

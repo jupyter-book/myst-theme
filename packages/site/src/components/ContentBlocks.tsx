@@ -3,7 +3,8 @@ import { SourceFileKind } from 'myst-common';
 import type { GenericParent } from 'myst-common';
 import { useNodeRenderers } from '@myst-theme/providers';
 import classNames from 'classnames';
-import { ClearCell, RunCell } from './ComputeControls';
+import { ClearNotebookCell, RunNotebookCell } from './ComputeControls';
+import { useIsAComputableCell } from '@myst-theme/jupyter';
 
 function isACodeCell(node: GenericParent) {
   return (
@@ -18,6 +19,7 @@ function isACodeCell(node: GenericParent) {
 
 function Block({
   id,
+  pageKind,
   node,
   className,
 }: {
@@ -27,6 +29,7 @@ function Block({
   className?: string;
 }) {
   const renderers = useNodeRenderers() ?? DEFAULT_RENDERERS;
+  const { computable, ready } = useIsAComputableCell(id);
   const children = useParse(node, renderers);
   const subGrid = 'article-grid article-subgrid-gap col-screen';
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
@@ -37,17 +40,19 @@ function Block({
     <div
       key={id}
       id={id}
-      className={classNames('relative group/block', className, dataClassName, {
+      className={classNames('relative group/block border border-black', className, dataClassName, {
         [subGrid]: !noSubGrid,
       })}
     >
-      {children}
-      {isACodeCell(node) && (
-        <div className="hidden group-hover/block:flex md:flex-col absolute -top-[28px] md:top-0 right-0 md:-right-[28px] mt-8">
-          <RunCell id={id} />
-          <ClearCell id={id} />
+      {pageKind === SourceFileKind.Notebook && isACodeCell(node) && (
+        <div className="hidden sticky top-[80px] z-20 opacity-70 group-hover/block:opacity-100 group-hover/block:flex">
+          <div className="absolute top-0 -right-[28px] flex md:flex-col">
+            <RunNotebookCell id={id} />
+            <ClearNotebookCell id={id} />
+          </div>
         </div>
       )}
+      {children}
     </div>
   );
 }

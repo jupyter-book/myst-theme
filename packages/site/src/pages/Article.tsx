@@ -20,24 +20,19 @@ import { useExecuteScope } from './execute/hooks';
 import {
   useComputeOptions,
   useExecuteScope,
-  selectIsComputable,
-  selectAreExecutionScopesReady,
-  selectAreExecutionScopesBuilding,
-  selectExecutionScopeStatus,
   ExecuteScopeProvider,
   BusyScopeProvider,
-  useBusyScope,
 } from '@myst-theme/jupyter';
-import { useThebeServer } from 'thebe-react';
+import { ComputeToolbar } from '../components/ComputeToolbar';
 
 function Scope({ slug }: { slug: string }) {
   const { state } = useExecuteScope();
 
   const keys = Object.keys(state.mdast);
   return (
-    <div className="relative z-[1000] group/scope">
+    <div className="fixed bottom-2 right-3 z-[1000] group/scope">
       <div className="px-1 text-xs text-center text-white rounded-md bg-neutral-500">scope</div>
-      <div className="w-max max-w-[900px] max-h-[600px] overflow-auto absolute top-0 right-0 z-50 invisible group-hover/scope:visible border rounded bg-white p-2">
+      <div className="w-max max-w-[900px] max-h-[600px] overflow-auto absolute bottom-0 right-0 z-50 invisible group-hover/scope:visible border rounded bg-white p-2">
         <div>current slug: {slug}</div>
         <div>mdast keys: {keys.join(', ')}</div>
         <div>builds:</div>
@@ -72,72 +67,6 @@ function Scope({ slug }: { slug: string }) {
   );
 }
 
-function ComputeToolbar({ slug, autorun }: { slug: string; autorun?: boolean }) {
-  const { ready, state, start, resetAll, clearAll, execute } = useExecuteScope();
-  const busy = useBusyScope();
-  const { connect } = useThebeServer();
-  const computable = selectIsComputable(state, slug);
-  const handleStart = () => {
-    connect();
-    start(slug);
-  };
-  const handleReset = () => resetAll(slug);
-  const handleClear = () => clearAll(slug);
-  const handleRun = () => execute(slug);
-
-  const started = selectAreExecutionScopesReady(state, slug) && ready;
-  const building = selectAreExecutionScopesBuilding(state, slug);
-  const status = selectExecutionScopeStatus(state, slug);
-  const idle = !started && !building;
-
-  if (computable)
-    return (
-      <div className="flex space-x-1">
-        <div className="px-2 text-xs text-white bg-green-500 rounded-md">computable</div>
-        {idle && (
-          <button
-            className="px-2 text-xs text-green-500 border border-green-500 rounded"
-            onClick={handleStart}
-            aria-label="start compute environment"
-          >
-            start
-          </button>
-        )}
-        {building && (
-          <div className="px-2 text-xs text-white bg-yellow-500 rounded-md">{status}</div>
-        )}
-        {started && !autorun && (
-          <button
-            className="px-2 text-xs text-green-500 border border-green-500 rounded"
-            onClick={handleRun}
-          >
-            run
-          </button>
-        )}
-        {busy.any(slug) && <div className="px-2 text-xs">~BUSY~</div>}
-        {started && (
-          <button
-            className="px-2 text-xs text-red-500 border border-red-500 rounded"
-            onClick={handleReset}
-            aria-label="reset the notebook and restart the compute session"
-          >
-            reset
-          </button>
-        )}
-        {started && (
-          <button
-            className="px-2 text-xs text-red-500 border border-red-500 rounded"
-            onClick={handleClear}
-            aria-label="reset the notebook and restart the compute session"
-          >
-            clear
-          </button>
-        )}
-      </div>
-    );
-  return null;
-}
-
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
   const computeOptions = useComputeOptions();
   const canCompute = computeOptions.canCompute && (article.frontmatter as any)?.thebe !== false;
@@ -151,19 +80,11 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
     >
       <ExecuteScopeProvider contents={article}>
         <BusyScopeProvider>
-          <div className="flex flex-col items-end my-1 space-y-1">
-            {/* {binder && <BinderBadge binder={binder} />}
-          {canCompute && isJupyter && (
-            <EnableCompute canCompute={true} key={article.slug}>
-              <NotebookRunAll />
-            </EnableCompute>
-          )} */}
-            <Scope slug={article.slug} />
-            <ComputeToolbar slug={article.slug} />
-          </div>
+          <ComputeToolbar slug={article.slug} />
           <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
           <Bibliography />
           {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
+          <Scope slug={article.slug} />
         </BusyScopeProvider>
       </ExecuteScopeProvider>
     </ReferencesProvider>

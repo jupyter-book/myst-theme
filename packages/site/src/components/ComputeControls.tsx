@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import type { NotebookExecuteOptions } from 'thebe-react';
 import { useThebeServer } from 'thebe-react';
 import type { IThebeCellExecuteReturn } from 'thebe-core';
-import { useMDASTNotebook, useNotebookCellExecution } from '@myst-theme/jupyter';
+import { useCellExecution, useMDASTNotebook, useNotebookCellExecution } from '@myst-theme/jupyter';
 
 export function Run({
   ready,
@@ -18,18 +18,16 @@ export function Run({
   ready: boolean;
   executing: boolean;
   disabled?: boolean;
-  execute: (
-    options?: NotebookExecuteOptions | undefined,
-  ) => Promise<(IThebeCellExecuteReturn | null)[]>;
+  execute: () => void;
 }) {
   return (
     <div className="relative flex text-sm">
       <button
         className={classNames(
-          'cursor-pointer text-gray-700 active:text-green-700 hover:opacity-100',
+          'cursor-pointer text-gray-700 active:text-green-700 bg-white hover:opacity-100',
           {
             'opacity-10 hover:opacity-10': executing,
-            'opacity-60': !executing,
+            'opacity-70': !executing,
           },
         )}
         disabled={disabled || !ready || executing}
@@ -68,20 +66,17 @@ export function Clear({
   );
 }
 
-export function RunCell({ id }: { id: string }) {
-  const exec = useNotebookCellExecution(id);
-  if (!exec?.ready) return null;
-  const { ready, executing, notebookIsExecuting, execute } = exec;
-  return (
-    <Run ready={ready} executing={executing} disabled={notebookIsExecuting} execute={execute} />
-  );
+export function RunNotebookCell({ id }: { id: string }) {
+  const { ready, isBusy, anyBusy, execute } = useCellExecution(id);
+  // if (!ready) return null;
+
+  return <Run ready={ready} executing={isBusy} disabled={anyBusy} execute={execute} />;
 }
 
-export function ClearCell({ id }: { id: string }) {
-  const exec = useNotebookCellExecution(id);
-  if (!exec?.ready) return null;
-  const { ready, executing, notebookIsExecuting, clear } = exec;
-  return <Clear ready={ready} executing={executing} disabled={notebookIsExecuting} clear={clear} />;
+export function ClearNotebookCell({ id }: { id: string }) {
+  const { ready, isBusy, anyBusy, clear } = useCellExecution(id);
+  // if (!ready) return null;
+  return <Clear ready={ready} executing={isBusy} disabled={anyBusy} clear={clear} />;
 }
 
 export function NotebookRunAll() {

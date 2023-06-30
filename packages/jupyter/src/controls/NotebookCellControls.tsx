@@ -1,4 +1,4 @@
-import { useCellExecution } from '@myst-theme/jupyter';
+import { useCellExecution } from '../execute/hooks';
 import { Clear, Run } from './Buttons';
 
 export function RunNotebookCell({ id }: { id: string }) {

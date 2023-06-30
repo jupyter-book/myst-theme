@@ -8,19 +8,17 @@ import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
 import {
   useComputeOptions,
-  useExecuteScope,
   ExecuteScopeProvider,
   BusyScopeProvider,
+  NotebookToolbar,
+  ConnectionStatusTray,
 } from '@myst-theme/jupyter';
-import { NotebookToolbar } from '../components/controls/NotebookToolbar';
-import { ConnectionStatusTray } from '@myst-theme/jupyter';
 
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
   const computeOptions = useComputeOptions();
   const canCompute = computeOptions.canCompute && (article.frontmatter as any)?.thebe !== false;
   const { hide_title_block, hide_footer_links, binder } =
     (article.frontmatter as any)?.design ?? {};
-  const isJupyter = article?.kind && article.kind === SourceFileKind.Notebook;
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}

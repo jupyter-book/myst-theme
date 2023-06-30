@@ -4,10 +4,10 @@ import {
   selectAreExecutionScopesBuilding,
   selectExecutionScopeStatus,
   useBusyScope,
-} from '@myst-theme/jupyter';
+} from '../execute';
 import { useThebeServer } from 'thebe-react';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
-import { Spinner } from '../Spinner';
+import { Spinner } from './Spinner';
 import { Clear, Launch, Restart, Run } from './Buttons';
 import classNames from 'classnames';
 

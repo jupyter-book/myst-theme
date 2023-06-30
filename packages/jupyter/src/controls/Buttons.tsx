@@ -1,9 +1,9 @@
-import { Spinner } from '../Spinner';
 import PlayCircleIcon from '@heroicons/react/24/outline/PlayCircleIcon';
 import ArrowPathIcon from '@heroicons/react/24/outline/ArrowPathIcon';
 import MinusCircleIcon from '@heroicons/react/24/outline/MinusCircleIcon';
 import ArrowTopRightOnSquareIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import classNames from 'classnames';
+import { Spinner } from './Spinner';
 
 export function Run({
   ready,

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import type { IdOrKey } from './types';
 import { ExecuteScopeContext } from './provider';
-import type { IThebeCell, ThebeEventCb, ThebeNotebook } from 'thebe-core';
+import type { IThebeCell, ThebeCell, ThebeEventCb, ThebeNotebook } from 'thebe-core';
 import { useBusyScope } from './busy';
 import { findErrors, useThebeConfig } from 'thebe-react';
 import { SourceFileKind } from 'myst-common';
@@ -53,10 +53,10 @@ export function useExecuteScope({
 
     // let busy state update prior to launching execute
     setTimeout(async () => {
-      const handler: ThebeEventCb = (event, data) => {
+      const handler: ThebeEventCb = (_, data) => {
         if (data.subject === 'cell' && data.status === 'idle') {
-          const notebookSlug = data.object?.notebookId ?? 'unknown';
-          busy.clearCell(slug, notebookSlug, data.id);
+          const notebookSlug = (data.object as ThebeCell).notebookId ?? 'unknown';
+          busy.clearCell(slug, notebookSlug, data.id ?? 'unknown');
         }
       };
       config?.events.on('status' as any, handler);

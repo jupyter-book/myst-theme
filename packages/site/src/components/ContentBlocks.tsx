@@ -7,8 +7,8 @@ import {
   ClearNotebookCell,
   RunNotebookCell,
   RunNotebookCellSpinnerOnly,
-} from './controls/NotebookCellControls';
-import { useIsAComputableCell } from '@myst-theme/jupyter';
+  useIsAComputableCell,
+} from '@myst-theme/jupyter';
 
 function isACodeCell(node: GenericParent) {
   return (

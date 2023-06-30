@@ -1,5 +1,5 @@
 import {
-  useExecuteScope,
+  useExecutionScope,
   selectIsComputable,
   selectAreExecutionScopesBuilding,
   selectExecutionScopeStatus,
@@ -8,11 +8,11 @@ import {
 import { useThebeServer } from 'thebe-react';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 import { Spinner } from './Spinner';
-import { Clear, Launch, Restart, Run } from './Buttons';
+import { Clear, Launch, Reset, Run } from './Buttons';
 import classNames from 'classnames';
 
 export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }) {
-  const { slug, ready, state, start, resetAll, clearAll, execute } = useExecuteScope();
+  const { slug, ready, state, start, resetAll, clearAll, execute } = useExecutionScope();
   const busy = useBusyScope();
   const { connecting, connect, ready: serverReady, server, error: serverError } = useThebeServer();
   const computable = selectIsComputable(state, slug);
@@ -75,7 +75,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
             />
           )}
           {ready && (
-            <Restart
+            <Reset
               ready={ready}
               restarting={false}
               onClick={handleReset}
@@ -90,7 +90,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
               title="Clear all cells"
             />
           )}
-          {ready && (
+          {showLaunch && ready && (
             <Launch
               ready={ready}
               disabled={false}

@@ -1,13 +1,13 @@
 import { useCellExecution } from '../execute/hooks';
 import { Clear, Run } from './Buttons';
 
-export function RunNotebookCell({ id }: { id: string }) {
+export function NotebookRunCell({ id }: { id: string }) {
   const { ready, cellIsBusy, notebookIsBusy, execute } = useCellExecution(id);
   if (!ready) return null;
   return <Run ready={ready} executing={cellIsBusy} disabled={notebookIsBusy} onClick={execute} />;
 }
 
-export function RunNotebookCellSpinnerOnly({ id }: { id: string }) {
+export function NotebookRunCellSpinnerOnly({ id }: { id: string }) {
   const { ready, cellIsBusy } = useCellExecution(id);
   if (!ready || !cellIsBusy) return null;
   return (
@@ -16,12 +16,12 @@ export function RunNotebookCellSpinnerOnly({ id }: { id: string }) {
       executing={cellIsBusy}
       disabled={true}
       onClick={() => ({})}
-      title="Run this cell"
+      title="executing cell..."
     />
   );
 }
 
-export function ClearNotebookCell({ id }: { id: string }) {
+export function NotebookClearCell({ id }: { id: string }) {
   const { ready, notebookIsBusy, clear } = useCellExecution(id);
   if (!ready) return null;
   return (

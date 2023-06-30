@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useThebeServer } from 'thebe-react';
 import { useComputeOptions } from './providers';
 import type { ThebeEventData, ThebeEventType } from 'thebe-core';
-import { selectAreExecutionScopesBuilding, useExecuteScope } from './execute';
+import { selectAreExecutionScopesBuilding, useExecutionScope } from './execute';
 
 export function ConnectionStatusTray() {
   const { thebe } = useComputeOptions();
   const { connecting, ready: serverReady, error: serverError, events } = useThebeServer();
-  const { slug, ready: scopeReady, state } = useExecuteScope();
+  const { slug, ready: scopeReady, state } = useExecutionScope();
   const [show, setShow] = useState(false);
   const [unsub, setUnsub] = useState<() => void | undefined>();
   const [status, setStatus] = useState<string>('[client] Connecting...');

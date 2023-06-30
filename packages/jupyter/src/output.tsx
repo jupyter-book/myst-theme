@@ -6,7 +6,11 @@ import { SafeOutputs } from './safe';
 import { JupyterOutputs } from './jupyter';
 import { useMemo } from 'react';
 import { useCellExecution } from './execute';
-import { ClearNotebookCell, RunNotebookCell } from './controls';
+import {
+  ArticleResetNotebook,
+  ArticleRunNotebook,
+  ArticleStatusBadge,
+} from './controls/ArticleCellControls';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -78,8 +82,9 @@ function JupyterOutput({
       {showControls && (
         <div className="sticky top-[60px]">
           <div className="absolute -top-[28px] md:top-[30px] right-0 md:-right-[28px]">
-            <RunNotebookCell id={nodeKey} />
-            <ClearNotebookCell id={nodeKey} />
+            <ArticleStatusBadge id={nodeKey} />
+            <ArticleRunNotebook id={nodeKey} />
+            <ArticleResetNotebook id={nodeKey} />
           </div>
         </div>
       )}

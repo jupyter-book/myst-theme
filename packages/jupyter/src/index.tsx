@@ -5,8 +5,8 @@ const OUTPUT_RENDERERS = {
 };
 
 export * from './BinderBadge';
-export * from './providers';
 export * from './ConnectionStatusTray';
+export * from './providers';
 export * from './execute';
 export * from './controls';
 

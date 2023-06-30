@@ -4,10 +4,9 @@ import type { GenericParent } from 'myst-common';
 import { useNodeRenderers } from '@myst-theme/providers';
 import classNames from 'classnames';
 import {
-  ClearNotebookCell,
-  RunNotebookCell,
-  RunNotebookCellSpinnerOnly,
-  useIsAComputableCell,
+  NotebookClearCell,
+  NotebookRunCell,
+  NotebookRunCellSpinnerOnly,
 } from '@myst-theme/jupyter';
 
 function isACodeCell(node: GenericParent) {
@@ -51,13 +50,13 @@ function Block({
         <>
           <div className="flex sticky top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:hidden">
             <div className="absolute top-0 -right-[28px] flex md:flex-col">
-              <RunNotebookCellSpinnerOnly id={id} />
+              <NotebookRunCellSpinnerOnly id={id} />
             </div>
           </div>
           <div className="hidden sticky top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:flex">
             <div className="absolute top-0 -right-[28px] flex md:flex-col">
-              <RunNotebookCell id={id} />
-              <ClearNotebookCell id={id} />
+              <NotebookRunCell id={id} />
+              <NotebookClearCell id={id} />
             </div>
           </div>
         </>

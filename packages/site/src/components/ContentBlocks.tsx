@@ -49,12 +49,12 @@ function Block({
     >
       {pageKind === SourceFileKind.Notebook && isACodeCell(node) && (
         <>
-          <div className="flex sticky top-[80px] z-20 opacity-70 group-hover/block:opacity-100 group-hover/block:hidden">
+          <div className="flex sticky top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:hidden">
             <div className="absolute top-0 -right-[28px] flex md:flex-col">
               <RunNotebookCellSpinnerOnly id={id} />
             </div>
           </div>
-          <div className="hidden sticky top-[80px] z-20 opacity-70 group-hover/block:opacity-100 group-hover/block:flex">
+          <div className="hidden sticky top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:flex">
             <div className="absolute top-0 -right-[28px] flex md:flex-col">
               <RunNotebookCell id={id} />
               <ClearNotebookCell id={id} />

@@ -163,7 +163,7 @@ export const TableOfContents = ({
     <div
       ref={tocRef}
       className={classNames(
-        'fixed xl:article-grid article-grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
+        'fixed xl:article-grid article-grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px] z-20',
         { hidden: !open },
       )}
       style={{
@@ -191,7 +191,7 @@ export const TableOfContents = ({
         </nav>
         {footer && (
           <div
-            className="flex-none py-4 opacity-0 transition-all duration-700 translate-y-6"
+            className="flex-none py-4 transition-all duration-700 translate-y-6 opacity-0"
             ref={footerRef}
           >
             {footer}

@@ -30,7 +30,10 @@ export function notebookFromMdast(
   idkmap: IdKeyMap,
   rendermime: IRenderMimeRegistry,
 ) {
-  const notebook = new core.ThebeNotebook(`${renderSlug}-${notebookSlug}`, config, rendermime);
+  // note the notebooks slug is used as the notebook id, this means accross pages
+  // mulitple notebooks with the same slug will be present but scoped to different pages
+  // the busyScope mecahnism relies on the notebookSlug as id
+  const notebook = new core.ThebeNotebook(notebookSlug, config, rendermime);
 
   // no metadata included in mdast yet
   //Object.assign(notebook.metadata, ipynb.metadata);

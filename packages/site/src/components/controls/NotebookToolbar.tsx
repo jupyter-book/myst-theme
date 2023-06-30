@@ -65,7 +65,7 @@ export function NotebookToolbar() {
           {ready && (
             <Run
               ready={ready}
-              executing={busy.any(slug)}
+              executing={busy.render(slug)}
               onClick={handleRun}
               title="Run all cells"
             />
@@ -81,7 +81,7 @@ export function NotebookToolbar() {
           {ready && (
             <Clear
               ready={ready}
-              disabled={busy.any(slug)}
+              disabled={busy.render(slug)}
               onClick={handleClear}
               title="Clear all cells"
             />

@@ -82,3 +82,13 @@ export function selectAreAllSessionsStarted(state: ExecuteScopeState, slug: stri
   // TODO is this working??
   return rendering?.dependencies.every((dep) => !!rendering.scopes[dep.slug ?? dep.url]?.session);
 }
+
+export function selectNotebookCellIds(
+  state: ExecuteScopeState,
+  renderSlug: string,
+  notebookSlug: string,
+) {
+  return (
+    state.renderings[renderSlug]?.scopes[notebookSlug]?.notebook?.cells.map(({ id }) => id) ?? []
+  );
+}

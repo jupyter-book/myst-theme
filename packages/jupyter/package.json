@@ -17,7 +17,8 @@
     "build:esm": "tsc --module es2020 --outDir dist/esm",
     "build:types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist/types",
     "build": "npm-run-all -l clean -p build:cjs build:esm build:types",
-    "test": "vitest run"
+    "test": "vitest",
+    "test:ci": "vitest --ci"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",

@@ -1,6 +1,6 @@
 import type { LinksFunction, MetaFunction, LoaderFunction } from '@remix-run/node';
 import tailwind from '~/styles/app.css';
-import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
+// import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/site';
 import {
@@ -21,7 +21,7 @@ export const meta: MetaFunction = ({ data }) => {
 export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: tailwind },
-    { rel: 'stylesheet', href: thebeCoreCss },
+    // { rel: 'stylesheet', href: thebeCoreCss },
     {
       rel: 'stylesheet',
       href: 'https://cdn.jsdelivr.net/npm/jupyter-matplotlib@0.11.3/css/mpl_widget.css',

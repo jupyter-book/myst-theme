@@ -1,15 +1,17 @@
 import React, { useCallback } from 'react';
 import type { IdOrKey } from './types';
 import { ExecuteScopeContext } from './provider';
-import type { IThebeCell, ThebeNotebook } from 'thebe-core';
+import type { IThebeCell, ThebeEventCb, ThebeNotebook } from 'thebe-core';
 import { useBusyScope } from './busy';
-import { findErrors } from 'thebe-react';
+import { findErrors, useThebeConfig } from 'thebe-react';
 import { SourceFileKind } from 'myst-common';
 
-export function useExecuteScope() {
+export function useExecuteScope({
+  clearOutputsOnExecute = false,
+}: { clearOutputsOnExecute?: boolean } = {}) {
   const context = React.useContext(ExecuteScopeContext);
+  const { config } = useThebeConfig();
   const busy = useBusyScope();
-
   if (context === undefined) {
     throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
   }
@@ -28,27 +30,45 @@ export function useExecuteScope() {
 
   const execute = (slug: string) => {
     // set busy
-    Object.keys(state.renderings[slug].scopes).forEach((notebookSlug) => {
-      console.log('busy', slug, notebookSlug);
-      busy.set(slug, notebookSlug);
-    });
-    // clear all notebook cell outputs
-    Object.values(state.renderings[slug].scopes).forEach(({ notebook }) => {
-      notebook.clear();
+    Object.entries(state.renderings[slug].scopes).forEach(([notebookSlug, { notebook }]) => {
+      console.debug(
+        'busy',
+        slug,
+        notebookSlug,
+        notebook.cells.map((c) => c.id),
+      );
+      busy.setNotebook(
+        slug,
+        notebookSlug,
+        notebook.cells.map((c) => c.id),
+      );
     });
 
+    if (clearOutputsOnExecute) {
+      // clear all notebook cell outputs
+      Object.values(state.renderings[slug].scopes).forEach(({ notebook }) => {
+        notebook.clear();
+      });
+    }
+
     // let busy state update prior to launching execute
-    setTimeout(() => {
+    setTimeout(async () => {
+      const handler: ThebeEventCb = (event, data) => {
+        if (data.subject === 'cell' && data.status === 'idle') {
+          const notebookSlug = data.object?.notebookId ?? 'unknown';
+          busy.clearCell(slug, notebookSlug, data.id);
+        }
+      };
+      config?.events.on('status' as any, handler);
       // execute all cells on all notebooks
-      Object.entries(state.renderings[slug].scopes).forEach(([notebookSlug, { notebook }]) => {
-        console.log('executeAll', slug, { notebook });
-        notebook.executeAll(true).then((execReturns) => {
+      await Promise.all(
+        Object.entries(state.renderings[slug].scopes).map(async ([, { notebook }]) => {
+          const execReturns = await notebook.executeAll(true);
           const errs = findErrors(execReturns);
           if (errs != null) console.error('errors', errs);
-          // clear busy
-          busy.clear(slug, notebookSlug);
-        });
-      });
+        }),
+      );
+      config?.events.off('status' as any, handler);
     }, 100);
   };
 
@@ -72,11 +92,15 @@ export function useExecuteScope() {
     (renderSlug: string) => {
       Object.entries(state.renderings[renderSlug].scopes).forEach(
         ([notebookSlug, { notebook, session }]) => {
-          busy.set(renderSlug, notebookSlug);
+          busy.setNotebook(
+            renderSlug,
+            notebookSlug,
+            notebook.cells.map((c) => c.id),
+          );
           setTimeout(async () => {
             notebook.reset();
             await session?.kernel?.restart();
-            busy.clear(renderSlug, notebookSlug);
+            busy.clearNotebook(renderSlug, notebookSlug);
           }, 300);
         },
       );
@@ -125,12 +149,14 @@ export function useCellExecution(id: IdOrKey) {
       return;
     }
     // set busy
-    busy.set(renderSlug, notebookSlug);
+    busy.setCell(renderSlug, notebookSlug, cell.id);
     cell.clear();
     // let busy state update prior to launching execute
     setTimeout(() => {
-      cell?.execute().then(() => {
-        busy.clear(renderSlug, notebookSlug);
+      if (!cell) throw new Error('no cell found on execute');
+      cell.execute().then(() => {
+        if (!cell) throw new Error('no cell found after execute');
+        busy.clearCell(renderSlug, notebookSlug, cell?.id);
       });
     }, 100);
   }, [state, cell]);
@@ -148,8 +174,8 @@ export function useCellExecution(id: IdOrKey) {
     ready,
     execute,
     clear,
-    isBusy: busy.is(renderSlug, notebookSlug),
-    anyBusy: busy.any(renderSlug),
+    cellIsBusy: cell ? busy.cell(renderSlug, notebookSlug, cell?.id) : false,
+    notebookIsBusy: busy.notebook(renderSlug, notebookSlug),
     cell,
   };
 }

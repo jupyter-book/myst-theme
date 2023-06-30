@@ -151,6 +151,10 @@ export function ExecuteScopeProvider({
     [state, contents.slug],
   );
 
+  if (typeof window !== 'undefined') {
+    (window as any).executeScope = memo;
+  }
+
   return (
     <ExecuteScopeContext.Provider value={memo}>
       <div className="hidden">

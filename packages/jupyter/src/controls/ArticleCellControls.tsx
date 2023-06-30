@@ -1,13 +1,14 @@
 import { useNotebookExecution } from '../execute/hooks';
-import { Reset, Run, SpinnerStatusBadge } from './Buttons';
+import { Reset, Run, SpinnerStatusButton } from './Buttons';
 
 export function ArticleStatusBadge({ id }: { id: string }) {
-  const { ready, cellIsBusy, executionCount } = useNotebookExecution(id);
+  const { start, ready, cellIsBusy, executionCount } = useNotebookExecution(id);
   return (
-    <SpinnerStatusBadge
+    <SpinnerStatusButton
       ready={ready}
       busy={cellIsBusy && !ready}
       modified={executionCount != null}
+      onClick={start}
     />
   );
 }

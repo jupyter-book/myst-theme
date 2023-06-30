@@ -144,12 +144,12 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
   }
 
   const execute = () => {
-    const notebook = state.renderings[renderSlug]?.scopes[notebookSlug]?.notebook;
+    const nb = state.renderings[renderSlug]?.scopes[notebookSlug]?.notebook;
     // set busy
     busy.setNotebook(
       renderSlug,
       notebookSlug,
-      notebook.cells.map((c) => c.id),
+      nb.cells.map((c) => c.id),
     );
 
     if (clearOutputsOnExecute) notebook.clear();
@@ -163,7 +163,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
       };
       config?.events.on('status' as any, handler);
       // execute all cells on the notebooks
-      const execReturns = await notebook.executeAll(true);
+      const execReturns = await nb.executeAll(true);
       const errs = findErrors(execReturns);
       if (errs != null) console.error('errors', errs); // TODO: handle errors
       config?.events.off('status' as any, handler);
@@ -191,7 +191,11 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
     );
     setTimeout(async () => {
       nb.reset();
-      await session?.kernel?.restart();
+      try {
+        await session?.kernel?.restart();
+      } catch (e) {
+        console.error('error restarting kernel', e);
+      }
       busy.clearNotebook(renderSlug, notebookSlug);
     }, 300);
   }, [state]);

@@ -8,35 +8,40 @@ import classNames from 'classnames';
 import { Spinner } from './Spinner';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 
-export function SpinnerStatusBadge({
+export function SpinnerStatusButton({
   ready,
   busy,
   modified,
+  onClick,
 }: {
   ready: boolean;
   modified: boolean;
   busy: boolean;
+  onClick: () => void;
 }) {
   let title = 'Enable compute to make this figure interactive';
   if (ready) {
-    title = modified ? 'This figure has been modified' : "This figure in it's original state";
+    title = modified ? 'Figure has been modified' : "Figure is in it's original state";
   }
 
   return (
     <div className="relative flex text-sm">
-      <div
-        className={classNames(' active: bg-white', {
+      <button
+        className={classNames('bg-white', {
           'text-gray-700': !ready,
           'text-blue-700': ready && !modified,
           'text-green-700': ready && modified,
           'opacity-10': busy,
           'opacity-70': !busy,
         })}
+        disabled={ready}
         title={title}
         aria-label={`status`}
+        onClick={onClick}
       >
-        <Bolt className="w-6 h-6" />
-      </div>
+        {!ready && <PowerIcon className="w-6 h-6" />}
+        {ready && <Bolt className="w-6 h-6" />}
+      </button>
       {busy && (
         <span className="absolute top-0 left-0 z-10 w-[22px] h-[22px] opacity-100">
           <Spinner size={24} />
@@ -65,7 +70,7 @@ function SpinnerButton({
     <div className="relative flex text-sm">
       <button
         className={classNames(
-          'cursor-pointer text-gray-700 active:text-green-700 bg-white hover:opacity-100',
+          'cursor-pointer text-gray-700 active:text-green-700 hover:opacity-100',
           {
             'opacity-10 hover:opacity-10': busy,
             'opacity-70': !busy,

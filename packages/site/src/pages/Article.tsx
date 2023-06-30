@@ -28,7 +28,7 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider contents={article}>
-          {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar />}
+          {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
           {canCompute && article.kind === SourceFileKind.Article && <NotebookToolbar />}
           <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
           <Bibliography />

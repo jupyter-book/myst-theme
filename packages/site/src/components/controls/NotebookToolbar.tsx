@@ -8,13 +8,13 @@ import {
 import { useThebeServer } from 'thebe-react';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 import { Spinner } from '../Spinner';
-import { Clear, Restart, Run } from './Buttons';
+import { Clear, Launch, Restart, Run } from './Buttons';
 import classNames from 'classnames';
 
-export function NotebookToolbar() {
+export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }) {
   const { slug, ready, state, start, resetAll, clearAll, execute } = useExecuteScope();
   const busy = useBusyScope();
-  const { connecting, connect, error: serverError } = useThebeServer();
+  const { connecting, connect, ready: serverReady, server, error: serverError } = useThebeServer();
   const computable = selectIsComputable(state, slug);
   const handleStart = () => {
     connect();
@@ -23,6 +23,10 @@ export function NotebookToolbar() {
   const handleReset = () => resetAll(slug);
   const handleClear = () => clearAll(slug);
   const handleRun = () => execute(slug);
+  const handleLaunch = () => {
+    if (!serverReady || !server?.settings) return;
+    window.open(`${server.settings.baseUrl}?token=${server.settings.token}`, '_blank');
+  };
 
   const building = selectAreExecutionScopesBuilding(state, slug);
   const status = selectExecutionScopeStatus(state, slug);
@@ -84,6 +88,14 @@ export function NotebookToolbar() {
               disabled={busy.render(slug)}
               onClick={handleClear}
               title="Clear all cells"
+            />
+          )}
+          {ready && (
+            <Launch
+              ready={ready}
+              disabled={false}
+              onClick={handleLaunch}
+              title="Launch notebook in Jupyter"
             />
           )}
         </div>

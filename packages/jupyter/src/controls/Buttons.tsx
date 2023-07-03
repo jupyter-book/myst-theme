@@ -3,42 +3,47 @@ import ArrowPathIcon from '@heroicons/react/24/outline/ArrowPathIcon';
 import MinusCircleIcon from '@heroicons/react/24/outline/MinusCircleIcon';
 import ArrowTopRightOnSquareIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import ArrowUturnLeft from '@heroicons/react/24/outline/ArrowUturnLeftIcon';
-
+import Bolt from '@heroicons/react/24/outline/BoltIcon';
+import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
+import BoltIconSolid from '@heroicons/react/24/solid/BoltIcon';
 import classNames from 'classnames';
 import { Spinner } from './Spinner';
-import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 
 export function SpinnerStatusButton({
   ready,
   busy,
   modified,
-  icon,
-  title,
   onClick,
 }: {
   ready: boolean;
   modified: boolean;
   busy: boolean;
-  icon: React.ReactNode;
-  title?: string;
   onClick?: () => void;
 }) {
+  let title = 'Enable compute to make this figure interactive';
   if (ready) {
-    title = modified ? 'Figure has been modified' : "Figure is in it's original state";
+    title = modified ? 'The figure has been modified' : "The figure is in it's original state";
+  }
+
+  let icon = <PowerIcon className="w-6 h-6" />;
+  if (ready) {
+    if (modified) {
+      icon = <Bolt className="w-6 h-6 text-green-600" />;
+    } else {
+      icon = <BoltIconSolid className="w-6 h-6 text-green-600" />;
+    }
   }
 
   return (
     <div className="relative flex text-sm">
       <button
         className={classNames('bg-white', {
-          'text-gray-700': !ready,
-          'text-blue-700': ready && !modified,
-          'text-green-700': ready && modified,
+          'text-stone-800': !ready,
           'opacity-10': busy,
           'opacity-70': !busy,
         })}
         disabled={ready}
-        title={title ?? 'Enable compute to make this figure interactive'}
+        title={title}
         aria-label={`status`}
         onClick={onClick ?? (() => ({}))}
       >

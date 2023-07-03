@@ -12,13 +12,18 @@ import {
   BusyScopeProvider,
   NotebookToolbar,
   ConnectionStatusTray,
+  BinderBadge,
 } from '@myst-theme/jupyter';
+import { FrontmatterBlock } from '@myst-theme/frontmatter';
 
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
   const computeOptions = useComputeOptions();
   const canCompute = computeOptions.canCompute && (article.frontmatter as any)?.thebe !== false;
-  const { hide_title_block, hide_footer_links, binder } =
-    (article.frontmatter as any)?.design ?? {};
+  const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
+
+  // take binder url from article frontmatter or fallback to project
+  const binderUrl = article.frontmatter.binder ?? computeOptions.binderBadgeUrl;
+
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -26,6 +31,14 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider contents={article}>
+          {!hide_title_block && (
+            <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
+          )}
+          {binderUrl && !canCompute && (
+            <div className="flex justify-end">
+              <BinderBadge binder={binderUrl} />
+            </div>
+          )}
           {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
           {canCompute && article.kind === SourceFileKind.Article && <NotebookToolbar />}
           <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />

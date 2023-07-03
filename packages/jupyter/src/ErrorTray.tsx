@@ -52,9 +52,7 @@ export function ErrorTray({ errors }: { errors: IThebeNotebookError[] }) {
   return (
     <div className="relative px-4 pt-3 mt-8 text-sm text-red-600 border border-red-400 rounded border-1">
       <div>
-        <span className="font-bold">Error</span> - a page refresh may resolve this. If not, shutdown
-        this simulation and start another. If the error persists please contact support with a
-        screenshot of this page, including the error message below.
+        <span className="font-bold">Error</span> - a page refresh may resolve this.
       </div>
       <ErrorTrayMessage errors={errors} />
     </div>

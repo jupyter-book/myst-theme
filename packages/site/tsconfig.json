@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig/react-library.json",
-  "include": [".", "../jupyter/src/execute", "../jupyter/src/controls"],
+  "include": ["."],
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
     "paths": {

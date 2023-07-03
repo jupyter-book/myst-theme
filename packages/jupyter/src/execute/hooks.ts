@@ -152,7 +152,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
       nb.cells.map((c) => c.id),
     );
 
-    if (clearOutputsOnExecute) notebook.clear();
+    if (clearOutputsOnExecute) nb.clear();
 
     // let busy state update prior to launching execute
     setTimeout(async () => {

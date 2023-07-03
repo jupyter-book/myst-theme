@@ -280,26 +280,8 @@ export function selectCellIsBusy(
   cellId: string,
   kind: BusyKind,
 ) {
-  return state[kind][pageSlug]?.[notebookSlug]?.[cellId];
+  return !!state[kind][pageSlug]?.[notebookSlug]?.[cellId];
 }
-
-// export function selectCellIsExecuting(
-//   state: BusyScopeState,
-//   pageSlug: string,
-//   notebookSlug: string,
-//   cellId: string,
-// ) {
-//   return state.execute[pageSlug]?.[notebookSlug]?.[cellId];
-// }
-
-// export function selectCellIsResetting(
-//   state: BusyScopeState,
-//   pageSlug: string,
-//   notebookSlug: string,
-//   cellId: string,
-// ) {
-//   return state.execute[pageSlug]?.[notebookSlug]?.[cellId];
-// }
 
 /**
  * a fast selector relying on the fact that if at least one cell is present, the notebook is busy
@@ -318,22 +300,6 @@ export function selectNotebookIsBusy(
   return !!state[kind][pageSlug]?.[notebookSlug];
 }
 
-// export function selectNotebookIsExecuting(
-//   state: BusyScopeState,
-//   pageSlug: string,
-//   notebookSlug: string,
-// ) {
-//   return !!state.execute[pageSlug]?.[notebookSlug];
-// }
-
-// export function selectNotebookIsResetting(
-//   state: BusyScopeState,
-//   pageSlug: string,
-//   notebookSlug: string,
-// ) {
-//   return !!state.reset[pageSlug]?.[notebookSlug];
-// }
-
 /**
  * a fast selector relying on the fact that if at least one notebook is present, the render is busy
  *
@@ -344,11 +310,3 @@ export function selectNotebookIsBusy(
 export function selectPageIsBusy(state: BusyScopeState, pageSlug: string, kind: BusyKind) {
   return !!state[kind][pageSlug];
 }
-
-// export function selectPageIsExecuting(state: BusyScopeState, pageSlug: string) {
-//   return !!state.execute[pageSlug];
-// }
-
-// export function selectPageIsResetting(state: BusyScopeState, pageSlug: string) {
-//   return !!state.reset[pageSlug];
-// }

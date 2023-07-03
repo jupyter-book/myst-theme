@@ -4,28 +4,91 @@ import {
   reducer,
   selectCellIsBusy,
   selectNotebookIsBusy,
-  selectRenderIsBusy,
+  selectPageIsBusy,
 } from '../src/execute/busy';
 
 describe('execute busy scope behaviour', () => {
   describe('selectors', () => {
     test('selectCellIsBusy', () => {
-      expect(selectCellIsBusy({ pages: {} }, 'R', 'NB', 'C')).toBe(false);
-      expect(selectCellIsBusy({ pages: { R: {} } }, 'R', 'NB', 'C')).toBe(false);
-      expect(selectCellIsBusy({ pages: { R: { NB: {} } } }, 'R', 'NB', 'C')).toBe(false);
-      expect(selectCellIsBusy({ pages: { R: { NB: { C: true } } } }, 'R', 'NB', 'C')).toBe(true);
+      expect(selectCellIsBusy({ reset: {}, execute: {} }, 'R', 'NB', 'C', 'execute')).toEqual(
+        false,
+      );
+      expect(selectCellIsBusy({ reset: {}, execute: {} }, 'R', 'NB', 'C', 'reset')).toBe(false);
+      expect(
+        selectCellIsBusy({ reset: { R: {} }, execute: { R: {} } }, 'R', 'NB', 'C', 'execute'),
+      ).toBe(false);
+      expect(selectCellIsBusy({ reset: { R: {} }, execute: {} }, 'R', 'NB', 'C', 'reset')).toBe(
+        false,
+      );
+      expect(
+        selectCellIsBusy({ reset: {}, execute: { R: { NB: {} } } }, 'R', 'NB', 'C', 'execute'),
+      ).toBe(false);
+      expect(
+        selectCellIsBusy({ reset: { R: { NB: {} } }, execute: {} }, 'R', 'NB', 'C', 'reset'),
+      ).toBe(false);
+      expect(
+        selectCellIsBusy(
+          { reset: {}, execute: { R: { NB: { C: true } } } },
+          'R',
+          'NB',
+          'C',
+          'execute',
+        ),
+      ).toBe(true);
+      expect(
+        selectCellIsBusy(
+          { reset: {}, execute: { R: { NB: { C: true } } } },
+          'R',
+          'NB',
+          'C',
+          'reset',
+        ),
+      ).toBe(false);
+      expect(
+        selectCellIsBusy(
+          { reset: { R: { NB: { C: true } } }, execute: {} },
+          'R',
+          'NB',
+          'C',
+          'reset',
+        ),
+      ).toEqual(true);
+      expect(
+        selectCellIsBusy(
+          { execute: {}, reset: { R: { NB: { C: true } } } },
+          'R',
+          'NB',
+          'C',
+          'execute',
+        ),
+      ).toBe(false);
     });
     test('selectNotebookIsBusy', () => {
-      expect(selectNotebookIsBusy({ pages: {} }, 'R', 'NB')).toBe(false);
-      expect(selectNotebookIsBusy({ pages: { R: {} } }, 'R', 'NB')).toBe(false);
-      expect(selectNotebookIsBusy({ pages: { R: { NB: {} } } }, 'R', 'NB')).toBe(true);
-      expect(selectNotebookIsBusy({ pages: { R: { NB: { C: true } } } }, 'R', 'NB')).toBe(true);
+      expect(selectNotebookIsBusy({ reset: {}, execute: {} }, 'R', 'NB', 'execute')).toBe(false);
+      expect(selectNotebookIsBusy({ reset: {}, execute: { R: {} } }, 'R', 'NB', 'execute')).toBe(
+        false,
+      );
+      expect(
+        selectNotebookIsBusy({ reset: {}, execute: { R: { NB: {} } } }, 'R', 'NB', 'execute'),
+      ).toBe(true);
+      expect(
+        selectNotebookIsBusy(
+          { reset: {}, execute: { R: { NB: { C: true } } } },
+          'R',
+          'NB',
+          'execute',
+        ),
+      ).toBe(true);
     });
     test('selectRenderIsBusy', () => {
-      expect(selectRenderIsBusy({ pages: {} }, 'R')).toBe(false);
-      expect(selectRenderIsBusy({ pages: { R: {} } }, 'R')).toBe(true);
-      expect(selectRenderIsBusy({ pages: { R: { NB: {} } } }, 'R')).toBe(true);
-      expect(selectRenderIsBusy({ pages: { R: { NB: { C: true } } } }, 'R')).toBe(true);
+      expect(selectPageIsBusy({ reset: {}, execute: {} }, 'R', 'execute')).toBe(false);
+      expect(selectPageIsBusy({ reset: {}, execute: { R: {} } }, 'R', 'execute')).toBe(true);
+      expect(selectPageIsBusy({ reset: {}, execute: { R: { NB: {} } } }, 'R', 'execute')).toBe(
+        true,
+      );
+      expect(
+        selectPageIsBusy({ reset: {}, execute: { R: { NB: { C: true } } } }, 'R', 'execute'),
+      ).toBe(true);
     });
   });
   describe('reducer', () => {
@@ -36,6 +99,7 @@ describe('execute busy scope behaviour', () => {
       test.each([
         [
           'set first cell busy',
+          'execute',
           {},
           {
             pageSlug: 'R',
@@ -52,6 +116,7 @@ describe('execute busy scope behaviour', () => {
         ],
         [
           'set another cell in same render busy',
+          'execute',
           {
             R: {
               NB: {
@@ -75,6 +140,7 @@ describe('execute busy scope behaviour', () => {
         ],
         [
           'set cell in another notebook busy',
+          'execute',
           {
             R: {
               NB: {
@@ -103,6 +169,7 @@ describe('execute busy scope behaviour', () => {
         ],
         [
           'set cell in another render busy',
+          'execute',
           {
             R: {
               NB: {
@@ -136,26 +203,133 @@ describe('execute busy scope behaviour', () => {
             },
           },
         ],
-      ])('%s', (s: string, pages: any, payload: any, result: any) => {
-        expect(
-          reducer(
-            { pages },
-            {
-              type: 'SET_CELL_BUSY',
-              payload,
-            },
-          ),
-        ).toEqual({ pages: result });
-      });
-      test('setting an already busy cell returns same state', () => {
-        const state = {
-          pages: {
+        [
+          'set first cell busy',
+          'reset',
+          {},
+          {
+            pageSlug: 'R',
+            notebookSlug: 'NB',
+            cellId: 'C',
+          },
+          {
             R: {
               NB: {
                 C: true,
               },
             },
           },
+        ],
+        [
+          'set another cell in same render busy',
+          'reset',
+          {
+            R: {
+              NB: {
+                C: true,
+              },
+            },
+          },
+          {
+            pageSlug: 'R',
+            notebookSlug: 'NB',
+            cellId: 'C2',
+          },
+          {
+            R: {
+              NB: {
+                C: true,
+                C2: true,
+              },
+            },
+          },
+        ],
+        [
+          'set cell in another notebook busy',
+          'reset',
+          {
+            R: {
+              NB: {
+                C: true,
+                C2: true,
+              },
+            },
+          },
+          {
+            pageSlug: 'R',
+
+            notebookSlug: 'NB2',
+            cellId: 'C',
+          },
+          {
+            R: {
+              NB: {
+                C: true,
+                C2: true,
+              },
+              NB2: {
+                C: true,
+              },
+            },
+          },
+        ],
+        [
+          'set cell in another render busy',
+          'reset',
+          {
+            R: {
+              NB: {
+                C: true,
+                C2: true,
+              },
+              NB2: {
+                C: true,
+              },
+            },
+          },
+          {
+            pageSlug: 'R2',
+            notebookSlug: 'NB',
+            cellId: 'C',
+          },
+          {
+            R: {
+              NB: {
+                C: true,
+                C2: true,
+              },
+              NB2: {
+                C: true,
+              },
+            },
+            R2: {
+              NB: {
+                C: true,
+              },
+            },
+          },
+        ],
+      ])('%s - %s', (s: string, kind: string, state: any, payload: any, result: any) => {
+        expect(
+          reducer(
+            { execute: {}, reset: {}, [kind]: state },
+            {
+              type: 'SET_CELL_BUSY',
+              payload: { ...payload, kind },
+            },
+          ),
+        ).toEqual({ execute: {}, reset: {}, [kind]: result });
+      });
+      test('setting an already busy cell returns same state', () => {
+        const state = {
+          execute: {
+            R: {
+              NB: {
+                C: true,
+              },
+            },
+          },
+          reset: {},
         };
         expect(
           reducer(state, {
@@ -164,6 +338,7 @@ describe('execute busy scope behaviour', () => {
               pageSlug: 'R',
               notebookSlug: 'NB',
               cellId: 'C',
+              kind: 'execute',
             },
           }),
         ).toBe(state);
@@ -171,13 +346,14 @@ describe('execute busy scope behaviour', () => {
       describe('clear cells busy', () => {
         test('return state - if no render exists', () => {
           const state: BusyScopeState = {
-            pages: {
+            execute: {
               R2: {
                 NB2: {
                   C2: true,
                 },
               },
             },
+            reset: {},
           };
           expect(
             reducer(state, {
@@ -186,19 +362,21 @@ describe('execute busy scope behaviour', () => {
                 pageSlug: 'R',
                 notebookSlug: 'NB',
                 cellId: 'C',
+                kind: 'execute',
               },
             }),
           ).toBe(state);
         });
         test('return state - if no notebook exists', () => {
           const state: BusyScopeState = {
-            pages: {
+            execute: {
               R2: {
                 NB2: {
                   C2: true,
                 },
               },
             },
+            reset: {},
           };
           expect(
             reducer(state, {
@@ -207,19 +385,21 @@ describe('execute busy scope behaviour', () => {
                 pageSlug: 'R2',
                 notebookSlug: 'NB',
                 cellId: 'C',
+                kind: 'execute',
               },
             }),
           ).toBe(state);
         });
         test('return state - if no cell exists', () => {
           const state: BusyScopeState = {
-            pages: {
+            execute: {
               R2: {
                 NB2: {
                   C2: true,
                 },
               },
             },
+            reset: {},
           };
           expect(
             reducer(state, {
@@ -228,6 +408,7 @@ describe('execute busy scope behaviour', () => {
                 pageSlug: 'R2',
                 notebookSlug: 'NB2',
                 cellId: 'C',
+                kind: 'execute',
               },
             }),
           ).toBe(state);
@@ -235,6 +416,7 @@ describe('execute busy scope behaviour', () => {
         test.each([
           [
             'clear only cell in render, removes the render',
+            'execute',
             {
               R: {
                 NB: {
@@ -251,6 +433,7 @@ describe('execute busy scope behaviour', () => {
           ],
           [
             'clear only cell in notebook, removes the notebook',
+            'execute',
             {
               R: {
                 NB: {
@@ -276,6 +459,7 @@ describe('execute busy scope behaviour', () => {
           ],
           [
             'clear cell in a notebook',
+            'execute',
             {
               R: {
                 NB: {
@@ -303,23 +487,23 @@ describe('execute busy scope behaviour', () => {
               },
             },
           ],
-        ])('%s', (s: string, pages: any, payload: any, result: any) => {
+        ])('%s', (s: string, kind: string, state: any, payload: any, result: any) => {
           expect(
             reducer(
-              { pages },
+              { execute: {}, reset: {}, [kind]: state },
               {
                 type: 'CLEAR_CELL_BUSY',
-                payload,
+                payload: { ...payload, kind },
               },
             ),
-          ).toEqual({ pages: result });
+          ).toEqual({ execute: {}, reset: {}, [kind]: result });
         });
       });
     });
     describe('set notebook busy', () => {
       test('set new notebook in new render', () => {
         const state: BusyScopeState = {
-          pages: {
+          execute: {
             R: {
               NB: {
                 C: true,
@@ -327,6 +511,7 @@ describe('execute busy scope behaviour', () => {
               },
             },
           },
+          reset: {},
         };
         expect(
           reducer(state, {
@@ -335,10 +520,11 @@ describe('execute busy scope behaviour', () => {
               pageSlug: 'R2',
               notebookSlug: 'NB2',
               cellIds: ['C', 'C2', 'C3'],
+              kind: 'execute',
             },
           }),
         ).toEqual({
-          pages: {
+          execute: {
             R: {
               NB: {
                 C: true,
@@ -353,17 +539,19 @@ describe('execute busy scope behaviour', () => {
               },
             },
           },
+          reset: {},
         });
       });
       test('set notebook in existing render', () => {
         const state: BusyScopeState = {
-          pages: {
+          execute: {
             R: {
               NB: {
                 C99: true,
               },
             },
           },
+          reset: {},
         };
         expect(
           reducer(state, {
@@ -372,10 +560,12 @@ describe('execute busy scope behaviour', () => {
               pageSlug: 'R',
               notebookSlug: 'NB',
               cellIds: ['C', 'C2', 'C3'],
+              kind: 'execute',
             },
           }),
         ).toEqual({
-          pages: {
+          reset: {},
+          execute: {
             R: {
               NB: {
                 C: true,
@@ -391,7 +581,7 @@ describe('execute busy scope behaviour', () => {
     describe('clear notebook busy', () => {
       test('clear existing notebook', () => {
         const state: BusyScopeState = {
-          pages: {
+          execute: {
             R: {
               NB: {
                 C: true,
@@ -399,6 +589,7 @@ describe('execute busy scope behaviour', () => {
               },
             },
           },
+          reset: {},
         };
         expect(
           reducer(state, {
@@ -406,15 +597,17 @@ describe('execute busy scope behaviour', () => {
             payload: {
               pageSlug: 'R',
               notebookSlug: 'NB',
+              kind: 'execute',
             },
           }),
         ).toEqual({
-          pages: {},
+          execute: {},
+          reset: {},
         });
       });
       test('clear existing notebook, when there are other busy notebooks', () => {
         const state: BusyScopeState = {
-          pages: {
+          execute: {
             R: {
               NB: {
                 C: true,
@@ -425,6 +618,7 @@ describe('execute busy scope behaviour', () => {
               },
             },
           },
+          reset: {},
         };
         expect(
           reducer(state, {
@@ -432,10 +626,12 @@ describe('execute busy scope behaviour', () => {
             payload: {
               pageSlug: 'R',
               notebookSlug: 'NB',
+              kind: 'execute',
             },
           }),
         ).toEqual({
-          pages: {
+          reset: {},
+          execute: {
             R: {
               NB2: {
                 C: true,
@@ -446,7 +642,7 @@ describe('execute busy scope behaviour', () => {
       });
       test('return state - no notebook exists', () => {
         const state: BusyScopeState = {
-          pages: {
+          execute: {
             R: {
               NB: {
                 C: true,
@@ -457,6 +653,7 @@ describe('execute busy scope behaviour', () => {
               },
             },
           },
+          reset: {},
         };
         expect(
           reducer(state, {
@@ -464,13 +661,14 @@ describe('execute busy scope behaviour', () => {
             payload: {
               pageSlug: 'R',
               notebookSlug: 'NB3',
+              kind: 'execute',
             },
           }),
         ).toEqual(state);
       });
       test('return state - no render exists', () => {
         const state: BusyScopeState = {
-          pages: {
+          execute: {
             R: {
               NB: {
                 C: true,
@@ -481,6 +679,7 @@ describe('execute busy scope behaviour', () => {
               },
             },
           },
+          reset: {},
         };
         expect(
           reducer(state, {
@@ -488,6 +687,7 @@ describe('execute busy scope behaviour', () => {
             payload: {
               pageSlug: 'R3',
               notebookSlug: 'NB3',
+              kind: 'execute',
             },
           }),
         ).toEqual(state);

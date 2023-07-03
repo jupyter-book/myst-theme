@@ -37,11 +37,13 @@ export function SpinnerStatusButton({
   return (
     <div className="relative flex text-sm">
       <button
-        className={classNames('bg-white', {
-          'text-stone-800': !ready,
-          'opacity-10': busy,
-          'opacity-70': !busy,
-        })}
+        className={classNames(
+          'cursor-pointer text-gray-700 dark:text-white active:text-green-700 hover:opacity-100',
+          {
+            'opacity-10': busy,
+            'opacity-70': !busy,
+          },
+        )}
         disabled={ready}
         title={title}
         aria-label={`status`}
@@ -77,7 +79,7 @@ function SpinnerButton({
     <div className="relative flex text-sm">
       <button
         className={classNames(
-          'cursor-pointer text-gray-700 active:text-green-700 hover:opacity-100',
+          'cursor-pointer text-gray-700 dark:text-white active:text-green-700 hover:opacity-100',
           {
             'opacity-10 hover:opacity-10': busy,
             'opacity-70': !busy,
@@ -144,7 +146,7 @@ export function Power({
       disabled={disabled}
       title={title ?? 'enable compute'}
       onClick={onClick}
-      icon={<PowerIcon className="inline-block w-6 h-6 align-top" />}
+      icon={<PowerIcon className="inline-block w-6 h-6 align-top dark:text-white" />}
     />
   );
 }
@@ -212,7 +214,7 @@ export function Clear({
 }) {
   return (
     <button
-      className={classNames('flex text-gray-700 opacity-60 ', {
+      className={classNames('flex text-gray-700 dark:text-white opacity-70 ', {
         'cursor-not-allowed': disabled || !ready,
         'active:text-green-700 hover:opacity-100 cursor-pointer': !disabled,
       })}
@@ -239,7 +241,7 @@ export function Launch({
 }) {
   return (
     <button
-      className="flex items-center text-gray-700 cursor-pointer active:text-green-700 opacity-60 hover:opacity-100"
+      className="flex items-center text-gray-700 cursor-pointer dark:text-white active:text-green-700 opacity-70 hover:opacity-100"
       disabled={disabled || !ready}
       onClick={() => onClick()}
       title={title ?? 'launch in jupyter'}

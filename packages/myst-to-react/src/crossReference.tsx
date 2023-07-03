@@ -136,6 +136,27 @@ function openDetails(el: HTMLElement | null) {
   openDetails(el.parentElement);
 }
 
+export function useFetchMdast({
+  remote,
+  url,
+  dataUrl,
+}: {
+  remote?: boolean;
+  url?: string;
+  dataUrl?: string;
+}) {
+  // dataUrl should point directly to the cross reference mdast data.
+  // If dataUrl is not provided, it will be computed by appending .json to the url.
+  const baseurl = useBaseurl();
+  const external = url?.startsWith('http') ?? false;
+  const lookupUrl = external
+    ? `/api/lookup?url=${url}.json`
+    : dataUrl
+    ? `${withBaseurl(dataUrl, baseurl)}`
+    : `${withBaseurl(url, baseurl)}.json`;
+  return useSWR(remote ? lookupUrl : null, fetcher);
+}
+
 function useSelectNodes({
   load,
   remote,
@@ -149,18 +170,9 @@ function useSelectNodes({
   dataUrl?: string;
   identifier: string;
 }) {
-  const baseurl = useBaseurl();
   const references = useReferences();
-  // dataUrl should point directly to the cross reference mdast data.
-  // If dataUrl is not provided, it will be computed by appending .json to the url.
   if (!load) return;
-  const external = url?.startsWith('http') ?? false;
-  const lookupUrl = external
-    ? `/api/lookup?url=${url}.json`
-    : dataUrl
-    ? `${withBaseurl(dataUrl, baseurl)}`
-    : `${withBaseurl(url, baseurl)}.json`;
-  const { data, error } = useSWR(remote ? lookupUrl : null, fetcher);
+  const { data, error } = useFetchMdast({ remote, url, dataUrl });
   const mdast = data?.mdast ?? references?.article;
   const { nodes, htmlId } = selectMdastNodes(mdast, identifier);
   return { htmlId, nodes, loading: remote && !data, error: remote && error };

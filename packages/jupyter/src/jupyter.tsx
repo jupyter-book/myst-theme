@@ -5,32 +5,45 @@ import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages';
 import type { ThebeCore } from 'thebe-core';
-import { useNotebookCellExecution } from './providers';
 import { SourceFileKind } from 'myst-common';
 import { useXRefState } from '@myst-theme/providers';
 import { useThebeLoader } from 'thebe-react';
+import { useCellExecution } from './execute';
 
-function ActiveOutputRenderer({ id, data }: { id: string; data: IOutput[] }) {
-  const exec = useNotebookCellExecution(id);
+function ActiveOutputRenderer({ id, initialData }: { id: string; initialData: IOutput[] }) {
+  const exec = useCellExecution(id);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!ref.current || !exec?.cell) {
-      console.debug(`No cell ref available for cell ${exec?.cell?.id}`);
+      console.debug(`Jupyter: No cell ref available for cell ${exec?.cell?.id}`);
       return;
     }
-    if (exec.cell.isAttachedToDOM) {
-      console.debug(`Cell ${exec.cell.id} already attached to DOM`);
-      return;
-    }
-    console.debug(`Attaching cell ${exec.cell.id} to DOM at:`, {
+
+    const verb = exec.cell.isAttachedToDOM ? 'reattaching' : 'attaching';
+    console.debug(`${verb} cell ${exec.cell.id} to DOM at:`, {
       el: ref.current,
       connected: ref.current.isConnected,
-      data,
+      data: initialData,
     });
+
     exec.cell.attachToDOM(ref.current);
-    exec.cell.render(data);
+
+    console.debug('Jupyter: attach rendering -- existing outputs', exec.cell.outputs);
+    console.debug('Jupyter: attach rendering -- execution count', exec.cell.executionCount);
+    if (exec.cell.executionCount == null) {
+      exec.cell.initOutputs(initialData);
+    } else {
+      exec.cell.refresh();
+    }
   }, [ref?.current, exec?.cell]);
+
+  useEffect(
+    () => () => {
+      console.debug('Jupyter: unmounting attached output renderer');
+    },
+    [],
+  );
 
   return <div ref={ref} data-thebe-active-ref="true" className="relative" />;
 }
@@ -64,7 +77,8 @@ export const JupyterOutputs = React.memo(
     const { inCrossRef } = useXRefState();
     const { data, error } = useFetchAnyTruncatedContent(outputs);
     const [fullOutputs, setFullOutputs] = useState<IOutput[] | null>(null);
-    const exec = useNotebookCellExecution(id);
+    // const exec = useNotebookCellExecution(id);
+    const exec = useCellExecution(id);
 
     useEffect(() => {
       if (core) return;
@@ -89,7 +103,7 @@ export const JupyterOutputs = React.memo(
       return (
         <div>
           {!fullOutputs && <div className="p-2.5">Loading...</div>}
-          {fullOutputs && <ActiveOutputRenderer id={id} data={fullOutputs} />}
+          {fullOutputs && <ActiveOutputRenderer key={id} id={id} initialData={fullOutputs} />}
         </div>
       );
     }
@@ -102,7 +116,7 @@ export const JupyterOutputs = React.memo(
             id={id}
             data={fullOutputs}
             core={core}
-            kind={exec?.kind ?? SourceFileKind.Notebook}
+            kind={SourceFileKind.Notebook}
           ></PassiveOutputRenderer>
         )}
       </div>

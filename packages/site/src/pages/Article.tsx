@@ -1,55 +1,52 @@
 import React from 'react';
 import { ReferencesProvider } from '@myst-theme/providers';
-import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 import type { PageLoader } from '../types';
-import { ThebeRenderMimeRegistryProvider, ThebeSessionProvider } from 'thebe-react';
 import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
-import { EnableCompute } from '../components/EnableCompute';
-import { NotebookRunAll } from '../components/ComputeControls';
 import {
-  NotebookProvider,
-  BinderBadge,
   useComputeOptions,
+  ExecuteScopeProvider,
+  BusyScopeProvider,
+  NotebookToolbar,
   ConnectionStatusTray,
+  BinderBadge,
 } from '@myst-theme/jupyter';
+import { FrontmatterBlock } from '@myst-theme/frontmatter';
 
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
   const computeOptions = useComputeOptions();
   const canCompute = computeOptions.canCompute && (article.frontmatter as any)?.thebe !== false;
-  const { hide_title_block, hide_footer_links, binder } =
-    (article.frontmatter as any)?.design ?? {};
-  const isJupyter = article?.kind && article.kind === SourceFileKind.Notebook;
+  const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
+
+  // take binder url from article frontmatter or fallback to project
+  const binderUrl = article.frontmatter.binder ?? computeOptions.binderBadgeUrl;
+
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
-      <ThebeRenderMimeRegistryProvider>
-        <ThebeSessionProvider start={false} name={article.slug}>
+      <BusyScopeProvider>
+        <ExecuteScopeProvider contents={article}>
           {!hide_title_block && (
             <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
           )}
-          <NotebookProvider siteConfig={false} page={article}>
-            <div className="flex items-center">
-              <div className="flex-grow"></div>
-              {binder && <BinderBadge binder={binder} />}
-              {canCompute && isJupyter && (
-                <EnableCompute canCompute={true} key={article.slug}>
-                  <NotebookRunAll />
-                </EnableCompute>
-              )}
+          {binderUrl && !canCompute && (
+            <div className="flex justify-end">
+              <BinderBadge binder={binderUrl} />
             </div>
-            <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
-            <ConnectionStatusTray />
-            <Bibliography />
-            {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
-          </NotebookProvider>
-        </ThebeSessionProvider>
-      </ThebeRenderMimeRegistryProvider>
+          )}
+          {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
+          {canCompute && article.kind === SourceFileKind.Article && <NotebookToolbar />}
+          <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
+          <Bibliography />
+          <ConnectionStatusTray />
+          {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
+        </ExecuteScopeProvider>
+      </BusyScopeProvider>
     </ReferencesProvider>
   );
 });

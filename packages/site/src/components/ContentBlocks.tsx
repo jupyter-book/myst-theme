@@ -3,7 +3,11 @@ import { SourceFileKind } from 'myst-common';
 import type { GenericParent } from 'myst-common';
 import { useNodeRenderers } from '@myst-theme/providers';
 import classNames from 'classnames';
-import { ClearCell, RunCell } from './ComputeControls';
+import {
+  NotebookClearCell,
+  NotebookRunCell,
+  NotebookRunCellSpinnerOnly,
+} from '@myst-theme/jupyter';
 
 function isACodeCell(node: GenericParent) {
   return (
@@ -18,6 +22,7 @@ function isACodeCell(node: GenericParent) {
 
 function Block({
   id,
+  pageKind,
   node,
   className,
 }: {
@@ -41,13 +46,22 @@ function Block({
         [subGrid]: !noSubGrid,
       })}
     >
-      {children}
-      {isACodeCell(node) && (
-        <div className="hidden group-hover/block:flex md:flex-col absolute -top-[28px] md:top-0 right-0 md:-right-[28px] mt-8">
-          <RunCell id={id} />
-          <ClearCell id={id} />
-        </div>
+      {pageKind === SourceFileKind.Notebook && isACodeCell(node) && (
+        <>
+          <div className="flex sticky top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:hidden">
+            <div className="absolute top-0 -right-[28px] flex md:flex-col">
+              <NotebookRunCellSpinnerOnly id={id} />
+            </div>
+          </div>
+          <div className="hidden sticky top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:flex">
+            <div className="absolute top-0 -right-[28px] flex md:flex-col">
+              <NotebookRunCell id={id} />
+              <NotebookClearCell id={id} />
+            </div>
+          </div>
+        </>
       )}
+      {children}
     </div>
   );
 }

@@ -5,7 +5,10 @@ const OUTPUT_RENDERERS = {
 };
 
 export * from './BinderBadge';
-export * from './providers';
+export * from './ErrorTray';
 export * from './ConnectionStatusTray';
+export * from './providers';
+export * from './execute';
+export * from './controls';
 
 export default OUTPUT_RENDERERS;

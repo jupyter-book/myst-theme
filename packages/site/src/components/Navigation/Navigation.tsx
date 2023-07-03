@@ -23,7 +23,7 @@ export function Navigation({
       {children}
       {open && (
         <div
-          className="fixed inset-0 z-20 bg-black opacity-50"
+          className="fixed inset-0 bg-black opacity-50"
           style={{ marginTop: top }}
           onClick={() => setOpen(false)}
         ></div>

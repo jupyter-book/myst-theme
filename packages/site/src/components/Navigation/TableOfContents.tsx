@@ -163,7 +163,7 @@ export const TableOfContents = ({
     <div
       ref={tocRef}
       className={classNames(
-        'fixed xl:article-grid article-grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px] z-20',
+        'fixed xl:article-grid article-grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
         { hidden: !open },
       )}
       style={{

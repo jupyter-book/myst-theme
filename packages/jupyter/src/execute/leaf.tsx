@@ -57,7 +57,7 @@ export function NotebookBuilder({
   useEffect(() => {
     if (!core || !config || scopeHasNotebook || lock.current) return;
     lock.current = true;
-    console.log(`NotebookBuilder - ${notebookSlug} being added to scope ${pageSlug}`);
+    console.debug(`Jupyter: NotebookBuilder - ${notebookSlug} being added to scope ${pageSlug}`);
     const rendermime = core?.makeRenderMimeRegistry(config?.mathjax);
     const notebook = notebookFromMdast(
       core,
@@ -115,10 +115,10 @@ export function SessionStarter({
   useEffect(() => {
     if (!core || !server || scope.session || lock.current) return;
     lock.current = true;
-    console.log(`starting session for ${pageSlug}-${notebookSlug}`);
+    console.debug(`Jupyter: Starting session for ${pageSlug}-${notebookSlug}`);
 
     server.listRunningSessions().then((sessions) => {
-      console.log('running sessions', sessions);
+      console.debug('Jupyter: running sessions', sessions);
       const path = `/${pageSlug}-${notebookSlug}.ipynb`;
 
       const existing = sessions.find((s) => s.path === path);

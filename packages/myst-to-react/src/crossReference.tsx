@@ -154,7 +154,6 @@ export function useFetchMdast({
     : dataUrl
     ? `${withBaseurl(dataUrl, baseurl)}`
     : `${withBaseurl(url, baseurl)}.json`;
-  console.log('lookupUrl', lookupUrl);
   return useSWR(remote ? lookupUrl : null, fetcher);
 }
 

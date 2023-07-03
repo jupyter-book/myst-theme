@@ -214,7 +214,6 @@ export function BusyScopeProvider({ children }: React.PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, { execute: {}, reset: {} });
 
   const memo = React.useMemo(() => ({ state, dispatch }), [state]);
-  console.log('BusyScopeProvider', memo.state);
 
   if (typeof window !== 'undefined') {
     (window as any).busyScopeState = memo.state;

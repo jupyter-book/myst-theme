@@ -19,7 +19,7 @@ export function useExecutionScope({
   const { state, dispatch } = context;
 
   const start = useCallback((slug: string) => {
-    console.log('starting...', slug);
+    console.debug(`Jupyter: Starting ${slug}`);
     dispatch({
       type: 'REQUEST_BUILD',
       payload: {

@@ -16,7 +16,7 @@ function ActiveOutputRenderer({ id, initialData }: { id: string; initialData: IO
 
   useEffect(() => {
     if (!ref.current || !exec?.cell) {
-      console.debug(`No cell ref available for cell ${exec?.cell?.id}`);
+      console.debug(`Jupyter: No cell ref available for cell ${exec?.cell?.id}`);
       return;
     }
 
@@ -29,8 +29,8 @@ function ActiveOutputRenderer({ id, initialData }: { id: string; initialData: IO
 
     exec.cell.attachToDOM(ref.current);
 
-    console.log('attach rendering -- existing outputs', exec.cell.outputs);
-    console.log('attach rendering -- execution count', exec.cell.executionCount);
+    console.debug('Jupyter: attach rendering -- existing outputs', exec.cell.outputs);
+    console.debug('Jupyter: attach rendering -- execution count', exec.cell.executionCount);
     if (exec.cell.executionCount == null) {
       exec.cell.initOutputs(initialData);
     } else {
@@ -40,7 +40,7 @@ function ActiveOutputRenderer({ id, initialData }: { id: string; initialData: IO
 
   useEffect(
     () => () => {
-      console.log('unmounting attached output renderer');
+      console.debug('Jupyter: unmounting attached output renderer');
     },
     [],
   );

@@ -41,7 +41,7 @@ function useScopeNavigate({
 }) {
   useEffect(() => {
     if (state.pages[slug]) {
-      console.log(`ExecuteScopeProvider - ${slug} is already in scope`);
+      console.debug(`Jupyter: ExecuteScopeProvider - ${slug} is already in scope`);
       return;
     }
 

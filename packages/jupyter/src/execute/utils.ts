@@ -14,7 +14,7 @@ import type { IdKeyMap, IdKeyMapTarget } from './types';
  *
  * @param core
  * @param config
- * @param renderSlug - slug identifying the render context used for key decoration
+ * @param pageSlug - slug identifying the render context used for key decoration
  * @param mdast - the notebook mdast
  * @param idkmap - map of scoped block keys to keys for code and output cells
  * @param rendermime
@@ -24,7 +24,7 @@ import type { IdKeyMap, IdKeyMapTarget } from './types';
 export function notebookFromMdast(
   core: ThebeCore,
   config: Config,
-  renderSlug: string,
+  pageSlug: string,
   notebookSlug: string,
   mdast: GenericParent,
   idkmap: IdKeyMap,
@@ -46,7 +46,7 @@ export function notebookFromMdast(
       // to allow code or output keys to look up cells and refs and idenifity
       // the cell in the correct notebook
       const target: IdKeyMapTarget = {
-        renderSlug,
+        pageSlug,
         notebookSlug,
         cellId: block.key,
       };

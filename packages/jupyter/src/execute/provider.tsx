@@ -40,7 +40,7 @@ function useScopeNavigate({
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
   useEffect(() => {
-    if (state.renderings[slug]) {
+    if (state.pages[slug]) {
       console.log(`ExecuteScopeProvider - ${slug} is already in scope`);
       return;
     }
@@ -117,7 +117,7 @@ export function ExecuteScopeProvider({
     mdast: {
       [contents.slug]: { root: contents.mdast },
     },
-    renderings: {
+    pages: {
       [contents.slug]: {
         computable: computables.length > 0 || contents.kind === SourceFileKind.Notebook,
         kind: contents.kind,
@@ -141,9 +141,9 @@ export function ExecuteScopeProvider({
   useExecutionScopeFetcher({ slug: contents.slug, state: state, dispatch });
 
   const fetchTargets: { slug: string; url: string }[] = selectDependenciesToFetch(state);
-  const notebookBuildTargets: { renderSlug: string; notebookSlug: string }[] =
+  const notebookBuildTargets: { pageSlug: string; notebookSlug: string }[] =
     selectScopeNotebooksToBuild(state);
-  const sessionStartTargets: { renderSlug: string; notebookSlug: string }[] =
+  const sessionStartTargets: { pageSlug: string; notebookSlug: string }[] =
     selectSessionsToStart(state);
 
   const memo = React.useMemo(
@@ -167,10 +167,10 @@ export function ExecuteScopeProvider({
         )}
         {notebookBuildTargets.length > 0 && (
           <div className="p-1 pl-4">
-            {notebookBuildTargets.map(({ renderSlug, notebookSlug }) => (
+            {notebookBuildTargets.map(({ pageSlug, notebookSlug }) => (
               <NotebookBuilder
-                key={`build-${renderSlug}-${notebookSlug}`}
-                renderSlug={renderSlug}
+                key={`build-${pageSlug}-${notebookSlug}`}
+                pageSlug={pageSlug}
                 notebookSlug={notebookSlug}
                 idkmap={idkmap.current}
                 state={state}
@@ -181,10 +181,10 @@ export function ExecuteScopeProvider({
         )}
         {sessionStartTargets.length > 0 && (
           <div className="p-1 pl-4">
-            {sessionStartTargets.map(({ renderSlug, notebookSlug }) => (
+            {sessionStartTargets.map(({ pageSlug, notebookSlug }) => (
               <SessionStarter
-                key={`session-${renderSlug}-${notebookSlug}`}
-                renderSlug={renderSlug}
+                key={`session-${pageSlug}-${notebookSlug}`}
+                pageSlug={pageSlug}
                 notebookSlug={notebookSlug}
                 state={state}
                 dispatch={dispatch}

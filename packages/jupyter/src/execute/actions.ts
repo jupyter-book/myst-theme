@@ -31,13 +31,11 @@ interface SlugPayload {
 
 export function isDoubleSlugPayload(payload: unknown): payload is DoubleSlugPayload {
   const maybePayload = payload as DoubleSlugPayload;
-  return (
-    typeof maybePayload.renderSlug === 'string' && typeof maybePayload.notebookSlug === 'string'
-  );
+  return typeof maybePayload.pageSlug === 'string' && typeof maybePayload.notebookSlug === 'string';
 }
 
 interface DoubleSlugPayload {
-  renderSlug: string;
+  pageSlug: string;
   notebookSlug: string;
 }
 
@@ -75,7 +73,7 @@ interface AddMdastPayload {
 export function isAddNotebookPayload(payload: unknown): payload is AddNotebookPayload {
   const maybePayload = payload as AddNotebookPayload;
   return (
-    typeof maybePayload.renderSlug === 'string' &&
+    typeof maybePayload.pageSlug === 'string' &&
     typeof maybePayload.notebookSlug === 'string' &&
     typeof maybePayload.notebook === 'object' &&
     typeof maybePayload.rendermime === 'object'
@@ -83,7 +81,7 @@ export function isAddNotebookPayload(payload: unknown): payload is AddNotebookPa
 }
 
 interface AddNotebookPayload {
-  renderSlug: string;
+  pageSlug: string;
   notebookSlug: string;
   notebook: ThebeNotebook;
   rendermime: IRenderMimeRegistry;
@@ -92,14 +90,14 @@ interface AddNotebookPayload {
 export function isAddSessionPayload(payload: unknown): payload is AddSessionPayload {
   const maybePayload = payload as AddSessionPayload;
   return (
-    typeof maybePayload.renderSlug === 'string' &&
+    typeof maybePayload.pageSlug === 'string' &&
     typeof maybePayload.notebookSlug === 'string' &&
     typeof maybePayload.session === 'object'
   );
 }
 
 interface AddSessionPayload {
-  renderSlug: string;
+  pageSlug: string;
   notebookSlug: string;
   session: ThebeSession;
 }

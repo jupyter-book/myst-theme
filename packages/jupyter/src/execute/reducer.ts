@@ -5,7 +5,6 @@ import {
   isAddNotebookPayload,
   isAddSessionPayload,
   isBuildStatusPayload,
-  isDoubleSlugPayload,
   isNavigatePayload,
   isSlugPayload,
 } from './actions';
@@ -19,15 +18,15 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
         throw new Error('invalid NAVIGATE payload');
       }
       const { kind, slug, mdast, dependencies, computables } = action.payload;
-      if (state.renderings[slug]) return state;
+      if (state.pages[slug]) return state;
       return {
         ...state,
         mdast: {
           ...state.mdast,
           [slug]: { root: mdast },
         },
-        renderings: {
-          ...state.renderings,
+        pages: {
+          ...state.pages,
           [slug]: {
             kind,
             slug,
@@ -114,15 +113,15 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
         throw new Error('invalid SET_READY payload');
       }
       const { slug } = action.payload;
-      if (state.renderings[slug].ready) return state;
+      if (state.pages[slug].ready) return state;
       const { [slug]: _, ...builds } = state.builds;
       const newState = {
         ...state,
         builds,
-        renderings: {
-          ...state.renderings,
+        pages: {
+          ...state.pages,
           [slug]: {
-            ...state.renderings[slug],
+            ...state.pages[slug],
             ready: true,
           },
         },
@@ -134,23 +133,23 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
         console.error(action.payload);
         throw new Error('invalid ADD_NOTEBOOK payload');
       }
-      const { renderSlug, notebookSlug, notebook, rendermime } = action.payload;
-      if (!state.renderings[renderSlug]) {
+      const { pageSlug, notebookSlug, notebook, rendermime } = action.payload;
+      if (!state.pages[pageSlug]) {
         console.error(state, action.payload);
         throw new Error('Trying to add notebook when there is no rendering state');
       }
-      if (state.renderings[renderSlug].scopes[notebookSlug]) {
+      if (state.pages[pageSlug].scopes[notebookSlug]) {
         console.warn('Trying to add notebook scope when rendering already has one', action.payload);
         return state;
       }
       return {
         ...state,
-        renderings: {
-          ...state.renderings,
-          [renderSlug]: {
-            ...state.renderings[renderSlug],
+        pages: {
+          ...state.pages,
+          [pageSlug]: {
+            ...state.pages[pageSlug],
             scopes: {
-              ...state.renderings[renderSlug].scopes,
+              ...state.pages[pageSlug].scopes,
               [notebookSlug]: {
                 notebook,
                 rendermime,
@@ -165,25 +164,25 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
         console.error(action.payload);
         throw new Error('invalid ADD_SESSION payload');
       }
-      const { renderSlug, notebookSlug, session } = action.payload;
-      if (!state.renderings[renderSlug]) {
+      const { pageSlug, notebookSlug, session } = action.payload;
+      if (!state.pages[pageSlug]) {
         console.error(state, action.payload);
         throw new Error('Trying to add session when there is no rendering state');
       }
-      if (state.renderings[renderSlug].scopes[notebookSlug].session) {
+      if (state.pages[pageSlug].scopes[notebookSlug].session) {
         console.warn('Trying to add session scope when rendering already has one', action.payload);
         return state;
       }
       return {
         ...state,
-        renderings: {
-          ...state.renderings,
-          [renderSlug]: {
-            ...state.renderings[renderSlug],
+        pages: {
+          ...state.pages,
+          [pageSlug]: {
+            ...state.pages[pageSlug],
             scopes: {
-              ...state.renderings[renderSlug].scopes,
+              ...state.pages[pageSlug].scopes,
               [notebookSlug]: {
-                ...state.renderings[renderSlug].scopes[notebookSlug],
+                ...state.pages[pageSlug].scopes[notebookSlug],
                 session,
               },
             },

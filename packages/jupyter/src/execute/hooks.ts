@@ -30,7 +30,7 @@ export function useExecutionScope({
 
   const execute = (slug: string) => {
     // set busy
-    Object.entries(state.renderings[slug].scopes).forEach(([notebookSlug, { notebook }]) => {
+    Object.entries(state.pages[slug].scopes).forEach(([notebookSlug, { notebook }]) => {
       busy.setNotebook(
         slug,
         notebookSlug,
@@ -40,7 +40,7 @@ export function useExecutionScope({
 
     if (clearOutputsOnExecute) {
       // clear all notebook cell outputs
-      Object.values(state.renderings[slug].scopes).forEach(({ notebook }) => {
+      Object.values(state.pages[slug].scopes).forEach(({ notebook }) => {
         notebook.clear();
       });
     }
@@ -56,7 +56,7 @@ export function useExecutionScope({
       config?.events.on('status' as any, handler);
       // execute all cells on all notebooks
       await Promise.all(
-        Object.entries(state.renderings[slug].scopes).map(async ([, { notebook }]) => {
+        Object.entries(state.pages[slug].scopes).map(async ([, { notebook }]) => {
           const execReturns = await notebook.executeAll(true);
           const errs = findErrors(execReturns);
           if (errs != null) console.error('errors', errs);
@@ -71,8 +71,8 @@ export function useExecutionScope({
    *
    */
   const clearAll = useCallback(
-    (renderSlug: string) => {
-      Object.entries(state.renderings[renderSlug].scopes).forEach(([, { notebook }]) => {
+    (pageSlug: string) => {
+      Object.entries(state.pages[pageSlug].scopes).forEach(([, { notebook }]) => {
         notebook.clear();
       });
     },
@@ -83,18 +83,18 @@ export function useExecutionScope({
    * resetAll resets all cells in all notebooks for a given rendering
    */
   const resetAll = useCallback(
-    (renderSlug: string) => {
-      Object.entries(state.renderings[renderSlug].scopes).forEach(
+    (pageSlug: string) => {
+      Object.entries(state.pages[pageSlug].scopes).forEach(
         ([notebookSlug, { notebook, session }]) => {
           busy.setNotebook(
-            renderSlug,
+            pageSlug,
             notebookSlug,
             notebook.cells.map((c) => c.id),
           );
           setTimeout(() => {
             notebook.reset();
             session?.kernel?.restart().finally(() => {
-              busy.clearNotebook(renderSlug, notebookSlug);
+              busy.clearNotebook(pageSlug, notebookSlug);
             });
           }, 300);
         },
@@ -103,7 +103,7 @@ export function useExecutionScope({
     [state],
   );
 
-  const ready = context.state.renderings[context.slug]?.ready;
+  const ready = context.state.pages[context.slug]?.ready;
 
   return { ...context, ready, start, clearAll, resetAll, execute };
 }
@@ -123,7 +123,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
 
   const { state, dispatch, idkmap } = context;
   const target = idkmap[id] ?? {};
-  const { renderSlug, notebookSlug, cellId } = target;
+  const { pageSlug, notebookSlug, cellId } = target;
 
   // TODO consider extending this to start only the notebook requested, currently this will
   // execute all connected notebooks
@@ -139,18 +139,18 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
   let cell: IThebeCell | undefined;
   let notebook: ThebeNotebook | undefined;
 
-  if (target && state.renderings[renderSlug]) {
-    notebook = state.renderings[renderSlug].scopes[notebookSlug].notebook;
-    if (!notebook) console.error('no notebook for', { renderSlug, notebookSlug, cellId });
+  if (target && state.pages[pageSlug]) {
+    notebook = state.pages[pageSlug].scopes[notebookSlug].notebook;
+    if (!notebook) console.error('no notebook for', { pageSlug, notebookSlug, cellId });
     cell = notebook?.getCellById(cellId);
-    if (!cell) console.error('no cell found', { renderSlug, notebookSlug, cellId });
+    if (!cell) console.error('no cell found', { pageSlug, notebookSlug, cellId });
   }
 
   const execute = () => {
-    const nb = state.renderings[renderSlug]?.scopes[notebookSlug]?.notebook;
+    const nb = state.pages[pageSlug]?.scopes[notebookSlug]?.notebook;
     // set busy
     busy.setNotebook(
-      renderSlug,
+      pageSlug,
       notebookSlug,
       nb.cells.map((c) => c.id),
     );
@@ -161,7 +161,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
     setTimeout(async () => {
       const handler: ThebeEventCb = (_, data) => {
         if (data.subject === 'cell' && data.status === 'idle') {
-          busy.clearCell(renderSlug, notebookSlug, data.id ?? 'unknown');
+          busy.clearCell(pageSlug, notebookSlug, data.id ?? 'unknown');
         }
       };
       config?.events.on('status' as any, handler);
@@ -178,7 +178,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
    *
    */
   const clear = useCallback(() => {
-    const nb = state.renderings[renderSlug]?.scopes[notebookSlug]?.notebook;
+    const nb = state.pages[pageSlug]?.scopes[notebookSlug]?.notebook;
     nb.clear();
   }, [state]);
 
@@ -186,21 +186,21 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
    * resetAll resets all cells in all notebooks for a given rendering
    */
   const reset = useCallback(() => {
-    const { notebook: nb, session } = state.renderings[renderSlug]?.scopes[notebookSlug] ?? {};
+    const { notebook: nb, session } = state.pages[pageSlug]?.scopes[notebookSlug] ?? {};
     busy.setNotebook(
-      renderSlug,
+      pageSlug,
       notebookSlug,
       nb.cells.map((c) => c.id),
     );
     setTimeout(() => {
       nb.reset();
       session?.kernel?.restart().finally(() => {
-        busy.clearNotebook(renderSlug, notebookSlug);
+        busy.clearNotebook(pageSlug, notebookSlug);
       });
     }, 300);
   }, [state]);
 
-  const ready = context.state.renderings[context.slug]?.ready;
+  const ready = context.state.pages[context.slug]?.ready;
 
   return {
     ...context,
@@ -209,8 +209,8 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
     clear,
     reset,
     execute,
-    cellIsBusy: cell ? busy.cell(renderSlug, notebookSlug, cell?.id) : false,
-    notebookIsBusy: busy.notebook(renderSlug, notebookSlug),
+    cellIsBusy: cell ? busy.cell(pageSlug, notebookSlug, cell?.id) : false,
+    notebookIsBusy: busy.notebook(pageSlug, notebookSlug),
     executionCount: cell?.executionCount,
   };
 }
@@ -230,42 +230,42 @@ export function useCellExecution(id: IdOrKey) {
 
   const { state, idkmap } = context;
   const target = idkmap[id] ?? {};
-  const { renderSlug, notebookSlug, cellId } = target;
+  const { pageSlug, notebookSlug, cellId } = target;
 
   let cell: IThebeCell | undefined;
   let notebook: ThebeNotebook | undefined;
 
-  if (target && state.renderings[renderSlug]) {
-    notebook = state.renderings[renderSlug].scopes[notebookSlug].notebook;
-    if (!notebook) console.error('no notebook for', { renderSlug, notebookSlug, cellId });
+  if (target && state.pages[pageSlug]) {
+    notebook = state.pages[pageSlug].scopes[notebookSlug].notebook;
+    if (!notebook) console.error('no notebook for', { pageSlug, notebookSlug, cellId });
     cell = notebook?.getCellById(cellId);
-    if (!cell) console.error('no cell found', { renderSlug, notebookSlug, cellId });
+    if (!cell) console.error('no cell found', { pageSlug, notebookSlug, cellId });
   }
 
-  const ready = context.state.renderings[context.slug]?.ready;
-  const kind = context.state.renderings[context.slug]?.kind ?? SourceFileKind.Article;
+  const ready = context.state.pages[context.slug]?.ready;
+  const kind = context.state.pages[context.slug]?.kind ?? SourceFileKind.Article;
 
   const execute = useCallback(() => {
     if (!cell) {
-      console.error('no cell found on execute', { renderSlug, notebookSlug, cellId });
+      console.error('no cell found on execute', { pageSlug, notebookSlug, cellId });
       return;
     }
     // set busy
-    busy.setCell(renderSlug, notebookSlug, cell.id);
+    busy.setCell(pageSlug, notebookSlug, cell.id);
     cell.clear();
     // let busy state update prior to launching execute
     setTimeout(() => {
       if (!cell) throw new Error('no cell found on execute');
       cell.execute().then(() => {
         if (!cell) throw new Error('no cell found after execute');
-        busy.clearCell(renderSlug, notebookSlug, cell?.id);
+        busy.clearCell(pageSlug, notebookSlug, cell?.id);
       });
     }, 100);
   }, [state, cell]);
 
   const clear = useCallback(() => {
     if (!cell) {
-      console.error('no cell found on clear', { renderSlug, notebookSlug, cellId });
+      console.error('no cell found on clear', { pageSlug, notebookSlug, cellId });
       return;
     }
     cell.clear();
@@ -276,8 +276,8 @@ export function useCellExecution(id: IdOrKey) {
     ready,
     execute,
     clear,
-    cellIsBusy: cell ? busy.cell(renderSlug, notebookSlug, cell?.id) : false,
-    notebookIsBusy: busy.notebook(renderSlug, notebookSlug),
+    cellIsBusy: cell ? busy.cell(pageSlug, notebookSlug, cell?.id) : false,
+    notebookIsBusy: busy.notebook(pageSlug, notebookSlug),
     cell,
   };
 }
@@ -294,7 +294,7 @@ export function useIsAComputableCell(id: IdOrKey) {
   return {
     slug: context.slug,
     computable: !!target,
-    ready: context.state.renderings[context.slug]?.ready ?? false,
+    ready: context.state.pages[context.slug]?.ready ?? false,
   };
 }
 
@@ -304,5 +304,5 @@ export function useReadyToExecute() {
     throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
   }
 
-  return context.state.renderings[context.slug]?.ready ?? false;
+  return context.state.pages[context.slug]?.ready ?? false;
 }

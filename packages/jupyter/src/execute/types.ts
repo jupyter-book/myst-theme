@@ -12,7 +12,7 @@ export type BuildStatus =
 
 export type IdOrKey = string; // any node key (block, codeCel, output)
 export type CellId = string; // the id of a cell in a notebook, by convention it is the block.key
-export type IdKeyMapTarget = { renderSlug: string; notebookSlug: string; cellId: CellId };
+export type IdKeyMapTarget = { pageSlug: string; notebookSlug: string; cellId: CellId };
 export type IdKeyMap = Record<IdOrKey, IdKeyMapTarget>;
 
 export interface ExecuteScopeState {
@@ -21,8 +21,8 @@ export interface ExecuteScopeState {
       root: Root;
     };
   };
-  renderings: {
-    [renderSlug: string]: {
+  pages: {
+    [pageSlug: string]: {
       slug: string;
       kind: SourceFileKind;
       computable: boolean;
@@ -35,7 +35,7 @@ export interface ExecuteScopeState {
     };
   };
   builds: {
-    [renderSlug: string]: {
+    [pageSlug: string]: {
       status: BuildStatus;
     };
   };

@@ -36,13 +36,13 @@ export function MdastFetcher({
 }
 
 export function NotebookBuilder({
-  renderSlug,
+  pageSlug,
   notebookSlug,
   idkmap,
   state,
   dispatch,
 }: {
-  renderSlug: string;
+  pageSlug: string;
   notebookSlug: string;
   idkmap: IdKeyMap;
   state: ExecuteScopeState;
@@ -52,17 +52,17 @@ export function NotebookBuilder({
   const { config } = useThebeConfig();
   const lock = useRef(false); // TODO can be removed if we solve double render from provider
 
-  const scopeHasNotebook = !!state.renderings[renderSlug]?.scopes[notebookSlug];
+  const scopeHasNotebook = !!state.pages[pageSlug]?.scopes[notebookSlug];
 
   useEffect(() => {
     if (!core || !config || scopeHasNotebook || lock.current) return;
     lock.current = true;
-    console.log(`NotebookBuilder - ${notebookSlug} being added to scope ${renderSlug}`);
+    console.log(`NotebookBuilder - ${notebookSlug} being added to scope ${pageSlug}`);
     const rendermime = core?.makeRenderMimeRegistry(config?.mathjax);
     const notebook = notebookFromMdast(
       core,
       config,
-      renderSlug,
+      pageSlug,
       notebookSlug,
       state.mdast[notebookSlug].root as GenericParent,
       idkmap,
@@ -70,7 +70,7 @@ export function NotebookBuilder({
     );
 
     // hook up computable targets
-    const computables = state.renderings[renderSlug]?.computables;
+    const computables = state.pages[pageSlug]?.computables;
     computables?.forEach((c) => {
       if (idkmap[c.label]) {
         idkmap[c.outputKey] = idkmap[c.label];
@@ -80,28 +80,28 @@ export function NotebookBuilder({
 
     dispatch({
       type: 'ADD_NOTEBOOK',
-      payload: { renderSlug, notebookSlug, rendermime, notebook },
+      payload: { pageSlug, notebookSlug, rendermime, notebook },
     });
-  }, [core, config, renderSlug, notebookSlug, scopeHasNotebook, lock]);
+  }, [core, config, pageSlug, notebookSlug, scopeHasNotebook, lock]);
 
   // TODO find a way to check if the all the notebooks are built and do a single dispatch
   // potentilly use a move the loop down into this component
-  const allNotebooksAreBuilt = selectAreAllNotebookScopesBuilt(state, renderSlug);
+  const allNotebooksAreBuilt = selectAreAllNotebookScopesBuilt(state, pageSlug);
   useEffect(() => {
     if (!allNotebooksAreBuilt) return;
-    dispatch({ type: 'BUILD_STATUS', payload: { slug: renderSlug, status: 'wait-for-server' } });
+    dispatch({ type: 'BUILD_STATUS', payload: { slug: pageSlug, status: 'wait-for-server' } });
   }, [allNotebooksAreBuilt]);
 
   return null;
 }
 
 export function SessionStarter({
-  renderSlug,
+  pageSlug,
   notebookSlug,
   state,
   dispatch,
 }: {
-  renderSlug: string;
+  pageSlug: string;
   notebookSlug: string;
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
@@ -110,65 +110,65 @@ export function SessionStarter({
   const { config, server } = useThebeServer();
   const lock = useRef(false); // TODO can be removed if we solve double render from provider
 
-  const scope = state.renderings[renderSlug]?.scopes[notebookSlug];
+  const scope = state.pages[pageSlug]?.scopes[notebookSlug];
 
   useEffect(() => {
     if (!core || !server || scope.session || lock.current) return;
     lock.current = true;
-    console.log(`starting session for ${renderSlug}-${notebookSlug}`);
+    console.log(`starting session for ${pageSlug}-${notebookSlug}`);
 
     server.listRunningSessions().then((sessions) => {
       console.log('running sessions', sessions);
-      const path = `/${renderSlug}-${notebookSlug}.ipynb`;
+      const path = `/${pageSlug}-${notebookSlug}.ipynb`;
 
       const existing = sessions.find((s) => s.path === path);
 
       if (existing) {
-        console.debug(`session already exists for ${renderSlug}-${notebookSlug}`, existing);
+        console.debug(`session already exists for ${pageSlug}-${notebookSlug}`, existing);
         server.connectToExistingSession(existing, scope.rendermime).then((sesh) => {
           if (sesh == null) {
-            console.error(`Could not connect to session for ${renderSlug} ${notebookSlug}`);
+            console.error(`Could not connect to session for ${pageSlug} ${notebookSlug}`);
             return;
           }
-          console.debug(`reconnected to session for ${renderSlug}/${notebookSlug}`, sesh);
+          console.debug(`reconnected to session for ${pageSlug}/${notebookSlug}`, sesh);
           console.debug('restarting session', sesh);
           sesh.kernel?.restart().then(() => {
-            const notebook = state.renderings[renderSlug]?.scopes[notebookSlug].notebook;
+            const notebook = state.pages[pageSlug]?.scopes[notebookSlug].notebook;
             notebook.attachSession(sesh);
-            dispatch({ type: 'ADD_SESSION', payload: { renderSlug, notebookSlug, session: sesh } });
+            dispatch({ type: 'ADD_SESSION', payload: { pageSlug, notebookSlug, session: sesh } });
           });
         });
       } else {
         server
           .startNewSession(scope.rendermime, {
             ...config?.kernels,
-            name: `${renderSlug}-${notebookSlug}.ipynb`,
+            name: `${pageSlug}-${notebookSlug}.ipynb`,
             path,
           })
           .then((sesh) => {
             if (sesh == null) {
               server?.getKernelSpecs().then((specs) => {
-                console.error(`Could not start session for ${renderSlug} ${notebookSlug}`);
+                console.error(`Could not start session for ${pageSlug} ${notebookSlug}`);
                 console.debug(`Available kernels: ${Object.keys(specs)}`);
               });
               return;
             }
-            console.debug(`session started for ${renderSlug}/${notebookSlug}`, sesh);
-            const notebook = state.renderings[renderSlug]?.scopes[notebookSlug].notebook;
+            console.debug(`session started for ${pageSlug}/${notebookSlug}`, sesh);
+            const notebook = state.pages[pageSlug]?.scopes[notebookSlug].notebook;
             notebook.attachSession(sesh);
-            dispatch({ type: 'ADD_SESSION', payload: { renderSlug, notebookSlug, session: sesh } });
+            dispatch({ type: 'ADD_SESSION', payload: { pageSlug, notebookSlug, session: sesh } });
           });
       }
     });
-  }, [core, config, renderSlug, notebookSlug, lock]);
+  }, [core, config, pageSlug, notebookSlug, lock]);
 
   // TODO avoid multiple dispatch?
-  const allSessionsAreStarted = selectAreAllSessionsStarted(state, renderSlug);
+  const allSessionsAreStarted = selectAreAllSessionsStarted(state, pageSlug);
   useEffect(() => {
     if (!allSessionsAreStarted) return;
     dispatch({
       type: 'SET_RENDERING_READY',
-      payload: { slug: renderSlug },
+      payload: { slug: pageSlug },
     });
   }, [allSessionsAreStarted]);
 

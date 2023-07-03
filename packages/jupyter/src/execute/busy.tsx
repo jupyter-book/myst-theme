@@ -1,8 +1,8 @@
 import React, { useCallback, useReducer } from 'react';
 
 export interface BusyScopeState {
-  renderings: {
-    [renderSlug: string]: {
+  pages: {
+    [pageSlug: string]: {
       [notebookSlug: string]: {
         [cellId: string]: boolean;
       };
@@ -19,13 +19,13 @@ const BusyScopeContext = React.createContext<BusyScopeContext | undefined>(undef
 
 function isSlugPayload(payload: unknown): payload is SlugPayload {
   return (
-    typeof (payload as SlugPayload).renderSlug === 'string' &&
+    typeof (payload as SlugPayload).pageSlug === 'string' &&
     typeof (payload as SlugPayload).notebookSlug === 'string'
   );
 }
 
 export interface SlugPayload {
-  renderSlug: string;
+  pageSlug: string;
   notebookSlug: string;
 }
 
@@ -34,7 +34,7 @@ function isCellPayload(payload: unknown): payload is CellPayload {
 }
 
 export interface CellPayload {
-  renderSlug: string;
+  pageSlug: string;
   notebookSlug: string;
   cellId: string;
 }
@@ -48,7 +48,7 @@ function isNotebookPayload(payload: unknown): payload is NotebookPayload {
 }
 
 export interface NotebookPayload {
-  renderSlug: string;
+  pageSlug: string;
   notebookSlug: string;
   cellIds: string[];
 }
@@ -66,16 +66,16 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
         console.error('SET_CELL_BUSY payload must be a cell payload', action.payload);
         return state;
       }
-      const { renderSlug, notebookSlug, cellId } = action.payload;
-      if (state.renderings[renderSlug]?.[notebookSlug]?.[cellId]) return state;
+      const { pageSlug, notebookSlug, cellId } = action.payload;
+      if (state.pages[pageSlug]?.[notebookSlug]?.[cellId]) return state;
       return {
         ...state,
-        renderings: {
-          ...state.renderings,
-          [renderSlug]: {
-            ...state.renderings[renderSlug],
+        pages: {
+          ...state.pages,
+          [pageSlug]: {
+            ...state.pages[pageSlug],
             [notebookSlug]: {
-              ...state.renderings[renderSlug]?.[notebookSlug],
+              ...state.pages[pageSlug]?.[notebookSlug],
               [cellId]: true,
             },
           },
@@ -87,9 +87,9 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
         console.error('CLEAR_CELL_BUSY payload must be a cell payload', action.payload);
         return state;
       }
-      const { renderSlug, notebookSlug, cellId } = action.payload;
+      const { pageSlug, notebookSlug, cellId } = action.payload;
 
-      const { [renderSlug]: renderBusy, ...otherRenders } = state.renderings;
+      const { [pageSlug]: renderBusy, ...otherRenders } = state.pages;
       if (!renderBusy) return state;
 
       const { [notebookSlug]: notebookBusy, ...otherNotebooks } = renderBusy;
@@ -103,7 +103,7 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
       if (Object.keys(otherCells).length === 0 && Object.keys(otherNotebooks).length === 0) {
         return {
           ...state,
-          renderings: otherRenders,
+          pages: otherRenders,
         };
       }
 
@@ -111,9 +111,9 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
       if (Object.keys(otherCells).length === 0) {
         return {
           ...state,
-          renderings: {
-            ...state.renderings,
-            [renderSlug]: {
+          pages: {
+            ...state.pages,
+            [pageSlug]: {
               ...otherNotebooks,
             },
           },
@@ -122,9 +122,9 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
 
       return {
         ...state,
-        renderings: {
-          ...state.renderings,
-          [action.payload.renderSlug]: {
+        pages: {
+          ...state.pages,
+          [action.payload.pageSlug]: {
             ...otherNotebooks,
             [notebookSlug]: {
               ...otherCells,
@@ -139,16 +139,16 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
         return state;
       }
 
-      const { renderSlug, notebookSlug, cellIds } = action.payload;
+      const { pageSlug, notebookSlug, cellIds } = action.payload;
 
       return {
         ...state,
-        renderings: {
-          ...state.renderings,
-          [renderSlug]: {
-            ...state.renderings[renderSlug],
+        pages: {
+          ...state.pages,
+          [pageSlug]: {
+            ...state.pages[pageSlug],
             [notebookSlug]: {
-              ...state.renderings[renderSlug]?.[notebookSlug],
+              ...state.pages[pageSlug]?.[notebookSlug],
               ...cellIds.reduce((acc, cellId) => ({ ...acc, [cellId]: true }), {}),
             },
           },
@@ -161,28 +161,28 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
         return state;
       }
 
-      const { renderSlug, notebookSlug } = action.payload;
+      const { pageSlug, notebookSlug } = action.payload;
 
-      if (!state.renderings[renderSlug]) return state;
-      if (!state.renderings[renderSlug]?.[notebookSlug]) return state;
+      if (!state.pages[pageSlug]) return state;
+      if (!state.pages[pageSlug]?.[notebookSlug]) return state;
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [notebookSlug]: notebookBusy, ...otherNotebooks } = state.renderings[renderSlug];
+      const { [notebookSlug]: notebookBusy, ...otherNotebooks } = state.pages[pageSlug];
 
-      console.log('CLEAR_NOTEBOOK_BUSY', otherNotebooks);
       if (Object.keys(otherNotebooks).length === 0) {
-        const { [renderSlug]: renderBusy, ...otherRenders } = state.renderings;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [pageSlug]: renderBusy, ...otherRenders } = state.pages;
         return {
           ...state,
-          renderings: otherRenders,
+          pages: otherRenders,
         };
       }
 
       return {
         ...state,
-        renderings: {
-          ...state.renderings,
-          [renderSlug]: {
+        pages: {
+          ...state.pages,
+          [pageSlug]: {
             ...otherNotebooks,
           },
         },
@@ -193,7 +193,7 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
 }
 
 export function BusyScopeProvider({ children }: React.PropsWithChildren) {
-  const [state, dispatch] = useReducer(reducer, { renderings: {} });
+  const [state, dispatch] = useReducer(reducer, { pages: {} });
 
   const memo = React.useMemo(() => ({ state, dispatch }), [state]);
   console.log('BusyScopeProvider', memo.state);
@@ -213,42 +213,38 @@ export function useBusyScope() {
   const { dispatch, state } = context;
 
   const cell = useCallback(
-    (renderSlug: string, notebookSlug: string, cellId: string) =>
-      selectCellIsBusy(state, renderSlug, notebookSlug, cellId),
+    (pageSlug: string, notebookSlug: string, cellId: string) =>
+      selectCellIsBusy(state, pageSlug, notebookSlug, cellId),
     [state],
   );
   const notebook = useCallback(
-    (renderSlug: string, notebookSlug: string) =>
-      selectNotebookIsBusy(state, renderSlug, notebookSlug),
+    (pageSlug: string, notebookSlug: string) => selectNotebookIsBusy(state, pageSlug, notebookSlug),
     [state],
   );
-  const render = useCallback(
-    (renderSlug: string) => selectRenderIsBusy(state, renderSlug),
-    [state],
-  );
+  const render = useCallback((pageSlug: string) => selectRenderIsBusy(state, pageSlug), [state]);
 
   const setCell = useCallback(
-    (renderSlug: string, notebookSlug: string, cellId: string) => {
-      dispatch({ type: 'SET_CELL_BUSY', payload: { renderSlug, notebookSlug, cellId } });
+    (pageSlug: string, notebookSlug: string, cellId: string) => {
+      dispatch({ type: 'SET_CELL_BUSY', payload: { pageSlug, notebookSlug, cellId } });
     },
     [dispatch],
   );
 
   const clearCell = useCallback(
-    (renderSlug: string, notebookSlug: string, cellId: string) =>
-      dispatch({ type: 'CLEAR_CELL_BUSY', payload: { renderSlug, notebookSlug, cellId } }),
+    (pageSlug: string, notebookSlug: string, cellId: string) =>
+      dispatch({ type: 'CLEAR_CELL_BUSY', payload: { pageSlug, notebookSlug, cellId } }),
     [dispatch],
   );
 
   const setNotebook = useCallback(
-    (renderSlug: string, notebookSlug: string, cellIds: string[]) =>
-      dispatch({ type: 'SET_NOTEBOOK_BUSY', payload: { renderSlug, notebookSlug, cellIds } }),
+    (pageSlug: string, notebookSlug: string, cellIds: string[]) =>
+      dispatch({ type: 'SET_NOTEBOOK_BUSY', payload: { pageSlug, notebookSlug, cellIds } }),
     [dispatch],
   );
 
   const clearNotebook = useCallback(
-    (renderSlug: string, notebookSlug: string) =>
-      dispatch({ type: 'CLEAR_NOTEBOOK_BUSY', payload: { renderSlug, notebookSlug } }),
+    (pageSlug: string, notebookSlug: string) =>
+      dispatch({ type: 'CLEAR_NOTEBOOK_BUSY', payload: { pageSlug, notebookSlug } }),
     [dispatch],
   );
 
@@ -257,36 +253,36 @@ export function useBusyScope() {
 
 export function selectCellIsBusy(
   state: BusyScopeState,
-  renderSlug: string,
+  pageSlug: string,
   notebookSlug: string,
   cellId: string,
 ) {
-  return !!state.renderings[renderSlug]?.[notebookSlug]?.[cellId];
+  return !!state.pages[pageSlug]?.[notebookSlug]?.[cellId];
 }
 
 /**
  * a fast selector relying on the fact that if at least one cell is present, the notebook is busy
  *
  * @param state
- * @param renderSlug
+ * @param pageSlug
  * @param notebookSlug
  * @returns
  */
 export function selectNotebookIsBusy(
   state: BusyScopeState,
-  renderSlug: string,
+  pageSlug: string,
   notebookSlug: string,
 ) {
-  return !!state.renderings[renderSlug]?.[notebookSlug];
+  return !!state.pages[pageSlug]?.[notebookSlug];
 }
 
 /**
  * a fast selector relying on the fact that if at least one notebook is present, the render is busy
  *
  * @param state
- * @param renderSlug
+ * @param pageSlug
  * @returns
  */
-export function selectRenderIsBusy(state: BusyScopeState, renderSlug: string) {
-  return !!state.renderings[renderSlug];
+export function selectRenderIsBusy(state: BusyScopeState, pageSlug: string) {
+  return !!state.pages[pageSlug];
 }

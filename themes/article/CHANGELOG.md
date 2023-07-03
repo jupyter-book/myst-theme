@@ -1,5 +1,18 @@
 # @myst-theme/article
 
+## 0.3.4
+
+### Patch Changes
+
+- b81068ec: Updates for Jupyter
+- Updated dependencies [b81068ec]
+- Updated dependencies [b81068ec]
+  - @myst-theme/jupyter@0.3.4
+  - @myst-theme/site@0.3.4
+  - @myst-theme/providers@0.3.4
+  - @myst-theme/styles@0.3.4
+  - @myst-theme/icons@0.3.4
+
 ## 0.3.3
 
 ### Patch Changes

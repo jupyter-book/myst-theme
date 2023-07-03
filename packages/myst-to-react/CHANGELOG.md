@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 0.3.4
+
+### Patch Changes
+
+- b81068ec: Updates for Jupyter
+  - @myst-theme/providers@0.3.4
+
 ## 0.3.3
 
 ### Patch Changes

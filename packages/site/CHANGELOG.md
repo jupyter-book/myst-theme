@@ -1,5 +1,19 @@
 # @curvenote/site
 
+## 0.3.4
+
+### Patch Changes
+
+- b81068ec: Updates for Jupyter
+- b81068ec: Fix the table of contents indentation
+- Updated dependencies [b81068ec]
+  - myst-to-react@0.3.4
+  - @myst-theme/jupyter@0.3.4
+  - @myst-theme/providers@0.3.4
+  - @myst-theme/frontmatter@0.3.4
+  - @myst-theme/diagrams@0.3.4
+  - myst-demo@0.3.4
+
 ## 0.3.3
 
 ### Patch Changes

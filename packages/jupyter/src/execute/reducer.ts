@@ -114,6 +114,7 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
       }
       const { slug } = action.payload;
       if (state.pages[slug].ready) return state;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [slug]: _, ...builds } = state.builds;
       const newState = {
         ...state,

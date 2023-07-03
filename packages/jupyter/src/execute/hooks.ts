@@ -91,10 +91,11 @@ export function useExecutionScope({
             notebookSlug,
             notebook.cells.map((c) => c.id),
           );
-          setTimeout(async () => {
+          setTimeout(() => {
             notebook.reset();
-            await session?.kernel?.restart();
-            busy.clearNotebook(renderSlug, notebookSlug);
+            session?.kernel?.restart().finally(() => {
+              busy.clearNotebook(renderSlug, notebookSlug);
+            });
           }, 300);
         },
       );

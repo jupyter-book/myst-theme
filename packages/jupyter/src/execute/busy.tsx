@@ -169,6 +169,15 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [notebookSlug]: notebookBusy, ...otherNotebooks } = state.renderings[renderSlug];
 
+      console.log('CLEAR_NOTEBOOK_BUSY', otherNotebooks);
+      if (Object.keys(otherNotebooks).length === 0) {
+        const { [renderSlug]: renderBusy, ...otherRenders } = state.renderings;
+        return {
+          ...state,
+          renderings: otherRenders,
+        };
+      }
+
       return {
         ...state,
         renderings: {

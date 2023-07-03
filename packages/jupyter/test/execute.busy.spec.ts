@@ -401,6 +401,29 @@ describe('execute busy scope behaviour', () => {
                 C: true,
                 C2: true,
               },
+            },
+          },
+        };
+        expect(
+          reducer(state, {
+            type: 'CLEAR_NOTEBOOK_BUSY',
+            payload: {
+              renderSlug: 'R',
+              notebookSlug: 'NB',
+            },
+          }),
+        ).toEqual({
+          renderings: {},
+        });
+      });
+      test('clear existing notebook, when there are other busy notebooks', () => {
+        const state: BusyScopeState = {
+          renderings: {
+            R: {
+              NB: {
+                C: true,
+                C2: true,
+              },
               NB2: {
                 C: true,
               },

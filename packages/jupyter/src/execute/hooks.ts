@@ -191,14 +191,11 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
       notebookSlug,
       nb.cells.map((c) => c.id),
     );
-    setTimeout(async () => {
+    setTimeout(() => {
       nb.reset();
-      try {
-        await session?.kernel?.restart();
-      } catch (e) {
-        console.error('error restarting kernel', e);
-      }
-      busy.clearNotebook(renderSlug, notebookSlug);
+      session?.kernel?.restart().finally(() => {
+        busy.clearNotebook(renderSlug, notebookSlug);
+      });
     }, 300);
   }, [state]);
 

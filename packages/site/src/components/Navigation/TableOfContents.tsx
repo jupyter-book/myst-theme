@@ -48,7 +48,7 @@ const HeadingLink = ({
           'border-l pl-4 text-blue-500 border-current dark:text-blue-400': !isIndex && isActive,
           'font-semibold': isActive,
           'border-l pl-4 border-transparent hover:border-slate-400 dark:hover:border-slate-500 text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300':
-            !isActive,
+            !isIndex && !isActive,
         })
       }
       to={withBaseurl(path, baseurl)}

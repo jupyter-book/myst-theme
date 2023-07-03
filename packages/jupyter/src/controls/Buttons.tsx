@@ -176,13 +176,13 @@ export function ReRun({
 
 export function Reset({
   ready,
-  restarting,
+  resetting,
   disabled,
   title,
   onClick,
 }: {
   ready: boolean;
-  restarting: boolean;
+  resetting: boolean;
   title?: string;
   disabled?: boolean;
   onClick: () => void;
@@ -190,7 +190,7 @@ export function Reset({
   return (
     <SpinnerButton
       ready={ready}
-      busy={restarting}
+      busy={resetting}
       disabled={disabled}
       title={title ?? 'reset notebook'}
       onClick={onClick}

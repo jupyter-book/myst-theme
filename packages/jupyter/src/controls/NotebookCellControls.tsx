@@ -2,18 +2,20 @@ import { useCellExecution } from '../execute/hooks';
 import { Clear, Run } from './Buttons';
 
 export function NotebookRunCell({ id }: { id: string }) {
-  const { ready, cellIsBusy, notebookIsBusy, execute } = useCellExecution(id);
+  const { ready, cellIsExecuting, notebookIsBusy, execute } = useCellExecution(id);
   if (!ready) return null;
-  return <Run ready={ready} executing={cellIsBusy} disabled={notebookIsBusy} onClick={execute} />;
+  return (
+    <Run ready={ready} executing={cellIsExecuting} disabled={notebookIsBusy} onClick={execute} />
+  );
 }
 
 export function NotebookRunCellSpinnerOnly({ id }: { id: string }) {
-  const { ready, cellIsBusy } = useCellExecution(id);
-  if (!ready || !cellIsBusy) return null;
+  const { ready, cellIsExecuting } = useCellExecution(id);
+  if (!ready || !cellIsExecuting) return null;
   return (
     <Run
       ready={ready}
-      executing={cellIsBusy}
+      executing={cellIsExecuting}
       disabled={true}
       onClick={() => ({})}
       title="executing cell..."

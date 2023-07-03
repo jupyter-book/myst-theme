@@ -35,6 +35,7 @@ export function useExecutionScope({
         slug,
         notebookSlug,
         notebook.cells.map((c) => c.id),
+        'execute',
       );
     });
 
@@ -50,7 +51,7 @@ export function useExecutionScope({
       const handler: ThebeEventCb = (_, data) => {
         if (data.subject === 'cell' && data.status === 'idle') {
           const notebookSlug = (data.object as ThebeCell).notebookId ?? 'unknown';
-          busy.clearCell(slug, notebookSlug, data.id ?? 'unknown');
+          busy.clearCell(slug, notebookSlug, data.id ?? 'unknown', 'execute');
         }
       };
       config?.events.on('status' as any, handler);
@@ -90,11 +91,12 @@ export function useExecutionScope({
             pageSlug,
             notebookSlug,
             notebook.cells.map((c) => c.id),
+            'reset',
           );
           setTimeout(() => {
             notebook.reset();
             session?.kernel?.restart().finally(() => {
-              busy.clearNotebook(pageSlug, notebookSlug);
+              busy.clearNotebook(pageSlug, notebookSlug, 'reset');
             });
           }, 300);
         },
@@ -153,6 +155,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
       pageSlug,
       notebookSlug,
       nb.cells.map((c) => c.id),
+      'execute',
     );
 
     if (clearOutputsOnExecute) nb.clear();
@@ -161,7 +164,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
     setTimeout(async () => {
       const handler: ThebeEventCb = (_, data) => {
         if (data.subject === 'cell' && data.status === 'idle') {
-          busy.clearCell(pageSlug, notebookSlug, data.id ?? 'unknown');
+          busy.clearCell(pageSlug, notebookSlug, data.id ?? 'unknown', 'execute');
         }
       };
       config?.events.on('status' as any, handler);
@@ -191,16 +194,21 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
       pageSlug,
       notebookSlug,
       nb.cells.map((c) => c.id),
+      'reset',
     );
     setTimeout(() => {
       nb.reset();
       session?.kernel?.restart().finally(() => {
-        busy.clearNotebook(pageSlug, notebookSlug);
+        busy.clearNotebook(pageSlug, notebookSlug, 'reset');
       });
     }, 300);
   }, [state]);
 
   const ready = context.state.pages[context.slug]?.ready;
+
+  const notebookIsExecuting = busy.notebook(pageSlug, notebookSlug, 'execute');
+  const notebookIsResetting = busy.notebook(pageSlug, notebookSlug, 'reset');
+  const notebookIsBusy = notebookIsExecuting || notebookIsResetting;
 
   return {
     ...context,
@@ -209,8 +217,10 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
     clear,
     reset,
     execute,
-    cellIsBusy: cell ? busy.cell(pageSlug, notebookSlug, cell?.id) : false,
-    notebookIsBusy: busy.notebook(pageSlug, notebookSlug),
+    cellIsExecuting: cell ? busy.cell(pageSlug, notebookSlug, cell?.id, 'execute') : false,
+    notebookIsExecuting,
+    notebookIsResetting,
+    notebookIsBusy,
     executionCount: cell?.executionCount,
   };
 }
@@ -251,14 +261,14 @@ export function useCellExecution(id: IdOrKey) {
       return;
     }
     // set busy
-    busy.setCell(pageSlug, notebookSlug, cell.id);
+    busy.setCell(pageSlug, notebookSlug, cell.id, 'execute');
     cell.clear();
     // let busy state update prior to launching execute
     setTimeout(() => {
       if (!cell) throw new Error('no cell found on execute');
       cell.execute().then(() => {
         if (!cell) throw new Error('no cell found after execute');
-        busy.clearCell(pageSlug, notebookSlug, cell?.id);
+        busy.clearCell(pageSlug, notebookSlug, cell?.id, 'execute');
       });
     }, 100);
   }, [state, cell]);
@@ -271,13 +281,19 @@ export function useCellExecution(id: IdOrKey) {
     cell.clear();
   }, [state, cell]);
 
+  const notebookIsExecuting = busy.notebook(pageSlug, notebookSlug, 'execute');
+  const notebookIsResetting = busy.notebook(pageSlug, notebookSlug, 'reset');
+  const notebookIsBusy = notebookIsExecuting || notebookIsResetting;
+
   return {
     kind,
     ready,
     execute,
     clear,
-    cellIsBusy: cell ? busy.cell(pageSlug, notebookSlug, cell?.id) : false,
-    notebookIsBusy: busy.notebook(pageSlug, notebookSlug),
+    cellIsExecuting: cell ? busy.cell(pageSlug, notebookSlug, cell?.id, 'execute') : false,
+    notebookIsExecuting,
+    notebookIsResetting,
+    notebookIsBusy,
     cell,
   };
 }

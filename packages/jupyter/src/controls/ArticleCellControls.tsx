@@ -26,12 +26,12 @@ export function ArticleStatusBadge({ id }: { id: string }) {
 }
 
 export function ArticleRunNotebook({ id }: { id: string }) {
-  const { ready, cellIsBusy, notebookIsBusy, execute } = useNotebookExecution(id);
+  const { ready, cellIsExecuting, notebookIsBusy, execute } = useNotebookExecution(id);
   if (!ready) return null;
   return (
     <Run
       ready={ready}
-      executing={cellIsBusy}
+      executing={cellIsExecuting}
       disabled={notebookIsBusy}
       onClick={execute}
       title="Run the notebook that creates this figure"
@@ -40,12 +40,12 @@ export function ArticleRunNotebook({ id }: { id: string }) {
 }
 
 export function ArticleResetNotebook({ id }: { id: string }) {
-  const { ready, cellIsBusy, notebookIsBusy, reset } = useNotebookExecution(id);
+  const { ready, notebookIsResetting, notebookIsBusy, reset } = useNotebookExecution(id);
   if (!ready) return null;
   return (
     <Reset
       ready={ready}
-      restarting={false}
+      resetting={notebookIsResetting}
       disabled={notebookIsBusy}
       onClick={reset}
       title="Reset the figure to its original state and restart the kernel"

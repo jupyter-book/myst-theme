@@ -1,13 +1,22 @@
 import React, { useCallback, useReducer } from 'react';
 
+export type BusyKind = 'execute' | 'reset';
+
 export interface BusyScopeState {
-  pages: {
+  execute: {
     [pageSlug: string]: {
       [notebookSlug: string]: {
         [cellId: string]: boolean;
       };
     };
-  }; // at least one notebook scope for this rendering is executing
+  };
+  reset: {
+    [pageSlug: string]: {
+      [notebookSlug: string]: {
+        [cellId: string]: boolean;
+      };
+    };
+  };
 }
 
 export interface BusyScopeContext {
@@ -20,30 +29,38 @@ const BusyScopeContext = React.createContext<BusyScopeContext | undefined>(undef
 function isSlugPayload(payload: unknown): payload is SlugPayload {
   return (
     typeof (payload as SlugPayload).pageSlug === 'string' &&
-    typeof (payload as SlugPayload).notebookSlug === 'string'
+    typeof (payload as SlugPayload).notebookSlug === 'string' &&
+    typeof (payload as SlugPayload).kind === 'string'
   );
 }
 
 export interface SlugPayload {
   pageSlug: string;
   notebookSlug: string;
+  kind: BusyKind;
 }
 
 function isCellPayload(payload: unknown): payload is CellPayload {
-  return isSlugPayload(payload) && typeof (payload as CellPayload).cellId === 'string';
+  return (
+    isSlugPayload(payload) &&
+    typeof (payload as CellPayload).cellId === 'string' &&
+    typeof (payload as CellPayload).kind === 'string'
+  );
 }
 
 export interface CellPayload {
   pageSlug: string;
   notebookSlug: string;
   cellId: string;
+  kind: BusyKind;
 }
 
 function isNotebookPayload(payload: unknown): payload is NotebookPayload {
   return (
     isSlugPayload(payload) &&
     Array.isArray((payload as NotebookPayload).cellIds) &&
-    (payload as NotebookPayload).cellIds.every((id) => typeof id === 'string')
+    (payload as NotebookPayload).cellIds.every((id) => typeof id === 'string') &&
+    typeof (payload as NotebookPayload).kind === 'string'
   );
 }
 
@@ -51,6 +68,7 @@ export interface NotebookPayload {
   pageSlug: string;
   notebookSlug: string;
   cellIds: string[];
+  kind: BusyKind;
 }
 
 // TODO action typing is not giving build time type errors :(
@@ -66,16 +84,16 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
         console.error('SET_CELL_BUSY payload must be a cell payload', action.payload);
         return state;
       }
-      const { pageSlug, notebookSlug, cellId } = action.payload;
-      if (state.pages[pageSlug]?.[notebookSlug]?.[cellId]) return state;
+      const { pageSlug, notebookSlug, cellId, kind } = action.payload;
+      if (state[kind][pageSlug]?.[notebookSlug]?.[cellId]) return state;
       return {
         ...state,
-        pages: {
-          ...state.pages,
+        [kind]: {
+          ...state[kind],
           [pageSlug]: {
-            ...state.pages[pageSlug],
+            ...state[kind][pageSlug],
             [notebookSlug]: {
-              ...state.pages[pageSlug]?.[notebookSlug],
+              ...state[kind][pageSlug]?.[notebookSlug],
               [cellId]: true,
             },
           },
@@ -87,9 +105,9 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
         console.error('CLEAR_CELL_BUSY payload must be a cell payload', action.payload);
         return state;
       }
-      const { pageSlug, notebookSlug, cellId } = action.payload;
+      const { pageSlug, notebookSlug, cellId, kind } = action.payload;
 
-      const { [pageSlug]: renderBusy, ...otherRenders } = state.pages;
+      const { [pageSlug]: renderBusy, ...otherRenders } = state[kind];
       if (!renderBusy) return state;
 
       const { [notebookSlug]: notebookBusy, ...otherNotebooks } = renderBusy;
@@ -103,7 +121,7 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
       if (Object.keys(otherCells).length === 0 && Object.keys(otherNotebooks).length === 0) {
         return {
           ...state,
-          pages: otherRenders,
+          [kind]: otherRenders,
         };
       }
 
@@ -111,8 +129,8 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
       if (Object.keys(otherCells).length === 0) {
         return {
           ...state,
-          pages: {
-            ...state.pages,
+          [kind]: {
+            ...state[kind],
             [pageSlug]: {
               ...otherNotebooks,
             },
@@ -122,8 +140,8 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
 
       return {
         ...state,
-        pages: {
-          ...state.pages,
+        [kind]: {
+          ...state[kind],
           [action.payload.pageSlug]: {
             ...otherNotebooks,
             [notebookSlug]: {
@@ -139,16 +157,16 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
         return state;
       }
 
-      const { pageSlug, notebookSlug, cellIds } = action.payload;
+      const { pageSlug, notebookSlug, cellIds, kind } = action.payload;
 
       return {
         ...state,
-        pages: {
-          ...state.pages,
+        [kind]: {
+          ...state[kind],
           [pageSlug]: {
-            ...state.pages[pageSlug],
+            ...state[kind][pageSlug],
             [notebookSlug]: {
-              ...state.pages[pageSlug]?.[notebookSlug],
+              ...state[kind][pageSlug]?.[notebookSlug],
               ...cellIds.reduce((acc, cellId) => ({ ...acc, [cellId]: true }), {}),
             },
           },
@@ -161,27 +179,27 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
         return state;
       }
 
-      const { pageSlug, notebookSlug } = action.payload;
+      const { pageSlug, notebookSlug, kind } = action.payload;
 
-      if (!state.pages[pageSlug]) return state;
-      if (!state.pages[pageSlug]?.[notebookSlug]) return state;
+      if (!state[kind][pageSlug]) return state;
+      if (!state[kind][pageSlug]?.[notebookSlug]) return state;
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [notebookSlug]: notebookBusy, ...otherNotebooks } = state.pages[pageSlug];
+      const { [notebookSlug]: notebookBusy, ...otherNotebooks } = state[kind][pageSlug];
 
       if (Object.keys(otherNotebooks).length === 0) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { [pageSlug]: renderBusy, ...otherRenders } = state.pages;
+        const { [pageSlug]: renderBusy, ...otherRenders } = state[kind];
         return {
           ...state,
-          pages: otherRenders,
+          [kind]: otherRenders,
         };
       }
 
       return {
         ...state,
-        pages: {
-          ...state.pages,
+        [kind]: {
+          ...state[kind],
           [pageSlug]: {
             ...otherNotebooks,
           },
@@ -193,7 +211,7 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
 }
 
 export function BusyScopeProvider({ children }: React.PropsWithChildren) {
-  const [state, dispatch] = useReducer(reducer, { pages: {} });
+  const [state, dispatch] = useReducer(reducer, { execute: {}, reset: {} });
 
   const memo = React.useMemo(() => ({ state, dispatch }), [state]);
   console.log('BusyScopeProvider', memo.state);
@@ -213,42 +231,46 @@ export function useBusyScope() {
   const { dispatch, state } = context;
 
   const cell = useCallback(
-    (pageSlug: string, notebookSlug: string, cellId: string) =>
-      selectCellIsBusy(state, pageSlug, notebookSlug, cellId),
+    (pageSlug: string, notebookSlug: string, cellId: string, kind: BusyKind) =>
+      selectCellIsBusy(state, pageSlug, notebookSlug, cellId, kind),
     [state],
   );
   const notebook = useCallback(
-    (pageSlug: string, notebookSlug: string) => selectNotebookIsBusy(state, pageSlug, notebookSlug),
+    (pageSlug: string, notebookSlug: string, kind: BusyKind) =>
+      selectNotebookIsBusy(state, pageSlug, notebookSlug, kind),
     [state],
   );
-  const render = useCallback((pageSlug: string) => selectRenderIsBusy(state, pageSlug), [state]);
+  const page = useCallback(
+    (pageSlug: string, kind: BusyKind) => selectPageIsBusy(state, pageSlug, kind),
+    [state],
+  );
 
   const setCell = useCallback(
-    (pageSlug: string, notebookSlug: string, cellId: string) => {
-      dispatch({ type: 'SET_CELL_BUSY', payload: { pageSlug, notebookSlug, cellId } });
+    (pageSlug: string, notebookSlug: string, cellId: string, kind: BusyKind) => {
+      dispatch({ type: 'SET_CELL_BUSY', payload: { pageSlug, notebookSlug, cellId, kind } });
     },
     [dispatch],
   );
 
   const clearCell = useCallback(
-    (pageSlug: string, notebookSlug: string, cellId: string) =>
-      dispatch({ type: 'CLEAR_CELL_BUSY', payload: { pageSlug, notebookSlug, cellId } }),
+    (pageSlug: string, notebookSlug: string, cellId: string, kind: BusyKind) =>
+      dispatch({ type: 'CLEAR_CELL_BUSY', payload: { pageSlug, notebookSlug, cellId, kind } }),
     [dispatch],
   );
 
   const setNotebook = useCallback(
-    (pageSlug: string, notebookSlug: string, cellIds: string[]) =>
-      dispatch({ type: 'SET_NOTEBOOK_BUSY', payload: { pageSlug, notebookSlug, cellIds } }),
+    (pageSlug: string, notebookSlug: string, cellIds: string[], kind: BusyKind) =>
+      dispatch({ type: 'SET_NOTEBOOK_BUSY', payload: { pageSlug, notebookSlug, cellIds, kind } }),
     [dispatch],
   );
 
   const clearNotebook = useCallback(
-    (pageSlug: string, notebookSlug: string) =>
-      dispatch({ type: 'CLEAR_NOTEBOOK_BUSY', payload: { pageSlug, notebookSlug } }),
+    (pageSlug: string, notebookSlug: string, kind: BusyKind) =>
+      dispatch({ type: 'CLEAR_NOTEBOOK_BUSY', payload: { pageSlug, notebookSlug, kind } }),
     [dispatch],
   );
 
-  return { cell, notebook, render, setCell, clearCell, setNotebook, clearNotebook };
+  return { cell, notebook, page, setCell, clearCell, setNotebook, clearNotebook };
 }
 
 export function selectCellIsBusy(
@@ -256,9 +278,28 @@ export function selectCellIsBusy(
   pageSlug: string,
   notebookSlug: string,
   cellId: string,
+  kind: BusyKind,
 ) {
-  return !!state.pages[pageSlug]?.[notebookSlug]?.[cellId];
+  return state[kind][pageSlug]?.[notebookSlug]?.[cellId];
 }
+
+// export function selectCellIsExecuting(
+//   state: BusyScopeState,
+//   pageSlug: string,
+//   notebookSlug: string,
+//   cellId: string,
+// ) {
+//   return state.execute[pageSlug]?.[notebookSlug]?.[cellId];
+// }
+
+// export function selectCellIsResetting(
+//   state: BusyScopeState,
+//   pageSlug: string,
+//   notebookSlug: string,
+//   cellId: string,
+// ) {
+//   return state.execute[pageSlug]?.[notebookSlug]?.[cellId];
+// }
 
 /**
  * a fast selector relying on the fact that if at least one cell is present, the notebook is busy
@@ -272,9 +313,26 @@ export function selectNotebookIsBusy(
   state: BusyScopeState,
   pageSlug: string,
   notebookSlug: string,
+  kind: BusyKind,
 ) {
-  return !!state.pages[pageSlug]?.[notebookSlug];
+  return !!state[kind][pageSlug]?.[notebookSlug];
 }
+
+// export function selectNotebookIsExecuting(
+//   state: BusyScopeState,
+//   pageSlug: string,
+//   notebookSlug: string,
+// ) {
+//   return !!state.execute[pageSlug]?.[notebookSlug];
+// }
+
+// export function selectNotebookIsResetting(
+//   state: BusyScopeState,
+//   pageSlug: string,
+//   notebookSlug: string,
+// ) {
+//   return !!state.reset[pageSlug]?.[notebookSlug];
+// }
 
 /**
  * a fast selector relying on the fact that if at least one notebook is present, the render is busy
@@ -283,6 +341,14 @@ export function selectNotebookIsBusy(
  * @param pageSlug
  * @returns
  */
-export function selectRenderIsBusy(state: BusyScopeState, pageSlug: string) {
-  return !!state.pages[pageSlug];
+export function selectPageIsBusy(state: BusyScopeState, pageSlug: string, kind: BusyKind) {
+  return !!state[kind][pageSlug];
 }
+
+// export function selectPageIsExecuting(state: BusyScopeState, pageSlug: string) {
+//   return !!state.execute[pageSlug];
+// }
+
+// export function selectPageIsResetting(state: BusyScopeState, pageSlug: string) {
+//   return !!state.reset[pageSlug];
+// }

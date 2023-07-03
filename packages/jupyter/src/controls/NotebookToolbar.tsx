@@ -69,7 +69,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
           {ready && (
             <Run
               ready={ready}
-              executing={busy.render(slug)}
+              executing={busy.page(slug, 'execute')}
               onClick={handleRun}
               title="Run all cells"
             />
@@ -77,7 +77,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
           {ready && (
             <Reset
               ready={ready}
-              restarting={false}
+              resetting={busy.page(slug, 'reset')}
               onClick={handleReset}
               title="Reset notebook and restart kernel"
             />
@@ -85,7 +85,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
           {ready && (
             <Clear
               ready={ready}
-              disabled={busy.render(slug)}
+              disabled={busy.page(slug, 'execute') || busy.page(slug, 'reset')}
               onClick={handleClear}
               title="Clear all cells"
             />

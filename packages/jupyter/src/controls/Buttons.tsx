@@ -3,7 +3,7 @@ import ArrowPathIcon from '@heroicons/react/24/outline/ArrowPathIcon';
 import MinusCircleIcon from '@heroicons/react/24/outline/MinusCircleIcon';
 import ArrowTopRightOnSquareIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import ArrowUturnLeft from '@heroicons/react/24/outline/ArrowUturnLeftIcon';
-import Bolt from '@heroicons/react/24/outline/BoltIcon';
+
 import classNames from 'classnames';
 import { Spinner } from './Spinner';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
@@ -12,14 +12,17 @@ export function SpinnerStatusButton({
   ready,
   busy,
   modified,
+  icon,
+  title,
   onClick,
 }: {
   ready: boolean;
   modified: boolean;
   busy: boolean;
-  onClick: () => void;
+  icon: React.ReactNode;
+  title?: string;
+  onClick?: () => void;
 }) {
-  let title = 'Enable compute to make this figure interactive';
   if (ready) {
     title = modified ? 'Figure has been modified' : "Figure is in it's original state";
   }
@@ -35,12 +38,11 @@ export function SpinnerStatusButton({
           'opacity-70': !busy,
         })}
         disabled={ready}
-        title={title}
+        title={title ?? 'Enable compute to make this figure interactive'}
         aria-label={`status`}
-        onClick={onClick}
+        onClick={onClick ?? (() => ({}))}
       >
-        {!ready && <PowerIcon className="w-6 h-6" />}
-        {ready && <Bolt className="w-6 h-6" />}
+        {icon}
       </button>
       {busy && (
         <span className="absolute top-0 left-0 z-10 w-[22px] h-[22px] opacity-100">

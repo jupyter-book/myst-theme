@@ -1,14 +1,29 @@
+import { useThebeServer } from 'thebe-react';
 import { useNotebookExecution } from '../execute/hooks';
 import { Reset, Run, SpinnerStatusButton } from './Buttons';
+import Bolt from '@heroicons/react/24/outline/BoltIcon';
+import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
+import { selectAreExecutionScopesBuilding } from '../execute';
 
 export function ArticleStatusBadge({ id }: { id: string }) {
-  const { start, ready, cellIsBusy, executionCount } = useNotebookExecution(id);
+  const { connect, connecting } = useThebeServer();
+  const { slug, state, start, ready, executionCount } = useNotebookExecution(id);
+  const icon = ready ? <Bolt className="w-6 h-6" /> : <PowerIcon className="w-6 h-6" />;
+
+  const building = selectAreExecutionScopesBuilding(state, slug);
+
+  const handleStart = () => {
+    connect();
+    start();
+  };
+
   return (
     <SpinnerStatusButton
       ready={ready}
-      busy={cellIsBusy && !ready}
+      busy={building || connecting}
       modified={executionCount != null}
-      onClick={start}
+      icon={icon}
+      onClick={handleStart}
     />
   );
 }

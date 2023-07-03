@@ -48,7 +48,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
               <button
                 className={classNames(
                   'flex text-center rounded-full cursor-pointer text-stone-800 hover:opacity-100 opacity-60',
-                  { 'opacity-30': connecting || building },
+                  { 'opacity-10 text-stone-300': connecting || building },
                 )}
                 onClick={handleStart}
                 disabled={building}

@@ -124,14 +124,16 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
   const target = idkmap[id] ?? {};
   const { renderSlug, notebookSlug, cellId } = target;
 
+  // TODO consider extending this to start only the notebook requested, currently this will
+  // execute all connected notebooks
   const start = useCallback(() => {
     dispatch({
       type: 'REQUEST_BUILD',
       payload: {
-        slug: renderSlug,
+        slug: context.slug,
       },
     });
-  }, []);
+  }, [target]);
 
   let cell: IThebeCell | undefined;
   let notebook: ThebeNotebook | undefined;

@@ -29,21 +29,12 @@ function ActiveOutputRenderer({ id, initialData }: { id: string; initialData: IO
 
     exec.cell.attachToDOM(ref.current);
 
-    console.debug('Jupyter: attach rendering -- existing outputs', exec.cell.outputs);
-    console.debug('Jupyter: attach rendering -- execution count', exec.cell.executionCount);
     if (exec.cell.executionCount == null) {
       exec.cell.initOutputs(initialData);
     } else {
       exec.cell.refresh();
     }
   }, [ref?.current, exec?.cell]);
-
-  useEffect(
-    () => () => {
-      console.debug('Jupyter: unmounting attached output renderer');
-    },
-    [],
-  );
 
   return <div ref={ref} data-thebe-active-ref="true" className="relative" />;
 }

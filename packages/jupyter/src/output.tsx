@@ -1,4 +1,4 @@
-import { SourceFileKind, type GenericNode } from 'myst-common';
+import type { GenericNode } from 'myst-common';
 import { KnownCellOutputMimeTypes } from 'nbtx';
 import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
@@ -6,11 +6,6 @@ import { SafeOutputs } from './safe';
 import { JupyterOutputs } from './jupyter';
 import { useMemo } from 'react';
 import { useCellExecution } from './execute';
-import {
-  ArticleResetNotebook,
-  ArticleRunNotebook,
-  ArticleStatusBadge,
-} from './controls/ArticleCellControls';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -52,7 +47,7 @@ function JupyterOutput({
   nodeType?: string;
   align?: 'left' | 'center' | 'right';
 }) {
-  const { kind, ready } = useCellExecution(nodeKey);
+  const { ready } = useCellExecution(nodeKey);
   const outputs: MinifiedOutput[] = data;
   const allSafe = useMemo(
     () => allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES),
@@ -66,8 +61,6 @@ function JupyterOutput({
     component = <JupyterOutputs id={nodeKey} outputs={outputs} />;
   }
 
-  const showControls = kind === SourceFileKind.Article;
-
   return (
     <figure
       id={identifier || undefined}
@@ -79,15 +72,6 @@ function JupyterOutput({
         'text-right': align === 'right',
       })}
     >
-      {showControls && (
-        <div className="sticky top-[60px]">
-          <div className="absolute -top-[28px] md:top-[30px] right-0 md:-right-[28px]">
-            <ArticleStatusBadge id={nodeKey} />
-            <ArticleRunNotebook id={nodeKey} />
-            <ArticleResetNotebook id={nodeKey} />
-          </div>
-        </div>
-      )}
       {component}
     </figure>
   );

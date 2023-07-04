@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.3.5
+
+### Patch Changes
+
+- Restore widgets on navigate
+- Move controls to the embed node to show the notebook source.
+  - @myst-theme/providers@0.3.5
+  - myst-to-react@0.3.5
+
 ## 0.3.4
 
 ### Patch Changes

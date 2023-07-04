@@ -7,7 +7,7 @@ import {
 } from './controls/ArticleCellControls';
 import { JupyterIcon } from '@scienceicons/react/24/solid';
 import { select } from 'unist-util-select';
-import { useLinkProvider } from '@myst-theme/providers';
+import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
 
 function EmbedWithControls({
   outputKey,
@@ -22,6 +22,7 @@ function EmbedWithControls({
 }) {
   const { kind } = useCellExecution(outputKey);
   const Link = useLinkProvider();
+  const baseurl = useBaseurl();
   const showControls = kind === SourceFileKind.Article;
 
   return (
@@ -33,7 +34,10 @@ function EmbedWithControls({
               <JupyterIcon className="inline-block w-5 h-5" />
               <span className="ml-2">Source:</span>
               {url && (
-                <Link to={url} className="ml-2 no-underline text-normal hover:underline">
+                <Link
+                  to={withBaseurl(url, baseurl)}
+                  className="ml-2 no-underline text-normal hover:underline"
+                >
                   {title}
                 </Link>
               )}

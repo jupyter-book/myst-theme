@@ -4,6 +4,7 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
+    "compile": "tsc --noEmit --skipLibCheck",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
     "dev:copy": "cp remix.config.dev.js remix.config.js",
     "prod:copy": "cp remix.config.prod.js remix.config.js",

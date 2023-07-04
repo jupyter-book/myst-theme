@@ -9,7 +9,7 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
-    "compile": "tsc",
+    "compile": "tsc --noEmit",
     "lint": "eslint src/**/*.ts*",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
   },

@@ -10,7 +10,15 @@ import { useXRefState } from '@myst-theme/providers';
 import { useThebeLoader } from 'thebe-react';
 import { useCellExecution } from './execute';
 
-function ActiveOutputRenderer({ id, initialData }: { id: string; initialData: IOutput[] }) {
+function ActiveOutputRenderer({
+  id,
+  initialData,
+  core,
+}: {
+  id: string;
+  initialData: IOutput[];
+  core: ThebeCore;
+}) {
   const exec = useCellExecution(id);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -24,15 +32,13 @@ function ActiveOutputRenderer({ id, initialData }: { id: string; initialData: IO
     console.debug(`${verb} cell ${exec.cell.id} to DOM at:`, {
       el: ref.current,
       connected: ref.current.isConnected,
-      data: initialData,
+      data: core?.stripWidgets(initialData) ?? initialData,
     });
 
     exec.cell.attachToDOM(ref.current);
 
     if (exec.cell.executionCount == null) {
-      exec.cell.initOutputs(initialData);
-    } else {
-      exec.cell.refresh();
+      exec.cell.initOutputs(core?.stripWidgets(initialData) ?? initialData);
     }
   }, [ref?.current, exec?.cell]);
 
@@ -56,7 +62,7 @@ function PassiveOutputRenderer({
   useEffect(() => {
     if (!ref.current) return;
     cell.current.attachToDOM(ref.current, true);
-    cell.current.render(data, kind === SourceFileKind.Article);
+    cell.current.render(core?.stripWidgets(data) ?? data);
   }, [ref]);
 
   return <div ref={ref} data-thebe-passive-ref="true" />;
@@ -68,7 +74,6 @@ export const JupyterOutputs = React.memo(
     const { inCrossRef } = useXRefState();
     const { data, error } = useFetchAnyTruncatedContent(outputs);
     const [fullOutputs, setFullOutputs] = useState<IOutput[] | null>(null);
-    // const exec = useNotebookCellExecution(id);
     const exec = useCellExecution(id);
 
     useEffect(() => {
@@ -93,8 +98,10 @@ export const JupyterOutputs = React.memo(
     if (!inCrossRef && exec?.ready) {
       return (
         <div>
-          {!fullOutputs && <div className="p-2.5">Loading...</div>}
-          {fullOutputs && <ActiveOutputRenderer key={id} id={id} initialData={fullOutputs} />}
+          {!fullOutputs && <div className="p-2.5">Fetching full output data...</div>}
+          {core && fullOutputs && (
+            <ActiveOutputRenderer key={id} id={id} initialData={fullOutputs} core={core} />
+          )}
         </div>
       );
     }

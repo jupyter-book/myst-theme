@@ -92,7 +92,7 @@ function NavItem({ item }: { item: SiteNavItem }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute w-48 py-1 mt-2 origin-top-left bg-white rounded-sm shadow-lg left-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute w-48 py-1 mt-2 bg-white rounded-sm shadow-lg origin-top-left left-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
           {item.children?.map((action) => (
             <Menu.Item key={action.url}>
               {/* This is really ugly, BUT, the action needs to be defined HERE or the click away doesn't work for some reason */}
@@ -160,7 +160,7 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 w-48 py-1 mt-2 bg-white rounded-sm shadow-lg origin-top-right ring-1 ring-black ring-opacity-5 focus:outline-none">
           {actions?.map((action) => (
             <Menu.Item key={action.url}>
               {({ active }) => (

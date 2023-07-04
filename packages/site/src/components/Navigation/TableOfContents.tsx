@@ -165,6 +165,7 @@ export const TableOfContents = ({
       className={classNames(
         'fixed xl:article-grid article-grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
         { hidden: !open },
+        { 'z-30': open },
       )}
       style={{
         top: top ?? 0,

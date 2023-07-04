@@ -40,7 +40,7 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
             </div>
           )}
           {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
-          {canCompute && article.kind === SourceFileKind.Article && <NotebookToolbar />}
+          {/* {canCompute && article.kind === SourceFileKind.Article && <NotebookToolbar />} */}
           <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
           <Bibliography />
           <ConnectionStatusTray />

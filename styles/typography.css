@@ -10,7 +10,7 @@
 
 @layer base {
   .prose table td {
-    @apply p-1 sm:p-2 align-top;
+    @apply p-1 align-top sm:p-2;
   }
   .prose table p,
   .prose table li {
@@ -43,6 +43,6 @@
     min-height: calc(100vh);
   }
   .article {
-    @apply prose max-w-none prose-stone dark:prose-invert break-words;
+    @apply prose break-words max-w-none prose-stone dark:prose-invert;
   }
 }

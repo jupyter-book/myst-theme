@@ -1,7 +1,9 @@
+import { Embed } from './embed';
 import { Output } from './output';
 
 const OUTPUT_RENDERERS = {
   output: Output,
+  embed: Embed,
 };
 
 export * from './BinderBadge';

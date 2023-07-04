@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.3.6
+
+### Patch Changes
+
+- 36b86b05: Add base url to notebook source links
+  - @myst-theme/providers@0.3.6
+  - myst-to-react@0.3.6
+
 ## 0.3.5
 
 ### Patch Changes

@@ -6,11 +6,7 @@ import {
   ContentBlocks,
   getMetaTagsForArticle,
   KatexCSS,
-  useOutlineHeight,
-  DocumentOutline,
   DEFAULT_NAV_HEIGHT,
-  Navigation,
-  TopNav,
   ArticlePageCatchBoundary,
 } from '@myst-theme/site';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
@@ -28,7 +24,7 @@ import {
 import type { GenericParent } from 'myst-common';
 import { extractPart, copyNode } from 'myst-common';
 import classNames from 'classnames';
-import { MadeWithMyst } from '@myst-theme/icons';
+import { BusyScopeProvider, ExecuteScopeProvider } from '@myst-theme/jupyter';
 
 export const meta: MetaFunction = (args) => {
   const config = args.parentsData?.root?.config as SiteManifest | undefined;
@@ -115,31 +111,35 @@ export function Article({ article }: { article: PageLoader }) {
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
-      {abstract && (
-        <>
-          <span className="font-semibold">Abstract</span>
-          <div className="px-6 py-1 m-3 rounded-sm bg-slate-50 dark:bg-slate-800">
-            <ContentBlocks mdast={abstract as GenericParent} className="col-body" />
-          </div>
-        </>
-      )}
-      {keywords.length > 0 && (
-        <div className="mb-10">
-          <span className="mr-2 font-semibold">Keywords:</span>
-          {keywords.map((k, i) => (
-            <span
-              key={k}
-              className={classNames({
-                "after:content-[','] after:mr-1": i < keywords.length - 1,
-              })}
-            >
-              {k}
-            </span>
-          ))}
-        </div>
-      )}
-      <ContentBlocks mdast={tree as GenericParent} />
-      <Bibliography />
+      <BusyScopeProvider>
+        <ExecuteScopeProvider contents={article}>
+          {abstract && (
+            <>
+              <span className="font-semibold">Abstract</span>
+              <div className="px-6 py-1 m-3 rounded-sm bg-slate-50 dark:bg-slate-800">
+                <ContentBlocks mdast={abstract as GenericParent} className="col-body" />
+              </div>
+            </>
+          )}
+          {keywords.length > 0 && (
+            <div className="mb-10">
+              <span className="mr-2 font-semibold">Keywords:</span>
+              {keywords.map((k, i) => (
+                <span
+                  key={k}
+                  className={classNames({
+                    "after:content-[','] after:mr-1": i < keywords.length - 1,
+                  })}
+                >
+                  {k}
+                </span>
+              ))}
+            </div>
+          )}
+          <ContentBlocks mdast={tree as GenericParent} />
+          <Bibliography />
+        </ExecuteScopeProvider>
+      </BusyScopeProvider>
     </ReferencesProvider>
   );
 }
@@ -151,15 +151,22 @@ export function ArticlePage({ article }: { article: PageLoader }) {
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
-      <section className="col-body-outset">
-        <FrontmatterBlock frontmatter={projects?.[0] ?? article.frontmatter} authorStyle="list" />
-        {/* <Actions /> */}
-      </section>
-      <ArticleNavigation />
-      <main className="article-grid article-subgrid-gap col-screen">
-        <Article article={article} />
-      </main>
-      <FooterLinksBlock links={article.footer} />
+      <BusyScopeProvider>
+        <ExecuteScopeProvider contents={article}>
+          <section className="col-body-outset">
+            <FrontmatterBlock
+              frontmatter={projects?.[0] ?? article.frontmatter}
+              authorStyle="list"
+            />
+            {/* <Actions /> */}
+          </section>
+          <ArticleNavigation />
+          <main className="article-grid article-subgrid-gap col-screen">
+            <Article article={article} />
+          </main>
+          <FooterLinksBlock links={article.footer} />
+        </ExecuteScopeProvider>
+      </BusyScopeProvider>
     </ReferencesProvider>
   );
 }

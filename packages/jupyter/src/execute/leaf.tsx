@@ -4,7 +4,11 @@ import type { IdKeyMap, ExecuteScopeState } from './types';
 import { useThebeLoader, useThebeConfig, useThebeServer } from 'thebe-react';
 import { notebookFromMdast } from './utils';
 import type { GenericParent } from 'myst-common';
-import { selectAreAllNotebookScopesBuilt, selectAreAllSessionsStarted } from './selectors';
+import {
+  selectAreAllNotebookScopesBuilt,
+  selectAreAllSessionsStarted,
+  selectNotebookForPage,
+} from './selectors';
 import { useFetchMdast } from 'myst-to-react';
 
 export function MdastFetcher({
@@ -133,7 +137,7 @@ export function SessionStarter({
           console.debug(`reconnected to session for ${pageSlug}/${notebookSlug}`, sesh);
           console.debug('restarting session', sesh);
           sesh.kernel?.restart().then(() => {
-            const notebook = state.pages[pageSlug]?.scopes[notebookSlug].notebook;
+            const notebook = selectNotebookForPage(state, pageSlug, notebookSlug);
             notebook.attachSession(sesh);
             dispatch({ type: 'ADD_SESSION', payload: { pageSlug, notebookSlug, session: sesh } });
           });
@@ -154,7 +158,7 @@ export function SessionStarter({
               return;
             }
             console.debug(`session started for ${pageSlug}/${notebookSlug}`, sesh);
-            const notebook = state.pages[pageSlug]?.scopes[notebookSlug].notebook;
+            const notebook = selectNotebookForPage(state, pageSlug, notebookSlug);
             notebook.attachSession(sesh);
             dispatch({ type: 'ADD_SESSION', payload: { pageSlug, notebookSlug, session: sesh } });
           });

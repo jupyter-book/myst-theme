@@ -170,7 +170,7 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
         console.error(state, action.payload);
         throw new Error('Trying to add session when there is no rendering state');
       }
-      if (state.pages[pageSlug].scopes[notebookSlug].session) {
+      if (state.pages[pageSlug].scopes[notebookSlug]?.session) {
         console.warn('Trying to add session scope when rendering already has one', action.payload);
         return state;
       }

@@ -1,6 +1,18 @@
 import { SourceFileKind, type Dependency } from 'myst-common';
 import type { BuildStatus, ExecuteScopeState } from './types';
 
+export function selectScopeForPage(state: ExecuteScopeState, pageSlug: string) {
+  return state.pages[pageSlug]?.scopes ?? {};
+}
+
+export function selectNotebookForPage(
+  state: ExecuteScopeState,
+  pageSlug: string,
+  notebookSlug: string,
+) {
+  return state.pages[pageSlug]?.scopes[notebookSlug]?.notebook;
+}
+
 export function selectIsComputable(state: ExecuteScopeState, slug: string) {
   return state.pages[slug]?.computable ?? false;
 }

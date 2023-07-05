@@ -5,6 +5,7 @@ import type { IThebeCell, ThebeCell, ThebeEventCb, ThebeNotebook } from 'thebe-c
 import { useBusyScope } from './busy';
 import { findErrors, useThebeConfig } from 'thebe-react';
 import { SourceFileKind } from 'myst-common';
+import { selectNotebookForPage } from './selectors';
 
 export function useExecutionScope({
   clearOutputsOnExecute = false,
@@ -73,7 +74,7 @@ export function useExecutionScope({
    */
   const clearAll = useCallback(
     (pageSlug: string) => {
-      Object.entries(state.pages[pageSlug].scopes).forEach(([, { notebook }]) => {
+      Object.entries(state.pages[pageSlug]?.scopes).forEach(([, { notebook }]) => {
         notebook.clear();
       });
     },
@@ -85,7 +86,7 @@ export function useExecutionScope({
    */
   const resetAll = useCallback(
     (pageSlug: string) => {
-      Object.entries(state.pages[pageSlug].scopes).forEach(
+      Object.entries(state.pages[pageSlug]?.scopes).forEach(
         ([notebookSlug, { notebook, session }]) => {
           busy.setNotebook(
             pageSlug,
@@ -120,7 +121,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
   const { config } = useThebeConfig();
   const busy = useBusyScope();
   if (context === undefined) {
-    throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
+    throw new Error('useNotebookExecution must be used within a ExecuteScopeProvider');
   }
 
   const { state, dispatch, idkmap } = context;
@@ -142,14 +143,14 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
   let notebook: ThebeNotebook | undefined;
 
   if (target && state.pages[pageSlug]) {
-    notebook = state.pages[pageSlug].scopes[notebookSlug].notebook;
+    notebook = selectNotebookForPage(state, pageSlug, notebookSlug);
     if (!notebook) console.error('no notebook for', { pageSlug, notebookSlug, cellId });
     cell = notebook?.getCellById(cellId);
     if (!cell) console.error('no cell found', { pageSlug, notebookSlug, cellId });
   }
 
   const execute = () => {
-    const nb = state.pages[pageSlug]?.scopes[notebookSlug]?.notebook;
+    const nb = selectNotebookForPage(state, pageSlug, notebookSlug);
     // set busy
     busy.setNotebook(
       pageSlug,
@@ -181,7 +182,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
    *
    */
   const clear = useCallback(() => {
-    const nb = state.pages[pageSlug]?.scopes[notebookSlug]?.notebook;
+    const nb = selectNotebookForPage(state, pageSlug, notebookSlug);
     nb.clear();
   }, [state]);
 
@@ -189,7 +190,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
    * resetAll resets all cells in all notebooks for a given rendering
    */
   const reset = useCallback(() => {
-    const { notebook: nb, session } = state.pages[pageSlug]?.scopes[notebookSlug] ?? {};
+    const nb = selectNotebookForPage(state, pageSlug, notebookSlug);
     busy.setNotebook(
       pageSlug,
       notebookSlug,
@@ -198,7 +199,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
     );
     setTimeout(() => {
       nb.reset();
-      session?.kernel?.restart().finally(() => {
+      nb.session?.kernel?.restart().finally(() => {
         busy.clearNotebook(pageSlug, notebookSlug, 'reset');
       });
     }, 300);
@@ -235,7 +236,7 @@ export function useCellExecution(id: IdOrKey) {
   const busy = useBusyScope();
   const context = React.useContext(ExecuteScopeContext);
   if (context === undefined) {
-    throw new Error('useExecuteScope must be used within a ExecuteScopeProvider');
+    throw new Error('useCellExecution must be used within a ExecuteScopeProvider');
   }
 
   const { state, idkmap } = context;
@@ -246,7 +247,7 @@ export function useCellExecution(id: IdOrKey) {
   let notebook: ThebeNotebook | undefined;
 
   if (target && state.pages[pageSlug]) {
-    notebook = state.pages[pageSlug].scopes[notebookSlug].notebook;
+    notebook = selectNotebookForPage(state, pageSlug, notebookSlug);
     if (!notebook) console.error('no notebook for', { pageSlug, notebookSlug, cellId });
     cell = notebook?.getCellById(cellId);
     if (!cell) console.error('no cell found', { pageSlug, notebookSlug, cellId });

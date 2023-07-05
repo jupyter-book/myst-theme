@@ -144,13 +144,12 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
 
   if (target && state.pages[pageSlug]) {
     notebook = selectNotebookForPage(state, pageSlug, notebookSlug);
-    if (!notebook) console.error('no notebook for', { pageSlug, notebookSlug, cellId });
-    cell = notebook?.getCellById(cellId);
-    if (!cell) console.error('no cell found', { pageSlug, notebookSlug, cellId });
+    if (notebook) cell = notebook?.getCellById(cellId);
   }
 
   const execute = () => {
     const nb = selectNotebookForPage(state, pageSlug, notebookSlug);
+
     // set busy
     busy.setNotebook(
       pageSlug,
@@ -248,9 +247,7 @@ export function useCellExecution(id: IdOrKey) {
 
   if (target && state.pages[pageSlug]) {
     notebook = selectNotebookForPage(state, pageSlug, notebookSlug);
-    if (!notebook) console.error('no notebook for', { pageSlug, notebookSlug, cellId });
-    cell = notebook?.getCellById(cellId);
-    if (!cell) console.error('no cell found', { pageSlug, notebookSlug, cellId });
+    if (notebook) cell = notebook?.getCellById(cellId);
   }
 
   const ready = context.state.pages[context.slug]?.ready;

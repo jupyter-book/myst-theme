@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.3.7
+
+### Patch Changes
+
+- d21b095c: Defensive changes to avoid runtime issues with deployed content with older mdast. Specifically this guards against not being able to look up notebook scopes in the execution provided because of undefined slugs.
+  - @myst-theme/providers@0.3.7
+  - myst-to-react@0.3.7
+
 ## 0.3.6
 
 ### Patch Changes

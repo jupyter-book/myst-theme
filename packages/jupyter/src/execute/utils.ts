@@ -57,7 +57,7 @@ export function notebookFromMdast(
       // include block labels to enable lookup by from embedded blocks
       if (block.label) idkmap[block.label] = target;
       if (block.identifier) idkmap[block.identifier] = target;
-      return new core.ThebeCell(
+      return new core.ThebeCodeCell(
         target.cellId,
         notebook.id,
         codeCell.value ?? '',

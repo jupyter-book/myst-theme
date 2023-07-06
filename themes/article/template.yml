@@ -16,6 +16,9 @@ options:
   - type: boolean
     id: hide_toc
     description: Hide the table of contents
+  - type: boolean
+    id: hide_footer
+    description: Hide the previous/next button footer
   - type: string
     id: twitter
     description: Twitter handle related to the site

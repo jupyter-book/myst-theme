@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import type { IdOrKey } from './types';
 import { ExecuteScopeContext } from './provider';
-import type { IThebeCell, ThebeCell, ThebeEventCb, ThebeNotebook } from 'thebe-core';
+import type { IThebeCell, ThebeCodeCell, ThebeEventCb, ThebeNotebook } from 'thebe-core';
 import { useBusyScope } from './busy';
 import { findErrors, useThebeConfig } from 'thebe-react';
 import { SourceFileKind } from 'myst-common';
@@ -35,7 +35,7 @@ export function useExecutionScope({
       busy.setNotebook(
         slug,
         notebookSlug,
-        notebook.cells.map((c) => c.id),
+        notebook.code.map((c) => c.id),
         'execute',
       );
     });
@@ -51,7 +51,7 @@ export function useExecutionScope({
     setTimeout(async () => {
       const handler: ThebeEventCb = (_, data) => {
         if (data.subject === 'cell' && data.status === 'idle') {
-          const notebookSlug = (data.object as ThebeCell).notebookId ?? 'unknown';
+          const notebookSlug = (data.object as ThebeCodeCell).notebookId ?? 'unknown';
           busy.clearCell(slug, notebookSlug, data.id ?? 'unknown', 'execute');
         }
       };
@@ -91,7 +91,7 @@ export function useExecutionScope({
           busy.setNotebook(
             pageSlug,
             notebookSlug,
-            notebook.cells.map((c) => c.id),
+            notebook.code.map((c) => c.id),
             'reset',
           );
           setTimeout(() => {
@@ -154,7 +154,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
     busy.setNotebook(
       pageSlug,
       notebookSlug,
-      nb.cells.map((c) => c.id),
+      nb.code.map((c) => c.id),
       'execute',
     );
 
@@ -193,7 +193,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
     busy.setNotebook(
       pageSlug,
       notebookSlug,
-      nb.cells.map((c) => c.id),
+      nb.code.map((c) => c.id),
       'reset',
     );
     setTimeout(() => {

@@ -13,8 +13,10 @@ import {
   selectSessionsToStart,
 } from './selectors';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
+import { useCanCompute } from '..';
 
 export interface ExecuteScopeType {
+  canCompute: boolean;
   slug: string;
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
@@ -28,6 +30,7 @@ type ArticleContents = {
   kind: SourceFileKind;
   mdast: Root;
   dependencies?: Dependency[];
+  frontmatter: { thebe?: Record<string, any> };
 };
 
 function useScopeNavigate({
@@ -99,6 +102,7 @@ export function ExecuteScopeProvider({
   children,
   contents,
 }: React.PropsWithChildren<{ contents: ArticleContents }>) {
+  const canCompute = useCanCompute(contents);
   // compute incoming for first render
   const computables: Computable[] = selectAll('container > embed', contents.mdast).map(
     (node: any) => {
@@ -144,7 +148,7 @@ export function ExecuteScopeProvider({
     selectSessionsToStart(state);
 
   const memo = React.useMemo(
-    () => ({ slug: contents.slug, state, dispatch, idkmap: idkmap.current }),
+    () => ({ canCompute, slug: contents.slug, state, dispatch, idkmap: idkmap.current }),
     [state, contents.slug],
   );
 

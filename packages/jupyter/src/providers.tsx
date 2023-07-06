@@ -21,14 +21,18 @@ export function useComputeOptions() {
       binderBadgeUrl,
     );
     return {
-      canCompute: thebeFrontmatter !== undefined && thebeFrontmatter !== false,
-      thebe: thebeOptions,
+      thebe: thebeFrontmatter ? thebeOptions : undefined,
       githubBadgeUrl,
       binderBadgeUrl,
     };
   };
 
   return React.useMemo(makeOptions, [config]);
+}
+
+export function useCanCompute(article: { frontmatter: { thebe?: boolean | Record<string, any> } }) {
+  const { thebe } = useComputeOptions();
+  return !!thebe && (article.frontmatter as any)?.thebe !== false;
 }
 
 export function ConfiguredThebeServerProvider({ children }: React.PropsWithChildren) {

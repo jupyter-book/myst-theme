@@ -13,16 +13,17 @@ import {
   NotebookToolbar,
   ConnectionStatusTray,
   BinderBadge,
+  useCanCompute,
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 
 export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
-  const computeOptions = useComputeOptions();
-  const canCompute = computeOptions.canCompute && (article.frontmatter as any)?.thebe !== false;
+  const canCompute = useCanCompute(article);
+  const { binderBadgeUrl } = useComputeOptions();
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
 
   // take binder url from article frontmatter or fallback to project
-  const binderUrl = article.frontmatter.binder ?? computeOptions.binderBadgeUrl;
+  const binderUrl = article.frontmatter.binder ?? binderBadgeUrl;
 
   return (
     <ReferencesProvider

@@ -55,21 +55,19 @@ function EmbedWithControls({
 
   // light
   return (
-    <div>
-      <div className="sticky top-[60px] z-[2] w-full backdrop-blur py-1 px-2">
-        <div className="mt-2">{children}</div>
-        <div className="flex items-center justify-end text-xs">
-          <JupyterIcon className="inline-block w-3 h-3" />
-          <div className="ml-1">Source:</div>
-          {url && (
-            <Link
-              to={withBaseurl(url, baseurl)}
-              className="ml-1 no-underline text-normal hover:underline"
-            >
-              {title}
-            </Link>
-          )}
-        </div>
+    <div className="z-[2] w-full backdrop-blur py-1 px-2">
+      <div className="mt-2">{children}</div>
+      <div className="flex items-center justify-end text-xs">
+        <JupyterIcon className="inline-block w-3 h-3" />
+        <div className="ml-1">Source:</div>
+        {url && (
+          <Link
+            to={withBaseurl(url, baseurl)}
+            className="ml-1 no-underline text-normal hover:underline"
+          >
+            {title}
+          </Link>
+        )}
       </div>
     </div>
   );

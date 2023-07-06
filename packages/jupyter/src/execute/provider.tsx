@@ -14,6 +14,7 @@ import {
 } from './selectors';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
 import { useCanCompute } from '..';
+import type { Thebe } from 'myst-frontmatter';
 
 export interface ExecuteScopeType {
   canCompute: boolean;
@@ -30,7 +31,7 @@ type ArticleContents = {
   kind: SourceFileKind;
   mdast: Root;
   dependencies?: Dependency[];
-  frontmatter: { thebe?: Record<string, any> };
+  frontmatter: { thebe?: boolean | Thebe };
 };
 
 function useScopeNavigate({

@@ -55,8 +55,8 @@ function EmbedWithControls({
 
   // light
   return (
-    <div className="z-[2] w-full backdrop-blur py-1 px-2">
-      <div className="mt-2">{children}</div>
+    <>
+      {children}
       <div className="flex items-center justify-end text-xs">
         <JupyterIcon className="inline-block w-3 h-3" />
         <div className="ml-1">Source:</div>
@@ -69,7 +69,7 @@ function EmbedWithControls({
           </Link>
         )}
       </div>
-    </div>
+    </>
   );
 }
 

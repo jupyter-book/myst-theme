@@ -64,6 +64,11 @@ export function ArticlePageAndNavigation({
   );
 }
 
+interface ArticleTemplateOptions {
+  hide_toc?: boolean;
+  hide_footer?: boolean;
+}
+
 function ArticleNavigation() {
   const site = useSiteManifest();
   const Link = useLinkProvider();
@@ -71,6 +76,7 @@ function ArticleNavigation() {
   const { pathname } = useLocation();
   const project = site?.projects?.[0];
   const exact = pathname === `/`;
+
   return (
     <nav className="col-page-inset">
       <div className="flex flex-row justify-around py-3 mt-4 mb-6 border-gray-200 border-y">
@@ -145,7 +151,8 @@ export function Article({ article }: { article: PageLoader }) {
 }
 
 export function ArticlePage({ article }: { article: PageLoader }) {
-  const { projects } = useSiteManifest() ?? {};
+  const { projects, hide_toc, hide_footer } = (useSiteManifest() ?? {}) as SiteManifest &
+    ArticleTemplateOptions;
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -160,11 +167,11 @@ export function ArticlePage({ article }: { article: PageLoader }) {
             />
             {/* <Actions /> */}
           </section>
-          <ArticleNavigation />
+          {!hide_toc && <ArticleNavigation />}
           <main className="article-grid article-subgrid-gap col-screen">
             <Article article={article} />
           </main>
-          <FooterLinksBlock links={article.footer} />
+          {!hide_footer && <FooterLinksBlock links={article.footer} />}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ReferencesProvider>
@@ -174,9 +181,10 @@ export function ArticlePage({ article }: { article: PageLoader }) {
 export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
   // const { container, outline } = useOutlineHeight();
   const article = useLoaderData<PageLoader>() as PageLoader;
-  const { hide_outline, hide_toc } = (article.frontmatter as any)?.design ?? {};
+  const { hide_outline } = (article.frontmatter as any)?.design ?? {};
+
   return (
-    <ArticlePageAndNavigation hide_toc={hide_toc}>
+    <ArticlePageAndNavigation>
       <ArticlePage article={article} />
       {/* {!hide_outline && <DocumentOutline outlineRef={outline} top={top} height={height} />} */}
     </ArticlePageAndNavigation>

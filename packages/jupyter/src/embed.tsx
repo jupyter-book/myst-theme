@@ -20,14 +20,14 @@ function EmbedWithControls({
   title?: string;
   url?: string;
 }) {
-  const { kind } = useCellExecution(outputKey);
+  const { canCompute, kind } = useCellExecution(outputKey);
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
-  const showControls = kind === SourceFileKind.Article;
+  const showComputeControls = canCompute && kind === SourceFileKind.Article;
 
-  return (
-    <div className="shadow">
-      {showControls && (
+  if (showComputeControls) {
+    return (
+      <div className="shadow">
         <div className="sticky top-[60px] z-[2] w-full bg-gray-100/80 backdrop-blur dark:bg-neutral-800/80 py-1 px-2">
           <div className="flex items-center">
             <div className="flex items-center">
@@ -48,9 +48,28 @@ function EmbedWithControls({
             <ArticleResetNotebook id={outputKey} />
           </div>
         </div>
-      )}
-      <div className="mt-2">{children}</div>
-    </div>
+        <div className="mt-2">{children}</div>
+      </div>
+    );
+  }
+
+  // light
+  return (
+    <>
+      {children}
+      <div className="flex items-center justify-end text-xs">
+        <JupyterIcon className="inline-block w-3 h-3" />
+        <div className="ml-1">Source:</div>
+        {url && (
+          <Link
+            to={withBaseurl(url, baseurl)}
+            className="ml-1 no-underline text-normal hover:underline"
+          >
+            {title}
+          </Link>
+        )}
+      </div>
+    </>
   );
 }
 

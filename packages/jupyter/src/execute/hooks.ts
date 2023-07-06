@@ -284,6 +284,7 @@ export function useCellExecution(id: IdOrKey) {
   const notebookIsBusy = notebookIsExecuting || notebookIsResetting;
 
   return {
+    canCompute: context.canCompute,
     kind,
     ready,
     execute,

@@ -1,5 +1,18 @@
 # @myst-theme/article
 
+## 0.3.8
+
+### Patch Changes
+
+- 9182f8ed: Add `hide_footer` template options and make both `hide_footer` and `hide_toc` take effect.
+- Updated dependencies [4f898a5a]
+- Updated dependencies [d18c793d]
+  - @myst-theme/jupyter@0.3.8
+  - @myst-theme/site@0.3.8
+  - @myst-theme/providers@0.3.8
+  - @myst-theme/styles@0.3.8
+  - @myst-theme/icons@0.3.8
+
 ## 0.3.7
 
 ### Patch Changes

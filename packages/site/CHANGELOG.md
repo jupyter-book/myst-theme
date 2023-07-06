@@ -1,5 +1,20 @@
 # @curvenote/site
 
+## 0.3.8
+
+### Patch Changes
+
+- 4f898a5a: Hide compute controls and figure decoration when thebe is not enabled but still show minimal links to source notebooks.
+- d18c793d: Fix busy state in thebe
+- Updated dependencies [4f898a5a]
+- Updated dependencies [d18c793d]
+  - @myst-theme/jupyter@0.3.8
+  - @myst-theme/providers@0.3.8
+  - @myst-theme/frontmatter@0.3.8
+  - @myst-theme/diagrams@0.3.8
+  - myst-to-react@0.3.8
+  - myst-demo@0.3.8
+
 ## 0.3.7
 
 ### Patch Changes

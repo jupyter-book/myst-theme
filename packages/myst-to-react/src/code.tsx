@@ -88,11 +88,7 @@ export function CodeBlock(props: Props) {
       >
         {value}
       </SyntaxHighlighter>
-      {showCopy && (
-        <div className="absolute hidden top-1 right-1 group-hover:block">
-          <CopyIcon text={value} />
-        </div>
-      )}
+      {showCopy && <CopyIcon text={value} className="absolute top-1 right-1" />}
     </div>
   );
 }

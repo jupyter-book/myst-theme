@@ -282,15 +282,13 @@ export function MySTRenderer({
       )}
     >
       {column && (
-        <div className="flex flex-row items-stretch h-full px-2 border col-span-2 dark:border-slate-600">
+        <div className="flex flex-row items-stretch h-full col-span-2 px-2 border dark:border-slate-600">
           <div className="flex-grow"></div>
           {demoMenu}
         </div>
       )}
       <div className={classnames('myst relative', { 'overflow-auto': column })}>
-        <div className="absolute right-0 p-1">
-          <CopyIcon text={text} />
-        </div>
+        <CopyIcon text={text} className="absolute right-0 p-1" />
         <label>
           <span className="sr-only">Edit the MyST Markdown text</span>
           <textarea

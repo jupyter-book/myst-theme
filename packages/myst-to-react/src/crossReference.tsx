@@ -15,7 +15,7 @@ import { useParse } from '.';
 import { InlineError } from './inlineError';
 import type { NodeRenderer } from '@myst-theme/providers';
 import useSWR from 'swr';
-import { HoverPopover } from './components/HoverPopover';
+import { HoverPopover } from './components';
 
 const hiddenNodes = new Set(['comment', 'mystComment']);
 

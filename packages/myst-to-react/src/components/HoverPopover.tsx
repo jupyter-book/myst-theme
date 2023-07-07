@@ -33,3 +33,25 @@ export function HoverPopover({
     </HoverCard.Root>
   );
 }
+
+export function Tooltip({
+  title,
+  children,
+}: {
+  title: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <HoverPopover
+      side="top"
+      card={
+        <div className="p-1 text-xs text-white bg-blue-900 dark:bg-white dark:text-black">
+          {title}
+        </div>
+      }
+      arrowClass="fill-blue-900 dark:fill-white"
+    >
+      {children}
+    </HoverPopover>
+  );
+}

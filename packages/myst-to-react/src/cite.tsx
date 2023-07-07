@@ -3,7 +3,7 @@ import { useReferences } from '@myst-theme/providers';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { doi } from 'doi-utils';
 import { InlineError } from './inlineError';
-import { HoverPopover } from './components/HoverPopover';
+import { HoverPopover } from './components';
 
 function CiteChild({ html }: { html?: string }) {
   return (

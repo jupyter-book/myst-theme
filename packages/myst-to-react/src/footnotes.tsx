@@ -3,7 +3,7 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import { XRefProvider, useNodeRenderers, useReferences } from '@myst-theme/providers';
 import { useParse } from '.';
 import { select } from 'unist-util-select';
-import { HoverPopover } from './components/HoverPopover';
+import { HoverPopover } from './components';
 
 function FootnoteDefinition({ identifier }: { identifier: string }) {
   const references = useReferences();

@@ -3,7 +3,7 @@ import CheckIcon from '@heroicons/react/24/outline/CheckIcon';
 import { useState } from 'react';
 import classNames from 'classnames';
 
-export function CopyIcon({ text }: { text: string }) {
+export function CopyIcon({ text, className }: { text: string; className?: string }) {
   const [copied, setCopied] = useState(false);
   const onClick = () => {
     if (copied) return;
@@ -16,12 +16,13 @@ export function CopyIcon({ text }: { text: string }) {
     <button
       title={copied ? 'Copied!!' : 'Copy to Clipboard'}
       className={classNames(
-        'inline-flex items-center opacity-60 hover:opacity-100 active:opacity-40 cursor-pointer ml-2',
+        'inline-flex items-center opacity-0 group-hover:opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 cursor-pointer ml-2',
         'transition-color duration-200 ease-in-out',
         {
-          'text-blue-500 border-blue-500': !copied,
-          'text-green-500 border-green-500 ': copied,
+          'text-blue-400 hover:text-blue-500': !copied,
+          'text-green-500 hover:text-green-500': copied,
         },
+        className,
       )}
       onClick={onClick}
       aria-pressed={copied ? 'true' : 'false'}

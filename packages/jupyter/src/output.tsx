@@ -66,11 +66,14 @@ function JupyterOutput({
       id={identifier || undefined}
       data-mdast-node-type={nodeType}
       data-mdast-node-id={nodeKey}
-      className={classNames('max-w-full overflow-visible m-0 group not-prose relative', {
-        'text-left': !align || align === 'left',
-        'text-center': align === 'center',
-        'text-right': align === 'right',
-      })}
+      className={classNames(
+        'max-w-full overflow-y-visible overflow-x-auto m-0 group not-prose relative',
+        {
+          'text-left': !align || align === 'left',
+          'text-center': align === 'center',
+          'text-right': align === 'right',
+        },
+      )}
     >
       {component}
     </figure>

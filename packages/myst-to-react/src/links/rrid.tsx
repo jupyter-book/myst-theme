@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { HoverPopover } from '../components/HoverPopover';
+import { HoverPopover } from '../components';
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => {

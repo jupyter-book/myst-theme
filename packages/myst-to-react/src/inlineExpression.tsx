@@ -1,5 +1,6 @@
 import type { NodeRenderer } from '@myst-theme/providers';
 import { InlineError } from './inlineError';
+import { Tooltip } from './components';
 
 export const InlineExpression: NodeRenderer = (node, children) => {
   if (!node.result) {
@@ -10,9 +11,11 @@ export const InlineExpression: NodeRenderer = (node, children) => {
   }
   // TODO: something with Thebe in the future!
   return (
-    <span key={node.key} title={`Evaluated from: "${node.value}"`}>
-      {children}
-    </span>
+    <Tooltip title={<code>{node.value}</code>}>
+      <span key={node.key} className="border-b border-dotted cursor-help">
+        {children}
+      </span>
+    </Tooltip>
   );
 };
 

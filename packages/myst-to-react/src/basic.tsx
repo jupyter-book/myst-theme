@@ -2,7 +2,7 @@ import type * as spec from 'myst-spec';
 import { HashLink } from './heading';
 import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
-import { HoverPopover } from './components/HoverPopover';
+import { Tooltip } from './components';
 
 type TableExts = {
   rowspan?: number;
@@ -223,20 +223,11 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   abbreviation(node, children) {
     return (
-      <HoverPopover
-        key={node.key}
-        side="top"
-        card={
-          <div className="p-1 text-xs text-white bg-blue-900 dark:bg-white dark:text-black">
-            {node.title}
-          </div>
-        }
-        arrowClass="fill-blue-900 dark:fill-white"
-      >
+      <Tooltip key={node.key} title={node.title}>
         <abbr aria-label={node.title} className="border-b border-dotted cursor-help">
           {children}
         </abbr>
-      </HoverPopover>
+      </Tooltip>
     );
   },
   mystComment() {

@@ -2,8 +2,7 @@ import useSWR from 'swr';
 import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import PlusCircleIcon from '@heroicons/react/24/outline/PlusCircleIcon';
 import CheckCircleIcon from '@heroicons/react/24/outline/CheckCircleIcon';
-import { HoverPopover } from '../components/HoverPopover';
-import { LinkCard } from '../components/LinkCard';
+import { HoverPopover, LinkCard } from '../components';
 import React, { useEffect, useState } from 'react';
 import { CodeBlock } from '../code';
 import classNames from 'classnames';
@@ -182,10 +181,10 @@ function GithubIssuePreview({
       </div>
       <div className="my-2 text-lg font-bold dark:text-white">
         {resp.state === 'open' && (
-          <PlusCircleIcon className="inline-block w-6 h-6 mr-2 text-green-700 dark:text-green-500 -translate-y-px" />
+          <PlusCircleIcon className="inline-block w-6 h-6 mr-2 text-green-700 -translate-y-px dark:text-green-500" />
         )}
         {resp.state === 'closed' && (
-          <CheckCircleIcon className="inline-block w-6 h-6 mr-2 text-purple-700 dark:text-purple-500 -translate-y-px" />
+          <CheckCircleIcon className="inline-block w-6 h-6 mr-2 text-purple-700 -translate-y-px dark:text-purple-500" />
         )}
         {resp.title}
       </div>

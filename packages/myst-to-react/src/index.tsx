@@ -23,7 +23,7 @@ import PROOF_RENDERERS from './proof';
 import EXERCISE_RENDERERS from './exercise';
 import UNKNOWN_MYST_RENDERERS from './unknown';
 
-export { CopyIcon } from './components/CopyIcon';
+export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components';
 export { CodeBlock } from './code';
 export { Admonition, AdmonitionKind } from './admonitions';
 export { Details } from './dropdown';

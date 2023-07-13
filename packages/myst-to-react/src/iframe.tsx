@@ -24,15 +24,15 @@ function getStyleValue(width?: number | string): number | undefined {
 export const IFrame: NodeRenderer = (node) => {
   const width = getStyleValue(node.width) || 70;
   return (
-    <figure
+    <div
       key={node.key}
       id={node.label || undefined}
       style={{ textAlign: node.align || 'center' }}
+      className="leading-[0]"
     >
       <div
+        className="relative inline-block"
         style={{
-          position: 'relative',
-          display: 'inline-block',
           paddingBottom: '60%',
           width: `min(max(${width}%, 500px), 100%)`,
         }}
@@ -53,7 +53,7 @@ export const IFrame: NodeRenderer = (node) => {
           }}
         ></iframe>
       </div>
-    </figure>
+    </div>
   );
 };
 

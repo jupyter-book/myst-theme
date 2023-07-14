@@ -16,7 +16,7 @@ export function LinkCard({
   loading?: boolean;
   title: React.ReactNode;
   description?: React.ReactNode;
-  thumbnail?: string;
+  thumbnail?: string | null;
   className?: string;
 }) {
   const Link = useLinkProvider();

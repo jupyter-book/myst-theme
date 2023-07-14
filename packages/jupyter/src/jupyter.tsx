@@ -24,7 +24,7 @@ function ActiveOutputRenderer({
 
   useEffect(() => {
     if (!ref.current || !exec?.cell) {
-      console.debug(`Jupyter: No cell ref available for cell ${exec?.cell?.id}`);
+      console.debug(`Jupyter: No cell ref available for cell ${id}:${exec?.cell?.id}`);
       return;
     }
 

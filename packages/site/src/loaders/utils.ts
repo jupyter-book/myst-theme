@@ -159,8 +159,8 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
   outputs.forEach((node) => {
     if (!node.data) return;
     walkOutputs(node.data, (obj) => {
-      // The path will be defined from output of myst-cli
-      // Here we are re-asigning it to the current domain
+      // The path will be defined from output of myst
+      // Here we are re-assigning it to the current domain
       if (!obj.path) return;
       obj.path = updateUrl(obj.path);
     });

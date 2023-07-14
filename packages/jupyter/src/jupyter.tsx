@@ -42,7 +42,9 @@ function ActiveOutputRenderer({
     exec.cell.attachToDOM(ref.current);
 
     if (exec.cell.executionCount == null) {
-      exec.cell.initOutputs(core?.stripWidgets(initialData) ?? initialData);
+      exec.cell.initOutputs(
+        core?.stripWidgets(initialData, true, placeholder ? () => '' : undefined) ?? initialData,
+      );
     }
   }, [ref?.current, exec?.cell]);
 

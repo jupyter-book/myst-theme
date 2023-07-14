@@ -129,10 +129,10 @@ export function useTheme() {
   return { theme, isLight, isDark, setTheme, nextTheme };
 }
 
-export function useNodeRenderers(): Record<string, NodeRenderer> | undefined {
+export function useNodeRenderers(): Record<string, NodeRenderer> {
   const context = React.useContext(ThemeContext);
   const { renderers } = context ?? {};
-  return renderers;
+  return renderers ?? {};
 }
 
 export function useLinkProvider(): Link {

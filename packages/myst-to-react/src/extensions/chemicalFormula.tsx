@@ -24,10 +24,10 @@ function parseFormula(formula?: string) {
   }, [] as string[]);
 }
 
-export const ChemicalFormula: NodeRenderer = (node) => {
+export const ChemicalFormula: NodeRenderer = ({ node }) => {
   const parts = parseFormula(node.value);
   return (
-    <span key={node.key} className="text-inherit" aria-roledescription="Chemical Formula">
+    <span className="text-inherit" aria-roledescription="Chemical Formula">
       {parts.map((letter, index) => {
         if (letter.match(/[0-9]/)) return <sub key={index}>{letter}</sub>;
         return <span key={index}>{letter}</span>;

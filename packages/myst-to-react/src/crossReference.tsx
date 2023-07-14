@@ -3,7 +3,6 @@ import { EXIT, SKIP, visit } from 'unist-util-visit';
 import type { CrossReference } from 'myst-spec';
 import {
   useLinkProvider,
-  useNodeRenderers,
   useReferences,
   useBaseurl,
   withBaseurl,
@@ -11,11 +10,11 @@ import {
   useXRefState,
 } from '@myst-theme/providers';
 import type { GenericNode, GenericParent } from 'myst-common';
-import { useParse } from '.';
 import { InlineError } from './inlineError';
 import type { NodeRenderer } from '@myst-theme/providers';
 import useSWR from 'swr';
 import { HoverPopover } from './components';
+import { MyST } from './MyST';
 
 const hiddenNodes = new Set(['comment', 'mystComment']);
 
@@ -93,7 +92,6 @@ const fetcher = (...args: Parameters<typeof fetch>) =>
   });
 
 // This is a small component that must be distinct based on the nodes
-// This is because the useParse can have different numbers of hooks, which breaks things
 function XrefChildren({
   load,
   remote,
@@ -108,9 +106,6 @@ function XrefChildren({
   identifier: string;
 }) {
   const data = useSelectNodes({ load, remote, url, dataUrl, identifier });
-  const renderers = useNodeRenderers();
-  const children = useParse({ type: 'block', children: data?.nodes ?? [] }, renderers);
-
   if (!data) return null;
   if (data.loading) {
     return <>Loading...</>;
@@ -125,7 +120,7 @@ function XrefChildren({
       </>
     );
   }
-  return <>{children}</>;
+  return <MyST ast={data?.nodes} />;
 }
 
 function openDetails(el: HTMLElement | null) {
@@ -249,11 +244,10 @@ export function CrossReferenceHover({
   );
 }
 
-export const CrossReferenceNode: NodeRenderer<CrossReference> = (node, children) => {
-  if (!children) {
+export const CrossReferenceNode: NodeRenderer<CrossReference> = ({ node }) => {
+  if (!node.children) {
     return (
       <InlineError
-        key={node.key}
         value={node.label || node.identifier || 'No Label'}
         message="Cross Reference Not Found"
       />
@@ -262,14 +256,13 @@ export const CrossReferenceNode: NodeRenderer<CrossReference> = (node, children)
   const { remote, url, dataUrl, identifier, html_id } = node as any;
   return (
     <CrossReferenceHover
-      key={node.key}
       identifier={identifier}
       htmlId={html_id}
       remote={remote}
       url={url}
       dataUrl={dataUrl}
     >
-      {children}
+      <MyST ast={node.children} />
     </CrossReferenceHover>
   );
 };

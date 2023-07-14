@@ -1,13 +1,9 @@
 import type { NodeRenderer } from '@myst-theme/providers';
 
-export const SIUnits: NodeRenderer = (node) => {
+export const SIUnits: NodeRenderer = ({ node }) => {
   const space = node.number == null ? '' : ' ';
   const title = `${node.number ?? ''}${space}${node.alt}`;
-  return (
-    <span key={node.key} title={title}>
-      {node.value}
-    </span>
-  );
+  return <span title={title}>{node.value}</span>;
 };
 
 const SI_RENDERERS = {

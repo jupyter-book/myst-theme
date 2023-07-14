@@ -1,6 +1,4 @@
 import type { NodeRenderer } from '@myst-theme/providers';
-import type { GenericParent } from 'myst-common';
-import { mystToReact } from './convertToReact';
 import BASIC_RENDERERS from './basic';
 import ADMONITION_RENDERERS from './admonitions';
 import DROPDOWN_RENDERERS from './dropdown';
@@ -54,16 +52,4 @@ export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...EXERCISE_RENDERERS,
 };
 
-export function useParse(
-  node: GenericParent | null,
-  renderers: Record<string, NodeRenderer> = DEFAULT_RENDERERS,
-) {
-  if (!node) return null;
-  try {
-    const nodes = mystToReact(node, renderers);
-    return nodes;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
+export { MyST } from './MyST';

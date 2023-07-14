@@ -8,6 +8,7 @@ import { HoverPopover, LinkCard } from '../components';
 import { WikiLink } from './wiki';
 import { RRIDLink } from './rrid';
 import { GithubLink } from './github';
+import { MyST } from '../MyST';
 
 type TransformedLink = Link & { internal?: boolean; protocol?: string };
 
@@ -51,26 +52,20 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
   );
 }
 
-export const link: NodeRenderer<TransformedLink> = (node, children) => {
+export const link: NodeRenderer<TransformedLink> = ({ node }) => {
   const internal = node.internal ?? false;
   const protocol = node.protocol;
 
   switch (protocol) {
     case 'wiki':
       return (
-        <WikiLink
-          key={node.key}
-          url={node.url}
-          page={node.data?.page as string}
-          wiki={node.data?.wiki as string}
-        >
-          {children}
+        <WikiLink url={node.url} page={node.data?.page as string} wiki={node.data?.wiki as string}>
+          <MyST ast={node.children} />
         </WikiLink>
       );
     case 'github':
       return (
         <GithubLink
-          key={node.key}
           kind={node.data?.kind as any}
           url={node.url}
           org={node.data?.org as string}
@@ -81,28 +76,28 @@ export const link: NodeRenderer<TransformedLink> = (node, children) => {
           to={node.data?.to as number | undefined}
           issue_number={node.data?.issue_number as number | undefined}
         >
-          {children}
+          <MyST ast={node.children} />
         </GithubLink>
       );
     case 'rrid':
-      return <RRIDLink key={node.key} rrid={node.data?.rrid as string} />;
+      return <RRIDLink rrid={node.data?.rrid as string} />;
     default:
       if (internal) {
         return (
-          <InternalLink key={node.key} url={node.url}>
-            {children}
+          <InternalLink url={node.url}>
+            <MyST ast={node.children} />
           </InternalLink>
         );
       }
       return (
-        <a key={node.key} target="_blank" href={node.url} rel="noreferrer">
-          {children}
+        <a target="_blank" href={node.url} rel="noreferrer">
+          <MyST ast={node.children} />
         </a>
       );
   }
 };
 
-export const linkBlock: NodeRenderer<TransformedLink> = (node, children) => {
+export const linkBlock: NodeRenderer<TransformedLink> = ({ node }) => {
   const iconClass = 'w-6 h-6 self-center transition-transform flex-none ml-3';
   const containerClass =
     'flex-1 p-4 my-5 block border font-normal hover:border-blue-500 dark:hover:border-blue-400 no-underline hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-100 border-gray-200 dark:border-gray-500 rounded shadow-sm hover:shadow-lg dark:shadow-neutral-700';
@@ -111,7 +106,9 @@ export const linkBlock: NodeRenderer<TransformedLink> = (node, children) => {
     <div className="flex h-full align-middle">
       <div className="flex-grow">
         {node.title}
-        <div className="text-xs text-gray-500 dark:text-gray-400">{children}</div>
+        <div className="text-xs text-gray-500 dark:text-gray-400">
+          <MyST ast={node.children} />
+        </div>
       </div>
       {internal && <LinkIcon className={iconClass} />}
       {!internal && <ExternalLinkIcon className={iconClass} />}
@@ -120,19 +117,13 @@ export const linkBlock: NodeRenderer<TransformedLink> = (node, children) => {
 
   if (internal) {
     return (
-      <a key={node.key} href={node.url} className={containerClass}>
+      <a href={node.url} className={containerClass}>
         {nested}
       </a>
     );
   }
   return (
-    <a
-      key={node.key}
-      className={containerClass}
-      target="_blank"
-      rel="noopener noreferrer"
-      href={node.url}
-    >
+    <a className={containerClass} target="_blank" rel="noopener noreferrer" href={node.url}>
       {nested}
     </a>
   );

@@ -4,6 +4,8 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
 import classNames from 'classnames';
 import { HashLink } from './heading';
+import type { GenericNode } from 'myst-common';
+import { MyST } from './MyST';
 
 type Color = 'gray' | 'blue' | 'green' | 'yellow' | 'orange' | 'red' | 'purple';
 
@@ -161,9 +163,9 @@ export function Callout({
   );
 }
 
-export const ExerciseRenderer: NodeRenderer<AdmonitionSpec> = (node, children) => {
+export const ExerciseRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
   if ((node as any).hidden) return null;
-  const [title, ...rest] = (children as any[]) ?? [];
+  const [title, ...rest] = (node.children as GenericNode[]) ?? [];
   const classes = getClasses(node.class);
   const { color } = getColor({ classes });
   const isDropdown = classes.includes('dropdown');
@@ -180,27 +182,25 @@ export const ExerciseRenderer: NodeRenderer<AdmonitionSpec> = (node, children) =
         {(node as any).gate === 'end' && 'End of '}
         Exercise{enumerator != null && <> {enumerator}</>}
       </HashLink>
-      {useTitle && <> ({title})</>}
+      {useTitle && (
+        <>
+          {' '}
+          (<MyST ast={[title]} />)
+        </>
+      )}
     </>
   );
 
   return (
-    <Callout
-      key={node.key}
-      identifier={identifier}
-      title={titleNode}
-      color={color}
-      dropdown={isDropdown}
-    >
-      {!useTitle && title}
-      {rest}
+    <Callout identifier={identifier} title={titleNode} color={color} dropdown={isDropdown}>
+      {useTitle ? <MyST ast={rest} /> : <MyST ast={node.children} />}
     </Callout>
   );
 };
 
-export const SolutionRenderer: NodeRenderer<AdmonitionSpec> = (node, children) => {
+export const SolutionRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
   if ((node as any).hidden) return null;
-  const [title, ...rest] = (children as any[]) ?? [];
+  const [title, ...rest] = (node.children as GenericNode[]) ?? [];
   const classes = getClasses(node.class);
   const { color } = getColor({ classes }, 'gray');
   const isDropdown = classes.includes('dropdown');
@@ -213,7 +213,7 @@ export const SolutionRenderer: NodeRenderer<AdmonitionSpec> = (node, children) =
     <>
       {(node as any).gate === 'start' && 'Start of '}
       {(node as any).gate === 'end' && 'End of '}
-      {title}
+      <MyST ast={[title]} />
       <HashLink id={identifier} kind="Solution" hover hideInPopup>
         {' #'}
       </HashLink>
@@ -222,14 +222,12 @@ export const SolutionRenderer: NodeRenderer<AdmonitionSpec> = (node, children) =
 
   return (
     <Callout
-      key={node.key}
       identifier={identifier}
       title={useTitle ? titleNode : undefined}
       color={color}
       dropdown={isDropdown}
     >
-      {!useTitle && title}
-      {rest}
+      {useTitle ? <MyST ast={rest} /> : <MyST ast={node.children} />}
     </Callout>
   );
 };

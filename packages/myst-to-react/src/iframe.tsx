@@ -21,11 +21,10 @@ function getStyleValue(width?: number | string): number | undefined {
   return width;
 }
 
-export const IFrame: NodeRenderer = (node) => {
+export const IFrame: NodeRenderer = ({ node }) => {
   const width = getStyleValue(node.width) || 70;
   return (
     <div
-      key={node.key}
       id={node.label || undefined}
       style={{ textAlign: node.align || 'center' }}
       className="leading-[0]"

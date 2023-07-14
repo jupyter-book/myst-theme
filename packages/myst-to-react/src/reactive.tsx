@@ -1,9 +1,8 @@
-import type { GenericNode } from 'myst-common';
+import type { NodeRenderer } from '@myst-theme/providers';
 import { createElement as e } from 'react';
 
-export const RVar = (node: GenericNode) => {
+export const RVar: NodeRenderer = ({ node }) => {
   return e('r-var', {
-    key: node.key,
     name: node.name,
     value: node.value,
     ':value': node.valueFunction,
@@ -11,9 +10,8 @@ export const RVar = (node: GenericNode) => {
   });
 };
 
-export const RDisplay = (node: GenericNode) => {
+export const RDisplay: NodeRenderer = ({ node }) => {
   return e('r-display', {
-    key: node.key,
     name: node.name,
     value: node.value,
     ':value': node.valueFunction,
@@ -21,9 +19,8 @@ export const RDisplay = (node: GenericNode) => {
   });
 };
 
-export const RDynamic = (node: GenericNode) => {
+export const RDynamic: NodeRenderer = ({ node }) => {
   return e('r-dynamic', {
-    key: node.key,
     name: node.name,
     value: node.value,
     ':value': node.valueFunction,
@@ -38,9 +35,8 @@ export const RDynamic = (node: GenericNode) => {
   });
 };
 
-export const RRange = (node: GenericNode) => {
+export const RRange: NodeRenderer = ({ node }) => {
   return e('r-range', {
-    key: node.key,
     name: node.name,
     value: node.value,
     ':value': node.valueFunction,

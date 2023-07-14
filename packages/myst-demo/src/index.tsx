@@ -2,14 +2,14 @@ import { VFile } from 'vfile';
 import type { LatexResult } from 'myst-to-tex'; // Only import the type!!
 import type { VFileMessage } from 'vfile-message';
 import yaml from 'js-yaml';
-import type { References } from 'myst-common';
+import type { GenericNode, References } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
 import type { DocxResult } from 'myst-to-docx';
 import { validatePageFrontmatter } from 'myst-frontmatter';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import type { NodeRenderer } from '@myst-theme/providers';
-import { useNodeRenderers, ReferencesProvider } from '@myst-theme/providers';
-import { CopyIcon, CodeBlock, useParse } from 'myst-to-react';
+import { ReferencesProvider } from '@myst-theme/providers';
+import { CopyIcon, CodeBlock, MyST } from 'myst-to-react';
 import React, { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';
 import ExclamationTriangleIcon from '@heroicons/react/24/outline/ExclamationTriangleIcon';
@@ -143,7 +143,7 @@ async function parse(
         })
         .stringify(mdast as any, jatsFile).result
     : 'Problem loading myst-to-jats';
-  const content = useParse(mdast as any, options?.renderers);
+
   return {
     frontmatter,
     yaml: mdastString,
@@ -153,7 +153,6 @@ async function parse(
     texWarnings: texFile.messages,
     jats: jats,
     jatsWarnings: jatsFile.messages,
-    content,
     warnings: file.messages,
   };
 }
@@ -175,7 +174,6 @@ export function MySTRenderer({
   numbering?: any;
   className?: string;
 }) {
-  const renderers = useNodeRenderers();
   const area = useRef<HTMLTextAreaElement | null>(null);
   const [text, setText] = useState<string>(value.trim());
   const [references, setReferences] = useState<References>({});
@@ -187,7 +185,6 @@ export function MySTRenderer({
   const [jats, setJats] = useState<string>('Loading...');
   const [jatsWarnings, setJatsWarnings] = useState<VFileMessage[]>([]);
   const [warnings, setWarnings] = useState<VFileMessage[]>([]);
-  const [content, setContent] = useState<React.ReactNode>(<p>{value}</p>);
   const [previewType, setPreviewType] = useState('DEMO');
 
   useEffect(() => {
@@ -195,7 +192,7 @@ export function MySTRenderer({
     parse(
       text,
       { numbering },
-      { renderers, removeHeading: !!TitleBlock, jats: { fullArticle: !!TitleBlock } },
+      { removeHeading: !!TitleBlock, jats: { fullArticle: !!TitleBlock } },
     ).then((result) => {
       if (!ref.current) return;
       setFrontmatter(result.frontmatter);
@@ -206,13 +203,12 @@ export function MySTRenderer({
       setTexWarnings(result.texWarnings);
       setJats(result.jats);
       setJatsWarnings(result.jatsWarnings);
-      setContent(result.content);
       setWarnings(result.warnings);
     });
     return () => {
       ref.current = false;
     };
-  }, [text, renderers]);
+  }, [text]);
 
   useEffect(() => {
     if (!area.current) return;
@@ -315,7 +311,7 @@ export function MySTRenderer({
             <>
               <ReferencesProvider references={references} frontmatter={frontmatter}>
                 {TitleBlock && <TitleBlock frontmatter={frontmatter}></TitleBlock>}
-                {content}
+                <MyST ast={references.article?.children as GenericNode[]} />
               </ReferencesProvider>
             </>
           )}
@@ -359,6 +355,6 @@ export function MySTRenderer({
   );
 }
 
-export const MystDemoRenderer: NodeRenderer = (node) => {
-  return <MySTRenderer key={node.key} value={node.value} numbering={node.numbering} />;
+export const MystDemoRenderer: NodeRenderer = ({ node }) => {
+  return <MySTRenderer value={node.value} numbering={node.numbering} />;
 };

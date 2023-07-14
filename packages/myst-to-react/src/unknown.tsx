@@ -3,7 +3,7 @@ import type { GenericNode } from 'myst-common';
 import ExclamationTriangleIcon from '@heroicons/react/24/outline/ExclamationTriangleIcon';
 import { Callout } from './exercise';
 
-export const UnknownDirective: NodeRenderer<GenericNode> = (node) => {
+export const UnknownDirective: NodeRenderer<GenericNode> = ({ node }) => {
   const titleNode = (
     <>
       <code>{node.name}</code> - Unknown Directive
@@ -11,13 +11,7 @@ export const UnknownDirective: NodeRenderer<GenericNode> = (node) => {
   );
 
   return (
-    <Callout
-      key={node.key}
-      title={titleNode}
-      color={'red'}
-      dropdown
-      Icon={ExclamationTriangleIcon as any}
-    >
+    <Callout title={titleNode} color={'red'} dropdown Icon={ExclamationTriangleIcon as any}>
       <pre>{node.value}</pre>
     </Callout>
   );

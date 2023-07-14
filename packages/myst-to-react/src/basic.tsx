@@ -3,7 +3,7 @@ import { HashLink } from './heading';
 import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { Tooltip } from './components';
-import { MySTChildren } from './convertToReact';
+import { MyST } from './MyST';
 
 type TableExts = {
   rowspan?: number;
@@ -41,6 +41,7 @@ type CaptionNumber = {
 };
 
 type BasicNodeRenderers = {
+  text: NodeRenderer<spec.Text>;
   strong: NodeRenderer<spec.Strong>;
   emphasis: NodeRenderer<spec.Emphasis>;
   link: NodeRenderer<spec.Link>;
@@ -76,52 +77,55 @@ type BasicNodeRenderers = {
 };
 
 const BASIC_RENDERERS: BasicNodeRenderers = {
+  text({ node }) {
+    return node.value;
+  },
   delete({ node }) {
     return (
       <del>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </del>
     );
   },
   strong({ node }) {
     return (
       <strong>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </strong>
     );
   },
   emphasis({ node }) {
     return (
       <em>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </em>
     );
   },
   underline({ node }) {
     return (
       <span style={{ textDecoration: 'underline' }}>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </span>
     );
   },
   smallcaps({ node }) {
     return (
       <span style={{ fontVariant: 'small-caps' }}>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </span>
     );
   },
   link({ node }) {
     return (
       <a target="_blank" href={node.url} rel="noreferrer">
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </a>
     );
   },
   paragraph({ node }) {
     return (
       <p id={node.html_id}>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </p>
     );
   },
@@ -138,13 +142,13 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     if (node.ordered) {
       return (
         <ol start={node.start || undefined} id={node.html_id}>
-          <MySTChildren nodes={node.children} />
+          <MyST ast={node.children} />
         </ol>
       );
     }
     return (
       <ul id={node.html_id}>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </ul>
     );
   },
@@ -152,14 +156,14 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     if (node.checked == null) {
       return (
         <li>
-          <MySTChildren nodes={node.children} />
+          <MyST ast={node.children} />
         </li>
       );
     }
     return (
       <li className="task-list-item">
         <input type="checkbox" className="task-list-item-checkbox" defaultChecked={node.checked} />
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </li>
     );
   },
@@ -169,21 +173,21 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
         id={node.html_id || node.identifier || node.key}
         className={classNames(node.kind, node.class)}
       >
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </figure>
     );
   },
   caption({ node }) {
     return (
       <figcaption className="group">
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </figcaption>
     );
   },
   blockquote({ node }) {
     return (
       <blockquote id={node.html_id}>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </blockquote>
     );
   },
@@ -191,14 +195,6 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     return <hr className="py-2 my-5 translate-y-2" />;
   },
   captionNumber({ node }) {
-    // function backwardsCompatibleLabel(value: string, kind?: string) {
-    //   const capital = kind?.slice(0, 1).toUpperCase() ?? 'F';
-    //   const body = kind?.slice(1) ?? 'igure';
-    //   return `${capital}${body}: ${children}`;
-    // }
-    // const label =
-    //   typeof node.children === 'string' ? backwardsCompatibleLabel(node.children, node.kind) : node.children;
-    // TODO this isn't quite right!
     const id = node.html_id || node.identifier || node.key;
     return (
       <HashLink
@@ -206,7 +202,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
         kind={node.kind}
         className="mr-1 font-semibold text-inherit hover:text-inherit hover:font-semibold"
       >
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </HashLink>
     );
   },
@@ -215,7 +211,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     return (
       <table>
         <tbody>
-          <MySTChildren nodes={node.children} />
+          <MyST ast={node.children} />
         </tbody>
       </table>
     );
@@ -223,7 +219,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   tableRow({ node }) {
     return (
       <tr>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </tr>
     );
   },
@@ -236,26 +232,26 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     if (node.header)
       return (
         <th {...attrs}>
-          <MySTChildren nodes={node.children} />
+          <MyST ast={node.children} />
         </th>
       );
     return (
       <td {...attrs}>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </td>
     );
   },
   subscript({ node }) {
     return (
       <sub>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </sub>
     );
   },
   superscript({ node }) {
     return (
       <sup>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </sup>
     );
   },
@@ -263,7 +259,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     return (
       <Tooltip title={node.title}>
         <abbr aria-label={node.title} className="border-b border-dotted cursor-help">
-          <MySTChildren nodes={node.children} />
+          <MyST ast={node.children} />
         </abbr>
       </Tooltip>
     );
@@ -277,34 +273,31 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   definitionList({ node }) {
     return (
       <dl className="my-5" id={node.html_id}>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </dl>
     );
   },
   definitionTerm({ node }) {
-    // let strongChildren: React.ReactNode = children;
-    // if (Array.isArray(children)) {
-    //   const allowedStrongTypes = new Set(['emphasis']);
-    //   strongChildren = children.map((child, i) => {
-    //     if (typeof child === 'string') return <strong key={node.key + i}>{child}</strong>;
-    //     if (allowedStrongTypes.has(child?.type)) return <strong key={node.key + i}>{child}</strong>;
-    //     return child;
-    //   });
-    // } else if (typeof children === 'string') {
-    //   strongChildren = <strong key={node.key + '0'}>{children}</strong>;
-    // }
-
-    // TODO
+    const allowedStrongTypes = new Set(['text', 'emphasis']);
+    const makeStrong =
+      node.children?.reduce((allowed, n) => allowed && allowedStrongTypes.has(n.type), true) ??
+      false;
     return (
       <dt id={node.html_id}>
-        <MySTChildren nodes={node.children} />
+        {makeStrong ? (
+          <strong>
+            <MyST ast={node.children} />
+          </strong>
+        ) : (
+          <MyST ast={node.children} />
+        )}
       </dt>
     );
   },
   definitionDescription({ node }) {
     return (
       <dd>
-        <MySTChildren nodes={node.children} />
+        <MyST ast={node.children} />
       </dd>
     );
   },

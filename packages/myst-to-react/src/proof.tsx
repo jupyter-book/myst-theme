@@ -4,6 +4,8 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
 import classNames from 'classnames';
 import { HashLink } from './heading';
+import type { GenericNode } from 'myst-common';
+import { MyST } from './MyST';
 
 export enum ProofKind {
   proof = 'proof',
@@ -186,26 +188,24 @@ export function Proof({
   );
 }
 
-export const ProofRenderer: NodeRenderer<AdmonitionSpec> = (node, children) => {
-  const [title, ...rest] = children as any[];
+export const ProofRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
+  const [title, ...rest] = node.children as GenericNode[];
   const classes = getClasses(node.class);
   const { color } = getColor({ kind: node.kind, classes });
   const isDropdown = classes.includes('dropdown');
 
-  const useTitle = node.children?.[0].type === 'admonitionTitle';
+  const useTitle = title?.type === 'admonitionTitle';
 
   return (
     <Proof
-      key={node.key}
       identifier={node.html_id}
-      title={useTitle ? title : undefined}
+      title={useTitle ? <MyST ast={[title]} /> : undefined}
       kind={node.kind as ProofKind}
       enumerator={(node as any).enumerator}
       color={color}
       dropdown={isDropdown}
     >
-      {!useTitle && title}
-      {rest}
+      {useTitle ? <MyST ast={rest} /> : <MyST ast={node.children} />}
     </Proof>
   );
 };

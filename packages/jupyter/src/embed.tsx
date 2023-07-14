@@ -8,6 +8,7 @@ import {
 import { JupyterIcon } from '@scienceicons/react/24/solid';
 import { select } from 'unist-util-select';
 import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { MyST } from 'myst-to-react';
 
 function EmbedWithControls({
   outputKey,
@@ -73,17 +74,12 @@ function EmbedWithControls({
   );
 }
 
-export function Embed(node: GenericNode, children: React.ReactNode) {
+export function Embed({ node }: { node: GenericNode }) {
   const output = select('output', node) as GenericNode;
-  if (!output) return <>{children}</>;
+  if (!output) return <MyST ast={node.children} />;
   return (
-    <EmbedWithControls
-      key={node.key}
-      outputKey={output.key}
-      title={node.source?.title}
-      url={node.source?.url}
-    >
-      {children}
+    <EmbedWithControls outputKey={output.key} title={node.source?.title} url={node.source?.url}>
+      <MyST ast={node.children} />
     </EmbedWithControls>
   );
 }

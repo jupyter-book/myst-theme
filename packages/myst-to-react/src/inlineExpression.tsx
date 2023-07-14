@@ -1,8 +1,9 @@
 import type { NodeRenderer } from '@myst-theme/providers';
 import { InlineError } from './inlineError';
 import { Tooltip } from './components';
+import { MyST } from './MyST';
 
-export const InlineExpression: NodeRenderer = (node, children) => {
+export const InlineExpression: NodeRenderer = ({ node }) => {
   if (!node.result) {
     return <InlineError value={`Unexecuted inline expression for: ${node.value}`} />;
   }
@@ -12,8 +13,8 @@ export const InlineExpression: NodeRenderer = (node, children) => {
   // TODO: something with Thebe in the future!
   return (
     <Tooltip title={<code>{node.value}</code>}>
-      <span key={node.key} className="border-b border-dotted cursor-help">
-        {children}
+      <span className="border-b border-dotted cursor-help">
+        <MyST ast={node.children} />
       </span>
     </Tooltip>
   );

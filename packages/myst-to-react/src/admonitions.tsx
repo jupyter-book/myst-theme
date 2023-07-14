@@ -16,7 +16,8 @@ import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
 import BoltIcon from '@heroicons/react/24/solid/BoltIcon';
 import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
 import classNames from 'classnames';
-import { MySTChildren } from './convertToReact';
+import { MyST } from './MyST';
+import type { GenericNode } from 'myst-common';
 // import { AdmonitionKind } from 'myst-common';
 
 // TODO: get this from myst-spec?
@@ -106,8 +107,8 @@ function AdmonitionIcon({ kind, className }: { kind: AdmonitionKind; className?:
   return <InformationCircleIcon className={cn} />;
 }
 
-export const AdmonitionTitle: NodeRenderer<AdmonitionTitleSpec> = (node, children) => {
-  return children;
+export const AdmonitionTitle: NodeRenderer<AdmonitionTitleSpec> = ({ node }) => {
+  return <MyST ast={node.children} />;
 };
 
 const WrapperElement = ({
@@ -222,25 +223,25 @@ export function Admonition({
 }
 
 export const AdmonitionRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
-  const [title, ...rest] = node.children as any[];
+  const [title, ...rest] = node.children as GenericNode[];
   const classes = getClasses(node.class);
   const { kind, color } = getFirstKind({ kind: node.kind, classes });
   const isDropdown = classes.includes('dropdown');
   const isSimple = classes.includes('simple');
-  const hideIcon = (node as any).icon === false;
+  const hideIcon = node.icon === false;
 
   const useTitle = title?.type === 'admonitionTitle';
 
   return (
     <Admonition
-      title={useTitle ? <MySTChildren nodes={[title]} /> : undefined}
+      title={useTitle ? <MyST ast={[title]} /> : undefined}
       kind={kind}
       color={color}
       dropdown={isDropdown}
       simple={isSimple}
       hideIcon={hideIcon}
     >
-      {useTitle ? <MySTChildren nodes={rest} /> : <MySTChildren nodes={node.children} />}
+      {useTitle ? <MyST ast={rest} /> : <MyST ast={node.children} />}
     </Admonition>
   );
 };

@@ -93,10 +93,9 @@ export function CodeBlock(props: Props) {
   );
 }
 
-const code: NodeRenderer<Code & { executable: boolean }> = (node) => {
+const code: NodeRenderer<Code & { executable: boolean }> = ({ node }) => {
   return (
     <CodeBlock
-      key={node.key}
       identifier={node.html_id}
       // data-cell-id={node.executable ? parentId : undefined}
       data-mdast-node-type={node.type}
@@ -122,14 +121,11 @@ function isColor(maybeColorHash: string): string | undefined {
   return color;
 }
 
-const inlineCode: NodeRenderer<InlineCode> = (node, children) => {
+const inlineCode: NodeRenderer<InlineCode> = ({ node }) => {
   if (isColor(node.value)) {
     return (
-      <code
-        key={node.key}
-        className="px-1 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-100"
-      >
-        {children}
+      <code className="px-1 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-100">
+        {node.value}
         <span
           style={{ backgroundColor: node.value }}
           className="inline-block w-[10px] h-[10px] rounded-full ml-1"
@@ -137,7 +133,7 @@ const inlineCode: NodeRenderer<InlineCode> = (node, children) => {
       </code>
     );
   }
-  return <code key={node.key}>{children}</code>;
+  return <code>{node.value}</code>;
 };
 
 const CODE_RENDERERS = {

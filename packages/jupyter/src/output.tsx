@@ -80,11 +80,9 @@ function JupyterOutput({
   );
 }
 
-export function Output(node: GenericNode) {
-  // Note, NodeRenderer's can't have hooks in it directly!
+export function Output({ node }: { node: GenericNode }) {
   return (
     <JupyterOutput
-      key={node.key}
       nodeKey={node.key}
       nodeType={node.type}
       identifier={node.identifier}

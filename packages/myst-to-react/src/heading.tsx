@@ -3,6 +3,7 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import { useXRefState } from '@myst-theme/providers';
 import { createElement as e } from 'react';
 import classNames from 'classnames';
+import { MyST } from './MyST';
 
 export function HashLink({
   id,
@@ -51,13 +52,15 @@ export function HashLink({
   );
 }
 
-const Heading: NodeRenderer<Heading> = (node, children) => {
+const Heading: NodeRenderer<Heading> = ({ node }) => {
   const { enumerator, depth, key, identifier, html_id } = node;
   const id = html_id || identifier || key;
   const textContent = (
     <>
       {enumerator && <span className="mr-3 select-none">{enumerator}</span>}
-      <span className="heading-text">{children}</span>
+      <span className="heading-text">
+        <MyST ast={node.children} />
+      </span>
       <HashLink id={id} kind="Section" className="px-2 font-normal" hover hideInPopup />
     </>
   );
@@ -65,7 +68,6 @@ const Heading: NodeRenderer<Heading> = (node, children) => {
   return e(
     `h${depth}`,
     {
-      key: node.key,
       id,
       className: 'relative group',
     },

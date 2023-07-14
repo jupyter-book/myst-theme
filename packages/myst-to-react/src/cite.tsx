@@ -4,6 +4,7 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import { doi } from 'doi-utils';
 import { InlineError } from './inlineError';
 import { HoverPopover } from './components';
+import { MyST } from './MyST';
 
 function CiteChild({ html }: { html?: string }) {
   return (
@@ -14,16 +15,15 @@ function CiteChild({ html }: { html?: string }) {
   );
 }
 
-export const CiteGroup: NodeRenderer = (node, children) => {
+export const CiteGroup: NodeRenderer = ({ node }) => {
   return (
     <span
-      key={node.key}
       className={classNames('cite-group', {
         narrative: node.kind === 'narrative',
         parenthetical: node.kind === 'parenthetical',
       })}
     >
-      {children}
+      <MyST ast={node.children} />
     </span>
   );
 };
@@ -60,10 +60,10 @@ export const Cite = ({
   );
 };
 
-export const CiteRenderer: NodeRenderer = (node, children) => {
+export const CiteRenderer: NodeRenderer = ({ node }) => {
   return (
-    <Cite key={node.key} label={node.label} error={node.error}>
-      {children}
+    <Cite label={node.label} error={node.error}>
+      <MyST ast={node.children} />
     </Cite>
   );
 };

@@ -26,11 +26,15 @@ npm install myst-to-react
 
 ## Simple example
 
-```typescript
-import { useParse, DEFAULT_RENDERERS } from 'myst-to-react';
+```tsx
+import { ThemeProvider } from '@myst-theme/providers';
+import { MyST, DEFAULT_RENDERERS } from 'myst-to-react';
 
-function MyComponent({ node, renderers = DEFAULT_RENDERERS }) {
-  const children = useParse(node, renderers);
-  return <div id={id}>{children}</div>;
+function MyComponent({ node }) {
+  return (
+    <ThemeProvider renderers={DEFAULT_RENDERERS}>
+      <MyST ast={node.children} />
+    </ThemeProvider>
+  );
 }
 ```

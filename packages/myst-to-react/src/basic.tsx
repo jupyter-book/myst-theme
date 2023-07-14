@@ -3,6 +3,7 @@ import { HashLink } from './heading';
 import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { Tooltip } from './components';
+import { MySTChildren } from './convertToReact';
 
 type TableExts = {
   rowspan?: number;
@@ -75,157 +76,194 @@ type BasicNodeRenderers = {
 };
 
 const BASIC_RENDERERS: BasicNodeRenderers = {
-  delete(node, children) {
-    return <del key={node.key}>{children}</del>;
-  },
-  strong(node, children) {
-    return <strong key={node.key}>{children}</strong>;
-  },
-  emphasis(node, children) {
-    return <em key={node.key}>{children}</em>;
-  },
-  underline(node, children) {
+  delete({ node }) {
     return (
-      <span key={node.key} style={{ textDecoration: 'underline' }}>
-        {children}
+      <del>
+        <MySTChildren nodes={node.children} />
+      </del>
+    );
+  },
+  strong({ node }) {
+    return (
+      <strong>
+        <MySTChildren nodes={node.children} />
+      </strong>
+    );
+  },
+  emphasis({ node }) {
+    return (
+      <em>
+        <MySTChildren nodes={node.children} />
+      </em>
+    );
+  },
+  underline({ node }) {
+    return (
+      <span style={{ textDecoration: 'underline' }}>
+        <MySTChildren nodes={node.children} />
       </span>
     );
   },
-  smallcaps(node, children) {
+  smallcaps({ node }) {
     return (
-      <span key={node.key} style={{ fontVariant: 'small-caps' }}>
-        {children}
+      <span style={{ fontVariant: 'small-caps' }}>
+        <MySTChildren nodes={node.children} />
       </span>
     );
   },
-  link(node, children) {
+  link({ node }) {
     return (
-      <a key={node.key} target="_blank" href={node.url} rel="noreferrer">
-        {children}
+      <a target="_blank" href={node.url} rel="noreferrer">
+        <MySTChildren nodes={node.children} />
       </a>
     );
   },
-  paragraph(node, children) {
+  paragraph({ node }) {
     return (
-      <p key={node.key} id={node.html_id}>
-        {children}
+      <p id={node.html_id}>
+        <MySTChildren nodes={node.children} />
       </p>
     );
   },
-  break(node) {
-    return <br key={node.key} />;
+  break() {
+    return <br />;
   },
-  inlineMath(node) {
-    return <code key={node.key}>{node.value}</code>;
+  inlineMath({ node }) {
+    return <code>{node.value}</code>;
   },
-  math(node) {
-    return <code key={node.key}>{node.value}</code>;
+  math({ node }) {
+    return <code>{node.value}</code>;
   },
-  list(node, children) {
+  list({ node }) {
     if (node.ordered) {
       return (
-        <ol key={node.key} start={node.start || undefined} id={node.html_id}>
-          {children}
+        <ol start={node.start || undefined} id={node.html_id}>
+          <MySTChildren nodes={node.children} />
         </ol>
       );
     }
     return (
-      <ul key={node.key} id={node.html_id}>
-        {children}
+      <ul id={node.html_id}>
+        <MySTChildren nodes={node.children} />
       </ul>
     );
   },
-  listItem(node, children) {
+  listItem({ node }) {
     if (node.checked == null) {
-      return <li key={node.key}>{children}</li>;
+      return (
+        <li>
+          <MySTChildren nodes={node.children} />
+        </li>
+      );
     }
     return (
-      <li key={node.key} className="task-list-item">
+      <li className="task-list-item">
         <input type="checkbox" className="task-list-item-checkbox" defaultChecked={node.checked} />
-        {children}
+        <MySTChildren nodes={node.children} />
       </li>
     );
   },
-  container(node, children) {
+  container({ node }) {
     return (
       <figure
-        key={node.key}
         id={node.html_id || node.identifier || node.key}
         className={classNames(node.kind, node.class)}
       >
-        {children}
+        <MySTChildren nodes={node.children} />
       </figure>
     );
   },
-  caption(node, children) {
+  caption({ node }) {
     return (
-      <figcaption key={node.key} className="group">
-        {children}
+      <figcaption className="group">
+        <MySTChildren nodes={node.children} />
       </figcaption>
     );
   },
-  blockquote(node, children) {
+  blockquote({ node }) {
     return (
-      <blockquote key={node.key} id={node.html_id}>
-        {children}
+      <blockquote id={node.html_id}>
+        <MySTChildren nodes={node.children} />
       </blockquote>
     );
   },
-  thematicBreak(node) {
-    return <hr key={node.key} className="py-2 my-5 translate-y-2" />;
+  thematicBreak() {
+    return <hr className="py-2 my-5 translate-y-2" />;
   },
-  captionNumber(node, children) {
-    function backwardsCompatibleLabel(value: string, kind?: string) {
-      const capital = kind?.slice(0, 1).toUpperCase() ?? 'F';
-      const body = kind?.slice(1) ?? 'igure';
-      return `${capital}${body}: ${children}`;
-    }
-    const label =
-      typeof children === 'string' ? backwardsCompatibleLabel(children, node.kind) : children;
+  captionNumber({ node }) {
+    // function backwardsCompatibleLabel(value: string, kind?: string) {
+    //   const capital = kind?.slice(0, 1).toUpperCase() ?? 'F';
+    //   const body = kind?.slice(1) ?? 'igure';
+    //   return `${capital}${body}: ${children}`;
+    // }
+    // const label =
+    //   typeof node.children === 'string' ? backwardsCompatibleLabel(node.children, node.kind) : node.children;
+    // TODO this isn't quite right!
     const id = node.html_id || node.identifier || node.key;
     return (
       <HashLink
-        key={node.key}
         id={id}
         kind={node.kind}
         className="mr-1 font-semibold text-inherit hover:text-inherit hover:font-semibold"
       >
-        {label}
+        <MySTChildren nodes={node.children} />
       </HashLink>
     );
   },
-  table(node, children) {
+  table({ node }) {
     // TODO: actually render the tbody on the server if it isn't included here.
     return (
-      <table key={node.key}>
-        <tbody>{children}</tbody>
+      <table>
+        <tbody>
+          <MySTChildren nodes={node.children} />
+        </tbody>
       </table>
     );
   },
-  tableRow(node, children) {
-    return <tr key={node.key}>{children}</tr>;
+  tableRow({ node }) {
+    return (
+      <tr>
+        <MySTChildren nodes={node.children} />
+      </tr>
+    );
   },
-  tableCell(node, children) {
+  tableCell({ node }) {
     const ifGreaterThanOne = (num?: number) => (num === 1 ? undefined : num);
     const attrs = {
-      key: node.key,
       rowSpan: ifGreaterThanOne(node.rowspan),
       colSpan: ifGreaterThanOne(node.colspan),
     };
-    if (node.header) return <th {...attrs}>{children}</th>;
-    return <td {...attrs}>{children}</td>;
-  },
-  subscript(node, children) {
-    return <sub key={node.key}>{children}</sub>;
-  },
-  superscript(node, children) {
-    return <sup key={node.key}>{children}</sup>;
-  },
-  abbreviation(node, children) {
+    if (node.header)
+      return (
+        <th {...attrs}>
+          <MySTChildren nodes={node.children} />
+        </th>
+      );
     return (
-      <Tooltip key={node.key} title={node.title}>
+      <td {...attrs}>
+        <MySTChildren nodes={node.children} />
+      </td>
+    );
+  },
+  subscript({ node }) {
+    return (
+      <sub>
+        <MySTChildren nodes={node.children} />
+      </sub>
+    );
+  },
+  superscript({ node }) {
+    return (
+      <sup>
+        <MySTChildren nodes={node.children} />
+      </sup>
+    );
+  },
+  abbreviation({ node }) {
+    return (
+      <Tooltip title={node.title}>
         <abbr aria-label={node.title} className="border-b border-dotted cursor-help">
-          {children}
+          <MySTChildren nodes={node.children} />
         </abbr>
       </Tooltip>
     );
@@ -236,33 +274,39 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   comment() {
     return null;
   },
-  definitionList(node, children) {
+  definitionList({ node }) {
     return (
-      <dl key={node.key} className="my-5" id={node.html_id}>
-        {children}
+      <dl className="my-5" id={node.html_id}>
+        <MySTChildren nodes={node.children} />
       </dl>
     );
   },
-  definitionTerm(node, children) {
-    let strongChildren: React.ReactNode = children;
-    if (Array.isArray(children)) {
-      const allowedStrongTypes = new Set(['emphasis']);
-      strongChildren = children.map((child, i) => {
-        if (typeof child === 'string') return <strong key={node.key + i}>{child}</strong>;
-        if (allowedStrongTypes.has(child?.type)) return <strong key={node.key + i}>{child}</strong>;
-        return child;
-      });
-    } else if (typeof children === 'string') {
-      strongChildren = <strong key={node.key + '0'}>{children}</strong>;
-    }
+  definitionTerm({ node }) {
+    // let strongChildren: React.ReactNode = children;
+    // if (Array.isArray(children)) {
+    //   const allowedStrongTypes = new Set(['emphasis']);
+    //   strongChildren = children.map((child, i) => {
+    //     if (typeof child === 'string') return <strong key={node.key + i}>{child}</strong>;
+    //     if (allowedStrongTypes.has(child?.type)) return <strong key={node.key + i}>{child}</strong>;
+    //     return child;
+    //   });
+    // } else if (typeof children === 'string') {
+    //   strongChildren = <strong key={node.key + '0'}>{children}</strong>;
+    // }
+
+    // TODO
     return (
-      <dt key={node.key} id={node.html_id}>
-        {strongChildren}
+      <dt id={node.html_id}>
+        <MySTChildren nodes={node.children} />
       </dt>
     );
   },
-  definitionDescription(node, children) {
-    return <dd key={node.key}>{children}</dd>;
+  definitionDescription({ node }) {
+    return (
+      <dd>
+        <MySTChildren nodes={node.children} />
+      </dd>
+    );
   },
 };
 

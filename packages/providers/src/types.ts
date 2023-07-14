@@ -1,6 +1,4 @@
+import type { GenericNode } from 'myst-common';
 import type React from 'react';
 
-export type NodeRenderer<T = any> = (
-  node: T & { type: string; key: string; html_id?: string },
-  children?: React.ReactNode,
-) => React.ReactNode;
+export type NodeRenderer<T = any> = React.FC<{ node: GenericNode & T }>;

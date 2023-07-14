@@ -16,6 +16,7 @@ import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
 import BoltIcon from '@heroicons/react/24/solid/BoltIcon';
 import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
 import classNames from 'classnames';
+import { MySTChildren } from './convertToReact';
 // import { AdmonitionKind } from 'myst-common';
 
 // TODO: get this from myst-spec?
@@ -220,28 +221,26 @@ export function Admonition({
   );
 }
 
-export const AdmonitionRenderer: NodeRenderer<AdmonitionSpec> = (node, children) => {
-  const [title, ...rest] = children as any[];
+export const AdmonitionRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
+  const [title, ...rest] = node.children as any[];
   const classes = getClasses(node.class);
   const { kind, color } = getFirstKind({ kind: node.kind, classes });
   const isDropdown = classes.includes('dropdown');
   const isSimple = classes.includes('simple');
   const hideIcon = (node as any).icon === false;
 
-  const useTitle = node.children?.[0].type === 'admonitionTitle';
+  const useTitle = title?.type === 'admonitionTitle';
 
   return (
     <Admonition
-      key={node.key}
-      title={useTitle ? title : undefined}
+      title={useTitle ? <MySTChildren nodes={[title]} /> : undefined}
       kind={kind}
       color={color}
       dropdown={isDropdown}
       simple={isSimple}
       hideIcon={hideIcon}
     >
-      {!useTitle && title}
-      {rest}
+      {useTitle ? <MySTChildren nodes={rest} /> : <MySTChildren nodes={node.children} />}
     </Admonition>
   );
 };

@@ -1,3 +1,5 @@
+import React from 'react';
+import type { GenericNode } from 'myst-common';
 import { SourceFileKind } from 'myst-common';
 import { useCellExecution } from './execute';
 import {
@@ -8,13 +10,30 @@ import {
 import { JupyterIcon } from '@scienceicons/react/24/solid';
 import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
 
+const PlaceholderContext = React.createContext<{ placeholder?: GenericNode }>({});
+
+function PlaceholderProvider({
+  placeholder,
+  children,
+}: React.PropsWithChildren<{ placeholder?: GenericNode }>) {
+  const value = React.useMemo(() => ({ placeholder }), [placeholder]);
+  return <PlaceholderContext.Provider value={value}>{children}</PlaceholderContext.Provider>;
+}
+
+export function usePlaceholder() {
+  const context = React.useContext(PlaceholderContext);
+  return context.placeholder;
+}
+
 export function OutputDecoration({
   outputId,
+  placeholder,
   children,
   title = 'Jupyter Notebook',
   url,
 }: {
   outputId: string;
+  placeholder?: GenericNode;
   children?: React.ReactNode;
   title?: string;
   url?: string;
@@ -26,7 +45,7 @@ export function OutputDecoration({
 
   if (showComputeControls) {
     return (
-      <div className="shadow">
+      <div className="mb-4 shadow">
         <div className="sticky top-[60px] z-[2] w-full bg-gray-100/80 backdrop-blur dark:bg-neutral-800/80 py-1 px-2">
           <div className="flex items-center">
             <div className="flex items-center">
@@ -47,7 +66,9 @@ export function OutputDecoration({
             <ArticleResetNotebook id={outputId} />
           </div>
         </div>
-        <div className="mt-2">{children}</div>
+        <div className="mt-2">
+          <PlaceholderProvider placeholder={placeholder}>{children}</PlaceholderProvider>
+        </div>
       </div>
     );
   }
@@ -56,7 +77,7 @@ export function OutputDecoration({
   if (kind === SourceFileKind.Article) {
     return (
       <>
-        {children}
+        <PlaceholderProvider placeholder={placeholder}>{children}</PlaceholderProvider>
         <div className="flex items-center justify-end text-xs">
           <JupyterIcon className="inline-block w-3 h-3" />
           <div className="ml-1">Source:</div>

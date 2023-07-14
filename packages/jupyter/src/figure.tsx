@@ -7,14 +7,17 @@ export function Figure({ node }: { node: GenericNode }) {
   const isFromJupyer = node.source?.kind === SourceFileKind.Notebook;
   const output = node.children?.find((child) => child.type === 'output');
   if (isFromJupyer && !!output) {
+    const placeholder = node.children?.find((child) => child.type === 'image' && child.placeholder);
+    const others = node.children?.filter((child) => !(child.type === 'image' && child.placeholder));
     return (
       <OutputDecoration
         key={node.key}
         outputId={output.id}
+        placeholder={placeholder}
         title={node.source?.title}
         url={node.source?.url}
       >
-        <MyST ast={node.children} />
+        <MyST ast={others} />
       </OutputDecoration>
     );
   }

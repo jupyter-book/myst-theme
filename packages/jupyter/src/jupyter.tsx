@@ -4,11 +4,14 @@ import { useFetchAnyTruncatedContent } from './hooks';
 import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages';
-import type { ThebeCore } from 'thebe-core';
+import { type ThebeCore } from 'thebe-core';
 import { SourceFileKind } from 'myst-common';
 import { useXRefState } from '@myst-theme/providers';
 import { useThebeLoader } from 'thebe-react';
 import { useCellExecution } from './execute';
+import { usePlaceholder } from './decoration';
+import { MyST } from 'myst-to-react';
+import classNames from 'classnames';
 
 function ActiveOutputRenderer({
   id,
@@ -20,6 +23,7 @@ function ActiveOutputRenderer({
   core: ThebeCore;
 }) {
   const exec = useCellExecution(id);
+  const placeholder = usePlaceholder();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -42,14 +46,26 @@ function ActiveOutputRenderer({
     }
   }, [ref?.current, exec?.cell]);
 
-  return <div ref={ref} data-thebe-active-ref="true" className="relative" />;
+  const executed = exec?.cell?.executionCount != null;
+  console.log(`Jupyter: Cell ${id} executed: ${executed}`);
+  console.log(`show output: ${executed || !placeholder}`);
+
+  return (
+    <div>
+      <div
+        ref={ref}
+        data-thebe-active-ref="true"
+        className={classNames('relative', { 'invisible h-0': !executed && placeholder })}
+      />
+      {placeholder && !executed && <MyST ast={placeholder} />}
+    </div>
+  );
 }
 
 function PassiveOutputRenderer({
   id,
   data,
   core,
-  kind,
 }: {
   id: string;
   data: IOutput[];
@@ -75,6 +91,7 @@ export const JupyterOutputs = React.memo(
     const { data, error } = useFetchAnyTruncatedContent(outputs);
     const [fullOutputs, setFullOutputs] = useState<IOutput[] | null>(null);
     const exec = useCellExecution(id);
+    const placeholder = usePlaceholder();
 
     useEffect(() => {
       if (core) return;
@@ -104,6 +121,10 @@ export const JupyterOutputs = React.memo(
           )}
         </div>
       );
+    }
+
+    if (placeholder) {
+      return <MyST ast={placeholder} />;
     }
 
     return (

@@ -86,11 +86,14 @@ function useHeaders(selector: string) {
 
   const highlight = useCallback(() => {
     const current = [...onScreen.current];
-    const highlighted = current.reduce((a, b) => {
-      if (a) return a;
-      if (b.classList.contains('highlight')) return b.id;
-      return null;
-    }, null as string | null);
+    const highlighted = current.reduce(
+      (a, b) => {
+        if (a) return a;
+        if (b.classList.contains('highlight')) return b.id;
+        return null;
+      },
+      null as string | null,
+    );
     const active = [...onScreen.current].sort((a, b) => a.offsetTop - b.offsetTop)[0];
     if (highlighted || active) setActiveId(highlighted || active.id);
   }, []);

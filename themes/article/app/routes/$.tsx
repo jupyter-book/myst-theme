@@ -88,7 +88,7 @@ export function ArticlePageAndNavigation({
 
 interface ArticleTemplateOptions {
   hide_toc?: boolean;
-  hide_footer?: boolean;
+  hide_footer_links?: boolean;
 }
 
 function formatToTitle(format: string) {
@@ -216,7 +216,7 @@ export function Article({
 }
 
 export function ArticlePage({ article }: { article: PageLoader }) {
-  const { projects, hide_footer } = (useSiteManifest() ?? {}) as SiteManifest &
+  const { projects, hide_footer_links } = (useSiteManifest() ?? {}) as SiteManifest &
     ArticleTemplateOptions;
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
@@ -310,7 +310,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
             )}
             <Article article={article} hideKeywords={!isIndex} hideTitle={isIndex} />
           </main>
-          {!hide_footer && <FooterLinksBlock links={article.footer} />}
+          {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ReferencesProvider>

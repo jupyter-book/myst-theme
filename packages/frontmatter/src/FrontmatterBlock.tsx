@@ -273,11 +273,15 @@ export function FrontmatterBlock({
   frontmatter,
   kind = SourceFileKind.Article,
   authorStyle = 'block',
+  hideBadges,
+  hideExports,
   className,
 }: {
   frontmatter: PageFrontmatter;
   kind?: SourceFileKind;
   authorStyle?: 'block' | 'list';
+  hideBadges?: boolean;
+  hideExports?: boolean;
   className?: string;
 }) {
   if (!frontmatter) return null;
@@ -306,7 +310,7 @@ export function FrontmatterBlock({
     return null;
   }
   return (
-    <div className={classNames('mb-8', className)}>
+    <div className={classNames(className)}>
       {hasHeaders && (
         <div className="flex items-center h-6 mt-3 mb-5 text-sm font-light">
           {subject && (
@@ -320,15 +324,19 @@ export function FrontmatterBlock({
           )}
           <Journal venue={venue} biblio={biblio} />
           <div className="flex-grow"></div>
-          <LicenseBadges license={license} />
-          <OpenAccessBadge open_access={open_access} />
-          <GitHubLink github={github} />
-          {isJupyter && (
-            <div className="inline-block mr-1">
-              <JupyterIcon className="inline-block w-5 h-5" />
-            </div>
+          {!hideBadges && (
+            <>
+              <LicenseBadges license={license} />
+              <OpenAccessBadge open_access={open_access} />
+              <GitHubLink github={github} />
+              {isJupyter && (
+                <div className="inline-block mr-1">
+                  <JupyterIcon className="inline-block w-5 h-5" />
+                </div>
+              )}
+            </>
           )}
-          <DownloadsDropdown exports={exports as any} />
+          {!hideExports && <DownloadsDropdown exports={exports as any} />}
         </div>
       )}
       {title && <h1 className="mb-0">{title}</h1>}

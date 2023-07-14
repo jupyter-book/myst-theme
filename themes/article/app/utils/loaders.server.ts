@@ -48,6 +48,10 @@ async function getStaticContent(slug?: string): Promise<PageLoader | null> {
   return updatePageStaticLinksInplace(data, updateLink);
 }
 
+export function isFlatSite(config?: SiteManifest): boolean {
+  return config?.projects?.length === 1 && !config.projects[0].slug;
+}
+
 export async function getPage(
   request: Request,
   opts: {

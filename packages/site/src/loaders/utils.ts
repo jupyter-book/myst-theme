@@ -101,6 +101,17 @@ export function updateSiteManifestStaticLinksInplace(
   if (data.logo_dark) data.logo_dark = updateUrl(data.logo_dark);
   // Update the thumbnails to point at the CDN
   data.projects?.forEach((project) => {
+    if (project.banner) project.banner = updateUrl(project.banner);
+    if (project.bannerOptimized) project.bannerOptimized = updateUrl(project.bannerOptimized);
+    if (project.thumbnail) project.thumbnail = updateUrl(project.thumbnail);
+    if (project.thumbnailOptimized)
+      project.thumbnailOptimized = updateUrl(project.thumbnailOptimized);
+    if (project?.exports) {
+      project.exports = project.exports.map((exp) => {
+        if (!exp.url) return exp;
+        return { ...exp, url: updateUrl(exp.url) };
+      });
+    }
     project.pages
       .filter((page): page is ManifestProjectItem => 'slug' in page)
       .forEach((page) => {
@@ -117,6 +128,12 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
   }
   if (data?.frontmatter?.thumbnailOptimized) {
     data.frontmatter.thumbnailOptimized = updateUrl(data.frontmatter.thumbnailOptimized);
+  }
+  if (data?.frontmatter?.banner) {
+    data.frontmatter.banner = updateUrl(data.frontmatter.banner);
+  }
+  if (data?.frontmatter?.bannerOptimized) {
+    data.frontmatter.bannerOptimized = updateUrl(data.frontmatter.bannerOptimized);
   }
   if (data?.frontmatter?.exports) {
     data.frontmatter.exports = data.frontmatter.exports.map((exp) => {
@@ -142,8 +159,8 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
   outputs.forEach((node) => {
     if (!node.data) return;
     walkOutputs(node.data, (obj) => {
-      // The path will be defined from output of myst-cli
-      // Here we are re-asigning it to the current domain
+      // The path will be defined from output of myst
+      // Here we are re-assigning it to the current domain
       if (!obj.path) return;
       obj.path = updateUrl(obj.path);
     });

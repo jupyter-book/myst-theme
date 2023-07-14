@@ -93,7 +93,13 @@ export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
     <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={article.project}>
       <main ref={container} className="article-grid article-subgrid-gap col-screen">
         <ArticlePage article={article} />
-        {!hide_outline && <DocumentOutline outlineRef={outline} top={top} />}
+        {!hide_outline && (
+          <DocumentOutline
+            outlineRef={outline}
+            top={top}
+            className="fixed bottom-0 right-[max(0px,calc(50%-45rem))] w-[14rem] lg:w-[18rem] py-10 px-4 lg:px-8 overflow-y-auto hidden lg:block"
+          />
+        )}
       </main>
     </ArticlePageAndNavigation>
   );

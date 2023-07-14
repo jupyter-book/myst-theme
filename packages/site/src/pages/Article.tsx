@@ -33,7 +33,11 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
       <BusyScopeProvider>
         <ExecuteScopeProvider contents={article}>
           {!hide_title_block && (
-            <FrontmatterBlock kind={article.kind} frontmatter={article.frontmatter} />
+            <FrontmatterBlock
+              kind={article.kind}
+              frontmatter={article.frontmatter}
+              className="mb-8"
+            />
           )}
           {binderUrl && !canCompute && (
             <div className="flex justify-end">

@@ -68,7 +68,7 @@ export function notebookFromMdast(
     } else {
       // assume content - concatenate it
       // TODO inject cell metadata
-      const cell = new core.ThebeNonExecutableCell(
+      const cell = new core.ThebeMarkdownCell(
         block.key,
         notebook.id,
         block.children.reduce((acc, child) => acc + '\n' + (child.value ?? ''), ''),

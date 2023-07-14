@@ -60,7 +60,7 @@ export function Document({
           analytics_plausible={config?.analytics_plausible}
         />
       </head>
-      <body className="m-0 bg-white transition-colors duration-500 dark:bg-stone-900">
+      <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <ThemeProvider theme={theme} renderers={renderers} {...links}>
           <BaseUrlProvider baseurl={baseurl}>
             <ThebeBundleLoaderProvider loadThebeLite publicPath={baseurl}>
@@ -83,21 +83,6 @@ export function App() {
   const { theme, config } = useLoaderData<SiteLoader>();
   return (
     <Document theme={theme} config={config}>
-      <Outlet />
-    </Document>
-  );
-}
-
-export function AppWithReload() {
-  const { theme, config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
-  return (
-    <Document
-      theme={theme}
-      config={config}
-      scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
-      staticBuild={MODE === 'static'}
-      baseurl={BASE_URL}
-    >
       <Outlet />
     </Document>
   );

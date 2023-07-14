@@ -26,7 +26,7 @@ type Props = {
  * scrollIntoView is used to ensure that when a user clicks on an item, it will smoothly scroll.
  */
 const Headings = ({ headings, activeId, highlight, selector }: Props) => (
-  <ul className="text-sm text-slate-400 leading-6">
+  <ul className="text-sm leading-6 text-slate-400">
     {headings.map((heading) => (
       <li
         key={heading.id}
@@ -43,7 +43,7 @@ const Headings = ({ headings, activeId, highlight, selector }: Props) => (
             'text-slate-500 dark:text-slate-300': heading.level >= 3 && heading.id !== activeId,
             'text-blue-600 dark:text-white font-bold': heading.id === activeId,
             'pr-2': heading.id !== activeId, // Allows for bold to change length
-            'pl-2': heading.level === 2,
+            'pl-2': heading.level === 1 || heading.level === 2,
             'pl-4': heading.level === 3,
             'pl-8 text-xs': heading.level === 4,
             'pl-10 text-xs font-light': heading.level === 5,
@@ -156,9 +156,6 @@ const useIntersectionObserver = (highlight: () => void, onScreen: Set<HTMLHeadin
   return { observer };
 };
 
-const DOC_OUTLINE_CLASS =
-  'fixed bottom-0 right-[max(0px,calc(50%-45rem))] w-[14rem] lg:w-[18rem] py-10 px-4 lg:px-8 overflow-y-auto hidden lg:block';
-
 export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
   const container = useRef<T>(null);
   const outline = useRef<T>(null);
@@ -186,7 +183,7 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
 export const DocumentOutline = ({
   outlineRef,
   top,
-  className = DOC_OUTLINE_CLASS,
+  className,
   selector = SELECTOR,
 }: {
   outlineRef?: React.RefObject<HTMLElement>;
@@ -204,7 +201,7 @@ export const DocumentOutline = ({
       ref={outlineRef}
       aria-label="Document Outline"
       className={classNames(
-        'not-prose overflow-y-auto hidden',
+        'not-prose overflow-y-auto',
         'transition-opacity duration-700', // Animation on load
         className,
       )}
@@ -213,7 +210,7 @@ export const DocumentOutline = ({
         maxHeight: `calc(100vh - ${(top ?? 0) + 20}px)`,
       }}
     >
-      <div className="mb-4 text-sm uppercase text-slate-900 leading-6 dark:text-slate-100">
+      <div className="mb-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">
         In this article
       </div>
       <Headings headings={headings} activeId={activeId} highlight={highlight} selector={selector} />

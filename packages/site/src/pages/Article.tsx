@@ -17,7 +17,13 @@ import {
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 
-export const ArticlePage = React.memo(function ({ article }: { article: PageLoader }) {
+export const ArticlePage = React.memo(function ({
+  article,
+  hide_all_footer_links,
+}: {
+  article: PageLoader;
+  hide_all_footer_links?: boolean;
+}) {
   const canCompute = useCanCompute(article);
   const { binderBadgeUrl } = useComputeOptions();
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
@@ -45,11 +51,12 @@ export const ArticlePage = React.memo(function ({ article }: { article: PageLoad
             </div>
           )}
           {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
-          {/* {canCompute && article.kind === SourceFileKind.Article && <NotebookToolbar />} */}
           <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
           <Bibliography />
           <ConnectionStatusTray />
-          {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
+          {!hide_footer_links && !hide_all_footer_links && (
+            <FooterLinksBlock links={article.footer} />
+          )}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ReferencesProvider>

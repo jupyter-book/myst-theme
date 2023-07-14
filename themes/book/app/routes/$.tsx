@@ -15,7 +15,7 @@ import {
 import { getConfig, getPage, isFlatSite } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
-import { TabStateProvider, UiStateProvider } from '@myst-theme/providers';
+import { TabStateProvider, UiStateProvider, useSiteManifest } from '@myst-theme/providers';
 import { MadeWithMyst } from '@myst-theme/icons';
 
 export const meta: MetaFunction = (args) => {
@@ -85,14 +85,23 @@ export function ArticlePageAndNavigation({
   );
 }
 
+interface BookThemeTemplateOptions {
+  hide_toc?: boolean;
+  hide_outline?: boolean;
+  hide_footer_links?: boolean;
+}
+
 export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
   const { container, outline } = useOutlineHeight();
   const article = useLoaderData<PageLoader>() as PageLoader;
-  const { hide_outline, hide_toc } = (article.frontmatter as any)?.design ?? {};
+  const pageDesign: BookThemeTemplateOptions = (article.frontmatter as any)?.design ?? {};
+  const siteDesign: BookThemeTemplateOptions =
+    (useSiteManifest() as SiteManifest & BookThemeTemplateOptions) ?? {};
+  const { hide_toc, hide_outline, hide_footer_links } = { ...siteDesign, ...pageDesign };
   return (
     <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={article.project}>
       <main ref={container} className="article-grid article-subgrid-gap col-screen">
-        <ArticlePage article={article} />
+        <ArticlePage article={article} hide_all_footer_links={hide_footer_links} />
         {!hide_outline && (
           <DocumentOutline
             outlineRef={outline}

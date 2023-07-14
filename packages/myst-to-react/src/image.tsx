@@ -110,10 +110,9 @@ function Picture({
   );
 }
 
-export const Image: NodeRenderer<ImageNode> = (node) => {
+export const Image: NodeRenderer<ImageNode> = ({ node }) => {
   return (
     <Picture
-      key={node.key}
       src={node.url}
       srcOptimized={(node as any).urlOptimized}
       alt={node.alt || node.title}

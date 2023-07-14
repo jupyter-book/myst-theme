@@ -2,6 +2,8 @@ import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { MyST } from './MyST';
+import type { GenericNode } from 'myst-common';
 
 type CardSpec = {
   type: 'card';
@@ -18,43 +20,37 @@ type FooterSpec = {
   type: 'footer';
 };
 
-export const Header: NodeRenderer<HeaderSpec> = (node, children) => {
+export const Header: NodeRenderer<HeaderSpec> = ({ node }) => {
   return (
-    <header
-      key={node.key}
-      className="py-1 pl-3 m-0 border-b border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800"
-    >
-      {children}
+    <header className="py-1 pl-3 m-0 border-b border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800">
+      <MyST ast={node.children} />
     </header>
   );
 };
 
-export const Footer: NodeRenderer<FooterSpec> = (node, children) => {
+export const Footer: NodeRenderer<FooterSpec> = ({ node }) => {
   return (
-    <footer
-      key={node.key}
-      className="py-1 pl-3 m-0 border-t border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800"
-    >
-      {children}
+    <footer className="py-1 pl-3 m-0 border-t border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800">
+      <MyST ast={node.children} />
     </footer>
   );
 };
 
-export const CardTitle: NodeRenderer<CardTitleSpec> = (node, children) => {
+export const CardTitle: NodeRenderer<CardTitleSpec> = ({ node }) => {
   return (
-    <div key={node.key} className="pt-3 font-bold group-hover:underline">
-      {children}
+    <div className="pt-3 font-bold group-hover:underline">
+      <MyST ast={node.children} />
     </div>
   );
 };
 
 type Parts = {
-  header?: React.ReactNode;
-  body?: React.ReactNode;
-  footer?: React.ReactNode;
+  header?: GenericNode[];
+  body?: GenericNode[];
+  footer?: GenericNode[];
 };
 
-function getParts(children: React.ReactNode): Parts {
+function getParts(children?: GenericNode[]): Parts {
   const parts: Parts = {};
   if (!Array.isArray(children)) return parts;
   const next = [...children];
@@ -97,16 +93,10 @@ function ExternalOrInternalLink({
   );
 }
 
-function Card({
-  children,
-  url,
-  isStatic,
-}: {
-  children: React.ReactNode;
-  url?: string;
-  isStatic?: boolean;
-}) {
-  const parts = getParts(children);
+export const CardRenderer: NodeRenderer<CardSpec> = ({ node }) => {
+  const parts = getParts(node.children);
+  const url = node.url;
+  const isStatic = node.static || false;
   const link = !!url;
   const sharedStyle =
     'my-5 rounded shadow dark:shadow-neutral-800 overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col';
@@ -122,26 +112,22 @@ function Card({
           'hover:border-blue-500 dark:hover:border-blue-400',
         )}
       >
-        {parts.header}
-        <div className="flex-grow px-4 py-2">{parts.body}</div>
-        {parts.footer}
+        <MyST ast={parts.header} />
+        <div className="flex-grow px-4 py-2">
+          <MyST ast={parts.body} />
+        </div>
+        <MyST ast={parts.footer} />
       </ExternalOrInternalLink>
     );
   }
   return (
     <div className={sharedStyle}>
-      {parts.header}
-      <div className="flex-grow px-4 py-2">{parts.body}</div>
-      {parts.footer}
+      <MyST ast={parts.header} />
+      <div className="flex-grow px-4 py-2">
+        <MyST ast={parts.body} />
+      </div>
+      <MyST ast={parts.footer} />
     </div>
-  );
-}
-
-export const CardRenderer: NodeRenderer<CardSpec> = (node, children) => {
-  return (
-    <Card key={node.key} url={node.url} isStatic={node.static || false}>
-      {children}
-    </Card>
   );
 };
 

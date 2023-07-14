@@ -38,6 +38,6 @@ export function MermaidRenderer({ id, value }: { value: string; id: string }) {
   );
 }
 
-export const MermaidNodeRenderer: NodeRenderer = (node) => {
-  return <MermaidRenderer key={node.key} id={node.key} value={node.value} />;
+export const MermaidNodeRenderer: NodeRenderer = ({ node }) => {
+  return <MermaidRenderer id={node.key} value={node.value} />;
 };

@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import ExclamationCircleIcon from '@heroicons/react/24/outline/ExclamationCircleIcon';
 import type { InlineMath, Math } from 'myst-spec';
 import { InlineError } from './inlineError';
@@ -36,11 +35,11 @@ type MathLike = (InlineMath | Math) & {
   html?: string;
 };
 
-const mathRenderer: NodeRenderer<MathLike> = (node) => {
+const mathRenderer: NodeRenderer<MathLike> = ({ node }) => {
   if (node.type === 'math') {
     if (node.error || !node.html) {
       return (
-        <pre key={node.key} title={node.message}>
+        <pre title={node.message}>
           <span className="text-red-500">
             <ExclamationCircleIcon className="inline h-[1em] mr-1" />
             {node.message}
@@ -52,7 +51,7 @@ const mathRenderer: NodeRenderer<MathLike> = (node) => {
     }
     const id = node.html_id || node.identifier || node.key;
     return (
-      <div key={node.key} id={id} className="flex my-5 group">
+      <div id={id} className="flex my-5 group">
         <div
           dangerouslySetInnerHTML={{ __html: node.html }}
           className="flex-grow overflow-x-auto overflow-y-hidden"
@@ -68,10 +67,10 @@ const mathRenderer: NodeRenderer<MathLike> = (node) => {
     );
   }
   if (node.error || !node.html) {
-    return <InlineError key={node.key} value={node.value} message={node.message} />;
+    return <InlineError value={node.value} message={node.message} />;
   }
-  return <span key={node.key} dangerouslySetInnerHTML={{ __html: node.html }} />;
-  // return <Math key={node.key} html={node.html} value={node.value as string} />;
+  return <span dangerouslySetInnerHTML={{ __html: node.html }} />;
+  // return <Math html={node.html} value={node.value as string} />;
 };
 
 const MATH_RENDERERS = {

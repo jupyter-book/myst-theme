@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { selectAll } from 'unist-util-select';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { useTabSet } from '@myst-theme/providers';
+import { MyST } from './MyST';
 
 interface TabItem extends GenericNode {
   key: string;
@@ -79,7 +80,7 @@ export function TabItem({
   return <div className={classNames({ hidden: !open })}>{children}</div>;
 }
 
-export const TabSetRenderer: NodeRenderer = (node, children) => {
+export const TabSetRenderer: NodeRenderer = ({ node }) => {
   // Add the key as the ID (key is special in react)
   const tabs = (selectAll('tabItem', node) as TabItem[]).map((tab) => ({
     title: tab.title,
@@ -87,16 +88,16 @@ export const TabSetRenderer: NodeRenderer = (node, children) => {
     sync: tab.sync,
   }));
   return (
-    <TabSet key={node.key} tabs={tabs}>
-      {children}
+    <TabSet tabs={tabs}>
+      <MyST ast={node.children} />
     </TabSet>
   );
 };
 
-export const TabItemRenderer: NodeRenderer<TabItem> = (node, children) => {
+export const TabItemRenderer: NodeRenderer<TabItem> = ({ node }) => {
   return (
-    <TabItem key={node.key} id={node.key}>
-      {children}
+    <TabItem id={node.key}>
+      <MyST ast={node.children} />
     </TabItem>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
 import classNames from 'classnames';
+import { MyST } from './MyST';
 
 type DropdownSpec = {
   type: 'details';
@@ -13,8 +14,8 @@ type SummarySpec = {
 
 const iconClass = 'h-8 w-8 inline-block pl-2 mr-2 -translate-y-[1px]';
 
-export const SummaryTitle: NodeRenderer<SummarySpec> = (node, children) => {
-  return children;
+export const SummaryTitle: NodeRenderer<SummarySpec> = ({ node }) => {
+  return <MyST ast={node.children} />;
 };
 
 export function Details({
@@ -55,11 +56,11 @@ export function Details({
   );
 }
 
-export const DetailsRenderer: NodeRenderer<DropdownSpec> = (node, children) => {
-  const [title, ...rest] = children as any[];
+export const DetailsRenderer: NodeRenderer<DropdownSpec> = ({ node }) => {
+  const [title, ...rest] = node.children as any[];
   return (
-    <Details key={node.key} title={title} open={node.open}>
-      {rest}
+    <Details title={<MyST ast={[title]} />} open={node.open}>
+      <MyST ast={rest} />
     </Details>
   );
 };

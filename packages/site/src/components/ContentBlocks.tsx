@@ -1,7 +1,6 @@
-import { useParse, DEFAULT_RENDERERS } from 'myst-to-react';
+import { MyST } from 'myst-to-react';
 import { SourceFileKind } from 'myst-common';
 import type { GenericParent } from 'myst-common';
-import { useNodeRenderers } from '@myst-theme/providers';
 import classNames from 'classnames';
 import {
   NotebookClearCell,
@@ -31,8 +30,6 @@ function Block({
   node: GenericParent;
   className?: string;
 }) {
-  const renderers = useNodeRenderers() ?? DEFAULT_RENDERERS;
-  const children = useParse(node, renderers);
   const subGrid = 'article-grid article-subgrid-gap col-screen';
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
   // Hide the subgrid if either the dataClass or the className exists and includes `col-`
@@ -61,7 +58,7 @@ function Block({
           </div>
         </>
       )}
-      {children}
+      <MyST ast={node.children} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
+import { MyST } from './MyST';
 
 type GridSpec = {
   type: 'grid';
@@ -114,10 +115,10 @@ function Grid({ columns, children }: { columns?: number[]; children: React.React
   );
 }
 
-export const GridRenderer: NodeRenderer<GridSpec> = (node, children) => {
+export const GridRenderer: NodeRenderer<GridSpec> = ({ node }) => {
   return (
-    <Grid key={node.key} columns={node.columns}>
-      {children}
+    <Grid columns={node.columns}>
+      <MyST ast={node.children} />
     </Grid>
   );
 };

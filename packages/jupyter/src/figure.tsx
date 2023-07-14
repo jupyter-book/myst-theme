@@ -1,13 +1,11 @@
 import { SourceFileKind, type GenericNode } from 'myst-common';
-import { DEFAULT_RENDERERS } from 'myst-to-react';
+import { DEFAULT_RENDERERS, MyST } from 'myst-to-react';
 import { OutputDecoration } from './decoration';
 
-export function Figure(node: GenericNode, children: React.ReactNode) {
-  const { container } = DEFAULT_RENDERERS;
-  console.log('container', node);
+export function Figure({ node }: { node: GenericNode }) {
+  const { container: Container } = DEFAULT_RENDERERS;
   const isFromJupyer = node.source?.kind === SourceFileKind.Notebook;
   const output = node.children?.find((child) => child.type === 'output');
-  console.log('output', children);
   if (isFromJupyer && !!output) {
     return (
       <OutputDecoration
@@ -16,10 +14,9 @@ export function Figure(node: GenericNode, children: React.ReactNode) {
         title={node.source?.title}
         url={node.source?.url}
       >
-        {children}
+        <MyST ast={node.children} />
       </OutputDecoration>
     );
   }
-
-  return container(node, children);
+  return <Container node={node} />;
 }

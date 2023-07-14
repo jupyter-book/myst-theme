@@ -1,13 +1,11 @@
 import { type GenericNode } from 'myst-common';
-import { select } from 'unist-util-select';
 import { JupyterOutput } from './output';
 import { OutputDecoration } from './decoration';
+import { MyST } from 'myst-to-react';
 
-export function Embed(node: GenericNode, children: React.ReactNode) {
-  // TODO do we need to select or is the output expected to be the first/only child?
-  const output = select('output', node) as GenericNode;
-  if (!output) return <>{children}</>;
-  // TODO maybe we just call Output(node) here?
+export function Embed({ node }: { node: GenericNode }) {
+  const output = node.children?.find((child) => child.type === 'output');
+  if (!output) return <MyST ast={node.children} />;
   return (
     <OutputDecoration
       key={node.key}

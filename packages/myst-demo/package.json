@@ -38,7 +38,7 @@
     "myst-to-jats": "^1.0.7",
     "myst-to-react": "^0.3.8",
     "myst-to-tex": "^1.0.4",
-    "myst-to-typst": "^0.0.0",
+    "myst-to-typst": "^0.0.1",
     "myst-transforms": "^1.0.5",
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.2",

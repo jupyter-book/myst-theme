@@ -1,4 +1,4 @@
-import type { Dependency, SourceFileKind } from 'myst-common';
+import type { SourceFileKind, Dependency } from 'myst-spec-ext';
 import type { Root } from 'mdast';
 import type { BuildStatus, Computable } from './types';
 import type { IRenderMimeRegistry, ThebeNotebook, ThebeSession } from 'thebe-core';

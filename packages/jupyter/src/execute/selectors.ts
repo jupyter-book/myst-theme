@@ -1,4 +1,4 @@
-import { SourceFileKind, type Dependency } from 'myst-common';
+import { SourceFileKind, type Dependency } from 'myst-spec-ext';
 import type { BuildStatus, ExecuteScopeState } from './types';
 
 export function selectScopeForPage(state: ExecuteScopeState, pageSlug: string) {
@@ -47,10 +47,10 @@ export function selectDependenciesToFetch(state: ExecuteScopeState) {
       (targets, [slug]) => [
         ...targets,
         ...state.pages[slug].dependencies
-          .filter((d: Dependency) => !state.mdast[d.slug ?? d.url])
+          .filter((d: Dependency) => !state.mdast[(d.slug ?? d.url) as string])
           .map((d: Dependency) => ({
-            slug: d.slug ?? d.url,
-            url: d.url,
+            slug: (d.slug ?? d.url) as string,
+            url: d.url as string,
           })),
       ],
       [],
@@ -69,7 +69,7 @@ function makeSelectScopeEventStatus(statusName: BuildStatus) {
         targets.push(
           ...state.pages[slug].dependencies.map((d) => ({
             pageSlug: slug,
-            notebookSlug: d.slug ?? d.url,
+            notebookSlug: (d.slug ?? d.url) as string,
           })),
         );
         return [...all, ...targets];
@@ -81,16 +81,22 @@ export const selectScopeNotebooksToBuild = makeSelectScopeEventStatus('build-not
 export const selectSessionsToStart = makeSelectScopeEventStatus('start-session');
 
 export function selectAreAllDependenciesReady(state: ExecuteScopeState, slug: string) {
-  return state.pages[slug]?.dependencies.every((dep) => !!state.mdast[dep.slug ?? dep.url]);
+  return state.pages[slug]?.dependencies.every(
+    (dep) => !!state.mdast[(dep.slug ?? dep.url) as string],
+  );
 }
 
 export function selectAreAllNotebookScopesBuilt(state: ExecuteScopeState, slug: string) {
   const rendering = state.pages[slug];
-  return rendering?.dependencies.every((dep) => !!rendering.scopes[dep.slug ?? dep.url]);
+  return rendering?.dependencies.every(
+    (dep) => !!rendering.scopes[(dep.slug ?? dep.url) as string],
+  );
 }
 
 export function selectAreAllSessionsStarted(state: ExecuteScopeState, slug: string) {
   const rendering = state.pages[slug];
   // TODO is this working??
-  return rendering?.dependencies.every((dep) => !!rendering.scopes[dep.slug ?? dep.url]?.session);
+  return rendering?.dependencies.every(
+    (dep) => !!rendering.scopes[(dep.slug ?? dep.url) as string]?.session,
+  );
 }

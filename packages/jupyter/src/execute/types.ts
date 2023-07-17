@@ -1,5 +1,5 @@
 import type { Root } from 'mdast';
-import type { SourceFileKind, Dependency } from 'myst-common';
+import type { SourceFileKind, Dependency } from 'myst-spec-ext';
 import type { IRenderMimeRegistry, ThebeNotebook, ThebeSession } from 'thebe-core';
 
 export type BuildStatus =

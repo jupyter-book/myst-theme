@@ -1,5 +1,5 @@
 import { MyST } from 'myst-to-react';
-import { SourceFileKind } from 'myst-common';
+import { SourceFileKind } from 'myst-spec-ext';
 import type { GenericParent } from 'myst-common';
 import classNames from 'classnames';
 import {

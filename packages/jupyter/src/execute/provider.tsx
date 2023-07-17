@@ -1,5 +1,5 @@
-import type { Dependency } from 'myst-common';
-import { SourceFileKind } from 'myst-common';
+import type { Dependency } from 'myst-spec-ext';
+import { SourceFileKind } from 'myst-spec-ext';
 import type { Root } from 'mdast';
 import React, { useEffect, useReducer, useRef } from 'react';
 import { selectAll } from 'unist-util-select';

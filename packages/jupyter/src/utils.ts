@@ -87,7 +87,7 @@ export function thebeFrontmatterToOptions(
   }
 
   // handle thebe.local.*
-  // as local OVERIDES other binder and server settings, handle these first
+  // as local OVERRIDES other binder and server settings, handle these first
   // TODO need to expose NODE_ENV somehow via a loader
   let NODE_ENV = 'development';
   if (typeof window !== 'undefined') {
@@ -109,7 +109,7 @@ export function thebeFrontmatterToOptions(
     // else just fall through & return - TODO return early?
   }
 
-  // handle additional optons
+  // handle additional options
   if (kernelName) {
     thebeOptions.kernelOptions = {
       kernelName: kernelName,

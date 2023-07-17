@@ -1,4 +1,4 @@
-import type { SourceFileKind } from 'myst-common';
+import type { SourceFileKind } from 'myst-spec-ext';
 import React from 'react';
 import { ThebeServerProvider } from 'thebe-react';
 import type { Root } from 'mdast';

@@ -212,7 +212,7 @@ export function MySTRenderer({
       setTex(result.tex);
       setTexWarnings(result.texWarnings);
       setTypst(result.typst);
-      setTypstWarnings(result.texWarnings);
+      setTypstWarnings(result.typstWarnings);
       setJats(result.jats);
       setJatsWarnings(result.jatsWarnings);
       setWarnings(result.warnings);

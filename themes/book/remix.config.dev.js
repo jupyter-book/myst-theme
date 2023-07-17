@@ -45,6 +45,7 @@ module.exports = {
     'doi-utils',
     'orcid',
     'credit-roles',
+    'tex-to-typst',
     'jats-tags',
     '@myst-theme/providers',
     '@myst-theme/icons',

@@ -138,7 +138,7 @@ async function parse(
     .stringify(mdast as any, texFile).result as LatexResult;
   const typstFile = new VFile();
   const typst = unified()
-    .use(mystToTypst, { references })
+    .use(mystToTypst)
     .stringify(mdast as any, typstFile).result as TypstResult;
   const jatsFile = new VFile();
   const jats: any = mystToJats

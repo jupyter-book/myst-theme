@@ -3,7 +3,6 @@ import { SourceFileKind } from 'myst-spec-ext';
 import type { GenericParent } from 'myst-common';
 import classNames from 'classnames';
 import {
-  ErrorTray,
   NotebookClearCell,
   NotebookRunCell,
   NotebookRunCellSpinnerOnly,

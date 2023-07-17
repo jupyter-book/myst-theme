@@ -174,7 +174,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
       const execReturns = await nb.executeAll(true);
       const errs = findErrors(execReturns);
       if (errs != null) {
-        console.error('an error occured during notebook execution'); // TODO: handle errors
+        console.error('an error occurred during notebook execution');
         busy.setError(pageSlug, notebookSlug, errs);
         busy.clearNotebook(pageSlug, notebookSlug, 'execute');
       }

@@ -12,7 +12,7 @@ import {
   Link,
   NavLink,
 } from '@remix-run/react';
-import { ContentReload, renderers } from '../components';
+import { renderers } from '../components';
 import { Analytics } from '../seo';
 import { Error404 } from './Error404';
 import classNames from 'classnames';

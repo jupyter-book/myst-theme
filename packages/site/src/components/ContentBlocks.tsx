@@ -37,7 +37,7 @@ function Block({
     (dataClassName && dataClassName.includes('col-')) || (className && className.includes('col-'));
   return (
     <div
-      key={id}
+      key={`block-${id}`}
       id={id}
       className={classNames('relative group/block', className, dataClassName, {
         [subGrid]: !noSubGrid,

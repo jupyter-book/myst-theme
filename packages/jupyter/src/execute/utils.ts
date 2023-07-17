@@ -37,6 +37,7 @@ export function notebookFromMdast(
 
   // no metadata included in mdast yet
   //Object.assign(notebook.metadata, ipynb.metadata);
+
   notebook.cells = (mdast.children as GenericParent[]).map((block: GenericParent) => {
     if (block.type !== 'block') console.warn(`Unexpected block type ${block.type}`);
     if (block.children.length == 2 && block.children[0].type === 'code') {
@@ -51,12 +52,14 @@ export function notebookFromMdast(
         cellId: block.key,
       };
 
-      idkmap[block.key] = target;
-      idkmap[codeCell.key] = target;
-      idkmap[output.key] = target;
-      // include block labels to enable lookup by from embedded blocks
-      if (block.label) idkmap[block.label] = target;
+      idkmap[block.key] = target; // can reference from block in notebook views
+      idkmap[output.id] = target; // can reference from output in article views
+
+      // include identifiers to enable lookup by (normalized) labels
       if (block.identifier) idkmap[block.identifier] = target;
+      if (codeCell.identifier) idkmap[codeCell.identifier] = target;
+      if (output.identifier) idkmap[output.identifier] = target;
+
       return new core.ThebeCodeCell(
         target.cellId,
         notebook.id,

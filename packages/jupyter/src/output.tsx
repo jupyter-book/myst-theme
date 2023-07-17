@@ -34,20 +34,18 @@ export function allOutputsAreSafe(
   }, true);
 }
 
-function JupyterOutput({
-  nodeKey,
-  nodeType,
+export function JupyterOutput({
+  outputId,
   identifier,
   data,
   align,
 }: {
-  nodeKey: string;
+  outputId: string;
   identifier?: string;
   data: MinifiedOutput[];
-  nodeType?: string;
   align?: 'left' | 'center' | 'right';
 }) {
-  const { ready } = useCellExecution(nodeKey);
+  const { ready } = useCellExecution(outputId);
   const outputs: MinifiedOutput[] = data;
   const allSafe = useMemo(
     () => allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES),
@@ -56,16 +54,15 @@ function JupyterOutput({
 
   let component;
   if (allSafe && !ready) {
-    component = <SafeOutputs keyStub={nodeKey} outputs={outputs} />;
+    component = <SafeOutputs keyStub={outputId} outputs={outputs} />;
   } else {
-    component = <JupyterOutputs id={nodeKey} outputs={outputs} />;
+    component = <JupyterOutputs id={outputId} outputs={outputs} />;
   }
 
   return (
     <figure
       id={identifier || undefined}
-      data-mdast-node-type={nodeType}
-      data-mdast-node-id={nodeKey}
+      data-mdast-node-id={outputId}
       className={classNames(
         'max-w-full overflow-y-visible overflow-x-auto m-0 group not-prose relative',
         {
@@ -83,8 +80,7 @@ function JupyterOutput({
 export function Output({ node }: { node: GenericNode }) {
   return (
     <JupyterOutput
-      nodeKey={node.key}
-      nodeType={node.type}
+      outputId={node.id}
       identifier={node.identifier}
       align={node.align}
       data={node.data}

@@ -1,4 +1,5 @@
 import React, { useCallback, useReducer } from 'react';
+import type { IThebeNotebookError } from 'thebe-react';
 
 export type BusyKind = 'execute' | 'reset';
 
@@ -15,6 +16,11 @@ export interface BusyScopeState {
       [notebookSlug: string]: {
         [cellId: string]: boolean;
       };
+    };
+  };
+  error: {
+    [pageSlug: string]: {
+      [notebookSlug: string]: IThebeNotebookError[];
     };
   };
 }
@@ -71,10 +77,33 @@ export interface NotebookPayload {
   kind: BusyKind;
 }
 
+function isErrorPayload(payload: unknown): payload is ErrorPayload {
+  return (
+    (typeof (payload as SlugPayload).pageSlug === 'string' &&
+      typeof (payload as SlugPayload).notebookSlug === 'string' &&
+      (payload as ErrorPayload).errors === undefined) ||
+    ((Array.isArray((payload as ErrorPayload).errors) &&
+      (payload as ErrorPayload).errors?.every((error) => typeof error === 'object')) ??
+      false)
+  );
+}
+
+export interface ErrorPayload {
+  pageSlug: string;
+  notebookSlug: string;
+  errors?: IThebeNotebookError[];
+}
+
 // TODO action typing is not giving build time type errors :(
 type BusyScopeAction = {
-  type: 'SET_CELL_BUSY' | 'CLEAR_CELL_BUSY' | 'SET_NOTEBOOK_BUSY' | 'CLEAR_NOTEBOOK_BUSY';
-  payload: SlugPayload | CellPayload | NotebookPayload;
+  type:
+    | 'SET_CELL_BUSY'
+    | 'CLEAR_CELL_BUSY'
+    | 'SET_NOTEBOOK_BUSY'
+    | 'CLEAR_NOTEBOOK_BUSY'
+    | 'SET_ERROR'
+    | 'CLEAR_ERROR';
+  payload: SlugPayload | CellPayload | NotebookPayload | ErrorPayload;
 };
 
 export function reducer(state: BusyScopeState, action: BusyScopeAction): BusyScopeState {
@@ -206,12 +235,70 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
         },
       };
     }
+    case 'SET_ERROR': {
+      if (!isErrorPayload(action.payload)) {
+        console.error('SET_ERROR payload must be an error payload', action.payload);
+        return state;
+      }
+
+      const { pageSlug, notebookSlug, errors } = action.payload;
+
+      if (!errors) {
+        console.error('SET_ERROR payload must have errors', action.payload);
+        return state;
+      }
+      if (state.error[pageSlug]) return state;
+      if (state.error[pageSlug]?.[notebookSlug]) return state;
+
+      return {
+        ...state,
+        error: {
+          ...state.error,
+          [pageSlug]: {
+            ...state.error[pageSlug],
+            [notebookSlug]: errors,
+          },
+        },
+      };
+    }
+    case 'CLEAR_ERROR': {
+      if (!isErrorPayload(action.payload)) {
+        console.error('CLEAR_ERROR payload must be a error payload', action.payload);
+        return state;
+      }
+
+      const { pageSlug, notebookSlug } = action.payload;
+
+      if (!state.error[pageSlug]) return state;
+      if (!state.error[pageSlug]?.[notebookSlug]) return state;
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [notebookSlug]: notebookErrors, ...otherNotebooks } = state.error[pageSlug];
+      if (Object.keys(otherNotebooks).length > 0) {
+        return {
+          ...state,
+          error: {
+            ...state.error,
+            [pageSlug]: {
+              ...otherNotebooks,
+            },
+          },
+        };
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [pageSlug]: renderErrors, ...otherRenders } = state.error;
+      return {
+        ...state,
+        error: otherRenders,
+      };
+    }
   }
   return state;
 }
 
 export function BusyScopeProvider({ children }: React.PropsWithChildren) {
-  const [state, dispatch] = useReducer(reducer, { execute: {}, reset: {} });
+  const [state, dispatch] = useReducer(reducer, { execute: {}, reset: {}, error: {} });
 
   const memo = React.useMemo(() => ({ state, dispatch }), [state]);
 
@@ -269,7 +356,61 @@ export function useBusyScope() {
     [dispatch],
   );
 
-  return { cell, notebook, page, setCell, clearCell, setNotebook, clearNotebook };
+  const setError = useCallback(
+    (pageSlug: string, notebookSlug: string, errors: IThebeNotebookError[]) =>
+      dispatch({ type: 'SET_ERROR', payload: { pageSlug, notebookSlug, errors } }),
+    [dispatch],
+  );
+
+  const clearError = useCallback(
+    (pageSlug: string, notebookSlug: string) =>
+      dispatch({ type: 'CLEAR_ERROR', payload: { pageSlug, notebookSlug } }),
+    [dispatch],
+  );
+
+  return {
+    cell,
+    notebook,
+    page,
+    setCell,
+    clearCell,
+    setNotebook,
+    clearNotebook,
+    setError,
+    clearError,
+  };
+}
+
+interface ErrorItem {
+  pageSlug: string;
+  notebookSlug: string;
+  errors: IThebeNotebookError[];
+}
+
+export function useBusyErrors(pageSlug: string) {
+  const context = React.useContext(BusyScopeContext);
+  if (context === undefined) {
+    throw new Error('useBusyScope must be used within a BusyScopeProvider');
+  }
+
+  const { state, dispatch } = context;
+
+  const clearErrors = () => {
+    Object.keys(state.error[pageSlug]).forEach((notebookSlug) => {
+      dispatch({ type: 'CLEAR_ERROR', payload: { pageSlug, notebookSlug } });
+    });
+  };
+
+  let items: ErrorItem[] | undefined;
+  if (Object.keys(state.error).length > 0 && state.error[pageSlug]) {
+    items = Object.entries(state.error[pageSlug]).map(([notebookSlug, errors]) => ({
+      pageSlug,
+      notebookSlug,
+      errors,
+    }));
+  }
+
+  return { items, clearErrors };
 }
 
 export function selectCellIsBusy(

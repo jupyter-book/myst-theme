@@ -77,7 +77,16 @@ export function ContentBlocks({
   return (
     <>
       {blocks.map((node) => (
-        <Block key={node.key} id={node.key} pageKind={pageKind} node={node} className={className} />
+        <>
+          <ErrorTray pageSlug={mdast.slug} kind={kind} />
+          <Block
+            key={node.key}
+            id={node.key}
+            pageKind={pageKind}
+            node={node}
+            className={className}
+          />
+        </>
       ))}
     </>
   );

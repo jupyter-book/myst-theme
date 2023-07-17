@@ -32,6 +32,7 @@ export function useExecutionScope({
   const execute = (slug: string) => {
     // set busy
     Object.entries(state.pages[slug].scopes).forEach(([notebookSlug, { notebook }]) => {
+      busy.clearError(slug, notebookSlug);
       busy.setNotebook(
         slug,
         notebookSlug,
@@ -88,6 +89,7 @@ export function useExecutionScope({
     (pageSlug: string) => {
       Object.entries(state.pages[pageSlug]?.scopes).forEach(
         ([notebookSlug, { notebook, session }]) => {
+          busy.clearError(pageSlug, notebookSlug);
           busy.setNotebook(
             pageSlug,
             notebookSlug,
@@ -149,7 +151,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
 
   const execute = () => {
     const nb = selectNotebookForPage(state, pageSlug, notebookSlug);
-
+    busy.clearError(pageSlug, notebookSlug);
     // set busy
     busy.setNotebook(
       pageSlug,
@@ -171,7 +173,11 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
       // execute all cells on the notebooks
       const execReturns = await nb.executeAll(true);
       const errs = findErrors(execReturns);
-      if (errs != null) console.error('errors', errs); // TODO: handle errors
+      if (errs != null) {
+        console.error('an error occured during notebook execution'); // TODO: handle errors
+        busy.setError(pageSlug, notebookSlug, errs);
+        busy.clearNotebook(pageSlug, notebookSlug, 'execute');
+      }
       config?.events.off('status' as any, handler);
     }, 100);
   };
@@ -190,6 +196,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
    */
   const reset = useCallback(() => {
     const nb = selectNotebookForPage(state, pageSlug, notebookSlug);
+    busy.clearError(pageSlug, notebookSlug);
     busy.setNotebook(
       pageSlug,
       notebookSlug,

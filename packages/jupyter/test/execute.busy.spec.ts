@@ -10,34 +10,36 @@ import {
 describe('execute busy scope behaviour', () => {
   describe('selectors', () => {
     test('selectCellIsBusy', () => {
-      expect(selectCellIsBusy({ reset: {}, execute: {} }, 'R', 'NB', 'C', 'execute')).toEqual(
+      expect(
+        selectCellIsBusy({ reset: {}, execute: {}, error: {} }, 'R', 'NB', 'C', 'execute'),
+      ).toEqual(false);
+      expect(selectCellIsBusy({ reset: {}, execute: {}, error: {} }, 'R', 'NB', 'C', 'reset')).toBe(
         false,
       );
-      expect(selectCellIsBusy({ reset: {}, execute: {} }, 'R', 'NB', 'C', 'reset')).toBe(false);
-      expect(
-        selectCellIsBusy({ reset: { R: {} }, execute: { R: {} } }, 'R', 'NB', 'C', 'execute'),
-      ).toBe(false);
-      expect(selectCellIsBusy({ reset: { R: {} }, execute: {} }, 'R', 'NB', 'C', 'reset')).toBe(
-        false,
-      );
-      expect(
-        selectCellIsBusy({ reset: {}, execute: { R: { NB: {} } } }, 'R', 'NB', 'C', 'execute'),
-      ).toBe(false);
-      expect(
-        selectCellIsBusy({ reset: { R: { NB: {} } }, execute: {} }, 'R', 'NB', 'C', 'reset'),
-      ).toBe(false);
       expect(
         selectCellIsBusy(
-          { reset: {}, execute: { R: { NB: { C: true } } } },
+          { reset: { R: {} }, execute: { R: {} }, error: {} },
           'R',
           'NB',
           'C',
           'execute',
         ),
-      ).toBe(true);
+      ).toBe(false);
+      expect(
+        selectCellIsBusy({ reset: { R: {} }, execute: {}, error: {} }, 'R', 'NB', 'C', 'reset'),
+      ).toBe(false);
       expect(
         selectCellIsBusy(
-          { reset: {}, execute: { R: { NB: { C: true } } } },
+          { reset: {}, execute: { R: { NB: {} } }, error: {} },
+          'R',
+          'NB',
+          'C',
+          'execute',
+        ),
+      ).toBe(false);
+      expect(
+        selectCellIsBusy(
+          { reset: { R: { NB: {} } }, execute: {}, error: {} },
           'R',
           'NB',
           'C',
@@ -46,7 +48,25 @@ describe('execute busy scope behaviour', () => {
       ).toBe(false);
       expect(
         selectCellIsBusy(
-          { reset: { R: { NB: { C: true } } }, execute: {} },
+          { reset: {}, execute: { R: { NB: { C: true } } }, error: {} },
+          'R',
+          'NB',
+          'C',
+          'execute',
+        ),
+      ).toBe(true);
+      expect(
+        selectCellIsBusy(
+          { reset: {}, execute: { R: { NB: { C: true } } }, error: {} },
+          'R',
+          'NB',
+          'C',
+          'reset',
+        ),
+      ).toBe(false);
+      expect(
+        selectCellIsBusy(
+          { reset: { R: { NB: { C: true } } }, execute: {}, error: {} },
           'R',
           'NB',
           'C',
@@ -55,7 +75,7 @@ describe('execute busy scope behaviour', () => {
       ).toEqual(true);
       expect(
         selectCellIsBusy(
-          { execute: {}, reset: { R: { NB: { C: true } } } },
+          { execute: {}, reset: { R: { NB: { C: true } } }, error: {} },
           'R',
           'NB',
           'C',
@@ -64,16 +84,23 @@ describe('execute busy scope behaviour', () => {
       ).toBe(false);
     });
     test('selectNotebookIsBusy', () => {
-      expect(selectNotebookIsBusy({ reset: {}, execute: {} }, 'R', 'NB', 'execute')).toBe(false);
-      expect(selectNotebookIsBusy({ reset: {}, execute: { R: {} } }, 'R', 'NB', 'execute')).toBe(
-        false,
-      );
       expect(
-        selectNotebookIsBusy({ reset: {}, execute: { R: { NB: {} } } }, 'R', 'NB', 'execute'),
+        selectNotebookIsBusy({ reset: {}, execute: {}, error: {} }, 'R', 'NB', 'execute'),
+      ).toBe(false);
+      expect(
+        selectNotebookIsBusy({ reset: {}, execute: { R: {} }, error: {} }, 'R', 'NB', 'execute'),
+      ).toBe(false);
+      expect(
+        selectNotebookIsBusy(
+          { reset: {}, execute: { R: { NB: {} } }, error: {} },
+          'R',
+          'NB',
+          'execute',
+        ),
       ).toBe(true);
       expect(
         selectNotebookIsBusy(
-          { reset: {}, execute: { R: { NB: { C: true } } } },
+          { reset: {}, execute: { R: { NB: { C: true } } }, error: {} },
           'R',
           'NB',
           'execute',
@@ -81,13 +108,19 @@ describe('execute busy scope behaviour', () => {
       ).toBe(true);
     });
     test('selectRenderIsBusy', () => {
-      expect(selectPageIsBusy({ reset: {}, execute: {} }, 'R', 'execute')).toBe(false);
-      expect(selectPageIsBusy({ reset: {}, execute: { R: {} } }, 'R', 'execute')).toBe(true);
-      expect(selectPageIsBusy({ reset: {}, execute: { R: { NB: {} } } }, 'R', 'execute')).toBe(
+      expect(selectPageIsBusy({ reset: {}, execute: {}, error: {} }, 'R', 'execute')).toBe(false);
+      expect(selectPageIsBusy({ reset: {}, execute: { R: {} }, error: {} }, 'R', 'execute')).toBe(
         true,
       );
       expect(
-        selectPageIsBusy({ reset: {}, execute: { R: { NB: { C: true } } } }, 'R', 'execute'),
+        selectPageIsBusy({ reset: {}, execute: { R: { NB: {} } }, error: {} }, 'R', 'execute'),
+      ).toBe(true);
+      expect(
+        selectPageIsBusy(
+          { reset: {}, execute: { R: { NB: { C: true } } }, error: {} },
+          'R',
+          'execute',
+        ),
       ).toBe(true);
     });
   });
@@ -312,13 +345,13 @@ describe('execute busy scope behaviour', () => {
       ])('%s - %s', (s: string, kind: string, state: any, payload: any, result: any) => {
         expect(
           reducer(
-            { execute: {}, reset: {}, [kind]: state },
+            { execute: {}, reset: {}, error: {}, [kind]: state },
             {
               type: 'SET_CELL_BUSY',
               payload: { ...payload, kind },
             },
           ),
-        ).toEqual({ execute: {}, reset: {}, [kind]: result });
+        ).toEqual({ execute: {}, reset: {}, error: {}, [kind]: result });
       });
       test('setting an already busy cell returns same state', () => {
         const state = {
@@ -330,6 +363,7 @@ describe('execute busy scope behaviour', () => {
             },
           },
           reset: {},
+          error: {},
         };
         expect(
           reducer(state, {
@@ -354,6 +388,7 @@ describe('execute busy scope behaviour', () => {
               },
             },
             reset: {},
+            error: {},
           };
           expect(
             reducer(state, {
@@ -377,6 +412,7 @@ describe('execute busy scope behaviour', () => {
               },
             },
             reset: {},
+            error: {},
           };
           expect(
             reducer(state, {
@@ -400,6 +436,7 @@ describe('execute busy scope behaviour', () => {
               },
             },
             reset: {},
+            error: {},
           };
           expect(
             reducer(state, {
@@ -490,13 +527,13 @@ describe('execute busy scope behaviour', () => {
         ])('%s', (s: string, kind: string, state: any, payload: any, result: any) => {
           expect(
             reducer(
-              { execute: {}, reset: {}, [kind]: state },
+              { execute: {}, reset: {}, error: {}, [kind]: state },
               {
                 type: 'CLEAR_CELL_BUSY',
                 payload: { ...payload, kind },
               },
             ),
-          ).toEqual({ execute: {}, reset: {}, [kind]: result });
+          ).toEqual({ execute: {}, reset: {}, error: {}, [kind]: result });
         });
       });
     });
@@ -512,6 +549,7 @@ describe('execute busy scope behaviour', () => {
             },
           },
           reset: {},
+          error: {},
         };
         expect(
           reducer(state, {
@@ -540,6 +578,7 @@ describe('execute busy scope behaviour', () => {
             },
           },
           reset: {},
+          error: {},
         });
       });
       test('set notebook in existing render', () => {
@@ -552,6 +591,7 @@ describe('execute busy scope behaviour', () => {
             },
           },
           reset: {},
+          error: {},
         };
         expect(
           reducer(state, {
@@ -565,6 +605,7 @@ describe('execute busy scope behaviour', () => {
           }),
         ).toEqual({
           reset: {},
+          error: {},
           execute: {
             R: {
               NB: {
@@ -573,6 +614,117 @@ describe('execute busy scope behaviour', () => {
                 C3: true,
                 C99: true,
               },
+            },
+          },
+        });
+      });
+    });
+    describe('set notebook error', () => {
+      test('only notebook', () => {
+        const state: BusyScopeState = {
+          error: {},
+          reset: {},
+          execute: { R: { NB: { C1: true } } },
+        };
+        expect(
+          reducer(state, {
+            type: 'SET_ERROR',
+            payload: {
+              pageSlug: 'R',
+              notebookSlug: 'NB',
+              errors: [{ some: 'object' } as any],
+            },
+          }),
+        ).toEqual({
+          execute: { R: { NB: { C1: true } } },
+          reset: {},
+          error: {
+            R: {
+              NB: [{ some: 'object' } as any],
+            },
+          },
+        });
+      });
+      test('other notebook', () => {
+        const state: BusyScopeState = {
+          error: {
+            R: {
+              NB2: [{ some: 'object' } as any],
+            },
+          },
+          reset: {},
+          execute: {},
+        };
+        expect(
+          reducer(state, {
+            type: 'SET_ERROR',
+            payload: {
+              pageSlug: 'R',
+              notebookSlug: 'NB',
+              errors: [{ some: 'other error' } as any],
+            },
+          }),
+        ).toEqual({
+          execute: {},
+          reset: {},
+          error: {
+            R: {
+              NB2: [{ some: 'object' } as any],
+            },
+          },
+        });
+      });
+    });
+    describe('clear notebook error', () => {
+      test('existing notebook', () => {
+        const state: BusyScopeState = {
+          error: {
+            R: {
+              NB: [{ some: 'object' } as any],
+            },
+          },
+          reset: {},
+          execute: { R: { NB: { C1: true } } },
+        };
+        expect(
+          reducer(state, {
+            type: 'CLEAR_ERROR',
+            payload: {
+              pageSlug: 'R',
+              notebookSlug: 'NB',
+            },
+          }),
+        ).toEqual({
+          execute: { R: { NB: { C1: true } } },
+          reset: {},
+          error: {},
+        });
+      });
+      test('existing notebook', () => {
+        const state: BusyScopeState = {
+          error: {
+            R: {
+              NB: [{ some: 'object' } as any],
+              NB2: [{ some: 'object' } as any],
+            },
+          },
+          reset: {},
+          execute: {},
+        };
+        expect(
+          reducer(state, {
+            type: 'CLEAR_ERROR',
+            payload: {
+              pageSlug: 'R',
+              notebookSlug: 'NB',
+            },
+          }),
+        ).toEqual({
+          execute: {},
+          reset: {},
+          error: {
+            R: {
+              NB2: [{ some: 'object' } as any],
             },
           },
         });
@@ -590,6 +742,7 @@ describe('execute busy scope behaviour', () => {
             },
           },
           reset: {},
+          error: {},
         };
         expect(
           reducer(state, {
@@ -603,6 +756,7 @@ describe('execute busy scope behaviour', () => {
         ).toEqual({
           execute: {},
           reset: {},
+          error: {},
         });
       });
       test('clear existing notebook, when there are other busy notebooks', () => {
@@ -619,6 +773,7 @@ describe('execute busy scope behaviour', () => {
             },
           },
           reset: {},
+          error: {},
         };
         expect(
           reducer(state, {
@@ -631,6 +786,7 @@ describe('execute busy scope behaviour', () => {
           }),
         ).toEqual({
           reset: {},
+          error: {},
           execute: {
             R: {
               NB2: {
@@ -654,6 +810,7 @@ describe('execute busy scope behaviour', () => {
             },
           },
           reset: {},
+          error: {},
         };
         expect(
           reducer(state, {
@@ -680,6 +837,7 @@ describe('execute busy scope behaviour', () => {
             },
           },
           reset: {},
+          error: {},
         };
         expect(
           reducer(state, {

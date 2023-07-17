@@ -14,6 +14,7 @@ import {
   ConnectionStatusTray,
   BinderBadge,
   useCanCompute,
+  ErrorTray,
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 
@@ -51,6 +52,7 @@ export const ArticlePage = React.memo(function ({
             </div>
           )}
           {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
+
           <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
           <Bibliography />
           <ConnectionStatusTray />

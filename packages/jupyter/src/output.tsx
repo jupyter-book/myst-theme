@@ -6,6 +6,8 @@ import { SafeOutputs } from './safe';
 import { JupyterOutputs } from './jupyter';
 import { useMemo } from 'react';
 import { useCellExecution } from './execute';
+import { usePlaceholder } from './decoration';
+import { MyST } from 'myst-to-react';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -51,9 +53,15 @@ export function JupyterOutput({
     () => allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES),
     [outputs],
   );
+  const placeholder = usePlaceholder();
 
   let component;
   if (allSafe && !ready) {
+    if (placeholder && (!outputs || outputs.length === 0)) {
+      if (placeholder) {
+        return <MyST ast={placeholder} />;
+      }
+    }
     component = <SafeOutputs keyStub={outputId} outputs={outputs} />;
   } else {
     component = <JupyterOutputs id={outputId} outputs={outputs} />;

@@ -1,5 +1,15 @@
 # @myst-theme/providers
 
+## 0.4.0
+
+### Minor Changes
+
+- 8a4106cd: Update to myst renderer as a react component
+
+### Patch Changes
+
+- d714469a: Updates to myst-common dependencies
+
 ## 0.3.8
 
 ## 0.3.7

@@ -1,5 +1,12 @@
 # @myst-theme/frontmatter
 
+## 0.4.0
+
+### Patch Changes
+
+- 02158b75: Add banners and change article theme
+- d714469a: Updates to myst-common dependencies
+
 ## 0.3.8
 
 ## 0.3.7

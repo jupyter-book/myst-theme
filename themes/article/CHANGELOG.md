@@ -1,5 +1,28 @@
 # @myst-theme/article
 
+## 0.4.0
+
+### Patch Changes
+
+- 92d9179d: Add site level options for hiding the footerlinks or document outline
+- 02158b75: Add banners and change article theme
+- d714469a: Updates to myst-common dependencies
+- dd2acd3f: Update myst-to-typst demo
+- Updated dependencies [0b363794]
+- Updated dependencies [8a4106cd]
+- Updated dependencies [92d9179d]
+- Updated dependencies [f61e188e]
+- Updated dependencies [68f67c45]
+- Updated dependencies [02158b75]
+- Updated dependencies [02158b75]
+- Updated dependencies [d714469a]
+- Updated dependencies [88aa3183]
+  - @myst-theme/jupyter@0.4.0
+  - @myst-theme/providers@0.4.0
+  - @myst-theme/site@0.4.0
+  - @myst-theme/styles@0.4.0
+  - @myst-theme/icons@0.4.0
+
 ## 0.3.8
 
 ### Patch Changes

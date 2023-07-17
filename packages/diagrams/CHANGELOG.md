@@ -1,5 +1,17 @@
 # @myst-theme/diagrams
 
+## 0.4.0
+
+### Minor Changes
+
+- 8a4106cd: Update to myst renderer as a react component
+
+### Patch Changes
+
+- Updated dependencies [8a4106cd]
+- Updated dependencies [d714469a]
+  - @myst-theme/providers@0.4.0
+
 ## 0.3.8
 
 ### Patch Changes

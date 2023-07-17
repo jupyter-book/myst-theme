@@ -1,5 +1,22 @@
 # myst-demo
 
+## 0.4.0
+
+### Minor Changes
+
+- 8a4106cd: Update to myst renderer as a react component
+
+### Patch Changes
+
+- 476a7153: Improvements to simplified code-copy button
+- d714469a: Updates to myst-common dependencies
+- dd2acd3f: Update myst-to-typst demo
+- Updated dependencies [b2010904]
+- Updated dependencies [8a4106cd]
+- Updated dependencies [476a7153]
+- Updated dependencies [d714469a]
+  - myst-to-react@0.4.0
+
 ## 0.3.8
 
 ### Patch Changes

@@ -1,5 +1,27 @@
 # @myst-theme/jupyter
 
+## 0.4.0
+
+### Minor Changes
+
+- 8a4106cd: Update to myst renderer as a react component
+
+### Patch Changes
+
+- 0b363794: Placeholders are now displayed in figures that embed notebook cells with empty outputs
+- 92d9179d: Add site level options for hiding the footerlinks or document outline
+- f61e188e: Add placeholders to packages
+- 68f67c45: Changes overflow behaviour allowing horizontal scroll on outputs
+- 02158b75: Change to ThebeMarkdownCell
+- d714469a: Updates to myst-common dependencies
+- 88aa3183: Add Jupyter error tray for notebook execution errors
+- Updated dependencies [b2010904]
+- Updated dependencies [8a4106cd]
+- Updated dependencies [476a7153]
+- Updated dependencies [d714469a]
+  - myst-to-react@0.4.0
+  - @myst-theme/providers@0.4.0
+
 ## 0.3.8
 
 ### Patch Changes

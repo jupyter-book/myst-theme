@@ -1,5 +1,37 @@
 # @curvenote/site
 
+## 0.4.0
+
+### Minor Changes
+
+- 8a4106cd: Update to myst renderer as a react component
+
+### Patch Changes
+
+- 92d9179d: Add site level options for hiding the footerlinks or document outline
+- f61e188e: Add placeholders to packages
+- 02158b75: Add banners and change article theme
+- d714469a: Updates to myst-common dependencies
+- 88aa3183: Add Jupyter error tray for notebook execution errors
+- Updated dependencies [b2010904]
+- Updated dependencies [0b363794]
+- Updated dependencies [8a4106cd]
+- Updated dependencies [92d9179d]
+- Updated dependencies [f61e188e]
+- Updated dependencies [476a7153]
+- Updated dependencies [68f67c45]
+- Updated dependencies [02158b75]
+- Updated dependencies [02158b75]
+- Updated dependencies [d714469a]
+- Updated dependencies [88aa3183]
+- Updated dependencies [dd2acd3f]
+  - myst-to-react@0.4.0
+  - @myst-theme/jupyter@0.4.0
+  - myst-demo@0.4.0
+  - @myst-theme/providers@0.4.0
+  - @myst-theme/diagrams@0.4.0
+  - @myst-theme/frontmatter@0.4.0
+
 ## 0.3.8
 
 ### Patch Changes

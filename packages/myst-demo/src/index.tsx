@@ -1,5 +1,6 @@
 import { VFile } from 'vfile';
 import type { LatexResult } from 'myst-to-tex'; // Only import the type!!
+import type { TypstResult } from 'myst-to-typst'; // Only import the type!!
 import type { VFileMessage } from 'vfile-message';
 import yaml from 'js-yaml';
 import type { GenericNode, References } from 'myst-common';
@@ -69,6 +70,7 @@ async function parse(
     joinGatesPlugin,
   } = await import('myst-transforms');
   const { default: mystToTex } = await import('myst-to-tex');
+  const { default: mystToTypst } = await import('myst-to-typst');
   const { default: mystToJats } = await import('myst-to-jats').catch(() => ({ default: null }));
   const { mystToHtml } = await import('myst-to-html');
   const { cardDirective } = await import('myst-ext-card');
@@ -134,6 +136,10 @@ async function parse(
   const tex = unified()
     .use(mystToTex, { references })
     .stringify(mdast as any, texFile).result as LatexResult;
+  const typstFile = new VFile();
+  const typst = unified()
+    .use(mystToTypst)
+    .stringify(mdast as any, typstFile).result as TypstResult;
   const jatsFile = new VFile();
   const jats: any = mystToJats
     ? unified()
@@ -151,6 +157,8 @@ async function parse(
     html: htmlString,
     tex: tex.value,
     texWarnings: texFile.messages,
+    typst: typst.value,
+    typstWarnings: typstFile.messages,
     jats: jats,
     jatsWarnings: jatsFile.messages,
     warnings: file.messages,
@@ -182,6 +190,8 @@ export function MySTRenderer({
   const [html, setHtml] = useState<string>('Loading...');
   const [tex, setTex] = useState<string>('Loading...');
   const [texWarnings, setTexWarnings] = useState<VFileMessage[]>([]);
+  const [typst, setTypst] = useState<string>('Loading...');
+  const [typstWarnings, setTypstWarnings] = useState<VFileMessage[]>([]);
   const [jats, setJats] = useState<string>('Loading...');
   const [jatsWarnings, setJatsWarnings] = useState<VFileMessage[]>([]);
   const [warnings, setWarnings] = useState<VFileMessage[]>([]);
@@ -201,6 +211,8 @@ export function MySTRenderer({
       setHtml(result.html);
       setTex(result.tex);
       setTexWarnings(result.texWarnings);
+      setTypst(result.typst);
+      setTypstWarnings(result.texWarnings);
       setJats(result.jats);
       setJatsWarnings(result.jatsWarnings);
       setWarnings(result.warnings);
@@ -238,6 +250,9 @@ export function MySTRenderer({
     case 'LaTeX':
       currentWarnings = texWarnings;
       break;
+    case 'Typst':
+      currentWarnings = typstWarnings;
+      break;
     case 'JATS':
       currentWarnings = jatsWarnings;
       break;
@@ -246,7 +261,7 @@ export function MySTRenderer({
   }
   const demoMenu = (
     <div className="self-center text-sm border cursor-pointer dark:border-slate-600">
-      {['DEMO', 'AST', 'HTML', 'LaTeX', 'JATS', 'DOCX'].map((show) => (
+      {['DEMO', 'AST', 'HTML', 'LaTeX', 'Typst', 'JATS', 'DOCX'].map((show) => (
         <button
           key={show}
           className={classnames('px-2 py-1', {
@@ -318,6 +333,7 @@ export function MySTRenderer({
           {previewType === 'AST' && <CodeBlock lang="yaml" value={mdastYaml} showCopy={false} />}
           {previewType === 'HTML' && <CodeBlock lang="xml" value={html} showCopy={false} />}
           {previewType === 'LaTeX' && <CodeBlock lang="latex" value={tex} showCopy={false} />}
+          {previewType === 'Typst' && <CodeBlock lang="typst" value={typst} showCopy={false} />}
           {previewType === 'JATS' && <CodeBlock lang="xml" value={jats} showCopy={false} />}
           {previewType === 'DOCX' && (
             <div>

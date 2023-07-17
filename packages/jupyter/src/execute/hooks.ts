@@ -259,7 +259,6 @@ export function useCellExecution(id: IdOrKey, clearOutputsOnExecute = false) {
       return;
     }
     // set busy
-    debugger;
     busy.setCell(pageSlug, notebookSlug, cell.id, 'execute');
     if (clearOutputsOnExecute) cell.clear();
     // let busy state update prior to launching execute

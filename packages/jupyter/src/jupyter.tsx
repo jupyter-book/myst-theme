@@ -5,7 +5,7 @@ import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages';
 import { type ThebeCore } from 'thebe-core';
-import { SourceFileKind } from 'myst-common';
+import { SourceFileKind } from 'myst-spec-ext';
 import { useXRefState } from '@myst-theme/providers';
 import { useThebeLoader } from 'thebe-react';
 import { useCellExecution } from './execute';

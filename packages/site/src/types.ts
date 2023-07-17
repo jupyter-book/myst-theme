@@ -1,5 +1,6 @@
 import type { Root } from 'mdast';
-import type { References, Dependency, SourceFileKind } from 'myst-common';
+import type { Dependency, SourceFileKind } from 'myst-spec-ext';
+import type { References } from 'myst-common';
 import type { SiteManifest } from 'myst-config';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import type { Theme } from '@myst-theme/providers';

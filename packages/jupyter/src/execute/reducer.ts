@@ -1,4 +1,4 @@
-import { SourceFileKind } from 'myst-common';
+import { SourceFileKind } from 'myst-spec-ext';
 import type { ExecuteScopeAction } from './actions';
 import {
   isAddMdastPayload,

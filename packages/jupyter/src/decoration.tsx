@@ -1,6 +1,6 @@
 import React from 'react';
 import type { GenericNode } from 'myst-common';
-import { SourceFileKind } from 'myst-common';
+import { SourceFileKind } from 'myst-spec-ext';
 import { useCellExecution } from './execute';
 import {
   ArticleResetNotebook,

@@ -5,7 +5,7 @@ import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 import type { PageLoader } from '../types';
 import type { GenericParent } from 'myst-common';
-import { SourceFileKind } from 'myst-common';
+import { SourceFileKind } from 'myst-spec-ext';
 import {
   useComputeOptions,
   ExecuteScopeProvider,

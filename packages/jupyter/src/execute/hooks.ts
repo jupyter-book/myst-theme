@@ -4,7 +4,7 @@ import { ExecuteScopeContext } from './provider';
 import type { IThebeCell, ThebeCodeCell, ThebeEventCb, ThebeNotebook } from 'thebe-core';
 import { useBusyScope } from './busy';
 import { findErrors, useThebeConfig } from 'thebe-react';
-import { SourceFileKind } from 'myst-common';
+import { SourceFileKind } from 'myst-spec-ext';
 import { selectNotebookForPage } from './selectors';
 
 export function useExecutionScope({

@@ -3,7 +3,7 @@ import type { LatexResult } from 'myst-to-tex'; // Only import the type!!
 import type { VFileMessage } from 'vfile-message';
 import yaml from 'js-yaml';
 import type { GenericNode, References } from 'myst-common';
-import { SourceFileKind } from 'myst-common';
+import { SourceFileKind } from 'myst-spec-ext';
 import type { DocxResult } from 'myst-to-docx';
 import { validatePageFrontmatter } from 'myst-frontmatter';
 import type { PageFrontmatter } from 'myst-frontmatter';
@@ -106,7 +106,7 @@ async function parse(
     cite: { order: [], data: {} },
     footnotes: {},
   };
-  const { frontmatter: frontmatterRaw } = getFrontmatter(mdast, {
+  const { frontmatter: frontmatterRaw } = getFrontmatter(file, mdast, {
     removeYaml: true,
     removeHeading: options?.removeHeading ?? false,
   });
@@ -334,8 +334,9 @@ export function MySTRenderer({
         </div>
         {currentWarnings.length > 0 && (
           <div className={classnames('w-full', { 'absolute bottom-0': column })}>
-            {currentWarnings.map((m) => (
+            {currentWarnings.map((m, i) => (
               <div
+                key={i}
                 className={classnames('p-1 shadow-inner text-white not-prose', {
                   'bg-red-500 dark:bg-red-800': m.fatal === true,
                   'bg-orange-500 dark:bg-orange-700': m.fatal === false,

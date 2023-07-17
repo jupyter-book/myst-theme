@@ -66,9 +66,7 @@ export function OutputDecoration({
             <ArticleResetNotebook id={outputId} />
           </div>
         </div>
-        <div className="mt-2">
-          <PlaceholderProvider placeholder={placeholder}>{children}</PlaceholderProvider>
-        </div>
+        <PlaceholderProvider placeholder={placeholder}>{children}</PlaceholderProvider>
       </div>
     );
   }

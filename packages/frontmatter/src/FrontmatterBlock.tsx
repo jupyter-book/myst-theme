@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import { SourceFileKind } from 'myst-common';
+import { SourceFileKind } from 'myst-spec-ext';
 import {
   JupyterIcon,
   OrcidIcon,

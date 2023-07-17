@@ -1,8 +1,8 @@
 import type {
   Thebe,
-  ThebeServerOptions,
-  ThebeLocalOptions,
-  ThebeBinderOptions,
+  JupyterServerOptions,
+  JupyterLocalOptions,
+  BinderHubOptions,
 } from 'myst-frontmatter';
 import type { CoreOptions, RepoProvider } from 'thebe-core';
 
@@ -95,7 +95,7 @@ export function thebeFrontmatterToOptions(
   }
   if (NODE_ENV !== 'production' && local) {
     if (isObject(local)) {
-      const { url, token, kernelName: localKernelName } = local as ThebeLocalOptions;
+      const { url, token, kernelName: localKernelName } = local as JupyterLocalOptions;
       if (url || token) {
         thebeOptions.serverSettings = {};
         if (url) thebeOptions.serverSettings.baseUrl = url;
@@ -169,7 +169,7 @@ export function thebeFrontmatterToOptions(
   } else if (isObject(binder)) {
     // handle fully specified binder options
     thebeOptions.useBinder = true;
-    const { url, ref, provider, repo } = binder as ThebeBinderOptions;
+    const { url, ref, provider, repo } = binder as BinderHubOptions;
     thebeOptions.binderOptions = {
       ref,
       repo,
@@ -202,7 +202,7 @@ export function thebeFrontmatterToOptions(
    */
   if (isObject(server)) {
     // handle fully specified server object
-    const { url, token } = server as ThebeServerOptions;
+    const { url, token } = server as JupyterServerOptions;
     thebeOptions.serverSettings = {};
     if (url) thebeOptions.serverSettings.baseUrl = url;
     if (token) thebeOptions.serverSettings.token = token;

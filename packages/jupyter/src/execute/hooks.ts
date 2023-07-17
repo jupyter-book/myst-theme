@@ -231,7 +231,7 @@ export function useNotebookExecution(id: IdOrKey, clearOutputsOnExecute = false)
  * @param id
  * @returns
  */
-export function useCellExecution(id: IdOrKey) {
+export function useCellExecution(id: IdOrKey, clearOutputsOnExecute = false) {
   const busy = useBusyScope();
   const context = React.useContext(ExecuteScopeContext);
   if (context === undefined) {
@@ -259,8 +259,9 @@ export function useCellExecution(id: IdOrKey) {
       return;
     }
     // set busy
+    debugger;
     busy.setCell(pageSlug, notebookSlug, cell.id, 'execute');
-    cell.clear();
+    if (clearOutputsOnExecute) cell.clear();
     // let busy state update prior to launching execute
     setTimeout(() => {
       if (!cell) throw new Error('no cell found on execute');

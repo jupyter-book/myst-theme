@@ -13,8 +13,8 @@ import {
   selectSessionsToStart,
 } from './selectors';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
-import { useCanCompute } from '..';
 import type { Thebe } from 'myst-frontmatter';
+import { useCanCompute } from '../providers';
 
 export interface ExecuteScopeType {
   canCompute: boolean;

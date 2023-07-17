@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { PassiveCellRenderer } from 'thebe-core';
 import type { IThebeNotebookError } from 'thebe-react';
 import { useThebeLoader } from 'thebe-react';
+import { useBusyErrors } from './execute/busy';
 
 function ErrorDecoration({ children, idx }: React.PropsWithChildren<{ idx?: number }>) {
   return (
@@ -38,7 +39,7 @@ function ErrorTrayMessage({ errors }: { errors: IThebeNotebookError[] }) {
   return (
     <div>
       {errors.map((error, idx) => (
-        <div className="min-w-[400px]">
+        <div className="not-prose min-w-[400px]">
           <ErrorDecoration idx={error.index}>
             <div className="z-100" key={error.id} ref={refs[idx]}></div>
           </ErrorDecoration>
@@ -48,13 +49,22 @@ function ErrorTrayMessage({ errors }: { errors: IThebeNotebookError[] }) {
   );
 }
 
-export function ErrorTray({ errors }: { errors: IThebeNotebookError[] }) {
+export function ErrorTray({ pageSlug, index }: { pageSlug: string; index?: string }) {
+  const { items } = useBusyErrors(pageSlug);
+  if (!items || items.length === 0) return null;
+  if (index && index) return null;
   return (
     <div className="relative px-4 pt-3 mt-8 text-sm text-red-600 border border-red-400 rounded border-1">
-      <div>
-        <span className="font-bold">Error</span> - a page refresh may resolve this.
-      </div>
-      <ErrorTrayMessage errors={errors} />
+      {items.map(({ notebookSlug, errors }) => {
+        return (
+          <div>
+            <div>
+              <span className="font-bold">Error</span> in notebook <span>"{notebookSlug}"</span>
+            </div>
+            <ErrorTrayMessage errors={errors} />
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -49,8 +49,9 @@ function ActiveOutputRenderer({
   }, [ref?.current, exec?.cell]);
 
   const executed = exec?.cell?.executionCount != null;
-  console.log(`Jupyter: Cell ${id} executed: ${executed}`);
-  console.log(`show output: ${executed || !placeholder}`);
+  console.debug(
+    `Jupyter: Cell ${id} executed: ${executed}; Show output: ${executed || !placeholder}`,
+  );
 
   return (
     <div>

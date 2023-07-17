@@ -52,7 +52,7 @@ export const ArticlePage = React.memo(function ({
             </div>
           )}
           {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
-
+          <ErrorTray pageSlug={article.slug} />
           <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
           <Bibliography />
           <ConnectionStatusTray />

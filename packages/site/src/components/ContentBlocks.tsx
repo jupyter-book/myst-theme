@@ -3,6 +3,7 @@ import { SourceFileKind } from 'myst-spec-ext';
 import type { GenericParent } from 'myst-common';
 import classNames from 'classnames';
 import {
+  ErrorTray,
   NotebookClearCell,
   NotebookRunCell,
   NotebookRunCellSpinnerOnly,
@@ -77,16 +78,7 @@ export function ContentBlocks({
   return (
     <>
       {blocks.map((node) => (
-        <>
-          <ErrorTray pageSlug={mdast.slug} kind={kind} />
-          <Block
-            key={node.key}
-            id={node.key}
-            pageKind={pageKind}
-            node={node}
-            className={className}
-          />
-        </>
+        <Block key={node.key} id={node.key} pageKind={pageKind} node={node} className={className} />
       ))}
     </>
   );

@@ -77,7 +77,6 @@ export function OutputDecoration({
   if (kind === SourceFileKind.Article) {
     return (
       <>
-        <PlaceholderProvider placeholder={placeholder}>{children}</PlaceholderProvider>
         <div className="flex items-center justify-end text-xs">
           <JupyterIcon className="inline-block w-3 h-3" />
           <div className="ml-1">Source:</div>
@@ -90,6 +89,7 @@ export function OutputDecoration({
             </Link>
           )}
         </div>
+        <PlaceholderProvider placeholder={placeholder}>{children}</PlaceholderProvider>
       </>
     );
   }

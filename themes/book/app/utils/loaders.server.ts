@@ -1,16 +1,14 @@
 import fetch from 'node-fetch';
 import type { SiteManifest } from 'myst-config';
-import type { PageLoader } from '@myst-theme/site';
 import {
-  getDomainFromRequest,
+  type PageLoader,
   getFooterLinks,
   getProject,
-  responseNoArticle,
-  responseNoSite,
   updatePageStaticLinksInplace,
   updateSiteManifestStaticLinksInplace,
-} from '@myst-theme/site';
+} from '@myst-theme/common';
 import { redirect } from '@remix-run/node';
+import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = `http://localhost:${CONTENT_CDN_PORT}`;
@@ -23,10 +21,6 @@ export async function getConfig(): Promise<SiteManifest> {
   }
   const data = (await response.json()) as SiteManifest;
   return updateSiteManifestStaticLinksInplace(data, updateLink);
-}
-
-export function isFlatSite(config?: SiteManifest): boolean {
-  return config?.projects?.length === 1 && !config.projects[0].slug;
 }
 
 function updateLink(url: string) {

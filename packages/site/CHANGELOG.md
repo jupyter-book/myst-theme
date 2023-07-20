@@ -1,4 +1,4 @@
-# @curvenote/site
+# @myst-theme/site
 
 ## 0.4.0
 

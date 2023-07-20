@@ -1,7 +1,4 @@
-export enum ErrorStatus {
-  noSite = 'Site was not found',
-  noArticle = 'Article was not found',
-}
+import { ErrorStatus } from '@myst-theme/common';
 
 export function responseNoSite(): Response {
   // note: error boundary logic is dependent on the string sent here

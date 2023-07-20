@@ -3,7 +3,7 @@ import { walkOutputs } from 'nbtx';
 import type { SiteManifest } from 'myst-config';
 import { selectAll } from 'unist-util-select';
 import type { Image as ImageSpec, Link as LinkSpec } from 'myst-spec';
-import type { FooterLinks, Heading, NavigationLink, PageLoader } from '../types';
+import type { FooterLinks, Heading, NavigationLink, PageLoader } from './types.js';
 
 type Image = ImageSpec & { urlOptimized?: string };
 type Link = LinkSpec & { static?: boolean };
@@ -166,4 +166,8 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
     });
   });
   return data;
+}
+
+export function isFlatSite(config?: SiteManifest): boolean {
+  return config?.projects?.length === 1 && !config.projects[0].slug;
 }

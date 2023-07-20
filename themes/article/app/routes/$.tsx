@@ -1,5 +1,5 @@
+import { isFlatSite, type PageLoader } from '@myst-theme/common';
 import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
-import type { PageLoader } from '@myst-theme/site';
 import {
   FooterLinksBlock,
   Bibliography,
@@ -21,7 +21,7 @@ import ArrowLeftIcon from '@heroicons/react/24/outline/ArrowLeftIcon';
 import DocumentArrowDownIcon from '@heroicons/react/24/outline/DocumentArrowDownIcon';
 import DocumentChartBarIcon from '@heroicons/react/24/outline/DocumentChartBarIcon';
 import ArrowTopRightOnSquareIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
-import { getConfig, getPage, isFlatSite } from '~/utils/loaders.server';
+import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData, useParams } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
 import {

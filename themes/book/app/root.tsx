@@ -2,7 +2,7 @@ import type { LinksFunction, MetaFunction, LoaderFunction } from '@remix-run/nod
 import tailwind from '~/styles/app.css';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';
-import type { SiteLoader } from '@myst-theme/site';
+import type { SiteLoader } from '@myst-theme/common';
 import {
   Document,
   responseNoSite,

@@ -3,7 +3,16 @@ import type { Dependency, SourceFileKind } from 'myst-spec-ext';
 import type { References } from 'myst-common';
 import type { SiteManifest } from 'myst-config';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import type { Theme } from '@myst-theme/providers';
+
+export enum Theme {
+  light = 'light',
+  dark = 'dark',
+}
+
+export enum ErrorStatus {
+  noSite = 'Site was not found',
+  noArticle = 'Article was not found',
+}
 
 export type Heading = {
   slug?: string;

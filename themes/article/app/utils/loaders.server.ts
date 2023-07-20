@@ -1,16 +1,14 @@
 import fetch from 'node-fetch';
+import { redirect } from '@remix-run/node';
 import type { SiteManifest } from 'myst-config';
-import type { PageLoader } from '@myst-theme/site';
 import {
-  getDomainFromRequest,
+  type PageLoader,
   getFooterLinks,
   getProject,
-  responseNoArticle,
-  responseNoSite,
   updatePageStaticLinksInplace,
   updateSiteManifestStaticLinksInplace,
-} from '@myst-theme/site';
-import { redirect } from '@remix-run/node';
+} from '@myst-theme/common';
+import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = `http://localhost:${CONTENT_CDN_PORT}`;
@@ -39,17 +37,14 @@ function updateLink(url: string) {
   return `${CONTENT_CDN}${url}`;
 }
 
-async function getStaticContent(slug?: string): Promise<PageLoader | null> {
+async function getStaticContent(project?: string, slug?: string): Promise<PageLoader | null> {
   if (!slug) return null;
-  const url = `${CONTENT_CDN}/content/${slug}.json`;
+  const projectSlug = project ? `${project}/` : '';
+  const url = `${CONTENT_CDN}/content/${projectSlug}${slug}.json`;
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
   const data = (await response.json()) as PageLoader;
   return updatePageStaticLinksInplace(data, updateLink);
-}
-
-export function isFlatSite(config?: SiteManifest): boolean {
-  return config?.projects?.length === 1 && !config.projects[0].slug;
 }
 
 export async function getPage(
@@ -67,13 +62,13 @@ export async function getPage(
   const project = getProject(config, projectName);
   if (!project) throw responseNoArticle();
   if (opts.slug === project.index && opts.redirect) {
-    return redirect(`/`);
+    return redirect(projectName ? `/${projectName}` : '/');
   }
   const slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
-  const loader = await getStaticContent(slug).catch(() => null);
+  const loader = await getStaticContent(projectName, slug).catch(() => null);
   if (!loader) throw responseNoArticle();
   const footer = getFooterLinks(config, projectName, slug);
-  return { ...loader, footer, domain: getDomainFromRequest(request) };
+  return { ...loader, footer, domain: getDomainFromRequest(request), project: projectName };
 }
 
 export async function getObjectsInv(): Promise<Buffer | null> {

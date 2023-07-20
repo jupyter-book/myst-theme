@@ -1,10 +1,8 @@
 import * as React from 'react';
 import type { NodeRenderer } from './types';
+import { Theme } from '@myst-theme/common';
 
-export enum Theme {
-  light = 'light',
-  dark = 'dark',
-}
+export { Theme };
 
 export type LinkProps = {
   to: string;

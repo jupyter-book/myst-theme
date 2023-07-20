@@ -10,6 +10,7 @@
       "@myst-theme/jupyter",
       "@myst-theme/site",
       "@myst-theme/styles",
+      "@myst-theme/common",
       "@myst-theme/icons",
       "@myst-theme/book",
       "@myst-theme/article",

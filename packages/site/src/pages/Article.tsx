@@ -3,7 +3,7 @@ import { ReferencesProvider } from '@myst-theme/providers';
 import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
-import type { PageLoader } from '../types';
+import type { PageLoader } from '@myst-theme/common';
 import type { GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {

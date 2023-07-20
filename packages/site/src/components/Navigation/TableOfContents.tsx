@@ -9,8 +9,7 @@ import {
   useBaseurl,
   withBaseurl,
 } from '@myst-theme/providers';
-import { getProjectHeadings } from '../../loaders';
-import type { Heading } from '../../types';
+import { getProjectHeadings, type Heading } from '@myst-theme/common';
 
 type Props = {
   folder?: string;

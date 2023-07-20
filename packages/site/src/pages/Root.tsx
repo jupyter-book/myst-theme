@@ -1,5 +1,5 @@
 import type { SiteManifest } from 'myst-config';
-import type { SiteLoader } from '../types';
+import type { SiteLoader } from '@myst-theme/common';
 import { BaseUrlProvider, SiteProvider, Theme, ThemeProvider } from '@myst-theme/providers';
 import {
   Links,

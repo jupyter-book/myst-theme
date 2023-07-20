@@ -1,5 +1,5 @@
 import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
-import type { PageLoader } from '@myst-theme/site';
+import { isFlatSite, type PageLoader } from '@myst-theme/common';
 import {
   getMetaTagsForArticle,
   KatexCSS,
@@ -12,7 +12,7 @@ import {
   TopNav,
   ArticlePageCatchBoundary,
 } from '@myst-theme/site';
-import { getConfig, getPage, isFlatSite } from '~/utils/loaders.server';
+import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
 import { TabStateProvider, UiStateProvider, useSiteManifest } from '@myst-theme/providers';

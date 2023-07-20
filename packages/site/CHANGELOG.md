@@ -1,5 +1,19 @@
 # @myst-theme/site
 
+## 0.4.1
+
+### Patch Changes
+
+- 56523c92: Move types to @myst-theme/common
+- Updated dependencies [56523c92]
+  - @myst-theme/providers@0.4.1
+  - @myst-theme/common@0.4.1
+  - @myst-theme/frontmatter@0.4.1
+  - @myst-theme/diagrams@0.4.1
+  - @myst-theme/jupyter@0.4.1
+  - myst-to-react@0.4.1
+  - myst-demo@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes

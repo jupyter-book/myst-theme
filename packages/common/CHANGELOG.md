@@ -1,3 +1,7 @@
 # @myst-theme/common
 
-Common utilities and types for working with the MyST Theme and sites
+## 0.4.1
+
+### Patch Changes
+
+- 56523c92: Move types to @myst-theme/common

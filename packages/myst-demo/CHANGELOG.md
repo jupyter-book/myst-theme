@@ -1,5 +1,11 @@
 # myst-demo
 
+## 0.4.1
+
+### Patch Changes
+
+- myst-to-react@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes

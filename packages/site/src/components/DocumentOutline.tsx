@@ -70,6 +70,25 @@ const Headings = ({ headings, activeId, highlight, selector }: Props) => (
   </ul>
 );
 
+function cloneHeadingElement(originalElement: HTMLSpanElement) {
+  // Clone the original element
+  const clonedElement = originalElement.cloneNode(true) as HTMLSpanElement;
+
+  // Get all <abbr> elements in the cloned element
+  const abbrElements = clonedElement.getElementsByTagName('abbr');
+
+  // Move children of <abbr> elements to their parent
+  for (let i = 0; i < abbrElements.length; i++) {
+    const abbr = abbrElements[i];
+    const parent = abbr.parentNode as HTMLSpanElement;
+    while (abbr.firstChild) {
+      parent.insertBefore(abbr.firstChild, abbr);
+    }
+    parent.removeChild(abbr);
+  }
+  return clonedElement;
+}
+
 function getHeaders(selector: string): HTMLHeadingElement[] {
   const headers = Array.from(document.querySelectorAll(selector)).filter((e) => {
     const parent = e.closest('.exclude-from-outline');
@@ -135,7 +154,9 @@ function useHeaders(selector: string) {
     })
     .filter((h) => !!h.text)
     .map(({ level, text, id }) => {
-      const { innerText: title, innerHTML: titleHTML } = text as HTMLSpanElement;
+      const { innerText: title, innerHTML: titleHTML } = cloneHeadingElement(
+        text as HTMLSpanElement,
+      );
       return { title, titleHTML, id, level };
     });
 

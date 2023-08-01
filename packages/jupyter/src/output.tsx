@@ -68,7 +68,7 @@ export function JupyterOutput({
   }
 
   return (
-    <figure
+    <div
       id={identifier || undefined}
       data-mdast-node-id={outputId}
       className={classNames(
@@ -77,11 +77,12 @@ export function JupyterOutput({
           'text-left': !align || align === 'left',
           'text-center': align === 'center',
           'text-right': align === 'right',
+          'mb-5': outputs && outputs.length > 0,
         },
       )}
     >
       {component}
-    </figure>
+    </div>
   );
 }
 

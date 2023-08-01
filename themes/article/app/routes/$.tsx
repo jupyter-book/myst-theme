@@ -224,7 +224,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
 
   const isIndex = article.slug === project?.index;
 
-  const downloads = [...(project?.exports ?? []), ...(project?.pages?.[0].exports ?? [])];
+  const downloads = [...(project?.exports ?? []), ...(project?.pages?.[0]?.exports ?? [])];
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -300,7 +300,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                 </Link>
                 <div className="flex-grow text-center">{article.frontmatter.title}</div>
                 <a
-                  href={article.frontmatter.exports?.[0].url}
+                  href={article.frontmatter?.exports?.[0]?.url}
                   className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"
                 >
                   <DocumentArrowDownIcon className="self-center w-4 h-4 transition-transform group-hover:-translate-x-1 shrink-0" />

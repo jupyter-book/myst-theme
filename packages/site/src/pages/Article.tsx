@@ -4,7 +4,7 @@ import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 import type { PageLoader } from '@myst-theme/common';
-import type { GenericParent } from 'myst-common';
+import { copyNode, extractPart, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {
   useComputeOptions,
@@ -17,18 +17,26 @@ import {
   ErrorTray,
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
+import classNames from 'classnames';
 
 export const ArticlePage = React.memo(function ({
   article,
   hide_all_footer_links,
+  showAbstract,
+  hideKeywords,
 }: {
   article: PageLoader;
   hide_all_footer_links?: boolean;
+  showAbstract?: boolean;
+  hideKeywords?: boolean;
 }) {
   const canCompute = useCanCompute(article);
   const { binderBadgeUrl } = useComputeOptions();
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
 
+  const tree = copyNode(article.mdast);
+  const keywords = article.frontmatter?.keywords ?? [];
+  const abstract = showAbstract ? extractPart(tree, 'abstract') : undefined;
   // take binder url from article frontmatter or fallback to project
   const binderUrl = article.frontmatter.binder ?? binderBadgeUrl;
 
@@ -53,7 +61,30 @@ export const ArticlePage = React.memo(function ({
           )}
           {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
           <ErrorTray pageSlug={article.slug} />
-          <ContentBlocks pageKind={article.kind} mdast={article.mdast as GenericParent} />
+          {abstract && (
+            <>
+              <span className="font-semibold">Abstract</span>
+              <div className="px-6 py-1 m-3 rounded-sm bg-slate-50 dark:bg-slate-800">
+                <ContentBlocks mdast={abstract as GenericParent} className="col-body" />
+              </div>
+              {!hideKeywords && keywords.length > 0 && (
+                <div className="mb-10">
+                  <span className="mr-2 font-semibold">Keywords:</span>
+                  {keywords.map((k, i) => (
+                    <span
+                      key={k}
+                      className={classNames({
+                        "after:content-[','] after:mr-1": i < keywords.length - 1,
+                      })}
+                    >
+                      {k}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+          <ContentBlocks pageKind={article.kind} mdast={tree as GenericParent} />
           <Bibliography />
           <ConnectionStatusTray />
           {!hide_footer_links && !hide_all_footer_links && (

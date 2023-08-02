@@ -101,7 +101,7 @@ export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
   return (
     <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={article.project}>
       <main ref={container} className="article-grid article-subgrid-gap col-screen">
-        <ArticlePage article={article} hide_all_footer_links={hide_footer_links} />
+        <ArticlePage article={article} hide_all_footer_links={hide_footer_links} showAbstract />
         {!hide_outline && (
           <DocumentOutline
             outlineRef={outline}

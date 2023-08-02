@@ -302,16 +302,17 @@ export function FrontmatterBlock({
   const isJupyter = kind === SourceFileKind.Notebook;
   const hasExports = exports && exports.length > 0;
   const hasAuthors = authors && authors.length > 0;
-  const hasHeaders =
-    subject || github || venue || biblio || open_access || license || hasExports || isJupyter;
-  const hasDateOrDoi = doi || date;
-  if (!title && !subtitle && !hasHeaders && !hasAuthors && !hasDateOrDoi) {
+  const hasBadges = !!open_access || !!license || !!hasExports || !!isJupyter || !!github;
+  const hasHeaders = !!subject || !!venue || !!biblio;
+  const hasDateOrDoi = !!doi || !!date;
+  const showHeaderBlock = hasHeaders || (hasBadges && !hideBadges) || (hasExports && !hideExports);
+  if (!title && !subtitle && !showHeaderBlock && !hasAuthors && !hasDateOrDoi) {
     // Nothing to show!
     return null;
   }
   return (
     <div className={classNames(className)}>
-      {hasHeaders && (
+      {showHeaderBlock && (
         <div className="flex items-center h-6 mt-3 mb-5 text-sm font-light">
           {subject && (
             <div

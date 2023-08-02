@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.4.2
+
+### Patch Changes
+
+- 8f5a310d: Hide the frontmatter badges bar properly
+
 ## 0.4.1
 
 ## 0.4.0

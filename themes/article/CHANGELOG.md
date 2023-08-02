@@ -1,5 +1,23 @@
 # @myst-theme/article
 
+## 0.4.2
+
+### Patch Changes
+
+- 03538542: Upgrade myst packages to 1.1.8
+- 6df3c3d2: Exports may not be defined
+- Updated dependencies [ad81cea5]
+- Updated dependencies [03538542]
+- Updated dependencies [bbf6a237]
+- Updated dependencies [28a0445c]
+- Updated dependencies [ed137448]
+  - @myst-theme/jupyter@0.4.2
+  - @myst-theme/providers@0.4.2
+  - @myst-theme/common@0.4.2
+  - @myst-theme/site@0.4.2
+  - @myst-theme/styles@0.4.2
+  - @myst-theme/icons@0.4.2
+
 ## 0.4.1
 
 ### Patch Changes

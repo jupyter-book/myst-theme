@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.4.2
+
+### Patch Changes
+
+- 03538542: Upgrade myst packages to 1.1.8
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # @myst-theme/site
 
+## 0.4.2
+
+### Patch Changes
+
+- 03538542: Upgrade myst packages to 1.1.8
+- bbf6a237: Add abstract to book theme through an option in site: showAbstract
+- 28a0445c: Footer link blocks hidden if there aren't any!
+- ed137448: Remove abbr elements from the document outline
+- Updated dependencies [ad81cea5]
+- Updated dependencies [03538542]
+- Updated dependencies [8f5a310d]
+  - @myst-theme/jupyter@0.4.2
+  - myst-to-react@0.4.2
+  - myst-demo@0.4.2
+  - @myst-theme/providers@0.4.2
+  - @myst-theme/common@0.4.2
+  - @myst-theme/frontmatter@0.4.2
+  - @myst-theme/diagrams@0.4.2
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @myst-theme/jupyter
 
+## 0.4.2
+
+### Patch Changes
+
+- ad81cea5: Add space under jupyter outputs
+- 03538542: Upgrade myst packages to 1.1.8
+- Updated dependencies [03538542]
+  - myst-to-react@0.4.2
+  - @myst-theme/providers@0.4.2
+
 ## 0.4.1
 
 ### Patch Changes

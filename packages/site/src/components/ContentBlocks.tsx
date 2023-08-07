@@ -7,6 +7,7 @@ import {
   NotebookRunCell,
   NotebookRunCellSpinnerOnly,
 } from '@myst-theme/jupyter';
+import { useGridSystemProvider } from '@myst-theme/providers';
 
 function isACodeCell(node: GenericParent) {
   return (
@@ -30,7 +31,8 @@ function Block({
   node: GenericParent;
   className?: string;
 }) {
-  const subGrid = 'article-grid article-subgrid-gap col-screen';
+  const grid = useGridSystemProvider();
+  const subGrid = `${grid} subgrid-gap col-screen`;
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
   // Hide the subgrid if either the dataClass or the className exists and includes `col-`
   const noSubGrid =

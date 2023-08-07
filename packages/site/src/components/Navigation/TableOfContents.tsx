@@ -8,6 +8,7 @@ import {
   useSiteManifest,
   useBaseurl,
   withBaseurl,
+  useGridSystemProvider,
 } from '@myst-theme/providers';
 import { getProjectHeadings, type Heading } from '@myst-theme/common';
 
@@ -143,6 +144,7 @@ export const TableOfContents = ({
   projectSlug?: string;
   footer?: React.ReactNode;
 }) => {
+  const grid = useGridSystemProvider();
   const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
   const config = useSiteManifest();
@@ -162,7 +164,9 @@ export const TableOfContents = ({
     <div
       ref={tocRef}
       className={classNames(
-        'fixed xl:article-grid article-grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
+        'fixed',
+        `xl:${grid}`, // for example, xl:article-grid
+        'grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
         { hidden: !open },
         { 'z-30': open },
       )}

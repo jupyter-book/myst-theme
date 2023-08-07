@@ -92,7 +92,7 @@ export function AppCatchBoundary() {
   return (
     <Document theme={Theme.light}>
       <article className="article">
-        <main className="article-grid article-subgrid-gap col-screen">
+        <main className="article-grid subgrid-gap col-screen">
           <Error404 />
         </main>
       </article>

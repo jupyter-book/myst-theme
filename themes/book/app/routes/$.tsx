@@ -74,7 +74,7 @@ export function ArticlePageAndNavigation({
         <TabStateProvider>
           <article
             ref={container}
-            className="article content article-grid article-grid-gap"
+            className="article content article-grid grid-gap"
             style={{ marginTop: top + inset }}
           >
             {children}
@@ -100,7 +100,7 @@ export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
   const { hide_toc, hide_outline, hide_footer_links } = { ...siteDesign, ...pageDesign };
   return (
     <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={article.project}>
-      <main ref={container} className="article-grid article-subgrid-gap col-screen">
+      <main ref={container} className="article-grid subgrid-gap col-screen">
         <ArticlePage article={article} hide_all_footer_links={hide_footer_links} showAbstract />
         {!hide_outline && (
           <DocumentOutline

@@ -1,5 +1,14 @@
 # @myst-theme/styles
 
+## 0.5.0
+
+### Minor Changes
+
+- 0536fa7: Rename styles to allow for additional grid systems:
+
+  - `article-grid-gap` to `grid-gap`
+  - `article-subgrid-gap` to `subgrid-gap`
+
 ## 0.4.2
 
 ## 0.4.1

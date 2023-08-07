@@ -1,5 +1,26 @@
 # @myst-theme/site
 
+## 0.5.0
+
+### Patch Changes
+
+- 0536fa7: Rename styles to allow for additional grid systems:
+
+  - `article-grid-gap` to `grid-gap`
+  - `article-subgrid-gap` to `subgrid-gap`
+
+- 0536fa7: Add ArticleHeader component to site
+- 0536fa7: Add grid-system provider
+- Updated dependencies [d7f88f9]
+- Updated dependencies [0536fa7]
+  - @myst-theme/frontmatter@0.5.0
+  - @myst-theme/providers@0.5.0
+  - @myst-theme/diagrams@0.5.0
+  - @myst-theme/jupyter@0.5.0
+  - @myst-theme/common@0.5.0
+  - myst-to-react@0.5.0
+  - myst-demo@0.5.0
+
 ## 0.4.2
 
 ### Patch Changes

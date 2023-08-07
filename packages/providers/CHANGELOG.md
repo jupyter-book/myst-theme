@@ -1,5 +1,12 @@
 # @myst-theme/providers
 
+## 0.5.0
+
+### Patch Changes
+
+- 0536fa7: Add grid-system provider
+  - @myst-theme/common@0.5.0
+
 ## 0.4.2
 
 ### Patch Changes

@@ -173,7 +173,7 @@ export function Article({
                                 })
                               }
                             >
-                              <DocumentChartBarIcon className="inline h-5 pr-2" />
+                              <DocumentChartBarIcon className="inline h-5 pr-2 shrink-0" />
                               <span>{p.title}</span>
                             </NavLink>
                           </li>

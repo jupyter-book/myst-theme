@@ -9,6 +9,7 @@ import {
   GithubIcon,
   EmailIcon,
   RorIcon,
+  TwitterIcon,
 } from '@scienceicons/react/24/solid';
 import { LicenseBadges } from './licenses';
 import { DownloadsDropdown } from './downloads';
@@ -61,6 +62,17 @@ export function Author({
           title="ORCID (Open Researcher and Contributor ID)"
         >
           <OrcidIcon className="w-4 h-4 inline-block text-gray-400 hover:text-[#A9C751] -translate-y-[0.1em]" />
+        </a>
+      )}
+      {author.twitter && (
+        <a
+          className="ml-1"
+          href={`https://twitter.com/${author.twitter}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={`Twitter: ${author.twitter}`}
+        >
+          <TwitterIcon className="w-4 h-4 inline-block text-gray-400 hover:text-[#1DA1F2] -translate-y-[0.1em]" />
         </a>
       )}
     </span>
@@ -201,6 +213,22 @@ export function DateString({
     <time dateTime={date} className={classNames({ 'text-spacer': spacer })}>
       {dateString}
     </time>
+  );
+}
+
+export function TwitterLink({ twitter: possibleLink }: { twitter?: string }) {
+  if (!possibleLink) return null;
+  const twitter = possibleLink.replace(/^(https?:\/\/)?twitter\.com\//, '');
+  return (
+    <a
+      href={`https://twitter.com/${twitter}`}
+      title={`Twitter: ${twitter}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-inherit hover:text-inherit"
+    >
+      <TwitterIcon className="inline-block w-5 h-5 mr-1 opacity-60 hover:opacity-100" />
+    </a>
   );
 }
 

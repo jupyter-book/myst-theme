@@ -1,17 +1,19 @@
-import { useReferences } from '@myst-theme/providers';
+import { useGridSystemProvider, useReferences } from '@myst-theme/providers';
+import classNames from 'classnames';
 import { useState } from 'react';
 
 const HIDE_OVER_N_REFERENCES = 5;
 
 export function Bibliography() {
   const references = useReferences();
+  const grid = useGridSystemProvider();
   const { order, data } = references?.cite ?? {};
   const filtered = order?.filter((l) => l);
   const [hidden, setHidden] = useState(true);
   if (!filtered || !data || filtered.length === 0) return null;
   const refs = hidden ? filtered.slice(0, HIDE_OVER_N_REFERENCES) : filtered;
   return (
-    <section className="article-grid article-subgrid-gap col-screen">
+    <section className={classNames(grid, 'subgrid-gap col-screen')}>
       <div>
         {filtered.length > HIDE_OVER_N_REFERENCES && (
           <button

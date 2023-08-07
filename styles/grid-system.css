@@ -6,25 +6,32 @@
   .article-grid {
     @apply grid content-start grid-cols-article-sm md:grid-cols-article-md lg:grid-cols-article-lg xl:grid-cols-article-xl 2xl:grid-cols-article-2xl;
   }
-  .article-grid > * {
+  .article-left-grid {
+    @apply grid content-start grid-cols-article-sm md:grid-cols-article-left-md lg:grid-cols-article-left-lg xl:grid-cols-article-left-xl 2xl:grid-cols-article-left-2xl;
+  }
+  .article-grid > *,
+  .article-left-grid > * {
     /* The default is spanning the body for any child component */
     @apply col-body;
     /* Grids do not have margin-collapse, so each direct child needs to be addressed */
     margin-top: 0 !important;
   }
-  .article-grid-gap {
+  .grid-gap {
     @apply gap-1 md:gap-2 xl:gap-3 2xl:gap-4;
   }
-  .article-subgrid-gap {
+  .subgrid-gap {
     @apply gap-x-1 md:gap-x-2 xl:gap-x-3 2xl:gap-x-4;
   }
   /* These columns need more responsive design */
   .col-margin-left {
-    @apply col-margin-left-sm xl:col-margin-left-lg;
+    @apply col-body xl:col-margin-left-lg;
   }
   .col-margin-right,
   .col-margin {
-    @apply col-margin-right-sm lg:col-margin-right-lg;
+    @apply col-body lg:col-margin-right-lg;
+  }
+  .col-margin-right-inset {
+    @apply col-body lg:col-margin-right-inset-lg;
   }
   .col-gutter-page-right {
     @apply col-gutter-page-right-sm md:col-gutter-page-right-md lg:col-gutter-page-right-lg;

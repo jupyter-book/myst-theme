@@ -9,26 +9,22 @@ import {
   DEFAULT_NAV_HEIGHT,
   ArticlePageCatchBoundary,
   DocumentOutline,
-  ExternalOrInternalLink,
+  ArticleHeader,
 } from '@myst-theme/site';
-import {
-  FrontmatterBlock,
-  GitHubLink,
-  LicenseBadges,
-  OpenAccessBadge,
-} from '@myst-theme/frontmatter';
+import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import ArrowLeftIcon from '@heroicons/react/24/outline/ArrowLeftIcon';
 import DocumentArrowDownIcon from '@heroicons/react/24/outline/DocumentArrowDownIcon';
 import DocumentChartBarIcon from '@heroicons/react/24/outline/DocumentChartBarIcon';
-import ArrowTopRightOnSquareIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import { getConfig, getPage } from '~/utils/loaders.server';
-import { useLoaderData, useParams } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
 import {
+  GridSystemProvider,
   ReferencesProvider,
   TabStateProvider,
   UiStateProvider,
   useBaseurl,
+  useGridSystemProvider,
   useLinkProvider,
   useNavLinkProvider,
   useSiteManifest,
@@ -80,7 +76,9 @@ export function ArticlePageAndNavigation({
   return (
     <UiStateProvider>
       <TabStateProvider>
-        <article className="article content article-grid article-subgrid-gap">{children}</article>
+        <GridSystemProvider gridSystem="article-left-grid">
+          <article className="article content article-left-grid subgrid-gap">{children}</article>
+        </GridSystemProvider>
       </TabStateProvider>
     </UiStateProvider>
   );
@@ -216,15 +214,13 @@ export function Article({
 }
 
 export function ArticlePage({ article }: { article: PageLoader }) {
+  const grid = useGridSystemProvider();
   const { projects, hide_footer_links } = (useSiteManifest() ?? {}) as SiteManifest &
     ArticleTemplateOptions;
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
   const project = projects?.[0];
-
   const isIndex = article.slug === project?.index;
-
-  const downloads = [...(project?.exports ?? []), ...(project?.pages?.[0]?.exports ?? [])];
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -232,60 +228,10 @@ export function ArticlePage({ article }: { article: PageLoader }) {
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider contents={article}>
-          <header
-            className="w-full min-h-[300px] bg-no-repeat bg-cover bg-top py-16 px-10 col-screen bg-slate-50"
-            style={{
-              backgroundImage: (project as any)?.banner
-                ? `url(${(project as any)?.banner})`
-                : undefined,
-            }}
-          >
-            <div className="w-full h-full border-2 border-white shadow-2xl bg-white/80 dark:bg-black/80 backdrop-blur article article-grid article-grid-gap dark:border-gray-800">
-              <div className="flex w-full p-2 pl-5 align-middle col-screen bg-white/20 dark:bg-slate-50/20">
-                {/* <span className="px-2 opacity-50 select-none">{' / '}</span> */}
-                {isIndex && (
-                  <span className="font-normal">{project?.short_title || project?.title}</span>
-                )}
-                {!isIndex && (
-                  <>
-                    <Link
-                      to={baseurl || '/'}
-                      className="font-normal hover:text-blue-600"
-                      prefetch="intent"
-                    >
-                      {project?.short_title || project?.title}
-                    </Link>
-                    <span className="px-2 opacity-50 select-none">{' / '}</span>
-                    <span className="font-normal">
-                      {article.frontmatter?.short_title || article.frontmatter?.title}
-                    </span>
-                  </>
-                )}
-                <div className="flex-grow" />
-                <div className="hidden md:block">
-                  <LicenseBadges license={project?.license} />
-                  <OpenAccessBadge open_access={project?.open_access} />
-                  <GitHubLink github={project?.github} />
-                </div>
-              </div>
-
-              <div className="flex flex-col p-5 mb-5 md:flex-row col-screen">
-                <FrontmatterBlock
-                  frontmatter={project as any}
-                  authorStyle="list"
-                  className="flex-grow"
-                  hideBadges
-                  hideExports
-                />
-                <div className="md:self-center h-fit">
-                  <Actions actions={downloads as any} />
-                </div>
-              </div>
-            </div>
-          </header>
+          <ArticleHeader frontmatter={project as any} />
           <main
             id="main"
-            className={classNames('article-grid article-subgrid-gap col-screen', {
+            className={classNames(grid, 'subgrid-gap col-screen', {
               'pt-10': isIndex,
             })}
           >

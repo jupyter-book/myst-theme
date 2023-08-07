@@ -74,6 +74,7 @@ export function Author({
         >
           <TwitterIcon className="w-4 h-4 inline-block text-gray-400 hover:text-[#1DA1F2] -translate-y-[0.1em]" />
         </a>
+      )}
     </span>
   );
 }

@@ -231,6 +231,7 @@ export function TwitterLink({ twitter: possibleLink }: { twitter?: string }) {
     </a>
   );
 }
+
 export function GitHubLink({ github: possibleLink }: { github?: string }) {
   if (!possibleLink) return null;
   const github = possibleLink.replace(/^(https?:\/\/)?github\.com\//, '');

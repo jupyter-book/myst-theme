@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.5.0
+
+### Patch Changes
+
+- d7f88f9: Add twitter icon to authors
+
 ## 0.4.2
 
 ### Patch Changes

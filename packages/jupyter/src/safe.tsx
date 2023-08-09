@@ -72,6 +72,7 @@ function SafeOutput({ output }: { output: MinifiedOutput }) {
 }
 
 export function SafeOutputs({ keyStub, outputs }: { keyStub: string; outputs: MinifiedOutput[] }) {
+  if (!outputs) return null;
   // TODO better key - add keys during content creation?
   const components = outputs.map((output, idx) => (
     <SafeOutput key={`${keyStub}-${idx}`} output={output} />

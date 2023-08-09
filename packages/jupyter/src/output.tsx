@@ -24,6 +24,7 @@ export function allOutputsAreSafe(
   directOutputTypes: Set<string>,
   directMimeTypes: Set<string>,
 ) {
+  if (!outputs || outputs.length === 0) return true;
   return outputs.reduce((flag, output) => {
     if (directOutputTypes.has(output.output_type)) return flag && true;
     const data = (output as MinifiedMimeOutput).data;

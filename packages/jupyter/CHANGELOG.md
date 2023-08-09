@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.5.1
+
+### Patch Changes
+
+- f8ab986: Fix embed node to render all children.
+- f8ab986: Guard output if null or undefined
+  - @myst-theme/providers@0.5.1
+  - myst-to-react@0.5.1
+
 ## 0.5.0
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # @myst-theme/site
 
+## 0.5.1
+
+### Patch Changes
+
+- 4701ce8: Change height intersect calculation for `useOutlineHeight` to include container offset.
+- 4701ce8: Add supporting documents export from MyST Site
+- 4701ce8: Allow document outline to have children
+- 4701ce8: Remove the minimum height from the banner
+- d98221f: Add `children` and `className` to `ArticleHeader`
+- Updated dependencies [f8ab986]
+- Updated dependencies [f8ab986]
+  - @myst-theme/jupyter@0.5.1
+  - @myst-theme/providers@0.5.1
+  - @myst-theme/frontmatter@0.5.1
+  - @myst-theme/diagrams@0.5.1
+  - @myst-theme/common@0.5.1
+  - myst-to-react@0.5.1
+  - myst-demo@0.5.1
+
 ## 0.5.0
 
 ### Patch Changes

@@ -10,6 +10,7 @@ import {
   ArticlePageCatchBoundary,
   DocumentOutline,
   ArticleHeader,
+  SupportingDocuments,
 } from '@myst-theme/site';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import ArrowLeftIcon from '@heroicons/react/24/outline/ArrowLeftIcon';
@@ -150,36 +151,9 @@ export function Article({
           {!hideTitle && <FrontmatterBlock frontmatter={{ title, subtitle }} className="mb-5" />}
           {!hideOutline && (
             <div className="sticky top-0 z-10 hidden h-0 pt-2 ml-10 col-margin-right lg:block">
-              <DocumentOutline top={0} className="relative lg:block" />
-              {projects?.[0]?.pages && projects?.[0]?.pages.length > 0 && (
-                <>
-                  <div className="mt-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">
-                    Supporting Documents
-                  </div>
-                  <ul className="pl-0 text-sm leading-6 list-none text-slate-400">
-                    {projects?.[0]?.pages
-                      .filter((p) => 'slug' in p)
-                      .map((p) => {
-                        return (
-                          <li key={p.slug}>
-                            <NavLink
-                              to={withBaseurl(`/${p.slug}#main`, baseurl)}
-                              prefetch="intent"
-                              className={({ isActive }) =>
-                                classNames('no-underline flex self-center', {
-                                  'text-blue-600': isActive,
-                                })
-                              }
-                            >
-                              <DocumentChartBarIcon className="inline h-5 pr-2 shrink-0" />
-                              <span>{p.title}</span>
-                            </NavLink>
-                          </li>
-                        );
-                      })}
-                  </ul>
-                </>
-              )}
+              <DocumentOutline top={0} className="relative">
+                <SupportingDocuments />
+              </DocumentOutline>
             </div>
           )}
           {abstract && (

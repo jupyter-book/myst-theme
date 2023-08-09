@@ -140,7 +140,7 @@ export const TableOfContents = ({
   footer,
 }: {
   top?: number;
-  tocRef?: React.RefObject<HTMLDivElement>;
+  tocRef?: React.RefObject<HTMLElement>;
   projectSlug?: string;
   footer?: React.ReactNode;
 }) => {
@@ -162,7 +162,7 @@ export const TableOfContents = ({
   if (!headings) return null;
   return (
     <div
-      ref={tocRef}
+      ref={tocRef as any}
       className={classNames(
         'fixed',
         `xl:${grid}`, // for example, xl:article-grid

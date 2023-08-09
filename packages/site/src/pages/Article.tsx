@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReferencesProvider } from '@myst-theme/providers';
-import { Bibliography, ContentBlocks, FooterLinksBlock } from '../components';
+import { Abstract, Bibliography, ContentBlocks, FooterLinksBlock, Keywords } from '../components';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound';
 import type { PageLoader } from '@myst-theme/common';
@@ -17,7 +17,6 @@ import {
   ErrorTray,
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
-import classNames from 'classnames';
 
 export const ArticlePage = React.memo(function ({
   article,
@@ -61,29 +60,8 @@ export const ArticlePage = React.memo(function ({
           )}
           {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
           <ErrorTray pageSlug={article.slug} />
-          {abstract && (
-            <>
-              <span className="font-semibold">Abstract</span>
-              <div className="px-6 py-1 m-3 rounded-sm bg-slate-50 dark:bg-slate-800">
-                <ContentBlocks mdast={abstract as GenericParent} className="col-body" />
-              </div>
-              {!hideKeywords && keywords.length > 0 && (
-                <div className="mb-10">
-                  <span className="mr-2 font-semibold">Keywords:</span>
-                  {keywords.map((k, i) => (
-                    <span
-                      key={k}
-                      className={classNames({
-                        "after:content-[','] after:mr-1": i < keywords.length - 1,
-                      })}
-                    >
-                      {k}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </>
-          )}
+          <Abstract content={abstract as GenericParent} />
+          {abstract && <Keywords keywords={keywords} hideKeywords={hideKeywords} />}
           <ContentBlocks pageKind={article.kind} mdast={tree as GenericParent} />
           <Bibliography />
           <ConnectionStatusTray />

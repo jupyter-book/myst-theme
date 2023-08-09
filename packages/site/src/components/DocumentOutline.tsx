@@ -1,7 +1,14 @@
+import {
+  useBaseurl,
+  useNavLinkProvider,
+  useSiteManifest,
+  withBaseurl,
+} from '@myst-theme/providers';
 import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import DocumentChartBarIcon from '@heroicons/react/24/outline/DocumentChartBarIcon';
 
 const SELECTOR = [1, 2, 3, 4].map((n) => `main h${n}`).join(', ');
 const HIGHLIGHT_CLASS = 'highlight';
@@ -180,13 +187,15 @@ const useIntersectionObserver = (highlight: () => void, onScreen: Set<HTMLHeadin
   return { observer };
 };
 
-export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
+export function useOutlineHeight<T extends HTMLElement = HTMLElement>(
+  existingContainer?: React.RefObject<T>,
+) {
   const container = useRef<T>(null);
   const outline = useRef<T>(null);
   const transitionState = useNavigation().state;
   const setHeight = () => {
     if (!container.current || !outline.current) return;
-    const height = container.current.offsetHeight - window.scrollY;
+    const height = container.current.offsetHeight - window.scrollY + container.current.offsetTop;
     outline.current.style.display = height < 50 ? 'none' : '';
     outline.current.style.height = height > window.innerHeight ? '' : `${height}px`;
     outline.current.style.opacity = height && height > 300 ? '' : '0';
@@ -201,6 +210,11 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [container.current, outline.current, transitionState]);
+
+  useEffect(() => {
+    if (!existingContainer || !existingContainer.current) return;
+    (container as any).current = existingContainer.current;
+  }, [existingContainer?.current]);
   return { container, outline };
 }
 
@@ -209,16 +223,18 @@ export const DocumentOutline = ({
   top,
   className,
   selector = SELECTOR,
+  children,
 }: {
   outlineRef?: React.RefObject<HTMLElement>;
   top?: number;
   height?: number;
   className?: string;
   selector?: string;
+  children?: React.ReactNode;
 }) => {
   const { activeId, headings, highlight } = useHeaders(selector);
   if (headings.length <= 1 || !onClient) {
-    return <nav suppressHydrationWarning style={{ display: 'none' }} />;
+    return <nav suppressHydrationWarning>{children}</nav>;
   }
   return (
     <nav
@@ -238,6 +254,44 @@ export const DocumentOutline = ({
         In this article
       </div>
       <Headings headings={headings} activeId={activeId} highlight={highlight} selector={selector} />
+      {children}
     </nav>
   );
 };
+
+export function SupportingDocuments() {
+  const { projects } = useSiteManifest() ?? {};
+  const NavLink = useNavLinkProvider();
+  const baseurl = useBaseurl();
+  const pages = projects?.[0]?.pages;
+  if (!pages || pages.length === 0) return null;
+  return (
+    <>
+      <div className="my-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">
+        Supporting Documents
+      </div>
+      <ul className="flex flex-col gap-2 pl-0 text-sm leading-6 list-none text-slate-700 dark:text-slate-300">
+        {pages
+          .filter((p) => 'slug' in p)
+          .map((p) => {
+            return (
+              <li key={p.slug}>
+                <NavLink
+                  to={withBaseurl(`/${p.slug}#main`, baseurl)}
+                  prefetch="intent"
+                  className={({ isActive }) =>
+                    classNames('no-underline flex self-center', {
+                      'text-blue-600': isActive,
+                    })
+                  }
+                >
+                  <DocumentChartBarIcon className="inline h-5 pr-2 shrink-0" />
+                  <span>{p.short_title || p.title}</span>
+                </NavLink>
+              </li>
+            );
+          })}
+      </ul>
+    </>
+  );
+}

@@ -28,7 +28,7 @@ export function ArticleHeader({
         'subgrid-gap',
         {
           'bg-no-repeat bg-cover bg-top': frontmatter?.banner,
-          'pb-[4rem] min-h-[300px]': frontmatter?.banner,
+          'pb-[4rem]': frontmatter?.banner,
         },
         className,
       )}

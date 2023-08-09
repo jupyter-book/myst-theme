@@ -9,15 +9,29 @@ import { useGridSystemProvider } from '@myst-theme/providers';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
 
-export function ArticleHeader({ frontmatter }: { frontmatter: PageFrontmatter }) {
+export function ArticleHeader({
+  frontmatter,
+  children,
+  className,
+}: {
+  frontmatter: PageFrontmatter;
+  children?: React.ReactNode;
+  className?: string;
+}) {
   const grid = useGridSystemProvider();
   const { subject, venue, biblio, ...rest } = frontmatter ?? {};
   return (
     <header
-      className={classNames('w-full relative pt-[2rem] col-screen article', grid, 'subgrid-gap', {
-        'bg-no-repeat bg-cover bg-top': frontmatter?.banner,
-        'pb-[4rem] min-h-[300px]': frontmatter?.banner,
-      })}
+      className={classNames(
+        'w-full relative pt-[2rem] col-screen article',
+        grid,
+        'subgrid-gap',
+        {
+          'bg-no-repeat bg-cover bg-top': frontmatter?.banner,
+          'pb-[4rem] min-h-[300px]': frontmatter?.banner,
+        },
+        className,
+      )}
       style={{
         backgroundImage: frontmatter?.banner ? `url(${frontmatter?.banner})` : undefined,
       }}
@@ -54,6 +68,7 @@ export function ArticleHeader({ frontmatter }: { frontmatter: PageFrontmatter })
         hideBadges
         hideExports
       />
+      {children}
     </header>
   );
 }

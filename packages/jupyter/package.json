@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/jupyter",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
@@ -23,7 +23,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
-    "@myst-theme/providers": "^0.5.0",
+    "@myst-theme/providers": "^0.5.1",
     "@scienceicons/react": "^0.0.5",
     "ansi-to-react": "^6.1.6",
     "buffer": "^6.0.3",
@@ -33,7 +33,7 @@
     "myst-config": "^1.1.1",
     "myst-frontmatter": "^1.1.1",
     "myst-spec": "^0.0.4",
-    "myst-to-react": "^0.5.0",
+    "myst-to-react": "^0.5.1",
     "nanoid": "^4.0.2",
     "nbtx": "^0.2.3",
     "react-syntax-highlighter": "^15.5.0",

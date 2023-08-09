@@ -1,5 +1,25 @@
 # @myst-theme/article
 
+## 0.5.1
+
+### Patch Changes
+
+- 4701ce8: Add supporting documents export from MyST Site
+- 4701ce8: Remove the minimum height from the banner
+- Updated dependencies [4701ce8]
+- Updated dependencies [4701ce8]
+- Updated dependencies [4701ce8]
+- Updated dependencies [4701ce8]
+- Updated dependencies [d98221f]
+- Updated dependencies [f8ab986]
+- Updated dependencies [f8ab986]
+  - @myst-theme/site@0.5.1
+  - @myst-theme/jupyter@0.5.1
+  - @myst-theme/providers@0.5.1
+  - @myst-theme/styles@0.5.1
+  - @myst-theme/common@0.5.1
+  - @myst-theme/icons@0.5.1
+
 ## 0.5.0
 
 ### Patch Changes

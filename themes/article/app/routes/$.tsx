@@ -11,11 +11,12 @@ import {
   DocumentOutline,
   ArticleHeader,
   SupportingDocuments,
+  Abstract,
+  Keywords,
 } from '@myst-theme/site';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import ArrowLeftIcon from '@heroicons/react/24/outline/ArrowLeftIcon';
 import DocumentArrowDownIcon from '@heroicons/react/24/outline/DocumentArrowDownIcon';
-import DocumentChartBarIcon from '@heroicons/react/24/outline/DocumentChartBarIcon';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
@@ -27,9 +28,7 @@ import {
   useBaseurl,
   useGridSystemProvider,
   useLinkProvider,
-  useNavLinkProvider,
   useSiteManifest,
-  withBaseurl,
 } from '@myst-theme/providers';
 import type { GenericParent } from 'myst-common';
 import { extractPart, copyNode } from 'myst-common';
@@ -134,9 +133,6 @@ export function Article({
   hideOutline?: boolean;
   hideTitle?: boolean;
 }) {
-  const { projects } = useSiteManifest() ?? {};
-  const NavLink = useNavLinkProvider();
-  const baseurl = useBaseurl();
   const keywords = article.frontmatter?.keywords ?? [];
   const tree = copyNode(article.mdast);
   const abstract = extractPart(tree, 'abstract');
@@ -156,29 +152,8 @@ export function Article({
               </DocumentOutline>
             </div>
           )}
-          {abstract && (
-            <>
-              <span className="font-semibold">Abstract</span>
-              <div className="px-6 py-1 m-3 rounded-sm bg-slate-50 dark:bg-slate-800">
-                <ContentBlocks mdast={abstract as GenericParent} className="col-body" />
-              </div>
-            </>
-          )}
-          {!hideKeywords && keywords.length > 0 && (
-            <div className="mb-10">
-              <span className="mr-2 font-semibold">Keywords:</span>
-              {keywords.map((k, i) => (
-                <span
-                  key={k}
-                  className={classNames({
-                    "after:content-[','] after:mr-1": i < keywords.length - 1,
-                  })}
-                >
-                  {k}
-                </span>
-              ))}
-            </div>
-          )}
+          <Abstract content={abstract as GenericParent} />
+          <Keywords keywords={keywords} hideKeywords={hideKeywords} />
           <ContentBlocks mdast={tree as GenericParent} />
           <Bibliography />
         </ExecuteScopeProvider>

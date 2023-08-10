@@ -1,5 +1,20 @@
 # @myst-theme/site
 
+## 0.5.2
+
+### Patch Changes
+
+- 7d2fb88: Updated `thebe` packages to `0.3.2`
+- 723224f: Add abstract and keywords components
+- Updated dependencies [7d2fb88]
+  - @myst-theme/jupyter@0.5.2
+  - @myst-theme/providers@0.5.2
+  - @myst-theme/frontmatter@0.5.2
+  - @myst-theme/diagrams@0.5.2
+  - @myst-theme/common@0.5.2
+  - myst-to-react@0.5.2
+  - myst-demo@0.5.2
+
 ## 0.5.1
 
 ### Patch Changes

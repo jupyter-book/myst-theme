@@ -84,14 +84,13 @@ export function AuthorsList({ authors }: { authors: PageFrontmatter['authors'] }
   return (
     <div>
       {authors.map((a, i) => (
-        <span key={a.name}>
-          <Author
-            author={a}
-            className={classNames('inline-block', {
-              'text-comma': i < authors.length - 1,
-            })}
-          />
-        </span>
+        <Author
+          key={a.name}
+          author={a}
+          className={classNames('inline-block', {
+            'text-comma': i < authors.length - 1,
+          })}
+        />
       ))}
     </div>
   );

@@ -343,7 +343,8 @@ export function MySTRenderer({
                 title={`Download Micorsoft Word`}
                 aria-label={`Download Micorsoft Word`}
               >
-                <ArrowDownTrayIcon className="inline h-[1.3em] mr-1" /> Download as Microsoft Word
+                <ArrowDownTrayIcon width="1.3rem" height="1.3rem" className="inline mr-1" />{' '}
+                Download as Microsoft Word
               </button>
             </div>
           )}
@@ -359,9 +360,15 @@ export function MySTRenderer({
                   'bg-slate-500 dark:bg-slate-800': m.fatal === null,
                 })}
               >
-                {m.fatal === true && <ExclamationCircleIcon className="inline h-[1.3em] mr-1" />}
-                {m.fatal === false && <ExclamationTriangleIcon className="inline h-[1.3em] mr-1" />}
-                {m.fatal === null && <InformationCircleIcon className="inline h-[1.3em] mr-1" />}
+                {m.fatal === true && (
+                  <ExclamationCircleIcon width="1.3rem" height="1.3rem" className="inline mr-1" />
+                )}
+                {m.fatal === false && (
+                  <ExclamationTriangleIcon width="1.3rem" height="1.3rem" className="inline mr-1" />
+                )}
+                {m.fatal === null && (
+                  <InformationCircleIcon width="1.3rem" height="1.3rem" className="inline mr-1" />
+                )}
                 <code>{m.ruleId || m.source}</code>: {m.message}
               </div>
             ))}

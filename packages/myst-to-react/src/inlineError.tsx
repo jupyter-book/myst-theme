@@ -8,7 +8,7 @@ interface Props {
 export function InlineError({ value, message }: Props) {
   return (
     <span className="text-yellow-600" title={message || value}>
-      <ExclamationCircleIcon className="inline h-[1em] mr-1" />
+      <ExclamationCircleIcon width="1rem" height="1rem" className="inline mr-1" />
       {value}
     </span>
   );

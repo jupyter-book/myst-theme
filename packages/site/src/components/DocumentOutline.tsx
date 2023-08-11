@@ -285,7 +285,11 @@ export function SupportingDocuments() {
                     })
                   }
                 >
-                  <DocumentChartBarIcon className="inline h-5 pr-2 shrink-0" />
+                  <DocumentChartBarIcon
+                    width="1.25rem"
+                    height="1.25rem"
+                    className="inline mr-2 shrink-0"
+                  />
                   <span>{p.short_title || p.title}</span>
                 </NavLink>
               </li>

@@ -29,9 +29,9 @@ export function CopyIcon({ text, className }: { text: string; className?: string
       aria-label="Copy code to clipboard"
     >
       {copied ? (
-        <CheckIcon className="w-[24px] h-[24px] text-success" />
+        <CheckIcon width={24} height={24} className="text-success" />
       ) : (
-        <DocumentDuplicateIcon className="w-[24px] h-[24px]" />
+        <DocumentDuplicateIcon width={24} height={24} />
       )}
     </button>
   );

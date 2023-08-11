@@ -190,7 +190,11 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                   to={baseurl || '/'}
                   className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"
                 >
-                  <ArrowLeftIcon className="self-center w-4 h-4 transition-transform group-hover:-translate-x-1 shrink-0" />
+                  <ArrowLeftIcon
+                    width="1rem"
+                    height="1rem"
+                    className="self-center transition-transform group-hover:-translate-x-1 shrink-0"
+                  />
                   <span>Back to Article</span>
                 </Link>
                 <div className="flex-grow text-center">{article.frontmatter.title}</div>
@@ -198,7 +202,11 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                   href={article.frontmatter?.exports?.[0]?.url}
                   className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"
                 >
-                  <DocumentArrowDownIcon className="self-center w-4 h-4 transition-transform group-hover:-translate-x-1 shrink-0" />
+                  <DocumentArrowDownIcon
+                    width="1rem"
+                    height="1rem"
+                    className="self-center transition-transform group-hover:-translate-x-1 shrink-0"
+                  />
                   <span>Download {article.kind}</span>
                 </a>
               </div>

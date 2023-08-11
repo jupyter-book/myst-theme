@@ -70,7 +70,7 @@ function GithubFilePreview({
           target="_blank"
           rel="noreferrer"
         >
-          <ExternalLinkIcon className="float-right w-4 h-4" />
+          <ExternalLinkIcon width="1rem" height="1rem" className="float-right" />
         </a>
         <div className="mt-2">Error loading "{file}" from GitHub.</div>
       </div>
@@ -181,10 +181,18 @@ function GithubIssuePreview({
       </div>
       <div className="my-2 text-lg font-bold dark:text-white">
         {resp.state === 'open' && (
-          <PlusCircleIcon className="inline-block w-6 h-6 mr-2 text-green-700 -translate-y-px dark:text-green-500" />
+          <PlusCircleIcon
+            width="1.5rem"
+            height="1.5rem"
+            className="inline-block mr-2 text-green-700 -translate-y-px dark:text-green-500"
+          />
         )}
         {resp.state === 'closed' && (
-          <CheckCircleIcon className="inline-block w-6 h-6 mr-2 text-purple-700 -translate-y-px dark:text-purple-500" />
+          <CheckCircleIcon
+            width="1.5rem"
+            height="1.5rem"
+            className="inline-block mr-2 text-purple-700 -translate-y-px dark:text-purple-500"
+          />
         )}
         {resp.title}
       </div>

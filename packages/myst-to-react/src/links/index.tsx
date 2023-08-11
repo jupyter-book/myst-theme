@@ -98,7 +98,7 @@ export const link: NodeRenderer<TransformedLink> = ({ node }) => {
 };
 
 export const linkBlock: NodeRenderer<TransformedLink> = ({ node }) => {
-  const iconClass = 'w-6 h-6 self-center transition-transform flex-none ml-3';
+  const iconClass = 'self-center transition-transform flex-none ml-3';
   const containerClass =
     'flex-1 p-4 my-5 block border font-normal hover:border-blue-500 dark:hover:border-blue-400 no-underline hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-100 border-gray-200 dark:border-gray-500 rounded shadow-sm hover:shadow-lg dark:shadow-neutral-700';
   const internal = node.internal ?? false;
@@ -110,8 +110,8 @@ export const linkBlock: NodeRenderer<TransformedLink> = ({ node }) => {
           <MyST ast={node.children} />
         </div>
       </div>
-      {internal && <LinkIcon className={iconClass} />}
-      {!internal && <ExternalLinkIcon className={iconClass} />}
+      {internal && <LinkIcon width="1.5rem" height="1.5rem" className={iconClass} />}
+      {!internal && <ExternalLinkIcon width="1.5rem" height="1.5rem" className={iconClass} />}
     </div>
   );
 

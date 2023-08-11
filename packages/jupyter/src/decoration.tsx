@@ -49,7 +49,7 @@ export function OutputDecoration({
         <div className="sticky top-[60px] z-[2] w-full bg-gray-100/80 backdrop-blur dark:bg-neutral-800/80 py-1 px-2">
           <div className="flex items-center">
             <div className="flex items-center">
-              <JupyterIcon className="inline-block w-5 h-5" />
+              <JupyterIcon width="1.25rem" height="1.25rem" className="inline-block" />
               <span className="ml-2">Source:</span>
               {url && (
                 <Link
@@ -76,7 +76,7 @@ export function OutputDecoration({
     return (
       <>
         <div className="flex items-center justify-end text-xs">
-          <JupyterIcon className="inline-block w-3 h-3" />
+          <JupyterIcon width="0.75rem" height="0.75rem" className="inline-block" />
           <div className="ml-1">Source:</div>
           {url && (
             <Link

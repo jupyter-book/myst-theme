@@ -93,7 +93,11 @@ export function TwitterLink({ twitter: possibleLink }: { twitter?: string }) {
       rel="noopener noreferrer"
       className="text-inherit hover:text-inherit"
     >
-      <TwitterIcon className="inline-block w-5 h-5 mr-1 opacity-60 hover:opacity-100" />
+      <TwitterIcon
+        width="1.25rem"
+        height="1.25rem"
+        className="inline-block mr-1 opacity-60 hover:opacity-100"
+      />
     </a>
   );
 }
@@ -109,7 +113,11 @@ export function GitHubLink({ github: possibleLink }: { github?: string }) {
       rel="noopener noreferrer"
       className="text-inherit hover:text-inherit"
     >
-      <GithubIcon className="inline-block w-5 h-5 mr-1 opacity-60 hover:opacity-100" />
+      <GithubIcon
+        width="1.25rem"
+        height="1.25rem"
+        className="inline-block mr-1 opacity-60 hover:opacity-100"
+      />
     </a>
   );
 }
@@ -124,7 +132,11 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
       title="Open Access"
       className="text-inherit hover:text-inherit"
     >
-      <OpenAccessIcon className="w-5 h-5 mr-1 inline-block opacity-60 hover:opacity-100 hover:text-[#E18435]" />
+      <OpenAccessIcon
+        width="1.25rem"
+        height="1.25rem"
+        className="mr-1 inline-block opacity-60 hover:opacity-100 hover:text-[#E18435]"
+      />
     </a>
   );
 }
@@ -226,7 +238,7 @@ export function FrontmatterBlock({
               <GitHubLink github={github} />
               {isJupyter && (
                 <div className="inline-block mr-1">
-                  <JupyterIcon className="inline-block w-5 h-5" />
+                  <JupyterIcon width="1.25rem" height="1.25rem" className="inline-block" />
                 </div>
               )}
             </>

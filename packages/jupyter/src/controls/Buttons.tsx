@@ -25,12 +25,12 @@ export function SpinnerStatusButton({
     title = modified ? 'The figure has been modified' : "The figure is in it's original state";
   }
 
-  let icon = <PowerIcon className="w-6 h-6" />;
+  let icon = <PowerIcon width="1.5rem" height="1.5rem" />;
   if (ready) {
     if (modified) {
-      icon = <Bolt className="w-6 h-6 text-green-600" />;
+      icon = <Bolt width="1.5rem" height="1.5rem" className="text-green-600" />;
     } else {
-      icon = <BoltIconSolid className="w-6 h-6 text-green-600" />;
+      icon = <BoltIconSolid width="1.5rem" height="1.5rem" className="text-green-600" />;
     }
   }
 
@@ -52,8 +52,8 @@ export function SpinnerStatusButton({
         {icon}
       </button>
       {busy && (
-        <span className="absolute top-0 left-0 z-10 w-[22px] h-[22px] opacity-100">
-          <Spinner size={24} />
+        <span className="absolute top-0 left-0 z-10 opacity-100">
+          <Spinner size={22} />
         </span>
       )}
     </div>
@@ -93,8 +93,8 @@ function SpinnerButton({
         {icon}
       </button>
       {busy && (
-        <span className="absolute top-0 left-0 z-10 w-[22px] h-[22px] opacity-100">
-          <Spinner size={24} />
+        <span className="absolute top-0 left-0 z-10 opacity-100">
+          <Spinner size={22} />
         </span>
       )}
     </div>
@@ -121,7 +121,7 @@ export function Run({
       disabled={disabled}
       title={title ?? 'run all cells'}
       onClick={onClick}
-      icon={<PlayCircleIcon className="inline-block w-6 h-6 align-top" />}
+      icon={<PlayCircleIcon width="1.5rem" height="1.5rem" className="inline-block align-top" />}
     />
   );
 }
@@ -146,7 +146,13 @@ export function Power({
       disabled={disabled}
       title={title ?? 'enable compute'}
       onClick={onClick}
-      icon={<PowerIcon className="inline-block w-6 h-6 align-top dark:text-white" />}
+      icon={
+        <PowerIcon
+          width="1.5rem"
+          height="1.5rem"
+          className="inline-block align-top dark:text-white"
+        />
+      }
     />
   );
 }
@@ -171,7 +177,7 @@ export function ReRun({
       disabled={disabled}
       title={title ?? 'run all cells'}
       onClick={onClick}
-      icon={<ArrowPathIcon className="inline-block w-6 h-6 align-top" />}
+      icon={<ArrowPathIcon width="1.5rem" height="1.5rem" className="inline-block align-top" />}
     />
   );
 }
@@ -196,7 +202,7 @@ export function Reset({
       disabled={disabled}
       title={title ?? 'reset notebook'}
       onClick={onClick}
-      icon={<ArrowUturnLeft className="inline-block w-6 h-6 align-top" />}
+      icon={<ArrowUturnLeft width="1.5rem" height="1.5rem" className="inline-block align-top" />}
     />
   );
 }
@@ -223,7 +229,7 @@ export function Clear({
       title={title ?? 'clear'}
       aria-label={title ?? 'clear'}
     >
-      <MinusCircleIcon className="inline-block w-6 h-6 align-top" />
+      <MinusCircleIcon width="1.5rem" height="1.5rem" className="inline-block align-top" />
     </button>
   );
 }
@@ -247,7 +253,11 @@ export function Launch({
       title={title ?? 'launch in jupyter'}
       aria-label={title ?? 'launch in jupyter'}
     >
-      <ArrowTopRightOnSquareIcon className="inline-block w-6 h-6 align-top" />
+      <ArrowTopRightOnSquareIcon
+        width="1.5rem"
+        height="1.5rem"
+        className="inline-block align-top"
+      />
     </button>
   );
 }

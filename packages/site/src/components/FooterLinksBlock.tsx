@@ -21,14 +21,22 @@ const FooterLink = ({
     >
       <div className="flex h-full align-middle">
         {right && (
-          <ArrowLeftIcon className="self-center w-6 h-6 transition-transform group-hover:-translate-x-1 shrink-0" />
+          <ArrowLeftIcon
+            width="1.5rem"
+            height="1.5rem"
+            className="self-center transition-transform group-hover:-translate-x-1 shrink-0"
+          />
         )}
         <div className={classNames('flex-grow', { 'text-right': right })}>
           <div className="text-xs text-gray-500 dark:text-gray-400">{group || ' '}</div>
           {short_title || title}
         </div>
         {!right && (
-          <ArrowRightIcon className="self-center w-6 h-6 transition-transform group-hover:translate-x-1 shrink-0" />
+          <ArrowRightIcon
+            width="1.5rem"
+            height="1.5rem"
+            className="self-center transition-transform group-hover:translate-x-1 shrink-0"
+          />
         )}
       </div>
     </Link>

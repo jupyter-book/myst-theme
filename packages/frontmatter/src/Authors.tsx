@@ -21,7 +21,11 @@ export function Author({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <EmailIcon className="w-4 h-4 inline-block text-gray-400 hover:text-blue-400 -translate-y-[0.1em]" />
+          <EmailIcon
+            width="1rem"
+            height="1rem"
+            className="inline-block text-gray-400 hover:text-blue-400 -translate-y-[0.1em]"
+          />
         </a>
       )}
       {author.orcid && (
@@ -32,7 +36,11 @@ export function Author({
           rel="noopener noreferrer"
           title="ORCID (Open Researcher and Contributor ID)"
         >
-          <OrcidIcon className="w-4 h-4 inline-block text-gray-400 hover:text-[#A9C751] -translate-y-[0.1em]" />
+          <OrcidIcon
+            width="1rem"
+            height="1rem"
+            className="inline-block text-gray-400 hover:text-[#A9C751] -translate-y-[0.1em]"
+          />
         </a>
       )}
       {author.twitter && (
@@ -43,7 +51,11 @@ export function Author({
           rel="noopener noreferrer"
           title={`Twitter: ${author.twitter}`}
         >
-          <TwitterIcon className="w-4 h-4 inline-block text-gray-400 hover:text-[#1DA1F2] -translate-y-[0.1em]" />
+          <TwitterIcon
+            width="1rem"
+            height="1rem"
+            className="inline-block text-gray-400 hover:text-[#1DA1F2] -translate-y-[0.1em]"
+          />
         </a>
       )}
     </span>

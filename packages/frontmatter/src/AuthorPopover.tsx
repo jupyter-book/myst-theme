@@ -1,11 +1,10 @@
 import React from 'react';
-import { RorIcon } from '@scienceicons/react/24/solid';
 import * as Popover from '@radix-ui/react-popover';
 import type { PageFrontmatter } from 'myst-frontmatter';
+import { Affiliation } from './Affiliations';
 
 type Author = Required<PageFrontmatter>['authors'][0];
 type Affiliations = Required<PageFrontmatter>['affiliations'];
-type Affiliation = Affiliations[0];
 
 function Definition({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -13,36 +12,6 @@ function Definition({ title, children }: { title: string; children: React.ReactN
       <dt className="text-sm font-medium leading-6 text-gray-900">{title}</dt>
       <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{children}</dd>
     </div>
-  );
-}
-
-export function Affiliation({
-  affiliations,
-  affiliationId,
-}: {
-  affiliationId: string;
-  affiliations?: Affiliations;
-}) {
-  if (!affiliations || affiliations.length === 0) return null;
-  const affiliationsLookup = Object.fromEntries(
-    affiliations?.map(({ id, ...rest }: any) => [id, rest]) ?? [],
-  );
-  const affiliation = affiliationsLookup[affiliationId] ?? { name: affiliationId };
-  return (
-    <>
-      {affiliation.name || affiliation.institution}{' '}
-      {affiliation.ror && (
-        <a
-          className="ml-1"
-          href={`https://ror.org/${affiliation.ror.replace(/(https?:\/\/)?ror\.org\//, '')}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Research Organization Registry"
-        >
-          <RorIcon width="1rem" height="1rem" className="inline-block" />
-        </a>
-      )}
-    </>
   );
 }
 

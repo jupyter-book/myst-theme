@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import { OrcidIcon, EmailIcon, RorIcon, TwitterIcon } from '@scienceicons/react/24/solid';
-import { Affiliation, AuthorPopover } from './AuthorPopover';
+import { OrcidIcon, EmailIcon, TwitterIcon } from '@scienceicons/react/24/solid';
+import { AuthorPopover } from './AuthorPopover';
+import { Affiliation } from './Affiliations';
 
 export function Author({
   author,

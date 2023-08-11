@@ -16,8 +16,18 @@ function Definition({ title, children }: { title: string; children: React.ReactN
   );
 }
 
-function Affiliation({ affiliation }: { affiliation: Affiliation }) {
-  if (!affiliation) return null;
+export function Affiliation({
+  affiliations,
+  affiliationId,
+}: {
+  affiliationId: string;
+  affiliations?: Affiliations;
+}) {
+  if (!affiliations || affiliations.length === 0) return null;
+  const affiliationsLookup = Object.fromEntries(
+    affiliations?.map(({ id, ...rest }: any) => [id, rest]) ?? [],
+  );
+  const affiliation = affiliationsLookup[affiliationId] ?? { name: affiliationId };
   return (
     <>
       {affiliation.name || affiliation.institution}{' '}
@@ -46,10 +56,6 @@ export const AuthorPopover = ({
   children: React.ReactNode;
 }) => {
   if (!author) return <>{children}</>;
-  const affiliationsLookup = Object.fromEntries(
-    affiliations?.map(({ id, ...rest }: any) => [id, rest]) ?? [],
-  );
-  console.log(affiliations, affiliationsLookup);
   return (
     <Popover.Root>
       <Popover.Trigger asChild>
@@ -70,8 +76,12 @@ export const AuthorPopover = ({
               {author.name}
             </p>
             <p className="text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
-              {author.affiliations?.map((key) => (
-                <Affiliation key={key} affiliation={affiliationsLookup[key] ?? { name: key }} />
+              {author.affiliations?.map((affiliationId) => (
+                <Affiliation
+                  key={affiliationId}
+                  affiliations={affiliations}
+                  affiliationId={affiliationId}
+                />
               ))}
             </p>
             <dl className="divide-y divide-gray-100">

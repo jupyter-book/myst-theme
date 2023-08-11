@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import { OrcidIcon, EmailIcon, RorIcon, TwitterIcon } from '@scienceicons/react/24/solid';
-import { AuthorPopover } from './AuthorPopover';
+import { Affiliation, AuthorPopover } from './AuthorPopover';
 
 export function Author({
   author,
@@ -72,7 +72,7 @@ export function AuthorsList({
   affiliations,
 }: {
   authors: PageFrontmatter['authors'];
-  affiliations: any; //PageFrontmatter['affiliations'];
+  affiliations: PageFrontmatter['affiliations'];
 }) {
   if (!authors || authors.length === 0) return null;
   return (
@@ -125,31 +125,12 @@ export function AuthorAndAffiliations({
               <Author author={author} affiliations={affiliations} />
             </div>
             <div className="text-sm">
-              {author.affiliations?.map((affil, i) => {
-                if (typeof affil === 'string') {
-                  return <div key={i}>{affil}</div>;
-                }
-                const { name, ror } = affil as unknown as {
-                  name: string;
-                  ror?: string;
-                };
-                if (ror) {
-                  return (
-                    <div key={i}>
-                      {name}
-                      <a
-                        href={`https://ror.org/${ror}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="ROR (Research Organization Registry)"
-                        className="text-inherit hover:text-inherit"
-                      >
-                        <RorIcon className="ml-2 inline-block h-[2em] w-[2em] grayscale hover:grayscale-0 -translate-y-[1px]" />
-                      </a>
-                    </div>
-                  );
-                }
-                return <div key={i}>{name}</div>;
+              {author.affiliations?.map((affiliationId) => {
+                return (
+                  <div key={affiliationId}>
+                    <Affiliation affiliations={affiliations} affiliationId={affiliationId} />
+                  </div>
+                );
               })}
             </div>
           </React.Fragment>

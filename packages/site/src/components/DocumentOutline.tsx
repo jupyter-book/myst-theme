@@ -280,7 +280,7 @@ export function SupportingDocuments() {
                   to={withBaseurl(`/${p.slug}#main`, baseurl)}
                   prefetch="intent"
                   className={({ isActive }) =>
-                    classNames('no-underline flex self-center', {
+                    classNames('no-underline flex self-center hover:text-blue-700', {
                       'text-blue-600': isActive,
                     })
                   }

@@ -1,5 +1,14 @@
 # @myst-theme/frontmatter
 
+## 0.5.3
+
+### Patch Changes
+
+- 1948a7a: Package updates for myst-frontmatter
+- 88097cf: Update icon sizes to be explicit rather than class names
+- 25ac213: Simplify nesting of authors
+- 1948a7a: Support affiliation and author information popovers
+
 ## 0.5.2
 
 ## 0.5.1

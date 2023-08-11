@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.5.3
+
+### Patch Changes
+
+- 88097cf: Update icon sizes to be explicit rather than class names
+- Updated dependencies [1948a7a]
+  - @myst-theme/providers@0.5.3
+
 ## 0.5.2
 
 ### Patch Changes

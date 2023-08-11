@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.5.3
+
+### Patch Changes
+
+- 1948a7a: Move to GenericParent instead of Root
+
 ## 0.5.2
 
 ## 0.5.1

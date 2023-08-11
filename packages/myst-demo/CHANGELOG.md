@@ -1,5 +1,14 @@
 # myst-demo
 
+## 0.5.3
+
+### Patch Changes
+
+- 1948a7a: Package updates for myst-frontmatter
+- 88097cf: Update icon sizes to be explicit rather than class names
+- Updated dependencies [88097cf]
+  - myst-to-react@0.5.3
+
 ## 0.5.2
 
 ### Patch Changes

@@ -8,14 +8,17 @@ import {
 import { useGridSystemProvider } from '@myst-theme/providers';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
+import { ThemeButton } from './Navigation';
 
 export function ArticleHeader({
   frontmatter,
   children,
+  toggleTheme,
   className,
 }: {
   frontmatter: PageFrontmatter;
   children?: React.ReactNode;
+  toggleTheme?: boolean;
   className?: string;
 }) {
   const grid = useGridSystemProvider();
@@ -78,6 +81,7 @@ export function ArticleHeader({
             <OpenAccessBadge open_access={frontmatter?.open_access} />
             <GitHubLink github={frontmatter?.github} />
           </div>
+          {toggleTheme && <ThemeButton className="inline-block w-5 h-5 mt-0.5 ml-1" />}
         </div>
         <FrontmatterBlock
           frontmatter={rest}

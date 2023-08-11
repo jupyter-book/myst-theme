@@ -64,6 +64,7 @@ const HeadingLink = ({
 };
 
 const HEADING_CLASSES = 'text-slate-900 leading-5 dark:text-slate-100';
+
 const Headings = ({ folder, headings, sections }: Props) => {
   const secs = sections || [];
   return (
@@ -148,10 +149,6 @@ export const TableOfContents = ({
   const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
   const config = useSiteManifest();
-  if (!config) return null;
-  const headings = getProjectHeadings(config, projectSlug, {
-    addGroups: false,
-  });
   useEffect(() => {
     setTimeout(() => {
       if (!footerRef.current) return;
@@ -159,6 +156,10 @@ export const TableOfContents = ({
       footerRef.current.style.transform = 'none';
     }, 500);
   }, [footerRef]);
+  if (!config) return null;
+  const headings = getProjectHeadings(config, projectSlug, {
+    addGroups: false,
+  });
   if (!headings) return null;
   return (
     <div
@@ -203,5 +204,27 @@ export const TableOfContents = ({
         )}
       </div>
     </div>
+  );
+};
+
+export const InlineTableOfContents = ({
+  projectSlug,
+  tocRef,
+  className = 'flex-grow overflow-y-auto max-w-[350px]',
+}: {
+  projectSlug?: string;
+  className?: string;
+  tocRef?: React.RefObject<HTMLElement>;
+}) => {
+  const config = useSiteManifest();
+  if (!config) return null;
+  const headings = getProjectHeadings(config, projectSlug, {
+    addGroups: false,
+  });
+  if (!headings) return null;
+  return (
+    <nav aria-label="Table of Contents" className={className} ref={tocRef}>
+      <Headings folder={projectSlug} headings={headings} sections={config?.projects} />
+    </nav>
   );
 };

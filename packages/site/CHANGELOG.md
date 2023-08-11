@@ -1,5 +1,27 @@
 # @myst-theme/site
 
+## 0.5.3
+
+### Patch Changes
+
+- f03b062: Add an inline table of contents for use in other themes
+- 9def296: Hover on supporting documents
+- 56430d7: Allow to toggle theme in the article header
+- 2158b57: Improve layout for article header with banner
+- 88097cf: Update icon sizes to be explicit rather than class names
+- Updated dependencies [1948a7a]
+- Updated dependencies [1948a7a]
+- Updated dependencies [88097cf]
+- Updated dependencies [25ac213]
+- Updated dependencies [1948a7a]
+  - @myst-theme/jupyter@0.5.3
+  - @myst-theme/common@0.5.3
+  - @myst-theme/frontmatter@0.5.3
+  - myst-demo@0.5.3
+  - @myst-theme/providers@0.5.3
+  - myst-to-react@0.5.3
+  - @myst-theme/diagrams@0.5.3
+
 ## 0.5.2
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @myst-theme/jupyter
 
+## 0.5.3
+
+### Patch Changes
+
+- 1948a7a: Move to GenericParent instead of Root
+- 1948a7a: Package updates for myst-frontmatter
+- 88097cf: Update icon sizes to be explicit rather than class names
+- Updated dependencies [1948a7a]
+- Updated dependencies [88097cf]
+  - @myst-theme/providers@0.5.3
+  - myst-to-react@0.5.3
+
 ## 0.5.2
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # @myst-theme/article
 
+## 0.5.3
+
+### Patch Changes
+
+- 88097cf: Update icon sizes to be explicit rather than class names
+- Updated dependencies [f03b062]
+- Updated dependencies [9def296]
+- Updated dependencies [1948a7a]
+- Updated dependencies [1948a7a]
+- Updated dependencies [56430d7]
+- Updated dependencies [2158b57]
+- Updated dependencies [88097cf]
+  - @myst-theme/site@0.5.3
+  - @myst-theme/jupyter@0.5.3
+  - @myst-theme/common@0.5.3
+  - @myst-theme/providers@0.5.3
+  - @myst-theme/styles@0.5.3
+  - @myst-theme/icons@0.5.3
+
 ## 0.5.2
 
 ### Patch Changes

@@ -53,7 +53,7 @@ export function SpinnerStatusButton({
       </button>
       {busy && (
         <span className="absolute top-0 left-0 z-10 opacity-100">
-          <Spinner size={22} />
+          <Spinner size={24} />
         </span>
       )}
     </div>
@@ -94,7 +94,7 @@ function SpinnerButton({
       </button>
       {busy && (
         <span className="absolute top-0 left-0 z-10 opacity-100">
-          <Spinner size={22} />
+          <Spinner size={24} />
         </span>
       )}
     </div>

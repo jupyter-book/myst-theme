@@ -248,9 +248,17 @@ export function FrontmatterBlock({
       )}
       {title && <h1 className="mb-0">{title}</h1>}
       {subtitle && <p className="mt-2 mb-0 lead text-zinc-600 dark:text-zinc-400">{subtitle}</p>}
-      {hasAuthors && authorStyle === 'list' && <AuthorsList authors={frontmatter.authors} />}
+      {hasAuthors && authorStyle === 'list' && (
+        <AuthorsList
+          authors={frontmatter.authors}
+          affiliations={frontmatter.affiliations}
+        />
+      )}
       {hasAuthors && authorStyle === 'block' && (
-        <AuthorAndAffiliations authors={frontmatter.authors} />
+        <AuthorAndAffiliations
+          authors={frontmatter.authors}
+          affiliations={frontmatter.affiliations}
+        />
       )}
       {hasDateOrDoi && (
         <div className="flex mt-2 text-sm font-light">

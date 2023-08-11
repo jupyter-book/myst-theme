@@ -1,4 +1,4 @@
-import type { Root } from 'mdast';
+import type { GenericParent } from 'myst-common';
 import type { SourceFileKind, Dependency } from 'myst-spec-ext';
 import type { IRenderMimeRegistry, ThebeNotebook, ThebeSession } from 'thebe-core';
 
@@ -18,7 +18,7 @@ export type IdKeyMap = Record<IdOrKey, IdKeyMapTarget>;
 export interface ExecuteScopeState {
   mdast: {
     [slug: string]: {
-      root: Root;
+      root: GenericParent;
     };
   };
   pages: {

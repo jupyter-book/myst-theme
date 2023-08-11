@@ -1,9 +1,9 @@
 import type { SourceFileKind } from 'myst-spec-ext';
 import React from 'react';
 import { ThebeServerProvider } from 'thebe-react';
-import type { Root } from 'mdast';
 import { useSiteManifest } from '@myst-theme/providers';
 import { thebeFrontmatterToOptions } from './utils';
+import type { GenericParent } from 'myst-common';
 
 export function useComputeOptions() {
   const config = useSiteManifest();
@@ -55,5 +55,5 @@ export type PartialPage = {
   file: string;
   sha256: string;
   slug: string;
-  mdast: Root;
+  mdast: GenericParent;
 };

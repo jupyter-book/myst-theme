@@ -1,6 +1,5 @@
-import type { Root } from 'mdast';
 import type { Dependency, SourceFileKind } from 'myst-spec-ext';
-import type { References } from 'myst-common';
+import type { GenericParent, References } from 'myst-common';
 import type { SiteManifest } from 'myst-config';
 import type { PageFrontmatter } from 'myst-frontmatter';
 
@@ -53,7 +52,7 @@ export type PageLoader = {
   domain: string; // This is written in at render time in the site
   project: string; // This is written in at render time in the site
   frontmatter: PageFrontmatter;
-  mdast: Root;
+  mdast: GenericParent;
   references: References;
   footer?: FooterLinks;
   // This may not be defined

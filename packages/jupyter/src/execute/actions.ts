@@ -1,7 +1,7 @@
 import type { SourceFileKind, Dependency } from 'myst-spec-ext';
-import type { Root } from 'mdast';
 import type { BuildStatus, Computable } from './types';
 import type { IRenderMimeRegistry, ThebeNotebook, ThebeSession } from 'thebe-core';
+import type { GenericParent } from 'myst-common';
 
 export function isNavigatePayload(payload: unknown): payload is NavigatePayload {
   const maybePayload = payload as NavigatePayload;
@@ -16,7 +16,7 @@ export function isNavigatePayload(payload: unknown): payload is NavigatePayload 
 interface NavigatePayload {
   kind: SourceFileKind;
   slug: string;
-  mdast: Root;
+  mdast: GenericParent;
   dependencies: Dependency[];
   computables: Computable[];
 }
@@ -67,7 +67,7 @@ export function isAddMdastPayload(payload: unknown): payload is AddMdastPayload 
 
 interface AddMdastPayload {
   slug: string;
-  mdast: Root;
+  mdast: GenericParent;
 }
 
 export function isAddNotebookPayload(payload: unknown): payload is AddNotebookPayload {

@@ -1,6 +1,5 @@
 import type { Dependency } from 'myst-spec-ext';
 import { SourceFileKind } from 'myst-spec-ext';
-import type { Root } from 'mdast';
 import React, { useEffect, useReducer, useRef } from 'react';
 import { selectAll } from 'unist-util-select';
 import type { ExecuteScopeAction } from './actions';
@@ -15,6 +14,7 @@ import {
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
 import type { Thebe } from 'myst-frontmatter';
 import { useCanCompute } from '../providers';
+import type { GenericParent } from 'myst-common';
 
 export interface ExecuteScopeType {
   canCompute: boolean;
@@ -29,7 +29,7 @@ export const ExecuteScopeContext = React.createContext<ExecuteScopeType | undefi
 type ArticleContents = {
   slug: string;
   kind: SourceFileKind;
-  mdast: Root;
+  mdast: GenericParent;
   dependencies?: Dependency[];
   frontmatter: { thebe?: boolean | Thebe };
 };

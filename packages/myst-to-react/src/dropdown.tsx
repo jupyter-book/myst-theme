@@ -12,7 +12,7 @@ type SummarySpec = {
   type: 'summary';
 };
 
-const iconClass = 'h-8 w-8 inline-block pl-2 mr-2 -translate-y-[1px]';
+const iconClass = 'inline-block pl-2 mr-2 -translate-y-[1px]';
 
 export const SummaryTitle: NodeRenderer<SummarySpec> = ({ node }) => {
   return <MyST ast={node.children} />;
@@ -45,6 +45,8 @@ export function Details({
         <span className="text-neutral-900 dark:text-white">
           <span className="block float-right text-sm font-thin text-neutral-700 dark:text-neutral-200">
             <ChevronRightIcon
+              width="1.5rem"
+              height="1.5rem"
               className={classNames(iconClass, 'details-toggle', 'transition-transform')}
             />
           </span>

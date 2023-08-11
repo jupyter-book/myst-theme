@@ -48,7 +48,7 @@ export function LinkCard({
           target="_blank"
           rel="noreferrer"
         >
-          <ExternalLinkIcon className="float-right w-4 h-4" />
+          <ExternalLinkIcon width="1rem" height="1rem" className="float-right" />
           {title}
         </a>
       )}

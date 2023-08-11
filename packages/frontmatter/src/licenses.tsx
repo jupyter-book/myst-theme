@@ -43,34 +43,44 @@ export function CreativeCommonsBadge({
       )}
       aria-label={title}
     >
-      <CcIcon className="inline-block w-5 h-5 mx-1" title={title} />
+      <CcIcon width="1.25rem" height="1.25rem" className="inline-block mx-1" title={title} />
       {(kind.startsWith('CC0') || kind.startsWith('CC-0') || kind.includes('ZERO')) && (
         <CcZeroIcon
-          className="inline-block w-5 h-5 mr-1"
+          width="1.25rem"
+          height="1.25rem"
+          className="inline-block mr-1"
           title="CC0: Work is in the worldwide public domain"
         />
       )}
       {kind.includes('BY') && (
         <CcByIcon
-          className="inline-block w-5 h-5 mr-1"
+          width="1.25rem"
+          height="1.25rem"
+          className="inline-block mr-1"
           title="Credit must be given to the creator"
         />
       )}
       {kind.includes('NC') && (
         <CcNcIcon
-          className="inline-block w-5 h-5 mr-1"
+          width="1.25rem"
+          height="1.25rem"
+          className="inline-block mr-1"
           title="Only noncommercial uses of the work are permitted"
         />
       )}
       {kind.includes('SA') && (
         <CcSaIcon
-          className="inline-block w-5 h-5 mr-1"
+          width="1.25rem"
+          height="1.25rem"
+          className="inline-block mr-1"
           title="Adaptations must be shared under the same terms"
         />
       )}
       {kind.includes('ND') && (
         <CcNdIcon
-          className="inline-block w-5 h-5 mr-1"
+          width="1.25rem"
+          height="1.25rem"
+          className="inline-block mr-1"
           title="No derivatives or adaptations of the work are permitted"
         />
       )}
@@ -106,16 +116,17 @@ function SingleLicenseBadge({
     >
       {!license.osi && (
         <ScaleIcon
-          className={classNames(
-            'h-5 w-5 mx-1 inline-block opacity-60 hover:opacity-100',
-            className,
-          )}
+          width="1.25rem"
+          height="1.25rem"
+          className={classNames('mx-1 inline-block opacity-60 hover:opacity-100', className)}
         />
       )}
       {license.osi && (
         <OsiIcon
+          width="1.25rem"
+          height="1.25rem"
           className={classNames(
-            'h-5 w-5 mx-1 inline-block opacity-60 hover:opacity-100 hover:text-[#599F46]',
+            'mx-1 inline-block opacity-60 hover:opacity-100 hover:text-[#599F46]',
             className,
           )}
         />

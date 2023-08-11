@@ -90,21 +90,22 @@ function getFirstKind({
   return { kind: AdmonitionKind.note, color: 'blue' };
 }
 
-const iconClass = 'h-8 w-8 inline-block pl-2 mr-2 self-center flex-none';
+const iconClass = 'inline-block pl-2 mr-2 self-center flex-none';
 
 function AdmonitionIcon({ kind, className }: { kind: AdmonitionKind; className?: string }) {
   const cn = classNames(iconClass, className);
-  if (kind === AdmonitionKind.note) return <InformationCircleIcon className={cn} />;
-  if (kind === AdmonitionKind.caution) return <OExclamationIcon className={cn} />;
-  if (kind === AdmonitionKind.warning) return <SExclamationIcon className={cn} />;
-  if (kind === AdmonitionKind.danger) return <SExclamationCircleIcon className={cn} />;
-  if (kind === AdmonitionKind.error) return <XCircleIcon className={cn} />;
-  if (kind === AdmonitionKind.attention) return <MegaphoneIcon className={cn} />;
-  if (kind === AdmonitionKind.tip) return <PencilSquareIcon className={cn} />;
-  if (kind === AdmonitionKind.hint) return <LightBulbIcon className={cn} />;
-  if (kind === AdmonitionKind.important) return <BoltIcon className={cn} />;
-  if (kind === AdmonitionKind.seealso) return <ArrowRightCircleIcon className={cn} />;
-  return <InformationCircleIcon className={cn} />;
+  const opts = { width: '2rem', height: '2rem', className: cn };
+  if (kind === AdmonitionKind.note) return <InformationCircleIcon {...opts} />;
+  if (kind === AdmonitionKind.caution) return <OExclamationIcon {...opts} />;
+  if (kind === AdmonitionKind.warning) return <SExclamationIcon {...opts} />;
+  if (kind === AdmonitionKind.danger) return <SExclamationCircleIcon {...opts} />;
+  if (kind === AdmonitionKind.error) return <XCircleIcon {...opts} />;
+  if (kind === AdmonitionKind.attention) return <MegaphoneIcon {...opts} />;
+  if (kind === AdmonitionKind.tip) return <PencilSquareIcon {...opts} />;
+  if (kind === AdmonitionKind.hint) return <LightBulbIcon {...opts} />;
+  if (kind === AdmonitionKind.important) return <BoltIcon {...opts} />;
+  if (kind === AdmonitionKind.seealso) return <ArrowRightCircleIcon {...opts} />;
+  return <InformationCircleIcon {...opts} />;
 }
 
 export const AdmonitionTitle: NodeRenderer<AdmonitionTitleSpec> = ({ node }) => {
@@ -209,6 +210,8 @@ export function Admonition({
           {dropdown && (
             <div className="self-center flex-none text-sm font-thin text-neutral-700 dark:text-neutral-200">
               <ChevronRightIcon
+                width="2rem"
+                height="2rem"
                 className={classNames(iconClass, 'transition-transform details-toggle')}
               />
             </div>

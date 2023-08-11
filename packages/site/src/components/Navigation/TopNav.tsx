@@ -80,7 +80,11 @@ function NavItem({ item }: { item: SiteNavItem }) {
       <div className="inline-block">
         <Menu.Button className="inline-flex items-center justify-center w-full py-1 mx-2 font-medium rounded-md text-md text-stone-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
           <span>{item.title}</span>
-          <ChevronDownIcon className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100" />
+          <ChevronDownIcon
+            width="1.25rem"
+            height="1.25rem"
+            className="ml-2 -mr-1 text-violet-200 hover:text-violet-100"
+          />
         </Menu.Button>
       </div>
       <Transition
@@ -92,7 +96,7 @@ function NavItem({ item }: { item: SiteNavItem }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute w-48 py-1 mt-2 bg-white rounded-sm shadow-lg origin-top-left left-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute w-48 py-1 mt-2 origin-top-left bg-white rounded-sm shadow-lg left-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
           {item.children?.map((action) => (
             <Menu.Item key={action.url}>
               {/* This is really ugly, BUT, the action needs to be defined HERE or the click away doesn't work for some reason */}
@@ -147,7 +151,7 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
         <Menu.Button className="flex text-sm bg-transparent rounded-full focus:outline-none">
           <span className="sr-only">Open Menu</span>
           <div className="flex items-center text-stone-200 hover:text-white">
-            <EllipsisVerticalIcon className="w-8 h-8 p-1" />
+            <EllipsisVerticalIcon width="2rem" height="2rem" className="p-1" />
           </div>
         </Menu.Button>
       </div>
@@ -160,7 +164,7 @@ function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 w-48 py-1 mt-2 bg-white rounded-sm shadow-lg origin-top-right ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           {actions?.map((action) => (
             <Menu.Item key={action.url}>
               {({ active }) => (
@@ -251,7 +255,7 @@ export function TopNav() {
                 setOpen(!open);
               }}
             >
-              <MenuIcon className="w-8 h-8 p-1" />
+              <MenuIcon width="2rem" height="2rem" className="m-1" />
               <span className="sr-only">Open Menu</span>
             </button>
           </div>

@@ -41,7 +41,7 @@ const mathRenderer: NodeRenderer<MathLike> = ({ node }) => {
       return (
         <pre title={node.message}>
           <span className="text-red-500">
-            <ExclamationCircleIcon className="inline h-[1em] mr-1" />
+            <ExclamationCircleIcon width="1rem" height="1rem" className="inline mr-1" />
             {node.message}
             {'\n\n'}
           </span>

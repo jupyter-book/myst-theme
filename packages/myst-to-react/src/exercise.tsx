@@ -71,7 +71,7 @@ const HeaderElement = ({
   return <div className={className}>{children}</div>;
 };
 
-const iconClass = 'h-8 w-8 inline-block pl-2 mr-2 self-center flex-none';
+const iconClass = 'inline-block pl-2 mr-2 self-center flex-none';
 
 export function Callout({
   title,
@@ -153,6 +153,8 @@ export function Callout({
         {dropdown && (
           <div className="self-center flex-none text-sm font-thin text-neutral-700 dark:text-neutral-200">
             <ChevronRightIcon
+              width="1.5rem"
+              height="1.5rem"
               className={classNames(iconClass, 'transition-transform details-toggle')}
             />
           </div>

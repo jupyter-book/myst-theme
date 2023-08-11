@@ -78,7 +78,12 @@ export function Download({
   return (
     <a className={classNames(className, 'flex')} href={url} onClick={clickDownload}>
       <span className="sr-only">Download as {format}</span>
-      <DocumentIcon className="items-center inline-block w-5 h-5 mr-2" aria-hidden="true" />
+      <DocumentIcon
+        width="1.25rem"
+        height="1.25rem"
+        className="items-center inline-block mr-2"
+        aria-hidden="true"
+      />
       {filename}
     </a>
   );
@@ -90,7 +95,12 @@ export function DownloadsDropdown({ exports }: HasExports) {
     <Menu as="div" className="relative flex inline-block mx-1 grow-0">
       <Menu.Button className="relative">
         <span className="sr-only">Downloads</span>
-        <ArrowDownTrayIcon className="w-5 h-5 ml-2 -mr-1" aria-hidden="true" />
+        <ArrowDownTrayIcon
+          width="1.25rem"
+          height="1.25rem"
+          className="ml-2 -mr-1"
+          aria-hidden="true"
+        />
       </Menu.Button>
       <Menu.Items className="absolute overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
         {exports.map(({ format, filename, url }, index) => (

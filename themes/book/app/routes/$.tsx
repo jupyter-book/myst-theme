@@ -7,7 +7,6 @@ import {
   useOutlineHeight,
   useTocHeight,
   DocumentOutline,
-  DEFAULT_NAV_HEIGHT,
   Navigation,
   TopNav,
   ArticlePageCatchBoundary,
@@ -105,9 +104,11 @@ export default function Page() {
   return (
     <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={article.project}>
       <main ref={container} className="article-grid subgrid-gap col-screen">
-        <div className="sticky z-10 hidden h-0 col-margin-right-inset lg:block" style={{ top }}>
-          <DocumentOutline top={16} className="relative" outlineRef={outline} />
-        </div>
+        {!hide_outline && (
+          <div className="sticky z-10 hidden h-0 col-margin-right-inset lg:block" style={{ top }}>
+            <DocumentOutline top={16} className="relative" outlineRef={outline} />
+          </div>
+        )}
         <ArticlePage article={article} hide_all_footer_links={hide_footer_links} showAbstract />
       </main>
     </ArticlePageAndNavigation>

@@ -1,22 +1,21 @@
-import { useNavOpen } from '@myst-theme/providers';
+import { useNavOpen, useThemeTop } from '@myst-theme/providers';
 import { TableOfContents } from './TableOfContents';
 
 export function Navigation({
   children,
   projectSlug,
-  top,
   tocRef,
   hide_toc,
   footer,
 }: {
   children?: React.ReactNode;
   projectSlug?: string;
-  top?: number;
   tocRef?: React.RefObject<HTMLDivElement>;
   hide_toc?: boolean;
   footer?: React.ReactNode;
 }) {
   const [open, setOpen] = useNavOpen();
+  const top = useThemeTop();
   if (hide_toc) return <>{children}</>;
   return (
     <>
@@ -28,7 +27,7 @@ export function Navigation({
           onClick={() => setOpen(false)}
         ></div>
       )}
-      <TableOfContents tocRef={tocRef} projectSlug={projectSlug} top={top} footer={footer} />
+      <TableOfContents tocRef={tocRef} projectSlug={projectSlug} footer={footer} />
     </>
   );
 }

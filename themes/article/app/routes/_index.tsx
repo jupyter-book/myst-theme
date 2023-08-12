@@ -20,7 +20,7 @@ export default Page;
 export function CatchBoundary() {
   return (
     <ArticlePageAndNavigation>
-      <main className="article-content">
+      <main className="article">
         <ProjectPageCatchBoundary />
       </main>
     </ArticlePageAndNavigation>

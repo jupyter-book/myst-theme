@@ -8,7 +8,7 @@ import {
   ArticleStatusBadge,
 } from './controls/ArticleCellControls';
 import { JupyterIcon } from '@scienceicons/react/24/solid';
-import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { useLinkProvider, useBaseurl, withBaseurl, useThemeTop } from '@myst-theme/providers';
 
 const PlaceholderContext = React.createContext<{ placeholder?: GenericNode }>({});
 
@@ -40,13 +40,17 @@ export function OutputDecoration({
 }) {
   const { canCompute, kind } = useCellExecution(outputId);
   const Link = useLinkProvider();
+  const top = useThemeTop();
   const baseurl = useBaseurl();
   const showComputeControls = canCompute && kind === SourceFileKind.Article;
 
   if (showComputeControls) {
     return (
       <div className="mb-4 shadow">
-        <div className="sticky top-[60px] z-[2] w-full bg-gray-100/80 backdrop-blur dark:bg-neutral-800/80 py-1 px-2">
+        <div
+          className="sticky z-[2] w-full bg-gray-100/80 backdrop-blur dark:bg-neutral-800/80 py-1 px-2"
+          style={{ top }}
+        >
           <div className="flex items-center">
             <div className="flex items-center">
               <JupyterIcon width="1.25rem" height="1.25rem" className="inline-block" />

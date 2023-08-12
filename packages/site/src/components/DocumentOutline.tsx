@@ -220,7 +220,7 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>(
 
 export const DocumentOutline = ({
   outlineRef,
-  top,
+  top = 0,
   className,
   selector = SELECTOR,
   children,
@@ -246,8 +246,8 @@ export const DocumentOutline = ({
         className,
       )}
       style={{
-        top: top ?? 0,
-        maxHeight: `calc(100vh - ${(top ?? 0) + 20}px)`,
+        top: top,
+        maxHeight: `calc(100vh - ${top + 20}px)`,
       }}
     >
       <div className="mb-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">

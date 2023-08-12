@@ -1,5 +1,19 @@
 # @myst-theme/article
 
+## 0.5.4
+
+### Patch Changes
+
+- 7a4d5a6: Add theme-top for articles with different offset or navigation height
+- Updated dependencies [7a4d5a6]
+- Updated dependencies [7a4d5a6]
+  - @myst-theme/providers@0.5.4
+  - @myst-theme/jupyter@0.5.4
+  - @myst-theme/site@0.5.4
+  - @myst-theme/styles@0.5.4
+  - @myst-theme/common@0.5.4
+  - @myst-theme/icons@0.5.4
+
 ## 0.5.3
 
 ### Patch Changes

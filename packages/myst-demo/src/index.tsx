@@ -137,9 +137,19 @@ async function parse(
     .use(mystToTex, { references })
     .stringify(mdast as any, texFile).result as LatexResult;
   const typstFile = new VFile();
-  const typst = unified()
-    .use(mystToTypst)
-    .stringify(mdast as any, typstFile).result as TypstResult;
+  let typst: TypstResult;
+  try {
+    typst = unified()
+      .use(mystToTypst)
+      .stringify(mdast as any, typstFile).result as TypstResult;
+  } catch (error) {
+    console.error(error);
+    typst = {
+      value: `Problem with typst conversion: ${(error as Error).message || 'Unknown Error'}`,
+      macros: [],
+      commands: {},
+    };
+  }
   const jatsFile = new VFile();
   const jats: any = mystToJats
     ? unified()

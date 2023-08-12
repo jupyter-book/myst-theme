@@ -1,5 +1,20 @@
 # @myst-theme/site
 
+## 0.5.4
+
+### Patch Changes
+
+- 7a4d5a6: Add theme-top for articles with different offset or navigation height
+- 7a4d5a6: Change the alignment of the articleheaders for different grids
+- Updated dependencies [7a4d5a6]
+  - @myst-theme/providers@0.5.4
+  - @myst-theme/jupyter@0.5.4
+  - @myst-theme/frontmatter@0.5.4
+  - @myst-theme/diagrams@0.5.4
+  - @myst-theme/common@0.5.4
+  - myst-to-react@0.5.4
+  - myst-demo@0.5.4
+
 ## 0.5.3
 
 ### Patch Changes

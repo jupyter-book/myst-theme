@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 0.5.4
+
+### Patch Changes
+
+- Updated dependencies [7a4d5a6]
+  - @myst-theme/providers@0.5.4
+
 ## 0.5.3
 
 ### Patch Changes

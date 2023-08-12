@@ -1,5 +1,12 @@
 # @myst-theme/providers
 
+## 0.5.4
+
+### Patch Changes
+
+- 7a4d5a6: Add theme-top for articles with different offset or navigation height
+  - @myst-theme/common@0.5.4
+
 ## 0.5.3
 
 ### Patch Changes

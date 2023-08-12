@@ -50,7 +50,7 @@ export const ArticlePage = React.memo(function ({
             <FrontmatterBlock
               kind={article.kind}
               frontmatter={article.frontmatter}
-              className="mb-8"
+              className="pt-5 mb-8"
             />
           )}
           {binderUrl && !canCompute && (

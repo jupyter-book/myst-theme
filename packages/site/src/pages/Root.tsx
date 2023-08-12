@@ -12,7 +12,7 @@ import {
   Link,
   NavLink,
 } from '@remix-run/react';
-import { renderers } from '../components';
+import { DEFAULT_NAV_HEIGHT, renderers } from '../components';
 import { Analytics } from '../seo';
 import { Error404 } from './Error404';
 import classNames from 'classnames';
@@ -25,18 +25,18 @@ export function Document({
   theme,
   config,
   title,
-  scrollTopClass = 'scroll-p-20',
   staticBuild,
   baseurl,
+  top = DEFAULT_NAV_HEIGHT,
 }: {
   children: React.ReactNode;
   scripts?: React.ReactNode;
   theme: Theme;
   config?: SiteManifest;
   title?: string;
-  scrollTopClass?: string;
   staticBuild?: boolean;
   baseurl?: string;
+  top?: number;
 }) {
   const links = staticBuild
     ? {
@@ -48,7 +48,7 @@ export function Document({
         NavLink: NavLink as any,
       };
   return (
-    <html lang="en" className={classNames(theme, scrollTopClass)}>
+    <html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -61,7 +61,7 @@ export function Document({
         />
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
-        <ThemeProvider theme={theme} renderers={renderers} {...links}>
+        <ThemeProvider theme={theme} renderers={renderers} {...links} top={top}>
           <BaseUrlProvider baseurl={baseurl}>
             <ThebeBundleLoaderProvider loadThebeLite publicPath={baseurl}>
               <SiteProvider config={config}>

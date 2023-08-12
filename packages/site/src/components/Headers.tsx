@@ -23,6 +23,14 @@ export function ArticleHeader({
 }) {
   const grid = useGridSystemProvider();
   const { subject, venue, biblio, ...rest } = frontmatter ?? {};
+  const positionBackground = {
+    'col-page-right': grid === 'article-left-grid',
+    'col-page': grid === 'article-grid',
+  };
+  const positionFrontmatter = {
+    'col-body': grid === 'article-left-grid',
+    'col-page-left': grid === 'article-grid',
+  };
   return (
     <header className="relative col-screen">
       {frontmatter?.banner && (
@@ -39,9 +47,10 @@ export function ArticleHeader({
         >
           <div
             className={classNames(
-              'absolute border-white shadow-2xl bg-white/80 dark:bg-black/80 backdrop-blur col-page-right',
+              'absolute border-white shadow-2xl bg-white/80 dark:bg-black/80 backdrop-blur',
               'w-full',
               'top-[2rem] h-[calc(100%-4rem)] md:top-[4rem] md:h-[calc(100%-8rem)]',
+              positionBackground,
             )}
           />
         </div>
@@ -60,9 +69,9 @@ export function ArticleHeader({
       >
         <div
           className={classNames('flex w-full align-middle py-2 mb-[1rem] text-sm', {
-            'col-page-right px-4 w-full': frontmatter?.banner,
+            'px-4 w-full': frontmatter?.banner,
             'bg-white/80 dark:bg-black/80': frontmatter?.banner,
-            'col-page-right': !frontmatter?.banner,
+            ...positionBackground,
           })}
         >
           {subject && (
@@ -86,7 +95,7 @@ export function ArticleHeader({
         <FrontmatterBlock
           frontmatter={rest}
           authorStyle="list"
-          className={classNames({ 'pt-4 px-6': frontmatter?.banner })}
+          className={classNames({ 'pt-4 px-6': frontmatter?.banner, ...positionFrontmatter })}
           hideBadges
           hideExports
         />

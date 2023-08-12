@@ -9,6 +9,7 @@ import {
   useBaseurl,
   withBaseurl,
   useGridSystemProvider,
+  useThemeTop,
 } from '@myst-theme/providers';
 import { getProjectHeadings, type Heading } from '@myst-theme/common';
 
@@ -136,15 +137,14 @@ export function useTocHeight<T extends HTMLElement = HTMLElement>(top = 0, inset
 
 export const TableOfContents = ({
   projectSlug,
-  top,
   tocRef,
   footer,
 }: {
-  top?: number;
   tocRef?: React.RefObject<HTMLElement>;
   projectSlug?: string;
   footer?: React.ReactNode;
 }) => {
+  const top = useThemeTop();
   const grid = useGridSystemProvider();
   const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
@@ -171,9 +171,7 @@ export const TableOfContents = ({
         { hidden: !open },
         { 'z-30': open },
       )}
-      style={{
-        top: top ?? 0,
-      }}
+      style={{ top }}
     >
       <div
         className={classNames(

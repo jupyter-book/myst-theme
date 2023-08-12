@@ -64,15 +64,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   return page;
 };
 
-export function ArticlePageAndNavigation({
-  children,
-  hide_toc,
-  top = DEFAULT_NAV_HEIGHT,
-}: {
-  top?: number;
-  hide_toc?: boolean;
-  children: React.ReactNode;
-}) {
+export function ArticlePageAndNavigation({ children }: { children: React.ReactNode }) {
   return (
     <UiStateProvider>
       <TabStateProvider>
@@ -147,7 +139,7 @@ export function Article({
           {!hideTitle && <FrontmatterBlock frontmatter={{ title, subtitle }} className="mb-5" />}
           {!hideOutline && (
             <div className="sticky top-0 z-10 hidden h-0 pt-2 ml-10 col-margin-right lg:block">
-              <DocumentOutline top={0} className="relative">
+              <DocumentOutline className="relative">
                 <SupportingDocuments />
               </DocumentOutline>
             </div>
@@ -220,7 +212,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
   );
 }
 
-export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
+export default function Page() {
   // const { container, outline } = useOutlineHeight();
   const article = useLoaderData<PageLoader>() as PageLoader;
   const { hide_outline } = (article.frontmatter as any)?.design ?? {};
@@ -228,7 +220,6 @@ export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
   return (
     <ArticlePageAndNavigation>
       <ArticlePage article={article} />
-      {/* {!hide_outline && <DocumentOutline outlineRef={outline} top={top} height={height} />} */}
     </ArticlePageAndNavigation>
   );
 }
@@ -236,7 +227,7 @@ export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
 export function CatchBoundary() {
   return (
     <ArticlePageAndNavigation>
-      <main className="article-content">
+      <main className="article">
         <ArticlePageCatchBoundary />
       </main>
     </ArticlePageAndNavigation>

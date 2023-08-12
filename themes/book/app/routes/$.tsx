@@ -15,7 +15,12 @@ import {
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
-import { TabStateProvider, UiStateProvider, useSiteManifest } from '@myst-theme/providers';
+import {
+  TabStateProvider,
+  UiStateProvider,
+  useSiteManifest,
+  useThemeTop,
+} from '@myst-theme/providers';
 import { MadeWithMyst } from '@myst-theme/icons';
 
 export const meta: MetaFunction = (args) => {
@@ -51,21 +56,19 @@ export function ArticlePageAndNavigation({
   children,
   hide_toc,
   projectSlug,
-  top = DEFAULT_NAV_HEIGHT,
   inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
-  top?: number;
   hide_toc?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
   inset?: number;
 }) {
+  const top = useThemeTop();
   const { container, toc } = useTocHeight(top, inset);
   return (
     <UiStateProvider>
       <Navigation
         tocRef={toc}
-        top={top}
         hide_toc={hide_toc}
         footer={<MadeWithMyst />}
         projectSlug={projectSlug}
@@ -75,7 +78,7 @@ export function ArticlePageAndNavigation({
           <article
             ref={container}
             className="article content article-grid grid-gap"
-            style={{ marginTop: top + inset }}
+            style={{ marginTop: top }}
           >
             {children}
           </article>
@@ -91,8 +94,9 @@ interface BookThemeTemplateOptions {
   hide_footer_links?: boolean;
 }
 
-export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
+export default function Page() {
   const { container, outline } = useOutlineHeight();
+  const top = useThemeTop();
   const article = useLoaderData<PageLoader>() as PageLoader;
   const pageDesign: BookThemeTemplateOptions = (article.frontmatter as any)?.design ?? {};
   const siteDesign: BookThemeTemplateOptions =
@@ -101,14 +105,10 @@ export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
   return (
     <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={article.project}>
       <main ref={container} className="article-grid subgrid-gap col-screen">
+        <div className="sticky z-10 hidden h-0 col-margin-right-inset lg:block" style={{ top }}>
+          <DocumentOutline top={16} className="relative" outlineRef={outline} />
+        </div>
         <ArticlePage article={article} hide_all_footer_links={hide_footer_links} showAbstract />
-        {!hide_outline && (
-          <DocumentOutline
-            outlineRef={outline}
-            top={top}
-            className="fixed bottom-0 right-[max(0px,calc(50%-45rem))] w-[14rem] lg:w-[18rem] py-10 px-4 lg:px-8 overflow-y-auto hidden lg:block"
-          />
-        )}
       </main>
     </ArticlePageAndNavigation>
   );
@@ -117,7 +117,7 @@ export default function Page({ top = DEFAULT_NAV_HEIGHT }: { top?: number }) {
 export function CatchBoundary() {
   return (
     <ArticlePageAndNavigation>
-      <main className="article-content">
+      <main className="article">
         <ArticlePageCatchBoundary />
       </main>
     </ArticlePageAndNavigation>

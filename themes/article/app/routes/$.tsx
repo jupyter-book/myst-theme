@@ -6,7 +6,6 @@ import {
   ContentBlocks,
   getMetaTagsForArticle,
   KatexCSS,
-  DEFAULT_NAV_HEIGHT,
   ArticlePageCatchBoundary,
   DocumentOutline,
   ArticleHeader,
@@ -95,17 +94,21 @@ function formatToTitle(format: string) {
   return format;
 }
 
-function Actions({ actions }: { actions: { format: string; url: string; static?: boolean }[] }) {
+function Downloads() {
+  const site = useSiteManifest();
+  const project = site?.projects?.[0];
+  const downloads = [...(project?.exports ?? []), ...(project?.pages?.[0]?.exports ?? [])];
+  if (downloads.length === 0) return null;
   return (
     <div className="col-margin mt-3 lg:mt-0 lg:w-[350px] lg:self-center">
       <div className="flex flex-col gap-2 w-fit lg:m-auto">
-        {actions?.map((action) => (
+        {downloads.map((action) => (
           <a
             key={action.url}
             href={action.url}
-            className="flex gap-1 px-2 py-1 font-normal no-underline bg-white border rounded"
+            className="inline-block mr-2 no-underline lg:mr-0 lg:block"
           >
-            <DocumentArrowDownIcon className="self-center w-4 h-4 transition-transform group-hover:-translate-x-1 shrink-0" />
+            <DocumentArrowDownIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />
             <span>Download {formatToTitle(action.format)}</span>
           </a>
         ))}
@@ -169,7 +172,11 @@ export function ArticlePage({ article }: { article: PageLoader }) {
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider contents={article}>
-          <ArticleHeader frontmatter={project as any} />
+          <ArticleHeader frontmatter={project as any}>
+            <div className="pt-5 md:self-center h-fit lg:pt-0 col-body lg:col-margin-right-inset">
+              <Downloads />
+            </div>
+          </ArticleHeader>
           <main
             id="main"
             className={classNames(grid, 'subgrid-gap col-screen', {

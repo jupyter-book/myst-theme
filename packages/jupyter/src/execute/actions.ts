@@ -7,6 +7,7 @@ export function isNavigatePayload(payload: unknown): payload is NavigatePayload 
   const maybePayload = payload as NavigatePayload;
   return (
     typeof maybePayload.slug === 'string' &&
+    typeof maybePayload.location === 'string' &&
     typeof maybePayload.mdast === 'object' &&
     Array.isArray(maybePayload.dependencies) &&
     Array.isArray(maybePayload.computables)
@@ -16,8 +17,9 @@ export function isNavigatePayload(payload: unknown): payload is NavigatePayload 
 interface NavigatePayload {
   kind: SourceFileKind;
   slug: string;
+  location: string;
   mdast: GenericParent;
-  dependencies: Dependency[];
+  dependencies: (Dependency & { location: string })[];
   computables: Computable[];
 }
 

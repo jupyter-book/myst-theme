@@ -17,7 +17,7 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
         console.error(action.payload);
         throw new Error('invalid NAVIGATE payload');
       }
-      const { kind, slug, mdast, dependencies, computables } = action.payload;
+      const { kind, slug, location, mdast, dependencies, computables } = action.payload;
       if (state.pages[slug]) return state;
       return {
         ...state,
@@ -30,6 +30,7 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
           [slug]: {
             kind,
             slug,
+            location,
             dependencies,
             computables,
             computable: computables.length > 0 || kind === SourceFileKind.Notebook,

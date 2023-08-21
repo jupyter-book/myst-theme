@@ -58,13 +58,12 @@ function useScopeNavigate({
       return { embedKey: key, outputKey: (output[0] as any).key, label, source };
     });
 
-    console.log('NAVIGATE', location);
-
     dispatch({
       type: 'NAVIGATE',
       payload: {
         kind: kind,
         slug: slug,
+        location: location ?? (kind === SourceFileKind.Notebook ? '/fallback.ipynb' : '/'),
         mdast: mdast,
         dependencies: dependencies ?? [],
         computables,

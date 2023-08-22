@@ -1,5 +1,12 @@
 # myst-demo
 
+## 0.5.5
+
+### Patch Changes
+
+- 5489cf8: Catch errors with typst conversion
+  - myst-to-react@0.5.5
+
 ## 0.5.4
 
 ### Patch Changes

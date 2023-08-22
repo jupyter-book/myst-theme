@@ -1,5 +1,11 @@
 # @myst-theme/providers
 
+## 0.5.5
+
+### Patch Changes
+
+- @myst-theme/common@0.5.5
+
 ## 0.5.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.5.6
+
+### Patch Changes
+
+- e6c1ec89: Added ability to start thebe sessions for notebooks on the correct path such that relative importants and file loading will work. As a result base `myst` packages have also been upgraded, mainly for types so we can consume the new `location` field appropraitely, that holds the path information.
+
 ## 0.5.5
 
 ## 0.5.4

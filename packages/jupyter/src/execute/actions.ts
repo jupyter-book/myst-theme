@@ -19,7 +19,7 @@ interface NavigatePayload {
   slug: string;
   location: string;
   mdast: GenericParent;
-  dependencies: (Dependency & { location: string })[];
+  dependencies: Dependency[];
   computables: Computable[];
 }
 

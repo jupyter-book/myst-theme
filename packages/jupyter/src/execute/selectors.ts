@@ -62,23 +62,26 @@ function makeSelectScopeEventStatus(statusName: BuildStatus) {
   return (state: ExecuteScopeState) => {
     return Object.entries(state.builds)
       .filter(([, { status }]) => status === statusName)
-      .reduce<{ pageSlug: string; notebookSlug: string; location: string }[]>((all, [slug]) => {
-        const targets = [];
-        if (state.pages[slug].kind === SourceFileKind.Notebook)
-          targets.push({
-            pageSlug: slug,
-            notebookSlug: slug,
-            location: state.pages[slug].location,
-          });
-        targets.push(
-          ...state.pages[slug].dependencies.map((d) => ({
-            pageSlug: slug,
-            notebookSlug: (d.slug ?? d.url) as string,
-            location: d.location,
-          })),
-        );
-        return [...all, ...targets];
-      }, []);
+      .reduce<{ pageSlug: string; notebookSlug: string; location: string | undefined }[]>(
+        (all, [slug]) => {
+          const targets = [];
+          if (state.pages[slug].kind === SourceFileKind.Notebook)
+            targets.push({
+              pageSlug: slug,
+              notebookSlug: slug,
+              location: state.pages[slug].location,
+            });
+          targets.push(
+            ...state.pages[slug].dependencies.map((d) => ({
+              pageSlug: slug,
+              notebookSlug: (d.slug ?? d.url) as string,
+              location: d.location,
+            })),
+          );
+          return [...all, ...targets];
+        },
+        [],
+      );
   };
 }
 

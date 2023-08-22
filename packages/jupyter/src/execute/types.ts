@@ -27,7 +27,7 @@ export interface ExecuteScopeState {
       kind: SourceFileKind;
       computable: boolean;
       location: string;
-      dependencies: (Dependency & { location: string })[]; // TODO remove location after release of myst-spec-ext
+      dependencies: Dependency[];
       computables: Computable[];
       ready: boolean;
       scopes: {

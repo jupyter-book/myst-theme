@@ -108,7 +108,7 @@ export function SessionStarter({
 }: {
   pageSlug: string;
   notebookSlug: string;
-  location: string;
+  location: string | undefined;
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
@@ -130,7 +130,7 @@ export function SessionStarter({
       // we need to replace the filename with one based on the page slug and notebook slug
       // in order to allow for multiple independent sessions of the same notebook
       let path = `/${pageSlug}-${notebookSlug}.ipynb`;
-      const match = location.match(/(.*)\/.*.ipynb$/);
+      const match = location?.match(/(.*)\/.*.ipynb$/) ?? null;
       if (match) {
         path = `${match[1]}/${pageSlug}-${notebookSlug}.ipynb`;
       }

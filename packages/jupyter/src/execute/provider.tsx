@@ -30,12 +30,13 @@ type ArticleContents = {
   slug: string;
   kind: SourceFileKind;
   mdast: GenericParent;
+  location?: string;
   dependencies?: Dependency[];
   frontmatter: { thebe?: boolean | Thebe };
 };
 
 function useScopeNavigate({
-  contents: { slug, kind, mdast, dependencies },
+  contents: { slug, location, kind, mdast, dependencies },
   state,
   dispatch,
 }: {
@@ -49,19 +50,14 @@ function useScopeNavigate({
       return;
     }
 
-    const computables: Computable[] = selectAll('container > embed', mdast).map((node: any) => {
-      const { key, label, source } = node;
-      const output = selectAll('output', node);
-      if (output.length === 0) console.error(`embed must have exactly one output ${key}`);
-      if (output.length > 1) console.warn(`embed has more than one output block ${key}}`);
-      return { embedKey: key, outputKey: (output[0] as any).key, label, source };
-    });
+    const computables: Computable[] = listComputables(mdast);
 
     dispatch({
       type: 'NAVIGATE',
       payload: {
         kind: kind,
         slug: slug,
+        location: location ?? (kind === SourceFileKind.Notebook ? '/fallback.ipynb' : '/'),
         mdast: mdast,
         dependencies: dependencies ?? [],
         computables,
@@ -94,6 +90,14 @@ function useExecutionScopeFetcher({
   }, [state.builds, state.mdast]);
 }
 
+function listComputables(mdast: GenericParent) {
+  return selectAll('container[kind=figure] > output, embed > output', mdast).map((node: any) => {
+    const { key, label, source } = node;
+    const output = selectAll('output', node);
+    return { embedKey: key, outputKey: (output[0] as any).key, label, source };
+  });
+}
+
 /**
  *  The ExecuteScopeProvider is responsible for maintaining the state of the
  *  execution scope. It is also responsible for fetching the json for dependencies
@@ -104,16 +108,11 @@ export function ExecuteScopeProvider({
   contents,
 }: React.PropsWithChildren<{ contents: ArticleContents }>) {
   const canCompute = useCanCompute(contents);
+
   // compute incoming for first render
-  const computables: Computable[] = selectAll('container > embed', contents.mdast).map(
-    (node: any) => {
-      const { key, label, source } = node;
-      const output = selectAll('output', node);
-      if (output.length === 0) console.error(`embed must have exactly one output ${key}`);
-      if (output.length > 1) console.warn(`embed has mpre than one output block ${key}}`);
-      return { embedKey: key, outputKey: (output[0] as any).key, label, source };
-    },
-  );
+  const computables: Computable[] = listComputables(contents.mdast);
+
+  const fallbackLocation = contents.kind === SourceFileKind.Notebook ? '/fallback.ipynb' : '/';
 
   const initialState: ExecuteScopeState = {
     mdast: {
@@ -124,6 +123,7 @@ export function ExecuteScopeProvider({
         computable: computables.length > 0 || contents.kind === SourceFileKind.Notebook,
         kind: contents.kind,
         slug: contents.slug,
+        location: contents.location ?? fallbackLocation,
         dependencies: contents.dependencies ?? [],
         computables,
         ready: false,
@@ -142,14 +142,19 @@ export function ExecuteScopeProvider({
   // TODO phase this out as it is based on the current slug only!
   useExecutionScopeFetcher({ slug: contents.slug, state: state, dispatch });
 
-  const fetchTargets: { slug: string; url: string }[] = selectDependenciesToFetch(state);
-  const notebookBuildTargets: { pageSlug: string; notebookSlug: string }[] =
-    selectScopeNotebooksToBuild(state);
-  const sessionStartTargets: { pageSlug: string; notebookSlug: string }[] =
-    selectSessionsToStart(state);
+  const fetchTargets = selectDependenciesToFetch(state);
+  const notebookBuildTargets = selectScopeNotebooksToBuild(state);
+  const sessionStartTargets = selectSessionsToStart(state);
 
   const memo = React.useMemo(
-    () => ({ canCompute, slug: contents.slug, state, dispatch, idkmap: idkmap.current }),
+    () => ({
+      canCompute,
+      slug: contents.slug,
+      location: contents.location,
+      state,
+      dispatch,
+      idkmap: idkmap.current,
+    }),
     [state, contents.slug],
   );
 
@@ -183,11 +188,12 @@ export function ExecuteScopeProvider({
         )}
         {sessionStartTargets.length > 0 && (
           <div className="p-1 pl-4">
-            {sessionStartTargets.map(({ pageSlug, notebookSlug }) => (
+            {sessionStartTargets.map(({ pageSlug, notebookSlug, location }) => (
               <SessionStarter
                 key={`session-${pageSlug}-${notebookSlug}`}
                 pageSlug={pageSlug}
                 notebookSlug={notebookSlug}
+                location={location}
                 state={state}
                 dispatch={dispatch}
               />

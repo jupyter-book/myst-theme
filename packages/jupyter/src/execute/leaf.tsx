@@ -102,11 +102,13 @@ export function NotebookBuilder({
 export function SessionStarter({
   pageSlug,
   notebookSlug,
+  location,
   state,
   dispatch,
 }: {
   pageSlug: string;
   notebookSlug: string;
+  location: string | undefined;
   state: ExecuteScopeState;
   dispatch: React.Dispatch<ExecuteScopeAction>;
 }) {
@@ -119,22 +121,30 @@ export function SessionStarter({
   useEffect(() => {
     if (!core || !server || scope.session || lock.current) return;
     lock.current = true;
-    console.debug(`Jupyter: Starting session for ${pageSlug}-${notebookSlug}`);
+    console.debug(`Jupyter: Starting session for ${pageSlug}-${notebookSlug} at ${location}`);
 
     server.listRunningSessions().then((sessions) => {
       console.debug('Jupyter: running sessions', sessions);
-      const path = `/${pageSlug}-${notebookSlug}.ipynb`;
+
+      // the location gives us the correct path for the notebook including it's filename
+      // we need to replace the filename with one based on the page slug and notebook slug
+      // in order to allow for multiple independent sessions of the same notebook
+      let path = `/${pageSlug}-${notebookSlug}.ipynb`;
+      const match = location?.match(/(.*)\/.*.ipynb$/) ?? null;
+      if (match) {
+        path = `${match[1]}/${pageSlug}-${notebookSlug}.ipynb`;
+      }
 
       const existing = sessions.find((s) => s.path === path);
 
       if (existing) {
-        console.debug(`session already exists for ${pageSlug}-${notebookSlug}`, existing);
+        console.debug(`session already exists for ${path}`, existing);
         server.connectToExistingSession(existing, scope.rendermime).then((sesh) => {
           if (sesh == null) {
-            console.error(`Could not connect to session for ${pageSlug} ${notebookSlug}`);
+            console.error(`Could not connect to session for ${path}`);
             return;
           }
-          console.debug(`reconnected to session for ${pageSlug}/${notebookSlug}`, sesh);
+          console.debug(`reconnected to session for ${path}`, sesh);
           console.debug('restarting session', sesh);
           sesh.kernel?.restart().then(() => {
             const notebook = selectNotebookForPage(state, pageSlug, notebookSlug);
@@ -146,18 +156,17 @@ export function SessionStarter({
         server
           .startNewSession(scope.rendermime, {
             ...config?.kernels,
-            name: `${pageSlug}-${notebookSlug}.ipynb`,
             path,
           })
           .then((sesh) => {
             if (sesh == null) {
               server?.getKernelSpecs().then((specs) => {
-                console.error(`Could not start session for ${pageSlug} ${notebookSlug}`);
+                console.error(`Could not start session for ${path}`);
                 console.debug(`Available kernels: ${Object.keys(specs)}`);
               });
               return;
             }
-            console.debug(`session started for ${pageSlug}/${notebookSlug}`, sesh);
+            console.debug(`session started for ${path}`, sesh);
             const notebook = selectNotebookForPage(state, pageSlug, notebookSlug);
             notebook.attachSession(sesh);
             dispatch({ type: 'ADD_SESSION', payload: { pageSlug, notebookSlug, session: sesh } });

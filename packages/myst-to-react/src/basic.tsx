@@ -78,7 +78,7 @@ type BasicNodeRenderers = {
 
 const BASIC_RENDERERS: BasicNodeRenderers = {
   text({ node }) {
-    return node.value;
+    return <>{node.value}</>;
   },
   delete({ node }) {
     return (

@@ -26,6 +26,7 @@ export interface ExecuteScopeState {
       slug: string;
       kind: SourceFileKind;
       computable: boolean;
+      location: string;
       dependencies: Dependency[];
       computables: Computable[];
       ready: boolean;

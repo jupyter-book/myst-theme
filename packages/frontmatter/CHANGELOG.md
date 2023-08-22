@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.5.5
+
+### Patch Changes
+
+- 0a04c86: Improve author popover styles
+
 ## 0.5.4
 
 ## 0.5.3

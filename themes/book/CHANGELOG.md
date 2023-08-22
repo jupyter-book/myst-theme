@@ -1,5 +1,18 @@
 # @myst-theme/book
 
+## 0.5.6
+
+### Patch Changes
+
+- e6c1ec8: Added ability to start thebe sessions for notebooks on the correct path such that relative importants and file loading will work. As a result base `myst` packages have also been upgraded, mainly for types so we can consume the new `location` field appropraitely, that holds the path information.
+- Updated dependencies [e6c1ec8]
+  - @myst-theme/providers@0.5.6
+  - @myst-theme/jupyter@0.5.6
+  - @myst-theme/common@0.5.6
+  - @myst-theme/site@0.5.6
+  - @myst-theme/styles@0.5.6
+  - @myst-theme/icons@0.5.6
+
 ## 0.5.5
 
 ### Patch Changes

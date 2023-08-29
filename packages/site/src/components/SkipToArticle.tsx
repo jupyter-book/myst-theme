@@ -35,7 +35,7 @@ export function SkipToArticle({
           className="block px-2 py-1 text-black underline"
           onClick={frontmatterHander}
         >
-          Skip to frontmatter
+          Skip to article frontmatter
         </a>
       )}
       {article && (

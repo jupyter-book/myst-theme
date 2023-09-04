@@ -66,23 +66,22 @@ export function ArticlePageAndNavigation({
   const { container, toc } = useTocHeight(top, inset);
   return (
     <UiStateProvider>
+      <TopNav />
       <Navigation
         tocRef={toc}
         hide_toc={hide_toc}
         footer={<MadeWithMyst />}
         projectSlug={projectSlug}
-      >
-        <TopNav />
-        <TabStateProvider>
-          <article
-            ref={container}
-            className="article content article-grid grid-gap"
-            style={{ marginTop: top }}
-          >
-            {children}
-          </article>
-        </TabStateProvider>
-      </Navigation>
+      />
+      <TabStateProvider>
+        <article
+          ref={container}
+          className="article content article-grid grid-gap"
+          style={{ marginTop: top }}
+        >
+          {children}
+        </article>
+      </TabStateProvider>
     </UiStateProvider>
   );
 }

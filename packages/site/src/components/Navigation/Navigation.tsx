@@ -16,10 +16,13 @@ export function Navigation({
 }) {
   const [open, setOpen] = useNavOpen();
   const top = useThemeTop();
-  if (hide_toc) return <>{children}</>;
+  if (children)
+    console.warn(
+      `Including children in Navigation can break keyboard accessbility and is deprecated. Please move children to the page component.`,
+    );
+  if (hide_toc) return children ? null : <>{children}</>;
   return (
     <>
-      {children}
       {open && (
         <div
           className="fixed inset-0 z-30 bg-black opacity-50"
@@ -28,6 +31,7 @@ export function Navigation({
         ></div>
       )}
       <TableOfContents tocRef={tocRef} projectSlug={projectSlug} footer={footer} />
+      {children}
     </>
   );
 }

@@ -168,8 +168,7 @@ export const TableOfContents = ({
         'fixed',
         `xl:${grid}`, // for example, xl:article-grid
         'grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
-        { hidden: !open },
-        { 'z-30': open },
+        { hidden: !open, 'z-30': open, 'z-10': !open },
       )}
       style={{ top }}
     >

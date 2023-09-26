@@ -1,13 +1,13 @@
 cite {
   font-style: normal;
 }
-.cite-group.parenthetical cite::after {
+.cite-group.parenthetical > *::after {
   content: ';\00a0';
 }
-.cite-group.narrative cite::after {
+.cite-group.narrative > *::after {
   content: ',\00a0';
 }
-.cite-group > cite:last-of-type::after {
+.cite-group > *:last-of-type::after {
   content: '';
 }
 .cite-group.parenthetical:before {

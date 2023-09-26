@@ -4,6 +4,7 @@ import { useTheme } from '@myst-theme/providers';
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import light from 'react-syntax-highlighter/dist/cjs/styles/hljs/xcode';
 import dark from 'react-syntax-highlighter/dist/cjs/styles/hljs/vs2015';
+import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon';
 import classNames from 'classnames';
 import { CopyIcon } from './components';
 
@@ -58,7 +59,18 @@ export function CodeBlock(props: Props) {
           border,
       })}
     >
-      {filename && <div className="p-1 mt-1 leading-3">{filename}</div>}
+      {filename && (
+        <div className="flex flex-row pl-2 bg-white border-b dark:bg-slate-600 dark:border-slate-300">
+          <DocumentIcon
+            width="16px"
+            height="16px"
+            className="self-center flex-none inline-block text-gray-500 dark:text-gray-100"
+          />
+          <div className="self-center p-2 text-sm leading-3 prose text-slate-600 dark:text-white">
+            {filename}
+          </div>
+        </div>
+      )}
       <SyntaxHighlighter
         language={normalizeLanguage(lang)}
         startingLineNumber={startingLineNumber}
@@ -88,7 +100,12 @@ export function CodeBlock(props: Props) {
       >
         {value}
       </SyntaxHighlighter>
-      {showCopy && <CopyIcon text={value} className="absolute top-1 right-1" />}
+      {showCopy && (
+        <CopyIcon
+          text={value}
+          className={classNames('absolute right-1', { 'top-[32px]': filename, 'top-1': !filename })}
+        />
+      )}
     </div>
   );
 }
@@ -102,6 +119,7 @@ const code: NodeRenderer<Code & { executable: boolean }> = ({ node }) => {
       data-mdast-node-id={node.key}
       value={node.value || ''}
       lang={node.lang}
+      filename={node.filename}
       emphasizeLines={node.emphasizeLines}
       showLineNumbers={node.showLineNumbers}
       startingLineNumber={node.startingLineNumber}

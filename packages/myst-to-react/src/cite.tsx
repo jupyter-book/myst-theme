@@ -48,7 +48,7 @@ export const Cite = ({
   const doiUrl = doiString ? doi.buildUrl(doiString as string) : null;
   return (
     <HoverPopover openDelay={300} card={<CiteChild html={html} />}>
-      <cite className="hover-link">
+      <cite>
         {doiUrl && (
           <a href={doiUrl} target="_blank" rel="noreferrer" className="hover-link">
             {children}

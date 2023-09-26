@@ -15,7 +15,7 @@ export function HashLink({
   hideInPopup,
 }: {
   id?: string;
-  kind: string;
+  kind?: string;
   title?: string;
   hover?: boolean;
   children?: '#' | '¶' | React.ReactNode;

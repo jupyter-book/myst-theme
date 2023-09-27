@@ -49,6 +49,9 @@ module.exports = {
     'jats-tags',
     /^@myst-theme\/.*/,
     'react-syntax-highlighter',
+    'markdown-it-myst-extras',
+    'markdown-it-dollarmath',
+    'markdown-it-amsmath',
   ],
   watchPaths: ['../../packages/**/*'],
   future: {

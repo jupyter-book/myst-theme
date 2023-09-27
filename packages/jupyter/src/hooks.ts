@@ -90,7 +90,7 @@ export function useFetchAnyTruncatedContent(outputs: MinifiedOutput[]): {
 
   const { data, error } = useSWRImmutable<LongContent[]>(
     itemsWithPaths.map(({ path }) => path),
-    arrayFetcher,
+    arrayFetcher as any,
   );
 
   data?.forEach(({ content }, idx) => {

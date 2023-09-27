@@ -23,6 +23,7 @@ import UNKNOWN_MYST_RENDERERS from './unknown';
 
 export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components';
 export { CodeBlock } from './code';
+export { HashLink } from './heading';
 export { Admonition, AdmonitionKind } from './admonitions';
 export { Details } from './dropdown';
 export { TabSet, TabItem } from './tabs';

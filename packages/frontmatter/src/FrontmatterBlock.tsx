@@ -217,7 +217,11 @@ export function FrontmatterBlock({
     return null;
   }
   return (
-    <div className={classNames(className)}>
+    <div
+      id="skip-to-frontmatter"
+      aria-label="article frontmatter"
+      className={classNames(className)}
+    >
       {showHeaderBlock && (
         <div className="flex items-center h-6 mt-3 mb-5 text-sm font-light">
           {subject && (

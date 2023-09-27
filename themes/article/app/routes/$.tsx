@@ -147,6 +147,7 @@ export function Article({
               </DocumentOutline>
             </div>
           )}
+          <div id="skip-to-article" />
           <Abstract content={abstract as GenericParent} />
           <Keywords keywords={keywords} hideKeywords={hideKeywords} />
           <ContentBlocks mdast={tree as GenericParent} />

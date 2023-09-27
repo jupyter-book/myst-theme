@@ -8,3 +8,4 @@ export { Abstract, Keywords } from './Abstract';
 export { ExternalOrInternalLink } from './ExternalOrInternalLink';
 export * from './Navigation';
 export { renderers } from './renderers';
+export * from './SkipToArticle';

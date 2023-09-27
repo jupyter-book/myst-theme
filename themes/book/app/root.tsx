@@ -9,6 +9,7 @@ import {
   getMetaTagsForSite,
   getThemeSession,
   ContentReload,
+  SkipToArticle,
 } from '@myst-theme/site';
 import { Outlet, useLoaderData } from '@remix-run/react';
 export { AppCatchBoundary as CatchBoundary } from '@myst-theme/site';
@@ -61,6 +62,7 @@ export default function AppWithReload() {
       staticBuild={MODE === 'static'}
       baseurl={BASE_URL}
     >
+      <SkipToArticle />
       <Outlet />
     </Document>
   );

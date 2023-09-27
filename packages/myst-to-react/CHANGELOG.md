@@ -1,5 +1,16 @@
 # myst-to-react
 
+## 0.5.7
+
+### Patch Changes
+
+- 1d29272: export HashLink
+- 42314ec: Add filename to codeblock
+- c3c8175: Update myst dependencies
+- bf66da0: Allow citations to be elements other than `cite` (e.g. a Figure 1 reference is a span element.)
+- Updated dependencies [c3c8175]
+  - @myst-theme/providers@0.5.7
+
 ## 0.5.6
 
 ### Patch Changes

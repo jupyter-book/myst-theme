@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.5.7
+
+### Patch Changes
+
+- c3c8175: Update myst dependencies
+
 ## 0.5.6
 
 ### Patch Changes

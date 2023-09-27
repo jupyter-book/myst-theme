@@ -1,14 +1,12 @@
 import { useCallback } from 'react';
 
-function makeSkipClickHander(hash: string) {
+function makeSkipClickHandler(hash: string) {
   return (e: React.UIEvent<HTMLElement, Event>) => {
     e.preventDefault();
     const el = document.querySelector(`#${hash}`);
     if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth' });
+    (el.nextSibling as HTMLElement).focus();
     history.replaceState(undefined, '', `#${hash}`);
-    (el.nextSibling as HTMLElement).focus({ preventScroll: true });
-    (e.target as HTMLElement).blur();
   };
 }
 
@@ -22,8 +20,8 @@ export function SkipToArticle({
   const fm = 'skip-to-frontmatter';
   const art = 'skip-to-article';
 
-  const frontmatterHander = useCallback(() => makeSkipClickHander(fm), [frontmatter]);
-  const articleHandler = useCallback(() => makeSkipClickHander(art), [article]);
+  const frontmatterHandler = useCallback(() => makeSkipClickHandler(fm), [frontmatter]);
+  const articleHandler = useCallback(() => makeSkipClickHandler(art), [article]);
   return (
     <div
       className="fixed top-1 left-1 h-[0px] w-[0px] focus-within:z-40 focus-within:h-auto focus-within:w-auto bg-white overflow-hidden focus-within:p-2 focus-within:ring-1"
@@ -33,7 +31,7 @@ export function SkipToArticle({
         <a
           href={`#${fm}`}
           className="block px-2 py-1 text-black underline"
-          onClick={frontmatterHander}
+          onClick={frontmatterHandler}
         >
           Skip to article frontmatter
         </a>

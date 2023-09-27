@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.5.7
+
+### Patch Changes
+
+- bf66da0: Allow citations to be elements other than `cite` (e.g. a Figure 1 reference is a span element.)
+
 ## 0.5.6
 
 ## 0.5.5

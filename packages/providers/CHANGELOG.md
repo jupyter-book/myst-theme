@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 0.5.7
+
+### Patch Changes
+
+- c3c8175: Update myst dependencies
+- Updated dependencies [c3c8175]
+  - @myst-theme/common@0.5.7
+
 ## 0.5.6
 
 ### Patch Changes

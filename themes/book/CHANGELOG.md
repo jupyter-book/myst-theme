@@ -1,5 +1,20 @@
 # @myst-theme/book
 
+## 0.5.7
+
+### Patch Changes
+
+- c3c8175: Update myst dependencies
+- Updated dependencies [55f7d0f]
+- Updated dependencies [c3c8175]
+- Updated dependencies [bf66da0]
+  - @myst-theme/site@0.5.7
+  - @myst-theme/providers@0.5.7
+  - @myst-theme/jupyter@0.5.7
+  - @myst-theme/common@0.5.7
+  - @myst-theme/styles@0.5.7
+  - @myst-theme/icons@0.5.7
+
 ## 0.5.6
 
 ### Patch Changes

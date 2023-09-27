@@ -1,5 +1,17 @@
 # @myst-theme/jupyter
 
+## 0.5.7
+
+### Patch Changes
+
+- c3c8175: Update myst dependencies
+- Updated dependencies [1d29272]
+- Updated dependencies [42314ec]
+- Updated dependencies [c3c8175]
+- Updated dependencies [bf66da0]
+  - myst-to-react@0.5.7
+  - @myst-theme/providers@0.5.7
+
 ## 0.5.6
 
 ### Patch Changes

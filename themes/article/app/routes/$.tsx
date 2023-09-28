@@ -13,7 +13,13 @@ import {
   Abstract,
   Keywords,
 } from '@myst-theme/site';
-import { LaunchBinder } from '@myst-theme/jupyter';
+import {
+  ErrorTray,
+  LaunchBinder,
+  NotebookToolbar,
+  useCanCompute,
+  useThebeOptions,
+} from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import ArrowLeftIcon from '@heroicons/react/24/outline/ArrowLeftIcon';
 import DocumentArrowDownIcon from '@heroicons/react/24/outline/DocumentArrowDownIcon';
@@ -34,6 +40,7 @@ import type { GenericParent } from 'myst-common';
 import { extractPart, copyNode } from 'myst-common';
 import classNames from 'classnames';
 import { BusyScopeProvider, ConnectionStatusTray, ExecuteScopeProvider } from '@myst-theme/jupyter';
+import { SourceFileKind } from 'myst-spec-ext';
 
 export const meta: MetaFunction = (args) => {
   const config = args.parentsData?.root?.config as SiteManifest | undefined;
@@ -133,6 +140,11 @@ export function Article({
   const tree = copyNode(article.mdast);
   const abstract = extractPart(tree, 'abstract');
   const { title, subtitle } = article.frontmatter;
+
+  const thebe = useThebeOptions();
+  const canCompute = !!thebe && (article.frontmatter as any)?.thebe !== false;
+  // TODO in lieu of extended frontmatter or theme options
+  const enable_notebook_toolbar = false;
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -148,6 +160,10 @@ export function Article({
               </DocumentOutline>
             </div>
           )}
+          {canCompute && enable_notebook_toolbar && article.kind === SourceFileKind.Notebook && (
+            <NotebookToolbar showLaunch />
+          )}
+          <ErrorTray pageSlug={article.slug} />
           <div id="skip-to-article" />
           <Abstract content={abstract as GenericParent} />
           <Keywords keywords={keywords} hideKeywords={hideKeywords} />

@@ -25,9 +25,7 @@ function extractGithubRepoInfo(url: string): { owner: string; repo: string } | n
   return null;
 }
 
-function extractBinderRepoInfo(
-  url: string,
-): {
+function extractBinderRepoInfo(url: string): {
   binderUrl: string;
   repoProvider: WellKnownRepoProvider | string;
   owner: string;

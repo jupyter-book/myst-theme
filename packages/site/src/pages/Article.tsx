@@ -7,12 +7,10 @@ import type { PageLoader } from '@myst-theme/common';
 import { copyNode, extractPart, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {
-  useThebeOptions,
   ExecuteScopeProvider,
   BusyScopeProvider,
   NotebookToolbar,
   ConnectionStatusTray,
-  BinderBadge,
   useCanCompute,
   ErrorTray,
 } from '@myst-theme/jupyter';
@@ -30,14 +28,11 @@ export const ArticlePage = React.memo(function ({
   hideKeywords?: boolean;
 }) {
   const canCompute = useCanCompute(article);
-  const { binderBadgeUrl } = useThebeOptions();
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
 
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
   const abstract = showAbstract ? extractPart(tree, 'abstract') : undefined;
-  // take binder url from article frontmatter or fallback to project
-  const binderUrl = article.frontmatter.binder ?? binderBadgeUrl;
 
   return (
     <ReferencesProvider

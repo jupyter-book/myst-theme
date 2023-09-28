@@ -114,8 +114,12 @@ function LaunchOnBinder({ style }: { style: 'link' | 'button' }) {
 
   return (
     <a
-      href={''}
+      href={
+        'https://agu-binder.curvenote.dev/services/binder/v2/meca/https%3A%2F%2Fcurvenote.github.io%2Fnotebooks-in-publishing%2Fbuild%2Fmeca-myst-full-2217ff9aad9108b13919e8a15a329ccf.zip'
+      }
       className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"
+      target="_blank"
+      rel="noopener noreferrer"
     >
       <ExternalLinkIcon
         width="1rem"

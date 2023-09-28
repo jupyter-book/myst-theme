@@ -16,6 +16,8 @@ export function LaunchBinder({ style, file }: { style: 'link' | 'button'; file?:
 
   if (file) url += `?labpath=${encodeURIComponent(file)}`;
 
+  console.log('opening', url);
+
   if (style === 'link')
     return (
       <a

@@ -168,6 +168,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
   const baseurl = useBaseurl();
   const project = projects?.[0];
   const isIndex = article.slug === project?.index;
+  console.log('ARTICLE', article);
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -180,7 +181,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
               <Downloads />
               <div className="col-margin mt-3 mx-5 lg:mt-2 lg:mx-0 lg:w-[300px]">
                 <div className="flex flex-wrap gap-2 lg:flex-col w-[147px] pl-[1px] lg:mx-auto">
-                  <LaunchBinder style="link" />
+                  <LaunchBinder style="link" file={article.location} />
                 </div>
               </div>
             </div>
@@ -205,7 +206,9 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                   <span>Back to Article</span>
                 </Link>
                 <div className="flex-grow text-center">{article.frontmatter.title}</div>
-                <LaunchBinder style="button" />
+                <div className="mr-2">
+                  <LaunchBinder style="button" file={article.location} />
+                </div>
                 <a
                   href={article.frontmatter?.exports?.[0]?.url}
                   className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"

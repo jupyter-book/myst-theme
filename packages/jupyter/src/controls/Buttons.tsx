@@ -3,11 +3,48 @@ import ArrowPathIcon from '@heroicons/react/24/outline/ArrowPathIcon';
 import MinusCircleIcon from '@heroicons/react/24/outline/MinusCircleIcon';
 import ArrowTopRightOnSquareIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import ArrowUturnLeft from '@heroicons/react/24/outline/ArrowUturnLeftIcon';
+import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import Bolt from '@heroicons/react/24/outline/BoltIcon';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 import BoltIconSolid from '@heroicons/react/24/solid/BoltIcon';
 import classNames from 'classnames';
 import { Spinner } from './Spinner';
+
+export function LaunchBinder({ style, file }: { style: 'link' | 'button'; file?: string }) {
+  let url =
+    'https://agu-binder.curvenote.dev/services/binder/v2/meca/https%3A%2F%2Fcurvenote.github.io%2Fnotebooks-in-publishing%2Fbuild%2Fmeca-myst-full-2217ff9aad9108b13919e8a15a329ccf.zip';
+
+  if (file) url += `?labpath=${encodeURIComponent(file)}`;
+
+  if (style === 'link')
+    return (
+      <a
+        href={url}
+        className="inline-flex items-center mr-2 no-underline lg:mr-0 lg:flex"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <ExternalLinkIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />
+        Launch Binder
+      </a>
+    );
+
+  return (
+    <a
+      href={url}
+      className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <ExternalLinkIcon
+        width="1rem"
+        height="1rem"
+        className="self-center transition-transform group-hover:-translate-x-1 shrink-0"
+      />
+      <span>Launch Binder</span>
+    </a>
+  );
+}
 
 export function SpinnerStatusButton({
   ready,

@@ -12,12 +12,11 @@ import {
   SupportingDocuments,
   Abstract,
   Keywords,
-  ExternalOrInternalLink,
 } from '@myst-theme/site';
+import { LaunchBinder } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import ArrowLeftIcon from '@heroicons/react/24/outline/ArrowLeftIcon';
 import DocumentArrowDownIcon from '@heroicons/react/24/outline/DocumentArrowDownIcon';
-import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
@@ -34,7 +33,7 @@ import {
 import type { GenericParent } from 'myst-common';
 import { extractPart, copyNode } from 'myst-common';
 import classNames from 'classnames';
-import { BusyScopeProvider, ExecuteScopeProvider } from '@myst-theme/jupyter';
+import { BusyScopeProvider, ConnectionStatusTray, ExecuteScopeProvider } from '@myst-theme/jupyter';
 
 export const meta: MetaFunction = (args) => {
   const config = args.parentsData?.root?.config as SiteManifest | undefined;
@@ -96,41 +95,6 @@ function formatToTitle(format: string) {
   return format;
 }
 
-// TODO move to packages/site but keep any bdiner specifics in packages/jupyter
-function LaunchOnBinder({ style }: { style: 'link' | 'button' }) {
-  if (style === 'link')
-    return (
-      <ExternalOrInternalLink
-        to={
-          'https://agu-binder.curvenote.dev/services/binder/v2/meca/https%3A%2F%2Fcurvenote.github.io%2Fnotebooks-in-publishing%2Fbuild%2Fmeca-myst-full-2217ff9aad9108b13919e8a15a329ccf.zip'
-        }
-        className="inline-flex items-center mr-2 no-underline lg:mr-0 lg:flex"
-        isStatic
-      >
-        <ExternalLinkIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />
-        Launch Binder
-      </ExternalOrInternalLink>
-    );
-
-  return (
-    <a
-      href={
-        'https://agu-binder.curvenote.dev/services/binder/v2/meca/https%3A%2F%2Fcurvenote.github.io%2Fnotebooks-in-publishing%2Fbuild%2Fmeca-myst-full-2217ff9aad9108b13919e8a15a329ccf.zip'
-      }
-      className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <ExternalLinkIcon
-        width="1rem"
-        height="1rem"
-        className="self-center transition-transform group-hover:-translate-x-1 shrink-0"
-      />
-      <span>Launch Binder</span>
-    </a>
-  );
-}
-
 function Downloads() {
   const site = useSiteManifest();
   const project = site?.projects?.[0];
@@ -189,6 +153,7 @@ export function Article({
           <Keywords keywords={keywords} hideKeywords={hideKeywords} />
           <ContentBlocks mdast={tree as GenericParent} />
           <Bibliography />
+          <ConnectionStatusTray />
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ReferencesProvider>
@@ -215,7 +180,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
               <Downloads />
               <div className="col-margin mt-3 mx-5 lg:mt-2 lg:mx-0 lg:w-[300px]">
                 <div className="flex flex-wrap gap-2 lg:flex-col w-[147px] pl-[1px] lg:mx-auto">
-                  <LaunchOnBinder style="link" />
+                  <LaunchBinder style="link" />
                 </div>
               </div>
             </div>
@@ -240,7 +205,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                   <span>Back to Article</span>
                 </Link>
                 <div className="flex-grow text-center">{article.frontmatter.title}</div>
-                <LaunchOnBinder style="button" />
+                <LaunchBinder style="button" />
                 <a
                   href={article.frontmatter?.exports?.[0]?.url}
                   className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"

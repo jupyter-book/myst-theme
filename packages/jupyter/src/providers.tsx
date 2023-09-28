@@ -1,20 +1,20 @@
 import type { SourceFileKind } from 'myst-spec-ext';
 import React, { useContext } from 'react';
 import { ThebeServerProvider } from 'thebe-react';
-import { ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils';
+import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils';
 import type { GenericParent } from 'myst-common';
-import { SiteManifest } from 'myst-config';
-import { RepoProviderSpec } from 'thebe-core';
+import type { SiteManifest } from 'myst-config';
+import type { RepoProviderSpec } from 'thebe-core';
 
 function makeThebeOptions(
   siteManifest: SiteManifest | undefined,
-  overrides?: { thebe?: false },
+  optionsOverrideFn = (opts?: ExtendedCoreOptions) => opts,
 ): {
   options?: ExtendedCoreOptions;
   githubBadgeUrl?: string;
   binderBadgeUrl?: string;
 } {
-  if (!siteManifest || overrides?.thebe === false) return {};
+  if (!siteManifest) return {};
   // TODO there may be multiple projects?
   // useProjectManifest?
   const mainProject = siteManifest?.projects?.[0];
@@ -27,7 +27,8 @@ function makeThebeOptions(
     binderBadgeUrl,
   );
 
-  const options = thebeFrontmatter ? optionsFromFrontmatter : undefined;
+  const options = optionsOverrideFn(thebeFrontmatter ? optionsFromFrontmatter : undefined);
+
   return {
     options,
     githubBadgeUrl,
@@ -45,17 +46,17 @@ const ThebeOptionsContext = React.createContext<ThebeOptionsContextType>({});
 
 export function ConfiguredThebeServerProvider({
   siteManifest,
-  overrides,
+  optionOverrideFn,
   customRepoProviders,
   children,
 }: React.PropsWithChildren<{
   siteManifest?: SiteManifest;
-  overrides?: any;
+  optionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions;
   customRepoProviders?: RepoProviderSpec[];
 }>) {
   const thebe = React.useMemo(
-    () => makeThebeOptions(siteManifest, overrides),
-    [siteManifest, overrides],
+    () => makeThebeOptions(siteManifest, optionOverrideFn),
+    [siteManifest, optionOverrideFn],
   );
 
   if (!siteManifest) return <>{children}</>;

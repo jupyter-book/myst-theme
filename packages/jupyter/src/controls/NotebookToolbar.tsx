@@ -17,6 +17,10 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
   const { connecting, connect, ready: serverReady, server, error: serverError } = useThebeServer();
   const computable = selectIsComputable(state, slug);
   const handleStart = () => {
+    if (!connect) {
+      console.debug("NotebookToolbar: Trying to start a connection but connect() isn't defined");
+      return;
+    }
     connect();
     start(slug);
   };
@@ -42,7 +46,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
   if (computable)
     return (
       <div className="sticky top-[60px] flex justify-end w-full z-20 pointer-events-none">
-        <div className="flex p-1 m-1 border rounded-full shadow pointer-events-auto space-x-1 border-stone-300 bg-white/80 dark:bg-stone-900/80 backdrop-blur">
+        <div className="flex p-1 m-1 space-x-1 border rounded-full shadow pointer-events-auto border-stone-300 bg-white/80 dark:bg-stone-900/80 backdrop-blur">
           {!ready && (
             <div className="rounded">
               <button

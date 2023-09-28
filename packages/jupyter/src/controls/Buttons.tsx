@@ -9,42 +9,116 @@ import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 import BoltIconSolid from '@heroicons/react/24/solid/BoltIcon';
 import classNames from 'classnames';
 import { Spinner } from './Spinner';
+import { useThebeServer } from 'thebe-react';
 
-export function LaunchBinder({ style, file }: { style: 'link' | 'button'; file?: string }) {
+function BinderButton({
+  icon,
+  label,
+  title,
+  busy,
+  className,
+  onClick,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  title: string;
+  onClick: (e: React.UIEvent) => void;
+  busy?: boolean;
+  className?: string;
+}) {
+  return (
+    <button className={className} disabled={busy} onClick={onClick} title={title}>
+      <div className="flex items-center h-full">
+        {busy ? (
+          <>
+            <Spinner size={16} />
+            <span>{label}</span>
+          </>
+        ) : (
+          <>
+            {icon}
+            <span>{label}</span>
+          </>
+        )}
+      </div>
+    </button>
+  );
+}
+
+export function LaunchBinder({ style, location }: { style: 'link' | 'button'; location?: string }) {
+  const { config, connect, connecting, ready, server } = useThebeServer();
   let url =
     'https://agu-binder.curvenote.dev/services/binder/v2/meca/https%3A%2F%2Fcurvenote.github.io%2Fnotebooks-in-publishing%2Fbuild%2Fmeca-myst-full-2217ff9aad9108b13919e8a15a329ccf.zip';
 
-  if (file) url += `?labpath=${encodeURIComponent(file)}`;
+  let btnStyles =
+    'flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent';
+  let icon = (
+    <ExternalLinkIcon
+      width="1rem"
+      height="1rem"
+      className="self-center mr-2 transition-transform group-hover:-translate-x-1 shrink-0"
+    />
+  );
+  if (style === 'link') {
+    icon = <ExternalLinkIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />;
+    btnStyles =
+      'inline-flex items-center mr-2 font-medium no-underline text-gray-900 lg:mr-0 lg:flex';
+  }
 
-  console.log('opening', url);
+  console.log('THEBE SERVER', server);
 
-  if (style === 'link')
+  const handleStart = () => {
+    if (!connect) {
+      console.debug("LaunchBinder: Trying to start a connection but connect() isn't defined");
+      return;
+    }
+    connect();
+  };
+
+  if (ready) {
+    // we expect ?token= to be in the url
+    let userServerUrl = server?.userServerUrl;
+    if (userServerUrl && location) {
+      // add the location to the url pathname
+      let url = new URL(userServerUrl);
+      if (url.pathname.endsWith('/')) url.pathname = url.pathname.slice(0, -1);
+      url.pathname = `${url.pathname}/lab/tree${location}`;
+      userServerUrl = url.toString();
+    }
+    console.log('READY', server);
+    console.log('User Server URL', userServerUrl);
     return (
       <a
-        href={url}
-        className="inline-flex items-center mr-2 no-underline lg:mr-0 lg:flex"
+        className={btnStyles}
+        href={userServerUrl}
         target="_blank"
         rel="noopener noreferrer"
+        title="Binder server is available, click to open in a new tab"
       >
-        <ExternalLinkIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />
-        Launch Binder
+        <div className="flex items-center h-full">
+          {icon}
+          <span>Open in Binder</span>
+        </div>
       </a>
     );
+  }
+
+  let label = 'Launch Binder';
+  let title = 'Click to start a new compute session';
+  if (connecting) {
+    label = 'Launching...';
+    title = 'Connecting to binder, please wait';
+  }
 
   return (
-    <a
-      href={url}
-      className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <ExternalLinkIcon
-        width="1rem"
-        height="1rem"
-        className="self-center transition-transform group-hover:-translate-x-1 shrink-0"
-      />
-      <span>Launch Binder</span>
-    </a>
+    <BinderButton
+      className={btnStyles}
+      icon={icon}
+      label={label}
+      title={title}
+      busy={connecting}
+      onClick={handleStart}
+    />
   );
 }
 

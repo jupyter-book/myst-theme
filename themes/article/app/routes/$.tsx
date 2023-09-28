@@ -181,7 +181,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
               <Downloads />
               <div className="col-margin mt-3 mx-5 lg:mt-2 lg:mx-0 lg:w-[300px]">
                 <div className="flex flex-wrap gap-2 lg:flex-col w-[147px] pl-[1px] lg:mx-auto">
-                  <LaunchBinder style="link" file={article.location} />
+                  <LaunchBinder style="link" location={article.location} />
                 </div>
               </div>
             </div>
@@ -207,7 +207,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                 </Link>
                 <div className="flex-grow text-center">{article.frontmatter.title}</div>
                 <div className="mr-2">
-                  <LaunchBinder style="button" file={article.location} />
+                  <LaunchBinder style="button" location={article.location} />
                 </div>
                 <a
                   href={article.frontmatter?.exports?.[0]?.url}

@@ -22,6 +22,7 @@ export function selectAreExecutionScopesReady(state: ExecuteScopeState, slug: st
 }
 
 export function selectAreExecutionScopesBuilding(state: ExecuteScopeState, slug: string) {
+  console.log('selectAreExecutionScopesBuilding', state, slug);
   return !state.pages[slug]?.ready && !!state.builds[slug];
 }
 

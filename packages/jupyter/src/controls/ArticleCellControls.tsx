@@ -11,6 +11,10 @@ export function ArticleStatusBadge({ id }: { id: string }) {
   const building = selectAreExecutionScopesBuilding(state, slug);
 
   const handleStart = () => {
+    if (!connect) {
+      console.debug("ArticleStatusBadge: Trying to start a connection but connect() isn't defined");
+      return;
+    }
     connect();
     start();
   };

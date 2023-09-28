@@ -7,7 +7,7 @@ import type { PageLoader } from '@myst-theme/common';
 import { copyNode, extractPart, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {
-  useComputeOptions,
+  useThebeOptions,
   ExecuteScopeProvider,
   BusyScopeProvider,
   NotebookToolbar,
@@ -30,7 +30,7 @@ export const ArticlePage = React.memo(function ({
   hideKeywords?: boolean;
 }) {
   const canCompute = useCanCompute(article);
-  const { binderBadgeUrl } = useComputeOptions();
+  const { binderBadgeUrl } = useThebeOptions();
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
 
   const tree = copyNode(article.mdast);
@@ -52,11 +52,6 @@ export const ArticlePage = React.memo(function ({
               frontmatter={article.frontmatter}
               className="pt-5 mb-8"
             />
-          )}
-          {binderUrl && !canCompute && (
-            <div className="flex justify-end">
-              <BinderBadge binder={binderUrl} />
-            </div>
           )}
           {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
           <ErrorTray pageSlug={article.slug} />

@@ -7,16 +7,18 @@ import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareI
 import Bolt from '@heroicons/react/24/outline/BoltIcon';
 import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
 import BoltIconSolid from '@heroicons/react/24/solid/BoltIcon';
+import ExclamationCircleIcon from '@heroicons/react/24/outline/ExclamationCircleIcon';
 import classNames from 'classnames';
 import { Spinner } from './Spinner';
 import { useThebeServer } from 'thebe-react';
-import { LegacyRef, ReactElement, useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 function BinderButton({
   icon,
   label,
   title,
   busy,
+  error,
   className,
   onClick,
 }: {
@@ -25,29 +27,35 @@ function BinderButton({
   title: string;
   onClick: (e: React.UIEvent) => void;
   busy?: boolean;
+  error?: boolean;
   className?: string;
 }) {
+  let iconToShow = icon;
+  if (error) {
+    iconToShow = (
+      <ExclamationCircleIcon
+        className="inline pr-2 text-red-600 text-semibold"
+        width="1.5rem"
+        height="1.5rem"
+        title={title}
+      />
+    );
+  } else if (busy) {
+    iconToShow = <Spinner size={16} />;
+  }
+
   return (
     <button className={className} disabled={busy} onClick={onClick} title={title}>
       <div className="flex items-center h-full">
-        {busy ? (
-          <>
-            <Spinner size={16} />
-            <span>{label}</span>
-          </>
-        ) : (
-          <>
-            {icon}
-            <span>{label}</span>
-          </>
-        )}
+        {iconToShow}
+        <span>{label}</span>
       </div>
     </button>
   );
 }
 
 export function LaunchBinder({ style, location }: { style: 'link' | 'button'; location?: string }) {
-  const { connect, connecting, ready, server } = useThebeServer();
+  const { connect, connecting, ready, server, error } = useThebeServer();
   const [autoOpen, setAutoOpen] = useState(false);
 
   // automatically click the link when the server is ready
@@ -115,7 +123,10 @@ export function LaunchBinder({ style, location }: { style: 'link' | 'button'; lo
 
   let label = 'Launch Binder';
   let title = 'Click to start a new compute session';
-  if (connecting) {
+  if (error) {
+    label = 'Launch Error';
+    title = error;
+  } else if (connecting) {
     label = 'Launching...';
     title = 'Connecting to binder, please wait';
   }
@@ -127,6 +138,7 @@ export function LaunchBinder({ style, location }: { style: 'link' | 'button'; lo
       label={label}
       title={title}
       busy={connecting}
+      error={!!error}
       onClick={handleStart}
     />
   );

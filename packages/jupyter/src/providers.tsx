@@ -45,7 +45,7 @@ export function ConfiguredThebeServerProvider({ children }: React.PropsWithChild
       useBinder={thebe?.useBinder}
       useJupyterLite={thebe?.useJupyterLite}
     >
-      {children}
+      <>{children}</>
     </ThebeServerProvider>
   );
 }

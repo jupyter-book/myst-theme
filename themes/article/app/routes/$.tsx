@@ -137,8 +137,8 @@ function Downloads() {
   const downloads = [...(project?.exports ?? []), ...(project?.pages?.[0]?.exports ?? [])];
   if (downloads.length === 0) return null;
   return (
-    <div className="col-margin mt-3 mx-5 lg:m-0 lg:w-[350px]">
-      <div className="flex flex-wrap gap-2 lg:flex-col w-fit">
+    <div className="col-margin mt-3 mx-5 lg:m-0 lg:w-[300px]">
+      <div className="flex flex-wrap gap-2 lg:flex-col w-fit lg:mx-auto">
         {downloads.map((action) => (
           <a
             key={action.url}
@@ -213,8 +213,10 @@ export function ArticlePage({ article }: { article: PageLoader }) {
           <ArticleHeader frontmatter={project as any}>
             <div className="pt-5 md:self-center h-fit lg:pt-0 col-body lg:col-margin-right-inset">
               <Downloads />
-              <div className="col-margin mt-3 mx-5 lg:mt-2 lg:mx-0 lg:w-[300px] lg:self-center">
-                <LaunchOnBinder style="link" />
+              <div className="col-margin mt-3 mx-5 lg:mt-2 lg:mx-0 lg:w-[300px]">
+                <div className="flex flex-wrap gap-2 lg:flex-col w-[147px] pl-[1px] lg:mx-auto">
+                  <LaunchOnBinder style="link" />
+                </div>
               </div>
             </div>
           </ArticleHeader>

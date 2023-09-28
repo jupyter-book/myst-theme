@@ -4,7 +4,7 @@ import type {
   JupyterLocalOptions,
   BinderHubOptions,
 } from 'myst-frontmatter';
-import type { CoreOptions, RepoProvider } from 'thebe-core';
+import type { CoreOptions, WellKnownRepoProvider } from 'thebe-core';
 
 export type ExtendedCoreOptions = CoreOptions & {
   useBinder?: boolean;
@@ -27,7 +27,13 @@ function extractGithubRepoInfo(url: string): { owner: string; repo: string } | n
 
 function extractBinderRepoInfo(
   url: string,
-): { binderUrl: string; repoProvider: string; owner: string; repo: string; ref: string } | null {
+): {
+  binderUrl: string;
+  repoProvider: WellKnownRepoProvider | string;
+  owner: string;
+  repo: string;
+  ref: string;
+} | null {
   const pattern = /(https?:\/\/[^/]+(?:\/[^/]+)*?)\/(v\d+)\/([^/]+)\/([^/]+)\/([^/]+)\/([^/]+)/;
   const match = url.match(pattern);
 
@@ -175,7 +181,7 @@ export function thebeFrontmatterToOptions(
       repo,
     };
     if (url) thebeOptions.binderOptions.binderUrl = url;
-    if (provider) thebeOptions.binderOptions.repoProvider = provider as unknown as RepoProvider; // ffs
+    if (provider) thebeOptions.binderOptions.repoProvider = provider;
   }
 
   // handle jupyterlite

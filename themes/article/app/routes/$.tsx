@@ -12,6 +12,7 @@ import {
   SupportingDocuments,
   Abstract,
   Keywords,
+  ExternalOrInternalLink,
 } from '@myst-theme/site';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import ArrowLeftIcon from '@heroicons/react/24/outline/ArrowLeftIcon';
@@ -95,14 +96,45 @@ function formatToTitle(format: string) {
   return format;
 }
 
+// TODO move to packages/site but keep any bdiner specifics in packages/jupyter
+function LaunchOnBinder({ style }: { style: 'link' | 'button' }) {
+  if (style === 'link')
+    return (
+      <ExternalOrInternalLink
+        to={
+          'https://agu-binder.curvenote.dev/services/binder/v2/meca/https%3A%2F%2Fcurvenote.github.io%2Fnotebooks-in-publishing%2Fbuild%2Fmeca-myst-full-2217ff9aad9108b13919e8a15a329ccf.zip'
+        }
+        className="inline-flex items-center mr-2 no-underline lg:mr-0 lg:flex"
+        isStatic
+      >
+        <ExternalLinkIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />
+        Launch Binder
+      </ExternalOrInternalLink>
+    );
+
+  return (
+    <a
+      href={''}
+      className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"
+    >
+      <ExternalLinkIcon
+        width="1rem"
+        height="1rem"
+        className="self-center transition-transform group-hover:-translate-x-1 shrink-0"
+      />
+      <span>Launch Binder</span>
+    </a>
+  );
+}
+
 function Downloads() {
   const site = useSiteManifest();
   const project = site?.projects?.[0];
   const downloads = [...(project?.exports ?? []), ...(project?.pages?.[0]?.exports ?? [])];
   if (downloads.length === 0) return null;
   return (
-    <div className="col-margin mt-3 lg:mt-0 lg:w-[350px] lg:self-center">
-      <div className="flex flex-col gap-2 w-fit lg:m-auto">
+    <div className="col-margin mt-3 mx-5 lg:m-0 lg:w-[350px]">
+      <div className="flex flex-wrap gap-2 lg:flex-col w-fit">
         {downloads.map((action) => (
           <a
             key={action.url}
@@ -177,6 +209,9 @@ export function ArticlePage({ article }: { article: PageLoader }) {
           <ArticleHeader frontmatter={project as any}>
             <div className="pt-5 md:self-center h-fit lg:pt-0 col-body lg:col-margin-right-inset">
               <Downloads />
+              <div className="col-margin mt-3 mx-5 lg:mt-2 lg:mx-0 lg:w-[300px] lg:self-center">
+                <LaunchOnBinder style="link" />
+              </div>
             </div>
           </ArticleHeader>
           <main
@@ -199,17 +234,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                   <span>Back to Article</span>
                 </Link>
                 <div className="flex-grow text-center">{article.frontmatter.title}</div>
-                <a
-                  href={''}
-                  className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"
-                >
-                  <ExternalLinkIcon
-                    width="1rem"
-                    height="1rem"
-                    className="self-center transition-transform group-hover:-translate-x-1 shrink-0"
-                  />
-                  <span>Launch on Binder</span>
-                </a>
+                <LaunchOnBinder style="button" />
                 <a
                   href={article.frontmatter?.exports?.[0]?.url}
                   className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"

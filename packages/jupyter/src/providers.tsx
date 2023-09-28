@@ -58,9 +58,6 @@ export function ConfiguredThebeServerProvider({
     [siteManifest, overrides],
   );
 
-  console.log('SITE MANIFEST', siteManifest);
-  console.log('THEBE', thebe);
-
   if (!siteManifest) return <>{children}</>;
 
   return (

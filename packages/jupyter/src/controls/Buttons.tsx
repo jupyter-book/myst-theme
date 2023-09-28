@@ -65,8 +65,6 @@ export function LaunchBinder({ style, location }: { style: 'link' | 'button'; lo
       'inline-flex items-center mr-2 font-medium no-underline text-gray-900 lg:mr-0 lg:flex';
   }
 
-  console.log('THEBE SERVER', server);
-
   const handleStart = () => {
     if (!connect) {
       console.debug("LaunchBinder: Trying to start a connection but connect() isn't defined");
@@ -85,8 +83,7 @@ export function LaunchBinder({ style, location }: { style: 'link' | 'button'; lo
       url.pathname = `${url.pathname}/lab/tree${location}`;
       userServerUrl = url.toString();
     }
-    console.log('READY', server);
-    console.log('User Server URL', userServerUrl);
+
     return (
       <a
         className={btnStyles}

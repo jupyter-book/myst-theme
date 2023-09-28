@@ -15,7 +15,6 @@ export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: bo
   const error = serverError; // TODO scope bulding error handling || sessionError;
   const ready = serverReady && (!waitForSessions || scopeReady);
   const busy = connecting || selectAreExecutionScopesBuilding(state, slug);
-  console.log('BUSY', busy);
 
   const handleStatus = (event: any, data: ThebeEventData) => {
     setStatus(`[${data.subject}]: ${data.message}`);
@@ -44,8 +43,6 @@ export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: bo
     : options?.useJupyterLite
     ? 'JupyterLite'
     : 'Local Server';
-
-  console.log('SHOW', show, ready, scopeReady, serverReady);
 
   // TODO radix ui toast!
   if (show && error) {

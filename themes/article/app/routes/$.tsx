@@ -168,7 +168,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
   const baseurl = useBaseurl();
   const project = projects?.[0];
   const isIndex = article.slug === project?.index;
-  console.log('ARTICLE', article);
+
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}

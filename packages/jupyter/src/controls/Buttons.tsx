@@ -10,6 +10,7 @@ import BoltIconSolid from '@heroicons/react/24/solid/BoltIcon';
 import classNames from 'classnames';
 import { Spinner } from './Spinner';
 import { useThebeServer } from 'thebe-react';
+import { LegacyRef, ReactElement, useCallback, useRef, useState } from 'react';
 
 function BinderButton({
   icon,
@@ -46,9 +47,19 @@ function BinderButton({
 }
 
 export function LaunchBinder({ style, location }: { style: 'link' | 'button'; location?: string }) {
-  const { config, connect, connecting, ready, server } = useThebeServer();
-  let url =
-    'https://agu-binder.curvenote.dev/services/binder/v2/meca/https%3A%2F%2Fcurvenote.github.io%2Fnotebooks-in-publishing%2Fbuild%2Fmeca-myst-full-2217ff9aad9108b13919e8a15a329ccf.zip';
+  const { connect, connecting, ready, server } = useThebeServer();
+  const [autoOpen, setAutoOpen] = useState(false);
+
+  // automatically click the link when the server is ready
+  // but only if the connection was initiated in this component by the user
+  const autoClick = useCallback(
+    (node: HTMLAnchorElement) => {
+      if (node != null && autoOpen) {
+        node.click();
+      }
+    },
+    [autoOpen],
+  );
 
   let btnStyles =
     'flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent';
@@ -70,6 +81,7 @@ export function LaunchBinder({ style, location }: { style: 'link' | 'button'; lo
       console.debug("LaunchBinder: Trying to start a connection but connect() isn't defined");
       return;
     }
+    setAutoOpen(true);
     connect();
   };
 
@@ -86,6 +98,7 @@ export function LaunchBinder({ style, location }: { style: 'link' | 'button'; lo
 
     return (
       <a
+        ref={autoClick}
         className={btnStyles}
         href={userServerUrl}
         target="_blank"

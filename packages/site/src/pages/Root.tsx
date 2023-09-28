@@ -18,7 +18,7 @@ import { Error404 } from './Error404';
 import classNames from 'classnames';
 import { ConfiguredThebeServerProvider } from '@myst-theme/jupyter';
 import { ThebeBundleLoaderProvider } from 'thebe-react';
-import { BinderOptions, RepoProviderSpec } from 'thebe-core';
+import type { BinderOptions, RepoProviderSpec } from 'thebe-core';
 
 export function Document({
   children,
@@ -41,19 +41,6 @@ export function Document({
   loadThebeLite?: boolean;
   top?: number;
 }) {
-  const customRepoProviders: RepoProviderSpec[] = [
-    {
-      name: 'meca',
-      makeUrls: ({ binderUrl, repo }: BinderOptions) => {
-        return {
-          build: `${binderUrl}/build/meca/${encodeURIComponent(repo ?? '')}`,
-          launch: `${binderUrl}/v2/meca/${encodeURIComponent(repo ?? '')}`,
-        };
-      },
-    },
-  ];
-  const overrides = {};
-
   const links = staticBuild
     ? {
         Link: (props: any) => <Link {...{ ...props, reloadDocument: true }} />,
@@ -81,11 +68,7 @@ export function Document({
           <BaseUrlProvider baseurl={baseurl}>
             <ThebeBundleLoaderProvider loadThebeLite={loadThebeLite} publicPath={baseurl}>
               <SiteProvider config={config}>
-                <ConfiguredThebeServerProvider
-                  siteManifest={config}
-                  overrides={overrides}
-                  customRepoProviders={customRepoProviders}
-                >
+                <ConfiguredThebeServerProvider siteManifest={config}>
                   {children}
                 </ConfiguredThebeServerProvider>
               </SiteProvider>

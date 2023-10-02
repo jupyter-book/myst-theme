@@ -4,11 +4,11 @@ import {
   selectAreExecutionScopesBuilding,
   selectExecutionScopeStatus,
   useBusyScope,
-} from '../execute';
+} from '../execute/index.js';
 import { useThebeServer } from 'thebe-react';
-import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
-import { Spinner } from './Spinner';
-import { Clear, Launch, Reset, Run } from './Buttons';
+import { PowerIcon } from '@heroicons/react/24/outline';
+import { Spinner } from './Spinner.js';
+import { Clear, Launch, Reset, Run } from './Buttons.js';
 import classNames from 'classnames';
 
 export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }) {
@@ -42,7 +42,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
   if (computable)
     return (
       <div className="sticky top-[60px] flex justify-end w-full z-20 pointer-events-none">
-        <div className="flex p-1 m-1 border rounded-full shadow pointer-events-auto space-x-1 border-stone-300 bg-white/80 dark:bg-stone-900/80 backdrop-blur">
+        <div className="flex p-1 m-1 space-x-1 border rounded-full shadow pointer-events-auto border-stone-300 bg-white/80 dark:bg-stone-900/80 backdrop-blur">
           {!ready && (
             <div className="rounded">
               <button

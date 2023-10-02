@@ -3,9 +3,9 @@ import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import { SourceFileKind } from 'myst-spec-ext';
 import { JupyterIcon, OpenAccessIcon, GithubIcon, TwitterIcon } from '@scienceicons/react/24/solid';
-import { LicenseBadges } from './licenses';
-import { DownloadsDropdown } from './downloads';
-import { AuthorAndAffiliations, AuthorsList } from './Authors';
+import { LicenseBadges } from './licenses.js';
+import { DownloadsDropdown } from './downloads.js';
+import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
 
 function ExternalOrInternalLink({
   to,

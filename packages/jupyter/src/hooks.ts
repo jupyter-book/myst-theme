@@ -1,4 +1,4 @@
-import useSWRImmutable from 'swr/immutable';
+import { default as useSWRImmutable } from 'swr/immutable';
 import type {
   MinifiedErrorOutput,
   MinifiedMimeBundle,

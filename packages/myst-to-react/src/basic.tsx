@@ -1,9 +1,9 @@
 import type * as spec from 'myst-spec';
-import { HashLink } from './heading';
+import { HashLink } from './heading.js';
 import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
-import { Tooltip } from './components';
-import { MyST } from './MyST';
+import { Tooltip } from './components/index.js';
+import { MyST } from './MyST.js';
 
 type TableExts = {
   rowspan?: number;

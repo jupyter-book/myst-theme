@@ -1,4 +1,4 @@
-import ExclamationCircleIcon from '@heroicons/react/24/outline/ExclamationCircleIcon';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 interface Props {
   value: string;

@@ -8,7 +8,7 @@ import {
 import { useGridSystemProvider } from '@myst-theme/providers';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import { ThemeButton } from './Navigation';
+import { ThemeButton } from './Navigation/index.js';
 
 export function ArticleHeader({
   frontmatter,

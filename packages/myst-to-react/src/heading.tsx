@@ -3,7 +3,7 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import { useXRefState } from '@myst-theme/providers';
 import { createElement as e } from 'react';
 import classNames from 'classnames';
-import { MyST } from './MyST';
+import { MyST } from './MyST.js';
 
 export function HashLink({
   id,

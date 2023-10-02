@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
-import type { IdOrKey } from './types';
-import { ExecuteScopeContext } from './provider';
+import type { IdOrKey } from './types.js';
+import { ExecuteScopeContext } from './provider.js';
 import type { IThebeCell, ThebeCodeCell, ThebeEventCb, ThebeNotebook } from 'thebe-core';
-import { useBusyScope } from './busy';
+import { useBusyScope } from './busy.js';
 import { findErrors, useThebeConfig } from 'thebe-react';
 import { SourceFileKind } from 'myst-spec-ext';
-import { selectNotebookForPage } from './selectors';
+import { selectNotebookForPage } from './selectors.js';
 
 export function useExecutionScope({
   clearOutputsOnExecute = false,

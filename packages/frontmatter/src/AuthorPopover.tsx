@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import { Affiliation } from './Affiliations';
+import { Affiliation } from './Affiliations.js';
 
 type Author = Required<PageFrontmatter>['authors'][0];
 type Affiliations = Required<PageFrontmatter>['affiliations'];

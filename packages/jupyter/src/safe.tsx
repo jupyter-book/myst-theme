@@ -1,7 +1,7 @@
 import { KnownCellOutputMimeTypes } from 'nbtx';
 import type { MinifiedMimeBundle, MinifiedMimePayload, MinifiedOutput } from 'nbtx';
-import Stream from './stream';
-import Error from './error';
+import Stream from './stream.js';
+import Error from './error.js';
 import Ansi from 'ansi-to-react';
 
 /**

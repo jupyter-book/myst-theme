@@ -1,5 +1,5 @@
 import { SourceFileKind } from 'myst-spec-ext';
-import type { ExecuteScopeAction } from './actions';
+import type { ExecuteScopeAction } from './actions.js';
 import {
   isAddMdastPayload,
   isAddNotebookPayload,
@@ -7,8 +7,8 @@ import {
   isBuildStatusPayload,
   isNavigatePayload,
   isSlugPayload,
-} from './actions';
-import type { ExecuteScopeState } from './types';
+} from './actions.js';
+import type { ExecuteScopeState } from './types.js';
 
 export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): ExecuteScopeState {
   switch (action.type) {

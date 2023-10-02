@@ -1,5 +1,5 @@
 import type { GenericParent } from 'myst-common';
-import { ContentBlocks } from './ContentBlocks';
+import { ContentBlocks } from './ContentBlocks.js';
 import classNames from 'classnames';
 import { HashLink } from 'myst-to-react';
 

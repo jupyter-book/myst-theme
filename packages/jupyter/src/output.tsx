@@ -2,11 +2,11 @@ import type { GenericNode } from 'myst-common';
 import { KnownCellOutputMimeTypes } from 'nbtx';
 import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
-import { SafeOutputs } from './safe';
-import { JupyterOutputs } from './jupyter';
+import { SafeOutputs } from './safe.js';
+import { JupyterOutputs } from './jupyter.js';
 import { useMemo } from 'react';
-import { useCellExecution } from './execute';
-import { usePlaceholder } from './decoration';
+import { useCellExecution } from './execute/index.js';
+import { usePlaceholder } from './decoration.js';
 import { MyST } from 'myst-to-react';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);

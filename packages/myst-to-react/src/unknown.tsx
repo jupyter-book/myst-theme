@@ -1,7 +1,7 @@
 import type { NodeRenderer } from '@myst-theme/providers';
 import type { GenericNode } from 'myst-common';
-import ExclamationTriangleIcon from '@heroicons/react/24/outline/ExclamationTriangleIcon';
-import { Callout } from './exercise';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { Callout } from './exercise.js';
 
 export const UnknownDirective: NodeRenderer<GenericNode> = ({ node }) => {
   const titleNode = (

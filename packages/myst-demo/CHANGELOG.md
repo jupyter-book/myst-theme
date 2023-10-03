@@ -1,5 +1,13 @@
 # myst-demo
 
+## 0.5.8
+
+### Patch Changes
+
+- 995ed63: Move teo ESM only
+- Updated dependencies [995ed63]
+  - myst-to-react@0.5.8
+
 ## 0.5.7
 
 ### Patch Changes

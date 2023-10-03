@@ -207,7 +207,7 @@ export function CrossReferenceHover({
     <HoverPopover
       card={({ load }) => (
         <XRefProvider remote={remote} url={url} dataUrl={dataUrl}>
-          <div className="hover-document w-[500px] sm:max-w-[500px] px-3">
+          <div className="hover-document article w-[500px] sm:max-w-[500px] px-3">
             <XrefChildren
               load={load}
               remote={remote}

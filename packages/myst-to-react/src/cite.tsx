@@ -9,7 +9,7 @@ import { MyST } from './MyST.js';
 function CiteChild({ html }: { html?: string }) {
   return (
     <div
-      className="hover-document w-[500px] sm:max-w-[500px] p-3"
+      className="hover-document article w-[500px] sm:max-w-[500px] p-3"
       dangerouslySetInnerHTML={{ __html: html || '' }}
     />
   );

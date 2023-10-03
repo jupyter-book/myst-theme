@@ -11,7 +11,7 @@ function FootnoteDefinition({ identifier }: { identifier: string }) {
     select(`footnoteDefinition[identifier=${identifier}]`, references?.article);
   return (
     <XRefProvider>
-      <div className="hover-document w-[500px] sm:max-w-[500px] px-3">
+      <div className="hover-document article w-[500px] sm:max-w-[500px] px-3">
         <MyST ast={node.children} />
       </div>
     </XRefProvider>

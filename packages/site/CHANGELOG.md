@@ -1,5 +1,20 @@
 # @myst-theme/site
 
+## 0.5.8
+
+### Patch Changes
+
+- 8443761: Simplifications to skip-handler.
+- 995ed63: Move teo ESM only
+- Updated dependencies [995ed63]
+  - myst-to-react@0.5.8
+  - @myst-theme/frontmatter@0.5.8
+  - myst-demo@0.5.8
+  - @myst-theme/providers@0.5.8
+  - @myst-theme/diagrams@0.5.8
+  - @myst-theme/jupyter@0.5.8
+  - @myst-theme/common@0.5.8
+
 ## 0.5.7
 
 ### Patch Changes

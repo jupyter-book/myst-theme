@@ -1,5 +1,11 @@
 # @myst-theme/icons
 
+## 0.5.8
+
+### Patch Changes
+
+- 995ed63: Move teo ESM only
+
 ## 0.5.7
 
 ## 0.5.6

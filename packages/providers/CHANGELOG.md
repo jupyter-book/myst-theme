@@ -1,5 +1,12 @@
 # @myst-theme/providers
 
+## 0.5.8
+
+### Patch Changes
+
+- 995ed63: Move teo ESM only
+  - @myst-theme/common@0.5.8
+
 ## 0.5.7
 
 ### Patch Changes

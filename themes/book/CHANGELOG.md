@@ -1,5 +1,19 @@
 # @myst-theme/book
 
+## 0.5.8
+
+### Patch Changes
+
+- 995ed63: Move teo ESM only
+- Updated dependencies [8443761]
+- Updated dependencies [995ed63]
+  - @myst-theme/site@0.5.8
+  - @myst-theme/providers@0.5.8
+  - @myst-theme/jupyter@0.5.8
+  - @myst-theme/icons@0.5.8
+  - @myst-theme/styles@0.5.8
+  - @myst-theme/common@0.5.8
+
 ## 0.5.7
 
 ### Patch Changes

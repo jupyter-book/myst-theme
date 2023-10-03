@@ -44,11 +44,5 @@
   "engines": {
     "node": ">=14"
   },
-  "packageManager": "npm@8.10.0",
-  "overrides": {
-    "ansi-to-react": {
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0"
-    }
-  }
+  "packageManager": "npm@8.10.0"
 }

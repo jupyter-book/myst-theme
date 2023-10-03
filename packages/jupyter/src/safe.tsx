@@ -2,7 +2,7 @@ import { KnownCellOutputMimeTypes } from 'nbtx';
 import type { MinifiedMimeBundle, MinifiedMimePayload, MinifiedOutput } from 'nbtx';
 import Stream from './stream.js';
 import Error from './error.js';
-import Ansi from 'ansi-to-react';
+import Ansi from '@curvenote/ansi-to-react';
 
 /**
  * https://jupyterbook.org/content/code-outputs.html#render-priority

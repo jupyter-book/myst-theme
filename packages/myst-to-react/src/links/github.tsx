@@ -65,7 +65,7 @@ function GithubFilePreview({
   let code = data;
   if (error) {
     return (
-      <div className="hover-document w-[500px] sm:max-w-[500px]">
+      <div className="hover-document article w-[500px] sm:max-w-[500px]">
         <a
           href={url}
           className="block text-inherit hover:text-inherit"
@@ -118,7 +118,7 @@ function GithubFilePreview({
       url={url}
       title={`GitHub - ${org}/${repo}`}
       description={description}
-      className="hover-document max-w-[80vw]"
+      className="hover-document article max-w-[80vw]"
     />
   );
 }
@@ -152,13 +152,15 @@ function GithubIssuePreview({
   );
   if (!data && !error) {
     return (
-      <div className="hover-document w-[500px] sm:max-w-[500px] animate-pulse">Loading...</div>
+      <div className="hover-document article w-[500px] sm:max-w-[500px] animate-pulse">
+        Loading...
+      </div>
     );
   }
   const resp = data as unknown as Record<string, any>;
   if (error) {
     return (
-      <div className="hover-document">
+      <div className="hover-document article">
         <a
           href={url}
           className="block text-inherit hover:text-inherit"
@@ -177,7 +179,7 @@ function GithubIssuePreview({
     day: 'numeric',
   });
   return (
-    <div className="hover-document w-[400px] sm:max-w-[400px] p-3">
+    <div className="hover-document article w-[400px] sm:max-w-[400px] p-3">
       <div className="text-xs font-light">
         {org}/{repo}
       </div>

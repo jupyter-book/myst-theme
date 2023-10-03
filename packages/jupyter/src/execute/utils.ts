@@ -1,6 +1,6 @@
 import type { GenericParent } from 'myst-common';
 import type { Config, IRenderMimeRegistry, ThebeCore } from 'thebe-core';
-import type { IdKeyMap, IdKeyMapTarget } from './types';
+import type { IdKeyMap, IdKeyMapTarget } from './types.js';
 
 /**
  * Use the mdast to create a ThebeNotebook from the mdast tree of a notebook.

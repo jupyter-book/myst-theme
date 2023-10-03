@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import { useReferences } from '@myst-theme/providers';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { doi } from 'doi-utils';
-import { InlineError } from './inlineError';
-import { HoverPopover } from './components';
-import { MyST } from './MyST';
+import { InlineError } from './inlineError.js';
+import { HoverPopover } from './components/index.js';
+import { MyST } from './MyST.js';
 
 function CiteChild({ html }: { html?: string }) {
   return (

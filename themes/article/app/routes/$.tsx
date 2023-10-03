@@ -21,8 +21,8 @@ import {
   useThebeOptions,
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
-import ArrowLeftIcon from '@heroicons/react/24/outline/ArrowLeftIcon';
-import DocumentArrowDownIcon from '@heroicons/react/24/outline/DocumentArrowDownIcon';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';

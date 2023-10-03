@@ -12,9 +12,9 @@ import {
   Link,
   NavLink,
 } from '@remix-run/react';
-import { DEFAULT_NAV_HEIGHT, renderers } from '../components';
-import { Analytics } from '../seo';
-import { Error404 } from './Error404';
+import { DEFAULT_NAV_HEIGHT, renderers } from '../components/index.js';
+import { Analytics } from '../seo/index.js';
+import { Error404 } from './Error404.js';
 import classNames from 'classnames';
 import { ConfiguredThebeServerProvider } from '@myst-theme/jupyter';
 import { ThebeBundleLoaderProvider } from 'thebe-react';

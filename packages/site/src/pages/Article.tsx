@@ -1,8 +1,14 @@
 import React from 'react';
 import { ReferencesProvider } from '@myst-theme/providers';
-import { Abstract, Bibliography, ContentBlocks, FooterLinksBlock, Keywords } from '../components';
-import { ErrorDocumentNotFound } from './ErrorDocumentNotFound';
-import { ErrorProjectNotFound } from './ErrorProjectNotFound';
+import {
+  Abstract,
+  Bibliography,
+  ContentBlocks,
+  FooterLinksBlock,
+  Keywords,
+} from '../components/index.js';
+import { ErrorDocumentNotFound } from './ErrorDocumentNotFound.js';
+import { ErrorProjectNotFound } from './ErrorProjectNotFound.js';
 import type { PageLoader } from '@myst-theme/common';
 import { copyNode, extractPart, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';

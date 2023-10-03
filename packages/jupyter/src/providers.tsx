@@ -1,7 +1,7 @@
 import type { SourceFileKind } from 'myst-spec-ext';
 import React, { useContext } from 'react';
 import { ThebeServerProvider } from 'thebe-react';
-import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils';
+import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils.js';
 import type { GenericParent } from 'myst-common';
 import type { SiteManifest } from 'myst-config';
 import type { RepoProviderSpec } from 'thebe-core';

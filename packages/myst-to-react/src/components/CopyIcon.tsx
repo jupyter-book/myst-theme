@@ -1,5 +1,4 @@
-import DocumentDuplicateIcon from '@heroicons/react/24/outline/DocumentDuplicateIcon';
-import CheckIcon from '@heroicons/react/24/outline/CheckIcon';
+import { DocumentDuplicateIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import classNames from 'classnames';
 

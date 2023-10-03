@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { IOutput } from '@jupyterlab/nbformat';
-import { useFetchAnyTruncatedContent } from './hooks';
+import { useFetchAnyTruncatedContent } from './hooks.js';
 import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
-import { fetchAndEncodeOutputImages } from './convertImages';
+import { fetchAndEncodeOutputImages } from './convertImages.js';
 import { type ThebeCore } from 'thebe-core';
 import { SourceFileKind } from 'myst-spec-ext';
 import { useXRefState } from '@myst-theme/providers';
 import { useThebeLoader } from 'thebe-react';
-import { useCellExecution } from './execute';
-import { usePlaceholder } from './decoration';
+import { useCellExecution } from './execute/index.js';
+import { usePlaceholder } from './decoration.js';
 import { MyST } from 'myst-to-react';
 import classNames from 'classnames';
 

@@ -1,10 +1,12 @@
-import useSWR from 'swr';
-import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
-import PlusCircleIcon from '@heroicons/react/24/outline/PlusCircleIcon';
-import CheckCircleIcon from '@heroicons/react/24/outline/CheckCircleIcon';
-import { HoverPopover, LinkCard } from '../components';
+import { default as useSWR } from 'swr';
+import {
+  ArrowTopRightOnSquareIcon as ExternalLinkIcon,
+  PlusCircleIcon,
+  CheckCircleIcon,
+} from '@heroicons/react/24/outline';
+import { HoverPopover, LinkCard } from '../components/index.js';
 import React, { useEffect, useState } from 'react';
-import { CodeBlock } from '../code';
+import { CodeBlock } from '../code.js';
 import classNames from 'classnames';
 
 const fetcher = (...args: Parameters<typeof fetch>) =>

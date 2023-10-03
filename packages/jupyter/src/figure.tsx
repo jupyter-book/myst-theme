@@ -1,7 +1,7 @@
 import { SourceFileKind } from 'myst-spec-ext';
 import { type GenericNode } from 'myst-common';
 import { DEFAULT_RENDERERS, MyST } from 'myst-to-react';
-import { OutputDecoration } from './decoration';
+import { OutputDecoration } from './decoration.js';
 
 export function Figure({ node }: { node: GenericNode }) {
   const { container: Container } = DEFAULT_RENDERERS;

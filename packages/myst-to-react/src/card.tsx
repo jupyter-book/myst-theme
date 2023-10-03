@@ -2,7 +2,7 @@ import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
-import { MyST } from './MyST';
+import { MyST } from './MyST.js';
 import type { GenericNode } from 'myst-common';
 
 type CardSpec = {

@@ -1,14 +1,16 @@
-import PlayCircleIcon from '@heroicons/react/24/outline/PlayCircleIcon';
-import ArrowPathIcon from '@heroicons/react/24/outline/ArrowPathIcon';
-import MinusCircleIcon from '@heroicons/react/24/outline/MinusCircleIcon';
-import ArrowTopRightOnSquareIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
-import ArrowUturnLeft from '@heroicons/react/24/outline/ArrowUturnLeftIcon';
-import Bolt from '@heroicons/react/24/outline/BoltIcon';
-import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
-import BoltIconSolid from '@heroicons/react/24/solid/BoltIcon';
-import ExclamationCircleIcon from '@heroicons/react/24/outline/ExclamationCircleIcon';
+import {
+  PlayCircleIcon,
+  ArrowPathIcon,
+  MinusCircleIcon,
+  ArrowTopRightOnSquareIcon,
+  ArrowUturnLeftIcon,
+  BoltIcon,
+  PowerIcon,
+  ExclamationCircleIcon,
+} from '@heroicons/react/24/outline';
+import { BoltIcon as BoltIconSolid } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
-import { Spinner } from './Spinner';
+import { Spinner } from './Spinner.js';
 import { useThebeServer } from 'thebe-react';
 import { useCallback, useState } from 'react';
 
@@ -162,7 +164,7 @@ export function SpinnerStatusButton({
   let icon = <PowerIcon width="1.5rem" height="1.5rem" />;
   if (ready) {
     if (modified) {
-      icon = <Bolt width="1.5rem" height="1.5rem" className="text-green-600" />;
+      icon = <BoltIcon width="1.5rem" height="1.5rem" className="text-green-600" />;
     } else {
       icon = <BoltIconSolid width="1.5rem" height="1.5rem" className="text-green-600" />;
     }
@@ -336,7 +338,9 @@ export function Reset({
       disabled={disabled}
       title={title ?? 'reset notebook'}
       onClick={onClick}
-      icon={<ArrowUturnLeft width="1.5rem" height="1.5rem" className="inline-block align-top" />}
+      icon={
+        <ArrowUturnLeftIcon width="1.5rem" height="1.5rem" className="inline-block align-top" />
+      }
     />
   );
 }

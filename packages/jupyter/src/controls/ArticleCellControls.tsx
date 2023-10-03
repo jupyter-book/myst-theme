@@ -1,8 +1,8 @@
 import { useThebeServer } from 'thebe-react';
-import { useNotebookExecution } from '../execute/hooks';
-import { Reset, Run, SpinnerStatusButton } from './Buttons';
+import { useNotebookExecution } from '../execute/hooks.js';
+import { Reset, Run, SpinnerStatusButton } from './Buttons.js';
 
-import { selectAreExecutionScopesBuilding } from '../execute';
+import { selectAreExecutionScopesBuilding } from '../execute/index.js';
 
 export function ArticleStatusBadge({ id }: { id: string }) {
   const { connect, connecting } = useThebeServer();

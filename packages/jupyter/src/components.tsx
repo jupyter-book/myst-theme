@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useLongContent } from './hooks';
+import { useLongContent } from './hooks.js';
 
 export const MaybeLongContent = ({
   content,

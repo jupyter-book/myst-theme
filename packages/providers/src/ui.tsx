@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useMediaQuery } from './hooks';
+import { useMediaQuery } from './hooks.js';
 
 type UiState = {
   isNavOpen?: boolean;

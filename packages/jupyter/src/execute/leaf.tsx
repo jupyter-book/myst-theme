@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
-import type { ExecuteScopeAction } from './actions';
-import type { IdKeyMap, ExecuteScopeState } from './types';
+import type { ExecuteScopeAction } from './actions.js';
+import type { IdKeyMap, ExecuteScopeState } from './types.js';
 import { useThebeLoader, useThebeConfig, useThebeServer } from 'thebe-react';
-import { notebookFromMdast } from './utils';
+import { notebookFromMdast } from './utils.js';
 import type { GenericParent } from 'myst-common';
 import {
   selectAreAllNotebookScopesBuilt,
   selectAreAllSessionsStarted,
   selectNotebookForPage,
-} from './selectors';
+} from './selectors.js';
 import { useFetchMdast } from 'myst-to-react';
 
 export function MdastFetcher({

@@ -1,11 +1,11 @@
 import type { Admonition as AdmonitionSpec } from 'myst-spec';
 import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
-import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
-import { HashLink } from './heading';
+import { HashLink } from './heading.js';
 import type { GenericNode } from 'myst-common';
-import { MyST } from './MyST';
+import { MyST } from './MyST.js';
 
 type Color = 'gray' | 'blue' | 'green' | 'yellow' | 'orange' | 'red' | 'purple';
 

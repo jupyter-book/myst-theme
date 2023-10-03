@@ -8,7 +8,7 @@ import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import DocumentChartBarIcon from '@heroicons/react/24/outline/DocumentChartBarIcon';
+import { DocumentChartBarIcon } from '@heroicons/react/24/outline';
 
 const SELECTOR = [1, 2, 3, 4].map((n) => `main h${n}`).join(', ');
 const HIGHLIGHT_CLASS = 'highlight';

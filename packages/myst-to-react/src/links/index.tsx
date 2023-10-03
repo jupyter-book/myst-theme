@@ -1,14 +1,16 @@
 import type { Link } from 'myst-spec';
-import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
-import LinkIcon from '@heroicons/react/24/outline/LinkIcon';
+import {
+  ArrowTopRightOnSquareIcon as ExternalLinkIcon,
+  LinkIcon,
+} from '@heroicons/react/24/outline';
 import { useLinkProvider, useSiteManifest, useBaseurl, withBaseurl } from '@myst-theme/providers';
 import type { SiteManifest } from 'myst-config';
 import type { NodeRenderer } from '@myst-theme/providers';
-import { HoverPopover, LinkCard } from '../components';
-import { WikiLink } from './wiki';
-import { RRIDLink } from './rrid';
-import { GithubLink } from './github';
-import { MyST } from '../MyST';
+import { HoverPopover, LinkCard } from '../components/index.js';
+import { WikiLink } from './wiki.js';
+import { RRIDLink } from './rrid.js';
+import { GithubLink } from './github.js';
+import { MyST } from '../MyST.js';
 
 type TransformedLink = Link & { internal?: boolean; protocol?: string };
 

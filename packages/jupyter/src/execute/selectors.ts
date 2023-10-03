@@ -1,5 +1,5 @@
 import { SourceFileKind, type Dependency } from 'myst-spec-ext';
-import type { BuildStatus, ExecuteScopeState } from './types';
+import type { BuildStatus, ExecuteScopeState } from './types.js';
 
 export function selectScopeForPage(state: ExecuteScopeState, pageSlug: string) {
   return state.pages[pageSlug]?.scopes ?? {};

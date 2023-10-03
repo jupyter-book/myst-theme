@@ -2,9 +2,8 @@ import classNames from 'classnames';
 import type { GenericNode } from 'myst-common';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { selectAll } from 'unist-util-select';
-import type { NodeRenderer } from '@myst-theme/providers';
-import { useTabSet } from '@myst-theme/providers';
-import { MyST } from './MyST';
+import { useTabSet, type NodeRenderer } from '@myst-theme/providers';
+import { MyST } from './MyST.js';
 
 interface TabItem extends GenericNode {
   key: string;

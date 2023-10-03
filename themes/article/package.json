@@ -37,18 +37,12 @@
     "@remix-run/serve": "~1.17.0",
     "@tailwindcss/typography": "^0.5.9",
     "@types/node-fetch": "^2.6.4",
-    "@types/react": "^18.2.12",
-    "@types/react-dom": "^18.2.5",
+    "@types/react": "^18.2.24",
+    "@types/react-dom": "^18.2.8",
     "@vercel/node": "^2.15.1"
   },
   "engines": {
     "node": ">=14"
   },
-  "packageManager": "npm@8.10.0",
-  "overrides": {
-    "ansi-to-react": {
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0"
-    }
-  }
+  "packageManager": "npm@8.10.0"
 }

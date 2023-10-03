@@ -4,11 +4,11 @@ import {
   selectAreExecutionScopesBuilding,
   selectExecutionScopeStatus,
   useBusyScope,
-} from '../execute';
+} from '../execute/index.js';
 import { useThebeServer } from 'thebe-react';
-import PowerIcon from '@heroicons/react/24/outline/PowerIcon';
-import { Spinner } from './Spinner';
-import { Clear, Launch, Reset, Run } from './Buttons';
+import { PowerIcon } from '@heroicons/react/24/outline';
+import { Spinner } from './Spinner.js';
+import { Clear, Launch, Reset, Run } from './Buttons.js';
 import classNames from 'classnames';
 
 export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }) {

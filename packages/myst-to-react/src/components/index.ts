@@ -1,3 +1,3 @@
-export { CopyIcon } from './CopyIcon';
-export { HoverPopover, Tooltip } from './HoverPopover';
-export { LinkCard } from './LinkCard';
+export { CopyIcon } from './CopyIcon.js';
+export { HoverPopover, Tooltip } from './HoverPopover.js';
+export { LinkCard } from './LinkCard.js';

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { PassiveCellRenderer } from 'thebe-core';
 import type { IThebeNotebookError } from 'thebe-react';
 import { useThebeLoader } from 'thebe-react';
-import { useBusyErrors } from './execute/busy';
+import { useBusyErrors } from './execute/busy.js';
 
 function ErrorDecoration({ children, idx }: React.PropsWithChildren<{ idx?: number }>) {
   return (

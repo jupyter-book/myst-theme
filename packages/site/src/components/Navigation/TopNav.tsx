@@ -2,11 +2,13 @@ import { NavLink } from '@remix-run/react';
 import { Fragment } from 'react';
 import classNames from 'classnames';
 import { Menu, Transition } from '@headlessui/react';
-import EllipsisVerticalIcon from '@heroicons/react/24/solid/EllipsisVerticalIcon';
-import MenuIcon from '@heroicons/react/24/solid/Bars3Icon';
-import ChevronDownIcon from '@heroicons/react/24/solid/ChevronDownIcon';
+import {
+  EllipsisVerticalIcon,
+  ChevronDownIcon,
+  Bars3Icon as MenuIcon,
+} from '@heroicons/react/24/solid';
 import type { SiteManifest, SiteNavItem } from 'myst-config';
-import { ThemeButton } from './ThemeButton';
+import { ThemeButton } from './ThemeButton.js';
 import {
   useBaseurl,
   useLinkProvider,
@@ -14,7 +16,7 @@ import {
   useSiteManifest,
   withBaseurl,
 } from '@myst-theme/providers';
-import { LoadingBar } from './Loading';
+import { LoadingBar } from './Loading.js';
 
 export const DEFAULT_NAV_HEIGHT = 60;
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
-import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
-import { MyST } from './MyST';
+import { MyST } from './MyST.js';
 
 type DropdownSpec = {
   type: 'details';

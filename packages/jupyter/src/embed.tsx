@@ -1,5 +1,5 @@
 import { type GenericNode } from 'myst-common';
-import { OutputDecoration } from './decoration';
+import { OutputDecoration } from './decoration.js';
 import { MyST } from 'myst-to-react';
 
 export function Embed({ node }: { node: GenericNode }) {

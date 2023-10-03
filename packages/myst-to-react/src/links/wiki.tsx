@@ -1,6 +1,6 @@
-import useSWR from 'swr';
-import ExternalLinkIcon from '@heroicons/react/24/outline/ArrowTopRightOnSquareIcon';
-import { HoverPopover, LinkCard } from '../components';
+import { default as useSWR } from 'swr';
+import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
+import { HoverPopover, LinkCard } from '../components/index.js';
 import React from 'react';
 
 const WikiTextMark = () => (

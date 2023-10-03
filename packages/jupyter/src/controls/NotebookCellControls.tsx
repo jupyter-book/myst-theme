@@ -1,5 +1,5 @@
-import { useCellExecution } from '../execute/hooks';
-import { Clear, Run } from './Buttons';
+import { useCellExecution } from '../execute/hooks.js';
+import { Clear, Run } from './Buttons.js';
 
 export function NotebookRunCell({ id }: { id: string }) {
   const { ready, cellIsExecuting, notebookIsBusy, execute } = useCellExecution(id);

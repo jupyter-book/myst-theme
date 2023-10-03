@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useThebeServer } from 'thebe-react';
-import { useThebeOptions } from './providers';
+import { useThebeOptions } from './providers.js';
 import type { ThebeEventData, ThebeEventType } from 'thebe-core';
-import { selectAreExecutionScopesBuilding, useExecutionScope } from './execute';
+import { selectAreExecutionScopesBuilding, useExecutionScope } from './execute/index.js';
 
 export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: boolean }) {
   const { options } = useThebeOptions();

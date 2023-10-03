@@ -18,6 +18,7 @@ import { Error404 } from './Error404.js';
 import classNames from 'classnames';
 import { ConfiguredThebeServerProvider } from '@myst-theme/jupyter';
 import { ThebeBundleLoaderProvider } from 'thebe-react';
+import type { BinderOptions, RepoProviderSpec } from 'thebe-core';
 
 export function Document({
   children,
@@ -27,6 +28,7 @@ export function Document({
   title,
   staticBuild,
   baseurl,
+  loadThebeLite,
   top = DEFAULT_NAV_HEIGHT,
 }: {
   children: React.ReactNode;
@@ -36,6 +38,7 @@ export function Document({
   title?: string;
   staticBuild?: boolean;
   baseurl?: string;
+  loadThebeLite?: boolean;
   top?: number;
 }) {
   const links = staticBuild
@@ -63,9 +66,11 @@ export function Document({
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <ThemeProvider theme={theme} renderers={renderers} {...links} top={top}>
           <BaseUrlProvider baseurl={baseurl}>
-            <ThebeBundleLoaderProvider loadThebeLite publicPath={baseurl}>
+            <ThebeBundleLoaderProvider loadThebeLite={loadThebeLite} publicPath={baseurl}>
               <SiteProvider config={config}>
-                <ConfiguredThebeServerProvider>{children}</ConfiguredThebeServerProvider>
+                <ConfiguredThebeServerProvider siteManifest={config}>
+                  {children}
+                </ConfiguredThebeServerProvider>
               </SiteProvider>
             </ThebeBundleLoaderProvider>
           </BaseUrlProvider>

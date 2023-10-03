@@ -17,6 +17,10 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
   const { connecting, connect, ready: serverReady, server, error: serverError } = useThebeServer();
   const computable = selectIsComputable(state, slug);
   const handleStart = () => {
+    if (!connect) {
+      console.debug("NotebookToolbar: Trying to start a connection but connect() isn't defined");
+      return;
+    }
     connect();
     start(slug);
   };

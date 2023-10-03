@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useThebeServer } from 'thebe-react';
-import { useComputeOptions } from './providers.js';
+import { useThebeOptions } from './providers.js';
 import type { ThebeEventData, ThebeEventType } from 'thebe-core';
 import { selectAreExecutionScopesBuilding, useExecutionScope } from './execute/index.js';
 
-export function ConnectionStatusTray() {
-  const { thebe } = useComputeOptions();
+export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: boolean }) {
+  const { options } = useThebeOptions();
   const { connecting, ready: serverReady, error: serverError, events } = useThebeServer();
   const { slug, ready: scopeReady, state } = useExecutionScope();
   const [show, setShow] = useState(false);
@@ -13,7 +13,7 @@ export function ConnectionStatusTray() {
   const [status, setStatus] = useState<string>('[client] Connecting...');
 
   const error = serverError; // TODO scope bulding error handling || sessionError;
-  const ready = serverReady && scopeReady;
+  const ready = serverReady && (!waitForSessions || scopeReady);
   const busy = connecting || selectAreExecutionScopesBuilding(state, slug);
 
   const handleStatus = (event: any, data: ThebeEventData) => {
@@ -26,29 +26,28 @@ export function ConnectionStatusTray() {
   }, [events]);
 
   useEffect(() => {
-    if (!thebe) return;
-    if (thebe?.useBinder || thebe?.useJupyterLite) {
-      if (busy || error) {
-        setShow(true);
-      } else if (ready) {
-        setTimeout(
-          () => {
-            setShow(false);
-            unsub?.();
-            setUnsub(undefined);
-          },
-          thebe?.useJupyterLite ? 3000 : 500,
-        );
-      }
+    if (!options) return;
+    if (busy || error) {
+      setShow(true);
+    } else if (ready) {
+      setTimeout(() => {
+        setShow(false);
+        unsub?.();
+        setUnsub(undefined);
+      }, 1000);
     }
-  }, [thebe, busy, ready, error]);
+  }, [options, busy, ready, error]);
 
-  const host = thebe?.useBinder ? 'Binder' : thebe?.useJupyterLite ? 'JupyterLite' : 'Local Server';
+  const host = options?.useBinder
+    ? 'Binder'
+    : options?.useJupyterLite
+    ? 'JupyterLite'
+    : 'Local Server';
 
   // TODO radix ui toast!
   if (show && error) {
     return (
-      <div className="fixed p-3 text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
+      <div className="fixed p-3 z-[11] text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
         <div className="mb-2 font-semibold text-center">⛔️ Error connecting to {host} ⛔️</div>
         <div className="my-1 max-h-[15rem] mono overflow-hidden text-ellipsis">{error}</div>
         <div className="flex justify-end">
@@ -64,9 +63,9 @@ export function ConnectionStatusTray() {
     );
   }
 
-  if (show && thebe?.useJupyterLite) {
+  if (show && options?.useJupyterLite) {
     return (
-      <div className="fixed p-3 text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
+      <div className="fixed p-3 z-[11] text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
         <div className="mb-1 font-semibold text-center">⚡️ Connecting to {host} ⚡️</div>
         {!ready && <div className="max-h-[5rem] mono overflow-hidden text-ellipsis">{status}</div>}
         {ready && (
@@ -80,7 +79,7 @@ export function ConnectionStatusTray() {
 
   if (show) {
     return (
-      <div className="fixed p-3 text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
+      <div className="fixed p-3 z-[11] text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
         <div className="mb-1 font-semibold text-center">⚡️ Connecting to {host} ⚡️</div>
         <div className="max-h-[15rem] mono overflow-hidden text-ellipsis">{status}</div>
       </div>

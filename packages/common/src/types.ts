@@ -46,7 +46,7 @@ export type FooterLinks = {
 
 export type PageLoader = {
   kind: SourceFileKind;
-  file: string;
+  location: string;
   sha256: string;
   slug: string;
   domain: string; // This is written in at render time in the site

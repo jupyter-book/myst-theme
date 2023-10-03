@@ -1,12 +1,12 @@
 import React from 'react';
 import type { GenericNode } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
-import { useCellExecution } from './execute';
+import { useCellExecution } from './execute/index.js';
 import {
   ArticleResetNotebook,
   ArticleRunNotebook,
   ArticleStatusBadge,
-} from './controls/ArticleCellControls';
+} from './controls/ArticleCellControls.js';
 import { JupyterIcon } from '@scienceicons/react/24/solid';
 import { useLinkProvider, useBaseurl, withBaseurl, useThemeTop } from '@myst-theme/providers';
 

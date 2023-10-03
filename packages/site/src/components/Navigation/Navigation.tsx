@@ -1,5 +1,5 @@
 import { useNavOpen, useThemeTop } from '@myst-theme/providers';
-import { TableOfContents } from './TableOfContents';
+import { TableOfContents } from './TableOfContents.js';
 
 export function Navigation({
   children,

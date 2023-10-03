@@ -1,6 +1,6 @@
-import { Embed } from './embed';
-import { Output } from './output';
-import { Figure } from './figure';
+import { Embed } from './embed.js';
+import { Output } from './output.js';
+import { Figure } from './figure.js';
 
 const OUTPUT_RENDERERS = {
   output: Output,
@@ -8,11 +8,11 @@ const OUTPUT_RENDERERS = {
   container: Figure,
 };
 
-export * from './BinderBadge';
-export * from './ErrorTray';
-export * from './ConnectionStatusTray';
-export * from './providers';
-export * from './execute';
-export * from './controls';
+export * from './BinderBadge.js';
+export * from './ErrorTray.js';
+export * from './ConnectionStatusTray.js';
+export * from './providers.js';
+export * from './execute/index.js';
+export * from './controls/index.js';
 
 export default OUTPUT_RENDERERS;

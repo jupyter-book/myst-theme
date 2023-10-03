@@ -8,13 +8,13 @@ import {
   withBaseurl,
   XRefProvider,
   useXRefState,
+  type NodeRenderer,
 } from '@myst-theme/providers';
 import type { GenericNode, GenericParent } from 'myst-common';
-import { InlineError } from './inlineError';
-import type { NodeRenderer } from '@myst-theme/providers';
-import useSWR from 'swr';
-import { HoverPopover } from './components';
-import { MyST } from './MyST';
+import { InlineError } from './inlineError.js';
+import { default as useSWR } from 'swr';
+import { HoverPopover } from './components/index.js';
+import { MyST } from './MyST.js';
 
 const hiddenNodes = new Set(['comment', 'mystComment']);
 

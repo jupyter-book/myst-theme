@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 async function parse(id: string, text: string): Promise<string> {
   const { default: mermaid } = await import('mermaid');
   return await new Promise<string>((resolve) => {
-    mermaid.render(id, text, (code) => {
+    (mermaid as any).render(id, text, (code: any) => {
       resolve(code);
     });
   });

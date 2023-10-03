@@ -1,33 +1,33 @@
 import type { NodeRenderer } from '@myst-theme/providers';
-import BASIC_RENDERERS from './basic';
-import ADMONITION_RENDERERS from './admonitions';
-import DROPDOWN_RENDERERS from './dropdown';
-import CARD_RENDERERS from './card';
-import GRID_RENDERERS from './grid';
-import CITE_RENDERERS from './cite';
-import FOOTNOTE_RENDERERS from './footnotes';
-import CODE_RENDERERS from './code';
-import MATH_RENDERERS from './math';
-import REACTIVE_RENDERERS from './reactive';
-import IFRAME_RENDERERS from './iframe';
-import IMAGE_RENDERERS from './image';
-import LINK_RENDERERS from './links';
-import HEADING_RENDERERS from './heading';
-import CROSS_REFERENCE_RENDERERS from './crossReference';
-import TAB_RENDERERS from './tabs';
-import EXT_RENDERERS from './extensions';
-import INLINE_EXPRESSION_RENDERERS from './inlineExpression';
-import PROOF_RENDERERS from './proof';
-import EXERCISE_RENDERERS from './exercise';
-import UNKNOWN_MYST_RENDERERS from './unknown';
+import BASIC_RENDERERS from './basic.js';
+import ADMONITION_RENDERERS from './admonitions.js';
+import DROPDOWN_RENDERERS from './dropdown.js';
+import CARD_RENDERERS from './card.js';
+import GRID_RENDERERS from './grid.js';
+import CITE_RENDERERS from './cite.js';
+import FOOTNOTE_RENDERERS from './footnotes.js';
+import CODE_RENDERERS from './code.js';
+import MATH_RENDERERS from './math.js';
+import REACTIVE_RENDERERS from './reactive.js';
+import IFRAME_RENDERERS from './iframe.js';
+import IMAGE_RENDERERS from './image.js';
+import LINK_RENDERERS from './links/index.js';
+import HEADING_RENDERERS from './heading.js';
+import CROSS_REFERENCE_RENDERERS from './crossReference.js';
+import TAB_RENDERERS from './tabs.js';
+import EXT_RENDERERS from './extensions/index.js';
+import INLINE_EXPRESSION_RENDERERS from './inlineExpression.js';
+import PROOF_RENDERERS from './proof.js';
+import EXERCISE_RENDERERS from './exercise.js';
+import UNKNOWN_MYST_RENDERERS from './unknown.js';
 
-export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components';
-export { CodeBlock } from './code';
-export { HashLink } from './heading';
-export { Admonition, AdmonitionKind } from './admonitions';
-export { Details } from './dropdown';
-export { TabSet, TabItem } from './tabs';
-export { useFetchMdast } from './crossReference';
+export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components/index.js';
+export { CodeBlock } from './code.js';
+export { HashLink } from './heading.js';
+export { Admonition, AdmonitionKind } from './admonitions.js';
+export { Details } from './dropdown.js';
+export { TabSet, TabItem } from './tabs.js';
+export { useFetchMdast } from './crossReference.js';
 
 export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...BASIC_RENDERERS,
@@ -53,4 +53,4 @@ export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...EXERCISE_RENDERERS,
 };
 
-export { MyST } from './MyST';
+export { MyST } from './MyST.js';

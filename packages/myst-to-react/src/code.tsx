@@ -2,11 +2,11 @@ import type { Code, InlineCode } from 'myst-spec';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { useTheme } from '@myst-theme/providers';
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
-import light from 'react-syntax-highlighter/dist/cjs/styles/hljs/xcode';
-import dark from 'react-syntax-highlighter/dist/cjs/styles/hljs/vs2015';
-import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon';
+import light from 'react-syntax-highlighter/dist/esm/styles/hljs/xcode';
+import dark from 'react-syntax-highlighter/dist/esm/styles/hljs/vs2015';
+import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
-import { CopyIcon } from './components';
+import { CopyIcon } from './components/index.js';
 
 type Props = {
   value: string;

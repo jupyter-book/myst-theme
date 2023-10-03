@@ -1,8 +1,8 @@
 import type { NodeRenderer } from '@myst-theme/providers';
 import { XRefProvider, useReferences } from '@myst-theme/providers';
 import { select } from 'unist-util-select';
-import { HoverPopover } from './components';
-import { MyST } from './MyST';
+import { HoverPopover } from './components/index.js';
+import { MyST } from './MyST.js';
 
 function FootnoteDefinition({ identifier }: { identifier: string }) {
   const references = useReferences();

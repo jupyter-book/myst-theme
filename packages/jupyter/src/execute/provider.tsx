@@ -2,18 +2,18 @@ import type { Dependency } from 'myst-spec-ext';
 import { SourceFileKind } from 'myst-spec-ext';
 import React, { useEffect, useReducer, useRef } from 'react';
 import { selectAll } from 'unist-util-select';
-import type { ExecuteScopeAction } from './actions';
-import type { Computable, ExecuteScopeState, IdKeyMap } from './types';
-import { reducer } from './reducer';
+import type { ExecuteScopeAction } from './actions.js';
+import type { Computable, ExecuteScopeState, IdKeyMap } from './types.js';
+import { reducer } from './reducer.js';
 import {
   selectAreAllDependenciesReady,
   selectDependenciesToFetch,
   selectScopeNotebooksToBuild,
   selectSessionsToStart,
-} from './selectors';
-import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf';
+} from './selectors.js';
+import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf.js';
 import type { Thebe } from 'myst-frontmatter';
-import { useCanCompute } from '../providers';
+import { useCanCompute } from '../providers.js';
 import type { GenericParent } from 'myst-common';
 
 export interface ExecuteScopeType {

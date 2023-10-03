@@ -2,7 +2,7 @@ import type { SourceFileKind } from 'myst-spec-ext';
 import React from 'react';
 import { ThebeServerProvider } from 'thebe-react';
 import { useSiteManifest } from '@myst-theme/providers';
-import { thebeFrontmatterToOptions } from './utils';
+import { thebeFrontmatterToOptions } from './utils.js';
 import type { GenericParent } from 'myst-common';
 
 export function useComputeOptions() {

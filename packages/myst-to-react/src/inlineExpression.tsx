@@ -1,7 +1,7 @@
 import type { NodeRenderer } from '@myst-theme/providers';
-import { InlineError } from './inlineError';
-import { Tooltip } from './components';
-import { MyST } from './MyST';
+import { InlineError } from './inlineError.js';
+import { Tooltip } from './components/index.js';
+import { MyST } from './MyST.js';
 
 export const InlineExpression: NodeRenderer = ({ node }) => {
   if (!node.result) {

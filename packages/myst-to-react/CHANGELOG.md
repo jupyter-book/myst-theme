@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.5.9
+
+### Patch Changes
+
+- bc17e8f: Change the hover-document css to get around downstream error
+- b86d16b: Update missing dependencies
+- d31527b: Fix ESM import of code styles
+- Updated dependencies [7520e66]
+  - @myst-theme/providers@0.5.9
+
 ## 0.5.8
 
 ### Patch Changes

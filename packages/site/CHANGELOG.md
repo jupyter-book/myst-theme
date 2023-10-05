@@ -1,5 +1,22 @@
 # @myst-theme/site
 
+## 0.5.9
+
+### Patch Changes
+
+- b86d16b: Update missing dependencies
+- Updated dependencies [7520e66]
+- Updated dependencies [bc17e8f]
+- Updated dependencies [b86d16b]
+- Updated dependencies [d31527b]
+  - @myst-theme/providers@0.5.9
+  - myst-to-react@0.5.9
+  - @myst-theme/frontmatter@0.5.9
+  - @myst-theme/diagrams@0.5.9
+  - @myst-theme/jupyter@0.5.9
+  - @myst-theme/common@0.5.9
+  - myst-demo@0.5.9
+
 ## 0.5.8
 
 ### Patch Changes

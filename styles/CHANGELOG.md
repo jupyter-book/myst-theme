@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.5.9
+
+### Patch Changes
+
+- bc17e8f: Change the hover-document css to get around downstream error
+
 ## 0.5.8
 
 ## 0.5.7

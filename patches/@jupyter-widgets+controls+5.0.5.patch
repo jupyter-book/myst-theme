@@ -1,0 +1,15 @@
+diff --git a/node_modules/@jupyter-widgets/controls/css/widgets-base.css b/node_modules/@jupyter-widgets/controls/css/widgets-base.css
+index b5c14f8..4f481fa 100644
+--- a/node_modules/@jupyter-widgets/controls/css/widgets-base.css
++++ b/node_modules/@jupyter-widgets/controls/css/widgets-base.css
+@@ -8,8 +8,8 @@
+  * have been defined.
+  */
+ 
+-@import './lumino.css';
+-@import './nouislider.css';
++/* @import './lumino.css'; */
++/* @import './nouislider.css'; */
+ 
+ :root {
+   --jp-widgets-color: var(--jp-content-font-color1);

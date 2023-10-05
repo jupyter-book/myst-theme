@@ -1,0 +1,26 @@
+diff --git a/node_modules/@types/react-syntax-highlighter/index.d.ts b/node_modules/@types/react-syntax-highlighter/index.d.ts
+index 413c917..4a9c465 100755
+--- a/node_modules/@types/react-syntax-highlighter/index.d.ts
++++ b/node_modules/@types/react-syntax-highlighter/index.d.ts
+@@ -696,11 +696,21 @@ declare module 'react-syntax-highlighter/dist/esm/styles/hljs/vs2015' {
+     export default style;
+ }
+ 
++declare module 'react-syntax-highlighter/dist/esm/styles/hljs/vs2015.js' {
++    const style: { [key: string]: React.CSSProperties };
++    export default style;
++}
++
+ declare module 'react-syntax-highlighter/dist/esm/styles/hljs/xcode' {
+     const style: { [key: string]: React.CSSProperties };
+     export default style;
+ }
+ 
++declare module 'react-syntax-highlighter/dist/esm/styles/hljs/xcode.js' {
++    const style: { [key: string]: React.CSSProperties };
++    export default style;
++}
++
+ declare module 'react-syntax-highlighter/dist/esm/styles/hljs/xt256' {
+     const style: { [key: string]: React.CSSProperties };
+     export default style;

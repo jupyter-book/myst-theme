@@ -1,5 +1,12 @@
 # @myst-theme/providers
 
+## 0.5.9
+
+### Patch Changes
+
+- 7520e66: Make theme optional on ThemeProvider
+  - @myst-theme/common@0.5.9
+
 ## 0.5.8
 
 ### Patch Changes

@@ -60,14 +60,14 @@ const prefersLightMQ = '(prefers-color-scheme: light)';
 
 export function ThemeProvider({
   children,
-  theme: startingTheme,
+  theme: startingTheme = Theme.light,
   renderers,
   Link,
   top,
   NavLink,
 }: {
   children: React.ReactNode;
-  theme: Theme | null;
+  theme?: Theme;
   renderers?: Record<string, NodeRenderer>;
   Link?: Link;
   top?: number;

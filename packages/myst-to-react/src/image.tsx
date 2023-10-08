@@ -37,18 +37,25 @@ function alignToMargin(align: string) {
   }
 }
 
+function inlineStyle(inline?: boolean) {
+  if (inline) return { display: 'inline' };
+  return {};
+}
+
 function Video({
   src,
   urlSource,
   align = 'center',
   width,
   height,
+  inline,
 }: {
   src: string;
   urlSource?: string;
   width?: string;
   height?: string;
   align?: Alignment;
+  inline?: boolean;
 }) {
   return (
     <video
@@ -56,6 +63,7 @@ function Video({
         width: getStyleValue(width),
         height: getStyleValue(height),
         ...alignToMargin(align),
+        ...inlineStyle(inline),
       }}
       src={src}
       data-canonical-url={urlSource}
@@ -77,6 +85,7 @@ function Picture({
   alt,
   width,
   height,
+  inline,
 }: {
   src: string;
   srcOptimized?: string;
@@ -85,6 +94,7 @@ function Picture({
   width?: string;
   height?: string;
   align?: Alignment;
+  inline?: boolean;
 }) {
   if (src.endsWith('.mp4')) {
     return <Video width={width} height={height} align={align} src={src} urlSource={urlSource} />;
@@ -95,6 +105,7 @@ function Picture({
         width: getStyleValue(width),
         height: getStyleValue(height),
         ...alignToMargin(align),
+        ...inlineStyle(inline),
       }}
       src={src}
       alt={alt}
@@ -103,7 +114,7 @@ function Picture({
   );
   if (!srcOptimized) return image;
   return (
-    <picture>
+    <picture style={{ ...inlineStyle(inline) }}>
       <source srcSet={srcOptimized} type="image/webp" />
       {image}
     </picture>
@@ -119,6 +130,7 @@ export const Image: NodeRenderer<ImageNode> = ({ node }) => {
       width={node.width || undefined}
       height={node.height || undefined}
       align={node.align}
+      inline={node.inline}
       // Note that sourceUrl is for backwards compatibility
       urlSource={(node as any).urlSource || (node as any).sourceUrl}
     />

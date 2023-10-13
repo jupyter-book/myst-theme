@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.5.10
+
+### Patch Changes
+
+- ab46e84: Separate out launch binder logic into a reusable hook
+  - @myst-theme/providers@0.5.10
+  - myst-to-react@0.5.10
+
 ## 0.5.9
 
 ### Patch Changes

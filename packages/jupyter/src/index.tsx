@@ -14,5 +14,7 @@ export * from './ConnectionStatusTray.js';
 export * from './providers.js';
 export * from './execute/index.js';
 export * from './controls/index.js';
+export * from './utils.js';
+export { useLaunchBinder } from './hooks.js';
 
 export default OUTPUT_RENDERERS;

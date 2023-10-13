@@ -11,8 +11,7 @@ import {
 import { BoltIcon as BoltIconSolid } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
 import { Spinner } from './Spinner.js';
-import { useThebeServer } from 'thebe-react';
-import { useCallback, useState } from 'react';
+import { useLaunchBinder } from '../hooks.js';
 
 function BinderButton({
   icon,
@@ -56,19 +55,8 @@ function BinderButton({
 }
 
 export function LaunchBinder({ style, location }: { style: 'link' | 'button'; location?: string }) {
-  const { connect, connecting, ready, server, error } = useThebeServer();
-  const [autoOpen, setAutoOpen] = useState(false);
-
-  // automatically click the link when the server is ready
-  // but only if the connection was initiated in this component by the user
-  const autoClick = useCallback(
-    (node: HTMLAnchorElement) => {
-      if (node != null && autoOpen) {
-        node.click();
-      }
-    },
-    [autoOpen],
-  );
+  const { connecting, ready, error, autoClickRef, handleStart, getUserServerUrl } =
+    useLaunchBinder();
 
   let btnStyles =
     'flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent';
@@ -85,29 +73,13 @@ export function LaunchBinder({ style, location }: { style: 'link' | 'button'; lo
       'inline-flex items-center mr-2 font-medium no-underline text-gray-900 lg:mr-0 lg:flex';
   }
 
-  const handleStart = () => {
-    if (!connect) {
-      console.debug("LaunchBinder: Trying to start a connection but connect() isn't defined");
-      return;
-    }
-    setAutoOpen(true);
-    connect();
-  };
-
   if (ready) {
     // we expect ?token= to be in the url
-    let userServerUrl = server?.userServerUrl;
-    if (userServerUrl && location) {
-      // add the location to the url pathname
-      const url = new URL(userServerUrl);
-      if (url.pathname.endsWith('/')) url.pathname = url.pathname.slice(0, -1);
-      url.pathname = `${url.pathname}/lab/tree${location}`;
-      userServerUrl = url.toString();
-    }
+    const userServerUrl = getUserServerUrl(location);
 
     return (
       <a
-        ref={autoClick}
+        ref={autoClickRef}
         className={btnStyles}
         href={userServerUrl}
         target="_blank"

@@ -8,7 +8,7 @@ import type { RepoProviderSpec } from 'thebe-core';
 
 function makeThebeOptions(
   siteManifest: SiteManifest | undefined,
-  optionsOverrideFn = (opts?: ExtendedCoreOptions) => opts,
+  optionsOverrideFn = (opts: ExtendedCoreOptions) => opts,
 ): {
   options?: ExtendedCoreOptions;
   githubBadgeUrl?: string;
@@ -27,7 +27,8 @@ function makeThebeOptions(
     binderBadgeUrl,
   );
 
-  const options = optionsOverrideFn(thebeFrontmatter ? optionsFromFrontmatter : undefined);
+  let options = optionsFromFrontmatter;
+  if (options) options = optionsOverrideFn(options);
 
   return {
     options,
@@ -51,7 +52,7 @@ export function ConfiguredThebeServerProvider({
   children,
 }: React.PropsWithChildren<{
   siteManifest?: SiteManifest;
-  optionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions;
+  optionOverrideFn?: (opts: ExtendedCoreOptions) => ExtendedCoreOptions;
   customRepoProviders?: RepoProviderSpec[];
 }>) {
   const thebe = React.useMemo(

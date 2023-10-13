@@ -7,7 +7,8 @@ import type {
   MinifiedStreamOutput,
 } from 'nbtx';
 import { walkOutputs } from 'nbtx';
-import { useState, useLayoutEffect } from 'react';
+import { useState, useLayoutEffect, useCallback } from 'react';
+import { useThebeServer } from 'thebe-react';
 
 interface LongContent {
   content_type?: string;
@@ -135,4 +136,53 @@ export default function useWindowSize() {
   }, []);
 
   return windowSize;
+}
+
+export function useLaunchBinder() {
+  const { connect, connecting, ready, server, error } = useThebeServer();
+  const [autoOpen, setAutoOpen] = useState(false);
+
+  // automatically click the link when the server is ready
+  // but only if the connection was initiated in this component by the user
+  const autoClickRef = useCallback(
+    (node: HTMLAnchorElement) => {
+      if (node != null && autoOpen) {
+        node.click();
+      }
+    },
+    [autoOpen],
+  );
+
+  const handleStart = useCallback(() => {
+    if (!connect) {
+      console.debug("LaunchBinder: Trying to start a connection but connect() isn't defined");
+      return;
+    }
+    setAutoOpen(true);
+    connect();
+  }, [connect]);
+
+  const getUserServerUrl = useCallback(
+    (location?: string) => {
+      let userServerUrl = server?.userServerUrl;
+      if (userServerUrl && location) {
+        // add the location to the url pathname
+        const url = new URL(userServerUrl);
+        if (url.pathname.endsWith('/')) url.pathname = url.pathname.slice(0, -1);
+        url.pathname = `${url.pathname}/lab/tree${location}`;
+        userServerUrl = url.toString();
+      }
+      return userServerUrl;
+    },
+    [server],
+  );
+
+  return {
+    connecting,
+    ready,
+    error,
+    autoClickRef,
+    handleStart,
+    getUserServerUrl,
+  };
 }

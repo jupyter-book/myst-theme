@@ -47,7 +47,7 @@ type BasicNodeRenderers = {
   emphasis: NodeRenderer<spec.Emphasis>;
   link: NodeRenderer<spec.Link>;
   paragraph: NodeRenderer<spec.Paragraph>;
-  line: NodeRenderer<GenericNode>;
+  algorithmLine: NodeRenderer<GenericNode>;
   break: NodeRenderer<spec.Break>;
   inlineMath: NodeRenderer<spec.InlineMath>;
   math: NodeRenderer<spec.Math>;
@@ -131,7 +131,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       </p>
     );
   },
-  line({ node }) {
+  algorithmLine({ node }) {
     // Used in algorithms
     const style = {
       paddingLeft: `${(node.indent ?? 0) + 2}rem`,

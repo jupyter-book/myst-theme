@@ -4,6 +4,7 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { Tooltip } from './components/index.js';
 import { MyST } from './MyST.js';
+import type { GenericNode } from 'myst-common';
 
 type TableExts = {
   rowspan?: number;
@@ -46,6 +47,7 @@ type BasicNodeRenderers = {
   emphasis: NodeRenderer<spec.Emphasis>;
   link: NodeRenderer<spec.Link>;
   paragraph: NodeRenderer<spec.Paragraph>;
+  algorithmLine: NodeRenderer<GenericNode>;
   break: NodeRenderer<spec.Break>;
   inlineMath: NodeRenderer<spec.InlineMath>;
   math: NodeRenderer<spec.Math>;
@@ -125,6 +127,17 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   paragraph({ node }) {
     return (
       <p id={node.html_id}>
+        <MyST ast={node.children} />
+      </p>
+    );
+  },
+  algorithmLine({ node }) {
+    // Used in algorithms
+    const style = {
+      paddingLeft: `${(node.indent ?? 0) + 2}rem`,
+    };
+    return (
+      <p className="line" style={style} data-line-number={node.enumerator}>
         <MyST ast={node.children} />
       </p>
     );

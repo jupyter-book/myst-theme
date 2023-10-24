@@ -43,6 +43,7 @@ type CaptionNumber = {
 
 type BasicNodeRenderers = {
   text: NodeRenderer<spec.Text>;
+  span: NodeRenderer<GenericNode>;
   strong: NodeRenderer<spec.Strong>;
   emphasis: NodeRenderer<spec.Emphasis>;
   link: NodeRenderer<spec.Link>;
@@ -81,6 +82,14 @@ type BasicNodeRenderers = {
 const BASIC_RENDERERS: BasicNodeRenderers = {
   text({ node }) {
     return <>{node.value}</>;
+  },
+  span({ node }) {
+    // style={node.style}
+    return (
+      <span>
+        <MyST ast={node.children} />
+      </span>
+    );
   },
   delete({ node }) {
     return (

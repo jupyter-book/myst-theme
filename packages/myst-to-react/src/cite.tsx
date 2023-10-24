@@ -54,7 +54,7 @@ export const Cite = ({
             {children}
           </a>
         )}
-        {!doiUrl && children}
+        {!doiUrl && <span className="hover-link">{children}</span>}
       </cite>
     </HoverPopover>
   );

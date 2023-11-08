@@ -1,0 +1,27 @@
+.collapsible-content {
+  overflow: hidden;
+}
+.collapsible-content[data-state='open'] {
+  animation: open-content 300ms ease-out;
+}
+.collapsible-content[data-state='closed'] {
+  animation: close-content 300ms ease-out;
+}
+
+@keyframes open-content {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
+}
+
+@keyframes close-content {
+  from {
+    height: var(--radix-collapsible-content-height);
+  }
+  to {
+    height: 0;
+  }
+}

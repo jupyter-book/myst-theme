@@ -86,7 +86,7 @@ export function Callout({
   children: React.ReactNode;
   dropdown?: boolean;
   identifier?: string;
-  Icon?: (props: { className?: string }) => JSX.Element;
+  Icon?: (props: { width?: string; height?: string; className?: string }) => JSX.Element;
 }) {
   return (
     <WrapperElement
@@ -127,8 +127,10 @@ export function Callout({
       >
         {Icon && (
           <Icon
+            width="2rem"
+            height="2rem"
             className={classNames(
-              'h-8 w-8 inline-block pl-2 mr-2 self-center flex-none',
+              'inline-block pl-2 mr-2 self-center flex-none',
               classNames({
                 'text-gray-600': !color || color === 'gray',
                 'text-blue-600': color === 'blue',

@@ -250,7 +250,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
 export default function Page() {
   // const { container, outline } = useOutlineHeight();
   const article = useLoaderData<PageLoader>() as PageLoader;
-  const { hide_outline } = (article.frontmatter as any)?.design ?? {};
+  const { hide_outline } = (article.frontmatter as any)?.options?.design ?? {};
 
   return (
     <ArticlePageAndNavigation>

@@ -34,7 +34,8 @@ export const ArticlePage = React.memo(function ({
   hideKeywords?: boolean;
 }) {
   const canCompute = useCanCompute(article);
-  const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
+  const { hide_title_block, hide_footer_links } =
+    (article.frontmatter as any)?.options?.design ?? {};
 
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];

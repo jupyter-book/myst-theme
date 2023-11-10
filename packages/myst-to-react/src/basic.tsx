@@ -81,7 +81,22 @@ type BasicNodeRenderers = {
 
 const BASIC_RENDERERS: BasicNodeRenderers = {
   text({ node }) {
-    return <>{node.value}</>;
+    // Change zero-width space into `<wbr>` which is better for copying
+    // These are used in links, and potentially other long words
+    if (!node.value?.includes('​')) {
+      return <>{node.value}</>;
+    }
+    const text = node.value.split('​');
+    return (
+      <>
+        {text.map((v, i) => (
+          <>
+            {v}
+            {i < text.length - 1 && <wbr />}
+          </>
+        ))}
+      </>
+    );
   },
   span({ node }) {
     // style={node.style}

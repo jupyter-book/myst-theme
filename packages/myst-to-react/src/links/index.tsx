@@ -54,28 +54,6 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
   );
 }
 
-/** This changes zero-width space into `<wbr>` which is better for copying */
-const FormattedLinkText: NodeRenderer<TransformedLink> = ({ node }) => {
-  if (
-    node.children?.length !== 1 ||
-    node.children[0].type !== 'text' ||
-    !node.children[0].value.includes('​')
-  ) {
-    return <MyST ast={node.children} />;
-  }
-  const text = node.children[0].value.split('​');
-  return (
-    <>
-      {text.map((v, i) => (
-        <>
-          {v}
-          {i < text.length - 1 && <wbr />}
-        </>
-      ))}
-    </>
-  );
-};
-
 export const link: NodeRenderer<TransformedLink> = ({ node }) => {
   const internal = node.internal ?? false;
   const protocol = node.protocol;
@@ -84,7 +62,7 @@ export const link: NodeRenderer<TransformedLink> = ({ node }) => {
     case 'wiki':
       return (
         <WikiLink url={node.url} page={node.data?.page as string} wiki={node.data?.wiki as string}>
-          <FormattedLinkText node={node} />
+          <MyST ast={node.children} />
         </WikiLink>
       );
     case 'github':
@@ -100,7 +78,7 @@ export const link: NodeRenderer<TransformedLink> = ({ node }) => {
           to={node.data?.to as number | undefined}
           issue_number={node.data?.issue_number as number | undefined}
         >
-          <FormattedLinkText node={node} />
+          <MyST ast={node.children} />
         </GithubLink>
       );
     case 'rrid':
@@ -109,13 +87,13 @@ export const link: NodeRenderer<TransformedLink> = ({ node }) => {
       if (internal) {
         return (
           <InternalLink url={node.url}>
-            <FormattedLinkText node={node} />
+            <MyST ast={node.children} />
           </InternalLink>
         );
       }
       return (
         <a target="_blank" href={node.url} rel="noreferrer">
-          <FormattedLinkText node={node} />
+          <MyST ast={node.children} />
         </a>
       );
   }

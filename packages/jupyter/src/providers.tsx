@@ -43,7 +43,7 @@ type ThebeOptionsContextType = {
   binderBadgeUrl?: string;
 };
 
-const ThebeOptionsContext = React.createContext<ThebeOptionsContextType>({});
+const ThebeOptionsContext = React.createContext<ThebeOptionsContextType | undefined>(undefined);
 
 export function ConfiguredThebeServerProvider({
   siteManifest,
@@ -77,9 +77,9 @@ export function ConfiguredThebeServerProvider({
   );
 }
 
-export function useCanCompute(article: { frontmatter: { thebe?: boolean | Record<string, any> } }) {
+export function useCanCompute() {
   const thebe = useContext(ThebeOptionsContext);
-  return !!thebe && (article.frontmatter as any)?.thebe !== false;
+  return !!thebe?.options;
 }
 
 export function useThebeOptions() {

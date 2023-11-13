@@ -140,9 +140,8 @@ export function Article({
   const tree = copyNode(article.mdast);
   const abstract = extractPart(tree, 'abstract');
   const { title, subtitle } = article.frontmatter;
+  const canCompute = useCanCompute();
 
-  const thebe = useThebeOptions();
-  const canCompute = !!thebe && (article.frontmatter as any)?.thebe !== false;
   // TODO in lieu of extended frontmatter or theme options
   const enable_notebook_toolbar = false;
   return (

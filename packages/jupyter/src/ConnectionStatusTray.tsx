@@ -5,7 +5,7 @@ import type { ThebeEventData, ThebeEventType } from 'thebe-core';
 import { selectAreExecutionScopesBuilding, useExecutionScope } from './execute/index.js';
 
 export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: boolean }) {
-  const { options } = useThebeOptions();
+  const thebe = useThebeOptions();
   const { connecting, ready: serverReady, error: serverError, events } = useThebeServer();
   const { slug, ready: scopeReady, state } = useExecutionScope();
   const [show, setShow] = useState(false);
@@ -26,7 +26,7 @@ export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: bo
   }, [events]);
 
   useEffect(() => {
-    if (!options) return;
+    if (!thebe?.options) return;
     if (busy || error) {
       setShow(true);
     } else if (ready) {
@@ -36,11 +36,11 @@ export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: bo
         setUnsub(undefined);
       }, 1000);
     }
-  }, [options, busy, ready, error]);
+  }, [thebe, busy, ready, error]);
 
-  const host = options?.useBinder
+  const host = thebe?.options?.useBinder
     ? 'Binder'
-    : options?.useJupyterLite
+    : thebe?.options?.useJupyterLite
     ? 'JupyterLite'
     : 'Local Server';
 
@@ -63,7 +63,7 @@ export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: bo
     );
   }
 
-  if (show && options?.useJupyterLite) {
+  if (show && thebe?.options?.useJupyterLite) {
     return (
       <div className="fixed p-3 z-[11] text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
         <div className="mb-1 font-semibold text-center">⚡️ Connecting to {host} ⚡️</div>

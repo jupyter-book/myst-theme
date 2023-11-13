@@ -91,11 +91,13 @@ function useExecutionScopeFetcher({
 }
 
 function listComputables(mdast: GenericParent) {
-  return selectAll('container[kind=figure] > output, embed > output', mdast).map((node: any) => {
-    const { key, label, source } = node;
-    const output = selectAll('output', node);
-    return { embedKey: key, outputKey: (output[0] as any).key, label, source };
-  });
+  return selectAll('container[kind=figure]:has(output), embed:has(output)', mdast).map(
+    (node: any) => {
+      const { key, label, source } = node;
+      const output = selectAll('output', node);
+      return { embedKey: key, outputKey: (output[0] as any).key, label, source };
+    },
+  );
 }
 
 /**

@@ -96,9 +96,9 @@ export default function Page() {
   const { container, outline } = useOutlineHeight();
   const top = useThemeTop();
   const article = useLoaderData<PageLoader>() as PageLoader;
-  const pageDesign: BookThemeTemplateOptions = (article.frontmatter as any)?.design ?? {};
+  const pageDesign: BookThemeTemplateOptions = (article.frontmatter as any)?.options ?? {};
   const siteDesign: BookThemeTemplateOptions =
-    (useSiteManifest() as SiteManifest & BookThemeTemplateOptions) ?? {};
+    (useSiteManifest() as SiteManifest & BookThemeTemplateOptions)?.options ?? {};
   const { hide_toc, hide_outline, hide_footer_links } = { ...siteDesign, ...pageDesign };
   return (
     <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={article.project}>

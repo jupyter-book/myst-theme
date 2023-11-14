@@ -44,6 +44,7 @@ type CaptionNumber = {
 type BasicNodeRenderers = {
   text: NodeRenderer<spec.Text>;
   span: NodeRenderer<GenericNode>;
+  div: NodeRenderer<GenericNode>;
   strong: NodeRenderer<spec.Strong>;
   emphasis: NodeRenderer<spec.Emphasis>;
   link: NodeRenderer<spec.Link>;
@@ -99,11 +100,17 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     );
   },
   span({ node }) {
-    // style={node.style}
     return (
-      <span>
+      <span className={node.class} style={node.style}>
         <MyST ast={node.children} />
       </span>
+    );
+  },
+  div({ node }) {
+    return (
+      <div className={node.class} style={node.style}>
+        <MyST ast={node.children} />
+      </div>
     );
   },
   delete({ node }) {

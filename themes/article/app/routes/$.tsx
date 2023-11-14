@@ -13,13 +13,7 @@ import {
   Abstract,
   Keywords,
 } from '@myst-theme/site';
-import {
-  ErrorTray,
-  LaunchBinder,
-  NotebookToolbar,
-  useCanCompute,
-  useThebeOptions,
-} from '@myst-theme/jupyter';
+import { ErrorTray, LaunchBinder, NotebookToolbar, useCanCompute } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
@@ -140,9 +134,8 @@ export function Article({
   const tree = copyNode(article.mdast);
   const abstract = extractPart(tree, 'abstract');
   const { title, subtitle } = article.frontmatter;
+  const canCompute = useCanCompute();
 
-  const thebe = useThebeOptions();
-  const canCompute = !!thebe && (article.frontmatter as any)?.thebe !== false;
   // TODO in lieu of extended frontmatter or theme options
   const enable_notebook_toolbar = false;
   return (
@@ -182,6 +175,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
     ArticleTemplateOptions;
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
+  const canCompute = useCanCompute();
   const project = projects?.[0];
   const isIndex = article.slug === project?.index;
 
@@ -195,11 +189,13 @@ export function ArticlePage({ article }: { article: PageLoader }) {
           <ArticleHeader frontmatter={project as any}>
             <div className="pt-5 md:self-center h-fit lg:pt-0 col-body lg:col-margin-right-inset">
               <Downloads />
-              <div className="col-margin mt-3 mx-5 lg:mt-2 lg:mx-0 lg:w-[300px]">
-                <div className="flex flex-wrap gap-2 lg:flex-col w-[147px] pl-[1px] lg:mx-auto">
-                  <LaunchBinder style="link" location={article.location} />
+              {canCompute && (
+                <div className="col-margin mt-3 mx-5 lg:mt-2 lg:mx-0 lg:w-[300px]">
+                  <div className="flex flex-wrap gap-2 lg:flex-col w-[147px] pl-[1px] lg:mx-auto">
+                    <LaunchBinder style="link" location={article.location} />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </ArticleHeader>
           <main
@@ -222,9 +218,11 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                   <span>Back to Article</span>
                 </Link>
                 <div className="flex-grow text-center">{article.frontmatter.title}</div>
-                <div className="mr-2">
-                  <LaunchBinder style="button" location={article.location} />
-                </div>
+                {canCompute && (
+                  <div className="mr-2">
+                    <LaunchBinder style="button" location={article.location} />
+                  </div>
+                )}
                 <a
                   href={article.frontmatter?.exports?.[0]?.url}
                   className="flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"

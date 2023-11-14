@@ -107,7 +107,7 @@ export function ExecuteScopeProvider({
   children,
   contents,
 }: React.PropsWithChildren<{ contents: ArticleContents }>) {
-  const canCompute = useCanCompute(contents);
+  const canCompute = useCanCompute();
 
   // compute incoming for first render
   const computables: Computable[] = listComputables(contents.mdast);

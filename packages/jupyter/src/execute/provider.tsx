@@ -12,7 +12,6 @@ import {
   selectSessionsToStart,
 } from './selectors.js';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf.js';
-import type { Thebe } from 'myst-frontmatter';
 import { useCanCompute } from '../providers.js';
 import type { GenericParent } from 'myst-common';
 
@@ -32,7 +31,6 @@ type ArticleContents = {
   mdast: GenericParent;
   location?: string;
   dependencies?: Dependency[];
-  frontmatter: { thebe?: boolean | Thebe };
 };
 
 function useScopeNavigate({

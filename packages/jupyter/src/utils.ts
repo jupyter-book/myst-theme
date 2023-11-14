@@ -1,9 +1,4 @@
-import type {
-  Thebe,
-  JupyterServerOptions,
-  JupyterLocalOptions,
-  BinderHubOptions,
-} from 'myst-frontmatter';
+import type { Thebe, JupyterServerOptions, BinderHubOptions } from 'myst-frontmatter';
 import type { CoreOptions, WellKnownRepoProvider } from 'thebe-core';
 
 export type ExtendedCoreOptions = CoreOptions & {
@@ -73,44 +68,13 @@ export function thebeFrontmatterToOptions(
 ): ExtendedCoreOptions | undefined {
   if (fm === undefined || fm === false) return undefined;
 
-  const {
-    binder,
-    server,
-    lite,
-    local,
-    kernelName,
-    disableSessionSaving,
-    mathjaxConfig,
-    mathjaxUrl,
-  } = (fm as Thebe | undefined) ?? {};
+  const { binder, server, lite, kernelName, disableSessionSaving, mathjaxConfig, mathjaxUrl } =
+    (fm as Thebe | undefined) ?? {};
 
   const thebeOptions: ExtendedCoreOptions = { mathjaxConfig, mathjaxUrl };
 
   if (disableSessionSaving) {
     thebeOptions.savedSessionOptions = { enabled: false };
-  }
-
-  // handle thebe.local.*
-  // as local OVERRIDES other binder and server settings, handle these first
-  // TODO need to expose NODE_ENV somehow via a loader
-  let NODE_ENV = 'development';
-  if (typeof window !== 'undefined') {
-    NODE_ENV = (window as any).NODE_ENV;
-  }
-  if (NODE_ENV !== 'production' && local) {
-    if (isObject(local)) {
-      const { url, token, kernelName: localKernelName } = local as JupyterLocalOptions;
-      if (url || token) {
-        thebeOptions.serverSettings = {};
-        if (url) thebeOptions.serverSettings.baseUrl = url;
-        if (token) thebeOptions.serverSettings.token = token;
-      }
-      if (localKernelName) {
-        thebeOptions.kernelOptions = { kernelName: localKernelName };
-      }
-    }
-    return thebeOptions;
-    // else just fall through & return - TODO return early?
   }
 
   // handle additional options

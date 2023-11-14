@@ -56,6 +56,7 @@ module.exports = {
     'swr/immutable',
     'devlop',
     '@curvenote/ansi-to-react',
+    'jats-utils',
   ],
   watchPaths: ['../../packages/**/*'],
   future: {

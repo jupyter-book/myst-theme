@@ -156,7 +156,7 @@ async function parse(
   const jats: any = mystToJats
     ? unified()
         .use(mystToJats, SourceFileKind.Article, frontmatter, undefined, '', {
-          spaces: 2,
+          format: 2,
           writeFullArticle: options?.jats?.fullArticle,
         })
         .stringify(mdast as any, jatsFile).result

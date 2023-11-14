@@ -2,14 +2,43 @@ import type { GenericParent } from 'myst-common';
 import { ContentBlocks } from './ContentBlocks.js';
 import classNames from 'classnames';
 import { HashLink } from 'myst-to-react';
+import { type KnownParts } from '../utils.js';
 
-export function Abstract({ content }: { content: GenericParent }) {
-  if (!content) return <div className="hidden" aria-label="this article has no abstract" />;
+export function FrontmatterParts({
+  parts,
+  keywords,
+  hideKeywords,
+}: {
+  parts: KnownParts;
+  keywords?: string[];
+  hideKeywords?: boolean;
+}) {
+  if (!parts.abstract && !parts.keypoints && !parts.summary) return null;
   return (
     <>
-      <h2 id="abstract" className="mb-3 text-base font-semibold group">
-        Abstract
-        <HashLink id="abstract" title="Link to Abstract" hover className="ml-2" />
+      <Abstract content={parts.abstract} />
+      <Abstract content={parts.keypoints} title="Key Points" id="keypoints" />
+      <Abstract content={parts.summary} title="Plain Language Summary" id="summary" />
+      <Keywords keywords={keywords} hideKeywords={hideKeywords} />
+    </>
+  );
+}
+
+export function Abstract({
+  content,
+  title = 'Abstract',
+  id = 'abstract',
+}: {
+  title?: string;
+  id?: string;
+  content?: GenericParent;
+}) {
+  if (!content) return null;
+  return (
+    <>
+      <h2 id={id} className="mb-3 text-base font-semibold group">
+        {title}
+        <HashLink id={id} title={`Link to ${title}`} hover className="ml-2" />
       </h2>
       <div className="px-6 py-1 mb-3 rounded-sm bg-slate-50 dark:bg-slate-800">
         <ContentBlocks mdast={content} className="col-body" />
@@ -25,8 +54,7 @@ export function Keywords({
   keywords?: string[];
   hideKeywords?: boolean;
 }) {
-  if (hideKeywords || !keywords || keywords.length === 0)
-    return <div className="hidden" aria-label="this article has no keywords" />;
+  if (hideKeywords || !keywords || keywords.length === 0) return null;
   return (
     <div className="mb-10 group">
       <span className="mr-2 font-semibold">Keywords:</span>

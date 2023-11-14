@@ -97,8 +97,26 @@ export function updateSiteManifestStaticLinksInplace(
     action.url = updateUrl(action.url);
   });
   // TODO: this needs to be based on the template.yml in the future
-  if (data.logo) data.logo = updateUrl(data.logo);
-  if (data.logo_dark) data.logo_dark = updateUrl(data.logo_dark);
+  // We have moved logo/logo_dark to options in v1.1.28
+  data.options ??= {};
+  if (data.logo) {
+    data.options.logo = data.logo;
+    delete data.logo;
+  }
+  if (data.logo_dark) {
+    data.options.logo_dark = data.logo_dark;
+    delete data.logo_dark;
+  }
+  if (data.logoText) {
+    data.options.logo_text = data.logoText;
+    delete data.logoText;
+  }
+  if (data.logo_text) {
+    data.options.logo_text = data.logo_text;
+    delete data.logo_text;
+  }
+  if (data.options.logo) data.options.logo = updateUrl(data.options.logo);
+  if (data.options.logo_dark) data.options.logo_dark = updateUrl(data.options.logo_dark);
   // Update the thumbnails to point at the CDN
   data.projects?.forEach((project) => {
     if (project.banner) project.banner = updateUrl(project.banner);

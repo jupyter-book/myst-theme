@@ -33,7 +33,7 @@ export const ArticlePage = React.memo(function ({
   showAbstract?: boolean;
   hideKeywords?: boolean;
 }) {
-  const canCompute = useCanCompute(article);
+  const canCompute = useCanCompute();
 
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.design ?? {};
 

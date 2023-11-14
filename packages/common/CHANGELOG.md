@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.5.12
+
+### Patch Changes
+
+- d997102: Update packages to latest myst versions
+
 ## 0.5.11
 
 ### Patch Changes

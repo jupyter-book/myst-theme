@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.5.11
+
+### Patch Changes
+
+- 9f59645: Move logo and logo_dark to options.
+
 ## 0.5.10
 
 ## 0.5.9

@@ -1,5 +1,21 @@
 # @myst-theme/book
 
+## 0.5.11
+
+### Patch Changes
+
+- 9f59645: Get design fields from options
+- Updated dependencies [9f59645]
+- Updated dependencies [efceca7]
+- Updated dependencies [9f59645]
+- Updated dependencies [9f59645]
+  - @myst-theme/site@0.5.11
+  - @myst-theme/jupyter@0.5.11
+  - @myst-theme/common@0.5.11
+  - @myst-theme/providers@0.5.11
+  - @myst-theme/styles@0.5.11
+  - @myst-theme/icons@0.5.11
+
 ## 0.5.10
 
 ### Patch Changes

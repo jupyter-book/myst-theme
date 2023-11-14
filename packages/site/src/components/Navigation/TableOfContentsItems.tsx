@@ -35,11 +35,11 @@ function nestToc(toc: Heading[]): NestedHeading[] {
   return items;
 }
 
-function childrenOpen(headings: NestedHeading[], pathname: string): string[] {
+function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: string): string[] {
   return headings
     .map((heading) => {
-      if (heading.path === pathname) return [heading.id];
-      const open = childrenOpen(heading.children, pathname);
+      if (withBaseurl(heading.path, baseurl) === pathname) return [heading.id];
+      const open = childrenOpen(heading.children, pathname, baseurl);
       if (open.length === 0) return [];
       return [heading.id, ...open];
     })
@@ -103,14 +103,14 @@ function LinkItem({
 
 const NestedToc = ({ heading }: { heading: NestedHeading }) => {
   const { pathname } = useLocation();
-  const startOpen = childrenOpen([heading], pathname).includes(heading.id);
+  const baseurl = useBaseurl();
+  const startOpen = childrenOpen([heading], pathname, baseurl).includes(heading.id);
   const nav = useNavigation();
-  nav.state;
   const [open, setOpen] = React.useState(startOpen);
   useEffect(() => {
     if (nav.state === 'idle') setOpen(startOpen);
   }, [nav.state]);
-  const exact = pathname === heading.path;
+  const exact = pathname === withBaseurl(heading.path, baseurl);
   if (!heading.children || heading.children.length === 0) {
     return (
       <LinkItem

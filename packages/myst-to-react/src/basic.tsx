@@ -1,3 +1,4 @@
+import React from 'react';
 import type * as spec from 'myst-spec';
 import { HashLink } from './heading.js';
 import type { NodeRenderer } from '@myst-theme/providers';
@@ -90,10 +91,10 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     return (
       <>
         {text.map((v, i) => (
-          <>
+          <React.Fragment key={i}>
             {v}
             {i < text.length - 1 && <wbr />}
-          </>
+          </React.Fragment>
         ))}
       </>
     );

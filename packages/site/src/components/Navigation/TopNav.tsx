@@ -244,8 +244,8 @@ function HomeLink({
 export function TopNav() {
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
-  const { logo, logo_dark, logo_text, logoText, actions, title, nav } =
-    config ?? ({} as SiteManifest);
+  const { title, nav, actions } = config ?? {};
+  const { logo, logo_dark, logo_text } = config?.options ?? {};
   return (
     <div className="bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 fixed w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-wrap max-w-[1440px] mx-auto">
@@ -261,12 +261,7 @@ export function TopNav() {
               <span className="sr-only">Open Menu</span>
             </button>
           </div>
-          <HomeLink
-            name={title}
-            logo={logo}
-            logoDark={logo_dark}
-            logoText={logo_text || logoText}
-          />
+          <HomeLink name={title} logo={logo} logoDark={logo_dark} logoText={logo_text} />
         </div>
         <div className="flex items-center flex-grow w-auto">
           <NavItems nav={nav} />

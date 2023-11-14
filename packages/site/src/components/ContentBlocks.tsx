@@ -78,7 +78,7 @@ export function ContentBlocks({
   const blocks = mdast.children as GenericParent[];
   return (
     <>
-      {blocks.map((node) => (
+      {blocks.filter((node) => node.visibility !== 'remove').map((node) => (
         <Block key={node.key} id={node.key} pageKind={pageKind} node={node} className={className} />
       ))}
     </>

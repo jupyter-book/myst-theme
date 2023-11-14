@@ -10,8 +10,9 @@ import {
   DocumentOutline,
   ArticleHeader,
   SupportingDocuments,
-  Abstract,
-  Keywords,
+  FrontmatterParts,
+  BackmatterParts,
+  extractKnownParts,
 } from '@myst-theme/site';
 import { ErrorTray, LaunchBinder, NotebookToolbar, useCanCompute } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
@@ -31,7 +32,7 @@ import {
   useSiteManifest,
 } from '@myst-theme/providers';
 import type { GenericParent } from 'myst-common';
-import { extractPart, copyNode } from 'myst-common';
+import { copyNode } from 'myst-common';
 import classNames from 'classnames';
 import { BusyScopeProvider, ConnectionStatusTray, ExecuteScopeProvider } from '@myst-theme/jupyter';
 import { SourceFileKind } from 'myst-spec-ext';
@@ -132,7 +133,7 @@ export function Article({
 }) {
   const keywords = article.frontmatter?.keywords ?? [];
   const tree = copyNode(article.mdast);
-  const abstract = extractPart(tree, 'abstract');
+  const parts = extractKnownParts(tree);
   const { title, subtitle } = article.frontmatter;
   const canCompute = useCanCompute();
 
@@ -158,9 +159,9 @@ export function Article({
           )}
           <ErrorTray pageSlug={article.slug} />
           <div id="skip-to-article" />
-          <Abstract content={abstract as GenericParent} />
-          <Keywords keywords={keywords} hideKeywords={hideKeywords} />
+          <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
           <ContentBlocks mdast={tree as GenericParent} />
+          <BackmatterParts parts={parts} />
           <Bibliography />
           <ConnectionStatusTray />
         </ExecuteScopeProvider>

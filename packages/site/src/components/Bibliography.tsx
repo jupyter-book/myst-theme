@@ -1,5 +1,6 @@
 import { useGridSystemProvider, useReferences } from '@myst-theme/providers';
 import classNames from 'classnames';
+import { HashLink } from 'myst-to-react';
 import { useState } from 'react';
 
 const HIDE_OVER_N_REFERENCES = 5;
@@ -13,7 +14,7 @@ export function Bibliography() {
   if (!filtered || !data || filtered.length === 0) return null;
   const refs = hidden ? filtered.slice(0, HIDE_OVER_N_REFERENCES) : filtered;
   return (
-    <section className={classNames(grid, 'subgrid-gap col-screen')}>
+    <section id="references" className={classNames(grid, 'subgrid-gap col-screen')}>
       <div>
         {filtered.length > HIDE_OVER_N_REFERENCES && (
           <button
@@ -23,7 +24,10 @@ export function Bibliography() {
             {hidden ? 'Show All' : 'Collapse'}
           </button>
         )}
-        <header className="text-lg font-semibold text-stone-900 dark:text-white">References</header>
+        <header className="text-lg font-semibold text-stone-900 dark:text-white group">
+          References
+          <HashLink id="references" title="Link to References" hover className="ml-2" />
+        </header>
       </div>
       <div className="pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300">
         <ol>

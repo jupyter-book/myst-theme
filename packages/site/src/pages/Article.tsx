@@ -1,16 +1,16 @@
 import React from 'react';
 import { ReferencesProvider } from '@myst-theme/providers';
 import {
-  Abstract,
   Bibliography,
   ContentBlocks,
   FooterLinksBlock,
-  Keywords,
+  FrontmatterParts,
+  BackmatterParts,
 } from '../components/index.js';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound.js';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound.js';
 import type { PageLoader } from '@myst-theme/common';
-import { copyNode, extractPart, type GenericParent } from 'myst-common';
+import { copyNode, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {
   ExecuteScopeProvider,
@@ -21,16 +21,15 @@ import {
   ErrorTray,
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
+import { extractKnownParts } from '../utils.js';
 
 export const ArticlePage = React.memo(function ({
   article,
   hide_all_footer_links,
-  showAbstract,
   hideKeywords,
 }: {
   article: PageLoader;
   hide_all_footer_links?: boolean;
-  showAbstract?: boolean;
   hideKeywords?: boolean;
 }) {
   const canCompute = useCanCompute();
@@ -39,7 +38,7 @@ export const ArticlePage = React.memo(function ({
 
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
-  const abstract = showAbstract ? extractPart(tree, 'abstract') : undefined;
+  const parts = extractKnownParts(tree);
 
   return (
     <ReferencesProvider
@@ -58,9 +57,9 @@ export const ArticlePage = React.memo(function ({
           {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
           <ErrorTray pageSlug={article.slug} />
           <div id="skip-to-article" />
-          <Abstract content={abstract as GenericParent} />
-          {abstract && <Keywords keywords={keywords} hideKeywords={hideKeywords} />}
+          <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
           <ContentBlocks pageKind={article.kind} mdast={tree as GenericParent} />
+          <BackmatterParts parts={parts} />
           <Bibliography />
           <ConnectionStatusTray />
           {!hide_footer_links && !hide_all_footer_links && (

@@ -108,7 +108,7 @@ export default function Page() {
             <DocumentOutline top={16} className="relative" outlineRef={outline} />
           </div>
         )}
-        <ArticlePage article={article} hide_all_footer_links={hide_footer_links} showAbstract />
+        <ArticlePage article={article} hide_all_footer_links={hide_footer_links} />
       </main>
     </ArticlePageAndNavigation>
   );

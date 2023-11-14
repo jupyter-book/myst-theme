@@ -1,5 +1,7 @@
 # @myst-theme/frontmatter
 
+## 0.5.12
+
 ## 0.5.11
 
 ## 0.5.10

@@ -1,5 +1,20 @@
 # @myst-theme/site
 
+## 0.5.12
+
+### Patch Changes
+
+- 392731e: Ensure baseurl is accounted for when the nav is opened
+- d997102: Update packages to latest myst versions
+- Updated dependencies [d997102]
+  - myst-to-react@0.5.12
+  - myst-demo@0.5.12
+  - @myst-theme/providers@0.5.12
+  - @myst-theme/jupyter@0.5.12
+  - @myst-theme/common@0.5.12
+  - @myst-theme/frontmatter@0.5.12
+  - @myst-theme/diagrams@0.5.12
+
 ## 0.5.11
 
 ### Patch Changes

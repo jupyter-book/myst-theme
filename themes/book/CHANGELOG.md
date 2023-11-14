@@ -1,5 +1,19 @@
 # @myst-theme/book
 
+## 0.5.12
+
+### Patch Changes
+
+- d997102: Update packages to latest myst versions
+- Updated dependencies [392731e]
+- Updated dependencies [d997102]
+  - @myst-theme/site@0.5.12
+  - @myst-theme/providers@0.5.12
+  - @myst-theme/jupyter@0.5.12
+  - @myst-theme/common@0.5.12
+  - @myst-theme/styles@0.5.12
+  - @myst-theme/icons@0.5.12
+
 ## 0.5.11
 
 ### Patch Changes

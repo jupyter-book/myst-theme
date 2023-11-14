@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.5.11
+
+### Patch Changes
+
+- bdfc143: Add div and span nodes
+- 6db9952: Add span and fix citation link styles
+- d812cf3: Improve link URL copying
+- c4f154d: Ensure icon is correct size without styles
+  - @myst-theme/providers@0.5.11
+
 ## 0.5.10
 
 ### Patch Changes

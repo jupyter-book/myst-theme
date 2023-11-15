@@ -99,21 +99,21 @@ export function updateSiteManifestStaticLinksInplace(
   // TODO: this needs to be based on the template.yml in the future
   // We have moved logo/logo_dark to options in v1.1.28
   data.options ??= {};
-  if (data.logo) {
-    data.options.logo = data.logo;
-    delete data.logo;
+  if ((data as any).logo) {
+    data.options.logo = (data as any).logo;
+    delete (data as any).logo;
   }
-  if (data.logo_dark) {
-    data.options.logo_dark = data.logo_dark;
-    delete data.logo_dark;
+  if ((data as any).logo_dark) {
+    data.options.logo_dark = (data as any).logo_dark;
+    delete (data as any).logo_dark;
   }
-  if (data.logoText) {
-    data.options.logo_text = data.logoText;
-    delete data.logoText;
+  if ((data as any).logoText) {
+    data.options.logo_text = (data as any).logoText;
+    delete (data as any).logoText;
   }
-  if (data.logo_text) {
-    data.options.logo_text = data.logo_text;
-    delete data.logo_text;
+  if ((data as any).logo_text) {
+    data.options.logo_text = (data as any).logo_text;
+    delete (data as any).logo_text;
   }
   if (data.options.logo) data.options.logo = updateUrl(data.options.logo);
   if (data.options.logo_dark) data.options.logo_dark = updateUrl(data.options.logo_dark);

@@ -18,7 +18,6 @@ import { Error404 } from './Error404.js';
 import classNames from 'classnames';
 import { ConfiguredThebeServerProvider } from '@myst-theme/jupyter';
 import { ThebeBundleLoaderProvider } from 'thebe-react';
-import type { BinderOptions, RepoProviderSpec } from 'thebe-core';
 
 export function Document({
   children,

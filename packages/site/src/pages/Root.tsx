@@ -58,8 +58,8 @@ export function Document({
         <Meta />
         <Links />
         <Analytics
-          analytics_google={config?.analytics_google}
-          analytics_plausible={config?.analytics_plausible}
+          analytics_google={config?.options?.analytics_google}
+          analytics_plausible={config?.options?.analytics_plausible}
         />
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">

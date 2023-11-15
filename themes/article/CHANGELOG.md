@@ -1,5 +1,18 @@
 # @myst-theme/article
 
+## 0.5.13
+
+### Patch Changes
+
+- b7bcab9: Update myst deps
+- Updated dependencies [b7bcab9]
+  - @myst-theme/providers@0.5.13
+  - @myst-theme/jupyter@0.5.13
+  - @myst-theme/common@0.5.13
+  - @myst-theme/site@0.5.13
+  - @myst-theme/styles@0.5.13
+  - @myst-theme/icons@0.5.13
+
 ## 0.5.12
 
 ### Patch Changes

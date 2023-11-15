@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.5.13
+
+### Patch Changes
+
+- b7bcab9: Update myst deps
+
 ## 0.5.12
 
 ### Patch Changes

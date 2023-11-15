@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 0.5.13
+
+### Patch Changes
+
+- b7bcab9: Update myst deps
+- Updated dependencies [b7bcab9]
+  - @myst-theme/common@0.5.13
+
 ## 0.5.12
 
 ### Patch Changes

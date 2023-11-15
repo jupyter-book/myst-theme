@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.5.13
+
+### Patch Changes
+
+- b7bcab9: Update myst deps
+- Updated dependencies [b7bcab9]
+  - myst-to-react@0.5.13
+  - @myst-theme/providers@0.5.13
+
 ## 0.5.12
 
 ### Patch Changes

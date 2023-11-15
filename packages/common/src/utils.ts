@@ -115,6 +115,14 @@ export function updateSiteManifestStaticLinksInplace(
     data.options.logo_text = (data as any).logo_text;
     delete (data as any).logo_text;
   }
+  if ((data as any).analytics_google) {
+    data.options.analytics_google = (data as any).analytics_google;
+    delete (data as any).analytics_google;
+  }
+  if ((data as any).analytics_plausible) {
+    data.options.analytics_plausible = (data as any).analytics_plausible;
+    delete (data as any).analytics_plausible;
+  }
   if (data.options.logo) data.options.logo = updateUrl(data.options.logo);
   if (data.options.logo_dark) data.options.logo_dark = updateUrl(data.options.logo_dark);
   // Update the thumbnails to point at the CDN

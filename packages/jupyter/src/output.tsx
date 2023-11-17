@@ -42,11 +42,13 @@ export function JupyterOutput({
   identifier,
   data,
   align,
+  className,
 }: {
   outputId: string;
   identifier?: string;
   data: MinifiedOutput[];
   align?: 'left' | 'center' | 'right';
+  className?: string;
 }) {
   const { ready } = useCellExecution(outputId);
   const outputs: MinifiedOutput[] = data;
@@ -80,6 +82,7 @@ export function JupyterOutput({
           'text-right': align === 'right',
           'mb-5': outputs && outputs.length > 0,
         },
+        className,
       )}
     >
       {component}
@@ -90,6 +93,7 @@ export function JupyterOutput({
 export function Output({ node }: { node: GenericNode }) {
   return (
     <JupyterOutput
+      className={classNames({ hidden: node.visibility === 'remove' })}
       outputId={node.id}
       identifier={node.identifier}
       align={node.align}

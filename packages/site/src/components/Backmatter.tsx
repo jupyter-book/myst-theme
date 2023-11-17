@@ -6,12 +6,12 @@ import type { KnownParts } from '../utils.js';
 export function BackmatterParts({ parts }: { parts: KnownParts }) {
   return (
     <>
+      <Backmatter title="Acknowledgments" id="acknowledgments" content={parts.acknowledgments} />
       <Backmatter
         title="Data Availability"
         id="data-availability"
         content={parts.data_availability}
       />
-      <Backmatter title="Acknowledgments" id="acknowledgments" content={parts.acknowledgments} />
     </>
   );
 }

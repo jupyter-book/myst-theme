@@ -3,6 +3,20 @@ import type { Config, IRenderMimeRegistry, ThebeCore } from 'thebe-core';
 import type { IdKeyMap, IdKeyMapTarget } from './types.js';
 
 /**
+ * Return executable code/output from block or single figure inside block
+ */
+export function executableNodesFromBlock(block: GenericParent) {
+  if (!block || block.type !== 'block') return;
+  let target = block;
+  if (block.children && block.children.length === 1 && block.children[0].type === 'container') {
+    target = block.children[0] as GenericParent;
+  }
+  if (target.children && target.children.length >= 2 && target.children[0].type === 'code') {
+    return { codeCell: target.children[0], output: target.children[1] };
+  }
+}
+
+/**
  * Use the mdast to create a ThebeNotebook from the mdast tree of a notebook.
  * This is intended to be used to create an independent ThebeNotebook instance
  * for each notebook in a rendering context.
@@ -40,8 +54,9 @@ export function notebookFromMdast(
 
   notebook.cells = (mdast.children as GenericParent[]).map((block: GenericParent) => {
     if (block.type !== 'block') console.warn(`Unexpected block type ${block.type}`);
-    if (block.children.length == 2 && block.children[0].type === 'code') {
-      const [codeCell, output] = block.children;
+    const executableNodes = executableNodesFromBlock(block);
+    if (executableNodes) {
+      const { codeCell, output } = executableNodes;
 
       // use the block.key to identify the cell but maintain a mapping
       // to allow code or output keys to look up cells and refs and idenifity

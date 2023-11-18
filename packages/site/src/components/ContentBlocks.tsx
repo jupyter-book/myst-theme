@@ -3,6 +3,7 @@ import { SourceFileKind } from 'myst-spec-ext';
 import type { GenericParent } from 'myst-common';
 import classNames from 'classnames';
 import {
+  executableNodesFromBlock,
   NotebookClearCell,
   NotebookRunCell,
   NotebookRunCellSpinnerOnly,
@@ -10,14 +11,7 @@ import {
 import { useGridSystemProvider } from '@myst-theme/providers';
 
 function isACodeCell(node: GenericParent) {
-  return (
-    node &&
-    node.type === 'block' &&
-    node.children &&
-    node.children?.length === 2 &&
-    node.children[0].type === 'code' &&
-    node.children[1].type === 'output'
-  );
+  return !!executableNodesFromBlock(node);
 }
 
 function Block({

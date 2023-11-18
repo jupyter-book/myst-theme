@@ -81,18 +81,20 @@ async function parse(
   const { proofDirective } = await import('myst-ext-proof');
   const { exerciseDirectives } = await import('myst-ext-exercise');
   const file = new VFile();
-  const mdast = mystParse(text, {
-    markdownit: { linkify: true },
-    directives: [
-      cardDirective,
-      gridDirective,
-      ...tabDirectives,
-      proofDirective,
-      ...exerciseDirectives,
-    ],
-    // roles: [reactiveRole],
-    vfile: file,
-  });
+  const parseMyst = (content: string) =>
+    mystParse(content, {
+      markdownit: { linkify: true },
+      directives: [
+        cardDirective,
+        gridDirective,
+        ...tabDirectives,
+        proofDirective,
+        ...exerciseDirectives,
+      ],
+      // roles: [reactiveRole],
+      vfile: file,
+    });
+  const mdast = parseMyst(text);
   const linkTransforms = [
     new WikiTransformer(),
     new GithubTransformer(),
@@ -123,7 +125,7 @@ async function parse(
     file,
   });
   unified()
-    .use(basicTransformationsPlugin)
+    .use(basicTransformationsPlugin, { parser: parseMyst })
     .use(mathPlugin, { macros: frontmatter?.math ?? {} }) // This must happen before enumeration, as it can add labels
     .use(glossaryPlugin, { state }) // This should be before the enumerate plugins
     .use(abbreviationPlugin, { abbreviations: frontmatter.abbreviations })

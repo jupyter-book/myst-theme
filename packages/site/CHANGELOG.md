@@ -1,5 +1,24 @@
 # @myst-theme/site
 
+## 0.5.14
+
+### Patch Changes
+
+- 5889b1e: Improve backmatter styles
+- de50fde: Allow executable code/output to be inside a figure
+- 23b14dd: Move acknowledgements above data availability.
+- Updated dependencies [8aa0be8]
+- Updated dependencies [4d0448b]
+- Updated dependencies [de50fde]
+- Updated dependencies [92effe9]
+  - @myst-theme/jupyter@0.5.14
+  - myst-to-react@0.5.14
+  - @myst-theme/providers@0.5.14
+  - @myst-theme/frontmatter@0.5.14
+  - @myst-theme/diagrams@0.5.14
+  - @myst-theme/common@0.5.14
+  - myst-demo@0.5.14
+
 ## 0.5.13
 
 ### Patch Changes

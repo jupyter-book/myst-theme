@@ -1,5 +1,16 @@
 # @myst-theme/jupyter
 
+## 0.5.14
+
+### Patch Changes
+
+- 8aa0be8: Hide Jupyter output when visibility is hidden
+- de50fde: Allow executable code/output to be inside a figure
+- Updated dependencies [4d0448b]
+- Updated dependencies [92effe9]
+  - myst-to-react@0.5.14
+  - @myst-theme/providers@0.5.14
+
 ## 0.5.13
 
 ### Patch Changes

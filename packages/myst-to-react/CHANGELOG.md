@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.5.14
+
+### Patch Changes
+
+- 4d0448b: Fix table overflow inside of a figure
+- 92effe9: Remove code when visibility === hidden
+  - @myst-theme/providers@0.5.14
+
 ## 0.5.13
 
 ### Patch Changes

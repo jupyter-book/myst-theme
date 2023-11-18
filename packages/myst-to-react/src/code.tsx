@@ -126,6 +126,7 @@ const code: NodeRenderer<Code & { executable: boolean }> = ({ node }) => {
       shadow
       border={node.executable}
       background={!node.executable}
+      className={classNames({ hidden: node.visibility === 'remove' })}
     />
   );
 };

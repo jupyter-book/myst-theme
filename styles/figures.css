@@ -8,6 +8,13 @@ figure.quote figcaption > p:before {
 figure.code > div {
   margin: 0;
 }
+figure.subcontainer {
+  margin-bottom: 0;
+}
+figure.subcontainer figcaption {
+  margin-top: 0.25em;
+  text-align: center;
+}
 figure figcaption > p {
   margin-top: 0 !important;
   margin-bottom: 0 !important;

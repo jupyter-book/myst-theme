@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.5.15
+
+### Patch Changes
+
+- acc8441: Improve handling for subfigures
+
 ## 0.5.14
 
 ## 0.5.13

@@ -1,5 +1,12 @@
 # @myst-theme/common
 
+## 0.5.15
+
+### Patch Changes
+
+- 9f44076: Update myst deps
+- d21e6f2: Updates to myst and bug fix for myst-demo (clone for html output).
+
 ## 0.5.14
 
 ## 0.5.13

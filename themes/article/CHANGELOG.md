@@ -1,5 +1,22 @@
 # @myst-theme/article
 
+## 0.5.15
+
+### Patch Changes
+
+- 9f44076: Update myst deps
+- d21e6f2: Updates to myst and bug fix for myst-demo (clone for html output).
+- Updated dependencies [9f44076]
+- Updated dependencies [335c7d5]
+- Updated dependencies [d21e6f2]
+- Updated dependencies [acc8441]
+  - @myst-theme/providers@0.5.15
+  - @myst-theme/jupyter@0.5.15
+  - @myst-theme/common@0.5.15
+  - @myst-theme/site@0.5.15
+  - @myst-theme/styles@0.5.15
+  - @myst-theme/icons@0.5.15
+
 ## 0.5.14
 
 ### Patch Changes

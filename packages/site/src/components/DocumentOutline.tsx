@@ -16,6 +16,7 @@ const HIGHLIGHT_CLASS = 'highlight';
 const onClient = typeof document !== 'undefined';
 
 type Heading = {
+  element: HTMLHeadingElement;
   id: string;
   title: string;
   titleHTML: string;
@@ -46,15 +47,15 @@ const Headings = ({ headings, activeId, highlight, selector }: Props) => (
       >
         <a
           className={classNames('block p-1', {
-            'text-slate-900 dark:text-slate-50': heading.level < 3 && heading.id !== activeId,
-            'text-slate-500 dark:text-slate-300': heading.level >= 3 && heading.id !== activeId,
+            'text-slate-900 dark:text-slate-50': heading.level < 2 && heading.id !== activeId,
+            'text-slate-500 dark:text-slate-300': heading.level >= 2 && heading.id !== activeId,
             'text-blue-600 dark:text-white font-bold': heading.id === activeId,
             'pr-2': heading.id !== activeId, // Allows for bold to change length
-            'pl-2': heading.level === 1 || heading.level === 2,
-            'pl-4': heading.level === 3,
-            'pl-8 text-xs': heading.level === 4,
-            'pl-10 text-xs font-light': heading.level === 5,
-            'pl-12 text-xs font-extralight': heading.level === 6,
+            'pl-2': heading.level === 1,
+            'pl-4': heading.level === 2,
+            'pl-8 text-xs': heading.level === 3,
+            'pl-10 text-xs font-light': heading.level === 4,
+            'pl-12 text-xs font-extralight': heading.level === 5,
           })}
           href={`#${heading.id}`}
           onClick={(e) => {
@@ -104,7 +105,7 @@ function getHeaders(selector: string): HTMLHeadingElement[] {
   return headers as HTMLHeadingElement[];
 }
 
-function useHeaders(selector: string) {
+function useHeaders(selector: string, maxdepth: number) {
   if (!onClient) return { activeId: '', headings: [] };
   const onScreen = useRef<Set<HTMLHeadingElement>>(new Set());
   const [activeId, setActiveId] = useState<string>();
@@ -145,27 +146,34 @@ function useHeaders(selector: string) {
     Array.from(elements).map((e) => observer.current?.observe(e));
   }, [observer]);
 
-  elements.forEach((e) => {
+  let minLevel = 10;
+  const headings: Heading[] = elements
+    .map((element) => {
+      return {
+        element,
+        level: Number(element.tagName.slice(1)),
+        id: element.id,
+        text: element.querySelector('.heading-text'),
+      };
+    })
+    .filter((h) => !!h.text)
+    .map(({ element, level, text, id }) => {
+      const { innerText: title, innerHTML: titleHTML } = cloneHeadingElement(
+        text as HTMLSpanElement,
+      );
+      minLevel = Math.min(minLevel, level);
+      return { element, title, titleHTML, id, level };
+    })
+    .filter((heading) => {
+      heading.level = heading.level - minLevel + 1;
+      return heading.level < maxdepth + 1;
+    });
+
+  headings.forEach(({ element: e }) => {
     if (headingsSet.current.has(e)) return;
     observer.current?.observe(e);
     headingsSet.current.add(e);
   });
-
-  const headings: Heading[] = elements
-    .map((heading) => {
-      return {
-        level: Number(heading.tagName.slice(1)),
-        id: heading.id,
-        text: heading.querySelector('.heading-text'),
-      };
-    })
-    .filter((h) => !!h.text)
-    .map(({ level, text, id }) => {
-      const { innerText: title, innerHTML: titleHTML } = cloneHeadingElement(
-        text as HTMLSpanElement,
-      );
-      return { title, titleHTML, id, level };
-    });
 
   return { activeId, highlight, headings };
 }
@@ -224,6 +232,7 @@ export const DocumentOutline = ({
   className,
   selector = SELECTOR,
   children,
+  maxdepth = 4,
 }: {
   outlineRef?: React.RefObject<HTMLElement>;
   top?: number;
@@ -231,8 +240,9 @@ export const DocumentOutline = ({
   className?: string;
   selector?: string;
   children?: React.ReactNode;
+  maxdepth?: number;
 }) => {
-  const { activeId, headings, highlight } = useHeaders(selector);
+  const { activeId, headings, highlight } = useHeaders(selector, maxdepth);
   if (headings.length <= 1 || !onClient) {
     return <nav suppressHydrationWarning>{children}</nav>;
   }

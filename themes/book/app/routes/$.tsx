@@ -90,6 +90,7 @@ interface BookThemeTemplateOptions {
   hide_toc?: boolean;
   hide_outline?: boolean;
   hide_footer_links?: boolean;
+  outline_maxdepth?: number;
 }
 
 export default function Page() {
@@ -99,13 +100,21 @@ export default function Page() {
   const pageDesign: BookThemeTemplateOptions = (article.frontmatter as any)?.options ?? {};
   const siteDesign: BookThemeTemplateOptions =
     (useSiteManifest() as SiteManifest & BookThemeTemplateOptions)?.options ?? {};
-  const { hide_toc, hide_outline, hide_footer_links } = { ...siteDesign, ...pageDesign };
+  const { hide_toc, hide_outline, hide_footer_links, outline_maxdepth } = {
+    ...siteDesign,
+    ...pageDesign,
+  };
   return (
     <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={article.project}>
       <main ref={container} className="article-grid subgrid-gap col-screen">
         {!hide_outline && (
           <div className="sticky z-10 hidden h-0 col-margin-right-inset lg:block" style={{ top }}>
-            <DocumentOutline top={16} className="relative" outlineRef={outline} />
+            <DocumentOutline
+              top={16}
+              className="relative"
+              outlineRef={outline}
+              maxdepth={outline_maxdepth}
+            />
           </div>
         )}
         <ArticlePage article={article} hide_all_footer_links={hide_footer_links} />

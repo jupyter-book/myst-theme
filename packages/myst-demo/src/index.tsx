@@ -104,10 +104,9 @@ async function parse(
   // For the mdast that we show, duplicate, strip positions and dump to yaml
   // Also run some of the transforms, like the links
   const mdastPre = JSON.parse(JSON.stringify(mdast));
-  unified().use(linksPlugin, { transformers: linkTransforms }).runSync(mdastPre);
   visit(mdastPre, (n) => delete n.position);
-  const mdastString = yaml.dump(mdastPre);
-  const htmlString = mystToHtml(mdastPre);
+  unified().use(linksPlugin, { transformers: linkTransforms }).runSync(mdast);
+  const htmlString = mystToHtml(mdast);
   const references = {
     cite: { order: [], data: {} },
     footnotes: {},
@@ -124,6 +123,12 @@ async function parse(
     numbering: frontmatter.numbering ?? defaultFrontmatter?.numbering,
     file,
   });
+  visit(mdast, (n) => {
+    // Before we put in the citation render, we can mark them as errors
+    if (n.type === 'cite') {
+      n.error = true;
+    }
+  });
   unified()
     .use(basicTransformationsPlugin, { parser: parseMyst })
     .use(mathPlugin, { macros: frontmatter?.math ?? {} }) // This must happen before enumeration, as it can add labels
@@ -136,6 +141,11 @@ async function parse(
     .use(resolveReferencesPlugin, { state })
     .use(keysPlugin)
     .runSync(mdast as any, file);
+  const mdastPost = JSON.parse(JSON.stringify(mdast));
+  visit(mdastPost, (n) => {
+    delete n.position;
+    delete n.key;
+  });
   const texFile = new VFile();
   const tex = unified()
     .use(mystToTex, { references })
@@ -166,7 +176,8 @@ async function parse(
 
   return {
     frontmatter,
-    yaml: mdastString,
+    mdastPre,
+    mdastPost,
     references: { ...references, article: mdast } as References,
     html: htmlString,
     tex: tex.value,
@@ -200,7 +211,8 @@ export function MySTRenderer({
   const [text, setText] = useState<string>(value.trim());
   const [references, setReferences] = useState<References>({});
   const [frontmatter, setFrontmatter] = useState<PageFrontmatter>({});
-  const [mdastYaml, setYaml] = useState<string>('Loading...');
+  const [mdastPre, setMdastPre] = useState<any>('Loading...');
+  const [mdastPost, setMdastPost] = useState<any>('Loading...');
   const [html, setHtml] = useState<string>('Loading...');
   const [tex, setTex] = useState<string>('Loading...');
   const [texWarnings, setTexWarnings] = useState<VFileMessage[]>([]);
@@ -210,6 +222,8 @@ export function MySTRenderer({
   const [jatsWarnings, setJatsWarnings] = useState<VFileMessage[]>([]);
   const [warnings, setWarnings] = useState<VFileMessage[]>([]);
   const [previewType, setPreviewType] = useState('DEMO');
+  const [astLang, setAstLang] = useState('yaml');
+  const [astStage, setAstStage] = useState('pre');
 
   useEffect(() => {
     const ref = { current: true };
@@ -220,7 +234,8 @@ export function MySTRenderer({
     ).then((result) => {
       if (!ref.current) return;
       setFrontmatter(result.frontmatter);
-      setYaml(result.yaml);
+      setMdastPre(result.mdastPre);
+      setMdastPost(result.mdastPost);
       setReferences(result.references);
       setHtml(result.html);
       setTex(result.tex);
@@ -274,25 +289,63 @@ export function MySTRenderer({
       break;
   }
   const demoMenu = (
-    <div className="self-center text-sm border cursor-pointer dark:border-slate-600">
-      {['DEMO', 'AST', 'HTML', 'LaTeX', 'Typst', 'JATS', 'DOCX'].map((show) => (
-        <button
-          key={show}
-          className={classnames('px-2 py-1', {
-            'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
-              previewType !== show,
-            'bg-blue-800 text-white': previewType === show,
-          })}
-          title={`Show the ${show}`}
-          aria-label={`Show the ${show}`}
-          aria-pressed={previewType === show ? 'true' : 'false'}
-          onClick={() => setPreviewType(show)}
-        >
-          {show}
-        </button>
-      ))}
-    </div>
+    <>
+      <div className="self-center text-sm border cursor-pointer dark:border-slate-600">
+        {['DEMO', 'AST', 'HTML', 'LaTeX', 'Typst', 'JATS', 'DOCX'].map((show) => (
+          <button
+            key={show}
+            className={classnames('px-2 py-1', {
+              'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
+                previewType !== show,
+              'bg-blue-800 text-white': previewType === show,
+            })}
+            title={`Show the ${show}`}
+            aria-label={`Show the ${show}`}
+            aria-pressed={previewType === show ? 'true' : 'false'}
+            onClick={() => setPreviewType(show)}
+          >
+            {show}
+          </button>
+        ))}
+      </div>
+      {previewType === 'AST' && (
+        <div className="self-center text-sm border cursor-pointer w-fit dark:border-slate-600">
+          {['yaml', 'json'].map((show) => (
+            <button
+              key={show}
+              className={classnames('px-2 py-1', {
+                'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
+                  astLang !== show,
+                'bg-blue-800 text-white': astLang === show,
+              })}
+              title={`Show the AST as ${show.toUpperCase()}`}
+              aria-pressed={astLang === show ? 'true' : 'false'}
+              onClick={() => setAstLang(show)}
+            >
+              {show.toUpperCase()}
+            </button>
+          ))}
+          {['pre', 'post'].map((show) => (
+            <button
+              key={show}
+              className={classnames('px-2 py-1', {
+                'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
+                  astStage !== show,
+                'bg-blue-800 text-white': astStage === show,
+              })}
+              title={`Show the AST Stage ${show.toUpperCase()}`}
+              aria-pressed={astStage === show ? 'true' : 'false'}
+              onClick={() => setAstStage(show)}
+            >
+              {show.toUpperCase()}
+            </button>
+          ))}
+        </div>
+      )}
+    </>
   );
+
+  const mdastStage = astStage === 'pre' ? mdastPre : mdastPost;
 
   return (
     <figure
@@ -335,7 +388,13 @@ export function MySTRenderer({
         })}
       >
         {!column && <div className="absolute top-0 left-0">{demoMenu}</div>}
-        <div className={classnames('px-6 pb-6', { 'pt-[40px]': !column, 'pt-4': column })}>
+        <div
+          className={classnames('px-6 pb-6', {
+            'pt-[40px]': !column && previewType !== 'AST',
+            'pt-[80px]': !column && previewType === 'AST',
+            'pt-4': column,
+          })}
+        >
           {previewType === 'DEMO' && (
             <>
               <ReferencesProvider references={references} frontmatter={frontmatter}>
@@ -344,7 +403,16 @@ export function MySTRenderer({
               </ReferencesProvider>
             </>
           )}
-          {previewType === 'AST' && <CodeBlock lang="yaml" value={mdastYaml} showCopy={false} />}
+          {previewType === 'AST' && (
+            <>
+              <CodeBlock
+                lang={astLang}
+                value={
+                  astLang === 'yaml' ? yaml.dump(mdastStage) : JSON.stringify(mdastStage, null, 2)
+                }
+              />
+            </>
+          )}
           {previewType === 'HTML' && <CodeBlock lang="xml" value={html} showCopy={false} />}
           {previewType === 'LaTeX' && <CodeBlock lang="latex" value={tex} showCopy={false} />}
           {previewType === 'Typst' && <CodeBlock lang="typst" value={typst} showCopy={false} />}

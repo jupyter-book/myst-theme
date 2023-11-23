@@ -105,8 +105,7 @@ async function parse(
   // Also run some of the transforms, like the links
   const mdastPre = JSON.parse(JSON.stringify(mdast));
   visit(mdastPre, (n) => delete n.position);
-  unified().use(linksPlugin, { transformers: linkTransforms }).runSync(mdast);
-  const htmlString = mystToHtml(mdast);
+  const htmlString = mystToHtml(JSON.parse(JSON.stringify(mdast)));
   const references = {
     cite: { order: [], data: {} },
     footnotes: {},
@@ -141,6 +140,7 @@ async function parse(
     .use(resolveReferencesPlugin, { state })
     .use(keysPlugin)
     .runSync(mdast as any, file);
+
   const mdastPost = JSON.parse(JSON.stringify(mdast));
   visit(mdastPost, (n) => {
     delete n.position;

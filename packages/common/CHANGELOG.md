@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.5.16
+
+### Patch Changes
+
+- d4631de: Update to remove myst-cli-utils
+
 ## 0.5.15
 
 ### Patch Changes

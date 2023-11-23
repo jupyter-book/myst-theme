@@ -1,5 +1,7 @@
 # @myst-theme/styles
 
+## 0.5.16
+
 ## 0.5.15
 
 ### Patch Changes

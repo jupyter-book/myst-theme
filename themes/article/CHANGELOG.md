@@ -1,5 +1,18 @@
 # @myst-theme/article
 
+## 0.5.16
+
+### Patch Changes
+
+- d4631de: Update to remove myst-cli-utils
+- Updated dependencies [d4631de]
+  - @myst-theme/providers@0.5.16
+  - @myst-theme/jupyter@0.5.16
+  - @myst-theme/common@0.5.16
+  - @myst-theme/site@0.5.16
+  - @myst-theme/styles@0.5.16
+  - @myst-theme/icons@0.5.16
+
 ## 0.5.15
 
 ### Patch Changes

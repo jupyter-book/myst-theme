@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.5.16
+
+### Patch Changes
+
+- d4631de: Update to remove myst-cli-utils
+- Updated dependencies [d4631de]
+  - myst-to-react@0.5.16
+  - @myst-theme/providers@0.5.16
+
 ## 0.5.15
 
 ### Patch Changes

@@ -7,20 +7,17 @@ import type { SiteManifest } from 'myst-config';
 import type { RepoProviderSpec } from 'thebe-core';
 
 function makeThebeOptions(
-  siteManifest: SiteManifest | undefined,
+  project: Required<SiteManifest>['projects'][0],
   optionsOverrideFn = (opts?: ExtendedCoreOptions) => opts,
 ): {
   options?: ExtendedCoreOptions;
   githubBadgeUrl?: string;
   binderBadgeUrl?: string;
 } {
-  if (!siteManifest) return {};
-  // TODO there may be multiple projects?
-  // useProjectManifest?
-  const mainProject = siteManifest?.projects?.[0];
-  const thebeFrontmatter = mainProject?.thebe;
-  const githubBadgeUrl = mainProject?.github;
-  const binderBadgeUrl = mainProject?.binder;
+  if (!project) return {};
+  const thebeFrontmatter = project?.thebe;
+  const githubBadgeUrl = project?.github;
+  const binderBadgeUrl = project?.binder;
   const optionsFromFrontmatter = thebeFrontmatterToOptions(
     thebeFrontmatter,
     githubBadgeUrl,
@@ -45,21 +42,21 @@ type ThebeOptionsContextType = {
 const ThebeOptionsContext = React.createContext<ThebeOptionsContextType | undefined>(undefined);
 
 export function ConfiguredThebeServerProvider({
-  siteManifest,
+  project,
   optionOverrideFn,
   customRepoProviders,
   children,
 }: React.PropsWithChildren<{
-  siteManifest?: SiteManifest;
+  project?: Required<SiteManifest>['project'][0];
   optionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions | undefined;
   customRepoProviders?: RepoProviderSpec[];
 }>) {
   const thebe = React.useMemo(
-    () => makeThebeOptions(siteManifest, optionOverrideFn),
-    [siteManifest, optionOverrideFn],
+    () => makeThebeOptions(project, optionOverrideFn),
+    [project, optionOverrideFn],
   );
 
-  if (!siteManifest) return <>{children}</>;
+  if (!project) return <>{children}</>;
 
   return (
     <ThebeOptionsContext.Provider value={thebe}>

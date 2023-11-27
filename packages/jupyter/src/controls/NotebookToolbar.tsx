@@ -8,7 +8,7 @@ import {
 import { useThebeServer } from 'thebe-react';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { Spinner } from './Spinner.js';
-import { Clear, Launch, Reset, Run } from './Buttons.js';
+import { Clear, Launch, Restart, Run } from './Buttons.js';
 import classNames from 'classnames';
 
 export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }) {
@@ -81,10 +81,11 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
             />
           )}
           {ready && (
-            <Reset
+            <Restart
               ready={ready}
               resetting={busy.page(slug, 'reset')}
               onClick={handleReset}
+              disabled={busy.page(slug, 'execute')}
               title="Reset notebook and restart kernel"
             />
           )}

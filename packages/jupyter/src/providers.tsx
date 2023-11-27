@@ -3,11 +3,12 @@ import React, { useContext } from 'react';
 import { ThebeServerProvider } from 'thebe-react';
 import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils.js';
 import type { GenericParent } from 'myst-common';
-import type { SiteManifest } from 'myst-config';
 import type { RepoProviderSpec } from 'thebe-core';
+import type { ManifestProject } from '@myst-theme/providers';
+import { useProjectManifest } from '@myst-theme/providers';
 
 function makeThebeOptions(
-  project: Required<SiteManifest>['projects'][0],
+  project: ManifestProject,
   optionsOverrideFn = (opts?: ExtendedCoreOptions) => opts,
 ): {
   options?: ExtendedCoreOptions;
@@ -42,29 +43,26 @@ type ThebeOptionsContextType = {
 const ThebeOptionsContext = React.createContext<ThebeOptionsContextType | undefined>(undefined);
 
 export function ConfiguredThebeServerProvider({
-  project,
   optionOverrideFn,
   customRepoProviders,
   children,
 }: React.PropsWithChildren<{
-  project?: Required<SiteManifest>['project'][0];
   optionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions | undefined;
   customRepoProviders?: RepoProviderSpec[];
 }>) {
+  const project = useProjectManifest();
   const thebe = React.useMemo(
-    () => makeThebeOptions(project, optionOverrideFn),
+    () => (project ? makeThebeOptions(project, optionOverrideFn) : undefined),
     [project, optionOverrideFn],
   );
-
-  if (!project) return <>{children}</>;
 
   return (
     <ThebeOptionsContext.Provider value={thebe}>
       <ThebeServerProvider
         connect={false}
-        options={thebe.options}
-        useBinder={thebe.options?.useBinder ?? false}
-        useJupyterLite={thebe.options?.useJupyterLite ?? false}
+        options={thebe?.options}
+        useBinder={thebe?.options?.useBinder ?? false}
+        useJupyterLite={thebe?.options?.useJupyterLite ?? false}
         customRepoProviders={customRepoProviders}
       >
         <>{children}</>

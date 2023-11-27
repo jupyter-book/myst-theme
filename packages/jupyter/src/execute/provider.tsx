@@ -109,9 +109,6 @@ export function ExecuteScopeProvider({
   enable,
   contents,
 }: React.PropsWithChildren<{ enable: boolean; contents: ArticleContents }>) {
-  // TODO: implement improved hook and flags to signal compute features
-  // const canCompute = useCanCompute(contents);
-
   // compute incoming for first render
   const computables: Computable[] = listComputables(contents.mdast);
 

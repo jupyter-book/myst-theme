@@ -1,6 +1,12 @@
 import type { SiteManifest } from 'myst-config';
 import type { SiteLoader } from '@myst-theme/common';
-import { BaseUrlProvider, SiteProvider, Theme, ThemeProvider } from '@myst-theme/providers';
+import {
+  BaseUrlProvider,
+  ProjectProvider,
+  SiteProvider,
+  Theme,
+  ThemeProvider,
+} from '@myst-theme/providers';
 import {
   Links,
   LiveReload,
@@ -67,9 +73,9 @@ export function Document({
           <BaseUrlProvider baseurl={baseurl}>
             <ThebeBundleLoaderProvider loadThebeLite={loadThebeLite} publicPath={baseurl}>
               <SiteProvider config={config}>
-                <ConfiguredThebeServerProvider siteManifest={config}>
-                  {children}
-                </ConfiguredThebeServerProvider>
+                <ProjectProvider>
+                  <ConfiguredThebeServerProvider>{children}</ConfiguredThebeServerProvider>
+                </ProjectProvider>
               </SiteProvider>
             </ThebeBundleLoaderProvider>
           </BaseUrlProvider>

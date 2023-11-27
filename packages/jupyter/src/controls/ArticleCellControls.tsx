@@ -1,6 +1,6 @@
 import { useThebeServer } from 'thebe-react';
 import { useNotebookExecution } from '../execute/hooks.js';
-import { Reset, Run, SpinnerStatusButton } from './Buttons.js';
+import { Restart, Run, SpinnerStatusButton } from './Buttons.js';
 
 import { selectAreExecutionScopesBuilding } from '../execute/index.js';
 
@@ -47,7 +47,7 @@ export function ArticleResetNotebook({ id }: { id: string }) {
   const { ready, notebookIsResetting, notebookIsBusy, reset } = useNotebookExecution(id);
   if (!ready) return null;
   return (
-    <Reset
+    <Restart
       ready={ready}
       resetting={notebookIsResetting}
       disabled={notebookIsBusy}

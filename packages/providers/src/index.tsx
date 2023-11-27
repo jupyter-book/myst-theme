@@ -8,3 +8,4 @@ export * from './site.js';
 export * from './tabs.js';
 export * from './xref.js';
 export * from './types.js';
+export * from './project.js';

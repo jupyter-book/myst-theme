@@ -27,8 +27,7 @@ function makeThebeOptions(
     binderBadgeUrl,
   );
 
-  let options = optionsFromFrontmatter;
-  if (options) options = optionsOverrideFn(options);
+  const options = optionsOverrideFn(optionsFromFrontmatter ?? {});
 
   return {
     options,

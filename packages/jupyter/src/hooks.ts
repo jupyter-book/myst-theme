@@ -168,8 +168,7 @@ export function useLaunchBinder() {
       if (userServerUrl && location) {
         // add the location to the url pathname
         const url = new URL(userServerUrl);
-        if (url.pathname.endsWith('/')) url.pathname = url.pathname.slice(0, -1);
-        url.pathname = `${url.pathname}/lab/tree${location}`;
+        url.pathname = `${url.pathname}lab/tree${location}`.replace(/\/+/g, '/');
         userServerUrl = url.toString();
       }
       return userServerUrl;

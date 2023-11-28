@@ -58,6 +58,7 @@ export default function AppWithReload() {
     <Document
       theme={theme}
       config={config}
+      features={{ notebookCompute: true, figureCompute: true, launchBinder: true }}
       scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
       staticBuild={MODE === 'static'}
       baseurl={BASE_URL}

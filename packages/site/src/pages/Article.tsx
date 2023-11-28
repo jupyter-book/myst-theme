@@ -17,8 +17,8 @@ import {
   BusyScopeProvider,
   NotebookToolbar,
   ConnectionStatusTray,
-  useCanCompute,
   ErrorTray,
+  useComputeOptions,
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { extractKnownParts } from '../utils.js';
@@ -32,7 +32,7 @@ export const ArticlePage = React.memo(function ({
   hide_all_footer_links?: boolean;
   hideKeywords?: boolean;
 }) {
-  const canCompute = useCanCompute();
+  const compute = useComputeOptions();
 
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.options ?? {};
 
@@ -46,7 +46,7 @@ export const ArticlePage = React.memo(function ({
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
-        <ExecuteScopeProvider enable={canCompute} contents={article}>
+        <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
           {!hide_title_block && (
             <FrontmatterBlock
               kind={article.kind}
@@ -54,7 +54,9 @@ export const ArticlePage = React.memo(function ({
               className="pt-5 mb-8"
             />
           )}
-          {canCompute && article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
+          {compute?.enabled &&
+            compute.features.notebookCompute &&
+            article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
           <ErrorTray pageSlug={article.slug} />
           <div id="skip-to-article" />
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />

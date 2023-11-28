@@ -22,28 +22,60 @@ import { DEFAULT_NAV_HEIGHT, renderers } from '../components/index.js';
 import { Analytics } from '../seo/index.js';
 import { Error404 } from './Error404.js';
 import classNames from 'classnames';
-import { ConfiguredThebeServerProvider } from '@myst-theme/jupyter';
-import { ThebeBundleLoaderProvider } from 'thebe-react';
+import { ComputeOptionsProvider, useComputeOptions } from '@myst-theme/jupyter';
+import { ThebeBundleLoaderProvider, ThebeServerProvider } from 'thebe-react';
+
+/**
+ * Only because we need to access the `useComputeOptions` hook
+ *
+ */
+function DocumentComputeBodyWrapper({
+  baseurl,
+  children,
+}: React.PropsWithChildren<{ baseurl?: string }>) {
+  const thebe = useComputeOptions();
+  return (
+    <ThebeBundleLoaderProvider
+      loadThebeLite={thebe?.options?.useJupyterLite ?? false}
+      publicPath={baseurl}
+    >
+      <ThebeServerProvider
+        connect={false}
+        options={thebe?.options}
+        useBinder={thebe?.options?.useBinder ?? false}
+        useJupyterLite={thebe?.options?.useJupyterLite ?? false}
+      >
+        {children}
+      </ThebeServerProvider>
+    </ThebeBundleLoaderProvider>
+  );
+}
+
+export type DocumentFeatures = {
+  figureCompute: boolean;
+  notebookCompute: boolean;
+  launchBinder: boolean;
+};
 
 export function Document({
   children,
+  features,
   scripts,
   theme,
   config,
   title,
   staticBuild,
   baseurl,
-  loadThebeLite,
   top = DEFAULT_NAV_HEIGHT,
 }: {
   children: React.ReactNode;
+  features?: DocumentFeatures;
   scripts?: React.ReactNode;
   theme: Theme;
   config?: SiteManifest;
   title?: string;
   staticBuild?: boolean;
   baseurl?: string;
-  loadThebeLite?: boolean;
   top?: number;
 }) {
   const links = staticBuild
@@ -55,6 +87,13 @@ export function Document({
         Link: Link as any,
         NavLink: NavLink as any,
       };
+
+  const defaultFeatures = {
+    figureCompute: false,
+    notebookCompute: false,
+    launchBinder: false,
+  };
+
   return (
     <html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>
       <head>
@@ -71,13 +110,15 @@ export function Document({
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <ThemeProvider theme={theme} renderers={renderers} {...links} top={top}>
           <BaseUrlProvider baseurl={baseurl}>
-            <ThebeBundleLoaderProvider loadThebeLite={loadThebeLite} publicPath={baseurl}>
-              <SiteProvider config={config}>
-                <ProjectProvider>
-                  <ConfiguredThebeServerProvider>{children}</ConfiguredThebeServerProvider>
-                </ProjectProvider>
-              </SiteProvider>
-            </ThebeBundleLoaderProvider>
+            <SiteProvider config={config}>
+              <ProjectProvider>
+                <ComputeOptionsProvider features={features ?? defaultFeatures}>
+                  <DocumentComputeBodyWrapper baseurl={baseurl}>
+                    {children}
+                  </DocumentComputeBodyWrapper>
+                </ComputeOptionsProvider>
+              </ProjectProvider>
+            </SiteProvider>
           </BaseUrlProvider>
         </ThemeProvider>
         <ScrollRestoration />

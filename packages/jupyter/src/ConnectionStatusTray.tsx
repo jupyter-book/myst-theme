@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useThebeServer } from 'thebe-react';
-import { useThebeOptions } from './providers.js';
+import { useComputeOptions } from './providers.js';
 import type { ThebeEventData, ThebeEventType } from 'thebe-core';
 import { selectAreExecutionScopesBuilding, useExecutionScope } from './execute/index.js';
 
 export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: boolean }) {
-  const thebe = useThebeOptions();
+  // TODO: return naming change
+  const thebe = useComputeOptions();
   const { connecting, ready: serverReady, error: serverError, events } = useThebeServer();
   const { slug, ready: scopeReady, state } = useExecutionScope();
   const [show, setShow] = useState(false);

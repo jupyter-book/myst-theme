@@ -14,7 +14,13 @@ import {
   BackmatterParts,
   extractKnownParts,
 } from '@myst-theme/site';
-import { ErrorTray, LaunchBinder, NotebookToolbar, useCanCompute } from '@myst-theme/jupyter';
+import {
+  ErrorTray,
+  LaunchBinder,
+  NotebookToolbar,
+  useCanCompute,
+  useComputeOptions,
+} from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
@@ -135,17 +141,15 @@ export function Article({
   const tree = copyNode(article.mdast);
   const parts = extractKnownParts(tree);
   const { title, subtitle } = article.frontmatter;
-  const canCompute = useCanCompute();
+  const compute = useComputeOptions();
 
-  // TODO in lieu of extended frontmatter or theme options
-  const enable_notebook_toolbar = false;
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
-        <ExecuteScopeProvider enable={canCompute} contents={article}>
+        <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
           {!hideTitle && <FrontmatterBlock frontmatter={{ title, subtitle }} className="mb-5" />}
           {!hideOutline && (
             <div className="sticky top-0 z-10 hidden h-0 pt-2 ml-10 col-margin-right lg:block">
@@ -154,9 +158,9 @@ export function Article({
               </DocumentOutline>
             </div>
           )}
-          {canCompute && enable_notebook_toolbar && article.kind === SourceFileKind.Notebook && (
-            <NotebookToolbar showLaunch />
-          )}
+          {compute?.enabled &&
+            compute?.features.notebookCompute &&
+            article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
           <ErrorTray pageSlug={article.slug} />
           <div id="skip-to-article" />
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
@@ -176,7 +180,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
     ArticleTemplateOptions;
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
-  const canCompute = useCanCompute();
+  const compute = useComputeOptions();
   const project = projects?.[0];
   const isIndex = article.slug === project?.index;
 
@@ -186,11 +190,11 @@ export function ArticlePage({ article }: { article: PageLoader }) {
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
-        <ExecuteScopeProvider enable={canCompute} contents={article}>
+        <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
           <ArticleHeader frontmatter={project as any}>
             <div className="pt-5 md:self-center h-fit lg:pt-0 col-body lg:col-margin-right-inset">
               <Downloads />
-              {canCompute && (
+              {compute?.enabled && compute.features.launchBinder && (
                 <div className="col-margin mt-3 mx-5 lg:mt-2 lg:mx-0 lg:w-[300px]">
                   <div className="flex flex-wrap gap-2 lg:flex-col w-[147px] pl-[1px] lg:mx-auto">
                     <LaunchBinder style="link" location={article.location} />
@@ -219,7 +223,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                   <span>Back to Article</span>
                 </Link>
                 <div className="flex-grow text-center">{article.frontmatter.title}</div>
-                {canCompute && (
+                {compute?.enabled && compute.features.launchBinder && (
                   <div className="mr-2">
                     <LaunchBinder style="button" location={article.location} />
                   </div>
@@ -246,7 +250,8 @@ export function ArticlePage({ article }: { article: PageLoader }) {
   );
 }
 
-export default function Page() {
+export default function () {
+  // TODO handle outline?
   // const { container, outline } = useOutlineHeight();
   const article = useLoaderData<PageLoader>() as PageLoader;
   const { hide_outline } = (article.frontmatter as any)?.options ?? {};

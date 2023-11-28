@@ -145,7 +145,7 @@ export function Article({
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
-        <ExecuteScopeProvider contents={article}>
+        <ExecuteScopeProvider enable={canCompute} contents={article}>
           {!hideTitle && <FrontmatterBlock frontmatter={{ title, subtitle }} className="mb-5" />}
           {!hideOutline && (
             <div className="sticky top-0 z-10 hidden h-0 pt-2 ml-10 col-margin-right lg:block">
@@ -186,7 +186,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
-        <ExecuteScopeProvider contents={article}>
+        <ExecuteScopeProvider enable={canCompute} contents={article}>
           <ArticleHeader frontmatter={project as any}>
             <div className="pt-5 md:self-center h-fit lg:pt-0 col-body lg:col-margin-right-inset">
               <Downloads />

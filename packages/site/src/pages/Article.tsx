@@ -46,7 +46,7 @@ export const ArticlePage = React.memo(function ({
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
-        <ExecuteScopeProvider contents={article}>
+        <ExecuteScopeProvider enable={canCompute} contents={article}>
           {!hide_title_block && (
             <FrontmatterBlock
               kind={article.kind}

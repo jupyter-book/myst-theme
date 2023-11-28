@@ -13,6 +13,7 @@ import {
 } from './selectors.js';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf.js';
 import { useCanCompute } from '../providers.js';
+import type { Thebe } from 'myst-frontmatter';
 import type { GenericParent } from 'myst-common';
 
 export interface ExecuteScopeType {
@@ -105,10 +106,9 @@ function listComputables(mdast: GenericParent) {
  */
 export function ExecuteScopeProvider({
   children,
+  enable,
   contents,
-}: React.PropsWithChildren<{ contents: ArticleContents }>) {
-  const canCompute = useCanCompute();
-
+}: React.PropsWithChildren<{ enable: boolean; contents: ArticleContents }>) {
   // compute incoming for first render
   const computables: Computable[] = listComputables(contents.mdast);
 
@@ -148,14 +148,14 @@ export function ExecuteScopeProvider({
 
   const memo = React.useMemo(
     () => ({
-      canCompute,
+      canCompute: enable,
       slug: contents.slug,
       location: contents.location,
       state,
       dispatch,
       idkmap: idkmap.current,
     }),
-    [state, contents.slug],
+    [state, contents.slug, enable],
   );
 
   if (typeof window !== 'undefined') {

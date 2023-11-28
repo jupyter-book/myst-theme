@@ -186,13 +186,12 @@ function SpinnerButton({
   return (
     <div className="relative flex text-sm">
       <button
-        className={classNames(
-          'cursor-pointer text-gray-700 dark:text-white active:text-green-700 hover:opacity-100',
-          {
-            'opacity-10 hover:opacity-10': busy,
-            'opacity-70': !busy,
-          },
-        )}
+        className={classNames(' text-gray-700 dark:text-white active:text-green-700 ', {
+          'opacity-10 hover:opacity-10': busy,
+          'opacity-70': !busy && !disabled,
+          'cursor-pointer hover:opacity-100': !disabled,
+          'cursor-not-allowed opacity-10 hover:opacity-10': disabled,
+        })}
         disabled={disabled || !ready || busy}
         onClick={() => onClick()}
         title={title ?? 'run all cells'}
@@ -290,7 +289,7 @@ export function ReRun({
   );
 }
 
-export function Reset({
+export function Restart({
   ready,
   resetting,
   disabled,
@@ -330,9 +329,9 @@ export function Clear({
 }) {
   return (
     <button
-      className={classNames('flex text-gray-700 dark:text-white opacity-70 ', {
-        'cursor-not-allowed': disabled || !ready,
-        'active:text-green-700 hover:opacity-100 cursor-pointer': !disabled,
+      className={classNames('flex text-gray-700 dark:text-white', {
+        'cursor-not-allowed opacity-10': disabled || !ready,
+        'active:text-green-700 opacity-70 hover:opacity-100 cursor-pointer': !disabled,
       })}
       disabled={disabled || !ready}
       onClick={() => onClick()}

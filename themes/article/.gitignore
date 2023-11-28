@@ -11,6 +11,7 @@ yalc.lock
 /public/build
 /public/*thebe*
 /public/service-worker-*.js
+/public/service-worker.js
 /api/*
 /build/*
 

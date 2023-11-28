@@ -8,7 +8,7 @@ function ErrorDecoration({ children, idx }: React.PropsWithChildren<{ idx?: numb
   return (
     <div className="relative py-3 mx-2 my-8 border rounded">
       <div className="absolute z-10 flex items-center bg-white -top-3 -left-2">
-        {idx && <div className="ml-1 text-sm text-gray-500">cell #: {idx}</div>}
+        {idx && <div className="ml-1 text-sm text-gray-500">cell #: {idx + 1}</div>}
       </div>
       <div className="mx-3">{children}</div>
     </div>
@@ -54,7 +54,7 @@ export function ErrorTray({ pageSlug, index }: { pageSlug: string; index?: strin
   if (!items || items.length === 0) return null;
   if (index && index) return null;
   return (
-    <div className="relative px-4 pt-3 mt-8 text-sm text-red-600 border border-red-400 rounded border-1">
+    <div className="relative px-4 pt-3 my-8 text-sm text-red-600 border border-red-400 rounded border-1">
       {items.map(({ notebookSlug, errors }) => {
         return (
           <div>

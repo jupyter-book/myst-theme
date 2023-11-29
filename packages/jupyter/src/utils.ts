@@ -64,8 +64,6 @@ function isObject(maybeObject: any) {
 
 export function thebeFrontmatterToOptions(
   fm: boolean | Thebe | undefined,
-  githubBadgeUrl: string | undefined,
-  binderBadgeUrl: string | undefined,
 ): ExtendedCoreOptions | undefined {
   if (fm === undefined || fm === false) return undefined;
 
@@ -85,90 +83,16 @@ export function thebeFrontmatterToOptions(
     };
   }
 
-  // handle shortcut options for binder
-  /**
-   * github: owner/repo | url
-   * binder: url
-   * thebe: true
-   *
-   * OR
-   *
-   * github: owner/repo | url
-   * binder: url
-   * thebe:
-   *   binder: true
-   */
-  if (binder === true || (fm === true && (githubBadgeUrl || binderBadgeUrl))) {
+  if (binder) {
     thebeOptions.useBinder = true;
-
-    if (githubBadgeUrl || binderBadgeUrl) {
-      const isValidBinderUrl = binderBadgeUrl ? extractBinderRepoInfo(binderBadgeUrl) : false;
-      if (isValidBinderUrl) {
-        const { binderUrl, owner, repo, ref } = isValidBinderUrl;
-        thebeOptions.binderOptions = {
-          binderUrl,
-          repo: `${owner}/${repo}`,
-          ref,
-        };
-      } else if (githubBadgeUrl) {
-        // TODO test for owner/repo vs url
-        const isUrl = extractGithubRepoInfo(githubBadgeUrl);
-        if (isUrl != null) {
-          const { owner, repo } = isUrl;
-          thebeOptions.binderOptions = {
-            repo: `${owner}/${repo}`,
-            ref: 'HEAD',
-          };
-        } else if (githubBadgeUrl.split('/').length === 2) {
-          // assume owner/repo
-          thebeOptions.binderOptions = {
-            repo: githubBadgeUrl,
-            ref: 'HEAD',
-          };
-        } else {
-          console.debug(
-            'myst-theme:thebeFrontmatterToOptions looks like an invalid github frontmatter value',
-            githubBadgeUrl,
-          );
-          console.debug('myst-theme:thebeFrontmatterToOptions cannot connect to binder');
-          thebeOptions.useBinder = false;
-        }
-      }
-    }
-  } else if (isObject(binder)) {
-    // handle fully specified binder options
-    thebeOptions.useBinder = true;
-    const { url, ref, provider, repo } = binder as BinderHubOptions;
-    thebeOptions.binderOptions = {
-      ref,
-      repo,
-    };
-    if (url) thebeOptions.binderOptions.binderUrl = url;
-    if (provider) thebeOptions.binderOptions.repoProvider = provider;
   }
 
-  // handle jupyterlite
-  /**
-   * thebe:
-   *   lite: true
-   */
+  // check for juptyer lite
   if (lite === true) {
     thebeOptions.useJupyterLite = true;
   }
 
-  // handle shortcut options for direct server, which really is the fallback for any shortcut option
-  /**
-   * github: undefined
-   * binder: undefined
-   * thebe: true
-   *
-   * OR
-   *
-   * github: undefined
-   * binder: undefined
-   * thebe:
-   *   server: true
-   */
+  // translate fm to server settings
   if (isObject(server)) {
     // handle fully specified server object
     const { url, token } = server as JupyterServerOptions;
@@ -176,33 +100,6 @@ export function thebeFrontmatterToOptions(
     if (url) thebeOptions.serverSettings.baseUrl = url;
     if (token) thebeOptions.serverSettings.token = token;
   }
-  // else if (fm === true || server === true || !server) => do nothing - just return / fall though for defaults
+
   return thebeOptions;
-}
-
-export function makeThebeOptions(
-  project: ManifestProject,
-  optionsOverrideFn = (opts?: ExtendedCoreOptions) => opts,
-): {
-  options?: ExtendedCoreOptions;
-  githubBadgeUrl?: string;
-  binderBadgeUrl?: string;
-} {
-  if (!project) return {};
-  const thebeFrontmatter = project?.thebe;
-  const githubBadgeUrl = project?.github;
-  const binderBadgeUrl = project?.binder;
-  const optionsFromFrontmatter = thebeFrontmatterToOptions(
-    thebeFrontmatter,
-    githubBadgeUrl,
-    binderBadgeUrl,
-  );
-
-  const options = optionsOverrideFn(optionsFromFrontmatter);
-
-  return {
-    options,
-    githubBadgeUrl,
-    binderBadgeUrl,
-  };
 }

@@ -33,17 +33,17 @@ function DocumentComputeBodyWrapper({
   baseurl,
   children,
 }: React.PropsWithChildren<{ baseurl?: string }>) {
-  const thebe = useComputeOptions();
+  const compute = useComputeOptions();
   return (
     <ThebeBundleLoaderProvider
-      loadThebeLite={thebe?.options?.useJupyterLite ?? false}
+      loadThebeLite={compute?.thebe?.useJupyterLite ?? false}
       publicPath={baseurl}
     >
       <ThebeServerProvider
         connect={false}
-        options={thebe?.options}
-        useBinder={thebe?.options?.useBinder ?? false}
-        useJupyterLite={thebe?.options?.useJupyterLite ?? false}
+        options={compute?.thebe}
+        useBinder={compute?.thebe?.useBinder ?? false}
+        useJupyterLite={compute?.thebe?.useJupyterLite ?? false}
       >
         {children}
       </ThebeServerProvider>

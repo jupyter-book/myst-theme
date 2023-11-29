@@ -1,12 +1,12 @@
 import type { SourceFileKind } from 'myst-spec-ext';
 import React, { useContext } from 'react';
-import { makeThebeOptions, type ExtendedCoreOptions } from './utils.js';
+import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils.js';
 import type { GenericParent } from 'myst-common';
 import { useProjectManifest } from '@myst-theme/providers';
 
 type ComputeOptionsContextType = {
   enabled: boolean;
-  options?: ExtendedCoreOptions;
+  thebe?: ExtendedCoreOptions;
   features: {
     notebookCompute: boolean;
     figureCompute: boolean;
@@ -30,13 +30,22 @@ export function ComputeOptionsProvider({
 }>) {
   const project = useProjectManifest();
 
-  // TODO can we remove this now that mystmd is transforming thebe's options?
   const options = React.useMemo(() => {
     if (!project) return;
-    const thebe = makeThebeOptions(project, thebeOptionOverrideFn);
+    const thebeFrontmatter = project?.thebe;
+    const githubBadgeUrl = project?.github;
+    const binderBadgeUrl = project?.binder;
+    const optionsFromFrontmatter = thebeFrontmatterToOptions(thebeFrontmatter);
+
+    const optionsWithOverrides = thebeOptionOverrideFn
+      ? thebeOptionOverrideFn(optionsFromFrontmatter)
+      : optionsFromFrontmatter;
+
     return {
-      enabled: !!thebe?.options,
-      ...makeThebeOptions(project, thebeOptionOverrideFn),
+      enabled: !!optionsWithOverrides,
+      thebe: optionsWithOverrides,
+      githubBadgeUrl,
+      binderBadgeUrl,
       features,
     };
   }, [project, thebeOptionOverrideFn]);

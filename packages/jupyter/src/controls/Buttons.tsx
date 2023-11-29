@@ -54,7 +54,7 @@ function BinderButton({
   );
 }
 
-export function LaunchBinder({ style, location }: { style: 'link' | 'button'; location?: string }) {
+export function LaunchBinder({ type, location }: { type: 'link' | 'button'; location?: string }) {
   const { connecting, ready, error, autoClickRef, handleStart, getUserServerUrl } =
     useLaunchBinder();
 
@@ -67,7 +67,7 @@ export function LaunchBinder({ style, location }: { style: 'link' | 'button'; lo
       className="self-center mr-2 transition-transform group-hover:-translate-x-1 shrink-0"
     />
   );
-  if (style === 'link') {
+  if (type === 'link') {
     icon = <ArrowTopRightOnSquareIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />;
     btnStyles =
       'inline-flex items-center mr-2 font-medium no-underline text-gray-900 lg:mr-0 lg:flex';

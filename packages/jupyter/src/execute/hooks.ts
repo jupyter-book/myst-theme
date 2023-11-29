@@ -62,7 +62,11 @@ export function useExecutionScope({
         Object.entries(state.pages[slug].scopes).map(async ([, { notebook }]) => {
           const execReturns = await notebook.executeAll(true);
           const errs = findErrors(execReturns);
-          if (errs != null) console.error('errors', errs);
+          if (errs != null) {
+            console.error('errors', errs);
+            busy.setError(slug, notebook.id, errs);
+            busy.clearNotebook(slug, notebook.id, 'execute');
+          }
         }),
       );
       config?.events.off('status' as any, handler);

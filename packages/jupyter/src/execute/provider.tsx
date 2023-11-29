@@ -12,8 +12,6 @@ import {
   selectSessionsToStart,
 } from './selectors.js';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf.js';
-import { useCanCompute } from '../providers.js';
-import type { Thebe } from 'myst-frontmatter';
 import type { GenericParent } from 'myst-common';
 
 export interface ExecuteScopeType {

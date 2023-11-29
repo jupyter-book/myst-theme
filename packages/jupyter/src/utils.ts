@@ -1,3 +1,4 @@
+import type { ManifestProject } from '@myst-theme/providers';
 import type { Thebe, JupyterServerOptions, BinderHubOptions } from 'myst-frontmatter';
 import type { CoreOptions, WellKnownRepoProvider } from 'thebe-core';
 
@@ -177,4 +178,31 @@ export function thebeFrontmatterToOptions(
   }
   // else if (fm === true || server === true || !server) => do nothing - just return / fall though for defaults
   return thebeOptions;
+}
+
+export function makeThebeOptions(
+  project: ManifestProject,
+  optionsOverrideFn = (opts?: ExtendedCoreOptions) => opts,
+): {
+  options?: ExtendedCoreOptions;
+  githubBadgeUrl?: string;
+  binderBadgeUrl?: string;
+} {
+  if (!project) return {};
+  const thebeFrontmatter = project?.thebe;
+  const githubBadgeUrl = project?.github;
+  const binderBadgeUrl = project?.binder;
+  const optionsFromFrontmatter = thebeFrontmatterToOptions(
+    thebeFrontmatter,
+    githubBadgeUrl,
+    binderBadgeUrl,
+  );
+
+  const options = optionsOverrideFn(optionsFromFrontmatter);
+
+  return {
+    options,
+    githubBadgeUrl,
+    binderBadgeUrl,
+  };
 }

@@ -9,6 +9,7 @@ import {
 } from './controls/ArticleCellControls.js';
 import { JupyterIcon } from '@scienceicons/react/24/solid';
 import { useLinkProvider, useBaseurl, withBaseurl, useThemeTop } from '@myst-theme/providers';
+import { useComputeOptions } from './providers.js';
 
 const PlaceholderContext = React.createContext<{ placeholder?: GenericNode }>({});
 
@@ -38,11 +39,13 @@ export function OutputDecoration({
   title?: string;
   url?: string;
 }) {
-  const { canCompute, kind } = useCellExecution(outputId);
+  const { kind } = useCellExecution(outputId);
+  const compute = useComputeOptions();
   const Link = useLinkProvider();
   const top = useThemeTop();
   const baseurl = useBaseurl();
-  const showComputeControls = canCompute && kind === SourceFileKind.Article;
+  const showComputeControls =
+    compute?.enabled && compute?.features.figureCompute && kind === SourceFileKind.Article;
 
   if (showComputeControls) {
     return (

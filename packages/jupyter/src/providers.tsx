@@ -1,83 +1,58 @@
 import type { SourceFileKind } from 'myst-spec-ext';
 import React, { useContext } from 'react';
-import { ThebeServerProvider } from 'thebe-react';
-import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils.js';
+import { makeThebeOptions, type ExtendedCoreOptions } from './utils.js';
 import type { GenericParent } from 'myst-common';
-import type { RepoProviderSpec } from 'thebe-core';
-import type { ManifestProject } from '@myst-theme/providers';
 import { useProjectManifest } from '@myst-theme/providers';
 
-function makeThebeOptions(
-  project: ManifestProject,
-  optionsOverrideFn = (opts?: ExtendedCoreOptions) => opts,
-): {
+type ComputeOptionsContextType = {
+  enabled: boolean;
   options?: ExtendedCoreOptions;
-  githubBadgeUrl?: string;
-  binderBadgeUrl?: string;
-} {
-  if (!project) return {};
-  const thebeFrontmatter = project?.thebe;
-  const githubBadgeUrl = project?.github;
-  const binderBadgeUrl = project?.binder;
-  const optionsFromFrontmatter = thebeFrontmatterToOptions(
-    thebeFrontmatter,
-    githubBadgeUrl,
-    binderBadgeUrl,
-  );
-
-  const options = optionsOverrideFn(optionsFromFrontmatter);
-
-  return {
-    options,
-    githubBadgeUrl,
-    binderBadgeUrl,
+  features: {
+    notebookCompute: boolean;
+    figureCompute: boolean;
+    launchBinder: boolean;
   };
-}
-
-type ThebeOptionsContextType = {
-  options?: ExtendedCoreOptions;
-  githubBadgeUrl?: string;
-  binderBadgeUrl?: string;
 };
 
-const ThebeOptionsContext = React.createContext<ThebeOptionsContextType | undefined>(undefined);
+const ComputeOptionsContext = React.createContext<ComputeOptionsContextType | undefined>(undefined);
 
-export function ConfiguredThebeServerProvider({
-  optionOverrideFn,
-  customRepoProviders,
+export function ComputeOptionsProvider({
+  features,
+  thebeOptionOverrideFn,
   children,
 }: React.PropsWithChildren<{
-  optionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions | undefined;
-  customRepoProviders?: RepoProviderSpec[];
+  features: {
+    notebookCompute: boolean;
+    figureCompute: boolean;
+    launchBinder: boolean;
+  };
+  thebeOptionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions | undefined;
 }>) {
   const project = useProjectManifest();
-  const thebe = React.useMemo(
-    () => (project ? makeThebeOptions(project, optionOverrideFn) : undefined),
-    [project, optionOverrideFn],
-  );
+
+  // TODO can we remove this now that mystmd is transforming thebe's options?
+  const options = React.useMemo(() => {
+    if (!project) return;
+    const thebe = makeThebeOptions(project, thebeOptionOverrideFn);
+    return {
+      enabled: !!thebe?.options,
+      ...makeThebeOptions(project, thebeOptionOverrideFn),
+      features,
+    };
+  }, [project, thebeOptionOverrideFn]);
 
   return (
-    <ThebeOptionsContext.Provider value={thebe}>
-      <ThebeServerProvider
-        connect={false}
-        options={thebe?.options}
-        useBinder={thebe?.options?.useBinder ?? false}
-        useJupyterLite={thebe?.options?.useJupyterLite ?? false}
-        customRepoProviders={customRepoProviders}
-      >
-        <>{children}</>
-      </ThebeServerProvider>
-    </ThebeOptionsContext.Provider>
+    <ComputeOptionsContext.Provider value={options}>{children}</ComputeOptionsContext.Provider>
   );
 }
 
 export function useCanCompute() {
-  const thebe = useContext(ThebeOptionsContext);
-  return !!thebe?.options;
+  const context = useContext(ComputeOptionsContext);
+  return context?.enabled;
 }
 
-export function useThebeOptions() {
-  return useContext(ThebeOptionsContext);
+export function useComputeOptions() {
+  return useContext(ComputeOptionsContext);
 }
 
 export type PartialPage = {

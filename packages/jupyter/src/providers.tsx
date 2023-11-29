@@ -3,22 +3,25 @@ import React, { useContext } from 'react';
 import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils.js';
 import type { GenericParent } from 'myst-common';
 import { useProjectManifest } from '@myst-theme/providers';
+import type { RepoProviderSpec } from 'thebe-core';
 
 type ComputeOptionsContextType = {
   enabled: boolean;
-  thebe?: ExtendedCoreOptions;
   features: {
     notebookCompute: boolean;
     figureCompute: boolean;
     launchBinder: boolean;
   };
+  thebe?: ExtendedCoreOptions;
+  customRepoProviders?: RepoProviderSpec[];
 };
 
 const ComputeOptionsContext = React.createContext<ComputeOptionsContextType | undefined>(undefined);
 
 export function ComputeOptionsProvider({
   features,
-  thebeOptionOverrideFn,
+  optionOverrideFn,
+  customRepoProviders,
   children,
 }: React.PropsWithChildren<{
   features: {
@@ -26,7 +29,8 @@ export function ComputeOptionsProvider({
     figureCompute: boolean;
     launchBinder: boolean;
   };
-  thebeOptionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions | undefined;
+  optionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions | undefined;
+  customRepoProviders?: RepoProviderSpec[];
 }>) {
   const project = useProjectManifest();
 
@@ -37,8 +41,8 @@ export function ComputeOptionsProvider({
     const binderBadgeUrl = project?.binder;
     const optionsFromFrontmatter = thebeFrontmatterToOptions(thebeFrontmatter);
 
-    const optionsWithOverrides = thebeOptionOverrideFn
-      ? thebeOptionOverrideFn(optionsFromFrontmatter)
+    const optionsWithOverrides = optionOverrideFn
+      ? optionOverrideFn(optionsFromFrontmatter)
       : optionsFromFrontmatter;
 
     return {
@@ -47,8 +51,9 @@ export function ComputeOptionsProvider({
       githubBadgeUrl,
       binderBadgeUrl,
       features,
+      customRepoProviders,
     };
-  }, [project, thebeOptionOverrideFn]);
+  }, [project, optionOverrideFn]);
 
   return (
     <ComputeOptionsContext.Provider value={options}>{children}</ComputeOptionsContext.Provider>

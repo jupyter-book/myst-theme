@@ -1,4 +1,4 @@
-import type { Thebe, JupyterServerOptions } from 'myst-frontmatter';
+import type { ExpandedThebeFrontmatter, JupyterServerOptions } from 'myst-frontmatter';
 import type { CoreOptions } from 'thebe-core';
 
 export type ExtendedCoreOptions = CoreOptions & {
@@ -11,12 +11,12 @@ function isObject(maybeObject: any) {
 }
 
 export function thebeFrontmatterToOptions(
-  fm: boolean | Thebe | undefined,
+  fm: ExpandedThebeFrontmatter | undefined,
 ): ExtendedCoreOptions | undefined {
-  if (fm === undefined || fm === false) return undefined;
+  if (fm === undefined) return undefined;
 
   const { binder, server, lite, kernelName, disableSessionSaving, mathjaxConfig, mathjaxUrl } =
-    (fm as Thebe | undefined) ?? {};
+    fm ?? {};
 
   const thebeOptions: ExtendedCoreOptions = { mathjaxConfig, mathjaxUrl };
 
@@ -33,6 +33,8 @@ export function thebeFrontmatterToOptions(
 
   if (binder) {
     thebeOptions.useBinder = true;
+    const { repo, ref, url, provider } = binder;
+    thebeOptions.binderOptions = { repo, ref, binderUrl: url, repoProvider: provider };
   }
 
   // check for juptyer lite

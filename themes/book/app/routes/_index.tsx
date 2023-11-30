@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!project) throw responseNoArticle();
   if (project.slug) return redirect(`/${project.slug}`);
   const page = await getPage(request, { slug: project.index });
-  return page;
+  return { page, project };
 };
 
 export default Page;

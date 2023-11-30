@@ -2,8 +2,9 @@ import type { SourceFileKind } from 'myst-spec-ext';
 import React, { useContext } from 'react';
 import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils.js';
 import type { GenericParent } from 'myst-common';
-import { useProjectManifest } from '@myst-theme/providers';
+import { useBaseurl, useProjectManifest } from '@myst-theme/providers';
 import type { RepoProviderSpec } from 'thebe-core';
+import { ThebeBundleLoaderProvider, ThebeServerProvider } from 'thebe-react';
 
 type ComputeOptionsContextType = {
   enabled: boolean;
@@ -77,3 +78,23 @@ export type PartialPage = {
   slug: string;
   mdast: GenericParent;
 };
+
+export function ThebeLoaderAndServer({ children }: React.PropsWithChildren<{ baseurl?: string }>) {
+  const baseurl = useBaseurl();
+  const compute = useComputeOptions();
+  return (
+    <ThebeBundleLoaderProvider
+      loadThebeLite={compute?.thebe?.useJupyterLite ?? false}
+      publicPath={baseurl}
+    >
+      <ThebeServerProvider
+        connect={false}
+        options={compute?.thebe}
+        useBinder={compute?.thebe?.useBinder ?? false}
+        useJupyterLite={compute?.thebe?.useJupyterLite ?? false}
+      >
+        {children}
+      </ThebeServerProvider>
+    </ThebeBundleLoaderProvider>
+  );
+}

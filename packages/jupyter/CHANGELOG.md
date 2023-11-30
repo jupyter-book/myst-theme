@@ -1,5 +1,24 @@
 # @myst-theme/jupyter
 
+## 0.5.17
+
+### Patch Changes
+
+- b4eadf0: Updated thebe based compute integration including feature flags for compute related ui components
+- e5fc635: Fix busy state on notebook compute toolbar buttons
+- b4eadf0: Updated provider layout to ensure multi-project site support
+- b4eadf0: Bumped `myst-*` dependencies
+- e5fc635: Update to latest thebe which includes fixes to jupyterlite and use of the juptyerlab 4.0 components
+- e5fc635: Always allow `thebe` options to be overridden, even when no key defined in frontmatter.
+- f52f47c: - Split up ConfiguredThebeServer provider moving ComputeOptions out allowing it to be higher up in the render tree.
+  - `thebe-lite` bundle is now loaded when lite is enabled in frontmatter.
+  - Added feature flags to enable different ui compute features.
+  - fixed busy state on notebook error.
+- Updated dependencies [b4eadf0]
+- Updated dependencies [b4eadf0]
+  - @myst-theme/providers@0.5.17
+  - myst-to-react@0.5.17
+
 ## 0.5.16
 
 ### Patch Changes

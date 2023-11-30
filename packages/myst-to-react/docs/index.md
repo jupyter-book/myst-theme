@@ -67,4 +67,4 @@ function MyComponent({ node }) {
 
 By default, `MyST` will render unknown nodes by either rendering the `.value`
 attribute, or rendering each of the children. If you wish to overwrite this
-behaviour you can provide a Renderer for the `'default'` key.
+behaviour you can provide a Renderer for the `'DefaultComponent'` key.

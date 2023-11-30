@@ -25,9 +25,9 @@
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
-    "myst-common": "^1.1.16",
-    "myst-config": "^1.1.16",
-    "myst-frontmatter": "^1.1.16",
+    "myst-common": "^1.1.17",
+    "myst-config": "^1.1.17",
+    "myst-frontmatter": "^1.1.17",
     "react": "^16.8 || ^17.0 || ^18.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0"
   },

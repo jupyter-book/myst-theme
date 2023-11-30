@@ -1,15 +1,23 @@
 import React, { useContext } from 'react';
-import type { SiteManifest } from 'myst-config';
 import { useSiteManifest } from './site.js';
+import type { SiteManifest } from 'myst-config';
 
-export type ManifestProject = Required<SiteManifest>['projects'][0];
+type ManifestProject = Required<SiteManifest>['projects'][0];
 
 const ProjectContext = React.createContext<ManifestProject | undefined>(undefined);
 
-export function ProjectProvider({ children }: { children: React.ReactNode }) {
+export function ProjectProvider({
+  project,
+  children,
+}: {
+  project?: ManifestProject;
+  children: React.ReactNode;
+}) {
   const config = useSiteManifest();
   return (
-    <ProjectContext.Provider value={config?.projects?.[0]}>{children}</ProjectContext.Provider>
+    <ProjectContext.Provider value={project ?? config?.projects?.[0]}>
+      {children}
+    </ProjectContext.Provider>
   );
 }
 

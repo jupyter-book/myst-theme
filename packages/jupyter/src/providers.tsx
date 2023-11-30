@@ -1,24 +1,28 @@
 import type { SourceFileKind } from 'myst-spec-ext';
 import React, { useContext } from 'react';
-import { makeThebeOptions, type ExtendedCoreOptions } from './utils.js';
+import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils.js';
 import type { GenericParent } from 'myst-common';
-import { useProjectManifest } from '@myst-theme/providers';
+import { useBaseurl, useProjectManifest } from '@myst-theme/providers';
+import type { RepoProviderSpec } from 'thebe-core';
+import { ThebeBundleLoaderProvider, ThebeServerProvider } from 'thebe-react';
 
 type ComputeOptionsContextType = {
   enabled: boolean;
-  options?: ExtendedCoreOptions;
   features: {
     notebookCompute: boolean;
     figureCompute: boolean;
     launchBinder: boolean;
   };
+  thebe?: ExtendedCoreOptions;
+  customRepoProviders?: RepoProviderSpec[];
 };
 
 const ComputeOptionsContext = React.createContext<ComputeOptionsContextType | undefined>(undefined);
 
 export function ComputeOptionsProvider({
   features,
-  thebeOptionOverrideFn,
+  optionOverrideFn,
+  customRepoProviders,
   children,
 }: React.PropsWithChildren<{
   features: {
@@ -26,20 +30,31 @@ export function ComputeOptionsProvider({
     figureCompute: boolean;
     launchBinder: boolean;
   };
-  thebeOptionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions | undefined;
+  optionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions | undefined;
+  customRepoProviders?: RepoProviderSpec[];
 }>) {
   const project = useProjectManifest();
 
-  // TODO can we remove this now that mystmd is transforming thebe's options?
   const options = React.useMemo(() => {
     if (!project) return;
-    const thebe = makeThebeOptions(project, thebeOptionOverrideFn);
+    const thebeFrontmatter = project?.thebe;
+    const githubBadgeUrl = project?.github;
+    const binderBadgeUrl = project?.binder;
+    const optionsFromFrontmatter = thebeFrontmatterToOptions(thebeFrontmatter);
+
+    const optionsWithOverrides = optionOverrideFn
+      ? optionOverrideFn(optionsFromFrontmatter)
+      : optionsFromFrontmatter;
+
     return {
-      enabled: !!thebe?.options,
-      ...makeThebeOptions(project, thebeOptionOverrideFn),
+      enabled: !!optionsWithOverrides,
+      thebe: optionsWithOverrides,
+      githubBadgeUrl,
+      binderBadgeUrl,
       features,
+      customRepoProviders,
     };
-  }, [project, thebeOptionOverrideFn]);
+  }, [project, optionOverrideFn]);
 
   return (
     <ComputeOptionsContext.Provider value={options}>{children}</ComputeOptionsContext.Provider>
@@ -63,3 +78,32 @@ export type PartialPage = {
   slug: string;
   mdast: GenericParent;
 };
+
+/**
+ *
+ * @param baseurl - as a prop allows for flexibility in themes
+ * @returns
+ */
+export function ThebeLoaderAndServer({
+  baseurl,
+  connect,
+  children,
+}: React.PropsWithChildren<{ connect?: boolean; baseurl?: string }>) {
+  const compute = useComputeOptions();
+  return (
+    <ThebeBundleLoaderProvider
+      loadThebeLite={compute?.thebe?.useJupyterLite ?? false}
+      publicPath={baseurl}
+    >
+      <ThebeServerProvider
+        connect={connect ?? false}
+        options={compute?.thebe}
+        useBinder={compute?.thebe?.useBinder ?? false}
+        useJupyterLite={compute?.thebe?.useJupyterLite ?? false}
+        customRepoProviders={compute?.customRepoProviders ?? []}
+      >
+        {children}
+      </ThebeServerProvider>
+    </ThebeBundleLoaderProvider>
+  );
+}

@@ -1,5 +1,6 @@
 import { ProjectPageCatchBoundary, responseNoArticle, responseNoSite } from '@myst-theme/site';
-import Page, { ArticlePageAndNavigation } from './$';
+import Page from './$';
+import { ArticlePageAndNavigation } from '../components/ArticlePageAndNavigation';
 import { getConfig, getPage } from '../utils/loaders.server';
 import type { LoaderFunction } from '@remix-run/node';
 import { redirect } from '@remix-run/node';

@@ -57,7 +57,9 @@ export const ArticlePage = React.memo(function ({
           {compute?.enabled &&
             compute.features.notebookCompute &&
             article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
-          <ErrorTray pageSlug={article.slug} />
+          {compute?.enabled && article.kind === SourceFileKind.Article && (
+            <ErrorTray pageSlug={article.slug} />
+          )}
           <div id="skip-to-article" />
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
           <ContentBlocks pageKind={article.kind} mdast={tree as GenericParent} />

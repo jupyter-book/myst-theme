@@ -39,7 +39,7 @@ function ErrorTrayMessage({ errors }: { errors: IThebeNotebookError[] }) {
   return (
     <div>
       {errors.map((error, idx) => (
-        <div className="not-prose min-w-[400px]">
+        <div key={`error-${error.id}`} className="not-prose min-w-[400px]">
           <ErrorDecoration idx={error.index}>
             <div className="z-100" key={error.id} ref={refs[idx]}></div>
           </ErrorDecoration>
@@ -55,9 +55,9 @@ export function ErrorTray({ pageSlug, index }: { pageSlug: string; index?: strin
   if (index && index) return null;
   return (
     <div className="relative px-4 pt-3 my-8 text-sm text-red-600 border border-red-400 rounded border-1">
-      {items.map(({ notebookSlug, errors }) => {
+      {items.map(({ notebookSlug, errors }, i) => {
         return (
-          <div>
+          <div key={`${notebookSlug}-${i}`}>
             <div>
               <span className="font-bold">Error</span> in notebook <span>"{notebookSlug}"</span>
             </div>

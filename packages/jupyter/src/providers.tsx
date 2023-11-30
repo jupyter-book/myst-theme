@@ -86,8 +86,9 @@ export type PartialPage = {
  */
 export function ThebeLoaderAndServer({
   baseurl,
+  connect,
   children,
-}: React.PropsWithChildren<{ baseurl?: string }>) {
+}: React.PropsWithChildren<{ connect?: boolean; baseurl?: string }>) {
   const compute = useComputeOptions();
   return (
     <ThebeBundleLoaderProvider
@@ -95,10 +96,11 @@ export function ThebeLoaderAndServer({
       publicPath={baseurl}
     >
       <ThebeServerProvider
-        connect={false}
+        connect={connect ?? false}
         options={compute?.thebe}
         useBinder={compute?.thebe?.useBinder ?? false}
         useJupyterLite={compute?.thebe?.useJupyterLite ?? false}
+        customRepoProviders={compute?.customRepoProviders ?? []}
       >
         {children}
       </ThebeServerProvider>

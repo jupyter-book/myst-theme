@@ -14,7 +14,7 @@ export function MyST({ ast }: { ast?: GenericNode | GenericNode[] }) {
   const renderers = useNodeRenderers();
   if (!ast || ast.length === 0) return null;
   if (!Array.isArray(ast)) {
-    const Component = renderers[ast.type] ?? renderers['default'] ?? DefaultComponent;
+    const Component = renderers[ast.type] ?? renderers['DefaultComponent'] ?? DefaultComponent;
     return <Component key={ast.key} node={ast} />;
   }
   return (

@@ -58,6 +58,7 @@ type BasicNodeRenderers = {
   listItem: NodeRenderer<spec.ListItem & { checked?: boolean }>;
   container: NodeRenderer<spec.Container>;
   caption: NodeRenderer<spec.Caption>;
+  legend: NodeRenderer<spec.Legend>;
   blockquote: NodeRenderer<spec.Blockquote>;
   thematicBreak: NodeRenderer<spec.ThematicBreak>;
   subscript: NodeRenderer<spec.Subscript>;
@@ -229,6 +230,13 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       </figcaption>
     );
   },
+  legend({ node }) {
+    return (
+      <figcaption className="text-sm">
+        <MyST ast={node.children} />
+      </figcaption>
+    );
+  },
   blockquote({ node }) {
     return (
       <blockquote id={node.html_id}>
@@ -254,7 +262,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   table({ node }) {
     // TODO: actually render the tbody on the server if it isn't included here.
     return (
-      <table>
+      <table className={node.class} style={node.style}>
         <tbody>
           <MyST ast={node.children} />
         </tbody>
@@ -263,7 +271,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   tableRow({ node }) {
     return (
-      <tr>
+      <tr className={node.class} style={node.style}>
         <MyST ast={node.children} />
       </tr>
     );
@@ -276,12 +284,12 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     };
     if (node.header)
       return (
-        <th {...attrs}>
+        <th className={node.class} style={node.style} {...attrs}>
           <MyST ast={node.children} />
         </th>
       );
     return (
-      <td {...attrs}>
+      <td className={node.class} style={node.style} {...attrs}>
         <MyST ast={node.children} />
       </td>
     );

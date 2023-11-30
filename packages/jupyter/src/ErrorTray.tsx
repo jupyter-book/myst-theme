@@ -39,7 +39,7 @@ function ErrorTrayMessage({ errors }: { errors: IThebeNotebookError[] }) {
   return (
     <div>
       {errors.map((error, idx) => (
-        <div className="not-prose min-w-[400px]">
+        <div key={`error-${error.id}`} className="not-prose min-w-[400px]">
           <ErrorDecoration idx={error.index}>
             <div className="z-100" key={error.id} ref={refs[idx]}></div>
           </ErrorDecoration>

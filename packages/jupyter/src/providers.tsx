@@ -79,8 +79,15 @@ export type PartialPage = {
   mdast: GenericParent;
 };
 
-export function ThebeLoaderAndServer({ children }: React.PropsWithChildren<{ baseurl?: string }>) {
-  const baseurl = useBaseurl();
+/**
+ *
+ * @param baseurl - as a prop allows for flexibility in themes
+ * @returns
+ */
+export function ThebeLoaderAndServer({
+  baseurl,
+  children,
+}: React.PropsWithChildren<{ baseurl?: string }>) {
   const compute = useComputeOptions();
   return (
     <ThebeBundleLoaderProvider

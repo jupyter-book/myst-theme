@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.5.17
+
+### Patch Changes
+
+- b4eadf0: Bumped `myst-*` dependencies
+
 ## 0.5.16
 
 ### Patch Changes

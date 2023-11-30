@@ -1,5 +1,30 @@
 # @myst-theme/article
 
+## 0.5.17
+
+### Patch Changes
+
+- b4eadf0: Updated thebe based compute integration including feature flags for compute related ui components
+- b4eadf0: Updated provider layout to ensure multi-project site support
+- b4eadf0: Bumped `myst-*` dependencies
+- f52f47c: - Split up ConfiguredThebeServer provider moving ComputeOptions out allowing it to be higher up in the render tree.
+  - `thebe-lite` bundle is now loaded when lite is enabled in frontmatter.
+  - Added feature flags to enable different ui compute features.
+  - fixed busy state on notebook error.
+- Updated dependencies [b4eadf0]
+- Updated dependencies [e5fc635]
+- Updated dependencies [b4eadf0]
+- Updated dependencies [b4eadf0]
+- Updated dependencies [e5fc635]
+- Updated dependencies [e5fc635]
+- Updated dependencies [f52f47c]
+  - @myst-theme/providers@0.5.17
+  - @myst-theme/jupyter@0.5.17
+  - @myst-theme/site@0.5.17
+  - @myst-theme/common@0.5.17
+  - @myst-theme/styles@0.5.17
+  - @myst-theme/icons@0.5.17
+
 ## 0.5.16
 
 ### Patch Changes

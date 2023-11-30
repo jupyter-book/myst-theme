@@ -1,5 +1,14 @@
 # @myst-theme/providers
 
+## 0.5.17
+
+### Patch Changes
+
+- b4eadf0: Updated thebe based compute integration including feature flags for compute related ui components
+- b4eadf0: Bumped `myst-*` dependencies
+- Updated dependencies [b4eadf0]
+  - @myst-theme/common@0.5.17
+
 ## 0.5.16
 
 ### Patch Changes

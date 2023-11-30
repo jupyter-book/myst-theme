@@ -1,5 +1,13 @@
 # myst-demo
 
+## 0.5.17
+
+### Patch Changes
+
+- b4eadf0: Bumped `myst-*` dependencies
+- Updated dependencies [b4eadf0]
+  - myst-to-react@0.5.17
+
 ## 0.5.16
 
 ### Patch Changes

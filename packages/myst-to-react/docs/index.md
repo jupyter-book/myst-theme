@@ -38,3 +38,33 @@ function MyComponent({ node }) {
   );
 }
 ```
+
+## Custom Nodes
+
+If you have a custom node of type you can add it to the custom renderers:
+
+```jsx
+import { ThemeProvider } from '@myst-theme/providers';
+import { MyST, DEFAULT_RENDERERS } from 'myst-to-react';
+const RENDERERS = { ...DEFAULT_RENDERERS, MyComponent: MyComponent };
+function MyComponent({ node }) {
+  return (
+    <>
+      // add your logic here, and render childrend using MyST.
+      <MyST ast={node.children} />
+    </>
+  );
+}
+...
+
+// MyST will now be able to render any children that contain a `MyComponent` node.
+<ThemeProvider renderers={RENDERERS}>
+  <MyST ast={node.children} />
+</ThemeProvider>;
+```
+
+## Default Renderer
+
+By default, `MyST` will render unknown nodes by either rendering the `.value`
+attribute, or rendering each of the children. If you wish to overwrite this
+behaviour you can provide a Renderer for the `'DefaultComponent'` key.

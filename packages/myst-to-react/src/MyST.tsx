@@ -20,7 +20,7 @@ export function MyST({ ast }: { ast?: GenericNode | GenericNode[] }) {
   return (
     <>
       {ast?.map((node) => {
-        const Component = renderers[node.type] ?? DefaultComponent;
+        const Component = renderers[node.type] ?? renderers['DefaultComponent'] ?? DefaultComponent;
         return <Component key={node.key} node={node} />;
       })}
     </>

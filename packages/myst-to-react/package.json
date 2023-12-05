@@ -1,6 +1,6 @@
 {
   "name": "myst-to-react",
-  "version": "0.5.17",
+  "version": "0.5.18",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
-    "@myst-theme/providers": "^0.5.17",
+    "@myst-theme/providers": "^0.5.18",
     "@radix-ui/react-hover-card": "^1.0.6",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",

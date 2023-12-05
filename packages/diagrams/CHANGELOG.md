@@ -1,5 +1,12 @@
 # @myst-theme/diagrams
 
+## 0.5.18
+
+### Patch Changes
+
+- Updated dependencies [8fa48f9]
+  - @myst-theme/providers@0.5.18
+
 ## 0.5.17
 
 ### Patch Changes

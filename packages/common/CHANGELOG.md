@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.5.18
+
+### Patch Changes
+
+- 8fa48f9: bump `myst-*`
+
 ## 0.5.17
 
 ### Patch Changes

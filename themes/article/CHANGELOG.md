@@ -1,5 +1,18 @@
 # @myst-theme/article
 
+## 0.5.18
+
+### Patch Changes
+
+- 8fa48f9: bump `myst-*`
+- Updated dependencies [8fa48f9]
+  - @myst-theme/providers@0.5.18
+  - @myst-theme/jupyter@0.5.18
+  - @myst-theme/common@0.5.18
+  - @myst-theme/site@0.5.18
+  - @myst-theme/styles@0.5.18
+  - @myst-theme/icons@0.5.18
+
 ## 0.5.17
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.5.18
+
+### Patch Changes
+
+- 8fa48f9: bump `myst-*`
+- b6601f7: Add legend handler for containers
+- b6601f7: Table styles and classes added
+- Updated dependencies [8fa48f9]
+  - @myst-theme/providers@0.5.18
+
 ## 0.5.17
 
 ### Patch Changes

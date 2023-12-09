@@ -39,9 +39,9 @@
     "nbtx": "^0.2.3",
     "react-syntax-highlighter": "^15.5.0",
     "swr": "^2.1.5",
-    "thebe-core": "^0.4.3",
-    "thebe-lite": "^0.4.3",
-    "thebe-react": "^0.4.3",
+    "thebe-core": "^0.4.4",
+    "thebe-lite": "^0.4.4",
+    "thebe-react": "^0.4.4",
     "unist-util-select": "^4.0.3"
   },
   "peerDependencies": {

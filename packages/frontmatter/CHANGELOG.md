@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.5.19
+
+### Patch Changes
+
+- 9bbf381: Fix article frontmatter in safari
+
 ## 0.5.18
 
 ## 0.5.17

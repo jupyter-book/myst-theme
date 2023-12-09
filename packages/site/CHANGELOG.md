@@ -1,5 +1,19 @@
 # @myst-theme/site
 
+## 0.5.19
+
+### Patch Changes
+
+- 9bbf381: Fix article frontmatter in safari
+- Updated dependencies [9bbf381]
+  - @myst-theme/frontmatter@0.5.19
+  - @myst-theme/providers@0.5.19
+  - @myst-theme/diagrams@0.5.19
+  - @myst-theme/jupyter@0.5.19
+  - @myst-theme/common@0.5.19
+  - myst-to-react@0.5.19
+  - myst-demo@0.5.19
+
 ## 0.5.18
 
 ### Patch Changes

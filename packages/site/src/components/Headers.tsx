@@ -44,16 +44,7 @@ export function ArticleHeader({
           style={{
             backgroundImage: `url(${frontmatter?.banner})`,
           }}
-        >
-          <div
-            className={classNames(
-              'absolute border-white shadow-2xl bg-white/80 dark:bg-black/80 backdrop-blur',
-              'w-full',
-              'top-[2rem] h-[calc(100%-4rem)] md:top-[4rem] md:h-[calc(100%-8rem)]',
-              positionBackground,
-            )}
-          />
-        </div>
+        />
       )}
       <div
         className={classNames(
@@ -61,45 +52,45 @@ export function ArticleHeader({
           grid,
           'subgrid-gap',
           {
-            'my-[2rem] pb-[2rem] md:my-[4rem]': frontmatter?.banner,
+            'my-[2rem] pb-[1rem] md:my-[4rem]': frontmatter?.banner,
             'my-[2rem]': !frontmatter?.banner,
           },
           className,
         )}
       >
         <div
-          className={classNames('flex w-full align-middle py-2 mb-[1rem] text-sm', {
-            'px-4 w-full': frontmatter?.banner,
-            'bg-white/80 dark:bg-black/80': frontmatter?.banner,
-            ...positionBackground,
+          className={classNames(positionBackground, {
+            'shadow-2xl bg-white/80 dark:bg-black/80 backdrop-blur': frontmatter?.banner,
           })}
         >
-          {subject && (
-            <div
-              className={classNames('flex-none pr-2 smallcaps', {
-                'border-r mr-2': venue,
-              })}
-            >
-              {subject}
+          <div
+            className={classNames('flex w-full align-middle py-2 mb-[1rem] text-sm', {
+              'px-4 w-full': frontmatter?.banner,
+              'bg-white/80 dark:bg-black/80': frontmatter?.banner,
+              ...positionBackground,
+            })}
+          >
+            {subject && <div className={classNames('flex-none pr-2 smallcaps')}>{subject}</div>}
+            <Journal venue={venue} biblio={biblio} className="hidden pl-2 border-l md:block" />
+            <div className="flex-grow"></div>
+            <div className="hidden sm:block">
+              <LicenseBadges license={frontmatter?.license} />
+              <OpenAccessBadge open_access={frontmatter?.open_access} />
+              <GitHubLink github={frontmatter?.github} />
             </div>
-          )}
-          <Journal venue={venue} biblio={biblio} />
-          <div className="flex-grow"></div>
-          <div className="hidden sm:block">
-            <LicenseBadges license={frontmatter?.license} />
-            <OpenAccessBadge open_access={frontmatter?.open_access} />
-            <GitHubLink github={frontmatter?.github} />
+            {toggleTheme && <ThemeButton className="inline-block w-5 h-5 mt-0.5 ml-1" />}
           </div>
-          {toggleTheme && <ThemeButton className="inline-block w-5 h-5 mt-0.5 ml-1" />}
+          <div className="flex flex-col mb-10 md:flex-row">
+            <FrontmatterBlock
+              frontmatter={rest}
+              authorStyle="list"
+              className={classNames({ 'pt-4 px-6': frontmatter?.banner, ...positionFrontmatter })}
+              hideBadges
+              hideExports
+            />
+            {children}
+          </div>
         </div>
-        <FrontmatterBlock
-          frontmatter={rest}
-          authorStyle="list"
-          className={classNames({ 'pt-4 px-6': frontmatter?.banner, ...positionFrontmatter })}
-          hideBadges
-          hideExports
-        />
-        {children}
       </div>
     </header>
   );

@@ -144,16 +144,18 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
 export function Journal({
   venue,
   biblio,
+  className,
 }: {
   venue?: Required<PageFrontmatter>['venue'];
   biblio?: Required<PageFrontmatter>['biblio'];
+  className?: string;
 }) {
   if (!venue) return null;
   const { title, url } = typeof venue === 'string' ? { title: venue, url: null } : venue;
   if (!title) return null;
   const { volume, issue } = biblio ?? {};
   return (
-    <div className="flex-none mr-2">
+    <div className={classNames('flex-none mr-2', className)}>
       {url ? (
         <ExternalOrInternalLink
           className="font-semibold no-underline smallcaps"

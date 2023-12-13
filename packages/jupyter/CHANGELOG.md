@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.5.20
+
+### Patch Changes
+
+- 6a820ae: Bump `thebe-*` packages, improves saved session keys for binder connections
+  - @myst-theme/providers@0.5.20
+  - myst-to-react@0.5.20
+
 ## 0.5.19
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @myst-theme/site
 
+## 0.5.20
+
+### Patch Changes
+
+- 6a820ae: Bump `thebe-*` packages, improves saved session keys for binder connections
+- Updated dependencies [6a820ae]
+  - @myst-theme/jupyter@0.5.20
+  - @myst-theme/providers@0.5.20
+  - @myst-theme/frontmatter@0.5.20
+  - @myst-theme/diagrams@0.5.20
+  - @myst-theme/common@0.5.20
+  - myst-to-react@0.5.20
+  - myst-demo@0.5.20
+
 ## 0.5.19
 
 ### Patch Changes

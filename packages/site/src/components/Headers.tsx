@@ -84,7 +84,10 @@ export function ArticleHeader({
             <FrontmatterBlock
               frontmatter={rest}
               authorStyle="list"
-              className={classNames({ 'pt-4 px-6': frontmatter?.banner, ...positionFrontmatter })}
+              className={classNames('flex-grow', {
+                'pt-4 px-6': frontmatter?.banner,
+                ...positionFrontmatter,
+              })}
               hideBadges
               hideExports
             />

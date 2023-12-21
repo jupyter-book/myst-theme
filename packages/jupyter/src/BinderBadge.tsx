@@ -63,7 +63,7 @@ export function BinderBadge({ binder }: { binder?: string }) {
     <div className="inline-block m-1 opacity-80 hover:opacity-100">
       <a
         href={binder}
-        title={`Launch Binder Session: ${binder}`}
+        title={`Launch Jupyter Session: ${binder}`}
         target="_blank"
         rel="noopener noreferrer"
         className="text-inherit hover:text-inherit"

@@ -88,20 +88,20 @@ export function LaunchBinder({ type, location }: { type: 'link' | 'button'; loca
       >
         <div className="flex items-center h-full">
           {icon}
-          <span>Open in Binder</span>
+          <span>Open in Jupyter</span>
         </div>
       </a>
     );
   }
 
-  let label = 'Launch Binder';
+  let label = 'Launch Jupyter';
   let title = 'Click to start a new compute session';
   if (error) {
     label = 'Launch Error';
     title = error;
   } else if (connecting) {
     label = 'Launching...';
-    title = 'Connecting to binder, please wait';
+    title = 'Starting a jupyter server, please wait';
   }
 
   return (

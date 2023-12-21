@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.5.21
+
+### Patch Changes
+
+- 92e1ea94: Upgrade to latest thebe, incorporating bug fixes and changes to saved session caching behaviour
+- ea3bb2c8: Rewording ui elements by changing Binder to Jupyter
+  - @myst-theme/providers@0.5.21
+  - myst-to-react@0.5.21
+
 ## 0.5.20
 
 ### Patch Changes

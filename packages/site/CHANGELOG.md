@@ -1,5 +1,21 @@
 # @myst-theme/site
 
+## 0.5.21
+
+### Patch Changes
+
+- 92e1ea94: Upgrade to latest thebe, incorporating bug fixes and changes to saved session caching behaviour
+- e84b56d7: Flex grow for article header
+- Updated dependencies [92e1ea94]
+- Updated dependencies [ea3bb2c8]
+  - @myst-theme/jupyter@0.5.21
+  - @myst-theme/providers@0.5.21
+  - @myst-theme/frontmatter@0.5.21
+  - @myst-theme/diagrams@0.5.21
+  - @myst-theme/common@0.5.21
+  - myst-to-react@0.5.21
+  - myst-demo@0.5.21
+
 ## 0.5.20
 
 ### Patch Changes

@@ -39,7 +39,7 @@ export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: bo
   }, [options, busy, ready, error]);
 
   const host = options?.thebe?.useBinder
-    ? 'Binder'
+    ? 'Jupyter'
     : options?.thebe?.useJupyterLite
     ? 'JupyterLite'
     : 'Local Server';

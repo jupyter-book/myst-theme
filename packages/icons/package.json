@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/icons",
-  "version": "0.5.20",
+  "version": "0.5.21",
   "sideEffects": false,
   "type": "module",
   "exports": "./dist/index.js",

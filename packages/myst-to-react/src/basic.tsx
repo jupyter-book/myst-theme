@@ -284,12 +284,12 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     };
     if (node.header)
       return (
-        <th className={node.class} style={node.style} {...attrs}>
+        <th className={node.class} style={node.style} align={node.align} {...attrs}>
           <MyST ast={node.children} />
         </th>
       );
     return (
-      <td className={node.class} style={node.style} {...attrs}>
+      <td className={node.class} style={node.style} align={node.align} {...attrs}>
         <MyST ast={node.children} />
       </td>
     );

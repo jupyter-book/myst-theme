@@ -17,7 +17,7 @@ export { AppCatchBoundary as CatchBoundary } from '@myst-theme/site';
 export const meta: MetaFunction = ({ data }) => {
   return getMetaTagsForSite({
     title: data?.config?.title,
-    twitter: data?.config?.twitter,
+    twitter: data?.config?.options?.twitter,
   });
 };
 

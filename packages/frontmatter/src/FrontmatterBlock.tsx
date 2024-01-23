@@ -74,7 +74,9 @@ export function DateString({
   spacer?: boolean;
 }) {
   if (!date) return null;
-  const dateString = new Date(date).toLocaleDateString('en-US', format);
+  const d = new Date(date); // This is in the users timezone
+  const utcDate = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  const dateString = utcDate.toLocaleDateString('en-US', format);
   return (
     <time dateTime={date} className={classNames({ 'text-spacer': spacer })}>
       {dateString}

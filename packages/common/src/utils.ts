@@ -115,6 +115,10 @@ export function updateSiteManifestStaticLinksInplace(
     data.options.logo_text = (data as any).logo_text;
     delete (data as any).logo_text;
   }
+  if ((data as any).twitter) {
+    data.options.twitter = (data as any).twitter;
+    delete (data as any).twitter;
+  }
   if ((data as any).analytics_google) {
     data.options.analytics_google = (data as any).analytics_google;
     delete (data as any).analytics_google;

@@ -7,6 +7,7 @@ import dark from 'react-syntax-highlighter/dist/esm/styles/hljs/vs2015.js';
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { CopyIcon } from './components/index.js';
+import { MyST } from './MyST.js';
 
 type Props = {
   value: string;
@@ -149,6 +150,14 @@ const inlineCode: NodeRenderer<InlineCode> = ({ node }) => {
           style={{ backgroundColor: node.value }}
           className="inline-block w-[10px] h-[10px] rounded-full ml-1"
         ></span>
+      </code>
+    );
+  }
+  if (node.children && node.children.length > 0) {
+    // The inline code can potentially have children
+    return (
+      <code>
+        <MyST ast={node.children} />
       </code>
     );
   }

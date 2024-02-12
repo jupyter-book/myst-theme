@@ -150,6 +150,7 @@ export function Admonition({
   dropdown,
   children,
   hideIcon,
+  className,
 }: {
   title?: React.ReactNode;
   color?: Color;
@@ -158,6 +159,7 @@ export function Admonition({
   simple?: boolean;
   dropdown?: boolean;
   hideIcon?: boolean;
+  className?: string;
 }) {
   return (
     <WrapperElement
@@ -174,6 +176,7 @@ export function Admonition({
           'border-amber-600': color === 'yellow',
           'border-red-600': color === 'red',
         },
+        className,
       )}
     >
       {title && (
@@ -247,6 +250,7 @@ export const AdmonitionRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
       dropdown={isDropdown}
       simple={isSimple}
       hideIcon={hideIcon}
+      className={classNames(classes)}
     >
       {useTitle ? <MyST ast={rest} /> : <MyST ast={node.children} />}
     </Admonition>

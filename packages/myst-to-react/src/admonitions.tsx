@@ -150,7 +150,7 @@ export function Admonition({
   dropdown,
   children,
   hideIcon,
-  className
+  className,
 }: {
   title?: React.ReactNode;
   color?: Color;
@@ -176,8 +176,8 @@ export function Admonition({
           'border-amber-600': color === 'yellow',
           'border-red-600': color === 'red',
         },
-	className
-    )}
+        className,
+      )}
     >
       {title && (
         <HeaderElement

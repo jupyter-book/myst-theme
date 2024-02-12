@@ -150,7 +150,7 @@ export function Admonition({
   dropdown,
   children,
   hideIcon,
-  classes
+  className
 }: {
   title?: React.ReactNode;
   color?: Color;

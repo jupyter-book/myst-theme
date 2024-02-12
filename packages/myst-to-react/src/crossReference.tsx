@@ -262,7 +262,9 @@ export const CrossReferenceNode: NodeRenderer<CrossReference> = ({ node }) => {
       url={url}
       dataUrl={dataUrl}
     >
+      {node.prefix && <>{node.prefix} </>}
       <MyST ast={node.children} />
+      {node.suffix || null}
     </CrossReferenceHover>
   );
 };

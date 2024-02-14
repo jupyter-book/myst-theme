@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.5.22
+
+### Patch Changes
+
+- 21d6dce0: Include user-specified classnames for admonitions
+- 227326af: Allow inline code to have children.
+- 993f4c3e: Look to original url to determine if a video
+- b7cbb592: Prefix and suffix in citations
+  - @myst-theme/providers@0.5.22
+
 ## 0.5.21
 
 ### Patch Changes

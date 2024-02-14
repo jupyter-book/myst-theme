@@ -86,7 +86,7 @@ function Picture({
   height?: string;
   align?: Alignment;
 }) {
-  if (src.endsWith('.mp4')) {
+  if (src.endsWith('.mp4') || urlSource?.endsWith('.mp4')) {
     return <Video width={width} height={height} align={align} src={src} urlSource={urlSource} />;
   }
   const image = (

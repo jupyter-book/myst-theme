@@ -1,5 +1,18 @@
 # @myst-theme/book
 
+## 0.5.22
+
+### Patch Changes
+
+- 89d5489b: Support twitter as site option
+- Updated dependencies [89d5489b]
+  - @myst-theme/common@0.5.22
+  - @myst-theme/providers@0.5.22
+  - @myst-theme/jupyter@0.5.22
+  - @myst-theme/site@0.5.22
+  - @myst-theme/styles@0.5.22
+  - @myst-theme/icons@0.5.22
+
 ## 0.5.21
 
 ### Patch Changes

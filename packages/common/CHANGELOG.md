@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.5.22
+
+### Patch Changes
+
+- 89d5489b: Support twitter as site option
+
 ## 0.5.21
 
 ## 0.5.20

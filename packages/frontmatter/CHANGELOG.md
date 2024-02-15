@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.5.22
+
+### Patch Changes
+
+- a62438c7: Show date as UTC date
+
 ## 0.5.21
 
 ## 0.5.20

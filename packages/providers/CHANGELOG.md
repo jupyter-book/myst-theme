@@ -1,5 +1,12 @@
 # @myst-theme/providers
 
+## 0.5.22
+
+### Patch Changes
+
+- Updated dependencies [89d5489b]
+  - @myst-theme/common@0.5.22
+
 ## 0.5.21
 
 ### Patch Changes

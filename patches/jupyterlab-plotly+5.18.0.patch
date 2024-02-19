@@ -1,0 +1,21 @@
+diff --git a/node_modules/jupyterlab-plotly/lib/plotly-renderer.js b/node_modules/jupyterlab-plotly/lib/plotly-renderer.js
+index 23baa49..43c857a 100644
+--- a/node_modules/jupyterlab-plotly/lib/plotly-renderer.js
++++ b/node_modules/jupyterlab-plotly/lib/plotly-renderer.js
+@@ -110,12 +110,15 @@ export class RenderedPlotly extends Widget {
+         const loadPlotly = () => __awaiter(this, void 0, void 0, function* () {
+             if (RenderedPlotly.Plotly === null) {
+                 RenderedPlotly.Plotly = yield import("plotly.js/dist/plotly");
++                RenderedPlotly.Plotly = RenderedPlotly.Plotly.default;
+                 RenderedPlotly._resolveLoadingPlotly();
+             }
+             return RenderedPlotly.loadingPlotly;
+         });
+         return loadPlotly()
+-            .then(() => RenderedPlotly.Plotly.react(this.node, data, layout, config))
++            .then(() => {
++                return RenderedPlotly.Plotly.react(this.node, data, layout, config)
++            })
+             .then((plot) => {
+             this.showGraph();
+             this.hideImage();

@@ -34,7 +34,6 @@ export async function fetchAndEncodeOutputImages(
     outputs.map(async (output) => {
       if (!('data' in output)) return output;
 
-      console.log('output', output);
       const imageMimetypes = Object.keys(output.data as MinifiedMimeBundle).filter(
         (mimetype) =>
           mimetype !== 'image/svg' && mimetype !== 'image/svg+xml' && mimetype.startsWith('image/'),

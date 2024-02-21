@@ -35,7 +35,8 @@ export async function fetchAndEncodeOutputImages(
       if (!('data' in output)) return output;
 
       const imageMimetypes = Object.keys(output.data as MinifiedMimeBundle).filter(
-        (mimetype) => mimetype !== 'image/svg' && mimetype.startsWith('image/'),
+        (mimetype) =>
+          mimetype !== 'image/svg' && mimetype !== 'image/svg+xml' && mimetype.startsWith('image/'),
       );
       if (imageMimetypes.length === 0) return output;
       // this is an async fetch, so we need to await the result

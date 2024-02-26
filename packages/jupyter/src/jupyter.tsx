@@ -78,29 +78,24 @@ function PassiveOutputRenderer({
 }) {
   const rendermime = core.makeRenderMimeRegistry();
 
-  // const MIME_TYPE = 'application/vnd.plotly.v1+json';
-  // rendermime.addFactory(plotly.rendererFactory, 10);
-
   const cell = useRef(new core.PassiveCellRenderer(id, rendermime, undefined));
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
     // eslint-disable-next-line import/no-extraneous-dependencies
-    import('plotly.js/dist/plotly').then(() => {
-      import('jupyterlab-plotly/lib/plotly-renderer.js').then(
-        (module: { rendererFactory: IRenderMime.IRendererFactory }) => {
-          console.debug('Jupyter: Adding plotly renderer factory to rendermime registry', {
-            module,
-          });
-          rendermime.addFactory(module.rendererFactory, 1);
-          console.debug('Jupyter: Attaching cell to DOM', { ref: ref.current });
-          cell.current.attachToDOM(ref.current ?? undefined, true);
-          console.log('Jupyter: Rendering cell', module.rendererFactory);
-          cell.current.render(data); //core?.stripWidgets(data) ??
-        },
-      );
-    });
+    import('jupyterlab-plotly/lib/plotly-renderer.js').then(
+      (module: { rendererFactory: IRenderMime.IRendererFactory }) => {
+        console.debug('Jupyter: Adding plotly renderer factory to rendermime registry', {
+          module,
+        });
+        rendermime.addFactory(module.rendererFactory, 41);
+        console.debug('Jupyter: Attaching cell to DOM', { ref: ref.current });
+        cell.current.attachToDOM(ref.current ?? undefined, true);
+        console.log('Jupyter: Rendering cell', module.rendererFactory);
+        cell.current.render(core?.stripWidgets(data) ?? data);
+      },
+    );
   }, [ref]);
 
   return <div ref={ref} data-thebe-passive-ref="true" />;

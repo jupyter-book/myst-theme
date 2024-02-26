@@ -10,6 +10,7 @@ import {
   selectNotebookForPage,
 } from './selectors.js';
 import { useFetchMdast } from 'myst-to-react';
+import { useLoadPlotly } from '../plotly.js';
 
 export function MdastFetcher({
   slug,
@@ -58,11 +59,14 @@ export function NotebookBuilder({
 
   const scopeHasNotebook = !!state.pages[pageSlug]?.scopes[notebookSlug];
 
+  const { plotly } = useLoadPlotly();
+
   useEffect(() => {
-    if (!core || !config || scopeHasNotebook || lock.current) return;
+    if (!core || !config || !plotly || scopeHasNotebook || lock.current) return;
     lock.current = true;
     console.debug(`Jupyter: NotebookBuilder - ${notebookSlug} being added to scope ${pageSlug}`);
     const rendermime = core?.makeRenderMimeRegistry(config?.mathjax);
+    if (plotly) rendermime.addFactory(plotly.rendererFactory, 41);
     const notebook = notebookFromMdast(
       core,
       config,
@@ -86,7 +90,7 @@ export function NotebookBuilder({
       type: 'ADD_NOTEBOOK',
       payload: { pageSlug, notebookSlug, rendermime, notebook },
     });
-  }, [core, config, pageSlug, notebookSlug, scopeHasNotebook, lock]);
+  }, [core, config, pageSlug, notebookSlug, scopeHasNotebook, lock, plotly]);
 
   // TODO find a way to check if the all the notebooks are built and do a single dispatch
   // potentilly use a move the loop down into this component

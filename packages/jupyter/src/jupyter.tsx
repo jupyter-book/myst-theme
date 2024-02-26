@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import type { IRenderMime } from '@jupyterlab/rendermime';
 import type { IOutput } from '@jupyterlab/nbformat';
 import { useFetchAnyTruncatedContent } from './hooks.js';
 import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages.js';
-import { type ThebeCore } from 'thebe-core';
+import type { ThebeCore } from 'thebe-core';
 import { SourceFileKind } from 'myst-spec-ext';
 import { useXRefState } from '@myst-theme/providers';
 import { useThebeLoader } from 'thebe-react';
@@ -13,6 +12,7 @@ import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
 import { MyST } from 'myst-to-react';
 import classNames from 'classnames';
+import { usePlotlyPassively } from './plotly.js';
 
 function ActiveOutputRenderer({
   id,
@@ -81,22 +81,14 @@ function PassiveOutputRenderer({
   const cell = useRef(new core.PassiveCellRenderer(id, rendermime, undefined));
   const ref = useRef<HTMLDivElement>(null);
 
+  const { loaded } = usePlotlyPassively(rendermime, data);
+
   useEffect(() => {
-    if (!ref.current) return;
+    if (!ref.current || !loaded) return;
     // eslint-disable-next-line import/no-extraneous-dependencies
-    import('jupyterlab-plotly/lib/plotly-renderer.js').then(
-      (module: { rendererFactory: IRenderMime.IRendererFactory }) => {
-        console.debug('Jupyter: Adding plotly renderer factory to rendermime registry', {
-          module,
-        });
-        rendermime.addFactory(module.rendererFactory, 41);
-        console.debug('Jupyter: Attaching cell to DOM', { ref: ref.current });
-        cell.current.attachToDOM(ref.current ?? undefined, true);
-        console.log('Jupyter: Rendering cell', module.rendererFactory);
-        cell.current.render(core?.stripWidgets(data) ?? data);
-      },
-    );
-  }, [ref]);
+    cell.current.attachToDOM(ref.current ?? undefined, true);
+    cell.current.render(core?.stripWidgets(data) ?? data);
+  }, [ref, loaded]);
 
   return <div ref={ref} data-thebe-passive-ref="true" />;
 }

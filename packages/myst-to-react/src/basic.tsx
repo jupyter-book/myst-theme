@@ -282,14 +282,19 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       rowSpan: ifGreaterThanOne(node.rowspan),
       colSpan: ifGreaterThanOne(node.colspan),
     };
+    const align = {
+      'text-left': node.align === 'left',
+      'text-right': node.align === 'right',
+      'text-center': node.align === 'center',
+    };
     if (node.header)
       return (
-        <th className={node.class} style={node.style} {...attrs}>
+        <th className={classNames(node.class, align)} style={node.style} {...attrs}>
           <MyST ast={node.children} />
         </th>
       );
     return (
-      <td className={node.class} style={node.style} {...attrs}>
+      <td className={classNames(node.class, align)} style={node.style} {...attrs}>
         <MyST ast={node.children} />
       </td>
     );

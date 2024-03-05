@@ -29,6 +29,7 @@
     "@scienceicons/react": "^0.0.6",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
+    "jupyterlab-plotly": "^5.18.0",
     "myst-common": "^1.1.18",
     "myst-config": "^1.1.18",
     "myst-frontmatter": "^1.1.18",
@@ -49,6 +50,5 @@
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "react": "^16.8 || ^17.0 || ^18.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0"
-  },
-  "devDependencies": {}
+  }
 }

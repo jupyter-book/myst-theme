@@ -4,7 +4,7 @@ import { useFetchAnyTruncatedContent } from './hooks.js';
 import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages.js';
-import { type ThebeCore } from 'thebe-core';
+import type { ThebeCore } from 'thebe-core';
 import { SourceFileKind } from 'myst-spec-ext';
 import { useXRefState } from '@myst-theme/providers';
 import { useThebeLoader } from 'thebe-react';
@@ -12,6 +12,7 @@ import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
 import { MyST } from 'myst-to-react';
 import classNames from 'classnames';
+import { usePlotlyPassively } from './plotly.js';
 
 function ActiveOutputRenderer({
   id,
@@ -75,14 +76,19 @@ function PassiveOutputRenderer({
   core: ThebeCore;
   kind: SourceFileKind;
 }) {
-  const cell = useRef(new core.PassiveCellRenderer(id, undefined, undefined));
+  const rendermime = core.makeRenderMimeRegistry();
+
+  const cell = useRef(new core.PassiveCellRenderer(id, rendermime, undefined));
   const ref = useRef<HTMLDivElement>(null);
 
+  const { loaded } = usePlotlyPassively(rendermime, data);
+
   useEffect(() => {
-    if (!ref.current) return;
-    cell.current.attachToDOM(ref.current, true);
+    if (!ref.current || !loaded) return;
+    // eslint-disable-next-line import/no-extraneous-dependencies
+    cell.current.attachToDOM(ref.current ?? undefined, true);
     cell.current.render(core?.stripWidgets(data) ?? data);
-  }, [ref]);
+  }, [ref, loaded]);
 
   return <div ref={ref} data-thebe-passive-ref="true" />;
 }

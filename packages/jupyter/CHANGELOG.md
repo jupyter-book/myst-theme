@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.6.1
+
+### Patch Changes
+
+- 947ddf37: Fix for [322](https://github.com/executablebooks/myst-theme/issues/322) waiting for plotly during notebook build
+  - @myst-theme/providers@0.6.1
+  - myst-to-react@0.6.1
+
 ## 0.6.0
 
 ### Patch Changes

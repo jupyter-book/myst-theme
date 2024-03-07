@@ -1,5 +1,16 @@
 # @myst-theme/book
 
+## 0.6.0
+
+### Patch Changes
+
+- @myst-theme/jupyter@0.6.0
+- @myst-theme/site@0.6.0
+- @myst-theme/providers@0.6.0
+- @myst-theme/styles@0.6.0
+- @myst-theme/common@0.6.0
+- @myst-theme/icons@0.6.0
+
 ## 0.5.22
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.6.0
+
+### Minor Changes
+
+- ffdae29e: Support align in table cells
+
+### Patch Changes
+
+- @myst-theme/providers@0.6.0
+
 ## 0.5.22
 
 ### Patch Changes

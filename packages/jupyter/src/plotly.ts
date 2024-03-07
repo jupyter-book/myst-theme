@@ -30,9 +30,9 @@ export function isPlotly(outputs: IOutput[]) {
 }
 
 export function usePlotlyPassively(rendermime: IRenderMimeRegistry, outputs: IOutput[]) {
-  const [loaded, setLoaded] = useState(false);
-
   const isPlotlyOutput = isPlotly(outputs);
+  // skip loading for non plotly outputs
+  const [loaded, setLoaded] = useState(!isPlotlyOutput);
 
   useEffect(() => {
     if (loaded || !isPlotlyOutput) return;

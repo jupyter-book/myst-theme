@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { ExecuteScopeAction } from './actions.js';
-import type { IdKeyMap, ExecuteScopeState } from './types.js';
+import type { IdKeyMap, ExecuteScopeState, ExecutionScope } from './types.js';
 import { useThebeLoader, useThebeConfig, useThebeServer } from 'thebe-react';
 import { notebookFromMdast } from './utils.js';
 import type { GenericParent } from 'myst-common';
@@ -94,7 +94,7 @@ export function NotebookBuilder({
 
   // TODO find a way to check if the all the notebooks are built and do a single dispatch
   // potentilly use a move the loop down into this component
-  const allNotebooksAreBuilt = selectAreAllNotebookScopesBuilt(state, pageSlug);
+  const allNotebooksAreBuilt = plotly && selectAreAllNotebookScopesBuilt(state, pageSlug);
   useEffect(() => {
     if (!allNotebooksAreBuilt) return;
     dispatch({ type: 'BUILD_STATUS', payload: { slug: pageSlug, status: 'wait-for-server' } });
@@ -120,10 +120,10 @@ export function SessionStarter({
   const { config, server } = useThebeServer();
   const lock = useRef(false); // TODO can be removed if we solve double render from provider
 
-  const scope = state.pages[pageSlug]?.scopes[notebookSlug];
+  const scope: ExecutionScope | undefined = state.pages[pageSlug]?.scopes[notebookSlug];
 
   useEffect(() => {
-    if (!core || !server || scope.session || lock.current) return;
+    if (!core || !server || scope?.session || lock.current) return;
     lock.current = true;
     console.debug(`Jupyter: Starting session for ${pageSlug}-${notebookSlug} at ${location}`);
     if (location === undefined) {
@@ -185,7 +185,7 @@ export function SessionStarter({
           });
       }
     });
-  }, [core, config, pageSlug, notebookSlug, lock]);
+  }, [core, config, scope, pageSlug, notebookSlug, lock]);
 
   // TODO avoid multiple dispatch?
   const allSessionsAreStarted = selectAreAllSessionsStarted(state, pageSlug);

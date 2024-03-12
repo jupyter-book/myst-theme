@@ -93,7 +93,6 @@ const themeExtensions = {
         },
         'blockquote p:first-of-type::before': { content: 'none' },
         'blockquote p:first-of-type::after': { content: 'none' },
-        'figure.pull-quote > blockquote': { 'font-size': '1.25em' },
         li: {
           marginTop: '0.25rem',
           marginBottom: '0.25rem',

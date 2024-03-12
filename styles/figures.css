@@ -23,3 +23,6 @@ figure img {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
+figure.pull-quote > blockquote { 
+  font-size: 1.25em;
+}

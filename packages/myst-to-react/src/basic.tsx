@@ -217,7 +217,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     return (
       <figure
         id={node.html_id || node.identifier || node.key}
-        className={classNames({ subcontainer: node.subcontainer }, node.class)}
+        className={classNames({ subcontainer: node.subcontainer }, node.kind, node.class)}
       >
         <MyST ast={node.children} />
       </figure>

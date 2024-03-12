@@ -1,11 +1,14 @@
-figure.quote figcaption {
+figure.fig-quote figcaption {
   text-align: right;
 }
-figure.quote figcaption > p:before {
+figure.fig-quote figcaption > p:before {
   content: '—';
   padding-right: 0.5em;
 }
-figure.code > div {
+figure.fig-quote.pull-quote > blockquote { 
+  font-size: 1.25em;
+}
+figure.fig-code > div {
   margin: 0;
 }
 figure.subcontainer {
@@ -22,7 +25,4 @@ figure figcaption > p {
 figure img {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
-}
-figure.pull-quote > blockquote { 
-  font-size: 1.25em;
 }

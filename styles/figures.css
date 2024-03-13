@@ -6,7 +6,7 @@ figure.fig-quote figcaption > p:before {
   padding-right: 0.5em;
 }
 figure.fig-quote.pull-quote > blockquote { 
-  font-size: 1.25em;
+  font-size: 1.4rem;
 }
 figure.fig-code > div {
   margin: 0;

@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.7.0
+
+### Minor Changes
+
+- 5dea885b: Add support for pull-quotes, fix figure classes
+
 ## 0.6.1
 
 ## 0.6.0

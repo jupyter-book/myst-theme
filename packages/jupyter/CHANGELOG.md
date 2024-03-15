@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.7.0
+
+### Patch Changes
+
+- 1c0444b0: Update to latest `thebe-*` packages, fixes jupyter-lite issues
+- Updated dependencies [5dea885b]
+  - myst-to-react@0.7.0
+  - @myst-theme/providers@0.7.0
+
 ## 0.6.1
 
 ### Patch Changes

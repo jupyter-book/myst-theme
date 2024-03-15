@@ -1,5 +1,18 @@
 # @myst-theme/book
 
+## 0.7.0
+
+### Patch Changes
+
+- Updated dependencies [5dea885b]
+- Updated dependencies [1c0444b0]
+  - @myst-theme/styles@0.7.0
+  - @myst-theme/jupyter@0.7.0
+  - @myst-theme/site@0.7.0
+  - @myst-theme/providers@0.7.0
+  - @myst-theme/common@0.7.0
+  - @myst-theme/icons@0.7.0
+
 ## 0.6.1
 
 ### Patch Changes

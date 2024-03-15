@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.7.0
+
+### Minor Changes
+
+- 5dea885b: Add support for pull-quotes, fix figure classes
+
+### Patch Changes
+
+- @myst-theme/providers@0.7.0
+
 ## 0.6.1
 
 ### Patch Changes

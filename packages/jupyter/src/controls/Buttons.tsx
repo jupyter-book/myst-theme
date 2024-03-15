@@ -130,7 +130,7 @@ export function SpinnerStatusButton({
 }) {
   let title = 'Enable compute to make this figure interactive';
   if (ready) {
-    title = modified ? 'The figure has been modified' : "The figure is in it's original state";
+    title = modified ? 'The figure has been modified' : "The figure is in its original state";
   }
 
   let icon = <PowerIcon width="1.5rem" height="1.5rem" />;

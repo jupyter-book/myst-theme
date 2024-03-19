@@ -3,7 +3,9 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/executablebooks/myst-theme/blob/main/LICENSE)
 [![CI](https://github.com/executablebooks/myst-theme/workflows/CI/badge.svg)](https://github.com/executablebooks/myst-theme/actions)
 
-Packages for creating MyST websites themes using React and Remix
+Packages for creating MyST websites themes using React and Remix.
+
+[The MyST Theme components documentation](https://executablebooks.github.io/myst-theme/?path=/docs/components-introduction--docs) is the best way to visualize the style and structure of components.
 
 # Development
 
@@ -75,6 +77,7 @@ npm run build
 ### Develop
 
 These packages are best shown using `storybook` a UI library that powers the docs.
+This is the same tool that powers [the MyST Theme components documentation](https://executablebooks.github.io/myst-theme/?path=/docs/components-introduction--docs).
 
 ```
 npm run storybook

@@ -33,7 +33,7 @@
     "myst-ext-tabs": "^1.0.4",
     "myst-frontmatter": "^1.1.18",
     "myst-parser": "^1.0.18",
-    "myst-spec": "^0.0.4",
+    "myst-spec": "^0.0.5",
     "myst-to-docx": "^1.0.7",
     "myst-to-html": "^1.0.18",
     "myst-to-jats": "^1.0.19",

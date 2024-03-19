@@ -33,7 +33,7 @@
     "myst-common": "^1.1.18",
     "myst-config": "^1.1.18",
     "myst-frontmatter": "^1.1.18",
-    "myst-spec": "^0.0.4",
+    "myst-spec": "^0.0.5",
     "myst-spec-ext": "^1.1.18",
     "myst-to-react": "^0.7.0",
     "nanoid": "^4.0.2",

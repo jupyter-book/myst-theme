@@ -2,4 +2,4 @@
 'myst-to-react': minor
 ---
 
-Add support for sidebar and margin directives
+Add support for margin directives

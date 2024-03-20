@@ -42,6 +42,15 @@ type CaptionNumber = {
   identifier: string;
 };
 
+type Margin = {
+  type: 'margin';
+};
+
+type Sidebar = {
+  type: 'sidebar';
+};
+
+
 type BasicNodeRenderers = {
   text: NodeRenderer<spec.Text>;
   span: NodeRenderer<GenericNode>;
@@ -80,6 +89,8 @@ type BasicNodeRenderers = {
   definitionList: NodeRenderer<DefinitionList>;
   definitionTerm: NodeRenderer<DefinitionTerm>;
   definitionDescription: NodeRenderer<DefinitionDescription>;
+  margin: NodeRenderer<Margin>;
+  sidebar: NodeRenderer<Sidebar>;
 };
 
 const BASIC_RENDERERS: BasicNodeRenderers = {
@@ -363,6 +374,20 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       </dd>
     );
   },
+  margin({ node }) {
+    return (
+      <aside className="col-margin-right">
+        <MyST ast={node.children} />
+      </aside>
+    );
+  },
+  sidebar({ node }) {
+    return (
+      <aside className="col-margin-right">
+        <MyST ast={node.children} />
+      </aside>
+    );
+  }
 };
 
 export default BASIC_RENDERERS;

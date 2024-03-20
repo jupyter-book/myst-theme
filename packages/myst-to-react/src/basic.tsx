@@ -42,8 +42,8 @@ type CaptionNumber = {
   identifier: string;
 };
 
-type Margin = {
-  type: 'margin';
+type Aside = {
+  type: 'aside';
 };
 
 type BasicNodeRenderers = {
@@ -84,7 +84,7 @@ type BasicNodeRenderers = {
   definitionList: NodeRenderer<DefinitionList>;
   definitionTerm: NodeRenderer<DefinitionTerm>;
   definitionDescription: NodeRenderer<DefinitionDescription>;
-  margin: NodeRenderer<Margin>;
+  aside: NodeRenderer<Aside>;
 };
 
 const BASIC_RENDERERS: BasicNodeRenderers = {
@@ -368,7 +368,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       </dd>
     );
   },
-  margin({ node }) {
+  aside({ node }) {
     return (
       <aside className="col-margin-right">
         <MyST ast={node.children} />

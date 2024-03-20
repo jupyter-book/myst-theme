@@ -50,7 +50,6 @@ type Sidebar = {
   type: 'sidebar';
 };
 
-
 type BasicNodeRenderers = {
   text: NodeRenderer<spec.Text>;
   span: NodeRenderer<GenericNode>;
@@ -387,7 +386,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
         <MyST ast={node.children} />
       </aside>
     );
-  }
+  },
 };
 
 export default BASIC_RENDERERS;

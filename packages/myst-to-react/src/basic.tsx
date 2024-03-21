@@ -370,7 +370,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   aside({ node }) {
     return (
-      <aside className="col-margin-right">
+      <aside className="text-sm lg:h-0 col-margin-right">
         <MyST ast={node.children} />
       </aside>
     );

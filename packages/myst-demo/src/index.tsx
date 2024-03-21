@@ -1,9 +1,17 @@
 import { VFile } from 'vfile';
 import type { LatexResult } from 'myst-to-tex'; // Only import the type!!
 import type { TypstResult } from 'myst-to-typst'; // Only import the type!!
+import { remove } from 'unist-util-remove';
 import type { VFileMessage } from 'vfile-message';
 import yaml from 'js-yaml';
-import type { GenericNode, References } from 'myst-common';
+import {
+  fileError,
+  RuleId,
+  type GenericNode,
+  type GenericParent,
+  type References,
+} from 'myst-common';
+import type { Code } from 'myst-spec';
 import { SourceFileKind } from 'myst-spec-ext';
 import type { DocxResult } from 'myst-to-docx';
 import { validatePageFrontmatter } from 'myst-frontmatter';
@@ -11,7 +19,7 @@ import type { PageFrontmatter } from 'myst-frontmatter';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { ReferencesProvider } from '@myst-theme/providers';
 import { CopyIcon, CodeBlock, MyST } from 'myst-to-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';
 import {
   ExclamationTriangleIcon,
@@ -40,6 +48,36 @@ async function saveDocxFile(filename: string, mdast: any) {
   downloadBlob(filename, docxBlob as Blob);
 }
 
+/**
+ * Simpler function than getFrontmatter from myst-transforms
+ *
+ * This only strips frontmatter yaml; it does nothing with headings
+ */
+function getFrontmatter(vfile: VFile, tree: GenericParent) {
+  const firstParent = tree.children[0]?.type === 'block' ? tree.children[0] : tree;
+  const firstNode = firstParent.children?.[0] as Code;
+  let frontmatter: Record<string, any> = {};
+  const firstIsYaml = firstNode?.type === 'code' && firstNode?.lang === 'yaml';
+  if (firstIsYaml) {
+    try {
+      frontmatter = (yaml.load(firstNode.value) as Record<string, any>) || {};
+      (firstNode as any).type = '__delete__';
+    } catch (err) {
+      fileError(vfile, 'Invalid YAML frontmatter', {
+        note: (err as Error).message,
+        ruleId: RuleId.frontmatterIsYaml,
+      });
+    }
+  }
+  // Handles deleting the block if it is the only element in the block
+  const possibleNull = remove(tree, '__delete__');
+  if (possibleNull === null) {
+    // null is returned if tree itself didn’t pass the test or is cascaded away
+    remove(tree, { cascade: false }, '__delete__');
+  }
+  return frontmatter;
+}
+
 async function parse(
   text: string,
   defaultFrontmatter?: PageFrontmatter,
@@ -66,7 +104,6 @@ async function parse(
     RRIDTransformer,
     linksPlugin,
     ReferenceState,
-    getFrontmatter,
     abbreviationPlugin,
     glossaryPlugin,
     joinGatesPlugin,
@@ -80,7 +117,7 @@ async function parse(
   const { tabDirectives } = await import('myst-ext-tabs');
   const { proofDirective } = await import('myst-ext-proof');
   const { exerciseDirectives } = await import('myst-ext-exercise');
-  const file = new VFile();
+  const vfile = new VFile();
   const parseMyst = (content: string) =>
     mystParse(content, {
       markdownit: { linkify: true },
@@ -92,7 +129,7 @@ async function parse(
         ...exerciseDirectives,
       ],
       // roles: [reactiveRole],
-      vfile: file,
+      vfile,
     });
   const mdast = parseMyst(text);
   const linkTransforms = [
@@ -110,17 +147,14 @@ async function parse(
     cite: { order: [], data: {} },
     footnotes: {},
   };
-  const { frontmatter: frontmatterRaw } = getFrontmatter(file, mdast, {
-    removeYaml: true,
-    removeHeading: options?.removeHeading ?? false,
-  });
+  const frontmatterRaw = getFrontmatter(vfile, mdast);
   const frontmatter = validatePageFrontmatter(frontmatterRaw, {
     property: 'frontmatter',
     messages: {},
   });
-  const state = new ReferenceState({
+  const state = new ReferenceState('', {
     numbering: frontmatter.numbering ?? defaultFrontmatter?.numbering,
-    file,
+    vfile,
   });
   visit(mdast, (n) => {
     // Before we put in the citation render, we can mark them as errors
@@ -131,7 +165,7 @@ async function parse(
   unified()
     .use(basicTransformationsPlugin, { parser: parseMyst })
     .use(mathPlugin, { macros: frontmatter?.math ?? {} }) // This must happen before enumeration, as it can add labels
-    .use(glossaryPlugin, { state }) // This should be before the enumerate plugins
+    .use(glossaryPlugin) // This should be before the enumerate plugins
     .use(abbreviationPlugin, { abbreviations: frontmatter.abbreviations })
     .use(enumerateTargetsPlugin, { state })
     .use(linksPlugin, { transformers: linkTransforms })
@@ -139,7 +173,7 @@ async function parse(
     .use(joinGatesPlugin)
     .use(resolveReferencesPlugin, { state })
     .use(keysPlugin)
-    .runSync(mdast as any, file);
+    .runSync(mdast as any, vfile);
 
   const mdastPost = JSON.parse(JSON.stringify(mdast));
   visit(mdastPost, (n) => {
@@ -186,7 +220,7 @@ async function parse(
     typstWarnings: typstFile.messages,
     jats: jats,
     jatsWarnings: jatsFile.messages,
-    warnings: file.messages,
+    warnings: vfile.messages,
   };
 }
 

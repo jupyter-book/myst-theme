@@ -46,8 +46,8 @@ type Aside = {
   type: 'aside';
 };
 
-type Keystrokes = {
-  type: 'keystrokes';
+type Keyboard = {
+  type: 'keyboard';
 };
 
 type BasicNodeRenderers = {
@@ -83,7 +83,7 @@ type BasicNodeRenderers = {
   captionNumber: NodeRenderer<CaptionNumber>;
   delete: NodeRenderer<Delete>;
   underline: NodeRenderer<Underline>;
-  keystrokes: NodeRenderer<Keystrokes>;
+  keyboard: NodeRenderer<Keyboard>;
   smallcaps: NodeRenderer<SmallCaps>;
   // definitions
   definitionList: NodeRenderer<DefinitionList>;
@@ -380,8 +380,9 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       </aside>
     );
   },
-  keystrokes({ node }) {
-    return <kbd>{node.value}</kbd>;
+  keyboard({ node }) {
+    const valueNode = (node.children as GenericNode[])[0];
+    return <kbd>{valueNode.value}</kbd>;
   },
 };
 

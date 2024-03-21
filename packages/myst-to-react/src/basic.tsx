@@ -46,6 +46,10 @@ type Aside = {
   type: 'aside';
 };
 
+type Keystrokes = {
+  type: 'keystrokes';
+};
+
 type BasicNodeRenderers = {
   text: NodeRenderer<spec.Text>;
   span: NodeRenderer<GenericNode>;
@@ -79,6 +83,7 @@ type BasicNodeRenderers = {
   captionNumber: NodeRenderer<CaptionNumber>;
   delete: NodeRenderer<Delete>;
   underline: NodeRenderer<Underline>;
+  keystrokes: NodeRenderer<Keystrokes>;
   smallcaps: NodeRenderer<SmallCaps>;
   // definitions
   definitionList: NodeRenderer<DefinitionList>;
@@ -374,6 +379,9 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
         <MyST ast={node.children} />
       </aside>
     );
+  },
+  keystrokes({ node }) {
+    return <kbd>{node.value}</kbd>;
   },
 };
 

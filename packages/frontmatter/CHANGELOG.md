@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.8.0
+
+### Patch Changes
+
+- da31e48f: Update for latest myst versions
+
 ## 0.7.0
 
 ## 0.6.1

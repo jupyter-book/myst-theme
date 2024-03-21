@@ -1,5 +1,20 @@
 # @myst-theme/site
 
+## 0.8.0
+
+### Patch Changes
+
+- Updated dependencies [6d116bda]
+- Updated dependencies [da31e48f]
+- Updated dependencies [a94ea93f]
+  - myst-to-react@0.8.0
+  - @myst-theme/frontmatter@0.8.0
+  - myst-demo@0.8.0
+  - @myst-theme/jupyter@0.8.0
+  - @myst-theme/providers@0.8.0
+  - @myst-theme/diagrams@0.8.0
+  - @myst-theme/common@0.8.0
+
 ## 0.7.0
 
 ### Patch Changes

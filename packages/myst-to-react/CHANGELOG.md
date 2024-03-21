@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.8.0
+
+### Minor Changes
+
+- 6d116bda: Add support for margin directives
+
+### Patch Changes
+
+- @myst-theme/providers@0.8.0
+
 ## 0.7.0
 
 ### Minor Changes

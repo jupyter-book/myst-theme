@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.8.0
+
+### Patch Changes
+
+- a94ea93f: Fix typo in thebe tooltip
+- Updated dependencies [6d116bda]
+  - myst-to-react@0.8.0
+  - @myst-theme/providers@0.8.0
+
 ## 0.7.0
 
 ### Patch Changes

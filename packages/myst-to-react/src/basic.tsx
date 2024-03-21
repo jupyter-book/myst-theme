@@ -42,6 +42,10 @@ type CaptionNumber = {
   identifier: string;
 };
 
+type Aside = {
+  type: 'aside';
+};
+
 type BasicNodeRenderers = {
   text: NodeRenderer<spec.Text>;
   span: NodeRenderer<GenericNode>;
@@ -80,6 +84,7 @@ type BasicNodeRenderers = {
   definitionList: NodeRenderer<DefinitionList>;
   definitionTerm: NodeRenderer<DefinitionTerm>;
   definitionDescription: NodeRenderer<DefinitionDescription>;
+  aside: NodeRenderer<Aside>;
 };
 
 const BASIC_RENDERERS: BasicNodeRenderers = {
@@ -361,6 +366,13 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       <dd>
         <MyST ast={node.children} />
       </dd>
+    );
+  },
+  aside({ node }) {
+    return (
+      <aside className="text-sm lg:h-0 col-margin-right">
+        <MyST ast={node.children} />
+      </aside>
     );
   },
 };

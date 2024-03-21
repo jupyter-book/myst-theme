@@ -381,8 +381,11 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     );
   },
   keyboard({ node }) {
-    const valueNode = (node.children as GenericNode[])[0];
-    return <kbd><MyST ast={node.children} /></kbd>;
+    return (
+      <kbd>
+        <MyST ast={node.children} />
+      </kbd>
+    );
   },
 };
 

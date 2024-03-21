@@ -53,7 +53,7 @@ async function saveDocxFile(filename: string, mdast: any) {
  *
  * This only strips frontmatter yaml; it does nothing with headings
  */
-async function getFrontmatter(vfile: VFile, tree: GenericParent) {
+function getFrontmatter(vfile: VFile, tree: GenericParent) {
   const firstParent = tree.children[0]?.type === 'block' ? tree.children[0] : tree;
   const firstNode = firstParent.children?.[0] as Code;
   let frontmatter: Record<string, any> = {};

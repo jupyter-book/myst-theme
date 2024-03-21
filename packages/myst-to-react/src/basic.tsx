@@ -46,6 +46,10 @@ type Aside = {
   type: 'aside';
 };
 
+type Keyboard = {
+  type: 'keyboard';
+};
+
 type BasicNodeRenderers = {
   text: NodeRenderer<spec.Text>;
   span: NodeRenderer<GenericNode>;
@@ -79,6 +83,7 @@ type BasicNodeRenderers = {
   captionNumber: NodeRenderer<CaptionNumber>;
   delete: NodeRenderer<Delete>;
   underline: NodeRenderer<Underline>;
+  keyboard: NodeRenderer<Keyboard>;
   smallcaps: NodeRenderer<SmallCaps>;
   // definitions
   definitionList: NodeRenderer<DefinitionList>;
@@ -373,6 +378,13 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       <aside className="text-sm lg:h-0 col-margin-right">
         <MyST ast={node.children} />
       </aside>
+    );
+  },
+  keyboard({ node }) {
+    return (
+      <kbd>
+        <MyST ast={node.children} />
+      </kbd>
     );
   },
 };

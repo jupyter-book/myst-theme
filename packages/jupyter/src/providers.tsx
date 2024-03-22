@@ -2,7 +2,7 @@ import type { SourceFileKind } from 'myst-spec-ext';
 import React, { useContext } from 'react';
 import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils.js';
 import type { GenericParent } from 'myst-common';
-import { useBaseurl, useProjectManifest } from '@myst-theme/providers';
+import { useProjectManifest } from '@myst-theme/providers';
 import type { RepoProviderSpec } from 'thebe-core';
 import { ThebeBundleLoaderProvider, ThebeServerProvider } from 'thebe-react';
 

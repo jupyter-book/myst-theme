@@ -27,14 +27,16 @@ import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyte
 
 export const meta: MetaFunction = (args) => {
   const config = args.parentsData?.root?.config as SiteManifest | undefined;
-  const data = args.data as PageLoader | undefined;
-  if (!config || !data || !data.frontmatter) return {};
+  const data = args.data;
+  if (!config || !data) return {};
+  const frontmatter = (data.page as PageLoader).frontmatter;
+  if (!frontmatter) return {};
   return getMetaTagsForArticle({
     origin: '',
     url: args.location.pathname,
-    title: `${data.frontmatter.title} - ${config?.title}`,
-    description: data.frontmatter.description,
-    image: (data.frontmatter.thumbnailOptimized || data.frontmatter.thumbnail) ?? undefined,
+    title: `${frontmatter.title} - ${config?.title}`,
+    description: frontmatter.description,
+    image: (frontmatter.thumbnailOptimized || frontmatter.thumbnail) ?? undefined,
   });
 };
 

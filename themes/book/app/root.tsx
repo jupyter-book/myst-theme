@@ -14,6 +14,14 @@ import {
 import { Outlet, useLoaderData } from '@remix-run/react';
 export { AppCatchBoundary as CatchBoundary } from '@myst-theme/site';
 
+export const meta: V2_MetaFunction = ({ data }) => {
+  return getMetaTagsForSite({
+    title: data?.config?.title,
+    description: data?.config?.description,
+    twitter: data?.config?.options?.twitter,
+  });
+};
+
 export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: tailwind },

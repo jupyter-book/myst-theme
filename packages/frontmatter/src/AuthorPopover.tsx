@@ -36,7 +36,7 @@ export const AuthorPopover = ({
         </button>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content className="rounded p-5 w-[400px] bg-white shadow" sideOffset={5}>
+        <Popover.Content className="rounded p-5 w-[400px] bg-white shadow z-10" sideOffset={5}>
           <div className="flex flex-col gap-2.5">
             <p className="text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
               {author.name}

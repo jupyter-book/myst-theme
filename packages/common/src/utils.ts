@@ -17,8 +17,9 @@ export function getProject(
   projectSlug?: string,
 ): ManifestProject | undefined {
   if (!config) return undefined;
-  if (!projectSlug) return config.projects?.[0];
-  const project = config.projects?.find((p) => p.slug === projectSlug);
+  if (!config.projects || config.projects.length === 0) return undefined;
+  if (!projectSlug) return config.projects[0];
+  const project = config.projects?.find((p) => p.slug === projectSlug) ?? config.projects[0];
   return project;
 }
 

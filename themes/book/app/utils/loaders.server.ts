@@ -10,8 +10,10 @@ import {
 import { redirect } from '@remix-run/node';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
 
-const HOST_URL = process.env.CONTENT_CDN_HOST ? new URL(process.env.CONTENT_CDN_HOST) : undefined;
-const CONTENT_CDN_HOST = HOST_URL ? HOST_URL.hostname : 'localhost';
+const CONTENT_CDN_HOST =
+  process.env.CONTENT_CDN_HOST && process.env.CONTENT_CDN_HOST.startsWith('http')
+    ? new URL(process.env.CONTENT_CDN_HOST).hostname
+    : process.env.CONTENT_CDN_HOST ?? 'localhost';
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = `http://${CONTENT_CDN_HOST}:${CONTENT_CDN_PORT}`;
 

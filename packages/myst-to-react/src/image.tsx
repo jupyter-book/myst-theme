@@ -38,12 +38,14 @@ function alignToMargin(align: string) {
 }
 
 function Video({
+  id,
   src,
   urlSource,
   align = 'center',
   width,
   height,
 }: {
+  id?: string;
   src: string;
   urlSource?: string;
   width?: string;
@@ -52,6 +54,7 @@ function Video({
 }) {
   return (
     <video
+      id={id}
       style={{
         width: getStyleValue(width),
         height: getStyleValue(height),
@@ -70,6 +73,7 @@ function Video({
 }
 
 function Picture({
+  id,
   src,
   srcOptimized,
   urlSource,
@@ -78,6 +82,7 @@ function Picture({
   width,
   height,
 }: {
+  id?: string;
   src: string;
   srcOptimized?: string;
   urlSource?: string;
@@ -87,10 +92,13 @@ function Picture({
   align?: Alignment;
 }) {
   if (src.endsWith('.mp4') || urlSource?.endsWith('.mp4')) {
-    return <Video width={width} height={height} align={align} src={src} urlSource={urlSource} />;
+    return (
+      <Video id={id} width={width} height={height} align={align} src={src} urlSource={urlSource} />
+    );
   }
   const image = (
     <img
+      id={id}
       style={{
         width: getStyleValue(width),
         height: getStyleValue(height),
@@ -113,6 +121,7 @@ function Picture({
 export const Image: NodeRenderer<ImageNode> = ({ node }) => {
   return (
     <Picture
+      id={node.html_id || node.identifier || node.key}
       src={node.url}
       srcOptimized={(node as any).urlOptimized}
       alt={node.alt || node.title}

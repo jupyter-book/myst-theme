@@ -38,7 +38,6 @@ function updateLink(url: string) {
   if (process.env.MODE === 'static') {
     return `/myst_assets_folder${url}`;
   }
-  console.log('rewriting:', url, `${CONTENT_CDN}${url}`);
   return `${CONTENT_CDN}${url}`;
 }
 

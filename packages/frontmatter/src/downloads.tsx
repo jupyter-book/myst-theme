@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useCallback } from 'react';
 
 type HasExports = {
-  exports?: { format: string; filename: string; url: string }[];
+  exports?: { format?: string; filename: string; url: string }[];
 };
 
 /**
@@ -64,7 +64,7 @@ export function Download({
 }: {
   url: string;
   filename: string;
-  format: string;
+  format?: string;
   className?: string;
 }) {
   const clickDownload = useCallback(
@@ -76,7 +76,7 @@ export function Download({
   );
   return (
     <a className={classNames(className, 'flex')} href={url} onClick={clickDownload}>
-      <span className="sr-only">Download as {format}</span>
+      <span className="sr-only">Download{format ? ` as ${format}` : ''}</span>
       <DocumentIcon
         width="1.25rem"
         height="1.25rem"

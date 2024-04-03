@@ -142,6 +142,12 @@ export function updateSiteManifestStaticLinksInplace(
         return { ...exp, url: updateUrl(exp.url) };
       });
     }
+    if (project?.downloads) {
+      project.downloads = project.downloads.map((exp) => {
+        if (!exp.url) return exp;
+        return { ...exp, url: updateUrl(exp.url) };
+      });
+    }
     project.pages
       .filter((page): page is ManifestProjectItem => 'slug' in page)
       .forEach((page) => {
@@ -167,6 +173,12 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
   }
   if (data?.frontmatter?.exports) {
     data.frontmatter.exports = data.frontmatter.exports.map((exp) => {
+      if (!exp.url) return exp;
+      return { ...exp, url: updateUrl(exp.url) };
+    });
+  }
+  if (data?.frontmatter?.downloads) {
+    data.frontmatter.downloads = data.frontmatter.downloads.map((exp) => {
       if (!exp.url) return exp;
       return { ...exp, url: updateUrl(exp.url) };
     });

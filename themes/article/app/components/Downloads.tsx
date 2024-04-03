@@ -1,7 +1,8 @@
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 import { useSiteManifest } from '@myst-theme/providers';
 
-function formatToTitle(format: string) {
+function formatToTitle(format?: string) {
+  if (!format) return 'File';
   switch (format) {
     case 'pdf':
       return 'PDF';
@@ -18,7 +19,10 @@ function formatToTitle(format: string) {
 export function Downloads() {
   const site = useSiteManifest();
   const project = site?.projects?.[0];
-  const downloads = [...(project?.exports ?? []), ...(project?.pages?.[0]?.exports ?? [])];
+  const downloads = [
+    ...(project?.downloads ?? project?.exports ?? []),
+    ...(project?.pages?.[0]?.downloads ?? project?.pages?.[0]?.exports ?? []),
+  ];
   if (downloads.length === 0) return null;
   return (
     <div className="col-margin mt-3 mx-5 lg:m-0 lg:w-[300px]">

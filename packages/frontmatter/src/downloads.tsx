@@ -3,6 +3,7 @@ import {
   DocumentIcon,
   ArrowDownTrayIcon,
   ArrowTopRightOnSquareIcon,
+  DocumentArrowDownIcon,
 } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import type { SiteAction, SiteExport } from 'myst-config';
@@ -77,19 +78,30 @@ export function Download({
   internal?: boolean;
 }) {
   if (!filename) {
+    const icon = internal ? (
+      <DocumentIcon
+        width="1.25rem"
+        height="1.25rem"
+        className="items-center inline-block mr-2"
+        aria-hidden="true"
+      />
+    ) : (
+      <ArrowTopRightOnSquareIcon
+        width="1.25rem"
+        height="1.25rem"
+        className="items-center inline-block mr-2"
+        aria-hidden="true"
+      />
+    );
     return (
       <a
         className={classNames(className, 'flex')}
         href={url}
-        target={internal ? '_self' : '_blank'}
+        target={!internal ? '_blank' : undefined}
+        rel={!internal ? 'noreferrer noopener' : undefined}
       >
         <span className="sr-only">Visit URL {title ?? ''}</span>
-        <ArrowTopRightOnSquareIcon
-          width="1.25rem"
-          height="1.25rem"
-          className="items-center inline-block mr-2"
-          aria-hidden="true"
-        />
+        {icon}
         {title ?? url}
       </a>
     );
@@ -106,7 +118,7 @@ export function Download({
       <span className="sr-only">
         Download{format ? ` as ${format}` : ''} {title ?? ''}
       </span>
-      <DocumentIcon
+      <DocumentArrowDownIcon
         width="1.25rem"
         height="1.25rem"
         className="items-center inline-block mr-2"

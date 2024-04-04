@@ -11,7 +11,7 @@ type HasExports = {
   exports?: {
     title?: string;
     format?: string;
-    filename: string;
+    filename?: string;
     url: string;
     internal?: boolean;
   }[];

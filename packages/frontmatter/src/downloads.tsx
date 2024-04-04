@@ -1,10 +1,20 @@
 import { Menu } from '@headlessui/react';
-import { DocumentIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import {
+  DocumentIcon,
+  ArrowDownTrayIcon,
+  ArrowTopRightOnSquareIcon,
+} from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { useCallback } from 'react';
 
 type HasExports = {
-  exports?: { format?: string; filename: string; url: string }[];
+  exports?: {
+    title?: string;
+    format?: string;
+    filename: string;
+    url: string;
+    internal?: boolean;
+  }[];
 };
 
 /**
@@ -61,12 +71,34 @@ export function Download({
   filename,
   format,
   className,
+  title,
+  internal,
 }: {
   url: string;
-  filename: string;
+  filename?: string;
   format?: string;
   className?: string;
+  title?: string;
+  internal?: boolean;
 }) {
+  if (!filename) {
+    return (
+      <a
+        className={classNames(className, 'flex')}
+        href={url}
+        target={internal ? '_self' : '_blank'}
+      >
+        <span className="sr-only">Visit URL {title ?? ''}</span>
+        <ArrowTopRightOnSquareIcon
+          width="1.25rem"
+          height="1.25rem"
+          className="items-center inline-block mr-2"
+          aria-hidden="true"
+        />
+        {title ?? url}
+      </a>
+    );
+  }
   const clickDownload = useCallback(
     (e: any) => {
       e.preventDefault();
@@ -76,14 +108,16 @@ export function Download({
   );
   return (
     <a className={classNames(className, 'flex')} href={url} onClick={clickDownload}>
-      <span className="sr-only">Download{format ? ` as ${format}` : ''}</span>
+      <span className="sr-only">
+        Download{format ? ` as ${format}` : ''} {title ?? ''}
+      </span>
       <DocumentIcon
         width="1.25rem"
         height="1.25rem"
         className="items-center inline-block mr-2"
         aria-hidden="true"
       />
-      {filename}
+      {title ?? filename}
     </a>
   );
 }
@@ -102,13 +136,15 @@ export function DownloadsDropdown({ exports }: HasExports) {
         />
       </Menu.Button>
       <Menu.Items className="absolute overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
-        {exports.map(({ format, filename, url }, index) => (
+        {exports.map(({ format, filename, url, title, internal }, index) => (
           <Menu.Item key={index}>
             <Download
               className="block p-3 no-underline hover:bg-stone-700 dark:hover:bg-stone-200 hover:text-white dark:hover:text-black"
               url={url}
               filename={filename}
               format={format}
+              title={title}
+              internal={internal}
             />
           </Menu.Item>
         ))}

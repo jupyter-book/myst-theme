@@ -32,9 +32,10 @@ export function Downloads() {
             key={action.url}
             href={action.url}
             className="inline-block mr-2 no-underline lg:mr-0 lg:block"
+            target={action.internal ? '_self' : '_blank'}
           >
             <DocumentArrowDownIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />
-            <span>Download {formatToTitle(action.format)}</span>
+            <span>{action.title ?? `Download ${formatToTitle(action.format)}`}</span>
           </a>
         ))}
       </div>

@@ -144,7 +144,7 @@ export function updateSiteManifestStaticLinksInplace(
     }
     if (project?.downloads) {
       project.downloads = project.downloads.map((exp) => {
-        if (!exp.url) return exp;
+        if (!exp.url || !exp.static) return exp;
         return { ...exp, url: updateUrl(exp.url) };
       });
     }
@@ -179,7 +179,7 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
   }
   if (data?.frontmatter?.downloads) {
     data.frontmatter.downloads = data.frontmatter.downloads.map((exp) => {
-      if (!exp.url) return exp;
+      if (!exp.url || !exp.static) return exp;
       return { ...exp, url: updateUrl(exp.url) };
     });
   }

@@ -26,10 +26,7 @@ function formatToTitle(format?: string) {
 export function DownloadLinksArea() {
   const site = useSiteManifest();
   const project = site?.projects?.[0];
-  const downloads = [
-    ...(project?.downloads ?? project?.exports ?? []),
-    ...(project?.pages?.[0]?.downloads ?? project?.pages?.[0]?.exports ?? []),
-  ];
+  const downloads = project?.downloads ?? project?.exports ?? [];
 
   const handleDownload = useCallback(
     async (e: React.MouseEvent<HTMLAnchorElement>, item: DownloadsItem) => {

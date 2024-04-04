@@ -5,16 +5,11 @@ import {
   ArrowTopRightOnSquareIcon,
 } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
+import type { SiteAction, SiteExport } from 'myst-config';
 import { useCallback } from 'react';
 
 type HasExports = {
-  exports?: {
-    title?: string;
-    format?: string;
-    filename?: string;
-    url: string;
-    internal?: boolean;
-  }[];
+  exports?: SiteExport[] | SiteAction[];
 };
 
 /**
@@ -136,15 +131,15 @@ export function DownloadsDropdown({ exports }: HasExports) {
         />
       </Menu.Button>
       <Menu.Items className="absolute overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
-        {exports.map(({ format, filename, url, title, internal }, index) => (
+        {exports.map((exp, index) => (
           <Menu.Item key={index}>
             <Download
               className="block p-3 no-underline hover:bg-stone-700 dark:hover:bg-stone-200 hover:text-white dark:hover:text-black"
-              url={url}
-              filename={filename}
-              format={format}
-              title={title}
-              internal={internal}
+              url={exp.url}
+              filename={exp.filename}
+              format={exp.format}
+              title={(exp as any).title}
+              internal={(exp as any).internal}
             />
           </Menu.Item>
         ))}

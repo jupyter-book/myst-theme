@@ -67,7 +67,7 @@ export function DownloadLinksArea() {
     <div className="col-margin mt-3 mx-5 lg:m-0 lg:w-[300px]">
       <div className="flex flex-wrap gap-2 lg:flex-col w-fit lg:mx-auto">
         {downloads.map((item) => {
-          if (item.internal && !item.static) {
+          if (item.internal && !item.filename) {
             return (
               <Link to={item.url} className="no-underline">
                 <DocumentIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />
@@ -76,7 +76,7 @@ export function DownloadLinksArea() {
             );
           }
 
-          const externalLinkNotDownload = !item.static && !item.internal;
+          const externalLinkNotDownload = !item.filename;
           const icon = externalLinkNotDownload ? (
             <ArrowTopRightOnSquareIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />
           ) : (
@@ -88,10 +88,10 @@ export function DownloadLinksArea() {
               key={item.url}
               href={item.url}
               className="inline-block mr-2 no-underline lg:mr-0 lg:block"
-              download={item.static ? item.filename : undefined}
+              download={item.filename ? item.filename : undefined}
               target={externalLinkNotDownload ? '_blank' : undefined}
               rel={externalLinkNotDownload ? 'noreferrer noopener' : undefined}
-              onClick={item.static ? (e) => handleDownload(e, item) : undefined}
+              onClick={item.filename ? (e) => handleDownload(e, item) : undefined}
             >
               {icon}
               <span className="align-middle">

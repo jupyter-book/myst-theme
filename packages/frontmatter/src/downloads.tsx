@@ -62,6 +62,8 @@ export async function triggerBlobDownload(blob: Blob, filename: string) {
   return true;
 }
 
+const ICON_CLASS = 'self-center flex-none inline-block mr-3';
+
 export function Download({
   url,
   filename,
@@ -79,30 +81,25 @@ export function Download({
 }) {
   if (!filename) {
     const icon = internal ? (
-      <DocumentIcon
-        width="1.25rem"
-        height="1.25rem"
-        className="items-center inline-block mr-2"
-        aria-hidden="true"
-      />
+      <DocumentIcon width="1.25rem" height="1.25rem" className={ICON_CLASS} aria-hidden="true" />
     ) : (
       <ArrowTopRightOnSquareIcon
         width="1.25rem"
         height="1.25rem"
-        className="items-center inline-block mr-2"
+        className={ICON_CLASS}
         aria-hidden="true"
       />
     );
     return (
       <a
-        className={classNames(className, 'flex')}
+        className={classNames(className, 'flex no-underline')}
         href={url}
         target={!internal ? '_blank' : undefined}
         rel={!internal ? 'noreferrer noopener' : undefined}
       >
         <span className="sr-only">Visit URL {title ?? ''}</span>
         {icon}
-        {title ?? url}
+        <span className="w-max max-w-[200px] self-center">{title ?? url}</span>
       </a>
     );
   }
@@ -114,17 +111,17 @@ export function Download({
     [url, filename],
   );
   return (
-    <a className={classNames(className, 'flex')} href={url} onClick={clickDownload}>
+    <a className={classNames(className, 'flex no-underline')} href={url} onClick={clickDownload}>
       <span className="sr-only">
         Download{format ? ` as ${format}` : ''} {title ?? ''}
       </span>
       <DocumentArrowDownIcon
         width="1.25rem"
         height="1.25rem"
-        className="items-center inline-block mr-2"
+        className={ICON_CLASS}
         aria-hidden="true"
       />
-      {title ?? filename}
+      <span className="w-max max-w-[200px] self-center">{title ?? filename}</span>
     </a>
   );
 }
@@ -133,16 +130,11 @@ export function DownloadsDropdown({ exports }: HasExports) {
   if (!exports || exports.length === 0) return null;
   return (
     <Menu as="div" className="relative flex inline-block mx-1 grow-0">
-      <Menu.Button className="relative">
+      <Menu.Button className="relative ml-2 -mr-1">
         <span className="sr-only">Downloads</span>
-        <ArrowDownTrayIcon
-          width="1.25rem"
-          height="1.25rem"
-          className="ml-2 -mr-1"
-          aria-hidden="true"
-        />
+        <ArrowDownTrayIcon width="1.25rem" height="1.25rem" aria-hidden="true" />
       </Menu.Button>
-      <Menu.Items className="absolute overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <Menu.Items className="absolute z-10 overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
         {exports.map((exp, index) => (
           <Menu.Item key={index}>
             <Download

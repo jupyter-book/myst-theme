@@ -67,7 +67,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                   <ArrowLeftIcon
                     width="1rem"
                     height="1rem"
-                    className="self-center transition-transform group-hover:-translate-x-1 shrink-0"
+                    className="self-center flex-none transition-transform group-hover:-translate-x-1"
                   />
                   <span>Back to Article</span>
                 </Link>
@@ -84,7 +84,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                   <DocumentArrowDownIcon
                     width="1rem"
                     height="1rem"
-                    className="self-center transition-transform group-hover:-translate-x-1 shrink-0"
+                    className="self-center flex-none transition-transform group-hover:-translate-x-1"
                   />
                   <span>Download {article.kind}</span>
                 </a>

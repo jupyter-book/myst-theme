@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReferencesProvider } from '@myst-theme/providers';
+import { ReferencesProvider, useProjectManifest } from '@myst-theme/providers';
 import {
   Bibliography,
   ContentBlocks,
@@ -22,6 +22,27 @@ import {
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { extractKnownParts } from '../utils.js';
+import type { SiteAction } from 'myst-config';
+
+/**
+ * Combines the project downloads and the export options
+ */
+function combineDownloads(
+  siteDownloads: SiteAction[] | undefined,
+  pageFrontmatter: PageLoader['frontmatter'],
+) {
+  if (pageFrontmatter.downloads) {
+    if (siteDownloads) {
+      return [...pageFrontmatter.downloads, ...siteDownloads];
+    }
+    return pageFrontmatter.downloads;
+  }
+  // No downloads on the page
+  if (siteDownloads) {
+    return [...(pageFrontmatter.exports ?? []), ...siteDownloads];
+  }
+  return pageFrontmatter.exports;
+}
 
 export const ArticlePage = React.memo(function ({
   article,
@@ -32,10 +53,11 @@ export const ArticlePage = React.memo(function ({
   hide_all_footer_links?: boolean;
   hideKeywords?: boolean;
 }) {
+  const manifest = useProjectManifest();
   const compute = useComputeOptions();
 
   const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.options ?? {};
-
+  const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree);
@@ -50,7 +72,7 @@ export const ArticlePage = React.memo(function ({
           {!hide_title_block && (
             <FrontmatterBlock
               kind={article.kind}
-              frontmatter={article.frontmatter}
+              frontmatter={{ ...article.frontmatter, downloads }}
               className="pt-5 mb-8"
             />
           )}

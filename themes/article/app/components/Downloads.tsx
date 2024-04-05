@@ -38,7 +38,9 @@ export function DownloadLinksArea() {
 
       if (downloading[item.url]) return;
       setDownloading({ ...downloading, [item.url]: true });
+
       await triggerDirectDownload(item.url, item.filename);
+
       setDownloading({ ...downloading, [item.url]: false });
     },
     [downloading],

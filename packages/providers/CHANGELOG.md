@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 0.8.2
+
+### Patch Changes
+
+- 6f97346e: Update myst dependencies
+- Updated dependencies [6f97346e]
+  - @myst-theme/common@0.8.2
+
 ## 0.8.1
 
 ### Patch Changes

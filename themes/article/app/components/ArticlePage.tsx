@@ -13,7 +13,7 @@ import {
 } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { BusyScopeProvider, ExecuteScopeProvider } from '@myst-theme/jupyter';
-import { Downloads } from './Downloads';
+import { DownloadLinksArea } from './Downloads';
 import { Article } from './Article';
 
 interface ArticleTemplateOptions {
@@ -42,7 +42,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
           <ArticleHeader frontmatter={project}>
             <div className="pt-5 md:self-center h-fit lg:pt-0 col-body lg:col-margin-right-inset">
-              <Downloads />
+              <DownloadLinksArea />
               {compute?.enabled && compute.features.launchBinder && (
                 <div className="col-margin mt-3 mx-5 lg:mt-2 lg:mx-0 lg:w-[300px]">
                   <div className="flex flex-wrap gap-2 lg:flex-col w-[147px] pl-[1px] lg:mx-auto">

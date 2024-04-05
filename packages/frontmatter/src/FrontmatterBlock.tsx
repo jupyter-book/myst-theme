@@ -206,11 +206,12 @@ export function FrontmatterBlock({
     venue,
     biblio,
     exports,
+    downloads,
     date,
     authors,
   } = frontmatter;
   const isJupyter = kind === SourceFileKind.Notebook;
-  const hasExports = exports && exports.length > 0;
+  const hasExports = downloads ? downloads.length > 0 : exports && exports.length > 0;
   const hasAuthors = authors && authors.length > 0;
   const hasBadges = !!open_access || !!license || !!hasExports || !!isJupyter || !!github;
   const hasHeaders = !!subject || !!venue || !!biblio;
@@ -251,7 +252,7 @@ export function FrontmatterBlock({
               )}
             </>
           )}
-          {!hideExports && <DownloadsDropdown exports={exports as any} />}
+          {!hideExports && <DownloadsDropdown exports={(downloads ?? exports) as any} />}
         </div>
       )}
       {title && <h1 className="mb-0">{title}</h1>}

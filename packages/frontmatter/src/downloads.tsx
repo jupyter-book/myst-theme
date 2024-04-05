@@ -1,10 +1,16 @@
 import { Menu } from '@headlessui/react';
-import { DocumentIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import {
+  DocumentIcon,
+  ArrowDownTrayIcon,
+  ArrowTopRightOnSquareIcon,
+  DocumentArrowDownIcon,
+} from '@heroicons/react/24/outline';
 import classNames from 'classnames';
+import type { SiteAction, SiteExport } from 'myst-config';
 import { useCallback } from 'react';
 
 type HasExports = {
-  exports?: { format: string; filename: string; url: string }[];
+  exports?: SiteExport[] | SiteAction[];
 };
 
 /**
@@ -61,12 +67,45 @@ export function Download({
   filename,
   format,
   className,
+  title,
+  internal,
 }: {
   url: string;
-  filename: string;
-  format: string;
+  filename?: string;
+  format?: string;
   className?: string;
+  title?: string;
+  internal?: boolean;
 }) {
+  if (!filename) {
+    const icon = internal ? (
+      <DocumentIcon
+        width="1.25rem"
+        height="1.25rem"
+        className="items-center inline-block mr-2"
+        aria-hidden="true"
+      />
+    ) : (
+      <ArrowTopRightOnSquareIcon
+        width="1.25rem"
+        height="1.25rem"
+        className="items-center inline-block mr-2"
+        aria-hidden="true"
+      />
+    );
+    return (
+      <a
+        className={classNames(className, 'flex')}
+        href={url}
+        target={!internal ? '_blank' : undefined}
+        rel={!internal ? 'noreferrer noopener' : undefined}
+      >
+        <span className="sr-only">Visit URL {title ?? ''}</span>
+        {icon}
+        {title ?? url}
+      </a>
+    );
+  }
   const clickDownload = useCallback(
     (e: any) => {
       e.preventDefault();
@@ -76,14 +115,16 @@ export function Download({
   );
   return (
     <a className={classNames(className, 'flex')} href={url} onClick={clickDownload}>
-      <span className="sr-only">Download as {format}</span>
-      <DocumentIcon
+      <span className="sr-only">
+        Download{format ? ` as ${format}` : ''} {title ?? ''}
+      </span>
+      <DocumentArrowDownIcon
         width="1.25rem"
         height="1.25rem"
         className="items-center inline-block mr-2"
         aria-hidden="true"
       />
-      {filename}
+      {title ?? filename}
     </a>
   );
 }
@@ -102,13 +143,15 @@ export function DownloadsDropdown({ exports }: HasExports) {
         />
       </Menu.Button>
       <Menu.Items className="absolute overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
-        {exports.map(({ format, filename, url }, index) => (
+        {exports.map((exp, index) => (
           <Menu.Item key={index}>
             <Download
               className="block p-3 no-underline hover:bg-stone-700 dark:hover:bg-stone-200 hover:text-white dark:hover:text-black"
-              url={url}
-              filename={filename}
-              format={format}
+              url={exp.url}
+              filename={exp.filename}
+              format={exp.format}
+              title={(exp as any).title}
+              internal={(exp as any).internal}
             />
           </Menu.Item>
         ))}

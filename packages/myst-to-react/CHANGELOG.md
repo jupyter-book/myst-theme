@@ -1,5 +1,14 @@
 # myst-to-react
 
+## 0.8.2
+
+### Patch Changes
+
+- d824eed8: Allow for id on an image/video
+- 6f97346e: Update myst dependencies
+- Updated dependencies [6f97346e]
+  - @myst-theme/providers@0.8.2
+
 ## 0.8.1
 
 ### Patch Changes

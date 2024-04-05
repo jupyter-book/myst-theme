@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.8.2
+
+### Patch Changes
+
+- 1e769a03: Improve the downloads
+
 ## 0.8.1
 
 ### Patch Changes

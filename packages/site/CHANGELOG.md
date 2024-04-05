@@ -1,5 +1,23 @@
 # @myst-theme/site
 
+## 0.8.2
+
+### Patch Changes
+
+- 4a438035: Ensure some parts are explicit (e.g. summary)
+- 1e769a03: Improve the downloads
+- 6f97346e: Update myst dependencies
+- Updated dependencies [1e769a03]
+- Updated dependencies [d824eed8]
+- Updated dependencies [6f97346e]
+  - @myst-theme/frontmatter@0.8.2
+  - myst-to-react@0.8.2
+  - myst-demo@0.8.2
+  - @myst-theme/providers@0.8.2
+  - @myst-theme/jupyter@0.8.2
+  - @myst-theme/common@0.8.2
+  - @myst-theme/diagrams@0.8.2
+
 ## 0.8.1
 
 ### Patch Changes

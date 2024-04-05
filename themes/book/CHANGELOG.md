@@ -1,5 +1,20 @@
 # @myst-theme/book
 
+## 0.8.2
+
+### Patch Changes
+
+- 6f97346e: Update myst dependencies
+- Updated dependencies [4a438035]
+- Updated dependencies [1e769a03]
+- Updated dependencies [6f97346e]
+  - @myst-theme/site@0.8.2
+  - @myst-theme/providers@0.8.2
+  - @myst-theme/jupyter@0.8.2
+  - @myst-theme/common@0.8.2
+  - @myst-theme/styles@0.8.2
+  - @myst-theme/icons@0.8.2
+
 ## 0.8.1
 
 ### Patch Changes

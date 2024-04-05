@@ -32,12 +32,9 @@ function combineDownloads(
   pageFrontmatter: PageLoader['frontmatter'],
 ) {
   if (pageFrontmatter.downloads) {
-    if (siteDownloads) {
-      return [...pageFrontmatter.downloads, ...siteDownloads];
-    }
     return pageFrontmatter.downloads;
   }
-  // No downloads on the page
+  // No downloads on the page, combine the exports if they exist
   if (siteDownloads) {
     return [...(pageFrontmatter.exports ?? []), ...siteDownloads];
   }

@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.8.1
+
+### Patch Changes
+
+- bb0f4b2b: Update myst versions
+- Updated dependencies [bb0f4b2b]
+  - @myst-theme/providers@0.8.1
+
 ## 0.8.0
 
 ### Minor Changes

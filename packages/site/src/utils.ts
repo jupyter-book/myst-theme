@@ -17,9 +17,9 @@ export type KnownParts = {
 
 export function extractKnownParts(tree: GenericParent): KnownParts {
   const abstract = extractPart(tree, 'abstract');
-  const summary = extractPart(tree, 'summary');
-  const keypoints = extractPart(tree, 'keypoints');
-  const data_availability = extractPart(tree, 'data_availability');
-  const acknowledgments = extractPart(tree, 'acknowledgments');
+  const summary = extractPart(tree, 'summary', { requireExplicitPart: true });
+  const keypoints = extractPart(tree, ['keypoints'], { requireExplicitPart: true });
+  const data_availability = extractPart(tree, ['data_availability', 'data availability']);
+  const acknowledgments = extractPart(tree, ['acknowledgments', 'acknowledgements']);
   return { abstract, summary, keypoints, data_availability, acknowledgments };
 }

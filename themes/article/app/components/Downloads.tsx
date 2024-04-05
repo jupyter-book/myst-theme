@@ -52,7 +52,7 @@ export function DownloadLinksArea() {
         {downloads.map((item) => {
           if ((item as DownloadsItem).internal && !item.filename) {
             return (
-              <Link to={item.url} className="no-underline">
+              <Link key={item.url} to={item.url} className="no-underline">
                 <DocumentIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />
                 <span className="align-middle">{(item as DownloadsItem).title}</span>
               </Link>

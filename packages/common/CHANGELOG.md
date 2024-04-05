@@ -1,5 +1,12 @@
 # @myst-theme/common
 
+## 0.8.1
+
+### Patch Changes
+
+- bb0f4b2b: Add downloads to supersede exports
+- bb0f4b2b: Update myst versions
+
 ## 0.8.0
 
 ## 0.7.0

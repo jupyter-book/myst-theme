@@ -1,5 +1,20 @@
 # @myst-theme/book
 
+## 0.8.1
+
+### Patch Changes
+
+- bb0f4b2b: Add downloads to supersede exports
+- bb0f4b2b: Update myst versions
+- Updated dependencies [bb0f4b2b]
+- Updated dependencies [bb0f4b2b]
+  - @myst-theme/common@0.8.1
+  - @myst-theme/providers@0.8.1
+  - @myst-theme/jupyter@0.8.1
+  - @myst-theme/site@0.8.1
+  - @myst-theme/styles@0.8.1
+  - @myst-theme/icons@0.8.1
+
 ## 0.8.0
 
 ### Patch Changes

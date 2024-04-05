@@ -1,5 +1,13 @@
 # @myst-theme/frontmatter
 
+## 0.8.1
+
+### Patch Changes
+
+- bb0f4b2b: Add downloads to supersede exports
+- bb0f4b2b: Update myst versions
+- ef36c695: Shift author popover to a z-index of 10 to bring it into same order at other content components
+
 ## 0.8.0
 
 ### Patch Changes

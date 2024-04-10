@@ -1,5 +1,6 @@
 import type { SiteManifest } from 'myst-config';
 import type { SiteLoader } from '@myst-theme/common';
+import type { NodeRenderer } from '@myst-theme/providers';
 import { BaseUrlProvider, SiteProvider, Theme, ThemeProvider } from '@myst-theme/providers';
 import {
   Links,
@@ -12,7 +13,7 @@ import {
   Link,
   NavLink,
 } from '@remix-run/react';
-import { DEFAULT_NAV_HEIGHT, renderers } from '../components/index.js';
+import { DEFAULT_NAV_HEIGHT, renderers as defaultRenderers } from '../components/index.js';
 import { Analytics } from '../seo/index.js';
 import { Error404 } from './Error404.js';
 import classNames from 'classnames';
@@ -26,6 +27,7 @@ export function Document({
   staticBuild,
   baseurl,
   top = DEFAULT_NAV_HEIGHT,
+  renderers = defaultRenderers,
 }: {
   children: React.ReactNode;
   scripts?: React.ReactNode;
@@ -35,6 +37,7 @@ export function Document({
   staticBuild?: boolean;
   baseurl?: string;
   top?: number;
+  renderers?: Record<string, NodeRenderer>;
 }) {
   const links = staticBuild
     ? {

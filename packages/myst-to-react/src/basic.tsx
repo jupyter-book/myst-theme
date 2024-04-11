@@ -50,6 +50,10 @@ type Keyboard = {
   type: 'keyboard';
 };
 
+type Include = {
+  type: 'include';
+};
+
 type BasicNodeRenderers = {
   text: NodeRenderer<spec.Text>;
   span: NodeRenderer<GenericNode>;
@@ -90,6 +94,7 @@ type BasicNodeRenderers = {
   definitionTerm: NodeRenderer<DefinitionTerm>;
   definitionDescription: NodeRenderer<DefinitionDescription>;
   aside: NodeRenderer<Aside>;
+  include: NodeRenderer<Include>;
 };
 
 const BASIC_RENDERERS: BasicNodeRenderers = {
@@ -386,6 +391,10 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
         <MyST ast={node.children} />
       </kbd>
     );
+  },
+  include({ node }) {
+    // TODO, provider could give context about the filename
+    return <MyST ast={node.children} />;
   },
 };
 

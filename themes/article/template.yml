@@ -23,6 +23,9 @@ options:
     id: twitter
     description: Twitter handle related to the site
   - type: file
+    id: favicon
+    description: Local path to favicon image
+  - type: file
     id: logo
     description: Local path to logo image
   - type: file

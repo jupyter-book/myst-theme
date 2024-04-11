@@ -129,6 +129,7 @@ export function updateSiteManifestStaticLinksInplace(
   }
   if (data.options.logo) data.options.logo = updateUrl(data.options.logo);
   if (data.options.logo_dark) data.options.logo_dark = updateUrl(data.options.logo_dark);
+  if (data.options.favicon) data.options.favicon = updateUrl(data.options.favicon);
   // Update the thumbnails to point at the CDN
   data.projects?.forEach((project) => {
     if (project.banner) project.banner = updateUrl(project.banner);

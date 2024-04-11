@@ -23,6 +23,10 @@ export const meta: MetaFunction = ({ data }) => {
 
 export const links: LinksFunction = () => {
   return [
+    {
+      rel: 'icon',
+      href: '/favicon.ico',
+    },
     { rel: 'stylesheet', href: tailwind },
     { rel: 'stylesheet', href: thebeCoreCss },
     {

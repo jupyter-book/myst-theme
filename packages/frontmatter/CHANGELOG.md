@@ -1,5 +1,7 @@
 # @myst-theme/frontmatter
 
+## 0.8.3
+
 ## 0.8.2
 
 ### Patch Changes

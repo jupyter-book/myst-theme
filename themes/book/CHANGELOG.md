@@ -1,5 +1,19 @@
 # @myst-theme/book
 
+## 0.8.3
+
+### Patch Changes
+
+- 5ecc18e6: Add favicon
+- Updated dependencies [2a532d72]
+- Updated dependencies [5ecc18e6]
+  - @myst-theme/site@0.8.3
+  - @myst-theme/common@0.8.3
+  - @myst-theme/providers@0.8.3
+  - @myst-theme/jupyter@0.8.3
+  - @myst-theme/styles@0.8.3
+  - @myst-theme/icons@0.8.3
+
 ## 0.8.2
 
 ### Patch Changes

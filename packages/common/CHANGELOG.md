@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.8.3
+
+### Patch Changes
+
+- 5ecc18e6: Add favicon
+
 ## 0.8.2
 
 ### Patch Changes

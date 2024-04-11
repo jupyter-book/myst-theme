@@ -1,5 +1,20 @@
 # @myst-theme/site
 
+## 0.8.3
+
+### Patch Changes
+
+- 2a532d72: Add renderers as a prop to Document
+- Updated dependencies [5ecc18e6]
+- Updated dependencies [762fa839]
+  - @myst-theme/common@0.8.3
+  - myst-to-react@0.8.3
+  - @myst-theme/providers@0.8.3
+  - @myst-theme/frontmatter@0.8.3
+  - @myst-theme/diagrams@0.8.3
+  - @myst-theme/jupyter@0.8.3
+  - myst-demo@0.8.3
+
 ## 0.8.2
 
 ### Patch Changes

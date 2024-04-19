@@ -19,6 +19,7 @@ import EXT_RENDERERS from './extensions/index.js';
 import INLINE_EXPRESSION_RENDERERS from './inlineExpression.js';
 import PROOF_RENDERERS from './proof.js';
 import EXERCISE_RENDERERS from './exercise.js';
+import ASIDE_RENDERERS from './aside.js';
 import UNKNOWN_MYST_RENDERERS from './unknown.js';
 
 export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components/index.js';
@@ -51,6 +52,7 @@ export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...EXT_RENDERERS,
   ...PROOF_RENDERERS,
   ...EXERCISE_RENDERERS,
+  ...ASIDE_RENDERERS,
 };
 
 export { MyST } from './MyST.js';

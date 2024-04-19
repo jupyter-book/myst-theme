@@ -23,20 +23,18 @@ export const meta: V2_MetaFunction = ({ data, matches, location }) => {
   const config: SiteManifest = data.config;
   const project: ManifestProject = data.project;
   const page: PageLoader['frontmatter'] = data.page.frontmatter;
-
+  const siteTitle = config?.title ?? project?.title ?? '';
   return getMetaTagsForArticle({
     origin: '',
     url: location.pathname,
-    title: page.title
-      ? `${page.title} - ${config?.title ?? project.title}`
-      : `${config?.title ?? project.title}`,
-    description: page.description ?? project.description ?? config.description ?? undefined,
+    title: page?.title ? `${page.title}${siteTitle ? ` - ${siteTitle}` : ''}` : siteTitle,
+    description: page?.description ?? project?.description ?? config?.description ?? undefined,
     image:
-      (page.thumbnailOptimized || page.thumbnail) ??
-      (project.thumbnailOptimized || project.thumbnail) ??
+      (page?.thumbnailOptimized || page?.thumbnail) ??
+      (project?.thumbnailOptimized || project?.thumbnail) ??
       undefined,
     twitter: config?.options?.twitter,
-    keywords: page.keywords ?? project.keywords ?? config.keywords ?? [],
+    keywords: page?.keywords ?? project?.keywords ?? config?.keywords ?? [],
   });
 };
 

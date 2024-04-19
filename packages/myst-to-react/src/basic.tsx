@@ -42,10 +42,6 @@ type CaptionNumber = {
   identifier: string;
 };
 
-type Aside = {
-  type: 'aside';
-};
-
 type Keyboard = {
   type: 'keyboard';
 };
@@ -93,7 +89,6 @@ type BasicNodeRenderers = {
   definitionList: NodeRenderer<DefinitionList>;
   definitionTerm: NodeRenderer<DefinitionTerm>;
   definitionDescription: NodeRenderer<DefinitionDescription>;
-  aside: NodeRenderer<Aside>;
   include: NodeRenderer<Include>;
 };
 
@@ -376,13 +371,6 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       <dd>
         <MyST ast={node.children} />
       </dd>
-    );
-  },
-  aside({ node }) {
-    return (
-      <aside className="text-sm lg:h-0 col-margin-right">
-        <MyST ast={node.children} />
-      </aside>
     );
   },
   keyboard({ node }) {

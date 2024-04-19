@@ -1,5 +1,20 @@
 # @myst-theme/article
 
+## 0.9.0
+
+### Patch Changes
+
+- 36282f20: Bug in page frontmatter being undefined
+- 34f2a76b: Update packages
+- Updated dependencies [b59ddf0b]
+- Updated dependencies [34f2a76b]
+  - @myst-theme/common@0.9.0
+  - @myst-theme/site@0.9.0
+  - @myst-theme/providers@0.9.0
+  - @myst-theme/jupyter@0.9.0
+  - @myst-theme/styles@0.9.0
+  - @myst-theme/icons@0.9.0
+
 ## 0.8.3
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @myst-theme/common
 
+## 0.9.0
+
+### Minor Changes
+
+- b59ddf0b: Migrated to meta helper functions to the Remix V2 pattern, old meta helpers functions are still available with a `_v1` suffix.
+
+### Patch Changes
+
+- 34f2a76b: Update packages
+
 ## 0.8.3
 
 ### Patch Changes

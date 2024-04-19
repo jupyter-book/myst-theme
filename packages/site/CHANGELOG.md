@@ -1,5 +1,26 @@
 # @myst-theme/site
 
+## 0.9.0
+
+### Minor Changes
+
+- b59ddf0b: Migrated to meta helper functions to the Remix V2 pattern, old meta helpers functions are still available with a `_v1` suffix.
+
+### Patch Changes
+
+- 34f2a76b: Update packages
+- Updated dependencies [407e054a]
+- Updated dependencies [b59ddf0b]
+- Updated dependencies [34f2a76b]
+- Updated dependencies [9810bf7c]
+  - myst-demo@0.9.0
+  - @myst-theme/common@0.9.0
+  - myst-to-react@0.9.0
+  - @myst-theme/providers@0.9.0
+  - @myst-theme/jupyter@0.9.0
+  - @myst-theme/frontmatter@0.9.0
+  - @myst-theme/diagrams@0.9.0
+
 ## 0.8.3
 
 ### Patch Changes

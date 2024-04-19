@@ -1,5 +1,14 @@
 # myst-to-react
 
+## 0.9.0
+
+### Patch Changes
+
+- 34f2a76b: Update packages
+- 9810bf7c: Support various types of margin content
+- Updated dependencies [34f2a76b]
+  - @myst-theme/providers@0.9.0
+
 ## 0.8.3
 
 ### Patch Changes

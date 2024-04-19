@@ -95,6 +95,8 @@ async function parse(
     mathPlugin,
     footnotesPlugin,
     keysPlugin,
+    htmlPlugin,
+    reconstructHtmlPlugin,
     basicTransformationsPlugin,
     enumerateTargetsPlugin,
     resolveReferencesPlugin,
@@ -163,6 +165,8 @@ async function parse(
     }
   });
   unified()
+    .use(reconstructHtmlPlugin) // We need to group and link the HTML first
+    .use(htmlPlugin) // Some of the HTML plugins need to operate on the transformed html, e.g. figure caption transforms
     .use(basicTransformationsPlugin, { parser: parseMyst })
     .use(mathPlugin, { macros: frontmatter?.math ?? {} }) // This must happen before enumeration, as it can add labels
     .use(glossaryPlugin) // This should be before the enumerate plugins

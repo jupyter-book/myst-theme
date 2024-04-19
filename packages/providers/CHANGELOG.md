@@ -1,5 +1,14 @@
 # @myst-theme/providers
 
+## 0.9.0
+
+### Patch Changes
+
+- 34f2a76b: Update packages
+- Updated dependencies [b59ddf0b]
+- Updated dependencies [34f2a76b]
+  - @myst-theme/common@0.9.0
+
 ## 0.8.3
 
 ### Patch Changes

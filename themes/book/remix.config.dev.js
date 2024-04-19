@@ -19,6 +19,7 @@ module.exports = {
     /^hast.*/,
     /^mdast.*/,
     /^micromark.*/,
+    /^csv-parse.*/,
     'html-whitespace-sensitive-tag-names',
     'html-void-elements',
     'property-information',

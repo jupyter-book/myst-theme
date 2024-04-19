@@ -1,5 +1,10 @@
-import { isFlatSite, type PageLoader } from '@myst-theme/common';
-import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
+import { getProject, isFlatSite, type PageLoader } from '@myst-theme/common';
+import {
+  json,
+  type LinksFunction,
+  type LoaderFunction,
+  type V2_MetaFunction,
+} from '@remix-run/node';
 import { getMetaTagsForArticle, KatexCSS, ArticlePageCatchBoundary } from '@myst-theme/site';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
@@ -10,16 +15,28 @@ import { ComputeOptionsProvider } from '@myst-theme/jupyter';
 import { ProjectProvider, useBaseurl } from '@myst-theme/providers';
 import { ThebeLoaderAndServer } from '@myst-theme/jupyter';
 
-export const meta: MetaFunction = (args) => {
-  const config = args.parentsData?.root?.config as SiteManifest | undefined;
-  const data = args.data as PageLoader | undefined;
-  if (!config || !data || !data.frontmatter) return {};
+type ManifestProject = Required<SiteManifest>['projects'][0];
+
+export const meta: V2_MetaFunction = ({ data, matches, location }) => {
+  if (!data) return [];
+
+  const config: SiteManifest = data.config;
+  const project: ManifestProject = data.project;
+  const page: PageLoader['frontmatter'] = data.page.frontmatter;
+
   return getMetaTagsForArticle({
     origin: '',
-    url: args.location.pathname,
-    title: `${data.frontmatter.title} - ${config?.title}`,
-    description: data.frontmatter.description,
-    image: (data.frontmatter.thumbnailOptimized || data.frontmatter.thumbnail) ?? undefined,
+    url: location.pathname,
+    title: page.title
+      ? `${page.title} - ${config?.title ?? project.title}`
+      : `${config?.title ?? project.title}`,
+    description: page.description ?? project.description ?? config.description ?? undefined,
+    image:
+      (page.thumbnailOptimized || page.thumbnail) ??
+      (project.thumbnailOptimized || project.thumbnail) ??
+      undefined,
+    twitter: config?.options?.twitter,
+    keywords: page.keywords ?? project.keywords ?? config.keywords ?? [],
   });
 };
 
@@ -30,13 +47,14 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const projectName = second ? first : undefined;
   const slug = second || first;
   const config = await getConfig();
+  const project = getProject(config, projectName ?? slug);
   const flat = isFlatSite(config);
   const page = await getPage(request, {
     project: flat ? projectName : projectName ?? slug,
     slug: flat ? slug : projectName ? slug : undefined,
     redirect: process.env.MODE === 'static' ? false : true,
   });
-  return page;
+  return json({ config, project, page });
 };
 
 export default function Page() {
@@ -44,7 +62,7 @@ export default function Page() {
   // const { container, outline } = useOutlineHeight();
   // const { hide_outline } = (article.frontmatter as any)?.options ?? {};
   const baseurl = useBaseurl();
-  const article = useLoaderData<PageLoader>() as PageLoader;
+  const { page: article } = useLoaderData() as { page: PageLoader };
 
   return (
     <ArticlePageAndNavigation>

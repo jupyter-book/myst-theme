@@ -107,11 +107,12 @@ export function ArticlePageAndNavigation({
   );
 }
 
-interface BookThemeTemplateOptions {
+export interface BookThemeTemplateOptions {
   hide_toc?: boolean;
   hide_outline?: boolean;
   hide_footer_links?: boolean;
   outline_maxdepth?: number;
+  numbered_references?: boolean;
 }
 
 export default function Page() {

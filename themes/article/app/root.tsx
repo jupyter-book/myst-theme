@@ -30,6 +30,7 @@ export const links: LinksFunction = () => {
     },
     { rel: 'stylesheet', href: tailwind },
     { rel: 'stylesheet', href: thebeCoreCss },
+    { rel: 'stylesheet', href: '/myst-theme.css' },
     {
       rel: 'stylesheet',
       href: 'https://cdn.jsdelivr.net/npm/jupyter-matplotlib@0.11.3/css/mpl_widget.css',

@@ -4,15 +4,23 @@ cite {
 .cite-group.parenthetical > *::after {
   content: ';\00a0';
 }
+.xref-group > *::after,
 .cite-group.narrative > *::after {
   content: ',\00a0';
 }
+.xref-group > *:last-of-type::after,
 .cite-group > *:last-of-type::after {
   content: '';
 }
 .cite-group.parenthetical:before {
-  content: '(';
+  content: var(--cite-group-open, '(');
 }
 .cite-group.parenthetical:after {
-  content: ')';
+  content: var(--cite-group-close, ')');
+}
+.xref-group.parenthetical:before {
+  content: var(--xref-group-open, '(');
+}
+.xref-group.parenthetical:after {
+  content: var(--xref-group-close, ')');
 }

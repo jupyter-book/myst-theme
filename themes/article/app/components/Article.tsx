@@ -41,13 +41,13 @@ export function Article({
       <BusyScopeProvider>
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
           {!hideTitle && <FrontmatterBlock frontmatter={{ title, subtitle }} className="mb-5" />}
-          {!hideOutline && (
-            <div className="sticky top-0 z-10 hidden h-0 pt-2 ml-10 col-margin-right lg:block">
+	  {!hideOutline && (<div className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-2 lg:my-0 lg:ml-10 lg:col-margin-right">
               <DocumentOutline className="relative">
                 <SupportingDocuments />
               </DocumentOutline>
-            </div>
-          )}
+            </div>)}
+         
+        
           {compute?.enabled &&
             compute?.features.notebookCompute &&
             article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}

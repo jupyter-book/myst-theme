@@ -137,19 +137,16 @@ export default function Page() {
         >
           <ThebeLoaderAndServer baseurl={baseurl}>
             <main ref={container} className="article-grid subgrid-gap col-screen">
-              {!hide_outline && (
-                <div
-                  className="sticky z-10 hidden h-0 col-margin-right-inset lg:block"
-                  style={{ top }}
-                >
+              	    {!hide_outline && ( <div className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:my-0 lg:col-margin-right">
                   <DocumentOutline
                     top={16}
                     className="relative"
                     outlineRef={outline}
                     maxdepth={outline_maxdepth}
                   />
-                </div>
-              )}
+            </div>
+
+		 )} 
               <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
             </main>
           </ThebeLoaderAndServer>

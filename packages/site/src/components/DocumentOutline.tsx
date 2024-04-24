@@ -9,6 +9,9 @@ import classNames from 'classnames';
 import throttle from 'lodash.throttle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { DocumentChartBarIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import * as Collapsible from '@radix-ui/react-collapsible';
+
 
 const SELECTOR = [1, 2, 3, 4].map((n) => `main h${n}`).join(', ');
 const HIGHLIGHT_CLASS = 'highlight';
@@ -247,6 +250,7 @@ export const DocumentOutline = ({
     return <nav suppressHydrationWarning>{children}</nav>;
   }
   return (
+    <Collapsible.Root>
     <nav
       ref={outlineRef}
       aria-label="Document Outline"
@@ -260,12 +264,25 @@ export const DocumentOutline = ({
         maxHeight: `calc(100vh - ${top + 20}px)`,
       }}
     >
-      <div className="mb-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">
+      <div className="mb-4 flex flex-row text-sm gap-2 rounded-lg leading-6 uppercase text-slate-900 dark:text-slate-100">
         In this article
-      </div>
+         
+      <Collapsible.Trigger asChild>
+      <button className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2">
+            <ChevronRightIcon
+              className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+              height="1.5rem"
+              width="1.5rem"
+            />
+          </button>
+	  </Collapsible.Trigger>
+</div>
+    <Collapsible.Content className="CollapsibleContent">
       <Headings headings={headings} activeId={activeId} highlight={highlight} selector={selector} />
       {children}
+    </Collapsible.Content>
     </nav>
+  </Collapsible.Root>
   );
 };
 

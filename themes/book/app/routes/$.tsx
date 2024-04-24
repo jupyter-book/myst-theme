@@ -7,12 +7,10 @@ import {
 import { getProject, isFlatSite, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
-  ArticlePage,
   useOutlineHeight,
   useTocHeight,
   Navigation,
   TopNav,
-  ArticlePageCatchBoundary,
   getMetaTagsForArticle,
 } from '@myst-theme/site';
 import { getConfig, getPage } from '~/utils/loaders.server';
@@ -28,7 +26,10 @@ import {
 } from '@myst-theme/providers';
 import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
-
+import { 
+  ArticlePage,
+  ArticlePageCatchBoundary,
+  } from '../components/ArticlePage.js'
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
 export const meta: V2_MetaFunction = ({ data, matches, location }) => {

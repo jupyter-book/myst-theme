@@ -7,9 +7,10 @@ import {
   FrontmatterParts,
   BackmatterParts,
   DocumentOutline,
-} from '../components/index.js';
-import { ErrorDocumentNotFound } from './ErrorDocumentNotFound.js';
-import { ErrorProjectNotFound } from './ErrorProjectNotFound.js';
+  ErrorDocumentNotFound,
+  ErrorProjectNotFound,
+  extractKnownParts,
+} from '@myst-theme/site';
 import type { PageLoader } from '@myst-theme/common';
 import { copyNode, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
@@ -22,7 +23,6 @@ import {
   useComputeOptions,
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
-import { extractKnownParts } from '../utils.js';
 import type { SiteAction } from 'myst-config';
 
 /**
@@ -77,7 +77,7 @@ export const ArticlePage = React.memo(function ({
           )}
           {!hide_outline && (
             <div className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-2 lg:my-0 lg:ml-10 lg:col-margin-right">
-              <DocumentOutline className="relative"  />
+              <DocumentOutline className="relative" />
             </div>
           )}
           {compute?.enabled &&

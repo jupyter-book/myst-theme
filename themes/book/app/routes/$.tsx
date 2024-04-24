@@ -26,10 +26,7 @@ import {
 } from '@myst-theme/providers';
 import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
-import { 
-  ArticlePage,
-  ArticlePageCatchBoundary,
-  } from '../components/ArticlePage.js'
+import { ArticlePage, ArticlePageCatchBoundary } from '../components/ArticlePage.js';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
 export const meta: V2_MetaFunction = ({ data, matches, location }) => {
@@ -136,7 +133,7 @@ export default function Page() {
         >
           <ThebeLoaderAndServer baseurl={baseurl}>
             <main ref={container} className="article-grid subgrid-gap col-screen">
-              	                  <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
+              <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
             </main>
           </ThebeLoaderAndServer>
         </ComputeOptionsProvider>

@@ -16,9 +16,10 @@ import { BusyScopeProvider, ExecuteScopeProvider } from '@myst-theme/jupyter';
 import { DownloadLinksArea } from './Downloads';
 import { Article } from './Article';
 
-interface ArticleTemplateOptions {
+export interface ArticleTemplateOptions {
   hide_toc?: boolean;
   hide_footer_links?: boolean;
+  numbered_references?: boolean;
 }
 
 export function ArticlePage({ article }: { article: PageLoader }) {

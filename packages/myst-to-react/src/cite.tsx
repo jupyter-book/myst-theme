@@ -1,10 +1,17 @@
 import classNames from 'classnames';
-import { useReferences } from '@myst-theme/providers';
+import { useReferences, useSiteManifest } from '@myst-theme/providers';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { doi } from 'doi-utils';
 import { InlineError } from './inlineError.js';
 import { HoverPopover } from './components/index.js';
 import { MyST } from './MyST.js';
+import type { GenericParent } from 'myst-common';
+
+function useNumberedReferences(): boolean {
+  const config = useSiteManifest();
+  const numbered_references = !!config?.options?.numbered_references;
+  return numbered_references;
+}
 
 function CiteChild({ html }: { html?: string }) {
   return (
@@ -15,10 +22,13 @@ function CiteChild({ html }: { html?: string }) {
   );
 }
 
-export const CiteGroup: NodeRenderer = ({ node }) => {
+export const CiteGroup: NodeRenderer<GenericParent> = ({ node }) => {
+  const allCite = node.children?.every((child) => child.type === 'cite') ?? false;
   return (
     <span
-      className={classNames('cite-group', {
+      className={classNames({
+        'cite-group': allCite,
+        'xref-group': !allCite,
         narrative: node.kind === 'narrative',
         parenthetical: node.kind === 'parenthetical',
       })}
@@ -41,29 +51,30 @@ export const Cite = ({
   if (!label) {
     return <InlineError value="cite (no label)" message={'Citation Has No Label'} />;
   }
-  const { html, doi: doiString } = references?.cite?.data[label] ?? {};
+  const { html, doi: doiString, url: refUrl } = references?.cite?.data[label] ?? {};
   if (error) {
     return <InlineError value={label} message={'Citation Not Found'} />;
   }
-  const doiUrl = doiString ? doi.buildUrl(doiString as string) : null;
+  const url = doiString ? doi.buildUrl(doiString as string) : refUrl;
   return (
     <HoverPopover openDelay={300} card={<CiteChild html={html} />}>
       <cite>
-        {doiUrl && (
-          <a href={doiUrl} target="_blank" rel="noreferrer" className="hover-link">
+        {url && (
+          <a href={url} target="_blank" rel="noreferrer" className="hover-link">
             {children}
           </a>
         )}
-        {!doiUrl && <span className="hover-link">{children}</span>}
+        {!url && <span className="hover-link">{children}</span>}
       </cite>
     </HoverPopover>
   );
 };
 
 export const CiteRenderer: NodeRenderer = ({ node }) => {
+  const numbered = useNumberedReferences();
   return (
     <Cite label={node.label} error={node.error}>
-      <MyST ast={node.children} />
+      {numbered && node.kind === 'parenthetical' ? node.enumerator : <MyST ast={node.children} />}
     </Cite>
   );
 };

@@ -40,6 +40,9 @@ options:
   - type: string
     id: analytics_plausible
     description: Plausible analytics key
+  - type: boolean
+    id: numbered_references
+    description: Show references as numbered, rather than in APA-style. Only applies to parenthetical citations.
 build:
   install: npm install
   start: npm run start

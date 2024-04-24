@@ -6,6 +6,7 @@ import {
   FooterLinksBlock,
   FrontmatterParts,
   BackmatterParts,
+  DocumentOutline,
 } from '../components/index.js';
 import { ErrorDocumentNotFound } from './ErrorDocumentNotFound.js';
 import { ErrorProjectNotFound } from './ErrorProjectNotFound.js';
@@ -53,7 +54,8 @@ export const ArticlePage = React.memo(function ({
   const manifest = useProjectManifest();
   const compute = useComputeOptions();
 
-  const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.options ?? {};
+  const { hide_title_block, hide_footer_links, hide_outline, outline_maxdepth } =
+    (article.frontmatter as any)?.options ?? {};
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
@@ -72,6 +74,11 @@ export const ArticlePage = React.memo(function ({
               frontmatter={{ ...article.frontmatter, downloads }}
               className="pt-5 mb-8"
             />
+          )}
+          {!hide_outline && (
+            <div className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-2 lg:my-0 lg:ml-10 lg:col-margin-right">
+              <DocumentOutline className="relative"  />
+            </div>
           )}
           {compute?.enabled &&
             compute.features.notebookCompute &&

@@ -10,7 +10,6 @@ import {
   ArticlePage,
   useOutlineHeight,
   useTocHeight,
-  DocumentOutline,
   Navigation,
   TopNav,
   ArticlePageCatchBoundary,
@@ -116,15 +115,14 @@ export interface BookThemeTemplateOptions {
 }
 
 export default function Page() {
-  const { container, outline } = useOutlineHeight();
-  const top = useThemeTop();
+  const { container } = useOutlineHeight();
   const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
 
   const baseurl = useBaseurl();
   const pageDesign: BookThemeTemplateOptions = (data.page.frontmatter as any)?.options ?? {};
   const siteDesign: BookThemeTemplateOptions =
     (useSiteManifest() as SiteManifest & BookThemeTemplateOptions)?.options ?? {};
-  const { hide_toc, hide_outline, hide_footer_links, outline_maxdepth } = {
+  const { hide_toc, hide_footer_links } = {
     ...siteDesign,
     ...pageDesign,
   };
@@ -137,17 +135,7 @@ export default function Page() {
         >
           <ThebeLoaderAndServer baseurl={baseurl}>
             <main ref={container} className="article-grid subgrid-gap col-screen">
-              	    {!hide_outline && ( <div className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:my-0 lg:col-margin-right">
-                  <DocumentOutline
-                    top={16}
-                    className="relative"
-                    outlineRef={outline}
-                    maxdepth={outline_maxdepth}
-                  />
-            </div>
-
-		 )} 
-              <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
+              	                  <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
             </main>
           </ThebeLoaderAndServer>
         </ComputeOptionsProvider>

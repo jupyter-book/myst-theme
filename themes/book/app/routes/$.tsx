@@ -27,6 +27,7 @@ import {
 import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { ArticlePage, ArticlePageCatchBoundary } from '../components/ArticlePage.js';
+import type { TemplateOptions } from '../types.js';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
 export const meta: V2_MetaFunction = ({ data, matches, location }) => {
@@ -104,22 +105,14 @@ export function ArticlePageAndNavigation({
   );
 }
 
-export interface BookThemeTemplateOptions {
-  hide_toc?: boolean;
-  hide_outline?: boolean;
-  hide_footer_links?: boolean;
-  outline_maxdepth?: number;
-  numbered_references?: boolean;
-}
 
 export default function Page() {
   const { container } = useOutlineHeight();
   const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
-
   const baseurl = useBaseurl();
-  const pageDesign: BookThemeTemplateOptions = (data.page.frontmatter as any)?.options ?? {};
-  const siteDesign: BookThemeTemplateOptions =
-    (useSiteManifest() as SiteManifest & BookThemeTemplateOptions)?.options ?? {};
+  const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.options ?? {};
+  const siteDesign: TemplateOptions =
+    (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
   const { hide_toc, hide_footer_links } = {
     ...siteDesign,
     ...pageDesign,

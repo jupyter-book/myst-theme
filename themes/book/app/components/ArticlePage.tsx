@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReferencesProvider, useProjectManifest } from '@myst-theme/providers';
+import { ReferencesProvider, useProjectManifest, useSiteManifest } from '@myst-theme/providers';
 import {
   Bibliography,
   ContentBlocks,
@@ -11,6 +11,7 @@ import {
   ErrorProjectNotFound,
   extractKnownParts,
 } from '@myst-theme/site';
+import type { SiteManifest } from 'myst-config';
 import type { PageLoader } from '@myst-theme/common';
 import { copyNode, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
@@ -24,6 +25,7 @@ import {
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import type { SiteAction } from 'myst-config';
+import type { TemplateOptions } from '../types.js';
 
 /**
  * Combines the project downloads and the export options
@@ -54,8 +56,13 @@ export const ArticlePage = React.memo(function ({
   const manifest = useProjectManifest();
   const compute = useComputeOptions();
 
-  const { hide_title_block, hide_footer_links, hide_outline, outline_maxdepth } =
-    (article.frontmatter as any)?.options ?? {};
+  const pageDesign: TemplateOptions = (article.frontmatter as any)?.options ?? {};
+  const siteDesign: TemplateOptions =
+    (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
+  const { hide_toc, hide_title_block, hide_footer_links, hide_outline, outline_maxdepth } = {
+    ...siteDesign,
+    ...pageDesign,
+  };
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
@@ -77,7 +84,7 @@ export const ArticlePage = React.memo(function ({
           )}
           {!hide_outline && (
             <div className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-2 lg:my-0 lg:ml-10 lg:col-margin-right">
-              <DocumentOutline className="relative" />
+              <DocumentOutline className="relative" maxdepth={outline_maxdepth} />
             </div>
           )}
           {compute?.enabled &&

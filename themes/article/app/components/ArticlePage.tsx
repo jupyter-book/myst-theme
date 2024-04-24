@@ -1,5 +1,11 @@
 import type { PageLoader } from '@myst-theme/common';
-import { FooterLinksBlock, ArticleHeader, Error404 } from '@myst-theme/site';
+import {
+  FooterLinksBlock,
+  ArticleHeader,
+  Error404,
+  ErrorProjectNotFound,
+  ErrorDocumentNotFound,
+} from '@myst-theme/site';
 import { LaunchBinder, useComputeOptions } from '@myst-theme/jupyter';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
@@ -15,17 +21,20 @@ import classNames from 'classnames';
 import { BusyScopeProvider, ExecuteScopeProvider } from '@myst-theme/jupyter';
 import { DownloadLinksArea } from './Downloads';
 import { Article } from './Article';
-
-export interface ArticleTemplateOptions {
-  hide_toc?: boolean;
-  hide_footer_links?: boolean;
-  numbered_references?: boolean;
-}
+import type { TemplateOptions } from '../types.js';
 
 export function ArticlePage({ article }: { article: PageLoader }) {
   const grid = useGridSystemProvider();
-  const { projects, hide_footer_links } = (useSiteManifest() ?? {}) as SiteManifest &
-    ArticleTemplateOptions;
+
+  const siteManifest = useSiteManifest() as SiteManifest;
+  const pageDesign: TemplateOptions = (article.frontmatter as any)?.options ?? {};
+  const siteDesign: TemplateOptions = siteManifest?.options ?? {};
+
+  const { projects } = siteManifest;
+  const { hide_footer_links, hide_outline, outline_maxdepth } = {
+    ...siteDesign,
+    ...pageDesign,
+  };
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
   const compute = useComputeOptions();
@@ -91,11 +100,25 @@ export function ArticlePage({ article }: { article: PageLoader }) {
                 </a>
               </div>
             )}
-            <Article article={article} hideKeywords={!isIndex} hideTitle={isIndex} />
+            <Article
+              article={article}
+              hideKeywords={!isIndex}
+              hideTitle={isIndex}
+              hideOutline={hide_outline}
+              outlineMaxDepth={outline_maxdepth}
+            />
           </main>
           {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ReferencesProvider>
   );
+}
+
+export function ProjectPageCatchBoundary() {
+  return <ErrorProjectNotFound />;
+}
+
+export function ArticlePageCatchBoundary() {
+  return <ErrorDocumentNotFound />;
 }

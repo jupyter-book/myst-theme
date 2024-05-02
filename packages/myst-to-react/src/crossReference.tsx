@@ -145,7 +145,7 @@ export function useFetchMdast({
   const baseurl = useBaseurl();
   const external = url?.startsWith('http') ?? false;
   const lookupUrl = external
-    ? `/api/lookup?url=${url}.json`
+    ? dataUrl ?? `${url}.json`
     : dataUrl
     ? `${withBaseurl(dataUrl, baseurl)}`
     : `${withBaseurl(url, baseurl)}.json`;

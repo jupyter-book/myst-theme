@@ -1,7 +1,7 @@
 import { isFlatSite } from '@myst-theme/common';
 import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { getConfig, getPage } from '~/utils/loaders.server';
+import { getConfig, getMystXrefJson, getPage } from '~/utils/loaders.server';
 
 function api404(message = 'No API route found at this URL') {
   return json(
@@ -15,6 +15,12 @@ function api404(message = 'No API route found at this URL') {
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const { project, slug } = params;
+  // Handle /myst.xref.json as slug
+  if (project === undefined && slug === 'myst.xref') {
+    const xref = await getMystXrefJson();
+    if (!xref) return new Response('MyST Xref not found', { status: 404 });
+    return json(xref);
+  }
   const config = await getConfig();
   const flat = isFlatSite(config);
   const data = await getPage(request, {

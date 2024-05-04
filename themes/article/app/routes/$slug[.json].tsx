@@ -22,5 +22,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   }
   const data = await getPage(request, { slug }).catch(() => null);
   if (!data) return api404('No page found at this URL.');
-  return json(data);
+  return json(data, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
 };

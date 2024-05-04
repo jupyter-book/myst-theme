@@ -28,5 +28,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     slug: flat ? slug : project ? slug : undefined,
   });
   if (!data) return api404('No page found at this URL.');
-  return json(data);
+  return json(data, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
 };

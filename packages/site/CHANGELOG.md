@@ -1,5 +1,22 @@
 # @myst-theme/site
 
+## 0.9.1
+
+### Patch Changes
+
+- fbfb682b: Support numbered references
+- 7eae252c: Upgrade MyST dependencies
+- Updated dependencies [fbfb682b]
+- Updated dependencies [7eae252c]
+- Updated dependencies [7eae252c]
+  - myst-to-react@0.9.1
+  - myst-demo@0.9.1
+  - @myst-theme/providers@0.9.1
+  - @myst-theme/jupyter@0.9.1
+  - @myst-theme/common@0.9.1
+  - @myst-theme/frontmatter@0.9.1
+  - @myst-theme/diagrams@0.9.1
+
 ## 0.9.0
 
 ### Minor Changes

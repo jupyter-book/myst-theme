@@ -1,5 +1,22 @@
 # @myst-theme/book
 
+## 0.9.1
+
+### Patch Changes
+
+- fbfb682b: Support numbered references
+- 7eae252c: Upgrade MyST dependencies
+- 7eae252c: Add more permissive cors to page json responses
+- 7eae252c: Serve myst.xref.json from book theme
+- Updated dependencies [fbfb682b]
+- Updated dependencies [7eae252c]
+  - @myst-theme/site@0.9.1
+  - @myst-theme/styles@0.9.1
+  - @myst-theme/providers@0.9.1
+  - @myst-theme/jupyter@0.9.1
+  - @myst-theme/common@0.9.1
+  - @myst-theme/icons@0.9.1
+
 ## 0.9.0
 
 ### Patch Changes

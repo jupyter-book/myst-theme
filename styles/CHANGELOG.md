@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.9.1
+
+### Patch Changes
+
+- fbfb682b: Support numbered references
+
 ## 0.9.0
 
 ## 0.8.3

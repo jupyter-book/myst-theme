@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.9.1
+
+### Patch Changes
+
+- fbfb682b: Support numbered references
+- 7eae252c: Stop using /lookup api for external sites
+- 7eae252c: Upgrade MyST dependencies
+- Updated dependencies [7eae252c]
+  - @myst-theme/providers@0.9.1
+
 ## 0.9.0
 
 ### Patch Changes

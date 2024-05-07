@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.9.1
+
+### Patch Changes
+
+- 7eae252c: Upgrade MyST dependencies
+
 ## 0.9.0
 
 ### Minor Changes

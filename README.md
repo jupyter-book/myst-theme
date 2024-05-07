@@ -105,6 +105,13 @@ npm run dev
 > **Note**: in the future, this repository will likely have it's own content to test out with the themes.
 > You can currently look to the mystjs/docs folder, or an [article](https://github.com/simpeg/tle-finitevolume) or a [thesis](https://github.com/rowanc1/phd-thesis).
 
+To run on a specific port (for example, developing locally between two projects), you can specify a custom port with:
+
+```bash
+myst start --headless --server-port 3111
+CONTENT_CDN_PORT=3111 npm run theme:book
+```
+
 ## Deployment
 
 To update the theme components on NPM:

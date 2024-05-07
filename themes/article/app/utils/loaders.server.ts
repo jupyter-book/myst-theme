@@ -78,6 +78,17 @@ export async function getObjectsInv(): Promise<Buffer | null> {
   return response.buffer();
 }
 
+export async function getMystXrefJson(): Promise<Record<string, any> | null> {
+  const url = updateLink('/myst.xref.json');
+  const response = await fetch(url).catch(() => null);
+  if (!response || response.status === 404) return null;
+  const xrefs = await response.json();
+  xrefs.references?.forEach((ref: any) => {
+    ref.data = ref.data?.replace(/^\/content/, '');
+  });
+  return xrefs;
+}
+
 export async function getFavicon(): Promise<{ contentType: string | null; buffer: Buffer } | null> {
   const config = await getConfig();
   const url = updateLink(config.options?.favicon) || 'https://mystmd.org/favicon.ico';

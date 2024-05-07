@@ -17,7 +17,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   // Handle /myst.xref.json as slug
   if (slug === 'myst.xref') {
     const xref = await getMystXrefJson();
-    if (!xref) return new Response('MyST Xref not found', { status: 404 });
+    if (!xref) return new Response('myst.xref.json not found', { status: 404 });
     return json(xref);
   }
   const data = await getPage(request, { slug }).catch(() => null);

@@ -143,7 +143,10 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
           onClick={() => setOpen(heading.path ? true : !open)}
         />
         <Collapsible.Trigger asChild>
-          <button className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2">
+          <button
+            className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+            aria-label="Open Folder"
+          >
             <ChevronRightIcon
               className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
               height="1.5rem"

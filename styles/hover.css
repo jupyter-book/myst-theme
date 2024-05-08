@@ -37,5 +37,5 @@
 }
 
 .hover-link {
-  @apply font-normal text-blue-700 no-underline dark:text-blue-100 hover:text-blue-500;
+  @apply font-normal text-blue-700 underline-offset-2 decoration-slate-200 dark:decoration-slate-600 dark:text-blue-100 hover:text-blue-500;
 }

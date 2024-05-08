@@ -105,12 +105,12 @@ const themeExtensions = {
     },
     invert: {
       css: {
-        '--tw-prose-code': theme('colors.pink[500]'),
+        '--tw-prose-code': theme('colors.pink[400]'),
       },
     },
     stone: {
       css: {
-        '--tw-prose-code': theme('colors.pink[600]'),
+        '--tw-prose-code': theme('colors.pink[700]'),
       },
     },
   }),

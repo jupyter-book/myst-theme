@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.9.2
+
+### Patch Changes
+
+- f4f41458: Updates to contrast and aria-labels
+
 ## 0.9.1
 
 ### Patch Changes

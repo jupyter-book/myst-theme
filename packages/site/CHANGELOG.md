@@ -1,5 +1,18 @@
 # @myst-theme/site
 
+## 0.9.2
+
+### Patch Changes
+
+- f4f41458: Updates to contrast and aria-labels
+  - @myst-theme/providers@0.9.2
+  - @myst-theme/frontmatter@0.9.2
+  - @myst-theme/diagrams@0.9.2
+  - @myst-theme/jupyter@0.9.2
+  - @myst-theme/common@0.9.2
+  - myst-to-react@0.9.2
+  - myst-demo@0.9.2
+
 ## 0.9.1
 
 ### Patch Changes

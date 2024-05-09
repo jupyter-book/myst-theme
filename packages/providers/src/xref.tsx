@@ -5,6 +5,7 @@ interface RemoteXRefState {
   remote: boolean;
   url?: string;
   dataUrl?: string;
+  remoteBaseUrl?: string;
 }
 
 const XRefContext = createContext<RemoteXRefState | undefined>(undefined);
@@ -19,11 +20,13 @@ export function XRefProvider({
   remote,
   url,
   dataUrl,
+  remoteBaseUrl,
   children,
 }: {
   remote?: boolean;
   url?: string;
   dataUrl?: string;
+  remoteBaseUrl?: string;
   children: React.ReactNode;
 }) {
   const parent = useXRefState();
@@ -32,6 +35,7 @@ export function XRefProvider({
     remote: remote ?? parent.remote,
     url: url ?? parent.url,
     dataUrl: dataUrl ?? parent.dataUrl,
+    remoteBaseUrl: remoteBaseUrl ?? parent.remoteBaseUrl,
   };
   if (value.remote && !value.url) {
     value.remote = false;

@@ -32,12 +32,14 @@ export function OutputDecoration({
   children,
   title = 'Jupyter Notebook',
   url,
+  location,
 }: {
   outputId: string;
   placeholder?: GenericNode;
   children?: React.ReactNode;
   title?: string;
   url?: string;
+  location?: string;
 }) {
   const { kind } = useCellExecution(outputId);
   const compute = useComputeOptions();
@@ -45,7 +47,10 @@ export function OutputDecoration({
   const top = useThemeTop();
   const baseurl = useBaseurl();
   const showComputeControls =
-    compute?.enabled && compute?.features.figureCompute && kind === SourceFileKind.Article;
+    compute?.enabled &&
+    compute?.features.figureCompute &&
+    kind === SourceFileKind.Article &&
+    location;
 
   if (showComputeControls) {
     return (

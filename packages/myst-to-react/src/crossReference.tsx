@@ -232,7 +232,11 @@ export function CrossReferenceHover({
             {remoteBaseUrl && (
               <div className="w-full px-3 py-1 text-xs border-b bg-gray-50">
                 <strong className="text-gray-700">Source: </strong>
-                <a className="text-gray-700" href={remoteBaseUrl} target="_blank">
+                <a
+                  className="text-gray-700"
+                  href={`${createRemoteBaseUrl(url, remoteBaseUrl)}${htmlId ? `#${htmlId}` : ''}`}
+                  target="_blank"
+                >
                   {remoteBaseUrl}
                 </a>
               </div>

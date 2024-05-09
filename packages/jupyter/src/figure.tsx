@@ -22,6 +22,7 @@ export function Figure({ node }: { node: GenericNode }) {
           placeholder={placeholder}
           title={node.source?.title}
           url={node.source?.url}
+          location={node.source?.location}
         >
           <MyST ast={others} />
         </OutputDecoration>

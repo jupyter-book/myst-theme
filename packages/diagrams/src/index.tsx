@@ -1,5 +1,5 @@
 import type { NodeRenderer } from '@myst-theme/providers';
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 async function parse(id: string, text: string): Promise<string> {
   const { default: mermaid } = await import('mermaid');
@@ -11,10 +11,11 @@ async function parse(id: string, text: string): Promise<string> {
 }
 
 export function MermaidRenderer({ id, value }: { value: string; id: string }) {
+  const key = useId();
   const [graph, setGraph] = useState<string>();
   const [error, setError] = useState<Error>();
   useEffect(() => {
-    parse(id, value)
+    parse(`mermaid-${key.replace(/:/g, '')}`, value)
       .then((svg) => {
         setGraph(svg);
         setError(undefined);
@@ -25,11 +26,13 @@ export function MermaidRenderer({ id, value }: { value: string; id: string }) {
       });
   }, []);
   return (
-    <figure className="">
+    <figure id={id}>
       {graph && <div dangerouslySetInnerHTML={{ __html: graph }}></div>}
       {error && (
         <pre>
           Error parsing mermaid graph.
+          {'\n\n'}
+          {error.message}
           {'\n\n'}
           {value}
         </pre>
@@ -39,5 +42,5 @@ export function MermaidRenderer({ id, value }: { value: string; id: string }) {
 }
 
 export const MermaidNodeRenderer: NodeRenderer = ({ node }) => {
-  return <MermaidRenderer id={node.key} value={node.value} />;
+  return <MermaidRenderer id={node.html_id || node.identifier} value={node.value} />;
 };

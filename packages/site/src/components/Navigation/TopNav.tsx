@@ -1,4 +1,3 @@
-import { NavLink } from '@remix-run/react';
 import { Fragment } from 'react';
 import classNames from 'classnames';
 import { Menu, Transition } from '@headlessui/react';
@@ -12,6 +11,7 @@ import { ThemeButton } from './ThemeButton.js';
 import {
   useBaseurl,
   useLinkProvider,
+  useNavLinkProvider,
   useNavOpen,
   useSiteManifest,
   withBaseurl,
@@ -34,6 +34,7 @@ function ExternalOrInternalLink({
   prefetch?: 'intent' | 'render' | 'none';
 }) {
   const Link = useLinkProvider();
+  const NavLink = useNavLinkProvider();
   const staticClass = typeof className === 'function' ? className({ isActive: false }) : className;
   if (to.startsWith('http') || to.startsWith('mailto:')) {
     return (
@@ -57,6 +58,7 @@ function ExternalOrInternalLink({
 }
 
 function NavItem({ item }: { item: SiteNavItem }) {
+  const NavLink = useNavLinkProvider();
   if (!('children' in item)) {
     return (
       <div className="relative inline-block mx-2 grow-0">

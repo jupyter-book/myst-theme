@@ -9,6 +9,7 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import { HoverPopover, LinkCard } from '../components/index.js';
 import { WikiLink } from './wiki.js';
 import { RRIDLink } from './rrid.js';
+import { RORLink } from './ror.js';
 import { GithubLink } from './github.js';
 import { MyST } from '../MyST.js';
 
@@ -83,6 +84,8 @@ export const link: NodeRenderer<TransformedLink> = ({ node }) => {
       );
     case 'rrid':
       return <RRIDLink rrid={node.data?.rrid as string} />;
+    case 'ror':
+      return <RORLink node={node} ror={node.data?.ror as string} />;
     default:
       if (internal) {
         return (

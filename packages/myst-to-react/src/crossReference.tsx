@@ -111,7 +111,7 @@ function useSelectNodes({ load, identifier }: { load?: boolean; identifier: stri
   if (!load) return;
   const { data, error } = useFetchMdast({ remote, url, remoteBaseUrl, dataUrl });
   const mdast = data?.mdast ?? references?.article;
-  const { nodes, htmlId } = selectMdastNodes(mdast, identifier);
+  const { nodes, htmlId } = selectMdastNodes(mdast, identifier, 3);
   return { htmlId, nodes, loading: remote && !data, error: remote && error };
 }
 

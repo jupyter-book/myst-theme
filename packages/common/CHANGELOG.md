@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.9.3
+
+### Patch Changes
+
+- 2224feb9: Upgrade myst
+
 ## 0.9.2
 
 ## 0.9.1

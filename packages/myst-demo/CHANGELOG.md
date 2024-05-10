@@ -1,5 +1,16 @@
 # myst-demo
 
+## 0.9.3
+
+### Patch Changes
+
+- 2224feb9: Upgrade myst
+- Updated dependencies [2cae4c76]
+- Updated dependencies [2224feb9]
+- Updated dependencies [d1d2b7f1]
+- Updated dependencies [2cae4c76]
+  - myst-to-react@0.9.3
+
 ## 0.9.2
 
 ### Patch Changes

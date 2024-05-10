@@ -1,5 +1,14 @@
 # @myst-theme/providers
 
+## 0.9.3
+
+### Patch Changes
+
+- 2cae4c76: Allow for remote, recursive cross-references
+- 2224feb9: Upgrade myst
+- Updated dependencies [2224feb9]
+  - @myst-theme/common@0.9.3
+
 ## 0.9.2
 
 ### Patch Changes

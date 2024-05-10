@@ -1,5 +1,14 @@
 # @myst-theme/diagrams
 
+## 0.9.3
+
+### Patch Changes
+
+- 0cea444f: Allow for hover references of mermaid diagrams
+- Updated dependencies [2cae4c76]
+- Updated dependencies [2224feb9]
+  - @myst-theme/providers@0.9.3
+
 ## 0.9.2
 
 ### Patch Changes

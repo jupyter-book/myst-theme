@@ -1,5 +1,21 @@
 # @myst-theme/book
 
+## 0.9.3
+
+### Patch Changes
+
+- 2224feb9: Upgrade myst
+- Updated dependencies [2cae4c76]
+- Updated dependencies [21f72bd5]
+- Updated dependencies [2224feb9]
+- Updated dependencies [6e45b03b]
+  - @myst-theme/providers@0.9.3
+  - @myst-theme/jupyter@0.9.3
+  - @myst-theme/common@0.9.3
+  - @myst-theme/site@0.9.3
+  - @myst-theme/styles@0.9.3
+  - @myst-theme/icons@0.9.3
+
 ## 0.9.2
 
 ### Patch Changes

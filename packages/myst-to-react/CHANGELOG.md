@@ -1,5 +1,17 @@
 # myst-to-react
 
+## 0.9.3
+
+### Patch Changes
+
+- 2cae4c76: Allow for remote, recursive cross-references
+- 2224feb9: Upgrade myst
+- d1d2b7f1: Add ROR hover links
+- 2cae4c76: Select the element that you scroll to programatically
+- Updated dependencies [2cae4c76]
+- Updated dependencies [2224feb9]
+  - @myst-theme/providers@0.9.3
+
 ## 0.9.2
 
 ### Patch Changes

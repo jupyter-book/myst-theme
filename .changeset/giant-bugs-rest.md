@@ -2,4 +2,4 @@
 '@myst-theme/jupyter': patch
 ---
 
-Require location on node source to enable jupyter computation
+Disable jupyter computation on nodes if remoteBaseUrl is present

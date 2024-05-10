@@ -11,7 +11,7 @@ export function Embed({ node }: { node: GenericNode }) {
       outputId={output.id}
       title={node.source?.title}
       url={node.source?.url}
-      location={node.source?.location}
+      remoteBaseUrl={node.source?.remoteBaseUrl}
     >
       <MyST ast={node.children} />
     </OutputDecoration>

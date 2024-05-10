@@ -32,14 +32,14 @@ export function OutputDecoration({
   children,
   title = 'Jupyter Notebook',
   url,
-  location,
+  remoteBaseUrl,
 }: {
   outputId: string;
   placeholder?: GenericNode;
   children?: React.ReactNode;
   title?: string;
   url?: string;
-  location?: string;
+  remoteBaseUrl?: string;
 }) {
   const { kind } = useCellExecution(outputId);
   const compute = useComputeOptions();
@@ -50,7 +50,7 @@ export function OutputDecoration({
     compute?.enabled &&
     compute?.features.figureCompute &&
     kind === SourceFileKind.Article &&
-    location;
+    !remoteBaseUrl;
 
   if (showComputeControls) {
     return (
@@ -65,7 +65,7 @@ export function OutputDecoration({
               <span className="ml-2">Source:</span>
               {url && (
                 <Link
-                  to={withBaseurl(url, baseurl)}
+                  to={withBaseurl(url, remoteBaseUrl ?? baseurl)}
                   className="ml-2 no-underline text-normal hover:underline"
                 >
                   {title}
@@ -92,7 +92,7 @@ export function OutputDecoration({
           <div className="ml-1">Source:</div>
           {url && (
             <Link
-              to={withBaseurl(url, baseurl)}
+              to={withBaseurl(url, remoteBaseUrl ?? baseurl)}
               className="ml-1 no-underline text-normal hover:underline"
             >
               {title}

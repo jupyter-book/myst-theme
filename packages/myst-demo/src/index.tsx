@@ -104,6 +104,7 @@ async function parse(
     GithubTransformer,
     DOITransformer,
     RRIDTransformer,
+    RORTransformer,
     linksPlugin,
     ReferenceState,
     abbreviationPlugin,
@@ -139,6 +140,7 @@ async function parse(
     new GithubTransformer(),
     new DOITransformer(),
     new RRIDTransformer(),
+    new RORTransformer(),
   ];
   // For the mdast that we show, duplicate, strip positions and dump to yaml
   // Also run some of the transforms, like the links

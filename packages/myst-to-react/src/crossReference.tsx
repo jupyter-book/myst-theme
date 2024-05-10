@@ -1,5 +1,3 @@
-import { selectAll } from 'unist-util-select';
-import { EXIT, SKIP, visit } from 'unist-util-visit';
 import type { CrossReference } from 'myst-spec';
 import {
   useLinkProvider,
@@ -10,80 +8,11 @@ import {
   useXRefState,
   type NodeRenderer,
 } from '@myst-theme/providers';
-import type { GenericNode, GenericParent } from 'myst-common';
 import { InlineError } from './inlineError.js';
 import { default as useSWR } from 'swr';
 import { HoverPopover } from './components/index.js';
 import { MyST } from './MyST.js';
-
-const hiddenNodes = new Set(['comment', 'mystComment']);
-
-function selectHeadingNodes(
-  mdast: GenericParent,
-  identifier: string,
-  maxNodes = 3, // Max nodes to show after a header
-) {
-  let begin = false;
-  let htmlId: string | undefined = undefined;
-  const nodes: GenericNode[] = [];
-  visit(mdast, (node) => {
-    if ((begin && node.type === 'heading') || nodes.length >= maxNodes) {
-      return EXIT;
-    }
-    if (node.identifier === identifier && node.type === 'heading') {
-      begin = true;
-      htmlId = node.html_id || node.identifier;
-    }
-    if (begin) {
-      if (!hiddenNodes.has(node.type)) nodes.push(node);
-      return SKIP; // Don't traverse the children
-    }
-  });
-  return { htmlId, nodes };
-}
-
-function selectDefinitionTerm(mdast: GenericParent, identifier: string) {
-  let begin = false;
-  const nodes: GenericNode[] = [];
-  visit(mdast, (node) => {
-    if (begin && node.type === 'definitionTerm') {
-      if (nodes.length > 1) return EXIT;
-    } else if (begin && node.type !== 'definitionDescription') {
-      return EXIT;
-    }
-    if (node.identifier === identifier && node.type === 'definitionTerm') {
-      nodes.push(node);
-      begin = true;
-    }
-    if (begin) {
-      if (node.type === 'definitionDescription') nodes.push(node);
-      return SKIP; // Don't traverse the children
-    }
-  });
-  return {
-    htmlId: nodes?.[0]?.html_id || nodes?.[0]?.identifier,
-    nodes: [{ type: 'definitionList', key: 'dl', children: nodes }],
-  };
-}
-
-function selectMdastNodes(
-  mdast: GenericParent,
-  identifier: string,
-): { htmlId?: string; nodes: GenericNode[] } {
-  // Select the first identifier that is not a crossReference or citation
-  const node = selectAll(`[identifier=${identifier}],[key=${identifier}]`, mdast).filter(
-    ({ type }) => type !== 'crossReference' && type !== 'cite',
-  )[0] as GenericNode | undefined;
-  if (!node) return { nodes: [] };
-  switch (node.type) {
-    case 'heading':
-      return selectHeadingNodes(mdast, identifier);
-    case 'definitionTerm':
-      return selectDefinitionTerm(mdast, identifier);
-    default:
-      return { htmlId: node.html_id || node.identifier, nodes: [node] };
-  }
-}
+import { selectMdastNodes } from 'myst-common';
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => {

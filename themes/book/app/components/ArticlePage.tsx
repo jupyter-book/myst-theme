@@ -59,7 +59,7 @@ export const ArticlePage = React.memo(function ({
   const pageDesign: TemplateOptions = (article.frontmatter as any)?.options ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
-  const { hide_toc, hide_title_block, hide_footer_links, hide_outline, outline_maxdepth } = {
+  const { hide_title_block, hide_footer_links, hide_outline, outline_maxdepth } = {
     ...siteDesign,
     ...pageDesign,
   };

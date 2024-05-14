@@ -135,8 +135,8 @@ export function CrossReferenceHover({
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
   const parent = useXRefState();
-  const remote = parent.remote || remoteIn;
-  const remoteBaseUrl = parent.remoteBaseUrl || remoteBaseUrlIn;
+  const remoteBaseUrl = remoteBaseUrlIn ?? parent.remoteBaseUrl;
+  const remote = !!remoteBaseUrl || parent.remote || remoteIn;
   const url = parent.remote ? urlIn ?? parent.url : urlIn;
   const dataUrl = parent.remote ? dataUrlIn ?? parent.dataUrl : dataUrlIn;
   const external = !!remoteBaseUrl || (url?.startsWith('http') ?? false);

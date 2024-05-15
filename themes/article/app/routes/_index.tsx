@@ -1,7 +1,6 @@
-import { getMetaTagsForArticle, responseNoArticle, responseNoSite } from '@myst-theme/site';
+import { getMetaTagsForArticle, responseNoArticle, responseNoSite, ProjectPageCatchBoundary} from '@myst-theme/site';
 import Page from './$';
 import { ArticlePageAndNavigation } from '../components/ArticlePageAndNavigation';
-import { ProjectPageCatchBoundary } from '../components/ArticlePage';
 import { getConfig, getPage } from '../utils/loaders.server';
 import type { LoaderFunction, V2_MetaFunction } from '@remix-run/node';
 import { redirect } from '@remix-run/node';

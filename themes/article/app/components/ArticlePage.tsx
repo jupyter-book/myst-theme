@@ -3,8 +3,6 @@ import {
   FooterLinksBlock,
   ArticleHeader,
   Error404,
-  ErrorProjectNotFound,
-  ErrorDocumentNotFound,
 } from '@myst-theme/site';
 import { LaunchBinder, useComputeOptions } from '@myst-theme/jupyter';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
@@ -115,10 +113,3 @@ export function ArticlePage({ article }: { article: PageLoader }) {
   );
 }
 
-export function ProjectPageCatchBoundary() {
-  return <ErrorProjectNotFound />;
-}
-
-export function ArticlePageCatchBoundary() {
-  return <ErrorDocumentNotFound />;
-}

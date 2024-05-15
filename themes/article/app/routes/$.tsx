@@ -5,8 +5,7 @@ import {
   type LoaderFunction,
   type V2_MetaFunction,
 } from '@remix-run/node';
-import { getMetaTagsForArticle, KatexCSS } from '@myst-theme/site';
-import { ArticlePageCatchBoundary } from '../components/ArticlePage';
+import { getMetaTagsForArticle, KatexCSS, ArticlePageCatchBoundary } from '@myst-theme/site';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';

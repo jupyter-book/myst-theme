@@ -7,8 +7,6 @@ import {
   FrontmatterParts,
   BackmatterParts,
   DocumentOutline,
-  ErrorDocumentNotFound,
-  ErrorProjectNotFound,
   extractKnownParts,
 } from '@myst-theme/site';
 import type { SiteManifest } from 'myst-config';
@@ -108,10 +106,3 @@ export const ArticlePage = React.memo(function ({
   );
 });
 
-export function ProjectPageCatchBoundary() {
-  return <ErrorProjectNotFound />;
-}
-
-export function ArticlePageCatchBoundary() {
-  return <ErrorDocumentNotFound />;
-}

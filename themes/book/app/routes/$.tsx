@@ -12,6 +12,7 @@ import {
   Navigation,
   TopNav,
   getMetaTagsForArticle,
+  ArticlePageCatchBoundary,
 } from '@myst-theme/site';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
@@ -26,7 +27,7 @@ import {
 } from '@myst-theme/providers';
 import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
-import { ArticlePage, ArticlePageCatchBoundary } from '../components/ArticlePage.js';
+import { ArticlePage } from '../components/ArticlePage.js';
 import type { TemplateOptions } from '../types.js';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 

@@ -84,12 +84,9 @@ const themeExtensions = {
       css: {
         code: {
           fontWeight: '400',
-        },
-        'code::before': {
-          content: '',
-        },
-        'code::after': {
-          content: '',
+          '&::before, &::after': {
+            content: '',
+          }
         },
         'blockquote p:first-of-type::before': { content: 'none' },
         'blockquote p:first-of-type::after': { content: 'none' },
@@ -101,6 +98,10 @@ const themeExtensions = {
           marginTop: '0.25rem',
           marginBottom: '0.25rem',
         },
+        // Tailwind doesn't style h4+ at all so this makes them look like headers
+        'h4, h5, h6' : {
+          fontWeight: 'bold',
+        }
       },
     },
     invert: {

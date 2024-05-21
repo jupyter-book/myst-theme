@@ -1,9 +1,4 @@
-import {
-  ProjectPageCatchBoundary,
-  getMetaTagsForArticle,
-  responseNoArticle,
-  responseNoSite,
-} from '@myst-theme/site';
+import { getMetaTagsForArticle, responseNoArticle, responseNoSite, ProjectPageCatchBoundary} from '@myst-theme/site';
 import Page from './$';
 import { ArticlePageAndNavigation } from '../components/ArticlePageAndNavigation';
 import { getConfig, getPage } from '../utils/loaders.server';

@@ -22,6 +22,9 @@ options:
   - type: boolean
     id: hide_outline
     description: Hide the document outline on all pages
+  - type: boolean
+    id: hide_title_block
+    description: Hide the document title on all pages
   - type: number
     id: outline_maxdepth
     description: The maximum depth to show on the document outline, for example, `2` would show only two depths of headings (e.g. `<H1>` and `<H2>`).

@@ -1,14 +1,15 @@
 import React from 'react';
-import { ReferencesProvider, useProjectManifest } from '@myst-theme/providers';
+import { ReferencesProvider, useProjectManifest, useSiteManifest } from '@myst-theme/providers';
 import {
   Bibliography,
   ContentBlocks,
   FooterLinksBlock,
   FrontmatterParts,
   BackmatterParts,
-} from '../components/index.js';
-import { ErrorDocumentNotFound } from './ErrorDocumentNotFound.js';
-import { ErrorProjectNotFound } from './ErrorProjectNotFound.js';
+  DocumentOutline,
+  extractKnownParts,
+} from '@myst-theme/site';
+import type { SiteManifest } from 'myst-config';
 import type { PageLoader } from '@myst-theme/common';
 import { copyNode, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
@@ -21,8 +22,8 @@ import {
   useComputeOptions,
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
-import { extractKnownParts } from '../utils.js';
 import type { SiteAction } from 'myst-config';
+import type { TemplateOptions } from '../types.js';
 
 /**
  * Combines the project downloads and the export options
@@ -41,11 +42,6 @@ function combineDownloads(
   return pageFrontmatter.exports;
 }
 
-/**
- * @deprecated This component is not maintained, in favor of theme-specific ArticlePages
- *
- * As examples, MyST book and article themes define their own ArticlePage components.
- */
 export const ArticlePage = React.memo(function ({
   article,
   hide_all_footer_links,
@@ -58,7 +54,13 @@ export const ArticlePage = React.memo(function ({
   const manifest = useProjectManifest();
   const compute = useComputeOptions();
 
-  const { hide_title_block, hide_footer_links } = (article.frontmatter as any)?.options ?? {};
+  const pageDesign: TemplateOptions = (article.frontmatter as any)?.options ?? {};
+  const siteDesign: TemplateOptions =
+    (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
+  const { hide_title_block, hide_footer_links, hide_outline, outline_maxdepth } = {
+    ...siteDesign,
+    ...pageDesign,
+  };
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
@@ -77,6 +79,11 @@ export const ArticlePage = React.memo(function ({
               frontmatter={{ ...article.frontmatter, downloads }}
               className="pt-5 mb-8"
             />
+          )}
+          {!hide_outline && (
+            <div className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-2 lg:my-0 lg:ml-10 lg:col-margin-right">
+              <DocumentOutline className="relative" maxdepth={outline_maxdepth} />
+            </div>
           )}
           {compute?.enabled &&
             compute.features.notebookCompute &&
@@ -99,10 +106,3 @@ export const ArticlePage = React.memo(function ({
   );
 });
 
-export function ProjectPageCatchBoundary() {
-  return <ErrorProjectNotFound />;
-}
-
-export function ArticlePageCatchBoundary() {
-  return <ErrorDocumentNotFound />;
-}

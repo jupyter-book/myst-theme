@@ -7,14 +7,12 @@ import {
 import { getProject, isFlatSite, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
-  ArticlePage,
   useOutlineHeight,
   useTocHeight,
-  DocumentOutline,
   Navigation,
   TopNav,
-  ArticlePageCatchBoundary,
   getMetaTagsForArticle,
+  ArticlePageCatchBoundary,
 } from '@myst-theme/site';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
@@ -29,7 +27,8 @@ import {
 } from '@myst-theme/providers';
 import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
-
+import { ArticlePage } from '../components/ArticlePage.js';
+import type { TemplateOptions } from '../types.js';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
 export const meta: V2_MetaFunction = ({ data, matches, location }) => {
@@ -107,24 +106,15 @@ export function ArticlePageAndNavigation({
   );
 }
 
-export interface BookThemeTemplateOptions {
-  hide_toc?: boolean;
-  hide_outline?: boolean;
-  hide_footer_links?: boolean;
-  outline_maxdepth?: number;
-  numbered_references?: boolean;
-}
 
 export default function Page() {
-  const { container, outline } = useOutlineHeight();
-  const top = useThemeTop();
+  const { container } = useOutlineHeight();
   const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
-
   const baseurl = useBaseurl();
-  const pageDesign: BookThemeTemplateOptions = (data.page.frontmatter as any)?.options ?? {};
-  const siteDesign: BookThemeTemplateOptions =
-    (useSiteManifest() as SiteManifest & BookThemeTemplateOptions)?.options ?? {};
-  const { hide_toc, hide_outline, hide_footer_links, outline_maxdepth } = {
+  const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.options ?? {};
+  const siteDesign: TemplateOptions =
+    (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
+  const { hide_toc, hide_footer_links } = {
     ...siteDesign,
     ...pageDesign,
   };
@@ -137,19 +127,6 @@ export default function Page() {
         >
           <ThebeLoaderAndServer baseurl={baseurl}>
             <main ref={container} className="article-grid subgrid-gap col-screen">
-              {!hide_outline && (
-                <div
-                  className="sticky z-10 hidden h-0 col-margin-right-inset lg:block"
-                  style={{ top }}
-                >
-                  <DocumentOutline
-                    top={16}
-                    className="relative"
-                    outlineRef={outline}
-                    maxdepth={outline_maxdepth}
-                  />
-                </div>
-              )}
               <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
             </main>
           </ThebeLoaderAndServer>

@@ -41,6 +41,11 @@ function combineDownloads(
   return pageFrontmatter.exports;
 }
 
+/**
+ * @deprecated This component is not maintained, in favor of theme-specific ArticlePages
+ *
+ * As examples, MyST book and article themes define their own ArticlePage components.
+ */
 export const ArticlePage = React.memo(function ({
   article,
   hide_all_footer_links,

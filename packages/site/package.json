@@ -37,8 +37,8 @@
     "unist-util-select": "^4.0.1"
   },
   "peerDependencies": {
-    "@remix-run/node": "^1.17 || ^2.0",
-    "@remix-run/react": "^1.17 || ^2.0",
+    "@remix-run/node": "^2.9.2",
+    "@remix-run/react": "^2.9.2",
     "@types/react": "^16.8 || ^17.0 || ^18.0",
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "react": "^16.8 || ^17.0 || ^18.0",

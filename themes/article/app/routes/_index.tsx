@@ -2,7 +2,7 @@ import { getMetaTagsForArticle, responseNoArticle, responseNoSite, ProjectPageCa
 import Page from './$';
 import { ArticlePageAndNavigation } from '../components/ArticlePageAndNavigation';
 import { getConfig, getPage } from '../utils/loaders.server';
-import type { LoaderFunction, V2_MetaFunction } from '@remix-run/node';
+import type { LoaderFunction, MetaFunction } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 import { SiteManifest } from 'myst-config';
 import { getProject } from '@myst-theme/common';
@@ -10,7 +10,7 @@ export { links } from './$';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction = ({ data, location }) => {
+export const meta: MetaFunction = ({ data, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;

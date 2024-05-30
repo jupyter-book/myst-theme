@@ -1,6 +1,6 @@
 import {
   json,
-  type V2_MetaFunction,
+  type MetaFunction,
   type LinksFunction,
   type LoaderFunction,
 } from '@remix-run/node';
@@ -31,7 +31,7 @@ import { ArticlePage } from '../components/ArticlePage.js';
 import type { TemplateOptions } from '../types.js';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction = ({ data, matches, location }) => {
+export const meta: MetaFunction = ({ data, matches, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;

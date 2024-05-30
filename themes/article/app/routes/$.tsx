@@ -3,7 +3,7 @@ import {
   json,
   type LinksFunction,
   type LoaderFunction,
-  type V2_MetaFunction,
+  type MetaFunction,
 } from '@remix-run/node';
 import { getMetaTagsForArticle, KatexCSS, ArticlePageCatchBoundary } from '@myst-theme/site';
 import { getConfig, getPage } from '~/utils/loaders.server';
@@ -17,7 +17,7 @@ import { ThebeLoaderAndServer } from '@myst-theme/jupyter';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction = ({ data, matches, location }) => {
+export const meta: MetaFunction = ({ data, matches, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;

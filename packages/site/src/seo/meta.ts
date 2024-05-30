@@ -1,4 +1,4 @@
-import type { HtmlMetaDescriptor, V2_MetaDescriptor } from '@remix-run/react';
+import type { HtmlMetaDescriptor, MetaDescriptor } from '@remix-run/react';
 
 type SocialSite = {
   title: string;
@@ -38,8 +38,8 @@ export function getMetaTagsForSite({
   title,
   description,
   twitter,
-}: SocialSite): V2_MetaDescriptor[] {
-  const meta: V2_MetaDescriptor[] = [
+}: SocialSite): MetaDescriptor[] {
+  const meta: MetaDescriptor[] = [
     { title },
     { property: 'og:title', content: title },
     { name: 'generator', content: 'mystmd' },
@@ -88,8 +88,8 @@ export function getMetaTagsForArticle({
   image,
   twitter,
   keywords,
-}: SocialArticle): V2_MetaDescriptor[] {
-  const meta: V2_MetaDescriptor[] = [
+}: SocialArticle): MetaDescriptor[] {
+  const meta: MetaDescriptor[] = [
     { title },
     { property: 'og:title', content: title },
     { name: 'generator', content: 'mystmd' },

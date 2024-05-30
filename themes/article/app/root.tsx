@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction, LoaderFunction, V2_MetaFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import tailwind from '~/styles/app.css';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';
@@ -14,7 +14,7 @@ import {
 import { Outlet, useLoaderData } from '@remix-run/react';
 export { AppCatchBoundary as CatchBoundary } from '@myst-theme/site';
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ data }) => {
   return getMetaTagsForSite({
     title: data?.config?.title,
     description: data?.config?.description,

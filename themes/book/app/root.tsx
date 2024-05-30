@@ -10,9 +10,26 @@ import {
   getThemeSession,
   ContentReload,
   SkipToArticle,
+  AppCatchBoundary,
 } from '@myst-theme/site';
-import { Outlet, useLoaderData } from '@remix-run/react';
-export { AppCatchBoundary as CatchBoundary } from '@myst-theme/site';
+import {
+  Outlet,
+  useLoaderData,
+  RemixRootDefaultErrorBoundary,
+  useRouteError,
+  isRouteErrorResponse,
+} from '@remix-run/react';
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  // when true, this is what used to go to `CatchBoundary`
+  if (isRouteErrorResponse(error)) {
+    return <RemixRootDefaultErrorBoundary />;
+  } else {
+    return <AppCatchBoundary />;
+  }
+}
 
 export const meta: MetaFunction = ({ data }) => {
   return getMetaTagsForSite({

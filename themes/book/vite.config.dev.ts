@@ -1,15 +1,17 @@
 import { vitePlugin as remix } from '@remix-run/dev';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { envOnlyMacros } from 'vite-env-only';
+
 export default defineConfig({
   plugins: [
     remix({
       basename: '/',
       ignoredRouteFiles: ['**/*.css'],
       serverBuildFile: 'api/index.js',
-
     }),
     tsconfigPaths(),
+    envOnlyMacros(),
   ],
   publicDir: '/myst_assets_folder/',
   resolve: {

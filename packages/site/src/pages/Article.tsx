@@ -7,8 +7,6 @@ import {
   FrontmatterParts,
   BackmatterParts,
 } from '../components/index.js';
-import { ErrorDocumentNotFound } from './ErrorDocumentNotFound.js';
-import { ErrorProjectNotFound } from './ErrorProjectNotFound.js';
 import type { PageLoader } from '@myst-theme/common';
 import { copyNode, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
@@ -99,10 +97,3 @@ export const ArticlePage = React.memo(function ({
   );
 });
 
-export function ProjectPageCatchBoundary() {
-  return <ErrorProjectNotFound />;
-}
-
-export function ArticlePageCatchBoundary() {
-  return <ErrorDocumentNotFound />;
-}

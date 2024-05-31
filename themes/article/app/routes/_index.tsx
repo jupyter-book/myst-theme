@@ -1,4 +1,4 @@
-import { getMetaTagsForArticle, responseNoArticle, responseNoSite, ProjectPageCatchBoundary} from '@myst-theme/site';
+import { getMetaTagsForArticle, responseNoArticle, responseNoSite, ErrorDocumentNotFound, ErrorUnhandled} from '@myst-theme/site';
 import Page from './$';
 import { ArticlePageAndNavigation } from '../components/ArticlePageAndNavigation';
 import { getConfig, getPage } from '../utils/loaders.server';
@@ -7,6 +7,10 @@ import { redirect } from '@remix-run/node';
 import { SiteManifest } from 'myst-config';
 import { getProject } from '@myst-theme/common';
 export { links } from './$';
+import {
+  useRouteError,
+  isRouteErrorResponse,
+} from '@remix-run/react';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
@@ -39,12 +43,14 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
 export default Page;
 
-export function CatchBoundary() {
+export function ErrorBoundary() {
+  const error = useRouteError();
   return (
     <ArticlePageAndNavigation>
       <main className="article">
-        <ProjectPageCatchBoundary />
+        { isRouteErrorResponse(error) ? <ErrorUnhandled /> : <ErrorDocumentNotFound /> }
       </main>
     </ArticlePageAndNavigation>
   );
 }
+

@@ -3,6 +3,7 @@
   "version": "0.9.4",
   "private": true,
   "sideEffects": false,
+  "type": "module",
   "scripts": {
     "compile": "tsc --noEmit --skipLibCheck",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
@@ -12,15 +13,15 @@
     "build:thebe": "node ../../bin/copy-thebe-assets.cjs ./public",
     "prod:build": "npm run prod:copy && npm run build:thebe && npm run build:css && remix build",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
-    "dev": "npm run dev:copy && npm run build:thebe && concurrently \"npm run dev:css\" \"vite dev\"",
-    "start": "npm run build:css && vite dev"
+    "dev": "npm run dev:copy && npm run build:thebe && concurrently \"npm run dev:css\" \"remix vite:dev\"",
+    "start": "npm run build:css && remix vite:dev"
   },
   "dependencies": {
+    "@myst-theme/common": "^0.9.4",
     "@myst-theme/icons": "^0.9.4",
     "@myst-theme/jupyter": "^0.9.4",
     "@myst-theme/providers": "^0.9.4",
     "@myst-theme/site": "^0.9.4",
-    "@myst-theme/common": "^0.9.4",
     "@myst-theme/styles": "^0.9.4",
     "@remix-run/node": "~2.9.2",
     "@remix-run/react": "~2.9.2",

@@ -1,16 +1,16 @@
 import { vitePlugin as remix } from '@remix-run/dev';
 import { defineConfig } from 'vite';
-import tsconfigPaths from "vite-tsconfig-paths";
-
-
+import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [
     remix({
+      ssr: false,
       basename: '/',
-      ignoredRouteFiles: ['**/*'],
+      ignoredRouteFiles: ['**/*.css'],
       serverBuildFile: 'api/index.js',
+
     }),
-    tsconfigPaths()
+    tsconfigPaths(),
   ],
   publicDir: '/myst_assets_folder/',
   resolve: {
@@ -58,7 +58,7 @@ export default defineConfig({
       'tex-to-typst',
       'jats-tags',
       /^@myst-theme\/.*/,
-      'react-syntax-highlighter',
+      /react-syntax-highlighter.*/,
       'markdown-it-myst-extras',
       'markdown-it-dollarmath',
       'markdown-it-amsmath',

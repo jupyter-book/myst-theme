@@ -38,7 +38,6 @@
     "myst-to-react": "^0.9.4",
     "nanoid": "^4.0.2",
     "nbtx": "^0.2.3",
-    "react-syntax-highlighter": "^15.5.0",
     "swr": "^2.1.5",
     "thebe-core": "^0.4.6",
     "thebe-lite": "^0.4.6",

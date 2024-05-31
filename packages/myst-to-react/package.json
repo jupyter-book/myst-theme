@@ -30,7 +30,6 @@
     "myst-config": "^1.4.1",
     "myst-spec": "^0.0.5",
     "nanoid": "^4.0.2",
-    "react-syntax-highlighter": "^15.5.0",
     "swr": "^2.1.5",
     "unist-util-select": "^4.0.3",
     "unist-util-visit": "^4.1.2"
@@ -42,6 +41,5 @@
     "react-dom": "^16.8 || ^17.0 || ^18.0"
   },
   "devDependencies": {
-    "@types/react-syntax-highlighter": "^15.5.7"
   }
 }

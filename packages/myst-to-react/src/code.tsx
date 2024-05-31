@@ -1,9 +1,6 @@
 import type { Code, InlineCode } from 'myst-spec';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { useTheme } from '@myst-theme/providers';
-import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
-import light from 'react-syntax-highlighter/dist/esm/styles/hljs/xcode.js';
-import dark from 'react-syntax-highlighter/dist/esm/styles/hljs/vs2015.js';
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { CopyIcon } from './components/index.js';
@@ -72,35 +69,9 @@ export function CodeBlock(props: Props) {
           </div>
         </div>
       )}
-      <SyntaxHighlighter
-        language={normalizeLanguage(lang)}
-        startingLineNumber={startingLineNumber}
-        showLineNumbers={showLineNumbers}
-        style={isLight ? { ...light, hljs: { ...light.hljs, background: 'transparent' } } : dark}
-        wrapLines
-        lineNumberContainerStyle={{
-          // This stops page content shifts
-          display: 'inline-block',
-          float: 'left',
-          minWidth: '1.25em',
-          paddingRight: '1em',
-          textAlign: 'right',
-          userSelect: 'none',
-          borderLeft: '4px solid transparent',
-        }}
-        lineProps={(line) => {
-          if (typeof line === 'boolean') return {};
-          return highlightLines.has(line)
-            ? ({
-                'data-line-number': `${line}`,
-                'data-highlight': 'true',
-              } as any)
-            : ({ 'data-line-number': `${line}` } as any);
-        }}
-        customStyle={{ padding: '0.8rem' }}
-      >
+      <div>
         {value}
-      </SyntaxHighlighter>
+      </div>
       {showCopy && (
         <CopyIcon
           text={value}

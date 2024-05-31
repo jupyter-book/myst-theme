@@ -1,8 +1,9 @@
 import { createCookieSessionStorage, json } from '@remix-run/node';
 import { isTheme, Theme } from '@myst-theme/providers';
 import type { ActionFunction } from '@remix-run/node';
+import { serverOnly$ } from "vite-env-only/macros"
 
-export const themeStorage = createCookieSessionStorage({
+export const themeStorage = serverOnly$(createCookieSessionStorage({
   cookie: {
     name: 'theme',
     secure: true,
@@ -11,24 +12,24 @@ export const themeStorage = createCookieSessionStorage({
     path: '/',
     httpOnly: true,
   },
-});
+}));
 
-async function getThemeSession(request: Request) {
-  const session = await themeStorage.getSession(request.headers.get('Cookie'));
+async function _getThemeSession(request: Request) {
+  const session = await themeStorage!.getSession(request.headers.get('Cookie'));
   return {
     getTheme: () => {
       const themeValue = session.get('theme');
       return isTheme(themeValue) ? themeValue : Theme.light;
     },
     setTheme: (theme: Theme) => session.set('theme', theme),
-    commit: () => themeStorage.commitSession(session, { expires: new Date('2100-01-01') }),
+    commit: () => themeStorage!.commitSession(session, { expires: new Date('2100-01-01') }),
   };
 }
 
-export { getThemeSession };
+export const getThemeSession = serverOnly$(_getThemeSession);
 
-export const setThemeAPI: ActionFunction = async ({ request }) => {
-  const themeSession = await getThemeSession(request);
+const _setThemeAPI: ActionFunction = async ({ request }) => {
+  const themeSession = await _getThemeSession(request);
   const data = await request.json();
   const { theme } = data ?? {};
   if (!isTheme(theme)) {
@@ -45,3 +46,5 @@ export const setThemeAPI: ActionFunction = async ({ request }) => {
     },
   );
 };
+
+export const setThemeAPI = serverOnly$(_setThemeAPI);

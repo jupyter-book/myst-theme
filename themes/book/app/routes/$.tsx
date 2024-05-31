@@ -36,7 +36,7 @@ import {
 } from '@remix-run/react';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction = ({ data, matches, location }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;
@@ -145,7 +145,7 @@ export function ErrorBoundary() {
   return (
     <ArticlePageAndNavigation>
       <main className="article">
-        { isRouteErrorResponse(error) ? <ErrorUnhandled /> : <ErrorDocumentNotFound /> }
+        { isRouteErrorResponse(error) ? <ErrorUnhandled error={error as any} /> : <ErrorDocumentNotFound /> }
       </main>
     </ArticlePageAndNavigation>
   );

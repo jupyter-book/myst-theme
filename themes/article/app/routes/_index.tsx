@@ -14,7 +14,7 @@ import {
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction = ({ data, location }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;
@@ -48,7 +48,7 @@ export function ErrorBoundary() {
   return (
     <ArticlePageAndNavigation>
       <main className="article">
-        { isRouteErrorResponse(error) ? <ErrorUnhandled /> : <ErrorDocumentNotFound /> }
+        { isRouteErrorResponse(error) ? <ErrorUnhandled error={ error as any } /> : <ErrorDocumentNotFound /> }
       </main>
     </ArticlePageAndNavigation>
   );

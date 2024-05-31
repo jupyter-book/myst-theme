@@ -6,14 +6,14 @@
   "scripts": {
     "compile": "tsc --noEmit --skipLibCheck",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
-    "dev:copy": "cp remix.config.dev.js remix.config.js",
-    "prod:copy": "cp remix.config.prod.js remix.config.js",
+    "dev:copy": "cp vite.config.dev.ts vite.config.ts",
+    "prod:copy": "cp vite.config.prod.ts vite.config.ts",
     "clean": "rimraf public/build build api",
     "build:thebe": "node ../../bin/copy-thebe-assets.cjs ./public",
     "prod:build": "npm run prod:copy && npm run build:thebe && npm run build:css && remix build",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
-    "dev": "npm run dev:copy && npm run build:thebe && concurrently \"npm run dev:css\" \"remix dev\"",
-    "start": "npm run build:css && remix dev"
+    "dev": "npm run dev:copy && npm run build:thebe && concurrently \"npm run dev:css\" \"vite dev\"",
+    "start": "npm run build:css && vite dev"
   },
   "dependencies": {
     "@myst-theme/icons": "^0.9.4",
@@ -33,12 +33,14 @@
   "devDependencies": {
     "@remix-run/dev": "~2.9.2",
     "@remix-run/eslint-config": "~2.9.2",
-    "@remix-run/serve": "~2.9.2",
     "@tailwindcss/typography": "^0.5.9",
     "@types/node-fetch": "^2.6.4",
     "@types/react": "^18.2.24",
     "@types/react-dom": "^18.2.8",
-    "@vercel/node": "^2.15.1"
+    "@vercel/node": "^2.15.1",
+    "typescript": "^5.1.6",
+    "vite": "^5.1.0",
+    "vite-tsconfig-paths": "^4.2.1"
   },
   "engines": {
     "node": ">=14"

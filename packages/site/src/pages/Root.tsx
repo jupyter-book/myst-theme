@@ -4,7 +4,6 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import { BaseUrlProvider, SiteProvider, Theme, ThemeProvider } from '@myst-theme/providers';
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -73,7 +72,6 @@ export function Document({
         </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
-        {!staticBuild && <LiveReload />}
         {scripts}
       </body>
     </html>

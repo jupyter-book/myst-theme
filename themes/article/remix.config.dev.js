@@ -1,3 +1,4 @@
+const { builtinModules } = require("node:module");
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   publicPath: '/myst_assets_folder/',
@@ -60,10 +61,7 @@ module.exports = {
     'jats-utils',
   ],
   watchPaths: ['../../packages/**/*'],
-  future: {
-    v2_routeConvention: true,
-    v2_normalizeFormMethod: true,
-    v2_headers: true,
-    v2_meta: true,
+  browserNodeBuiltinsPolyfill: {
+    modules: builtinModules,
   },
 };

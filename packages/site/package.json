@@ -34,7 +34,8 @@
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.11",
     "thebe-react": "^0.4.6",
-    "unist-util-select": "^4.0.1"
+    "unist-util-select": "^4.0.1",
+    "vite-env-only": "^3.0.0"
   },
   "peerDependencies": {
     "@remix-run/node": "^2.0.0",

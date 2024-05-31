@@ -2,6 +2,7 @@ import { vitePlugin as remix } from '@remix-run/dev';
 import { defineConfig } from 'vite';
 import { installGlobals } from '@remix-run/node';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { envOnlyMacros } from 'vite-env-only';
 
 installGlobals();
 
@@ -14,6 +15,7 @@ export default defineConfig({
       serverModuleFormat: 'esm',
     }),
     tsconfigPaths(),
+    envOnlyMacros(),
   ],
   publicDir: '/myst_assets_folder/',
   resolve: {
@@ -28,8 +30,6 @@ export default defineConfig({
       /^remark.*/,
       /^unified.*/,
       /^unist.*/,
-
-      /^micromark.*/,
       /^@myst-theme\/.*/,
     ],
   },

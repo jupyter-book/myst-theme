@@ -1,4 +1,4 @@
-import type { HtmlMetaDescriptor, MetaDescriptor } from '@remix-run/react';
+import type { MetaDescriptor } from '@remix-run/react';
 
 type SocialSite = {
   title: string;
@@ -17,15 +17,15 @@ type SocialArticle = {
   keywords?: string[];
 };
 
-function allDefined(meta: Record<string, string | null | undefined>): HtmlMetaDescriptor {
-  return Object.fromEntries(Object.entries(meta).filter(([, v]) => v)) as HtmlMetaDescriptor;
+function allDefined(meta: Record<string, string | null | undefined>): MetaDescriptor {
+  return Object.fromEntries(Object.entries(meta).filter(([, v]) => v)) as MetaDescriptor;
 }
 
 export function getMetaTagsForSite_V1({
   title,
   description,
   twitter,
-}: SocialSite): HtmlMetaDescriptor {
+}: SocialSite): MetaDescriptor {
   const meta = {
     title,
     description,
@@ -60,7 +60,7 @@ export function getMetaTagsForArticle_V1({
   image,
   twitter,
   keywords,
-}: SocialArticle): HtmlMetaDescriptor {
+}: SocialArticle): MetaDescriptor {
   const meta = {
     title,
     description,

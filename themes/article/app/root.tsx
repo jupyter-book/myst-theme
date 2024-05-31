@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import tailwind from '~/styles/app.css';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';

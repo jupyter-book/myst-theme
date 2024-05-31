@@ -4,7 +4,6 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [
     remix({
-      ssr: false,
       basename: '/',
       ignoredRouteFiles: ['**/*.css'],
       serverBuildFile: 'api/index.js',

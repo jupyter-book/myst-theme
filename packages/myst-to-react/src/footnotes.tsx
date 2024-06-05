@@ -3,6 +3,7 @@ import { XRefProvider, useReferences } from '@myst-theme/providers';
 import { select } from 'unist-util-select';
 import { HoverPopover } from './components/index.js';
 import { MyST } from './MyST.js';
+import { HashLink } from './hashLink.js';
 
 function FootnoteDefinition({ identifier }: { identifier: string }) {
   const references = useReferences();
@@ -24,8 +25,12 @@ export const FootnoteReference: NodeRenderer = ({ node }) => {
       openDelay={0}
       card={<FootnoteDefinition identifier={node.identifier as string} />}
     >
-      <span>
-        <sup className="hover-link">[{node.number ?? node.identifier}]</sup>
+      <span id={`fnref-${node.key}`}>
+        <sup className="hover-link">
+          <HashLink id={`fn-${node.identifier}`} title="Link to Footnote" scrollBehavior="instant">
+            [{node.enumerator ?? node.number ?? node.identifier}]
+          </HashLink>
+        </sup>
       </span>
     </HoverPopover>
   );

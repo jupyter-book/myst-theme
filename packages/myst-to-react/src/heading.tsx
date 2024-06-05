@@ -1,56 +1,8 @@
 import { Heading } from 'myst-spec';
 import type { NodeRenderer } from '@myst-theme/providers';
-import { useXRefState } from '@myst-theme/providers';
 import { createElement as e } from 'react';
-import classNames from 'classnames';
 import { MyST } from './MyST.js';
-
-export function HashLink({
-  id,
-  kind,
-  title = `Link to this ${kind}`,
-  children = '¶',
-  hover,
-  className = 'font-normal',
-  hideInPopup,
-}: {
-  id?: string;
-  kind?: string;
-  title?: string;
-  hover?: boolean;
-  children?: '#' | '¶' | React.ReactNode;
-  className?: string;
-  hideInPopup?: boolean;
-}) {
-  const { inCrossRef } = useXRefState();
-  if (inCrossRef || !id) {
-    // If we are in a cross-reference pop-out, either hide hash link
-    // or return something that is **not** a link
-    return hideInPopup ? null : (
-      <span className={classNames('select-none', className)}>{children}</span>
-    );
-  }
-  const scroll: React.MouseEventHandler<HTMLAnchorElement> = (evt) => {
-    evt.preventDefault();
-    const el = document.getElementById(id);
-    el?.scrollIntoView({ behavior: 'smooth' });
-    history.replaceState(undefined, '', `#${id}`);
-  };
-  return (
-    <a
-      className={classNames('select-none no-underline text-inherit hover:text-inherit', className, {
-        'transition-opacity opacity-0 focus:opacity-100 group-hover:opacity-70': hover,
-        'hover:underline': !hover,
-      })}
-      onClick={scroll}
-      href={`#${id}`}
-      title={title}
-      aria-label={title}
-    >
-      {children}
-    </a>
-  );
-}
+import { HashLink } from './hashLink.js';
 
 const Heading: NodeRenderer<Heading> = ({ node }) => {
   const { enumerator, depth, key, identifier, html_id } = node;

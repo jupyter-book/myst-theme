@@ -13,6 +13,7 @@ import { default as useSWR } from 'swr';
 import { HoverPopover } from './components/index.js';
 import { MyST } from './MyST.js';
 import { selectMdastNodes } from 'myst-common';
+import { scrollToElement } from './hashLink.js';
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => {
@@ -38,14 +39,6 @@ function XrefChildren({ load, identifier }: { load?: boolean; identifier: string
     );
   }
   return <MyST ast={data?.nodes} />;
-}
-
-function openDetails(el: HTMLElement | null) {
-  if (!el) return;
-  if (el.nodeName === 'DETAILS') {
-    (el as HTMLDetailsElement).open = true;
-  }
-  openDetails(el.parentElement);
 }
 
 function createRemoteBaseUrl(url?: string, remoteBaseUrl?: string): string {
@@ -144,14 +137,7 @@ export function CrossReferenceHover({
     e.preventDefault();
     if (!htmlId) return;
     const el = document.getElementById(htmlId);
-    openDetails(el);
-    el?.scrollIntoView({ behavior: 'smooth' });
-    history.replaceState(undefined, '', `#${htmlId}`);
-    if (el) {
-      // Changes keyboard tab-index location
-      if (el.tabIndex === -1) el.tabIndex = -1;
-      el.focus({ preventScroll: true });
-    }
+    scrollToElement(el, { htmlId });
   };
   return (
     <HoverPopover

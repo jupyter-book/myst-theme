@@ -84,9 +84,13 @@ const themeExtensions = {
       css: {
         code: {
           fontWeight: '400',
-          '&::before, &::after': {
-            content: '',
-          }
+        },
+        // These code before/after elements are hard coded to remove the backticks, "`", that are in by default.
+        'code::before': {
+          content: '',
+        },
+        'code::after': {
+          content: '',
         },
         'blockquote p:first-of-type::before': { content: 'none' },
         'blockquote p:first-of-type::after': { content: 'none' },
@@ -98,10 +102,11 @@ const themeExtensions = {
           marginTop: '0.25rem',
           marginBottom: '0.25rem',
         },
-        // Tailwind doesn't style h4+ at all so this makes them look like headers
-        'h4, h5, h6' : {
-          fontWeight: 'bold',
-        }
+        // Tailwind doesn't style h5 or h6 at all so this makes them look like headers
+        'h5, h6': {
+          color: 'var(--tw-prose-headings)',
+          fontWeight: '500',
+        },
       },
     },
     invert: {

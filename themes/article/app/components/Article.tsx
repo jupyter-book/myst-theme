@@ -7,6 +7,7 @@ import {
   FrontmatterParts,
   BackmatterParts,
   extractKnownParts,
+  Footnotes,
 } from '@myst-theme/site';
 import { ErrorTray, NotebookToolbar, useComputeOptions } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
@@ -59,6 +60,7 @@ export function Article({
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
           <ContentBlocks mdast={tree as GenericParent} />
           <BackmatterParts parts={parts} />
+          <Footnotes />
           <Bibliography />
           <ConnectionStatusTray />
         </ExecuteScopeProvider>

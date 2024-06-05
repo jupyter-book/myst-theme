@@ -8,6 +8,7 @@ import {
   BackmatterParts,
   DocumentOutline,
   extractKnownParts,
+  Footnotes,
 } from '@myst-theme/site';
 import type { SiteManifest } from 'myst-config';
 import type { PageLoader } from '@myst-theme/common';
@@ -95,6 +96,7 @@ export const ArticlePage = React.memo(function ({
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
           <ContentBlocks pageKind={article.kind} mdast={tree as GenericParent} />
           <BackmatterParts parts={parts} />
+          <Footnotes />
           <Bibliography />
           <ConnectionStatusTray />
           {!hide_footer_links && !hide_all_footer_links && (
@@ -105,4 +107,3 @@ export const ArticlePage = React.memo(function ({
     </ReferencesProvider>
   );
 });
-

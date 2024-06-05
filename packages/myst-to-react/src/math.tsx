@@ -1,7 +1,7 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import type { InlineMath, Math } from 'myst-spec';
 import { InlineError } from './inlineError.js';
-import { HashLink } from './heading.js';
+import { HashLink } from './hashLink.js';
 import type { NodeRenderer } from '@myst-theme/providers';
 
 // function Math({ value, html }: { value: string; html: string }) {

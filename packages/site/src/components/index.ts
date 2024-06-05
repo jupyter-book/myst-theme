@@ -3,6 +3,7 @@ export { DocumentOutline, useOutlineHeight, SupportingDocuments } from './Docume
 export { FooterLinksBlock } from './FooterLinksBlock.js';
 export { ContentReload } from './ContentReload.js';
 export { Bibliography } from './Bibliography.js';
+export { Footnotes } from './Footnotes.js';
 export { ArticleHeader } from './Headers.js';
 export { FrontmatterParts, Abstract, Keywords } from './Abstract.js';
 export { BackmatterParts, Backmatter } from './Backmatter.js';

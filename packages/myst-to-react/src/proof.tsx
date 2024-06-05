@@ -3,7 +3,7 @@ import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
-import { HashLink } from './heading.js';
+import { HashLink } from './hashLink.js';
 import type { GenericNode } from 'myst-common';
 import { MyST } from './MyST.js';
 

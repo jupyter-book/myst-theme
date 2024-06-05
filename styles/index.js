@@ -85,6 +85,7 @@ const themeExtensions = {
         code: {
           fontWeight: '400',
         },
+        // These code before/after elements are hard coded to remove the backticks, "`", that are in by default.
         'code::before': {
           content: '',
         },
@@ -100,6 +101,11 @@ const themeExtensions = {
         'li > p, dd > p, header > p, footer > p': {
           marginTop: '0.25rem',
           marginBottom: '0.25rem',
+        },
+        // Tailwind doesn't style h5 or h6 at all so this makes them look like headers
+        'h5, h6': {
+          color: 'var(--tw-prose-headings)',
+          fontWeight: '500',
         },
       },
     },

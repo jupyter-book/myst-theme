@@ -1,5 +1,24 @@
 # @myst-theme/book
 
+## 0.9.5
+
+### Patch Changes
+
+- 1169041e: Update `myst-*` and `thebe-*` deps
+- e3ab7cd3: Add footnotes to bottom of page in addition to hover
+- 44b38217: Support inline navigation
+- Updated dependencies [1169041e]
+- Updated dependencies [e3ab7cd3]
+- Updated dependencies [a6b01523]
+- Updated dependencies [cf97680e]
+- Updated dependencies [d95786c9]
+  - @myst-theme/providers@0.9.5
+  - @myst-theme/jupyter@0.9.5
+  - @myst-theme/common@0.9.5
+  - @myst-theme/site@0.9.5
+  - @myst-theme/styles@0.9.5
+  - @myst-theme/icons@0.9.5
+
 ## 0.9.4
 
 ### Patch Changes

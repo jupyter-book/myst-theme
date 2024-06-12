@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.9.5
+
+### Patch Changes
+
+- 1169041e: Update `myst-*` and `thebe-*` deps
+- e3ab7cd3: Add footnotes to bottom of page in addition to hover
+- 0f053224: Use correct remoteBaseUrl on nested cross reference popups
+- Updated dependencies [1169041e]
+  - @myst-theme/providers@0.9.5
+
 ## 0.9.4
 
 ### Patch Changes

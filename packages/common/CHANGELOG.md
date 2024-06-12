@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.9.5
+
+### Patch Changes
+
+- 1169041e: Update `myst-*` and `thebe-*` deps
+
 ## 0.9.4
 
 ## 0.9.3

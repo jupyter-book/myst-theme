@@ -1,5 +1,24 @@
 # @myst-theme/site
 
+## 0.9.5
+
+### Patch Changes
+
+- 1169041e: Update `myst-*` and `thebe-*` deps
+- e3ab7cd3: Add footnotes to bottom of page in addition to hover
+- a6b01523: Mark ArticlePage as deprecated
+- d95786c9: The backmatter parts did not have a key, leading to a react error message
+- Updated dependencies [1169041e]
+- Updated dependencies [e3ab7cd3]
+- Updated dependencies [0f053224]
+  - myst-to-react@0.9.5
+  - myst-demo@0.9.5
+  - @myst-theme/providers@0.9.5
+  - @myst-theme/jupyter@0.9.5
+  - @myst-theme/common@0.9.5
+  - @myst-theme/frontmatter@0.9.5
+  - @myst-theme/diagrams@0.9.5
+
 ## 0.9.4
 
 ### Patch Changes

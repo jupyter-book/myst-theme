@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 0.9.5
+
+### Patch Changes
+
+- 1169041e: Update `myst-*` and `thebe-*` deps
+- Updated dependencies [1169041e]
+  - @myst-theme/common@0.9.5
+
 ## 0.9.4
 
 ### Patch Changes

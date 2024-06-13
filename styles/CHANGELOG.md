@@ -1,5 +1,12 @@
 # @myst-theme/styles
 
+## 0.9.5
+
+### Patch Changes
+
+- e3ab7cd3: Add footnotes to bottom of page in addition to hover
+- cf97680e: Add H5 and H6 styles
+
 ## 0.9.4
 
 ## 0.9.3

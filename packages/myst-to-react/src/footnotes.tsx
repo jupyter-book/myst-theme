@@ -12,7 +12,7 @@ function FootnoteDefinition({ identifier }: { identifier: string }) {
     select(`footnoteDefinition[identifier=${identifier}]`, references?.article);
   return (
     <XRefProvider>
-      <div className="hover-document article w-[500px] sm:max-w-[500px] px-3">
+      <div className="hover-document article w-[500px] sm:max-w-[500px] px-3 text-sm">
         <MyST ast={node.children} />
       </div>
     </XRefProvider>
@@ -27,7 +27,12 @@ export const FootnoteReference: NodeRenderer = ({ node }) => {
     >
       <span id={`fnref-${node.key}`}>
         <sup className="hover-link">
-          <HashLink id={`fn-${node.identifier}`} title="Link to Footnote" scrollBehavior="instant">
+          <HashLink
+            id={`fn-${node.identifier}`}
+            title="Link to Footnote"
+            scrollBehavior="instant"
+            canSelectText
+          >
             [{node.enumerator ?? node.number ?? node.identifier}]
           </HashLink>
         </sup>

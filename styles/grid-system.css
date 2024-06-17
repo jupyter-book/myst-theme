@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @layer base {
   .article-grid {
     @apply grid content-start grid-cols-article-sm md:grid-cols-article-md lg:grid-cols-article-lg xl:grid-cols-article-xl 2xl:grid-cols-article-2xl;

@@ -50,6 +50,7 @@ export function HashLink({
   kind,
   title = `Link to this ${kind}`,
   children = '¶',
+  canSelectText = false,
   hover,
   className = 'font-normal',
   hideInPopup,
@@ -62,6 +63,7 @@ export function HashLink({
   title?: string;
   hover?: boolean;
   children?: '#' | '¶' | React.ReactNode;
+  canSelectText?: boolean;
   className?: string;
   hideInPopup?: boolean;
 } & HashLinkBehavior) {
@@ -80,7 +82,8 @@ export function HashLink({
   };
   return (
     <a
-      className={classNames('select-none no-underline text-inherit hover:text-inherit', className, {
+      className={classNames('no-underline text-inherit hover:text-inherit', className, {
+        'select-none': !canSelectText,
         'transition-opacity opacity-0 focus:opacity-100 group-hover:opacity-70': hover,
         'hover:underline': !hover,
       })}

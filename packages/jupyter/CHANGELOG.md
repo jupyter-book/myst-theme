@@ -1,5 +1,13 @@
 # @myst-theme/jupyter
 
+## 0.9.6
+
+### Patch Changes
+
+- Updated dependencies [e96a3810]
+  - myst-to-react@0.9.6
+  - @myst-theme/providers@0.9.6
+
 ## 0.9.5
 
 ### Patch Changes

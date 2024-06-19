@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.9.6
+
+### Patch Changes
+
+- 1b763c36: Fix style over-rides
+
 ## 0.9.5
 
 ### Patch Changes

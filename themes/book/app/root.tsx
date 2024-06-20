@@ -1,4 +1,4 @@
-import type { LinksFunction, V2_MetaFunction, LoaderFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction, LoaderFunction } from '@remix-run/node';
 import tailwind from '~/styles/app.css';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';
@@ -14,7 +14,7 @@ import {
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { Outlet, useLoaderData } from '@remix-run/react';
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({
     title: data?.config?.title,
     description: data?.config?.description,

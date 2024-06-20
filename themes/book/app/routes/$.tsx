@@ -1,6 +1,6 @@
 import {
   json,
-  type V2_MetaFunction,
+  type MetaFunction,
   type LinksFunction,
   type LoaderFunction,
 } from '@remix-run/node';
@@ -33,7 +33,7 @@ import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;

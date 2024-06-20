@@ -12,13 +12,14 @@ import {
   useLoaderData,
   Link,
   NavLink,
+  useRouteError,
+  isRouteErrorResponse,
 } from '@remix-run/react';
 import { DEFAULT_NAV_HEIGHT, renderers as defaultRenderers } from '../components/index.js';
 import { Analytics } from '../seo/index.js';
 import { Error404 } from './Error404.js';
 import { ErrorUnhandled } from './ErrorUnhandled.js';
 import classNames from 'classnames';
-import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 
 export function Document({
   children,

@@ -3,7 +3,7 @@ import {
   json,
   type LinksFunction,
   type LoaderFunction,
-  type V2_MetaFunction,
+  type MetaFunction,
 } from '@remix-run/node';
 import {
   getMetaTagsForArticle,
@@ -23,7 +23,7 @@ import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;

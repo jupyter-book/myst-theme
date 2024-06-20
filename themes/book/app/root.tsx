@@ -11,8 +11,8 @@ import {
   ContentReload,
   SkipToArticle,
 } from '@myst-theme/site';
+export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { Outlet, useLoaderData } from '@remix-run/react';
-export { AppCatchBoundary as CatchBoundary } from '@myst-theme/site';
 
 export const meta: V2_MetaFunction = ({ data }) => {
   return getMetaTagsForSite({

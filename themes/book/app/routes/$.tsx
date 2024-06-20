@@ -12,7 +12,8 @@ import {
   Navigation,
   TopNav,
   getMetaTagsForArticle,
-  ArticlePageCatchBoundary,
+  ErrorDocumentNotFound,
+  ErrorUnhandled,
 } from '@myst-theme/site';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
@@ -29,6 +30,7 @@ import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { ArticlePage } from '../components/ArticlePage.js';
 import type { TemplateOptions } from '../types.js';
+import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
 export const meta: V2_MetaFunction = ({ data, matches, location }) => {
@@ -106,7 +108,6 @@ export function ArticlePageAndNavigation({
   );
 }
 
-
 export default function Page() {
   const { container } = useOutlineHeight();
   const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
@@ -136,11 +137,16 @@ export default function Page() {
   );
 }
 
-export function CatchBoundary() {
+export function ErrorBoundary() {
+  const error = useRouteError();
   return (
     <ArticlePageAndNavigation>
       <main className="article">
-        <ArticlePageCatchBoundary />
+        {isRouteErrorResponse(error) ? (
+          <ErrorDocumentNotFound />
+        ) : (
+          <ErrorUnhandled error={error as any} />
+        )}
       </main>
     </ArticlePageAndNavigation>
   );

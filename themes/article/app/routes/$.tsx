@@ -5,7 +5,12 @@ import {
   type LoaderFunction,
   type V2_MetaFunction,
 } from '@remix-run/node';
-import { getMetaTagsForArticle, KatexCSS, ArticlePageCatchBoundary } from '@myst-theme/site';
+import {
+  getMetaTagsForArticle,
+  KatexCSS,
+  ErrorDocumentNotFound,
+  ErrorUnhandled,
+} from '@myst-theme/site';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
@@ -14,6 +19,7 @@ import { ArticlePage } from '../components/ArticlePage';
 import { ComputeOptionsProvider } from '@myst-theme/jupyter';
 import { ProjectProvider, useBaseurl } from '@myst-theme/providers';
 import { ThebeLoaderAndServer } from '@myst-theme/jupyter';
+import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
@@ -77,11 +83,16 @@ export default function Page() {
   );
 }
 
-export function CatchBoundary() {
+export function ErrorBoundary() {
+  const error = useRouteError();
   return (
     <ArticlePageAndNavigation>
       <main className="article">
-        <ArticlePageCatchBoundary />
+        {isRouteErrorResponse(error) ? (
+          <ErrorDocumentNotFound />
+        ) : (
+          <ErrorUnhandled error={error as any} />
+        )}
       </main>
     </ArticlePageAndNavigation>
   );

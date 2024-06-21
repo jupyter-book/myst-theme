@@ -16,10 +16,10 @@
     "start": "npm run build:css && remix dev"
   },
   "dependencies": {
+    "@myst-theme/common": "^0.9.6",
     "@myst-theme/icons": "^0.9.6",
     "@myst-theme/jupyter": "^0.9.6",
     "@myst-theme/providers": "^0.9.6",
-    "@myst-theme/common": "^0.9.6",
     "@myst-theme/site": "^0.9.6",
     "@myst-theme/styles": "^0.9.6",
     "@remix-run/node": "^2.2.0",
@@ -38,10 +38,13 @@
     "@types/node-fetch": "^2.6.4",
     "@types/react": "^18.2.24",
     "@types/react-dom": "^18.2.8",
-    "@vercel/node": "^2.15.1"
+    "@vercel/node": "^2.15.1",
+    "typescript": "^5.1.6",
+    "vite": "^5.3.1",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "packageManager": "npm@8.10.0"
 }

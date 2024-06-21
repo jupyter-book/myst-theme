@@ -2,7 +2,6 @@
   "name": "@myst-theme/book",
   "version": "0.9.6",
   "private": true,
-  "type": "module",
   "sideEffects": false,
   "scripts": {
     "compile": "tsc --noEmit --skipLibCheck",

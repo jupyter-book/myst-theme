@@ -37,6 +37,19 @@ const themeExtensions = {
       '[screen-start] 0.5rem [screen-inset-start page-start page-inset-start body-outset-start] 3rem [body-start gutter-left-start] 1rem [body-inset-start] minmax(8ch, 12ch) [middle-start] minmax(8ch, 12ch) [gutter-left-end] minmax(8ch, 12ch) minmax(8ch, 12ch) [gutter-right-start] minmax(8ch, 12ch) [middle-end] minmax(8ch, 12ch) [body-inset-end] 1rem [body-end] 1fr [gutter-right-end] 1rem [body-outset-end] minmax(10rem, 18rem) [page-inset-end] 1rem [page-end] 1fr [screen-inset-end] 0.5rem [screen-end]',
     'article-left-2xl':
       '[screen-start] 0.5rem [screen-inset-start] 1fr [page-start page-inset-start body-outset-start] 3rem [body-start gutter-left-start] 1rem [body-inset-start] minmax(8ch, 12ch) [middle-start] minmax(8ch, 12ch) [gutter-left-end] minmax(8ch, 12ch) minmax(8ch, 12ch) [gutter-right-start] minmax(8ch, 12ch) [middle-end] minmax(8ch, 12ch) [body-inset-end] 1rem [body-end] 1fr [gutter-right-end] 1rem [body-outset-end] minmax(10rem, 18rem) [page-inset-end] 1rem [page-end] 1fr [screen-inset-end] 0.5rem [screen-end]',
+    // article - left theme
+    'article-center-sm':
+      '[screen-start screen-inset-start] 0.5rem [page-start page-inset-start body-outset-start body-start gutter-left-start body-inset-start middle-start] 1fr 1fr [gutter-left-end] 1fr 1fr [gutter-right-start] 1fr 1fr [middle-end body-inset-end body-end gutter-right-end body-outset-end page-inset-end page-end] 0.5rem [screen-inset-end screen-end]',
+    'article-center-md':
+      '[screen-start] 0.25rem [screen-inset-start page-start page-inset-start body-outset-start] 1fr [body-start gutter-left-start] 1rem [body-inset-start] minmax(2ch, 10ch) [middle-start] minmax(2ch, 10ch) [gutter-left-end] minmax(2ch, 10ch) minmax(2ch, 10ch) [gutter-right-start] minmax(2ch, 10ch) [middle-end] minmax(2ch, 10ch) [body-inset-end] 1rem [body-end gutter-right-end] 1fr [body-outset-end page-inset-end page-end screen-inset-end] 0.25rem [screen-end]',
+    'article-center-lg': `[screen-start] 0.25rem [screen-inset-start page-start] 1fr [page-inset-start ] 1rem [] 1rem 
+      [body-outset-start gutter-outset-left-start] minmax(8ch, 10ch) [body-start body-inset-start gutter-left-start] minmax(8ch, 10ch) [gutter-left-end middle-start] minmax(8ch, 10ch) minmax(8ch, 10ch) []
+      minmax(8ch, 10ch) [] minmax(8ch, 10ch) [middle-end gutter-right-start gutter-page-right-start] minmax(8ch, 10ch) [body-end body-inset-end gutter-right-end] minmax(8ch, 10ch) 
+      [body-outset-end] 1rem [page-inset-end] 1rem [page-end] 1fr [screen-inset-end] 0.25rem [screen-end]`,
+    'article-center-xl':
+      '[screen-start] 0.25rem [screen-inset-start] 1fr [page-start] 3rem [page-inset-start] minmax(4rem, 9rem) [body-outset-start] 3rem [body-start gutter-left-start] 1rem [body-inset-start] minmax(8ch, 10ch) [middle-start] minmax(8ch, 10ch) [gutter-left-end] minmax(8ch, 10ch) minmax(8ch, 10ch) [gutter-right-start] minmax(8ch, 10ch) [middle-end] minmax(8ch, 10ch) [body-inset-end] 1rem [body-end gutter-right-end] 3rem [body-outset-end] minmax(4rem, 9rem) [page-inset-end] 3rem [page-end] 1fr [screen-inset-end] 0.25rem [screen-end]',
+    'article-center-2xl':
+      '[screen-start] 0.5rem [screen-inset-start] 1fr [page-start] 3rem [page-inset-start] minmax(4rem, 9rem) [body-outset-start] 3rem [body-start gutter-left-start] 1rem [body-inset-start] minmax(8ch, 10ch) [middle-start] minmax(8ch, 10ch) [gutter-left-end] minmax(8ch, 10ch) minmax(8ch, 10ch) [gutter-right-start] minmax(8ch, 10ch) [middle-end] minmax(8ch, 10ch) [body-inset-end] 1rem [body-end gutter-right-end] 3rem [body-outset-end] minmax(4rem, 9rem) [page-inset-end] 3rem [page-end] 1fr [screen-inset-end] 0.5rem [screen-end]',
   },
   gridColumn: {
     screen: 'screen',
@@ -66,7 +79,7 @@ const themeExtensions = {
     'gutter-outset-right': 'gutter-right / body-outset',
     'margin-left-lg': 'page / body-start',
     'margin-right-lg': 'body-end / page-end',
-    'margin-right-inset-lg': 'body-outset-end /page-inset',
+    'margin-right-inset-lg': 'body-end /page-inset',
     'body-outset-right': 'body / body-outset',
     'page-inset-right': 'body / page-inset',
     'page-right': 'body / page',
@@ -145,6 +158,8 @@ const safeList = [
   'xl:article-grid',
   'article-left-grid',
   'xl:article-left-grid',
+  'article-center-grid',
+  'xl:article-center-grid',
   'col-screen',
   'col-screen-inset',
   'col-page',

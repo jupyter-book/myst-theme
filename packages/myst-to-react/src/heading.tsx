@@ -1,4 +1,4 @@
-import { Heading } from 'myst-spec';
+import type { Heading } from 'myst-spec';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { createElement as e } from 'react';
 import { MyST } from './MyST.js';

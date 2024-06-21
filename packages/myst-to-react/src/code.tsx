@@ -2,8 +2,7 @@ import type { Code, InlineCode } from 'myst-spec';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { useTheme } from '@myst-theme/providers';
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
-import light from 'react-syntax-highlighter/dist/esm/styles/hljs/xcode.js';
-import dark from 'react-syntax-highlighter/dist/esm/styles/hljs/vs2015.js';
+import { useEffect, useState } from 'react';
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { CopyIcon } from './components/index.js';
@@ -32,7 +31,6 @@ function normalizeLanguage(lang?: string): string | undefined {
       return lang;
   }
 }
-
 export function CodeBlock(props: Props) {
   const { isLight } = useTheme();
   const {
@@ -50,6 +48,15 @@ export function CodeBlock(props: Props) {
     border,
   } = props;
   const highlightLines = new Set(emphasizeLines);
+  const [style, setStyle] = useState({});
+  useEffect(() => {
+    Promise.all([
+      import('react-syntax-highlighter/dist/esm/styles/hljs/xcode.js'),
+      import('react-syntax-highlighter/dist/esm/styles/hljs/vs2015.js'),
+    ]).then(([light, dark]) => {
+      setStyle(isLight ? { ...light, hljs: { ...light.hljs, background: 'transparent' } } : dark);
+    });
+  }, [isLight]);
   return (
     <div
       id={identifier}
@@ -72,11 +79,12 @@ export function CodeBlock(props: Props) {
           </div>
         </div>
       )}
+
       <SyntaxHighlighter
         language={normalizeLanguage(lang)}
         startingLineNumber={startingLineNumber}
         showLineNumbers={showLineNumbers}
-        style={isLight ? { ...light, hljs: { ...light.hljs, background: 'transparent' } } : dark}
+        style={style}
         wrapLines
         lineNumberContainerStyle={{
           // This stops page content shifts

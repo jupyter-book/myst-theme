@@ -255,7 +255,7 @@ export function reducer(state: BusyScopeState, action: BusyScopeAction): BusySco
         error: {
           ...state.error,
           [pageSlug]: {
-            ...state.error[pageSlug],
+            ...(state.error[pageSlug] as object),
             [notebookSlug]: errors,
           },
         },

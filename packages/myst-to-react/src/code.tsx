@@ -53,7 +53,7 @@ export function CodeBlock(props: Props) {
     Promise.all([
       import('react-syntax-highlighter/dist/esm/styles/hljs/xcode.js'),
       import('react-syntax-highlighter/dist/esm/styles/hljs/vs2015.js'),
-    ]).then(([light, dark]) => {
+    ]).then(([light, dark]: [Record<string, any>, Record<string, any>]) => {
       setStyle(isLight ? { ...light, hljs: { ...light.hljs, background: 'transparent' } } : dark);
     });
   }, [isLight]);

@@ -66,7 +66,7 @@ export default function Page() {
   // const { container, outline } = useOutlineHeight();
   // const { hide_outline } = (article.frontmatter as any)?.options ?? {};
   const baseurl = useBaseurl();
-  const { page: article } = useLoaderData() as { page: PageLoader };
+  const { page: article } = useLoaderData<typeof loader>();
 
   return (
     <ArticlePageAndNavigation>

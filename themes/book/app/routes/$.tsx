@@ -110,7 +110,7 @@ export function ArticlePageAndNavigation({
 
 export default function Page() {
   const { container } = useOutlineHeight();
-  const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
+  const data = useLoaderData<typeof loader>();
   const baseurl = useBaseurl();
   const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.options ?? {};
   const siteDesign: TemplateOptions =

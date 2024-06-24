@@ -39,6 +39,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!project) throw responseNoArticle();
   if (project.slug) return redirect(`/${project.slug}`);
   const page = await getPage(request, { slug: project.index });
+  console.log("LOADER")
   return json({ config, page, project });
 };
 

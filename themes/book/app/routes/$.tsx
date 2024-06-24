@@ -70,6 +70,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     slug: flat ? slug : projectName ? slug : undefined,
     redirect: process.env.MODE === 'static' ? false : true,
   });
+  console.log("LOADER page", process.env.MODE === 'static' ? false : true)
   return json({ config, page, project });
 };
 

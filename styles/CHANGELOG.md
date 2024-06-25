@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.9.7
+
+### Patch Changes
+
+- 583a185c: A new, centered article grid
+
 ## 0.9.6
 
 ### Patch Changes

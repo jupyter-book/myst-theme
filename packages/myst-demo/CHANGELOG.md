@@ -1,5 +1,11 @@
 # myst-demo
 
+## 0.9.7
+
+### Patch Changes
+
+- myst-to-react@0.9.7
+
 ## 0.9.6
 
 ### Patch Changes

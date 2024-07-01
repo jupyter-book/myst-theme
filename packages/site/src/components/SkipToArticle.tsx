@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 function makeSkipClickHandler(hash: string) {
   return (e: React.UIEvent<HTMLElement, Event>) => {
@@ -10,6 +10,10 @@ function makeSkipClickHandler(hash: string) {
   };
 }
 
+/**
+ * @deprecated use `SkipTo` instead with a list of targets
+ *
+ */
 export function SkipToArticle({
   frontmatter = true,
   article = true,
@@ -48,3 +52,26 @@ export function SkipToArticle({
     </div>
   );
 }
+
+/**
+ * Add a skip navigation unit with links based on a list of targets
+ */
+export const SkipTo = React.memo(({ targets }: { targets: { id: string; title: string }[] }) => {
+  return (
+    <div
+      className="fixed top-1 left-1 h-[0px] w-[0px] focus-within:z-40 focus-within:h-auto focus-within:w-auto bg-white overflow-hidden focus-within:p-2 focus-within:ring-1"
+      aria-label="skip to content options"
+    >
+      {targets.map(({ id, title }) => (
+        <a
+          key={id}
+          href={`#${id}`}
+          className="block px-2 py-1 text-black underline"
+          onClick={makeSkipClickHandler(id)}
+        >
+          {title}
+        </a>
+      ))}
+    </div>
+  );
+});

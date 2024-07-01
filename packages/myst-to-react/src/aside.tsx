@@ -1,6 +1,7 @@
 import type { NodeRenderer } from '@myst-theme/providers';
 import { MyST } from './MyST.js';
 import type { GenericNode } from 'myst-common';
+import classNames from 'classnames';
 
 type Aside = {
   type: 'aside';
@@ -28,20 +29,20 @@ function getAsideClass(kind?: string) {
 
 export const AsideRenderer: NodeRenderer<Aside> = ({ node }) => {
   const [title, ...rest] = node.children as GenericNode[];
-  const className = getAsideClass(node.kind);
+  const classes = getAsideClass(node.kind);
   if (title.type !== 'admonitionTitle') {
     return (
-      <aside className={className.container}>
+      <aside className={classNames(classes.container, node.class)}>
         <MyST ast={node.children} />
       </aside>
     );
   }
   return (
-    <aside className={className.container}>
-      <div className={className.title}>
+    <aside className={classNames(classes.container, node.class)}>
+      <div className={classes.title}>
         <MyST ast={title} />
       </div>
-      <div className={className.body}>
+      <div className={classes.body}>
         <MyST ast={rest} />
       </div>
     </aside>

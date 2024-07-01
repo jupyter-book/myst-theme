@@ -5,7 +5,7 @@ import classNames from 'classnames';
 /**
  * Show a loading progess bad if the load takes more than 150ms
  */
-function useLoading() {
+export function useLoading() {
   const transitionState = useNavigation().state;
   const ref = useMemo<{ start?: NodeJS.Timeout; finish?: NodeJS.Timeout }>(() => ({}), []);
   const [showLoading, setShowLoading] = useState(false);

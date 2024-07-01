@@ -3,18 +3,14 @@ import { SourceFileKind } from 'myst-spec-ext';
 import type { GenericParent } from 'myst-common';
 import classNames from 'classnames';
 import {
-  executableNodesFromBlock,
   NotebookClearCell,
   NotebookRunCell,
   NotebookRunCellSpinnerOnly,
 } from '@myst-theme/jupyter';
 import { useGridSystemProvider } from '@myst-theme/providers';
+import { isACodeCell } from '../utils.js';
 
-function isACodeCell(node: GenericParent) {
-  return !!executableNodesFromBlock(node);
-}
-
-function Block({
+export function Block({
   id,
   pageKind,
   node,

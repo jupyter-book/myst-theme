@@ -3,7 +3,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { FooterLinks, NavigationLink } from '@myst-theme/common';
 import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
 
-const FooterLink = ({
+export const FooterLink = ({
   title,
   short_title,
   url,

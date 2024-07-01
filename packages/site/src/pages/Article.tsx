@@ -21,25 +21,7 @@ import {
   useComputeOptions,
 } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
-import { extractKnownParts } from '../utils.js';
-import type { SiteAction } from 'myst-config';
-
-/**
- * Combines the project downloads and the export options
- */
-function combineDownloads(
-  siteDownloads: SiteAction[] | undefined,
-  pageFrontmatter: PageLoader['frontmatter'],
-) {
-  if (pageFrontmatter.downloads) {
-    return pageFrontmatter.downloads;
-  }
-  // No downloads on the page, combine the exports if they exist
-  if (siteDownloads) {
-    return [...(pageFrontmatter.exports ?? []), ...siteDownloads];
-  }
-  return pageFrontmatter.exports;
-}
+import { combineDownloads, extractKnownParts } from '../utils.js';
 
 /**
  * @deprecated This component is not maintained, in favor of theme-specific ArticlePages

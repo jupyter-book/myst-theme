@@ -5,7 +5,13 @@ import { useState } from 'react';
 
 const HIDE_OVER_N_REFERENCES = 5;
 
-export function Bibliography() {
+export function Bibliography({
+  containerClassName,
+  innerClassName,
+}: {
+  containerClassName: string;
+  innerClassName: string;
+}) {
   const references = useReferences();
   const grid = useGridSystemProvider();
   const { order, data } = references?.cite ?? {};
@@ -14,8 +20,11 @@ export function Bibliography() {
   if (!filtered || !data || filtered.length === 0) return null;
   const refs = hidden ? filtered.slice(0, HIDE_OVER_N_REFERENCES) : filtered;
   return (
-    <section id="references" className={classNames(grid, 'subgrid-gap col-screen')}>
-      <div>
+    <section
+      id="references"
+      className={classNames(grid, 'subgrid-gap col-screen', containerClassName)}
+    >
+      <div className={innerClassName}>
         {filtered.length > HIDE_OVER_N_REFERENCES && (
           <button
             onClick={() => setHidden(!hidden)}
@@ -29,7 +38,12 @@ export function Bibliography() {
           <HashLink id="references" title="Link to References" hover className="ml-2" />
         </header>
       </div>
-      <div className="pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300">
+      <div
+        className={classNames(
+          'pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300',
+          innerClassName,
+        )}
+      >
         <ol>
           {refs.map((label) => {
             const { html } = data[label];

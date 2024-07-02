@@ -5,21 +5,35 @@ import type { FootnoteDefinition, FootnoteReference } from 'myst-spec-ext';
 import { HashLink, MyST } from 'myst-to-react';
 import { selectAll } from 'unist-util-select';
 
-export function Footnotes() {
+export function Footnotes({
+  containerClassName,
+  innerClassName,
+}: {
+  containerClassName: string;
+  innerClassName: string;
+}) {
   const references = useReferences();
   const grid = useGridSystemProvider();
   const defs = selectAll('footnoteDefinition', references?.article) as FootnoteDefinition[];
   const refs = selectAll('footnoteReference', references?.article) as FootnoteReference[];
   if (defs.length === 0) return null;
   return (
-    <section id="footnotes" className={classNames(grid, 'subgrid-gap col-screen')}>
-      <div>
+    <section
+      id="footnotes"
+      className={classNames(grid, 'subgrid-gap col-screen', containerClassName)}
+    >
+      <div className={innerClassName}>
         <header className="text-lg font-semibold text-stone-900 dark:text-white group">
           Footnotes
           <HashLink id="footnotes" title="Link to Footnotes" hover className="ml-2" />
         </header>
       </div>
-      <div className="pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300">
+      <div
+        className={classNames(
+          'pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300',
+          innerClassName,
+        )}
+      >
         <ol>
           {defs.map((fn) => {
             return (

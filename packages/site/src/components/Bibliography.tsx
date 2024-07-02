@@ -9,8 +9,8 @@ export function Bibliography({
   containerClassName,
   innerClassName,
 }: {
-  containerClassName: string;
-  innerClassName: string;
+  containerClassName?: string;
+  innerClassName?: string;
 }) {
   const references = useReferences();
   const grid = useGridSystemProvider();

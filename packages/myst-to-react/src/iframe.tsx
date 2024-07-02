@@ -1,4 +1,5 @@
 import type { NodeRenderer } from '@myst-theme/providers';
+import classNames from 'classnames';
 
 /** This is duplicated in image, but a bit different logic */
 function getStyleValue(width?: number | string): number | undefined {
@@ -27,7 +28,7 @@ export const IFrame: NodeRenderer = ({ node }) => {
     <div
       id={node.label || undefined}
       style={{ textAlign: node.align || 'center' }}
-      className="leading-[0]"
+      className={classNames('leading-[0]', node.class)}
     >
       <div
         className="relative inline-block"

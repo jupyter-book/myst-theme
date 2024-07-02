@@ -38,6 +38,7 @@ function alignToMargin(align: string) {
 }
 
 function Video({
+  className,
   id,
   src,
   urlSource,
@@ -45,6 +46,7 @@ function Video({
   width,
   height,
 }: {
+  className?: string;
   id?: string;
   src: string;
   urlSource?: string;
@@ -54,6 +56,7 @@ function Video({
 }) {
   return (
     <video
+      // className={className}
       id={id}
       style={{
         width: getStyleValue(width),
@@ -73,6 +76,7 @@ function Video({
 }
 
 function Picture({
+  className,
   id,
   src,
   srcOptimized,
@@ -82,6 +86,7 @@ function Picture({
   width,
   height,
 }: {
+  className?: string;
   id?: string;
   src: string;
   srcOptimized?: string;
@@ -93,7 +98,15 @@ function Picture({
 }) {
   if (src.endsWith('.mp4') || urlSource?.endsWith('.mp4')) {
     return (
-      <Video id={id} width={width} height={height} align={align} src={src} urlSource={urlSource} />
+      <Video
+        className={className}
+        id={id}
+        width={width}
+        height={height}
+        align={align}
+        src={src}
+        urlSource={urlSource}
+      />
     );
   }
   const image = (
@@ -111,7 +124,7 @@ function Picture({
   );
   if (!srcOptimized) return image;
   return (
-    <picture>
+    <picture className={className}>
       <source srcSet={srcOptimized} type="image/webp" />
       {image}
     </picture>
@@ -121,6 +134,7 @@ function Picture({
 export const Image: NodeRenderer<ImageNode> = ({ node }) => {
   return (
     <Picture
+      className={node.class}
       id={node.html_id || node.identifier || node.key}
       src={node.url}
       srcOptimized={(node as any).urlOptimized}

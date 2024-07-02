@@ -17,4 +17,4 @@ export { BackmatterParts, Backmatter } from './Backmatter.js';
 export { ExternalOrInternalLink } from './ExternalOrInternalLink.js';
 export * from './Navigation/index.js';
 export { renderers } from './renderers.js';
-export { SkipToArticle } from './SkipToArticle.js';
+export { SkipToArticle, SkipTo } from './SkipToArticle.js';

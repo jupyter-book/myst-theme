@@ -1,22 +1,18 @@
 import { Fragment } from 'react';
 import classNames from 'classnames';
 import { Menu, Transition } from '@headlessui/react';
-import {
-  EllipsisVerticalIcon,
-  ChevronDownIcon,
-  Bars3Icon as MenuIcon,
-} from '@heroicons/react/24/solid';
+import { ChevronDownIcon, Bars3Icon as MenuIcon } from '@heroicons/react/24/solid';
 import type { SiteManifest, SiteNavItem } from 'myst-config';
 import { ThemeButton } from './ThemeButton.js';
 import {
-  useBaseurl,
   useLinkProvider,
   useNavLinkProvider,
   useNavOpen,
   useSiteManifest,
-  withBaseurl,
 } from '@myst-theme/providers';
 import { LoadingBar } from './Loading.js';
+import { HomeLink } from './HomeLink.js';
+import { ActionMenu } from './ActionMenu.js';
 
 export const DEFAULT_NAV_HEIGHT = 60;
 
@@ -57,7 +53,7 @@ function ExternalOrInternalLink({
   );
 }
 
-function NavItem({ item }: { item: SiteNavItem }) {
+export function NavItem({ item }: { item: SiteNavItem }) {
   const NavLink = useNavLinkProvider();
   if (!('children' in item)) {
     return (
@@ -136,7 +132,7 @@ function NavItem({ item }: { item: SiteNavItem }) {
   );
 }
 
-function NavItems({ nav }: { nav?: SiteManifest['nav'] }) {
+export function NavItems({ nav }: { nav?: SiteManifest['nav'] }) {
   if (!nav) return null;
   return (
     <div className="flex-grow hidden text-md lg:block">
@@ -144,102 +140,6 @@ function NavItems({ nav }: { nav?: SiteManifest['nav'] }) {
         return <NavItem key={'url' in item ? item.url : item.title} item={item} />;
       })}
     </div>
-  );
-}
-
-function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
-  if (!actions || actions.length === 0) return null;
-  return (
-    <Menu as="div" className="relative">
-      <div>
-        <Menu.Button className="flex text-sm bg-transparent rounded-full focus:outline-none">
-          <span className="sr-only">Open Menu</span>
-          <div className="flex items-center text-stone-200 hover:text-white">
-            <EllipsisVerticalIcon width="2rem" height="2rem" className="p-1" />
-          </div>
-        </Menu.Button>
-      </div>
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          {actions?.map((action) => (
-            <Menu.Item key={action.url}>
-              {({ active }) => (
-                <a
-                  href={action.url}
-                  className={classNames(
-                    active ? 'bg-gray-100' : '',
-                    'block px-4 py-2 text-sm text-gray-700',
-                  )}
-                >
-                  {action.title}
-                </a>
-              )}
-            </Menu.Item>
-          ))}
-        </Menu.Items>
-      </Transition>
-    </Menu>
-  );
-}
-
-function HomeLink({
-  logo,
-  logoDark,
-  logoText,
-  name,
-}: {
-  logo?: string;
-  logoDark?: string;
-  logoText?: string;
-  name?: string;
-}) {
-  const Link = useLinkProvider();
-  const baseurl = useBaseurl();
-  const nothingSet = !logo && !logoText;
-  return (
-    <Link
-      className="flex items-center ml-3 dark:text-white w-fit md:ml-5 xl:ml-7"
-      to={withBaseurl('/', baseurl)}
-      prefetch="intent"
-    >
-      {logo && (
-        <div
-          className={classNames('p-1 mr-3', {
-            'dark:bg-white dark:rounded': !logoDark,
-          })}
-        >
-          <img
-            src={logo}
-            className={classNames('h-9', { 'dark:hidden': !!logoDark })}
-            alt={logoText || name}
-            height="2.25rem"
-          ></img>
-          {logoDark && (
-            <img
-              src={logoDark}
-              className="hidden h-9 dark:block"
-              alt={logoText || name}
-              height="2.25rem"
-            ></img>
-          )}
-        </div>
-      )}
-      <span
-        className={classNames('text-md sm:text-xl tracking-tight sm:mr-5', {
-          'sr-only': !(logoText || nothingSet),
-        })}
-      >
-        {logoText || 'Made with MyST'}
-      </span>
-    </Link>
   );
 }
 

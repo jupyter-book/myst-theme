@@ -1,12 +1,12 @@
 import type { HtmlMetaDescriptor, V2_MetaDescriptor } from '@remix-run/react';
 
-type SocialSite = {
+export type SocialSite = {
   title: string;
   description?: string;
   twitter?: string;
 };
 
-type SocialArticle = {
+export type SocialArticle = {
   origin: string;
   url: string;
   // TODO: canonical

@@ -15,7 +15,7 @@ const HIGHLIGHT_CLASS = 'highlight';
 
 const onClient = typeof document !== 'undefined';
 
-type Heading = {
+export type Heading = {
   element: HTMLHeadingElement;
   id: string;
   title: string;
@@ -105,7 +105,7 @@ function getHeaders(selector: string): HTMLHeadingElement[] {
   return headers as HTMLHeadingElement[];
 }
 
-function useHeaders(selector: string, maxdepth: number) {
+export function useHeaders(selector: string, maxdepth: number) {
   if (!onClient) return { activeId: '', headings: [] };
   const onScreen = useRef<Set<HTMLHeadingElement>>(new Set());
   const [activeId, setActiveId] = useState<string>();

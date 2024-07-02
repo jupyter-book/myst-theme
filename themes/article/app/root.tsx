@@ -9,7 +9,7 @@ import {
   getMetaTagsForSite,
   getThemeSession,
   ContentReload,
-  SkipToArticle,
+  SkipTo,
 } from '@myst-theme/site';
 import { Outlet, useLoaderData } from '@remix-run/react';
 export { AppCatchBoundary as CatchBoundary } from '@myst-theme/site';
@@ -69,7 +69,7 @@ export default function AppWithReload() {
       baseurl={BASE_URL}
       top={0}
     >
-      <SkipToArticle frontmatter={false} />
+      <SkipTo targets={[{ id: 'skip-to-article', title: 'Skip to article content' }]} />
       <Outlet />
     </Document>
   );

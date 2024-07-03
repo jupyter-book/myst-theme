@@ -17,7 +17,7 @@ import { copyNode } from 'myst-common';
 import { BusyScopeProvider, ConnectionStatusTray, ExecuteScopeProvider } from '@myst-theme/jupyter';
 import { SourceFileKind } from 'myst-spec-ext';
 
-const TOP_OFFSET = 24;
+const TOP_OFFSET = 26;
 
 export function Article({
   article,
@@ -52,7 +52,7 @@ export function Article({
               className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
               style={{ top: top + TOP_OFFSET }}
             >
-              <DocumentOutline className="relative pt-[2px]" maxdepth={outlineMaxDepth}>
+              <DocumentOutline className="relative" maxdepth={outlineMaxDepth}>
                 <SupportingDocuments />
               </DocumentOutline>
             </div>

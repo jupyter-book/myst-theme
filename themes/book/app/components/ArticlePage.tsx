@@ -1,5 +1,10 @@
 import React from 'react';
-import { ReferencesProvider, useProjectManifest, useSiteManifest, useThemeTop } from '@myst-theme/providers';
+import {
+  ReferencesProvider,
+  useProjectManifest,
+  useSiteManifest,
+  useThemeTop,
+} from '@myst-theme/providers';
 import {
   Bibliography,
   ContentBlocks,
@@ -9,6 +14,7 @@ import {
   DocumentOutline,
   extractKnownParts,
   Footnotes,
+  DEFAULT_NAV_HEIGHT,
 } from '@myst-theme/site';
 import type { SiteManifest } from 'myst-config';
 import type { PageLoader } from '@myst-theme/common';
@@ -42,6 +48,8 @@ function combineDownloads(
   }
   return pageFrontmatter.exports;
 }
+
+const TOP_OFFSET = 33;
 
 export const ArticlePage = React.memo(function ({
   article,
@@ -83,8 +91,11 @@ export const ArticlePage = React.memo(function ({
             />
           )}
           {!hide_outline && (
-            <div className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right" style={{ top }}>
-              <DocumentOutline className="relative lg:pt-10" maxdepth={outline_maxdepth} />
+            <div
+              className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
+              style={{ top: top + TOP_OFFSET }}
+            >
+              <DocumentOutline className="relative" maxdepth={outline_maxdepth} />
             </div>
           )}
           {compute?.enabled &&

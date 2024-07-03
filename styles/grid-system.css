@@ -29,7 +29,7 @@
   }
   .col-margin-right,
   .col-margin {
-    @apply col-body lg:col-margin-right-lg;
+    @apply col-body xl:col-margin-right-lg;
   }
   .col-margin-right-inset {
     @apply col-body lg:col-margin-right-inset-lg;

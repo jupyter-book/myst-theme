@@ -17,6 +17,8 @@ import { copyNode } from 'myst-common';
 import { BusyScopeProvider, ConnectionStatusTray, ExecuteScopeProvider } from '@myst-theme/jupyter';
 import { SourceFileKind } from 'myst-spec-ext';
 
+const TOP_OFFSET = 24;
+
 export function Article({
   article,
   hideKeywords,
@@ -46,8 +48,11 @@ export function Article({
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
           {!hideTitle && <FrontmatterBlock frontmatter={{ title, subtitle }} className="mb-5" />}
           {!hideOutline && (
-            <div className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right" style={{ top }}>
-              <DocumentOutline className="relative lg:pt-10" maxdepth={outlineMaxDepth}>
+            <div
+              className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
+              style={{ top: top + TOP_OFFSET }}
+            >
+              <DocumentOutline className="relative pt-[2px]" maxdepth={outlineMaxDepth}>
                 <SupportingDocuments />
               </DocumentOutline>
             </div>

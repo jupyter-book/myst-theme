@@ -1,5 +1,21 @@
 # @myst-theme/article
 
+## 0.9.8
+
+### Patch Changes
+
+- 63095934: Fix position of secondary sidebar during scrolling
+- Updated dependencies [ba28db7e]
+- Updated dependencies [52696b8e]
+- Updated dependencies [de79758a]
+- Updated dependencies [47dd42e3]
+  - @myst-theme/styles@0.9.8
+  - @myst-theme/site@0.9.8
+  - @myst-theme/providers@0.9.8
+  - @myst-theme/jupyter@0.9.8
+  - @myst-theme/common@0.9.8
+  - @myst-theme/icons@0.9.8
+
 ## 0.9.7
 
 ### Patch Changes

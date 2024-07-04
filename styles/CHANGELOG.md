@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.9.8
+
+### Patch Changes
+
+- ba28db7e: This fixes an asymmetric `col-*` class, improves main column width heirarchy and makes more space for `col-body` on the `lg` breakpoint
+
 ## 0.9.7
 
 ### Patch Changes

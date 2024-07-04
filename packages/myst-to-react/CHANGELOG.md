@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 0.9.8
+
+### Patch Changes
+
+- 37751810: Allow class option to flow through to containers for `aside`, `code`, `image`, `video`, `iframe`.
+  - @myst-theme/providers@0.9.8
+
 ## 0.9.7
 
 ### Patch Changes

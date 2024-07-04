@@ -1,5 +1,21 @@
 # @myst-theme/site
 
+## 0.9.8
+
+### Patch Changes
+
+- 52696b8e: Exporting additional components and hooks to help in user web theme development
+- de79758a: Adding className props to enables precise control of units different grids
+- 47dd42e3: Marking the opinionated SkipToArticle component as deprecated in favor of a configurable SkipTo component
+- Updated dependencies [37751810]
+  - myst-to-react@0.9.8
+  - @myst-theme/providers@0.9.8
+  - @myst-theme/frontmatter@0.9.8
+  - @myst-theme/diagrams@0.9.8
+  - @myst-theme/jupyter@0.9.8
+  - @myst-theme/common@0.9.8
+  - myst-demo@0.9.8
+
 ## 0.9.7
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @myst-theme/site
 
+## 0.9.9
+
+### Patch Changes
+
+- @myst-theme/providers@0.9.9
+- @myst-theme/frontmatter@0.9.9
+- @myst-theme/diagrams@0.9.9
+- @myst-theme/jupyter@0.9.9
+- @myst-theme/common@0.9.9
+- myst-to-react@0.9.9
+- myst-demo@0.9.9
+
 ## 0.9.8
 
 ### Patch Changes

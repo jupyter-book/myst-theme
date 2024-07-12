@@ -21,6 +21,7 @@ import PROOF_RENDERERS from './proof.js';
 import EXERCISE_RENDERERS from './exercise.js';
 import ASIDE_RENDERERS from './aside.js';
 import UNKNOWN_MYST_RENDERERS from './unknown.js';
+import AUTODOC_RENDERERS from './autodoc.js';
 
 export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components/index.js';
 export { CodeBlock } from './code.js';
@@ -32,6 +33,7 @@ export { useFetchMdast } from './crossReference.js';
 
 export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
   ...BASIC_RENDERERS,
+  ...AUTODOC_RENDERERS,
   ...UNKNOWN_MYST_RENDERERS,
   ...IMAGE_RENDERERS,
   ...LINK_RENDERERS,

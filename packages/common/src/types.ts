@@ -59,15 +59,16 @@ export type WidgetState = {
 };
 
 export type Widgets = {
-  "application/vnd.jupyter.widget-state+json": {
-    state: {
-      [key: string]: WidgetState;
-    };
-    version_major: number;
-    version_minor: number;
+  state: {
+    [key: string]: WidgetState;
   };
+  version_major: number;
+  version_minor: number;
 };
 
+export type WidgetsMetaData = {
+  "application/vnd.jupyter.widget-state+json": Widgets
+};
 
 export type PageLoader = {
   kind: SourceFileKind;

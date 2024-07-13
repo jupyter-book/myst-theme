@@ -32,6 +32,7 @@ import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import type { SiteAction } from 'myst-config';
 import type { TemplateOptions } from '../types.js';
 import { addWidgetStateToTree } from '../utils/widgetState';
+
 /**
  * Combines the project downloads and the export options
  */
@@ -74,8 +75,8 @@ export const ArticlePage = React.memo(function ({
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const copiedTree = copyNode(article.mdast);
 
-  const tree = addWidgetStateToTree(copiedTree, article.widgets);
-  console.log('added tree',tree)
+  // dwootton: to remove adding widget state to tree
+  const tree = copiedTree;//addWidgetStateToTree(copiedTree, article.widgets);
   
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree);
@@ -87,6 +88,8 @@ export const ArticlePage = React.memo(function ({
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
+        {//@ts-ignore
+    }
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
           {!hide_title_block && (
             <FrontmatterBlock

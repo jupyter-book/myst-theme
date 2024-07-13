@@ -37,7 +37,7 @@ function ActiveOutputRenderer({
     console.debug(`${verb} cell ${exec.cell.id} to DOM at:`, {
       el: ref.current,
       connected: ref.current.isConnected,
-      data: core?.stripWidgets(initialData) ?? initialData,
+      data: initialData,
     });
 
     exec.cell.attachToDOM(ref.current);
@@ -87,8 +87,6 @@ function PassiveOutputRenderer({
     if (!ref.current || !loaded) return;
     // eslint-disable-next-line import/no-extraneous-dependencies
     cell.current.attachToDOM(ref.current ?? undefined, true);
-
-    console.log('about to render',data);
     
     // Render regular output
     cell.current.render(data);
@@ -116,6 +114,7 @@ export const JupyterOutputs = React.memo(
 
       fetchAndEncodeOutputImages(data).then((out) => {
         const compactOutputs = convertToIOutputs(out, {});
+        console.log('outputs',compactOutputs, 'non-truncated',outputs);
         setFullOutputs(compactOutputs);
       });
     }, [id, data, fullOutputs]);

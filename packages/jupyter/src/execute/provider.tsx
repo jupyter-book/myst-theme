@@ -13,6 +13,7 @@ import {
 } from './selectors.js';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf.js';
 import type { GenericParent } from 'myst-common';
+import { Widgets } from '../../../common/dist/types.js';
 
 export interface ExecuteScopeType {
   canCompute: boolean;
@@ -30,6 +31,7 @@ type ArticleContents = {
   mdast: GenericParent;
   location?: string;
   dependencies?: Dependency[];
+  widgets?:Widgets;
 };
 
 function useScopeNavigate({
@@ -106,9 +108,10 @@ export function ExecuteScopeProvider({
   children,
   enable,
   contents,
-}: React.PropsWithChildren<{ enable: boolean; contents: ArticleContents }>) {
+}: React.PropsWithChildren<{ enable: boolean; contents: ArticleContents ;}>) {
   // compute incoming for first render
   const computables: Computable[] = listComputables(contents.mdast);
+  console.log('dwootton widgets in execute scope provider', contents);
 
   const fallbackLocation = contents.kind === SourceFileKind.Notebook ? '/fallback.ipynb' : '/';
 

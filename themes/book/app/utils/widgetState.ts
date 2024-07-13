@@ -1,17 +1,17 @@
 import { copyNode, type GenericParent } from 'myst-common';
 import type {  Widgets } from '@myst-theme/common';
 
-const WIDGET_STATE_PATH = "application/vnd.jupyter.widget-state+json"
+const WIDGET_PREFIX = "application/vnd.jupyter.widget-"
 export function addWidgetStateToTree(tree: GenericParent, widgets: Widgets | undefined): GenericParent {
-    if (!widgets?.[WIDGET_STATE_PATH]?.state) {
+    if (!widgets?.[`${WIDGET_PREFIX}state+json`]?.state) {
       return tree;
     }
   
-    const states = widgets[WIDGET_STATE_PATH]?.state;
+    const states = widgets[`${WIDGET_PREFIX}state+json`]?.state;
   
     const processOutput = (output: any) => {
       if (output.type === "output") {
-        const content = output.data[0]?.data[WIDGET_STATE_PATH]?.content;
+        const content = output.data[0]?.data[`${WIDGET_PREFIX}view+json`]?.content;
         if (content) {
           const { model_id } = JSON.parse(content);
           

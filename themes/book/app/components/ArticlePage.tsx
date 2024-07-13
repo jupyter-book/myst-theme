@@ -31,7 +31,6 @@ import {
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import type { SiteAction } from 'myst-config';
 import type { TemplateOptions } from '../types.js';
-import { addWidgetStateToTree } from '../utils/widgetState';
 
 /**
  * Combines the project downloads and the export options
@@ -73,11 +72,8 @@ export const ArticlePage = React.memo(function ({
     ...pageDesign,
   };
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
-  const copiedTree = copyNode(article.mdast);
-
-  // dwootton: to remove adding widget state to tree
-  const tree = copiedTree;//addWidgetStateToTree(copiedTree, article.widgets);
-  
+  const tree = copyNode(article.mdast);
+    
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree);
 

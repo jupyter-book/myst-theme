@@ -49,6 +49,26 @@ type PageFrontmatterWithDownloads = Omit<PageFrontmatter, 'downloads' | 'exports
   exports?: SiteExport[];
 };
 
+export type WidgetState = {
+  model_module: string;
+  model_module_version: string;
+  model_name: string;
+  state: {
+    [key: string]: any;
+  };
+};
+
+export type Widgets = {
+  "application/vnd.jupyter.widget-state+json": {
+    state: {
+      [key: string]: WidgetState;
+    };
+    version_major: number;
+    version_minor: number;
+  };
+};
+
+
 export type PageLoader = {
   kind: SourceFileKind;
   location: string;
@@ -58,6 +78,7 @@ export type PageLoader = {
   project: string; // This is written in at render time in the site
   frontmatter: PageFrontmatterWithDownloads;
   mdast: GenericParent;
+  widgets?: Widgets;
   references: References;
   footer?: FooterLinks;
   // This may not be defined

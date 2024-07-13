@@ -17,7 +17,7 @@ import {
   DEFAULT_NAV_HEIGHT,
 } from '@myst-theme/site';
 import type { SiteManifest } from 'myst-config';
-import type { PageLoader } from '@myst-theme/common';
+import type { PageLoader, Widgets } from '@myst-theme/common';
 import { copyNode, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {
@@ -31,7 +31,7 @@ import {
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import type { SiteAction } from 'myst-config';
 import type { TemplateOptions } from '../types.js';
-
+import { addWidgetStateToTree } from '../utils/widgetState';
 /**
  * Combines the project downloads and the export options
  */
@@ -72,9 +72,14 @@ export const ArticlePage = React.memo(function ({
     ...pageDesign,
   };
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
-  const tree = copyNode(article.mdast);
+  const copiedTree = copyNode(article.mdast);
+
+  const tree = addWidgetStateToTree(copiedTree, article.widgets);
+  console.log('added tree',tree)
+  
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree);
+
 
   return (
     <ReferencesProvider

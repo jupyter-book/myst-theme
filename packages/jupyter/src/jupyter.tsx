@@ -87,7 +87,11 @@ function PassiveOutputRenderer({
     if (!ref.current || !loaded) return;
     // eslint-disable-next-line import/no-extraneous-dependencies
     cell.current.attachToDOM(ref.current ?? undefined, true);
-    cell.current.render(core?.stripWidgets(data) ?? data);
+
+    console.log('about to render',data);
+    
+    // Render regular output
+    cell.current.render(data);
   }, [ref, loaded]);
 
   return <div ref={ref} data-thebe-passive-ref="true" />;

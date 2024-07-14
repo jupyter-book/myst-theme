@@ -4,10 +4,10 @@ import { useFetchAnyTruncatedContent } from './hooks.js';
 import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages.js';
-import type { ThebeCore } from 'thebe-core';
+import type { IRenderMimeRegistry, ThebeCore } from 'thebe-core';
 import { SourceFileKind } from 'myst-spec-ext';
 import { useXRefState } from '@myst-theme/providers';
-import { useThebeLoader } from 'thebe-react';
+import { useRenderMimeRegistry, useThebeLoader } from 'thebe-react';
 import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
 import { MyST } from 'myst-to-react';
@@ -76,22 +76,58 @@ function PassiveOutputRenderer({
   core: ThebeCore;
   kind: SourceFileKind;
 }) {
-  const rendermime = core.makeRenderMimeRegistry();
-  const cell = useRef(new core.PassiveCellRenderer(id, data, rendermime));
+  const exec = useCellExecution(id);
+
+  if (typeof window !== 'undefined') {
+    // @ts-ignore
+    window['EXEC_CODE'] = exec;
+  }
+
+  const cell = useRef<any>(null); // Initially null
   const ref = useRef<HTMLDivElement>(null);
 
-  const { loaded } = usePlotlyPassively(rendermime, data);
+  // Use exec.passive.rendermime or fallback to core.makeRenderMimeRegistry()
+  const { loaded } = usePlotlyPassively(exec.passive?.rendermime ?? core.makeRenderMimeRegistry(), data);
+
+  useEffect(() => {
+    if (!ref.current || !loaded || !exec.passive?.rendermime) return;
+
+    // Initialize cell when exec.passive.rendermime is available
+    cell.current = new core.PassiveCellRenderer(id, data, exec.passive.rendermime);
+
+    cell.current.attachToDOM(ref.current ?? undefined, { appendExisting: true });
+
+    // Render regular output
+    cell.current.render(data);
+  }, [ref, loaded, exec.passive?.rendermime, id, data, core]);
+
+  return <div ref={ref} data-thebe-passive-ref="true" />;
+  /*const exec = useCellExecution(id);
+  
+
+  if(typeof window !== 'undefined') {
+    //@ts-ignore
+    window['EXEC_CODE'] = exec;
+  }
+  console.log('dwootton passive',exec,exec.passive)
+
+  const cell = useRef(new core.PassiveCellRenderer(id, data, exec.passive?.rendermime));
+  const ref = useRef<HTMLDivElement>(null);
+
+  const { loaded } = usePlotlyPassively(exec.passive?.rendermime ?? core.makeRenderMimeRegistry(), data);
 
   useEffect(() => {
     if (!ref.current || !loaded) return;
     // eslint-disable-next-line import/no-extraneous-dependencies
     cell.current.attachToDOM(ref.current ?? undefined, {appendExisting:true});
-    
+
+    console.log("dwootton current cell render fn",cell.current, cell.current.render,exec, exec.passive)
+
     // Render regular output
     cell.current.render(data);
-  }, [ref, loaded]);
+  }, [ref, loaded,exec.passive]);
 
-  return <div ref={ref} data-thebe-passive-ref="true" />;
+  return <div ref={ref} data-thebe-passive-ref="true" />;*/
 }
 
 export const JupyterOutputs = React.memo(

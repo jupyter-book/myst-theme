@@ -13,7 +13,8 @@ import {
 } from './selectors.js';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf.js';
 import type { GenericParent } from 'myst-common';
-import { Widgets } from '../../../common/dist/types.js';
+import {  WidgetsMetaData } from '../../../common/dist/types.js';
+import {useThebeLoader} from 'thebe-react';
 
 export interface ExecuteScopeType {
   canCompute: boolean;
@@ -31,7 +32,7 @@ type ArticleContents = {
   mdast: GenericParent;
   location?: string;
   dependencies?: Dependency[];
-  widgets?:Widgets;
+  widgets?:WidgetsMetaData;
 };
 
 function useScopeNavigate({
@@ -99,6 +100,8 @@ function listComputables(mdast: GenericParent) {
   );
 }
 
+import {useState} from "react";
+
 /**
  *  The ExecuteScopeProvider is responsible for maintaining the state of the
  *  execution scope. It is also responsible for fetching the json for dependencies
@@ -112,6 +115,35 @@ export function ExecuteScopeProvider({
   // compute incoming for first render
   const computables: Computable[] = listComputables(contents.mdast);
   const fallbackLocation = contents.kind === SourceFileKind.Notebook ? '/fallback.ipynb' : '/';
+
+  const { core } = useThebeLoader();
+  const [isCoreLoaded, setIsCoreLoaded] = useState(false);
+  useEffect(() => {
+    if (core) {
+      setIsCoreLoaded(true);
+    }
+  }, [core]);
+
+  // Issue 1: core hasn't been loaded yet so we need to wait to set state until core has loaded
+  //    Solution: set state and rendermime and manager in useEffect, dispatch to reducer via ADD_PASSIVE
+  // Issue 2: 
+
+  useEffect(() => {
+    if (isCoreLoaded && core) {
+      const rendermime = core.makeRenderMimeRegistry();
+      const manager = new core.ThebePassiveManager(rendermime, contents?.widgets?.["application/vnd.jupyter.widget-state+json"]);
+
+      // Reset state with new rendermime and manager
+      dispatch({
+        type: 'ADD_PASSIVE',
+        payload: {
+          rendermime,
+          manager,
+          pageSlug:contents.slug
+        },
+      });
+    }
+  }, [isCoreLoaded, core, contents?.widgets]);
 
   const initialState: ExecuteScopeState = {
     mdast: {
@@ -127,12 +159,14 @@ export function ExecuteScopeProvider({
         computables,
         ready: false,
         scopes: {},
+        passive: undefined
       },
     },
     builds: {},
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log('dwootton current state',state);
 
   const idkmap = useRef<IdKeyMap>({});
 
@@ -163,7 +197,7 @@ export function ExecuteScopeProvider({
 
   return (
     <ExecuteScopeContext.Provider value={memo}>
-      <div className="hidden">
+      <div className="block">
         {fetchTargets.length > 0 && (
           <div className="p-1 pl-4">
             {fetchTargets.map(({ slug, url }) => (

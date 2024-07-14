@@ -17,7 +17,7 @@ import {
   DEFAULT_NAV_HEIGHT,
 } from '@myst-theme/site';
 import type { SiteManifest } from 'myst-config';
-import type { PageLoader, Widgets } from '@myst-theme/common';
+import type { PageLoader } from '@myst-theme/common';
 import { copyNode, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {

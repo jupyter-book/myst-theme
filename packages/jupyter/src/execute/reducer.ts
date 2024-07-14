@@ -7,6 +7,7 @@ import {
   isBuildStatusPayload,
   isNavigatePayload,
   isSlugPayload,
+  isPassivePayload,
 } from './actions.js';
 import type { ExecuteScopeState } from './types.js';
 
@@ -161,6 +162,29 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
         },
       };
     }
+    case 'ADD_PASSIVE': {
+      if (!isPassivePayload(action.payload)) {
+        console.error(action.payload);
+        throw new Error('invalid ADD_PASSIVE payload');
+      }
+      const { rendermime, manager, pageSlug} = action.payload;
+      
+      return {
+        ...state,
+        pages: {
+          ...state.pages,
+          [pageSlug]: {
+            ...state.pages[pageSlug],
+            passive: {
+              rendermime: rendermime,
+              manager: manager,
+            },
+            
+          },
+        },
+      };
+    }
+    
     case 'ADD_SESSION': {
       if (!isAddSessionPayload(action.payload)) {
         console.error(action.payload);

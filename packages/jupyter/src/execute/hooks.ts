@@ -262,6 +262,8 @@ export function useCellExecution(id: IdOrKey, clearOutputsOnExecute = false) {
   }
 
   const ready = context.state.pages[context.slug]?.ready;
+  const passive = context.state.pages[context.slug]?.passive;
+  console.log('dwootton context',passive, context,"content",context.state.pages[context.slug]);
   const kind = context.state.pages[context.slug]?.kind ?? SourceFileKind.Article;
 
   const execute = useCallback(() => {
@@ -297,6 +299,7 @@ export function useCellExecution(id: IdOrKey, clearOutputsOnExecute = false) {
   return {
     canCompute: context.canCompute,
     kind,
+    passive,
     ready,
     execute,
     clear,

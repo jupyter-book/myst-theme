@@ -79,7 +79,7 @@ export type PageLoader = {
   project: string; // This is written in at render time in the site
   frontmatter: PageFrontmatterWithDownloads;
   mdast: GenericParent;
-  widgets?: Widgets;
+  widgets?: WidgetsMetaData;
   references: References;
   footer?: FooterLinks;
   // This may not be defined

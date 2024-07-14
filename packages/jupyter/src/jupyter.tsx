@@ -77,8 +77,7 @@ function PassiveOutputRenderer({
   kind: SourceFileKind;
 }) {
   const rendermime = core.makeRenderMimeRegistry();
-
-  const cell = useRef(new core.PassiveCellRenderer(id, rendermime, undefined));
+  const cell = useRef(new core.PassiveCellRenderer(id, data, rendermime));
   const ref = useRef<HTMLDivElement>(null);
 
   const { loaded } = usePlotlyPassively(rendermime, data);
@@ -86,7 +85,7 @@ function PassiveOutputRenderer({
   useEffect(() => {
     if (!ref.current || !loaded) return;
     // eslint-disable-next-line import/no-extraneous-dependencies
-    cell.current.attachToDOM(ref.current ?? undefined, true);
+    cell.current.attachToDOM(ref.current ?? undefined, {appendExisting:true});
     
     // Render regular output
     cell.current.render(data);

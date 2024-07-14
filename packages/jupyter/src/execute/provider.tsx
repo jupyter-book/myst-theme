@@ -111,8 +111,6 @@ export function ExecuteScopeProvider({
 }: React.PropsWithChildren<{ enable: boolean; contents: ArticleContents ;}>) {
   // compute incoming for first render
   const computables: Computable[] = listComputables(contents.mdast);
-  console.log('dwootton widgets in execute scope provider', contents);
-
   const fallbackLocation = contents.kind === SourceFileKind.Notebook ? '/fallback.ipynb' : '/';
 
   const initialState: ExecuteScopeState = {

@@ -51,5 +51,8 @@
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
   },
-  "packageManager": "npm@8.10.0"
+  "packageManager": "npm@8.10.0",
+  "dependencies": {
+    "thebe-core": "file:../../GitHub/thebe/thebe/packages/core/thebe-core-0.4.7.tgz"
+  }
 }

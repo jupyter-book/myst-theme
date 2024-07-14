@@ -73,10 +73,8 @@ export const ArticlePage = React.memo(function ({
   };
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
-    
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree);
-
 
   return (
     <ReferencesProvider
@@ -84,8 +82,6 @@ export const ArticlePage = React.memo(function ({
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
-        {//@ts-ignore
-    }
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
           {!hide_title_block && (
             <FrontmatterBlock

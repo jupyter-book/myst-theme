@@ -75,16 +75,16 @@ export function notebookFromMdast(
       if (codeCell.identifier) idkmap[codeCell.identifier] = target;
       if (output.identifier) idkmap[output.identifier] = target;
 
-      //TODO get metaData piped through
+      // TODO Future Fix: pass through metadata to sync passive and active state
       const metadata = {};      
      
       return new core.ThebeCodeCell(
         target.cellId,
         notebook.id,
         codeCell.value ?? '', //source
-        [block.data] ?? [{}], //TODO get outputs
+        [block.data] ?? [{}], 
         config,
-        metadata, //metadata
+        metadata, 
         notebook.rendermime,
       );
     } else {

@@ -7,7 +7,7 @@ import { fetchAndEncodeOutputImages } from './convertImages.js';
 import type { ThebeCore } from 'thebe-core';
 import { SourceFileKind } from 'myst-spec-ext';
 import { useXRefState } from '@myst-theme/providers';
-import { useThebeLoader } from 'thebe-react';
+import {  useThebeLoader } from 'thebe-react';
 import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
 import { MyST } from 'myst-to-react';
@@ -37,7 +37,7 @@ function ActiveOutputRenderer({
     console.debug(`${verb} cell ${exec.cell.id} to DOM at:`, {
       el: ref.current,
       connected: ref.current.isConnected,
-      data: core?.stripWidgets(initialData) ?? initialData,
+      data: initialData,
     });
 
     exec.cell.attachToDOM(ref.current);
@@ -76,19 +76,25 @@ function PassiveOutputRenderer({
   core: ThebeCore;
   kind: SourceFileKind;
 }) {
-  const rendermime = core.makeRenderMimeRegistry();
+  const exec = useCellExecution(id);
 
-  const cell = useRef(new core.PassiveCellRenderer(id, rendermime, undefined));
+  const cell = useRef<any>(null); // Initially null
   const ref = useRef<HTMLDivElement>(null);
 
-  const { loaded } = usePlotlyPassively(rendermime, data);
+  // Use exec.passive.rendermime or fallback to core.makeRenderMimeRegistry()
+  const { loaded } = usePlotlyPassively(exec.passive?.rendermime ?? core.makeRenderMimeRegistry(), data);
 
   useEffect(() => {
-    if (!ref.current || !loaded) return;
-    // eslint-disable-next-line import/no-extraneous-dependencies
-    cell.current.attachToDOM(ref.current ?? undefined, true);
-    cell.current.render(core?.stripWidgets(data) ?? data);
-  }, [ref, loaded]);
+    if (!ref.current || !loaded || !exec.passive?.rendermime) return;
+
+    // Initialize cell when exec.passive.rendermime is available
+    cell.current = new core.PassiveCellRenderer(id, data, exec.passive.rendermime);
+
+    cell.current.attachToDOM(ref.current ?? undefined, { appendExisting: true });
+
+    // Render regular output
+    cell.current.render(data);
+  }, [ref, loaded, exec.passive?.rendermime, id, data, core]);
 
   return <div ref={ref} data-thebe-passive-ref="true" />;
 }

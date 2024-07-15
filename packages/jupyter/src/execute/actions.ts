@@ -89,6 +89,16 @@ interface AddNotebookPayload {
   rendermime: IRenderMimeRegistry;
 }
 
+interface AddPassivePayload {
+  manager: any; //TODO ThebePassiveManager
+  rendermime: IRenderMimeRegistry;
+  pageSlug: string;
+}
+
+export function isPassivePayload(payload: unknown): payload is AddPassivePayload {
+  const maybePayload = payload as AddPassivePayload;
+  return typeof maybePayload.manager === 'object' && typeof maybePayload.rendermime === 'object';
+}
 export function isAddSessionPayload(payload: unknown): payload is AddSessionPayload {
   const maybePayload = payload as AddSessionPayload;
   return (
@@ -114,7 +124,8 @@ export interface ExecuteScopeAction {
     | 'ADD_NOTEBOOK'
     | 'ADD_SESSION'
     | 'SET_FIRST_EXECUTION'
-    | 'SET_RENDERING_READY';
+    | 'SET_RENDERING_READY'
+    | 'ADD_PASSIVE';
   payload:
     | NavigatePayload
     | SlugPayload
@@ -122,5 +133,6 @@ export interface ExecuteScopeAction {
     | BuildStatusPayload
     | AddMdastPayload
     | AddNotebookPayload
-    | AddSessionPayload;
+    | AddSessionPayload
+    | AddPassivePayload;
 }

@@ -1,6 +1,6 @@
 import type { Dependency } from 'myst-spec-ext';
 import { SourceFileKind } from 'myst-spec-ext';
-import React, { useEffect, useReducer, useRef } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { selectAll } from 'unist-util-select';
 import type { ExecuteScopeAction } from './actions.js';
 import type { Computable, ExecuteScopeState, IdKeyMap } from './types.js';
@@ -13,6 +13,8 @@ import {
 } from './selectors.js';
 import { MdastFetcher, NotebookBuilder, ServerMonitor, SessionStarter } from './leaf.js';
 import type { GenericParent } from 'myst-common';
+import {  WidgetsMetaData } from '../../../common/dist/types.js';
+import {useThebeLoader} from 'thebe-react';
 
 export interface ExecuteScopeType {
   canCompute: boolean;
@@ -30,6 +32,7 @@ type ArticleContents = {
   mdast: GenericParent;
   location?: string;
   dependencies?: Dependency[];
+  widgets?:WidgetsMetaData;
 };
 
 function useScopeNavigate({
@@ -106,11 +109,34 @@ export function ExecuteScopeProvider({
   children,
   enable,
   contents,
-}: React.PropsWithChildren<{ enable: boolean; contents: ArticleContents }>) {
+}: React.PropsWithChildren<{ enable: boolean; contents: ArticleContents ;}>) {
   // compute incoming for first render
   const computables: Computable[] = listComputables(contents.mdast);
-
   const fallbackLocation = contents.kind === SourceFileKind.Notebook ? '/fallback.ipynb' : '/';
+
+  const { core } = useThebeLoader();
+  const [isCoreLoaded, setIsCoreLoaded] = useState(false);
+  useEffect(() => {
+    if (core) {
+      setIsCoreLoaded(true);
+    }
+  }, [core]);
+
+  useEffect(() => {
+    if (isCoreLoaded && core) {
+      const rendermime = core.makeRenderMimeRegistry();
+      const manager = new core.ThebePassiveManager(rendermime, contents?.widgets?.["application/vnd.jupyter.widget-state+json"]);
+
+      dispatch({
+        type: 'ADD_PASSIVE',
+        payload: {
+          rendermime,
+          manager,
+          pageSlug:contents.slug
+        },
+      });
+    }
+  }, [isCoreLoaded, core, contents?.widgets]);
 
   const initialState: ExecuteScopeState = {
     mdast: {
@@ -126,6 +152,7 @@ export function ExecuteScopeProvider({
         computables,
         ready: false,
         scopes: {},
+        passive: undefined
       },
     },
     builds: {},

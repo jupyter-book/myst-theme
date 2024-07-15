@@ -124,16 +124,11 @@ export function ExecuteScopeProvider({
     }
   }, [core]);
 
-  // Issue 1: core hasn't been loaded yet so we need to wait to set state until core has loaded
-  //    Solution: set state and rendermime and manager in useEffect, dispatch to reducer via ADD_PASSIVE
-  // Issue 2: 
-
   useEffect(() => {
     if (isCoreLoaded && core) {
       const rendermime = core.makeRenderMimeRegistry();
       const manager = new core.ThebePassiveManager(rendermime, contents?.widgets?.["application/vnd.jupyter.widget-state+json"]);
 
-      // Reset state with new rendermime and manager
       dispatch({
         type: 'ADD_PASSIVE',
         payload: {
@@ -166,7 +161,6 @@ export function ExecuteScopeProvider({
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  console.log('dwootton current state',state);
 
   const idkmap = useRef<IdKeyMap>({});
 

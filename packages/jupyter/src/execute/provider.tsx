@@ -189,7 +189,7 @@ export function ExecuteScopeProvider({
 
   return (
     <ExecuteScopeContext.Provider value={memo}>
-      <div className="block">
+      <div className="hidden">
         {fetchTargets.length > 0 && (
           <div className="p-1 pl-4">
             {fetchTargets.map(({ slug, url }) => (

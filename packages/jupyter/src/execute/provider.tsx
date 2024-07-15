@@ -100,7 +100,6 @@ function listComputables(mdast: GenericParent) {
   );
 }
 
-
 /**
  *  The ExecuteScopeProvider is responsible for maintaining the state of the
  *  execution scope. It is also responsible for fetching the json for dependencies

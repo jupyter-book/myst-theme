@@ -179,7 +179,6 @@ export function reducer(state: ExecuteScopeState, action: ExecuteScopeAction): E
               rendermime: rendermime,
               manager: manager,
             },
-            
           },
         },
       };

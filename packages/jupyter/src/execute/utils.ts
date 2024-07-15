@@ -88,15 +88,9 @@ export function notebookFromMdast(
         notebook.rendermime,
       );
     } else {
-      // assume content - concatenate it
-      // TODO inject cell metadata
-      // constructor(id: string, source: string, metadata: JsonObject, rendermime: IRenderMimeRegistry, notebook?: ThebeNotebook);
-
-      //TODO reconstruct the notebook markdown cells to not use notebook
       const cell = new core.ThebeMarkdownCell(
         block.key,
         notebook.id,
-        //@ts-ignore
         block.children.reduce((acc, child) => acc + '\n' + (child.value ?? ''), ''),
         block.data ?? {},
         notebook.rendermime,

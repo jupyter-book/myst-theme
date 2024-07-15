@@ -1,6 +1,6 @@
 import type { Dependency } from 'myst-spec-ext';
 import { SourceFileKind } from 'myst-spec-ext';
-import React, { useEffect, useReducer, useRef } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { selectAll } from 'unist-util-select';
 import type { ExecuteScopeAction } from './actions.js';
 import type { Computable, ExecuteScopeState, IdKeyMap } from './types.js';
@@ -100,7 +100,6 @@ function listComputables(mdast: GenericParent) {
   );
 }
 
-import {useState} from "react";
 
 /**
  *  The ExecuteScopeProvider is responsible for maintaining the state of the

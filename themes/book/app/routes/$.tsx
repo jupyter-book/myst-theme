@@ -24,6 +24,7 @@ import {
   useSiteManifest,
   useThemeTop,
   ProjectProvider,
+  GridSystemProvider,
 } from '@myst-theme/providers';
 import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
@@ -86,19 +87,8 @@ export function ArticlePageAndNavigation({
   const { container, toc } = useTocHeight(top, inset);
   return (
     <UiStateProvider>
-      <TopNav />
-      <Navigation
-        tocRef={toc}
-        hide_toc={hide_toc}
-        footer={<MadeWithMyst />}
-        projectSlug={projectSlug}
-      />
       <TabStateProvider>
-        <article
-          ref={container}
-          className="article content article-grid grid-gap"
-          style={{ marginTop: top }}
-        >
+        <article ref={container} className="article content" style={{ marginTop: top }}>
           {children}
         </article>
       </TabStateProvider>
@@ -106,9 +96,7 @@ export function ArticlePageAndNavigation({
   );
 }
 
-
 export default function Page() {
-  const { container } = useOutlineHeight();
   const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
   const baseurl = useBaseurl();
   const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.options ?? {};
@@ -119,16 +107,14 @@ export default function Page() {
     ...pageDesign,
   };
   return (
-    <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={data.page.project}>
+    <ArticlePageAndNavigation hide_toc={true} projectSlug={data.page.project}>
       {/* <ProjectProvider project={project}> */}
       <ProjectProvider>
         <ComputeOptionsProvider
           features={{ notebookCompute: true, figureCompute: true, launchBinder: false }}
         >
           <ThebeLoaderAndServer baseurl={baseurl}>
-            <main ref={container} className="article-grid subgrid-gap col-screen">
-              <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
-            </main>
+            <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
           </ThebeLoaderAndServer>
         </ComputeOptionsProvider>
       </ProjectProvider>

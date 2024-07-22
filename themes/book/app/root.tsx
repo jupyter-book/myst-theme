@@ -67,6 +67,7 @@ export default function AppWithReload() {
       scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
       staticBuild={MODE === 'static'}
       baseurl={BASE_URL}
+      top={0}
     >
       <SkipTo
         targets={[

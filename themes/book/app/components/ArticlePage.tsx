@@ -1,10 +1,12 @@
 import React from 'react';
 import {
+  GridSystemProvider,
   ReferencesProvider,
   useProjectManifest,
   useSiteManifest,
   useThemeTop,
 } from '@myst-theme/providers';
+import classNames from 'classnames';
 import {
   Bibliography,
   ContentBlocks,
@@ -18,7 +20,7 @@ import {
 } from '@myst-theme/site';
 import type { SiteManifest } from 'myst-config';
 import type { PageLoader } from '@myst-theme/common';
-import { copyNode, type GenericParent } from 'myst-common';
+import { copyNode, GenericNode, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {
   ExecuteScopeProvider,
@@ -31,6 +33,10 @@ import {
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import type { SiteAction } from 'myst-config';
 import type { TemplateOptions } from '../types.js';
+import { matches } from 'unist-util-select';
+import { remove } from 'unist-util-remove';
+import { visit, SKIP } from 'unist-util-visit';
+import { MyST } from 'myst-to-react';
 
 /**
  * Combines the project downloads and the export options
@@ -76,46 +82,61 @@ export const ArticlePage = React.memo(function ({
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree);
 
+  const sideBarTypes = 'container,proof,math';
+  const containers: GenericNode[] = [];
+  visit(tree, (node) => {
+    if (matches(sideBarTypes, node)) {
+      // SubFigures, proofs, etc. can have figures as children
+      // this ensures there is not duplication in the sidebar
+      containers.push(node);
+      return SKIP;
+    }
+  });
+  remove(tree, (node) => matches(sideBarTypes, node));
+
+  const gridChoice = 'none';
   return (
-    <ReferencesProvider
-      references={{ ...article.references, article: article.mdast }}
-      frontmatter={article.frontmatter}
-    >
-      <BusyScopeProvider>
-        <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
-          {!hide_title_block && (
-            <FrontmatterBlock
-              kind={article.kind}
-              frontmatter={{ ...article.frontmatter, downloads }}
-              className="pt-5 mb-8"
-            />
-          )}
-          {!hide_outline && (
-            <div
-              className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
-              style={{ top: top + TOP_OFFSET }}
-            >
-              <DocumentOutline className="relative" maxdepth={outline_maxdepth} />
-            </div>
-          )}
-          {compute?.enabled &&
-            compute.features.notebookCompute &&
-            article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
-          {compute?.enabled && article.kind === SourceFileKind.Article && (
-            <ErrorTray pageSlug={article.slug} />
-          )}
-          <div id="skip-to-article" />
-          <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
-          <ContentBlocks pageKind={article.kind} mdast={tree as GenericParent} />
-          <BackmatterParts parts={parts} />
-          <Footnotes />
-          <Bibliography />
-          <ConnectionStatusTray />
-          {!hide_footer_links && !hide_all_footer_links && (
-            <FooterLinksBlock links={article.footer} />
-          )}
-        </ExecuteScopeProvider>
-      </BusyScopeProvider>
-    </ReferencesProvider>
+    <GridSystemProvider gridSystem={gridChoice}>
+      <div className="flex flex-row h-screen">
+        <main className="w-8/12 h-full px-4 overflow-auto">
+          <ReferencesProvider
+            references={{ ...article.references, article: article.mdast }}
+            frontmatter={article.frontmatter}
+          >
+            <BusyScopeProvider>
+              <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
+                {!hide_title_block && (
+                  <FrontmatterBlock
+                    kind={article.kind}
+                    frontmatter={{ ...article.frontmatter, downloads }}
+                    className="pt-5 mb-8"
+                    authorStyle="list"
+                  />
+                )}
+                {compute?.enabled &&
+                  compute.features.notebookCompute &&
+                  article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
+                {compute?.enabled && article.kind === SourceFileKind.Article && (
+                  <ErrorTray pageSlug={article.slug} />
+                )}
+                <div id="skip-to-article" />
+                <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
+                <ContentBlocks pageKind={article.kind} mdast={tree as GenericParent} />
+                <BackmatterParts parts={parts} />
+                <Footnotes />
+                <Bibliography />
+                <ConnectionStatusTray />
+                {!hide_footer_links && !hide_all_footer_links && (
+                  <FooterLinksBlock links={article.footer} />
+                )}
+              </ExecuteScopeProvider>
+            </BusyScopeProvider>
+          </ReferencesProvider>
+        </main>
+        <section className="w-4/12 h-full px-4 overflow-auto border-l scroll-pt-4">
+          <MyST ast={containers}></MyST>
+        </section>
+      </div>
+    </GridSystemProvider>
   );
 });

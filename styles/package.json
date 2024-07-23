@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/styles",
-  "version": "0.9.9",
+  "version": "0.9.10",
   "main": "index.js",
   "style": "app.css",
   "scripts": {

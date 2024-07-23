@@ -1,5 +1,19 @@
 # @myst-theme/site
 
+## 0.9.10
+
+### Patch Changes
+
+- 54097c18: Upgrade to mystmd 1.3.0
+- Updated dependencies [54097c18]
+  - myst-to-react@0.9.10
+  - myst-demo@0.9.10
+  - @myst-theme/providers@0.9.10
+  - @myst-theme/jupyter@0.9.10
+  - @myst-theme/common@0.9.10
+  - @myst-theme/frontmatter@0.9.10
+  - @myst-theme/diagrams@0.9.10
+
 ## 0.9.9
 
 ### Patch Changes

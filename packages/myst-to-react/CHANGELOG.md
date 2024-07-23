@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.9.10
+
+### Patch Changes
+
+- 54097c18: Upgrade to mystmd 1.3.0
+- Updated dependencies [54097c18]
+  - @myst-theme/providers@0.9.10
+
 ## 0.9.9
 
 ### Patch Changes

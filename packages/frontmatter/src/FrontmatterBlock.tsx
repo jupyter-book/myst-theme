@@ -247,7 +247,12 @@ export function FrontmatterBlock({
               <GitHubLink github={github} />
               {isJupyter && (
                 <div className="inline-block mr-1">
-                  <JupyterIcon width="1.25rem" height="1.25rem" className="inline-block" />
+                  <JupyterIcon
+                    width="1.25rem"
+                    height="1.25rem"
+                    className="inline-block"
+                    title="Jupyter Notebook"
+                  />
                 </div>
               )}
             </>

@@ -63,7 +63,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
           to={item.url ?? ''}
           className={({ isActive }) =>
             classNames(
-              'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
+              'whitespace-nowrap inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
               {
                 'border-b border-stone-200': isActive,
               },

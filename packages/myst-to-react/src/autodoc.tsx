@@ -14,11 +14,7 @@ type HasChildren = {
 
 const preParentRenderer = ({ node }: { node: HasTextChildren }) => {
   const [child] = node.children;
-  return (
-    <span className="whitespace-pre">
-      {child.value}
-    </span>
-  );
+  return <span className="whitespace-pre">{child.value}</span>;
 };
 
 const renderChildren = ({ node }: { node: HasChildren }) => {
@@ -38,15 +34,11 @@ const AUTODOC_RENDERERS = {
     if (node.children.length > 0) {
       merged.push(<MyST ast={node.children[node.children.length - 1]} />);
     }
-    return [<>(</>, ...merged, <>) </>];
+    return [<>(</>, ...merged, <>)</>];
   },
   descName({ node }: { node: HasTextChildren }) {
     const [child] = node.children;
-    return (
-      <span className="whitespace-pre font-bold">
-        {child.value}
-      </span>
-    ); //
+    return <span className="whitespace-pre font-bold">{child.value}</span>; //
   },
   fieldList({ node }: { node: HasChildren }) {
     return (
@@ -101,10 +93,9 @@ const AUTODOC_RENDERERS = {
   descParameter: renderChildren,
   descReturns({ node }: { node: HasChildren }) {
     return (
-      <>
-        <span>&#x2192; </span>
+      <span className="before:content-['_→_']">
         <MyST ast={node.children as any} />
-      </>
+      </span>
     );
   },
   descSigPunctuation: preParentRenderer,

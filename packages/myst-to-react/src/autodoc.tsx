@@ -47,12 +47,7 @@ const AUTODOC_RENDERERS = {
   descName({ node }: { node: HasTextChildren }) {
     const [child] = node.children;
     return (
-      <span
-        style={{
-          fontWeight: 'bold',
-          whiteSpace: 'pre',
-        }}
-      >
+      <span className="whitespace-pre font-bold">
         {child.value}
       </span>
     ); //

@@ -85,12 +85,7 @@ const AUTODOC_RENDERERS = {
   },
   descSignature({ node }: { node: HasChildren }) {
     return (
-      <dt
-        style={{
-          fontWeight: 'lighter',
-          fontFamily: "Menlo, Consolas, 'DejaVu Sans Mono', monospace",
-        }}
-      >
+      <dt className="font-mono font-light">
         <MyST ast={node.children} />
       </dt>
     );

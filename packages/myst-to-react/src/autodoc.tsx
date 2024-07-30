@@ -15,11 +15,7 @@ type HasChildren = {
 const preParentRenderer = ({ node }: { node: HasTextChildren }) => {
   const [child] = node.children;
   return (
-    <span
-      style={{
-        whiteSpace: 'pre',
-      }}
-    >
+    <span className="whitespace-pre">
       {child.value}
     </span>
   );

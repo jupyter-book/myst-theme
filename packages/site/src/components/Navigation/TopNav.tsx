@@ -143,7 +143,7 @@ export function NavItems({ nav }: { nav?: SiteManifest['nav'] }) {
   );
 }
 
-export function TopNav() {
+export function TopNav({ hideToc }: { hideToc?: boolean }) {
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
   const { title, nav, actions } = config ?? {};
@@ -152,17 +152,19 @@ export function TopNav() {
     <div className="bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 fixed w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-wrap max-w-[1440px] mx-auto">
         <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center">
-          <div className="block xl:hidden">
-            <button
-              className="flex items-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100"
-              onClick={() => {
-                setOpen(!open);
-              }}
-            >
-              <MenuIcon width="2rem" height="2rem" className="m-1" />
-              <span className="sr-only">Open Menu</span>
-            </button>
-          </div>
+          {!hideToc && (
+            <div className="block xl:hidden">
+              <button
+                className="flex items-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100"
+                onClick={() => {
+                  setOpen(!open);
+                }}
+              >
+                <MenuIcon width="2rem" height="2rem" className="m-1" />
+                <span className="sr-only">Open Menu</span>
+              </button>
+            </div>
+          )}
           <HomeLink name={title} logo={logo} logoDark={logo_dark} logoText={logo_text} />
         </div>
         <div className="flex items-center flex-grow w-auto">

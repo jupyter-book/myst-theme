@@ -113,14 +113,14 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   span({ node }) {
     return (
-      <span className={node.class} style={node.style}>
+      <span className={node.class} style={node.style} id={node.html_id}>
         <MyST ast={node.children} />
       </span>
     );
   },
   div({ node }) {
     return (
-      <div className={node.class} style={node.style}>
+      <div className={node.class} style={node.style} id={node.html_id}>
         <MyST ast={node.children} />
       </div>
     );

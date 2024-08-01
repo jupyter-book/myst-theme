@@ -86,7 +86,7 @@ export function ArticlePageAndNavigation({
   const { container, toc } = useTocHeight(top, inset);
   return (
     <UiStateProvider>
-      <TopNav />
+      <TopNav hideToc={ hide_toc } />
       <Navigation
         tocRef={toc}
         hide_toc={hide_toc}

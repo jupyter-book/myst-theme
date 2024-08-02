@@ -30,27 +30,27 @@
 }
 
 /* .sphinx-desc > .sphinx-desc-signature */
-dl > dt:has([class^='sphinx-']) {
+dl > dt:has([class^='sphinx-desc-']) {
   @apply font-mono font-light;
 }
 
 /* .sphinx-desc > .sphinx-desc-signature */
-dl > dt:has([class^='sphinx-']) > em {
+dl > dt:has([class^='sphinx-desc-']) > em {
   @apply whitespace-pre;
 }
 
 /* .sphinx-desc > .sphinx-desc-content > dl:not(:has(.sphinx-dex)) */
-dl:has(> dt > [class^='sphinx-']) > dd > dl:not(:has(> dt > [class^='sphinx-'])) {
+dl:has(> dt > [class^='sphinx-desc-']) > dd > dl:not(:has(> dt > [class^='sphinx-desc-'])) {
   display: grid;
   grid-template-columns: fit-content(30%) auto;
 }
 
 /* .sphinx-desc > .sphinx-desc-content > dl:not(:has(.sphinx-dex)) > dd > p */
-dl:has(> dt > [class^='sphinx-']) > dd > dl:not(:has(> dt > [class^='sphinx-'])) > dd > p {
+dl:has(> dt > [class^='sphinx-desc-']) > dd > dl:not(:has(> dt > [class^='sphinx-desc-'])) > dd > p {
   margin: unset !important; /* Undo some generic theming */
 }
 
 /* .sphinx-desc > .sphinx-desc-content > dl:not(:has(.sphinx-dex)) > *:is(dt, dd) */
-dl:has(> dt > [class^='sphinx-']) > dd > dl:not(:has(> dt > [class^='sphinx-'])) > *:is(dt, dd) {
+dl:has(> dt > [class^='sphinx-desc-']) > dd > dl:not(:has(> dt > [class^='sphinx-desc-'])) > *:is(dt, dd) {
   margin: unset !important; /* Undo some generic theming */
 }

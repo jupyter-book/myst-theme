@@ -36,10 +36,10 @@ export function useTocHeight<T extends HTMLElement = HTMLElement>(top = 0, inset
 
 export const TableOfContents = ({
   projectSlug,
-  tocRef,
+  sidebarRef,
   footer,
 }: {
-  tocRef?: React.RefObject<HTMLElement>;
+  sidebarRef?: React.RefObject<HTMLElement>;
   projectSlug?: string;
   footer?: React.ReactNode;
 }) => {
@@ -62,7 +62,7 @@ export const TableOfContents = ({
   if (!headings) return null;
   return (
     <div
-      ref={tocRef as any}
+      ref={sidebarRef as any}
       className={classNames(
         'fixed',
         `xl:${grid}`, // for example, xl:article-grid
@@ -105,12 +105,12 @@ export const TableOfContents = ({
 
 export const InlineTableOfContents = ({
   projectSlug,
-  tocRef,
+  sidebarRef,
   className = 'flex-grow overflow-y-auto max-w-[350px]',
 }: {
   projectSlug?: string;
   className?: string;
-  tocRef?: React.RefObject<HTMLElement>;
+  sidebarRef?: React.RefObject<HTMLElement>;
 }) => {
   const config = useSiteManifest();
   if (!config) return null;
@@ -119,7 +119,7 @@ export const InlineTableOfContents = ({
   });
   if (!headings) return null;
   return (
-    <nav aria-label="Table of Contents" className={className} ref={tocRef}>
+    <nav aria-label="Table of Contents" className={className} ref={sidebarRef}>
       <Toc headings={headings} />
     </nav>
   );

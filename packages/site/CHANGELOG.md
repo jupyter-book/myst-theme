@@ -1080,7 +1080,7 @@
   const { container, toc } = useTocHeight(top);
 
   // Update the nav and article, removing the height
-  <Navigation tocRef={toc} ... />
+  <Navigation sidebarRef={toc} ... />
   <article ref={container} ... />
   ```
 

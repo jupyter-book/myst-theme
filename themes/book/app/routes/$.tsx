@@ -88,7 +88,7 @@ export function ArticlePageAndNavigation({
     <UiStateProvider>
       <TopNav hideToc={ hide_toc } />
       <Navigation
-        tocRef={toc}
+        sidebarRef={toc}
         hide_toc={hide_toc}
         footer={<MadeWithMyst />}
         projectSlug={projectSlug}

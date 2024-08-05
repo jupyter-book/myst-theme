@@ -1,5 +1,5 @@
 import { useNavOpen, useThemeTop } from '@myst-theme/providers';
-import { TableOfContents } from './TableOfContents.js';
+import { PrimarySidebar } from './TableOfContents.js';
 
 export function Navigation({
   children,
@@ -30,7 +30,7 @@ export function Navigation({
           onClick={() => setOpen(false)}
         ></div>
       )}
-      <TableOfContents sidebarRef={sidebarRef} projectSlug={projectSlug} footer={footer} />
+      <PrimarySidebar sidebarRef={sidebarRef} projectSlug={projectSlug} footer={footer} />
       {children}
     </>
   );

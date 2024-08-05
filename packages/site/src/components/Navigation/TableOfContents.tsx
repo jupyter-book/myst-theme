@@ -34,7 +34,7 @@ export function useTocHeight<T extends HTMLElement = HTMLElement>(top = 0, inset
   return { container, toc };
 }
 
-export const TableOfContents = ({
+export const PrimarySidebar = ({
   projectSlug,
   sidebarRef,
   footer,

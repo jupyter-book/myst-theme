@@ -18,7 +18,7 @@ async function getThemeSession(request: Request) {
   return {
     getTheme: () => {
       const themeValue = session.get('theme');
-      return isTheme(themeValue) ? themeValue : Theme.light;
+      return isTheme(themeValue) ? themeValue : undefined;
     },
     setTheme: (theme: Theme) => session.set('theme', theme),
     commit: () => themeStorage.commitSession(session, { expires: new Date('2100-01-01') }),

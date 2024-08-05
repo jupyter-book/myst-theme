@@ -1,7 +1,14 @@
 import type { SiteManifest } from 'myst-config';
 import type { SiteLoader } from '@myst-theme/common';
 import type { NodeRenderers } from '@myst-theme/providers';
-import { BaseUrlProvider, SiteProvider, Theme, ThemeProvider } from '@myst-theme/providers';
+import {
+  BaseUrlProvider,
+  SiteProvider,
+  Theme,
+  ThemeProvider,
+  BlockingThemeLoader,
+  useTheme,
+} from '@myst-theme/providers';
 import {
   Links,
   LiveReload,
@@ -34,7 +41,7 @@ export function Document({
 }: {
   children: React.ReactNode;
   scripts?: React.ReactNode;
-  theme: Theme;
+  theme?: Theme;
   config?: SiteManifest;
   title?: string;
   staticBuild?: boolean;
@@ -51,7 +58,39 @@ export function Document({
         Link: Link as any,
         NavLink: NavLink as any,
       };
+  return (
+    <ThemeProvider theme={theme} renderers={renderers} {...links} top={top}>
+      <DocumentWithoutProviders
+        children={children}
+        scripts={scripts}
+        config={config}
+        title={title}
+        staticBuild={staticBuild}
+        baseurl={baseurl}
+        top={top}
+      />
+    </ThemeProvider>
+  );
+}
 
+export function DocumentWithoutProviders({
+  children,
+  scripts,
+  config,
+  title,
+  staticBuild,
+  baseurl,
+  top = DEFAULT_NAV_HEIGHT,
+}: {
+  children: React.ReactNode;
+  scripts?: React.ReactNode;
+  config?: SiteManifest;
+  title?: string;
+  staticBuild?: boolean;
+  baseurl?: string;
+  top?: number;
+}) {
+  const {theme } = useTheme();
   return (
     <html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>
       <head>
@@ -64,13 +103,12 @@ export function Document({
           analytics_google={config?.options?.analytics_google}
           analytics_plausible={config?.options?.analytics_plausible}
         />
+        <BlockingThemeLoader />
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
-        <ThemeProvider theme={theme} renderers={renderers} {...links} top={top}>
-          <BaseUrlProvider baseurl={baseurl}>
-            <SiteProvider config={config}>{children}</SiteProvider>
-          </BaseUrlProvider>
-        </ThemeProvider>
+        <BaseUrlProvider baseurl={baseurl}>
+          <SiteProvider config={config}>{children}</SiteProvider>
+        </BaseUrlProvider>
         <ScrollRestoration />
         <Scripts />
         {!staticBuild && <LiveReload />}

@@ -59,13 +59,19 @@ export function Document({
         NavLink: NavLink as any,
       };
   return (
-    <ThemeProvider theme={theme} renderers={renderers} {...links} top={top}>
+    <ThemeProvider
+      theme={theme}
+      renderers={renderers}
+      useLocalStorageForDarkMode={true}
+      {...links}
+      top={top}
+    >
       <DocumentWithoutProviders
         children={children}
         scripts={scripts}
         config={config}
         title={title}
-        staticBuild={staticBuild}
+        liveReloadListener={!staticBuild}
         baseurl={baseurl}
         top={top}
       />
@@ -78,19 +84,19 @@ export function DocumentWithoutProviders({
   scripts,
   config,
   title,
-  staticBuild,
   baseurl,
   top = DEFAULT_NAV_HEIGHT,
+  liveReloadListener,
 }: {
   children: React.ReactNode;
   scripts?: React.ReactNode;
   config?: SiteManifest;
   title?: string;
-  staticBuild?: boolean;
   baseurl?: string;
   top?: number;
+  liveReloadListener?: boolean;
 }) {
-  const {theme } = useTheme();
+  const { theme } = useTheme();
   return (
     <html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>
       <head>
@@ -111,7 +117,7 @@ export function DocumentWithoutProviders({
         </BaseUrlProvider>
         <ScrollRestoration />
         <Scripts />
-        {!staticBuild && <LiveReload />}
+        {liveReloadListener && <LiveReload />}
         {scripts}
       </body>
     </html>

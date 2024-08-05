@@ -56,32 +56,30 @@ type ThemeContextType = {
 const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
 ThemeContext.displayName = 'ThemeContext';
 
-const prefersLightMQ = '(prefers-color-scheme: light)';
+const PREFERS_LIGHT_MQ = '(prefers-color-scheme: light)';
 
 /**
  * Return the theme preference indicated by the system
  */
 function getPreferredTheme() {
-  return window.matchMedia(prefersLightMQ).matches ? Theme.light : Theme.dark;
+  return window.matchMedia(PREFERS_LIGHT_MQ).matches ? Theme.light : Theme.dark;
 }
 
-const clientThemeSource = `
-  const theme = window.matchMedia(${JSON.stringify(prefersLightMQ)}).matches ? 'light' : 'dark';
+const CLIENT_THEME_SOURCE = `
+  const theme = window.matchMedia(${JSON.stringify(PREFERS_LIGHT_MQ)}).matches ? 'light' : 'dark';
   const classes = document.documentElement.classList;
   const hasAnyTheme = classes.contains('light') || classes.contains('dark');
-  if (hasAnyTheme) {
-    console.warn("Document already has theme at load. Set by cookie perhaps?");
-  } else {
-    classes.add(theme);
-  }
+  if (!hasAnyTheme) classes.add(theme);
 `;
 
 /**
  * A blocking element that runs before hydration to update the <html> preferred class
  */
 export function BlockingThemeLoader() {
-  return <script dangerouslySetInnerHTML={{ __html: clientThemeSource }} />;
+  return <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />;
 }
+
+const THEME_KEY = 'myst:theme';
 
 export function ThemeProvider({
   children,
@@ -90,6 +88,7 @@ export function ThemeProvider({
   Link,
   top,
   NavLink,
+  useLocalStorageForDarkMode,
 }: {
   children: React.ReactNode;
   theme?: Theme;
@@ -97,6 +96,7 @@ export function ThemeProvider({
   Link?: Link;
   top?: number;
   NavLink?: NavLink;
+  useLocalStorageForDarkMode?: boolean;
 }) {
   const [theme, setTheme] = React.useState<Theme | null>(() => {
     // Allow hard-coded theme ignoring system preferences (not recommended)
@@ -107,14 +107,22 @@ export function ThemeProvider({
       return null;
     }
 
-    // Interrogate the sytstem for a preferred theme
+    // Prefer local storage if set
+    if (useLocalStorageForDarkMode) {
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      if (savedTheme && isTheme(savedTheme)) {
+        return savedTheme;
+      }
+    }
+
+    // Interrogate the system for a preferred theme
     return getPreferredTheme();
   });
 
   const validatedRenderers = validateRenderers(renderers);
   // Listen for system-updates that change the preferred theme
   useEffect(() => {
-    const mediaQuery = window.matchMedia(prefersLightMQ);
+    const mediaQuery = window.matchMedia(PREFERS_LIGHT_MQ);
     const handleChange = () => {
       setTheme(mediaQuery.matches ? Theme.light : Theme.dark);
     };
@@ -134,10 +142,14 @@ export function ThemeProvider({
     if (!isTheme(theme)) {
       return;
     }
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('POST', '/api/theme');
-    xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xmlhttp.send(JSON.stringify({ theme }));
+    if (useLocalStorageForDarkMode) {
+      localStorage.setItem(THEME_KEY, theme);
+    } else {
+      const xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('POST', '/api/theme');
+      xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+      xmlhttp.send(JSON.stringify({ theme }));
+    }
   }, [theme]);
 
   return (

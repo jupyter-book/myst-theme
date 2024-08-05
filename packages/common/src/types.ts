@@ -23,7 +23,7 @@ export type Heading = {
 };
 
 export type SiteLoader = {
-  theme: Theme;
+  theme?: Theme;
   config?: SiteManifest;
   CONTENT_CDN_PORT?: string | number;
   MODE?: 'app' | 'static';

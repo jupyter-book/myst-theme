@@ -1,5 +1,6 @@
 import { createCookieSessionStorage, json } from '@remix-run/node';
-import { isTheme, Theme } from '@myst-theme/providers';
+import { isTheme } from '@myst-theme/providers';
+import type { Theme } from '@myst-theme/providers';
 import type { ActionFunction } from '@remix-run/node';
 
 export const themeStorage = createCookieSessionStorage({

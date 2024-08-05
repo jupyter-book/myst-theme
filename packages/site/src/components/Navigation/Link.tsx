@@ -13,7 +13,7 @@ export function ExternalOrInternalLink({
   className?: string | ((props: { isActive: boolean }) => string);
   children: React.ReactNode;
   nav?: boolean;
-  onClick?: () => void,
+  onClick?: () => void;
   prefetch?: 'intent' | 'render' | 'none';
 }) {
   const Link = useLinkProvider();
@@ -21,14 +21,20 @@ export function ExternalOrInternalLink({
   const staticClass = typeof className === 'function' ? className({ isActive: false }) : className;
   if (to.startsWith('http') || to.startsWith('mailto:')) {
     return (
-      <a href={to} target="_blank" rel="noopener noreferrer" className={staticClass} onClick={onClick}>
+      <a
+        href={to}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={staticClass}
+        onClick={onClick}
+      >
         {children}
       </a>
     );
   }
   if (nav) {
     return (
-      <NavLink prefetch={prefetch} to={to} className={className} onClick={onClick} >
+      <NavLink prefetch={prefetch} to={to} className={className} onClick={onClick}>
         {children}
       </NavLink>
     );

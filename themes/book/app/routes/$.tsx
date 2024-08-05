@@ -86,7 +86,7 @@ export function ArticlePageAndNavigation({
   const { container, toc } = useSidebarHeight(top, inset);
   return (
     <UiStateProvider>
-      <TopNav hideToc={ hide_toc } />
+      <TopNav hideToc={hide_toc} />
       <Navigation
         sidebarRef={toc}
         hide_toc={hide_toc}
@@ -105,7 +105,6 @@ export function ArticlePageAndNavigation({
     </UiStateProvider>
   );
 }
-
 
 export default function Page() {
   const { container } = useOutlineHeight();

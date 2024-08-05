@@ -85,7 +85,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
 export function SidebarNav({ nav }: { nav?: SiteManifest['nav'] }) {
   if (!nav) return null;
   return (
-    <div>
+    <div className="w-full px-1 dark:text-white">
       {nav.map((item) => {
         return <SidebarNavItem key={'url' in item ? item.url : item.title} item={item} />;
       })}

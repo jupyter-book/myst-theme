@@ -10,6 +10,85 @@ import {
 import { getProjectHeadings } from '@myst-theme/common';
 import { Toc } from './TableOfContentsItems.js';
 
+import { ExternalOrInternalLink } from './Link.js';
+import type { SiteManifest, SiteNavItem } from 'myst-config';
+
+import * as Collapsible from '@radix-ui/react-collapsible';
+
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
+export function SidebarNavItem({ item }: { item: SiteNavItem }) {
+  if (!item.children?.length) {
+    return (
+      <ExternalOrInternalLink
+        nav
+        to={item.url ?? ''}
+        className={classNames(
+          'p-2 my-1 rounded-lg',
+          'hover:bg-slate-300/30',
+          'block break-words focus:outline outline-blue-200 outline-2 rounded',
+        )}
+      >
+        {item.title}
+      </ExternalOrInternalLink>
+    );
+  }
+  const [open, setOpen] = React.useState(false);
+  return (
+    <Collapsible.Root className="w-full" open={open} onOpenChange={setOpen}>
+      <div
+        className={classNames(
+          'flex flex-row w-full gap-2 px-2 my-1 text-left rounded-lg outline-none',
+          'hover:bg-slate-300/30',
+        )}
+      >
+        <ExternalOrInternalLink nav to={item.url ?? ''} className={classNames('py-2 grow', {})}
+          onClick={() => setOpen(!open)}
+	>
+          {item.title}
+        </ExternalOrInternalLink>
+        <Collapsible.Trigger asChild>
+          <button
+            className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+            aria-label="Open Folder"
+          >
+            <ChevronRightIcon
+              className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+              height="1.5rem"
+              width="1.5rem"
+            />
+          </button>
+        </Collapsible.Trigger>
+      </div>
+      <Collapsible.Content className="pl-3 pr-[2px] collapsible-content flex flex-col">
+        {item.children.map((action) => (
+          <ExternalOrInternalLink
+            nav
+            to={action.url || ''}
+            className={classNames(
+              'p-2 my-1 rounded-lg',
+              'hover:bg-slate-300/30',
+              'block break-words focus:outline outline-blue-200 outline-2 rounded',
+            )}
+          >
+            {action.title}
+          </ExternalOrInternalLink>
+        ))}
+      </Collapsible.Content>
+    </Collapsible.Root>
+  );
+}
+
+export function SidebarNav({ nav }: { nav?: SiteManifest['nav'] }) {
+  if (!nav) return null;
+  return (
+    <div>
+      {nav.map((item) => {
+        return <SidebarNavItem key={'url' in item ? item.url : item.title} item={item} />;
+      })}
+    </div>
+  );
+}
+
 export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, inset = 0) {
   const container = useRef<T>(null);
   const toc = useRef<HTMLDivElement>(null);
@@ -59,7 +138,7 @@ export const PrimarySidebar = ({
   const headings = getProjectHeadings(config, projectSlug, {
     addGroups: false,
   });
-  if (!headings) return null;
+  const { nav } = config;
   return (
     <div
       ref={sidebarRef as any}
@@ -85,11 +164,19 @@ export const PrimarySidebar = ({
         )}
       >
         <nav
-          aria-label="Table of Contents"
-          className="flex-grow overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px]"
+          aria-label="Navigation"
+          className="overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden border-b-2"
         >
-          <Toc headings={headings} />
+          <SidebarNav nav={nav} />
         </nav>
+        {headings && (
+          <nav
+            aria-label="Table of Contents"
+            className="flex-grow overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px]"
+          >
+            <Toc headings={headings} />
+          </nav>
+        )}
         {footer && (
           <div
             className="flex-none py-4 transition-all duration-700 translate-y-6 opacity-0"

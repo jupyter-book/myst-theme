@@ -41,9 +41,12 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
           'hover:bg-slate-300/30',
         )}
       >
-        <ExternalOrInternalLink nav to={item.url ?? ''} className={classNames('py-2 grow', {})}
+        <ExternalOrInternalLink
+          nav
+          to={item.url ?? ''}
+          className={classNames('py-2 grow', {})}
           onClick={() => setOpen(!open)}
-	>
+        >
           {item.title}
         </ExternalOrInternalLink>
         <Collapsible.Trigger asChild>
@@ -59,10 +62,11 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
           </button>
         </Collapsible.Trigger>
       </div>
-      <Collapsible.Content className="pl-3 pr-[2px] collapsible-content flex flex-col">
+      <Collapsible.Content className="pl-3 pr-[2px] collapsible-content">
         {item.children.map((action) => (
           <ExternalOrInternalLink
             nav
+            key={action.url}
             to={action.url || ''}
             className={classNames(
               'p-2 my-1 rounded-lg',

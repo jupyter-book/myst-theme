@@ -1,5 +1,5 @@
 import { useNavOpen, useThemeTop } from '@myst-theme/providers';
-import { PrimarySidebar } from './TableOfContents.js';
+import { PrimarySidebar } from './PrimarySidebar.js';
 
 export function Navigation({
   children,

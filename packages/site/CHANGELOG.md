@@ -1077,7 +1077,7 @@
 - 8af808bf: Remove css updates for document nav and outline from React state
 
   ```tsx
-  const { container, toc } = useTocHeight(top);
+  const { container, toc } = useSidebarHeight(top);
 
   // Update the nav and article, removing the height
   <Navigation sidebarRef={toc} ... />

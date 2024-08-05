@@ -10,7 +10,7 @@ import {
 import { getProjectHeadings } from '@myst-theme/common';
 import { Toc } from './TableOfContentsItems.js';
 
-export function useTocHeight<T extends HTMLElement = HTMLElement>(top = 0, inset = 0) {
+export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, inset = 0) {
   const container = useRef<T>(null);
   const toc = useRef<HTMLDivElement>(null);
   const transitionState = useNavigation().state;

@@ -14,7 +14,6 @@ import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import * as Collapsible from '@radix-ui/react-collapsible';
 
 const SELECTOR = [1, 2, 3, 4].map((n) => `main h${n}`).join(', ');
-const HIGHLIGHT_CLASS = 'highlight';
 
 const onClient = typeof document !== 'undefined';
 
@@ -302,8 +301,8 @@ function useMarginOccluder() {
         if (!mainElementRef.current) {
           return;
         }
-        const elements = mainElementRef.current.querySelectorAll('.col-margin-right');
-        setElements(Array.from(elements));
+        const marginElements = mainElementRef.current.querySelectorAll('.col-margin-right');
+        setElements(Array.from(marginElements));
       },
       500,
       { trailing: false },

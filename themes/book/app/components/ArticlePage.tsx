@@ -4,6 +4,7 @@ import {
   useProjectManifest,
   useSiteManifest,
   useThemeTop,
+  useMediaQuery,
 } from '@myst-theme/providers';
 import {
   Bibliography,
@@ -75,7 +76,7 @@ export const ArticlePage = React.memo(function ({
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree);
-
+  const isOutlineMargin = useMediaQuery('(min-width: 1024px)');
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -95,7 +96,7 @@ export const ArticlePage = React.memo(function ({
               className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
               style={{ top: top + TOP_OFFSET }}
             >
-              <DocumentOutline className="relative" maxdepth={outline_maxdepth} />
+              <DocumentOutline className="relative" maxdepth={outline_maxdepth} isMargin={isOutlineMargin} />
             </div>
           )}
           {compute?.enabled &&

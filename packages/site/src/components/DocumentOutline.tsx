@@ -28,15 +28,13 @@ export type Heading = {
 
 type Props = {
   headings: Heading[];
-  selector: string;
   activeId?: string;
-  highlight?: () => void;
 };
 /**
  * This renders an item in the table of contents list.
  * scrollIntoView is used to ensure that when a user clicks on an item, it will smoothly scroll.
  */
-const Headings = ({ headings, activeId, highlight, selector }: Props) => (
+const Headings = ({ headings, activeId }: Props) => (
   <ul className="text-sm leading-6 text-slate-400">
     {headings.map((heading) => (
       <li
@@ -65,11 +63,7 @@ const Headings = ({ headings, activeId, highlight, selector }: Props) => (
             e.preventDefault();
             const el = document.querySelector(`#${heading.id}`);
             if (!el) return;
-            getHeaders(selector).forEach((h) => {
-              h.classList.remove(HIGHLIGHT_CLASS);
-            });
-            el.classList.add(HIGHLIGHT_CLASS);
-            highlight?.();
+
             el.scrollIntoView({ behavior: 'smooth' });
             history.replaceState(undefined, '', `#${heading.id}`);
           }}
@@ -144,26 +138,19 @@ function useMutationObserver(
   }, [observer]);
 }
 
-const useIntersectionObserver = (
-  callback: () => void,
-  onScreen: RefObject<Set<Element>>,
-  elements: Element[],
-  options?: Record<string, any>,
-) => {
+const useIntersectionObserver = (elements: Element[], options?: Record<string, any>) => {
   const [observer, setObserver] = useState<IntersectionObserver | null>(null);
+  const [intersecting, setIntersecting] = useState<Element[]>([]);
+
   if (!onClient) return { observer };
   useEffect(() => {
     const cb: IntersectionObserverCallback = (entries) => {
-      if (!onScreen.current) return;
-      entries.forEach((entry) => {
-        onScreen.current[entry.isIntersecting ? 'add' : 'delete'](entry.target as HTMLElement);
-      });
-      callback();
+      setIntersecting(entries.filter((e) => e.isIntersecting).map((e) => e.target));
     };
     const o = new IntersectionObserver(cb, options ?? {});
     setObserver(o);
     return () => o.disconnect();
-  }, [callback]);
+  }, []);
 
   // Changes to the DOM mean we need to update our intersection observer
   useEffect(() => {
@@ -179,7 +166,7 @@ const useIntersectionObserver = (
     };
   }, [elements]);
 
-  return { observer };
+  return { observer, intersecting };
 };
 
 /**
@@ -187,23 +174,6 @@ const useIntersectionObserver = (
  */
 export function useHeaders(selector: string, maxdepth: number) {
   if (!onClient) return { activeId: '', headings: [] };
-  const onScreenRef = useRef<Set<HTMLHeadingElement>>(new Set());
-  const [activeId, setActiveId] = useState<string>();
-
-  const highlight = useCallback(() => {
-    const current = [...onScreenRef.current];
-    const highlighted = current.reduce(
-      (a, b) => {
-        if (a) return a;
-        if (b.classList.contains('highlight')) return b.id;
-        return null;
-      },
-      null as string | null,
-    );
-    const active = [...onScreenRef.current].sort((a, b) => a.offsetTop - b.offsetTop)[0];
-    if (highlighted || active) setActiveId(highlighted || active.id);
-  }, [onScreenRef, setActiveId]);
-
   // Keep track of main manually for now
   const mainElementRef = useRef<HTMLElement | null>(null);
   useEffect(() => {
@@ -232,13 +202,28 @@ export function useHeaders(selector: string, maxdepth: number) {
   useEffect(onMutation, []);
 
   // Watch intersections with headings
-  useIntersectionObserver(highlight, onScreenRef, elements);
+  const { intersecting } = useIntersectionObserver(elements);
+  const [activeId, setActiveId] = useState<string>();
 
-  const headingsSet = useRef<Set<HTMLHeadingElement>>(new Set());
-  const headingsRef = useRef<Heading[]>([]);
+  useEffect(() => {
+    const highlighted = intersecting!.reduce(
+      (a, b) => {
+        if (a) return a;
+        if (b.classList.contains('highlight')) return b.id;
+        return null;
+      },
+      null as string | null,
+    );
+    const active = [...(intersecting as HTMLElement[])].sort(
+      (a, b) => a.offsetTop - b.offsetTop,
+    )[0];
+    if (highlighted || active) setActiveId(highlighted || active.id);
+  }, [intersecting]);
+
+  const [headings, setHeadings] = useState<Heading[]>([]);
   useEffect(() => {
     let minLevel = 10;
-    const headings: Heading[] = elements
+    const thisHeadings: Heading[] = elements
       .map((element) => {
         return {
           element,
@@ -260,15 +245,10 @@ export function useHeaders(selector: string, maxdepth: number) {
         return heading.level < maxdepth + 1;
       });
 
-    headings.forEach(({ element: e }) => {
-      if (headingsSet.current.has(e)) return;
-      headingsSet.current.add(e);
-    });
-
-    headingsRef.current = headings;
+    setHeadings(thisHeadings);
   }, [elements]);
 
-  return { activeId, highlight, headings: headingsRef.current };
+  return { activeId, headings };
 }
 
 export function useOutlineHeight<T extends HTMLElement = HTMLElement>(
@@ -302,6 +282,9 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>(
   return { container, outline };
 }
 
+/**
+ * Determine whether the margin outline should be occluded by margin elements
+ */
 function useMarginOccluder() {
   const [occluded, setOccluded] = useState(false);
   const [elements, setElements] = useState<Element[]>([]);
@@ -335,16 +318,11 @@ function useMarginOccluder() {
 
   // Trigger initial update
   useEffect(onMutation, []);
-  // Watch for changes to on-screen elements
-  const onScreenRef = useRef<Set<HTMLHeadingElement>>(new Set());
-  const onChange = useCallback(() => {
-    if (!onScreenRef.current) {
-	    return;
-    }
-    setOccluded(onScreenRef.current.size > 0)
-  }, []);
   // Keep tabs of margin elements on screen
-  useIntersectionObserver(onChange, onScreenRef, elements, {rootMargin: "0px 0px -33% 0px"});
+  const { intersecting } = useIntersectionObserver(elements, { rootMargin: '0px 0px -33% 0px' });
+  useEffect(() => {
+    setOccluded(intersecting!.length > 0);
+  }, [intersecting]);
 
   return { occluded };
 }
@@ -356,6 +334,7 @@ export const DocumentOutline = ({
   selector = SELECTOR,
   children,
   maxdepth = 4,
+  isMargin,
 }: {
   outlineRef?: React.RefObject<HTMLElement>;
   top?: number;
@@ -364,13 +343,25 @@ export const DocumentOutline = ({
   selector?: string;
   children?: React.ReactNode;
   maxdepth?: number;
+  isMargin: boolean;
 }) => {
-  const { activeId, headings, highlight } = useHeaders(selector, maxdepth);
+  const { activeId, headings } = useHeaders(selector, maxdepth);
   const [open, setOpen] = useState(false);
-  
+
   // Keep track of changing occlusion
   const { occluded } = useMarginOccluder();
-  useEffect( ()=> setOpen(!occluded), [occluded] );
+
+  // Handle transition between margin and non-margin
+  useEffect(() => {
+      setOpen(true);
+  }, [isMargin]);
+
+  // Handle occlusion when outline is in margin
+  useEffect(() => {
+    if (isMargin) {
+      setOpen(!occluded);
+    }
+  }, [occluded, isMargin]);
 
   if (headings.length <= 1 || !onClient) {
     return <nav suppressHydrationWarning>{children}</nav>;
@@ -404,12 +395,7 @@ export const DocumentOutline = ({
           </Collapsible.Trigger>
         </div>
         <Collapsible.Content className="CollapsibleContent">
-          <Headings
-            headings={headings}
-            activeId={activeId}
-            highlight={highlight}
-            selector={selector}
-          />
+          <Headings headings={headings} activeId={activeId} />
           {children}
         </Collapsible.Content>
       </nav>

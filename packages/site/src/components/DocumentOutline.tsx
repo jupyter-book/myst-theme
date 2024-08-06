@@ -8,10 +8,10 @@ import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type { RefObject } from 'react';
 import { DocumentChartBarIcon } from '@heroicons/react/24/outline';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import * as Collapsible from '@radix-ui/react-collapsible';
-
 
 const SELECTOR = [1, 2, 3, 4].map((n) => `main h${n}`).join(', ');
 const HIGHLIGHT_CLASS = 'highlight';
@@ -108,11 +108,44 @@ function getHeaders(selector: string): HTMLHeadingElement[] {
   return headers as HTMLHeadingElement[];
 }
 
+type MutationCallback = (mutations: MutationRecord[], observer: MutationObserver) => void;
+
+function useMutationObserver(
+  targetRef: RefObject<HTMLElement>,
+  callback: MutationCallback,
+  options: Record<string, any>,
+) {
+  const [observer, setObserver] = useState<MutationObserver | null>(null);
+
+  // Create observer
+  useEffect(() => {
+    const obs = new MutationObserver(callback);
+    setObserver(obs);
+  }, [callback, setObserver]);
+
+  // Setup observer
+  useEffect(() => {
+    if (!observer || !targetRef.current) {
+      return;
+    }
+
+    try {
+      observer.observe(targetRef.current, options);
+    } catch (e) {
+      console.error(e);
+    }
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [observer]);
+}
+
 export function useHeaders(selector: string, maxdepth: number) {
   if (!onClient) return { activeId: '', headings: [] };
   const onScreen = useRef<Set<HTMLHeadingElement>>(new Set());
   const [activeId, setActiveId] = useState<string>();
-  const headingsSet = useRef<Set<HTMLHeadingElement>>(new Set());
 
   const highlight = useCallback(() => {
     const current = [...onScreen.current];
@@ -126,63 +159,82 @@ export function useHeaders(selector: string, maxdepth: number) {
     );
     const active = [...onScreen.current].sort((a, b) => a.offsetTop - b.offsetTop)[0];
     if (highlighted || active) setActiveId(highlighted || active.id);
+  }, [onScreen, setActiveId]);
+
+  // Keep track of main manually for now
+  const mainElementRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    mainElementRef.current = document.querySelector('main');
   }, []);
 
-  const { observer } = useIntersectionObserver(highlight, onScreen.current);
+  // Track changes to the DOM
   const [elements, setElements] = useState<HTMLHeadingElement[]>([]);
-
-  const render = throttle(() => setElements(getHeaders(selector)), 500);
-  useEffect(() => {
-    // We have to look at the document changes for reloads/mutations
-    const main = document.querySelector('main');
-    const mutations = new MutationObserver(render);
-    // Fire when added to the dom
-    render();
-    if (main) {
-      mutations.observe(main, { attributes: true, childList: true, subtree: true });
-    }
-    return () => mutations.disconnect();
-  }, []);
-
-  useEffect(() => {
-    // Re-observe all elements when the observer changes
-    Array.from(elements).map((e) => observer.current?.observe(e));
-  }, [observer]);
-
-  let minLevel = 10;
-  const headings: Heading[] = elements
-    .map((element) => {
-      return {
-        element,
-        level: Number(element.tagName.slice(1)),
-        id: element.id,
-        text: element.querySelector('.heading-text'),
-      };
-    })
-    .filter((h) => !!h.text)
-    .map(({ element, level, text, id }) => {
-      const { innerText: title, innerHTML: titleHTML } = cloneHeadingElement(
-        text as HTMLSpanElement,
-      );
-      minLevel = Math.min(minLevel, level);
-      return { element, title, titleHTML, id, level };
-    })
-    .filter((heading) => {
-      heading.level = heading.level - minLevel + 1;
-      return heading.level < maxdepth + 1;
-    });
-
-  headings.forEach(({ element: e }) => {
-    if (headingsSet.current.has(e)) return;
-    observer.current?.observe(e);
-    headingsSet.current.add(e);
+  const onMutation = useCallback(
+    throttle(
+      () => {
+        setElements(getHeaders(selector));
+      },
+      500,
+      { trailing: false },
+    ),
+    [selector],
+  );
+  useMutationObserver(mainElementRef, onMutation, {
+    attributes: true,
+    childList: true,
+    subtree: true,
   });
 
-  return { activeId, highlight, headings };
+  // Trigger initial update
+  useEffect(onMutation, []);
+
+  const { observer } = useIntersectionObserver(highlight, onScreen.current);
+  // Changes to the DOM mean we need to update our intersection observer
+  useEffect(() => {
+    // Re-observe all elements when the observer changes
+    Array.from(elements).map((e) => observer?.observe(e));
+  }, []);
+
+  const headingsSet = useRef<Set<HTMLHeadingElement>>(new Set());
+  const headingsRef = useRef<Heading[]>([]);
+  useEffect(() => {
+    let minLevel = 10;
+    const headings: Heading[] = elements
+      .map((element) => {
+        return {
+          element,
+          level: Number(element.tagName.slice(1)),
+          id: element.id,
+          text: element.querySelector('.heading-text'),
+        };
+      })
+      .filter((h) => !!h.text)
+      .map(({ element, level, text, id }) => {
+        const { innerText: title, innerHTML: titleHTML } = cloneHeadingElement(
+          text as HTMLSpanElement,
+        );
+        minLevel = Math.min(minLevel, level);
+        return { element, title, titleHTML, id, level };
+      })
+      .filter((heading) => {
+        heading.level = heading.level - minLevel + 1;
+        return heading.level < maxdepth + 1;
+      });
+
+    headings.forEach(({ element: e }) => {
+      if (headingsSet.current.has(e)) return;
+      observer?.observe(e);
+      headingsSet.current.add(e);
+    });
+
+    headingsRef.current = headings;
+  }, [elements]);
+
+  return { activeId, highlight, headings: headingsRef.current };
 }
 
 const useIntersectionObserver = (highlight: () => void, onScreen: Set<HTMLHeadingElement>) => {
-  const observer = useRef<IntersectionObserver | null>(null);
+  const [observer, setObserver] = useState<IntersectionObserver | null>(null);
   if (!onClient) return { observer };
   useEffect(() => {
     const callback: IntersectionObserverCallback = (entries) => {
@@ -192,7 +244,7 @@ const useIntersectionObserver = (highlight: () => void, onScreen: Set<HTMLHeadin
       highlight();
     };
     const o = new IntersectionObserver(callback);
-    observer.current = o;
+    setObserver(o);
     return () => o.disconnect();
   }, [highlight, onScreen]);
   return { observer };
@@ -251,38 +303,42 @@ export const DocumentOutline = ({
   }
   return (
     <Collapsible.Root>
-    <nav
-      ref={outlineRef}
-      aria-label="Document Outline"
-      className={classNames(
-        'not-prose overflow-y-auto',
-        'transition-opacity duration-700', // Animation on load
-        className,
-      )}
-      style={{
-        top: top,
-        maxHeight: `calc(100vh - ${top + 20}px)`,
-      }}
-    >
-      <div className="mb-4 flex flex-row text-sm gap-2 rounded-lg leading-6 uppercase text-slate-900 dark:text-slate-100">
-        In this article
-         
-      <Collapsible.Trigger asChild>
-      <button className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2">
-            <ChevronRightIcon
-              className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
-              height="1.5rem"
-              width="1.5rem"
-            />
-          </button>
-	  </Collapsible.Trigger>
-</div>
-    <Collapsible.Content className="CollapsibleContent">
-      <Headings headings={headings} activeId={activeId} highlight={highlight} selector={selector} />
-      {children}
-    </Collapsible.Content>
-    </nav>
-  </Collapsible.Root>
+      <nav
+        ref={outlineRef}
+        aria-label="Document Outline"
+        className={classNames(
+          'not-prose overflow-y-auto',
+          'transition-opacity duration-700', // Animation on load
+          className,
+        )}
+        style={{
+          top: top,
+          maxHeight: `calc(100vh - ${top + 20}px)`,
+        }}
+      >
+        <div className="mb-4 flex flex-row text-sm gap-2 rounded-lg leading-6 uppercase text-slate-900 dark:text-slate-100">
+          In this article
+          <Collapsible.Trigger asChild>
+            <button className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2">
+              <ChevronRightIcon
+                className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+                height="1.5rem"
+                width="1.5rem"
+              />
+            </button>
+          </Collapsible.Trigger>
+        </div>
+        <Collapsible.Content className="CollapsibleContent">
+          <Headings
+            headings={headings}
+            activeId={activeId}
+            highlight={highlight}
+            selector={selector}
+          />
+          {children}
+        </Collapsible.Content>
+      </nav>
+    </Collapsible.Root>
   );
 };
 

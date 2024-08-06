@@ -96,7 +96,11 @@ export const ArticlePage = React.memo(function ({
               className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
               style={{ top: top + TOP_OFFSET }}
             >
-              <DocumentOutline className="relative" maxdepth={outline_maxdepth} isMargin={isOutlineMargin} />
+              <DocumentOutline
+                className="relative"
+                maxdepth={outline_maxdepth}
+                isMargin={isOutlineMargin}
+              />
             </div>
           )}
           {compute?.enabled &&

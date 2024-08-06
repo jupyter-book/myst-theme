@@ -353,7 +353,7 @@ export const DocumentOutline = ({
 
   // Handle transition between margin and non-margin
   useEffect(() => {
-      setOpen(true);
+    setOpen(true);
   }, [isMargin]);
 
   // Handle occlusion when outline is in margin

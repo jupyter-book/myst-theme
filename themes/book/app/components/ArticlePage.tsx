@@ -15,7 +15,6 @@ import {
   DocumentOutline,
   extractKnownParts,
   Footnotes,
-  DEFAULT_NAV_HEIGHT,
 } from '@myst-theme/site';
 import type { SiteManifest } from 'myst-config';
 import type { PageLoader } from '@myst-theme/common';

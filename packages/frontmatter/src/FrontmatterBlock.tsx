@@ -74,11 +74,20 @@ export function DateString({
   spacer?: boolean;
 }) {
   if (!date) return null;
-  const d = new Date(date); // This is in the users timezone
-  const utcDate = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  // Parse the date, either using date's intrinsic timezone, or local timezone
+  const d = new Date(date);
+  // Rebuild the timezone aware date in UTC without applying the TZ shift)
+  const utcDate = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+
+  // Format the date as a machine-readable date
+  const isoString = utcDate.toISOString();
+  const match = isoString.match(/^\d+-\d+-\d+/);
+  const isoDateString = match ? match[0] : date;
+
+  // Now format as human-readable
   const dateString = utcDate.toLocaleDateString('en-US', format);
   return (
-    <time dateTime={date} className={classNames({ 'text-spacer': spacer })}>
+    <time dateTime={isoDateString} className={classNames({ 'text-spacer': spacer })}>
       {dateString}
     </time>
   );

@@ -76,7 +76,7 @@ export function DateString({
   if (!date) return null;
   // Parse the date, either using date's intrinsic timezone, or local timezone
   const d = new Date(date);
-  // Rebuild the timezone aware date in UTC without applying the TZ shift)
+  // Rebuild the timezone aware date in UTC without applying the TZ shift
   const utcDate = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
 
   // Format the date as a machine-readable date

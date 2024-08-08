@@ -1,6 +1,8 @@
 import type { LinksFunction, V2_MetaFunction, LoaderFunction } from '@remix-run/node';
 import tailwind from '~/styles/app.css';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
+import fontAwesomeCss from "@fortawesome/fontawesome-svg-core/styles.css";
+
 import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/common';
 import {
@@ -37,7 +39,7 @@ export const links: LinksFunction = () => {
     },
     {
       rel: 'stylesheet',
-      href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css',
+      href: fontAwesomeCss,
     },
   ];
 };

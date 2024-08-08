@@ -7,6 +7,7 @@ import GRID_RENDERERS from './grid.js';
 import CITE_RENDERERS from './cite.js';
 import FOOTNOTE_RENDERERS from './footnotes.js';
 import CODE_RENDERERS from './code.js';
+import ICON_RENDERERS from './icon.js';
 import MATH_RENDERERS from './math.js';
 import REACTIVE_RENDERERS from './reactive.js';
 import IFRAME_RENDERERS from './iframe.js';
@@ -40,6 +41,7 @@ export const DEFAULT_RENDERERS = mergeRenderers(
     MATH_RENDERERS,
     CITE_RENDERERS,
     TAB_RENDERERS,
+    ICON_RENDERERS,
     IFRAME_RENDERERS,
     FOOTNOTE_RENDERERS,
     ADMONITION_RENDERERS,

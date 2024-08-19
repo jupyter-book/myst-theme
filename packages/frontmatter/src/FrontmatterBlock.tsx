@@ -74,14 +74,16 @@ export function DateString({
   spacer?: boolean;
 }) {
   if (!date) return null;
-  // Parse the date, either using date's intrinsic timezone, or local timezone
-  const d = new Date(date);
-  // Rebuild the timezone aware date in UTC without applying the TZ shift
-  const utcDate = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  // Parse the date
+  // As this is a YYYY-MM-DD form, the parser interprets this as a UTC date
+  // (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#the_epoch_timestamps_and_invalid_date)
+  const utcDate = new Date(date);
 
+  // Now cast our UTC-date into the local timezone
+  const localDate = new Date(utcDate.getUTCFullYear(), utcDate.getUTCMonth(), utcDate.getUTCDate());
 
-  // Now format as human-readable
-  const dateString = utcDate.toLocaleDateString('en-US', format);
+  // Then format as human-readable in the local timezone.
+  const dateString = localDate.toLocaleDateString('en-US', format);
   return (
     <time dateTime={date} className={classNames({ 'text-spacer': spacer })}>
       {dateString}

@@ -79,15 +79,11 @@ export function DateString({
   // Rebuild the timezone aware date in UTC without applying the TZ shift
   const utcDate = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
 
-  // Format the date as a machine-readable date
-  const isoString = utcDate.toISOString();
-  const match = isoString.match(/^\d+-\d+-\d+/);
-  const isoDateString = match ? match[0] : date;
 
   // Now format as human-readable
   const dateString = utcDate.toLocaleDateString('en-US', format);
   return (
-    <time dateTime={isoDateString} className={classNames({ 'text-spacer': spacer })}>
+    <time dateTime={date} className={classNames({ 'text-spacer': spacer })}>
       {dateString}
     </time>
   );

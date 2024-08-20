@@ -3,7 +3,6 @@ module.exports = {
   appDirectory: 'app',
   assetsBuildDirectory: 'public/build',
   serverBuildPath: 'build/index.js',
-  serverModuleFormat: 'cjs',
   serverMinify: true,
   publicPath: '/myst_assets_folder/',
   ignoredRouteFiles: ['**/.*'],

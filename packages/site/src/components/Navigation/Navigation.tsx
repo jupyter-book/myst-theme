@@ -1,7 +1,14 @@
-import { useNavOpen, useThemeTop } from '@myst-theme/providers';
+import { useNavOpen, useSiteManifest, useThemeTop } from '@myst-theme/providers';
 import { PrimarySidebar } from './PrimarySidebar.js';
+import type { Heading } from '@myst-theme/common';
+import { getProjectHeadings } from '@myst-theme/common';
+import type { SiteManifest } from 'myst-config';
 
-export function Navigation({
+/**
+ * MobileNavigation will load nav links and headers from the site manifest and display
+ * them in a mobile-friendly format.
+ */
+export const MobileNavigation = ({
   children,
   projectSlug,
   sidebarRef,
@@ -13,14 +20,65 @@ export function Navigation({
   sidebarRef?: React.RefObject<HTMLDivElement>;
   hide_toc?: boolean;
   footer?: React.ReactNode;
-}) {
+}) => {
+  const config = useSiteManifest();
+  if (!config) return null;
+
+  const headings = getProjectHeadings(config, projectSlug, {
+    addGroups: false,
+  });
+
+  const { nav } = config;
+
+  return (
+    <ConfigurableMobileNavigation
+      children={children}
+      sidebarRef={sidebarRef}
+      hide_toc={hide_toc}
+      nav={nav}
+      headings={headings}
+      footer={footer}
+    />
+  );
+};
+
+/**
+@deprecated use MobileNavigation instead
+ */
+export const Navigation = MobileNavigation;
+
+/**
+ * ConfigurableMobileNavigation will display a mobile-friendly navigation sidebar based on the
+ * nav, headings, and footer provided by the caller. Use this in situations where the MobileNavigation
+ * component may pick up the wrong SiteManifest.
+ */
+export const ConfigurableMobileNavigation = ({
+  children,
+  sidebarRef,
+  hide_toc,
+  nav,
+  headings,
+  footer,
+}: {
+  children?: React.ReactNode;
+  sidebarRef?: React.RefObject<HTMLDivElement>;
+  hide_toc?: boolean;
+  nav?: SiteManifest['nav'];
+  headings?: Heading[];
+  footer?: React.ReactNode;
+}) => {
   const [open, setOpen] = useNavOpen();
   const top = useThemeTop();
+
   if (children)
     console.warn(
       `Including children in Navigation can break keyboard accessbility and is deprecated. Please move children to the page component.`,
     );
+
+  // the logic on the following line looks wrong, this will return `null` or `<></>`
+  // we should just return `null` if `hide_toc` is true?
   if (hide_toc) return children ? null : <>{children}</>;
+
   return (
     <>
       {open && (
@@ -30,8 +88,8 @@ export function Navigation({
           onClick={() => setOpen(false)}
         ></div>
       )}
-      <PrimarySidebar sidebarRef={sidebarRef} projectSlug={projectSlug} footer={footer} />
+      <PrimarySidebar sidebarRef={sidebarRef} nav={nav} headings={headings} footer={footer} />
       {children}
     </>
   );
-}
+};

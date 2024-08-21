@@ -7,15 +7,13 @@ import {
   useGridSystemProvider,
   useThemeTop,
 } from '@myst-theme/providers';
-import { getProjectHeadings } from '@myst-theme/common';
+import type { Heading } from '@myst-theme/common';
 import { Toc } from './TableOfContentsItems.js';
-
 import { ExternalOrInternalLink } from './Link.js';
 import type { SiteManifest, SiteNavItem } from 'myst-config';
-
 import * as Collapsible from '@radix-ui/react-collapsible';
-
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
+
 export function SidebarNavItem({ item }: { item: SiteNavItem }) {
   if (!item.children?.length) {
     return (
@@ -118,19 +116,23 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
 }
 
 export const PrimarySidebar = ({
-  projectSlug,
   sidebarRef,
+  nav,
   footer,
+  headings,
 }: {
   sidebarRef?: React.RefObject<HTMLElement>;
-  projectSlug?: string;
+  nav?: SiteManifest['nav'];
+  headings?: Heading[];
   footer?: React.ReactNode;
+  showNav?: boolean;
 }) => {
   const top = useThemeTop();
   const grid = useGridSystemProvider();
   const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
   const config = useSiteManifest();
+
   useEffect(() => {
     setTimeout(() => {
       if (!footerRef.current) return;
@@ -139,10 +141,7 @@ export const PrimarySidebar = ({
     }, 500);
   }, [footerRef]);
   if (!config) return null;
-  const headings = getProjectHeadings(config, projectSlug, {
-    addGroups: false,
-  });
-  const { nav } = config;
+
   return (
     <div
       ref={sidebarRef as any}
@@ -167,12 +166,14 @@ export const PrimarySidebar = ({
           },
         )}
       >
-        <nav
-          aria-label="Navigation"
-          className="overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden border-b-2"
-        >
-          <SidebarNav nav={nav} />
-        </nav>
+        {nav && (
+          <nav
+            aria-label="Navigation"
+            className="overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden border-b-2"
+          >
+            <SidebarNav nav={nav} />
+          </nav>
+        )}
         {headings && (
           <nav
             aria-label="Table of Contents"
@@ -191,27 +192,5 @@ export const PrimarySidebar = ({
         )}
       </div>
     </div>
-  );
-};
-
-export const InlineTableOfContents = ({
-  projectSlug,
-  sidebarRef,
-  className = 'flex-grow overflow-y-auto max-w-[350px]',
-}: {
-  projectSlug?: string;
-  className?: string;
-  sidebarRef?: React.RefObject<HTMLElement>;
-}) => {
-  const config = useSiteManifest();
-  if (!config) return null;
-  const headings = getProjectHeadings(config, projectSlug, {
-    addGroups: false,
-  });
-  if (!headings) return null;
-  return (
-    <nav aria-label="Table of Contents" className={className} ref={sidebarRef}>
-      <Toc headings={headings} />
-    </nav>
   );
 };

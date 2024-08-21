@@ -9,7 +9,7 @@ import {
   KatexCSS,
   useOutlineHeight,
   useSidebarHeight,
-  Navigation,
+  MobileNavigation,
   TopNav,
   getMetaTagsForArticle,
   ArticlePageCatchBoundary,
@@ -87,7 +87,7 @@ export function ArticlePageAndNavigation({
   return (
     <UiStateProvider>
       <TopNav hideToc={hide_toc} />
-      <Navigation
+      <MobileNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
         footer={<MadeWithMyst />}

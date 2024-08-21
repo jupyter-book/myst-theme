@@ -16,7 +16,7 @@ export function Abstract({
   if (!content) return null;
   return (
     <div className={className}>
-      <h2 id={id} className="mb-3 text-base font-semibold group">
+      <h2 id={id} className="mb-3 text-base font-semibold group not-prose">
         {title}
         <HashLink id={id} title={`Link to ${title}`} hover className="ml-2" />
       </h2>

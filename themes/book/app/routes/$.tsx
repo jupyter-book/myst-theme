@@ -97,7 +97,6 @@ export function ArticlePageAndNavigation({
         <article
           ref={container}
           className="article content article-grid grid-gap"
-          style={{ marginTop: top }}
         >
           {children}
         </article>

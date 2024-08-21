@@ -73,15 +73,20 @@ export function DateString({
   format?: Intl.DateTimeFormatOptions;
   spacer?: boolean;
 }) {
-  if (!date) return null;
+  if (date === undefined) return null;
   // Parse the date
   // As this is a YYYY-MM-DD form, the parser interprets this as a UTC date
   // (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#the_epoch_timestamps_and_invalid_date)
-  const utcDate = new Date(date);
+  let localDate: Date;
 
-  // Now cast our UTC-date into the local timezone
-  const localDate = new Date(utcDate.getUTCFullYear(), utcDate.getUTCMonth(), utcDate.getUTCDate());
+  if (date === null) {
+    localDate = new Date();
+  } else {
+    const utcDate = new Date(date);
 
+    // Now cast our UTC-date into the local timezone
+    localDate = new Date(utcDate.getUTCFullYear(), utcDate.getUTCMonth(), utcDate.getUTCDate());
+  }
   // Then format as human-readable in the local timezone.
   const dateString = localDate.toLocaleDateString('en-US', format);
   return (
@@ -222,7 +227,7 @@ export function FrontmatterBlock({
   const hasAuthors = authors && authors.length > 0;
   const hasBadges = !!open_access || !!license || !!hasExports || !!isJupyter || !!github;
   const hasHeaders = !!subject || !!venue || !!biblio;
-  const hasDateOrDoi = !!doi || !!date;
+  const hasDateOrDoi = !!doi || date !== undefined;
   const showHeaderBlock = hasHeaders || (hasBadges && !hideBadges) || (hasExports && !hideExports);
   if (!title && !subtitle && !showHeaderBlock && !hasAuthors && !hasDateOrDoi) {
     // Nothing to show!

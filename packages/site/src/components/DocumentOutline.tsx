@@ -301,8 +301,10 @@ function useMarginOccluder() {
         if (!mainElementRef.current) {
           return;
         }
-	// Watch margin elements, or their direct descendents (as some margin elements have height set to zero)
-        const marginElements = mainElementRef.current.querySelectorAll('.col-margin-right, .col-margin-right > *');
+        // Watch margin elements, or their direct descendents (as some margin elements have height set to zero)
+        const marginElements = mainElementRef.current.querySelectorAll(
+          '.col-margin-right, .col-margin-right > *',
+        );
         setElements(Array.from(marginElements));
       },
       500,

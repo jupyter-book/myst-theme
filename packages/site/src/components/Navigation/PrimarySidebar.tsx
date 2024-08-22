@@ -158,6 +158,7 @@ export const PrimarySidebar = ({
           'pointer-events-auto',
           'xl:col-margin-left flex-col',
           'overflow-hidden',
+          'py-6 gap-6',
           // 'border-r border-stone-200 dark:border-stone-700',
           {
             flex: open,
@@ -169,7 +170,7 @@ export const PrimarySidebar = ({
         {nav && (
           <nav
             aria-label="Navigation"
-            className="overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden border-b-2"
+            className="overflow-y-auto transition-opacity pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden border-b-2"
           >
             <SidebarNav nav={nav} />
           </nav>
@@ -177,7 +178,7 @@ export const PrimarySidebar = ({
         {headings && (
           <nav
             aria-label="Table of Contents"
-            className="flex-grow overflow-y-auto transition-opacity mt-6 pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px]"
+            className="flex-grow overflow-y-auto transition-opacity pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px]"
           >
             <Toc headings={headings} />
           </nav>

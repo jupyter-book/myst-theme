@@ -57,7 +57,7 @@ export const ArticlePage = React.memo(function ({
             <FrontmatterBlock
               kind={article.kind}
               frontmatter={{ ...article.frontmatter, downloads }}
-              className="pt-5 mb-8"
+              className="mb-8 pt-9"
             />
           )}
           {compute?.enabled &&

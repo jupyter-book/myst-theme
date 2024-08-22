@@ -228,7 +228,7 @@ export function FrontmatterBlock({
       className={classNames(className)}
     >
       {showHeaderBlock && (
-        <div className="flex items-center h-6 mt-3 mb-5 text-sm font-light">
+        <div className="flex items-center h-6 mb-5 text-sm font-light">
           {subject && (
             <div
               className={classNames('flex-none pr-2 smallcaps', {

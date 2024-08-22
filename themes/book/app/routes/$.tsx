@@ -97,7 +97,8 @@ export function ArticlePageAndNavigation({
         <article
           ref={container}
           className="article content article-grid grid-gap"
-          style={{ marginTop: top }}
+          // article does not neet to get top as it is in the page flow (z-0)
+          // style={{ marginTop: top }}
         >
           {children}
         </article>

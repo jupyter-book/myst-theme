@@ -87,15 +87,15 @@ export const ArticlePage = React.memo(function ({
             <FrontmatterBlock
               kind={article.kind}
               frontmatter={{ ...article.frontmatter, downloads }}
-              className="pt-5 mb-8"
+              className="mb-8 pt-9"
             />
           )}
           {!hide_outline && (
             <div
-              className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
-              style={{ top: top + TOP_OFFSET }}
+              className="block my-10 lg:sticky lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
+              style={{ top }}
             >
-              <DocumentOutline className="relative" maxdepth={outline_maxdepth} />
+              <DocumentOutline className="relative mt-9" maxdepth={outline_maxdepth} />
             </div>
           )}
           {compute?.enabled &&

@@ -120,12 +120,19 @@ const WrapperElement = ({
   dropdown,
   className,
   children,
+  open,
 }: {
   className?: string;
   children: React.ReactNode;
   dropdown?: boolean;
+  open?: boolean;
 }) => {
-  if (dropdown) return <details className={className}>{children}</details>;
+  if (dropdown)
+    return (
+      <details className={className} open={open}>
+        {children}
+      </details>
+    );
   return <aside className={className}>{children}</aside>;
 };
 
@@ -151,6 +158,7 @@ export function Admonition({
   children,
   hideIcon,
   className,
+  open,
 }: {
   title?: React.ReactNode;
   color?: Color;
@@ -160,10 +168,12 @@ export function Admonition({
   dropdown?: boolean;
   hideIcon?: boolean;
   className?: string;
+  open?: boolean;
 }) {
   return (
     <WrapperElement
       dropdown={dropdown}
+      open={open}
       className={classNames(
         'my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
         'bg-gray-50/10 dark:bg-stone-800',
@@ -239,6 +249,7 @@ export const AdmonitionRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
   const isDropdown = classes.includes('dropdown');
   const isSimple = classes.includes('simple');
   const hideIcon = node.icon === false;
+  const isOpen = node.open === true;
 
   const useTitle = title?.type === 'admonitionTitle';
 
@@ -248,6 +259,7 @@ export const AdmonitionRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
       kind={kind}
       color={color}
       dropdown={isDropdown}
+      open={isOpen}
       simple={isSimple}
       hideIcon={hideIcon}
       className={classNames(classes)}

@@ -86,7 +86,7 @@ export const ConfigurablePrimaryNavigation = ({
 
   return (
     <>
-      {open && (
+      {open && !mobileOnly && headings && (
         <div
           className="fixed inset-0 z-30 bg-black opacity-50"
           style={{ marginTop: top }}

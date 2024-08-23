@@ -159,16 +159,16 @@ export const PrimarySidebar = ({
           'pointer-events-auto',
           'xl:col-margin-left flex-col',
           'overflow-hidden',
-          'py-6 gap-6',
           {
             flex: open,
             'bg-white dark:bg-stone-900': open, // just apply when open, so that theme can transition
             'hidden xl:flex': !open && !mobileOnly,
             hidden: !open && mobileOnly,
+            'lg:hidden': mobileOnly && !headings,
           },
         )}
       >
-        <div className="flex-grow space-y-6 overflow-y-auto">
+        <div className="flex-grow py-6 overflow-y-auto">
           {nav && (
             <nav
               aria-label="Navigation"
@@ -177,7 +177,7 @@ export const PrimarySidebar = ({
               <SidebarNav nav={nav} />
             </nav>
           )}
-          {nav && headings && <div className="border-b-2 lg:hidden" />}
+          {nav && headings && <div className="my-3 border-b-2 lg:hidden" />}
           {headings && (
             <nav
               aria-label="Table of Contents"
@@ -189,7 +189,7 @@ export const PrimarySidebar = ({
         </div>
         {footer && (
           <div
-            className="flex-none py-4 transition-all duration-700 translate-y-6 opacity-0"
+            className="flex-none py-6 transition-all duration-700 translate-y-6 opacity-0"
             ref={footerRef}
           >
             {footer}

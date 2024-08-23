@@ -160,7 +160,6 @@ export const PrimarySidebar = ({
           'xl:col-margin-left flex-col',
           'overflow-hidden',
           'py-6 gap-6',
-          // 'border-r border-stone-200 dark:border-stone-700',
           {
             flex: open,
             'bg-white dark:bg-stone-900': open, // just apply when open, so that theme can transition
@@ -169,23 +168,25 @@ export const PrimarySidebar = ({
           },
         )}
       >
-        {nav && (
-          <nav
-            aria-label="Navigation"
-            className="overflow-y-auto transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden"
-          >
-            <SidebarNav nav={nav} />
-          </nav>
-        )}
-        {nav && headings && <div className="border-b-2 lg:hidden" />}
-        {headings && (
-          <nav
-            aria-label="Table of Contents"
-            className="flex-grow overflow-y-auto transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px]"
-          >
-            <Toc headings={headings} />
-          </nav>
-        )}
+        <div className="flex-grow space-y-6 overflow-y-auto">
+          {nav && (
+            <nav
+              aria-label="Navigation"
+              className="overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden"
+            >
+              <SidebarNav nav={nav} />
+            </nav>
+          )}
+          {nav && headings && <div className="border-b-2 lg:hidden" />}
+          {headings && (
+            <nav
+              aria-label="Table of Contents"
+              className="flex-grow overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px]"
+            >
+              <Toc headings={headings} />
+            </nav>
+          )}
+        </div>
         {footer && (
           <div
             className="flex-none py-4 transition-all duration-700 translate-y-6 opacity-0"

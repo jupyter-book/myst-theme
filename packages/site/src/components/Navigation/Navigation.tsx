@@ -8,17 +8,19 @@ import type { SiteManifest } from 'myst-config';
  * MobileNavigation will load nav links and headers from the site manifest and display
  * them in a mobile-friendly format.
  */
-export const MobileNavigation = ({
+export const PrimaryNavigation = ({
   children,
   projectSlug,
   sidebarRef,
   hide_toc,
+  mobileOnly,
   footer,
 }: {
   children?: React.ReactNode;
   projectSlug?: string;
   sidebarRef?: React.RefObject<HTMLDivElement>;
   hide_toc?: boolean;
+  mobileOnly?: boolean;
   footer?: React.ReactNode;
 }) => {
   const config = useSiteManifest();
@@ -31,10 +33,11 @@ export const MobileNavigation = ({
   const { nav } = config;
 
   return (
-    <ConfigurableMobileNavigation
+    <ConfigurablePrimaryNavigation
       children={children}
       sidebarRef={sidebarRef}
       hide_toc={hide_toc}
+      mobileOnly={mobileOnly}
       nav={nav}
       headings={headings}
       footer={footer}
@@ -43,19 +46,20 @@ export const MobileNavigation = ({
 };
 
 /**
-@deprecated use MobileNavigation instead
+@deprecated use PrimaryNavigation instead
  */
-export const Navigation = MobileNavigation;
+export const Navigation = PrimaryNavigation;
 
 /**
  * ConfigurableMobileNavigation will display a mobile-friendly navigation sidebar based on the
  * nav, headings, and footer provided by the caller. Use this in situations where the MobileNavigation
  * component may pick up the wrong SiteManifest.
  */
-export const ConfigurableMobileNavigation = ({
+export const ConfigurablePrimaryNavigation = ({
   children,
   sidebarRef,
   hide_toc,
+  mobileOnly,
   nav,
   headings,
   footer,
@@ -63,6 +67,7 @@ export const ConfigurableMobileNavigation = ({
   children?: React.ReactNode;
   sidebarRef?: React.RefObject<HTMLDivElement>;
   hide_toc?: boolean;
+  mobileOnly?: boolean;
   nav?: SiteManifest['nav'];
   headings?: Heading[];
   footer?: React.ReactNode;
@@ -88,7 +93,13 @@ export const ConfigurableMobileNavigation = ({
           onClick={() => setOpen(false)}
         ></div>
       )}
-      <PrimarySidebar sidebarRef={sidebarRef} nav={nav} headings={headings} footer={footer} />
+      <PrimarySidebar
+        sidebarRef={sidebarRef}
+        nav={nav}
+        headings={headings}
+        footer={footer}
+        mobileOnly={mobileOnly}
+      />
       {children}
     </>
   );

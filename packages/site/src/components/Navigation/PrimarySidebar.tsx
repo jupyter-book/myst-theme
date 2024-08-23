@@ -172,15 +172,16 @@ export const PrimarySidebar = ({
         {nav && (
           <nav
             aria-label="Navigation"
-            className="overflow-y-auto transition-opacity pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden border-b-2"
+            className="overflow-y-auto transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden"
           >
             <SidebarNav nav={nav} />
           </nav>
         )}
+        {nav && headings && <div className="border-b-2 lg:hidden" />}
         {headings && (
           <nav
             aria-label="Table of Contents"
-            className="flex-grow overflow-y-auto transition-opacity pb-3 ml-3 xl:ml-0 mr-3 max-w-[350px]"
+            className="flex-grow overflow-y-auto transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px]"
           >
             <Toc headings={headings} />
           </nav>

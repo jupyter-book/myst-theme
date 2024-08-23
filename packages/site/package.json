@@ -10,9 +10,13 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
+    "clean": "rimraf dist",
     "compile": "tsc --noEmit",
     "lint": "eslint src/**/*.ts*",
-    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\""
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "dev": "npm-run-all --parallel \"build:* -- --watch\"",
+    "build:esm": "tsc",
+    "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",

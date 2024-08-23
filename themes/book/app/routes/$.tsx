@@ -8,8 +8,8 @@ import { getProject, isFlatSite, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
   useOutlineHeight,
-  useTocHeight,
-  Navigation,
+  useSidebarHeight,
+  PrimaryNavigation,
   TopNav,
   getMetaTagsForArticle,
   ArticlePageCatchBoundary,
@@ -83,12 +83,12 @@ export function ArticlePageAndNavigation({
   inset?: number;
 }) {
   const top = useThemeTop();
-  const { container, toc } = useTocHeight(top, inset);
+  const { container, toc } = useSidebarHeight(top, inset);
   return (
     <UiStateProvider>
-      <TopNav hideToc={ hide_toc } />
-      <Navigation
-        tocRef={toc}
+      <TopNav hideToc={hide_toc} />
+      <PrimaryNavigation
+        sidebarRef={toc}
         hide_toc={hide_toc}
         footer={<MadeWithMyst />}
         projectSlug={projectSlug}
@@ -97,7 +97,8 @@ export function ArticlePageAndNavigation({
         <article
           ref={container}
           className="article content article-grid grid-gap"
-          style={{ marginTop: top }}
+          // article does not neet to get top as it is in the page flow (z-0)
+          // style={{ marginTop: top }}
         >
           {children}
         </article>
@@ -105,7 +106,6 @@ export function ArticlePageAndNavigation({
     </UiStateProvider>
   );
 }
-
 
 export default function Page() {
   const { container } = useOutlineHeight();

@@ -85,7 +85,7 @@ export function ArticleHeader({
               frontmatter={rest}
               authorStyle="list"
               className={classNames('flex-grow', {
-                'pt-4 px-6': frontmatter?.banner,
+                'pt-6 px-6': frontmatter?.banner,
                 ...positionFrontmatter,
               })}
               hideBadges

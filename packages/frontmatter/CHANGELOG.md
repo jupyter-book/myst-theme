@@ -1,5 +1,13 @@
 # @myst-theme/frontmatter
 
+## 0.10.0
+
+### Patch Changes
+
+- f0b52512: Some alignment fixes, leaving more control over content top alignment to the theme
+- 2778ea6a: Add a tooltip for the Jupyter Notebook icon
+- d80bcce4: Don't apply timezone transforms to date strings
+
 ## 0.9.10
 
 ## 0.9.9

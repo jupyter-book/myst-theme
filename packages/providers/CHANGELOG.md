@@ -1,5 +1,12 @@
 # @myst-theme/providers
 
+## 0.10.0
+
+### Patch Changes
+
+- Updated dependencies [f0b52512]
+  - @myst-theme/common@0.10.0
+
 ## 0.9.10
 
 ### Patch Changes

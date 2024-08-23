@@ -5,7 +5,7 @@ import { getProjectHeadings } from '@myst-theme/common';
 import type { SiteManifest } from 'myst-config';
 
 /**
- * MobileNavigation will load nav links and headers from the site manifest and display
+ * PrimaryNavigation will load nav links and headers from the site manifest and display
  * them in a mobile-friendly format.
  */
 export const PrimaryNavigation = ({
@@ -51,8 +51,8 @@ export const PrimaryNavigation = ({
 export const Navigation = PrimaryNavigation;
 
 /**
- * ConfigurableMobileNavigation will display a mobile-friendly navigation sidebar based on the
- * nav, headings, and footer provided by the caller. Use this in situations where the MobileNavigation
+ * ConfigurablePrimaryNavigation will display a mobile-friendly navigation sidebar based on the
+ * nav, headings, and footer provided by the caller. Use this in situations where the PrimaryNavigation
  * component may pick up the wrong SiteManifest.
  */
 export const ConfigurablePrimaryNavigation = ({

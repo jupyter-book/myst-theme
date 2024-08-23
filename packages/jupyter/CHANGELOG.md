@@ -1,5 +1,15 @@
 # @myst-theme/jupyter
 
+## 0.10.0
+
+### Patch Changes
+
+- 6039d806: 📌 Pin `thebe` dependecies to `0.4.7`
+- Updated dependencies [7d8819d8]
+- Updated dependencies [8e5320bb]
+  - myst-to-react@0.10.0
+  - @myst-theme/providers@0.10.0
+
 ## 0.9.10
 
 ### Patch Changes

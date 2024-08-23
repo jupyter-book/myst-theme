@@ -1,5 +1,29 @@
 # @myst-theme/book
 
+## 0.10.0
+
+### Patch Changes
+
+- f0b52512: Some alignment fixes, leaving more control over content top alignment to the theme
+- 61e24ace: Hide TOC hamburger when TOC is hidden, remove unused option
+- f0b52512: Renamed `Navigation` component and split for re-use in different (composed/multi-site) themes
+- f0b52512: Rework TOC to PrimarySidebar
+- Updated dependencies [a438bba1]
+- Updated dependencies [f0b52512]
+- Updated dependencies [61e24ace]
+- Updated dependencies [d4e240a6]
+- Updated dependencies [cdddd32b]
+- Updated dependencies [6039d806]
+- Updated dependencies [f0b52512]
+- Updated dependencies [f0b52512]
+- Updated dependencies [f0b52512]
+  - @myst-theme/site@0.10.0
+  - @myst-theme/styles@0.10.0
+  - @myst-theme/jupyter@0.10.0
+  - @myst-theme/common@0.10.0
+  - @myst-theme/providers@0.10.0
+  - @myst-theme/icons@0.10.0
+
 ## 0.9.10
 
 ### Patch Changes

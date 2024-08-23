@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.10.0
+
+### Patch Changes
+
+- f0b52512: Modified `getProjectHeadings` to work with plain `projectSlugs` to support custom theme routes that use `baseurl` but have no separate project.
+
 ## 0.9.10
 
 ### Patch Changes

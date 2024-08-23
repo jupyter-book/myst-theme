@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.10.0
+
+### Patch Changes
+
+- d4e240a6: Add support for styling sphinx
+
 ## 0.9.10
 
 ## 0.9.9

@@ -120,12 +120,13 @@ export const PrimarySidebar = ({
   nav,
   footer,
   headings,
+  mobileOnly,
 }: {
   sidebarRef?: React.RefObject<HTMLElement>;
   nav?: SiteManifest['nav'];
   headings?: Heading[];
   footer?: React.ReactNode;
-  showNav?: boolean;
+  mobileOnly?: boolean;
 }) => {
   const top = useThemeTop();
   const grid = useGridSystemProvider();
@@ -163,7 +164,8 @@ export const PrimarySidebar = ({
           {
             flex: open,
             'bg-white dark:bg-stone-900': open, // just apply when open, so that theme can transition
-            'hidden xl:flex': !open,
+            'hidden xl:flex': !open && !mobileOnly,
+            hidden: !open && mobileOnly,
           },
         )}
       >

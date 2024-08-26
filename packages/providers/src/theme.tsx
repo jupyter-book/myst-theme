@@ -65,11 +65,14 @@ function getPreferredTheme() {
   return window.matchMedia(PREFERS_LIGHT_MQ).matches ? Theme.light : Theme.dark;
 }
 
+const THEME_KEY = 'myst:theme';
+
 const CLIENT_THEME_SOURCE = `
+  const savedTheme = localStorage.getItem(${JSON.stringify(THEME_KEY)});
   const theme = window.matchMedia(${JSON.stringify(PREFERS_LIGHT_MQ)}).matches ? 'light' : 'dark';
   const classes = document.documentElement.classList;
   const hasAnyTheme = classes.contains('light') || classes.contains('dark');
-  if (!hasAnyTheme) classes.add(theme);
+  if (!hasAnyTheme) classes.add(savedTheme ?? theme);
 `;
 
 /**
@@ -79,7 +82,6 @@ export function BlockingThemeLoader() {
   return <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />;
 }
 
-const THEME_KEY = 'myst:theme';
 
 export function ThemeProvider({
   children,

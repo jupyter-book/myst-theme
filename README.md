@@ -30,8 +30,6 @@ The core themes are also included in this repository to aid in development.
 
 **Themes:**
 
-These are included as submodules, use `git clone --recursive` when first cloning.
-
 - `@myst-theme/book`: Designed to mimic the look-and-feel of an interactive book.
 - `@myst-theme/article`: A single-page view of an article with associated notebooks or supporting sub-articles.
 

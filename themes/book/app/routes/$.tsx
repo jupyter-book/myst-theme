@@ -8,11 +8,12 @@ import { getProject, isFlatSite, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
   useOutlineHeight,
-  useTocHeight,
-  Navigation,
+  useSidebarHeight,
+  PrimaryNavigation,
   TopNav,
   getMetaTagsForArticle,
-  ArticlePageCatchBoundary,
+  ErrorDocumentNotFound,
+  ErrorUnhandled,
 } from '@myst-theme/site';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
@@ -29,9 +30,10 @@ import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { ArticlePage } from '../components/ArticlePage.js';
 import type { TemplateOptions } from '../types.js';
+import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction = ({ data, matches, location }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;
@@ -83,12 +85,12 @@ export function ArticlePageAndNavigation({
   inset?: number;
 }) {
   const top = useThemeTop();
-  const { container, toc } = useTocHeight(top, inset);
+  const { container, toc } = useSidebarHeight(top, inset);
   return (
     <UiStateProvider>
-      <TopNav hideToc={ hide_toc } />
-      <Navigation
-        tocRef={toc}
+      <TopNav hideToc={hide_toc} />
+      <PrimaryNavigation
+        sidebarRef={toc}
         hide_toc={hide_toc}
         footer={<MadeWithMyst />}
         projectSlug={projectSlug}
@@ -97,7 +99,8 @@ export function ArticlePageAndNavigation({
         <article
           ref={container}
           className="article content article-grid grid-gap"
-          style={{ marginTop: top }}
+          // article does not neet to get top as it is in the page flow (z-0)
+          // style={{ marginTop: top }}
         >
           {children}
         </article>
@@ -105,7 +108,6 @@ export function ArticlePageAndNavigation({
     </UiStateProvider>
   );
 }
-
 
 export default function Page() {
   const { container } = useOutlineHeight();
@@ -136,11 +138,16 @@ export default function Page() {
   );
 }
 
-export function CatchBoundary() {
+export function ErrorBoundary() {
+  const error = useRouteError();
   return (
     <ArticlePageAndNavigation>
       <main className="article">
-        <ArticlePageCatchBoundary />
+        {isRouteErrorResponse(error) ? (
+          <ErrorDocumentNotFound />
+        ) : (
+          <ErrorUnhandled error={error as any} />
+        )}
       </main>
     </ArticlePageAndNavigation>
   );

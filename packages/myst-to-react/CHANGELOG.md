@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.10.0
+
+### Patch Changes
+
+- 7d8819d8: Add id to span/div nodes
+- 8e5320bb: Admonitions can start open
+  - @myst-theme/providers@0.10.0
+
 ## 0.9.10
 
 ### Patch Changes

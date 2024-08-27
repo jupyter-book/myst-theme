@@ -12,10 +12,13 @@ import {
   useLoaderData,
   Link,
   NavLink,
+  useRouteError,
+  isRouteErrorResponse,
 } from '@remix-run/react';
 import { DEFAULT_NAV_HEIGHT, renderers as defaultRenderers } from '../components/index.js';
 import { Analytics } from '../seo/index.js';
 import { Error404 } from './Error404.js';
+import { ErrorUnhandled } from './ErrorUnhandled.js';
 import classNames from 'classnames';
 
 export function Document({
@@ -86,12 +89,13 @@ export function App() {
   );
 }
 
-export function AppCatchBoundary() {
+export function AppErrorBoundary() {
+  const error = useRouteError();
   return (
     <Document theme={Theme.light}>
       <article className="article">
         <main className="article-grid subgrid-gap col-screen">
-          <Error404 />
+          {isRouteErrorResponse(error) ? <Error404 /> : <ErrorUnhandled error={error as any} />}
         </main>
       </article>
     </Document>

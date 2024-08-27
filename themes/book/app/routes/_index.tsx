@@ -13,7 +13,7 @@ import { getProject } from '@myst-theme/common';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction = ({ data, location }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;

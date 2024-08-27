@@ -1,5 +1,26 @@
 # @myst-theme/article
 
+## 0.10.0
+
+### Patch Changes
+
+- 61e24ace: Hide TOC hamburger when TOC is hidden, remove unused option
+- Updated dependencies [a438bba1]
+- Updated dependencies [f0b52512]
+- Updated dependencies [61e24ace]
+- Updated dependencies [d4e240a6]
+- Updated dependencies [cdddd32b]
+- Updated dependencies [6039d806]
+- Updated dependencies [f0b52512]
+- Updated dependencies [f0b52512]
+- Updated dependencies [f0b52512]
+  - @myst-theme/site@0.10.0
+  - @myst-theme/styles@0.10.0
+  - @myst-theme/jupyter@0.10.0
+  - @myst-theme/common@0.10.0
+  - @myst-theme/providers@0.10.0
+  - @myst-theme/icons@0.10.0
+
 ## 0.9.10
 
 ### Patch Changes

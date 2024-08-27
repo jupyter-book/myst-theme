@@ -3,6 +3,7 @@ module.exports = {
   appDirectory: 'app',
   assetsBuildDirectory: 'public/build',
   serverBuildPath: 'build/index.js',
+  serverModuleFormat: 'cjs',
   serverMinify: true,
   publicPath: '/myst_assets_folder/',
   ignoredRouteFiles: ['**/.*'],
@@ -12,5 +13,6 @@ module.exports = {
     v2_normalizeFormMethod: true,
     v2_headers: true,
     v2_meta: true,
+    v2_errorBoundary:true,
   },
 };

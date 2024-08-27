@@ -10,6 +10,7 @@
 @import './block-styles.css';
 @import './jupyter.css';
 @import './tasklists.css';
+@import './sphinx.css';
 @import './grid.css';
 @import './hover.css';
 @import './proof.css';

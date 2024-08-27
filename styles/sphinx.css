@@ -1,0 +1,56 @@
+.sphinx-desc-addname,
+.sphinx-desc-inline,
+.sphinx-desc-name,
+.sphinx-desc-returns,
+.sphinx-desc-optional,
+.sphinx-desc-parameterlist,
+.sphinx-desc-sig-element,
+.sphinx-desc-sig-keyword,
+.sphinx-desc-sig-keyword-type,
+.sphinx-desc-sig-literal-char,
+.sphinx-desc-sig-literal-number,
+.sphinx-desc-sig-literal-string,
+.sphinx-desc-sig-name,
+.sphinx-desc-signature-line,
+.sphinx-desc-sig-operator,
+.sphinx-desc-sig-punctuation,
+.sphinx-desc-sig-space,
+.sphinx-desc-type,
+.sphinx-desc-type-parameter {
+  @apply whitespace-pre;
+}
+.sphinx-desc-name {
+  @apply font-bold text-[1.1em];
+}
+.sphinx-desc-signature {
+  @apply font-mono font-light;
+}
+.sphinx-desc-returns {
+  @apply before:content-['_→_'];
+}
+
+/* .sphinx-desc > .sphinx-desc-signature */
+dl > dt:has([class^='sphinx-desc-']) {
+  @apply font-mono font-light;
+}
+
+/* .sphinx-desc > .sphinx-desc-signature */
+dl > dt:has([class^='sphinx-desc-']) > em {
+  @apply whitespace-pre;
+}
+
+/* .sphinx-desc > .sphinx-desc-content > dl:not(:has(.sphinx-dex)) */
+dl:has(> dt > [class^='sphinx-desc-']) > dd > dl:not(:has(> dt > [class^='sphinx-desc-'])) {
+  display: grid;
+  grid-template-columns: fit-content(30%) auto;
+}
+
+/* .sphinx-desc > .sphinx-desc-content > dl:not(:has(.sphinx-dex)) > dd > p */
+dl:has(> dt > [class^='sphinx-desc-']) > dd > dl:not(:has(> dt > [class^='sphinx-desc-'])) > dd > p {
+  margin: unset !important; /* Undo some generic theming */
+}
+
+/* .sphinx-desc > .sphinx-desc-content > dl:not(:has(.sphinx-dex)) > *:is(dt, dd) */
+dl:has(> dt > [class^='sphinx-desc-']) > dd > dl:not(:has(> dt > [class^='sphinx-desc-'])) > *:is(dt, dd) {
+  margin: unset !important; /* Undo some generic theming */
+}

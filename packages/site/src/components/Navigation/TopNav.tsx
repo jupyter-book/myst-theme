@@ -13,45 +13,9 @@ import {
 import { LoadingBar } from './Loading.js';
 import { HomeLink } from './HomeLink.js';
 import { ActionMenu } from './ActionMenu.js';
+import { ExternalOrInternalLink } from './Link.js';
 
 export const DEFAULT_NAV_HEIGHT = 60;
-
-function ExternalOrInternalLink({
-  to,
-  className,
-  children,
-  nav,
-  prefetch = 'intent',
-}: {
-  to: string;
-  className?: string | ((props: { isActive: boolean }) => string);
-  children: React.ReactNode;
-  nav?: boolean;
-  prefetch?: 'intent' | 'render' | 'none';
-}) {
-  const Link = useLinkProvider();
-  const NavLink = useNavLinkProvider();
-  const staticClass = typeof className === 'function' ? className({ isActive: false }) : className;
-  if (to.startsWith('http') || to.startsWith('mailto:')) {
-    return (
-      <a href={to} target="_blank" rel="noopener noreferrer" className={staticClass}>
-        {children}
-      </a>
-    );
-  }
-  if (nav) {
-    return (
-      <NavLink prefetch={prefetch} to={to} className={className}>
-        {children}
-      </NavLink>
-    );
-  }
-  return (
-    <Link prefetch={prefetch} to={to} className={staticClass}>
-      {children}
-    </Link>
-  );
-}
 
 export function NavItem({ item }: { item: SiteNavItem }) {
   const NavLink = useNavLinkProvider();

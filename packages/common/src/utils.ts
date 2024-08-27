@@ -40,7 +40,10 @@ export function getProjectHeadings(
     },
     ...project.pages.map((p) => {
       if (!('slug' in p)) return p;
-      return { ...p, path: projectSlug ? `/${project.slug}/${p.slug}` : `/${p.slug}` };
+      return {
+        ...p,
+        path: projectSlug && project.slug ? `/${project.slug}/${p.slug}` : `/${p.slug}`,
+      };
     }),
   ];
   if (opts.addGroups) {

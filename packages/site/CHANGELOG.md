@@ -1,5 +1,34 @@
 # @myst-theme/site
 
+## 0.10.0
+
+### Minor Changes
+
+- f0b52512: Rework TOC to PrimarySidebar
+
+### Patch Changes
+
+- a438bba1: Removing remix 2.0 peer dep
+- f0b52512: Some alignment fixes, leaving more control over content top alignment to the theme
+- 61e24ace: Hide TOC hamburger when TOC is hidden, remove unused option
+- cdddd32b: Improve navbar UX for small viewports
+- 6039d806: 📌 Pin `thebe` dependecies to `0.4.7`
+- f0b52512: Renamed `Navigation` component and split for re-use in different (composed/multi-site) themes
+- Updated dependencies [f0b52512]
+- Updated dependencies [7d8819d8]
+- Updated dependencies [2778ea6a]
+- Updated dependencies [6039d806]
+- Updated dependencies [d80bcce4]
+- Updated dependencies [f0b52512]
+- Updated dependencies [8e5320bb]
+  - @myst-theme/frontmatter@0.10.0
+  - myst-to-react@0.10.0
+  - @myst-theme/jupyter@0.10.0
+  - @myst-theme/common@0.10.0
+  - @myst-theme/providers@0.10.0
+  - @myst-theme/diagrams@0.10.0
+  - myst-demo@0.10.0
+
 ## 0.9.10
 
 ### Patch Changes
@@ -1077,10 +1106,10 @@
 - 8af808bf: Remove css updates for document nav and outline from React state
 
   ```tsx
-  const { container, toc } = useTocHeight(top);
+  const { container, toc } = useSidebarHeight(top);
 
   // Update the nav and article, removing the height
-  <Navigation tocRef={toc} ... />
+  <Navigation sidebarRef={toc} ... />
   <article ref={container} ... />
   ```
 

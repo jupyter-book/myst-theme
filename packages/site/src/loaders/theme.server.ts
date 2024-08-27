@@ -6,7 +6,7 @@ import type { ActionFunction } from '@remix-run/node';
 export const themeStorage = createCookieSessionStorage({
   cookie: {
     name: 'theme',
-    secure: true,
+    secure: false,
     secrets: ['secret'],
     sameSite: 'lax',
     path: '/',

@@ -71,7 +71,9 @@ export function Document({
         scripts={scripts}
         config={config}
         title={title}
+        theme={ssrTheme}
         liveReloadListener={!staticBuild}
+        useLocalStorageForDarkMode={staticBuild}
         baseurl={baseurl}
         top={top}
       />
@@ -85,6 +87,8 @@ export function DocumentWithoutProviders({
   config,
   title,
   baseurl,
+  theme: ssrTheme,
+  useLocalStorageForDarkMode,
   top = DEFAULT_NAV_HEIGHT,
   liveReloadListener,
 }: {
@@ -93,11 +97,24 @@ export function DocumentWithoutProviders({
   config?: SiteManifest;
   title?: string;
   baseurl?: string;
+  useLocalStorageForDarkMode?: boolean;
   top?: number;
+  theme?: Theme;
   liveReloadListener?: boolean;
 }) {
+  // Theme value from theme context. For a clean page load (no cookies), both ssrTheme and theme are null
+  // And thus the BlockingThemeLoader is used to inject the client-preferred theme (localStorage or media query)
+  // without a FOUC.
+  //
+  // In live-server contexts, setting the theme or changing the system preferred theme will modify the ssrTheme upon next request _and_ update the useTheme context state, leading to a re-render
+  // Upon re-render, the state-theme value is set on `html` and the client-side BlockingThemeLoader discovers that it has no additional work to do, exiting the script tag early
+  // Upon a new request to the server, the theme preference is received from the set cookie, and therefore we don't inject a BlockingThemeLoader AND we have the theme value in useTheme.
+  //
+  // In static sites, ssrTheme is forever null.
+  // if (ssrTheme) { assert(theme === ssrTheme) }
   const { theme } = useTheme();
   return (
+    // Set the theme during SSR if possible, otherwise leave it up to the BlockingThemeLoader
     <html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>
       <head>
         <meta charSet="utf-8" />
@@ -109,7 +126,7 @@ export function DocumentWithoutProviders({
           analytics_google={config?.options?.analytics_google}
           analytics_plausible={config?.options?.analytics_plausible}
         />
-        <BlockingThemeLoader />
+        {!ssrTheme && <BlockingThemeLoader useLocalStorage={useLocalStorageForDarkMode ?? true} />}
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <BaseUrlProvider baseurl={baseurl}>

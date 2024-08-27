@@ -58,13 +58,6 @@ ThemeContext.displayName = 'ThemeContext';
 
 const PREFERS_LIGHT_MQ = '(prefers-color-scheme: light)';
 
-/**
- * Return the theme preference indicated by the system
- */
-function getPreferredTheme() {
-  return window.matchMedia(PREFERS_LIGHT_MQ).matches ? Theme.light : Theme.dark;
-}
-
 const THEME_KEY = 'myst:theme';
 
 /**
@@ -85,10 +78,9 @@ export function BlockingThemeLoader({ useLocalStorage }: { useLocalStorage: bool
   return <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />;
 }
 
-
 export function ThemeProvider({
   children,
-  theme: startingTheme,
+  theme: ssrTheme,
   renderers,
   Link,
   top,
@@ -104,28 +96,25 @@ export function ThemeProvider({
   useLocalStorageForDarkMode?: boolean;
 }) {
   const [theme, setTheme] = React.useState<Theme | null>(() => {
-    // Allow hard-coded theme ignoring system preferences (not recommended)
-    if (startingTheme) {
-      return isTheme(startingTheme) ? startingTheme : null;
+    if (isTheme(ssrTheme)) {
+      return ssrTheme;
     }
+    // On the server we can't know what the preferred theme is, so leave it up to client
     if (typeof window !== 'object') {
       return null;
     }
+    // System preferred theme
+    const mediaQuery = window.matchMedia(PREFERS_LIGHT_MQ);
+    const preferredTheme = mediaQuery.matches ? Theme.light : Theme.dark;
 
-    // Prefer local storage if set
-    if (useLocalStorageForDarkMode) {
-      const savedTheme = localStorage.getItem(THEME_KEY);
-      if (savedTheme && isTheme(savedTheme)) {
-        return savedTheme;
-      }
-    }
-
-    // Interrogate the system for a preferred theme
-    return getPreferredTheme();
+    // Local storage preferred theme
+    const savedTheme = localStorage.getItem(THEME_KEY);
+    return useLocalStorageForDarkMode && isTheme(savedTheme) ? savedTheme : preferredTheme;
   });
 
   const validatedRenderers = validateRenderers(renderers);
   // Listen for system-updates that change the preferred theme
+  // This will modify the saved theme
   useEffect(() => {
     const mediaQuery = window.matchMedia(PREFERS_LIGHT_MQ);
     const handleChange = () => {

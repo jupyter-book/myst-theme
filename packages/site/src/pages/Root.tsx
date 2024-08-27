@@ -31,7 +31,7 @@ import classNames from 'classnames';
 export function Document({
   children,
   scripts,
-  theme,
+  theme: ssrTheme,
   config,
   title,
   staticBuild,
@@ -60,9 +60,9 @@ export function Document({
       };
   return (
     <ThemeProvider
-      theme={theme}
+      theme={ssrTheme}
       renderers={renderers}
-      useLocalStorageForDarkMode={true}
+      useLocalStorageForDarkMode={staticBuild}
       {...links}
       top={top}
     >

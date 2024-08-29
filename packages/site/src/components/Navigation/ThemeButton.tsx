@@ -1,10 +1,10 @@
-import { useTheme } from '@myst-theme/providers';
+import { useThemeSwitcher } from '@myst-theme/providers';
 import { MoonIcon } from '@heroicons/react/24/solid';
 import { SunIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 
 export function ThemeButton({ className = 'w-8 h-8 mx-3' }: { className?: string }) {
-  const { nextTheme } = useTheme();
+  const { nextTheme } = useThemeSwitcher();
   return (
     <button
       className={classNames(

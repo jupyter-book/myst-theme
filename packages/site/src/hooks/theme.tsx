@@ -34,9 +34,9 @@ export function useTheme({
   ssrTheme,
   useLocalStorage,
 }: {
-  ssrTheme: Theme | null;
+  ssrTheme?: Theme;
   useLocalStorage?: boolean;
-}) {
+}): [Theme | null, (theme: Theme) => void] {
   // Here, the initial state on the server without any set cookies will be null.
   // The client will then load the initial state as non-null.
   // Thus, we must mutate the DOM *pre-hydration* to ensure that the initial state is

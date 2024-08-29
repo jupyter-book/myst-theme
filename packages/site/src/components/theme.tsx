@@ -1,5 +1,4 @@
-import { THEME_LOCALSTORAGE_KEY } from '../hooks/theme.js';
-const PREFERS_LIGHT_MQ = '(prefers-color-scheme: light)';
+import { THEME_LOCALSTORAGE_KEY, PREFERS_LIGHT_MQ } from '../hooks/theme.js';
 
 /**
  * A blocking element that runs on the client before hydration to update the <html> preferred class

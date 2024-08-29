@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { Theme } from '@myst-theme/common';
 import { isTheme } from '@myst-theme/providers';
-const PREFERS_LIGHT_MQ = '(prefers-color-scheme: light)';
 import { postThemeToAPI } from '../actions/theme.js';
 
+export const PREFERS_LIGHT_MQ = '(prefers-color-scheme: light)';
 export const THEME_LOCALSTORAGE_KEY = 'myst:theme';
 
 export function getPreferredTheme() {

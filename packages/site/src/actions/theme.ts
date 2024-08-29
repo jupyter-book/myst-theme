@@ -1,4 +1,4 @@
-import { Theme } from '@myst-theme/common';
+import type { Theme } from '@myst-theme/common';
 
 export function postThemeToAPI(theme: Theme) {
   const xmlhttp = new XMLHttpRequest();

@@ -90,7 +90,7 @@ export function ThemeProvider({
 export function useThemeSwitcher() {
   const context = React.useContext(ThemeContext);
   if (context === undefined) {
-    const error = 'useTheme should be used within a ThemeProvider';
+    const error = 'useThemeSwitcher should be used within a ThemeProvider';
     const throwError = () => {
       throw new Error(error);
     };

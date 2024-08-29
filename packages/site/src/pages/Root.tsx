@@ -67,16 +67,10 @@ export function Document({
   const [theme, setTheme] = useTheme({ ssrTheme: ssrTheme, useLocalStorage: staticBuild });
 
   // Inject blocking element to set proper pre-hydration state
-  const head = ssrTheme ? undefined : <BlockingThemeLoader useLocalStorage={!!staticBuild} />
+  const head = ssrTheme ? undefined : <BlockingThemeLoader useLocalStorage={!!staticBuild} />;
 
   return (
-    <ThemeProvider
-      theme={theme}
-      setTheme={setTheme}
-      renderers={renderers}
-      {...links}
-      top={top}
-    >
+    <ThemeProvider theme={theme} setTheme={setTheme} renderers={renderers} {...links} top={top}>
       <DocumentWithoutProviders
         children={children}
         scripts={scripts}
@@ -136,7 +130,7 @@ export function DocumentWithoutProviders({
           analytics_google={config?.options?.analytics_google}
           analytics_plausible={config?.options?.analytics_plausible}
         />
-        { head }
+        {head}
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <BaseUrlProvider baseurl={baseurl}>

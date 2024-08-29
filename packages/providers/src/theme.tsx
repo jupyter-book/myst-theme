@@ -75,7 +75,9 @@ export function ThemeProvider({
   top?: number;
   NavLink?: NavLink;
 }) {
+
   const validatedRenderers = validateRenderers(renderers);
+
   return (
     <ThemeContext.Provider
       value={{ theme, setTheme, renderers: validatedRenderers, Link, NavLink, top }}

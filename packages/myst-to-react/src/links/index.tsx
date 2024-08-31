@@ -5,7 +5,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useLinkProvider, useSiteManifest, useBaseurl, withBaseurl } from '@myst-theme/providers';
 import type { SiteManifest } from 'myst-config';
-import type { NodeRenderer } from '@myst-theme/providers';
+import type { NodeRenderer, NodeRenderers } from '@myst-theme/providers';
 import { HoverPopover, LinkCard } from '../components/index.js';
 import { WikiLink } from './wiki.js';
 import { RRIDLink } from './rrid.js';
@@ -55,51 +55,54 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
   );
 }
 
-export const link: NodeRenderer<TransformedLink> = ({ node }) => {
-  const internal = node.internal ?? false;
-  const protocol = node.protocol;
+export const WikiLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
+  return (
+    <WikiLink url={node.url} page={node.data?.page as string} wiki={node.data?.wiki as string}>
+      <MyST ast={node.children} />
+    </WikiLink>
+  );
+};
 
-  switch (protocol) {
-    case 'wiki':
-      return (
-        <WikiLink url={node.url} page={node.data?.page as string} wiki={node.data?.wiki as string}>
-          <MyST ast={node.children} />
-        </WikiLink>
-      );
-    case 'github':
-      return (
-        <GithubLink
-          kind={node.data?.kind as any}
-          url={node.url}
-          org={node.data?.org as string}
-          repo={node.data?.repo as string}
-          raw={node.data?.raw as string}
-          file={node.data?.file as string}
-          from={node.data?.from as number | undefined}
-          to={node.data?.to as number | undefined}
-          issue_number={node.data?.issue_number as number | undefined}
-        >
-          <MyST ast={node.children} />
-        </GithubLink>
-      );
-    case 'rrid':
-      return <RRIDLink rrid={node.data?.rrid as string} />;
-    case 'ror':
-      return <RORLink node={node} ror={node.data?.ror as string} />;
-    default:
-      if (internal) {
-        return (
-          <InternalLink url={node.url}>
-            <MyST ast={node.children} />
-          </InternalLink>
-        );
-      }
-      return (
-        <a target="_blank" href={node.url} rel="noreferrer">
-          <MyST ast={node.children} />
-        </a>
-      );
+export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
+  return (
+    <GithubLink
+      kind={node.data?.kind as any}
+      url={node.url}
+      org={node.data?.org as string}
+      repo={node.data?.repo as string}
+      raw={node.data?.raw as string}
+      file={node.data?.file as string}
+      from={node.data?.from as number | undefined}
+      to={node.data?.to as number | undefined}
+      issue_number={node.data?.issue_number as number | undefined}
+    >
+      <MyST ast={node.children} />
+    </GithubLink>
+  );
+};
+
+export const RRIDLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => (
+  <RRIDLink rrid={node.data?.rrid as string} />
+);
+
+export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => (
+  <RORLink node={node} ror={node.data?.ror as string} />
+);
+
+export const SimpleLink: NodeRenderer<TransformedLink> = ({ node }) => {
+  const internal = node.internal ?? false;
+  if (internal) {
+    return (
+      <InternalLink url={node.url}>
+        <MyST ast={node.children} />
+      </InternalLink>
+    );
   }
+  return (
+    <a target="_blank" href={node.url} rel="noreferrer">
+      <MyST ast={node.children} />
+    </a>
+  );
 };
 
 export const linkBlock: NodeRenderer<TransformedLink> = ({ node }) => {
@@ -134,8 +137,20 @@ export const linkBlock: NodeRenderer<TransformedLink> = ({ node }) => {
   );
 };
 
-const LINK_RENDERERS = {
-  link,
+const LINK_RENDERERS: NodeRenderers = {
+  link: {
+    base: SimpleLink,
+    // Put the kinds first as they will match first in the future
+    'link[kind=github]': GithubLinkRenderer,
+    'link[kind=wiki]': WikiLinkRenderer,
+    'link[kind=rrid]': RRIDLinkRenderer,
+    'link[kind=ror]': RORLinkRenderer,
+    // Then duplicate the renderers for protocols
+    'link[protocol=github]': GithubLinkRenderer,
+    'link[protocol=wiki]': WikiLinkRenderer,
+    'link[protocol=rrid]': RRIDLinkRenderer,
+    'link[protocol=ror]': RORLinkRenderer,
+  },
   linkBlock,
 };
 

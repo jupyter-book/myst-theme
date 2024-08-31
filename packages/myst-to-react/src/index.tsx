@@ -1,4 +1,4 @@
-import type { NodeRenderer } from '@myst-theme/providers';
+import { mergeRenderers } from '@myst-theme/providers';
 import BASIC_RENDERERS from './basic.js';
 import ADMONITION_RENDERERS from './admonitions.js';
 import DROPDOWN_RENDERERS from './dropdown.js';
@@ -30,29 +30,32 @@ export { Details } from './dropdown.js';
 export { TabSet, TabItem } from './tabs.js';
 export { useFetchMdast } from './crossReference.js';
 
-export const DEFAULT_RENDERERS: Record<string, NodeRenderer> = {
-  ...BASIC_RENDERERS,
-  ...UNKNOWN_MYST_RENDERERS,
-  ...IMAGE_RENDERERS,
-  ...LINK_RENDERERS,
-  ...CODE_RENDERERS,
-  ...MATH_RENDERERS,
-  ...CITE_RENDERERS,
-  ...TAB_RENDERERS,
-  ...IFRAME_RENDERERS,
-  ...FOOTNOTE_RENDERERS,
-  ...ADMONITION_RENDERERS,
-  ...REACTIVE_RENDERERS,
-  ...HEADING_RENDERERS,
-  ...CROSS_REFERENCE_RENDERERS,
-  ...DROPDOWN_RENDERERS,
-  ...CARD_RENDERERS,
-  ...GRID_RENDERERS,
-  ...INLINE_EXPRESSION_RENDERERS,
-  ...EXT_RENDERERS,
-  ...PROOF_RENDERERS,
-  ...EXERCISE_RENDERERS,
-  ...ASIDE_RENDERERS,
-};
+export const DEFAULT_RENDERERS = mergeRenderers(
+  [
+    BASIC_RENDERERS,
+    UNKNOWN_MYST_RENDERERS,
+    IMAGE_RENDERERS,
+    LINK_RENDERERS,
+    CODE_RENDERERS,
+    MATH_RENDERERS,
+    CITE_RENDERERS,
+    TAB_RENDERERS,
+    IFRAME_RENDERERS,
+    FOOTNOTE_RENDERERS,
+    ADMONITION_RENDERERS,
+    REACTIVE_RENDERERS,
+    HEADING_RENDERERS,
+    CROSS_REFERENCE_RENDERERS,
+    DROPDOWN_RENDERERS,
+    CARD_RENDERERS,
+    GRID_RENDERERS,
+    INLINE_EXPRESSION_RENDERERS,
+    EXT_RENDERERS,
+    PROOF_RENDERERS,
+    EXERCISE_RENDERERS,
+    ASIDE_RENDERERS,
+  ],
+  true,
+);
 
-export { MyST } from './MyST.js';
+export { MyST, selectRenderer } from './MyST.js';

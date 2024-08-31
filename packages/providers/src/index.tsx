@@ -7,5 +7,5 @@ export * from './ui.js';
 export * from './site.js';
 export * from './tabs.js';
 export * from './xref.js';
-export * from './types.js';
+export * from './renderers.js';
 export * from './project.js';

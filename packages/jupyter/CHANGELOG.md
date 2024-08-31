@@ -1,5 +1,16 @@
 # @myst-theme/jupyter
 
+## 0.11.0
+
+### Patch Changes
+
+- 844dbe3f: Updates to myst
+- ed5a7f66: Allow for specific renderers
+- Updated dependencies [844dbe3f]
+- Updated dependencies [ed5a7f66]
+  - myst-to-react@0.11.0
+  - @myst-theme/providers@0.11.0
+
 ## 0.10.0
 
 ### Patch Changes

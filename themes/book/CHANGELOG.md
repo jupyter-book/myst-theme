@@ -1,5 +1,21 @@
 # @myst-theme/book
 
+## 0.11.0
+
+### Patch Changes
+
+- 6ca6dbbb: Prepare for Remix v2
+- 844dbe3f: Updates to myst
+- Updated dependencies [6ca6dbbb]
+- Updated dependencies [844dbe3f]
+- Updated dependencies [ed5a7f66]
+  - @myst-theme/site@0.11.0
+  - @myst-theme/providers@0.11.0
+  - @myst-theme/jupyter@0.11.0
+  - @myst-theme/common@0.11.0
+  - @myst-theme/styles@0.11.0
+  - @myst-theme/icons@0.11.0
+
 ## 0.10.0
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @myst-theme/providers
 
+## 0.11.0
+
+### Patch Changes
+
+- 844dbe3f: Updates to myst
+- ed5a7f66: Allow for specific renderers
+- Updated dependencies [844dbe3f]
+  - @myst-theme/common@0.11.0
+
 ## 0.10.0
 
 ### Patch Changes

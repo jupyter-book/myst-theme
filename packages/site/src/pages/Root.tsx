@@ -1,6 +1,6 @@
 import type { SiteManifest } from 'myst-config';
 import type { SiteLoader } from '@myst-theme/common';
-import type { NodeRenderer } from '@myst-theme/providers';
+import type { NodeRenderers } from '@myst-theme/providers';
 import { BaseUrlProvider, SiteProvider, Theme, ThemeProvider } from '@myst-theme/providers';
 import {
   Links,
@@ -40,7 +40,7 @@ export function Document({
   staticBuild?: boolean;
   baseurl?: string;
   top?: number;
-  renderers?: Record<string, NodeRenderer>;
+  renderers?: NodeRenderers;
 }) {
   const links = staticBuild
     ? {

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { NodeRenderer } from './types.js';
+import { validateRenderers, type NodeRenderers, type NodeRenderersValidated } from './renderers.js';
 import { Theme } from '@myst-theme/common';
 
 export { Theme };
@@ -47,7 +47,7 @@ export function isTheme(value: unknown): value is Theme {
 type ThemeContextType = {
   theme: Theme | null;
   setTheme: (theme: Theme) => void;
-  renderers?: Record<string, NodeRenderer>;
+  renderers?: NodeRenderersValidated;
   top?: number;
   Link?: Link;
   NavLink?: NavLink;
@@ -68,7 +68,7 @@ export function ThemeProvider({
 }: {
   children: React.ReactNode;
   theme?: Theme;
-  renderers?: Record<string, NodeRenderer>;
+  renderers?: NodeRenderers;
   Link?: Link;
   top?: number;
   NavLink?: NavLink;
@@ -96,8 +96,11 @@ export function ThemeProvider({
     },
     [theme],
   );
+  const validatedRenderers = validateRenderers(renderers);
   return (
-    <ThemeContext.Provider value={{ theme, setTheme: nextTheme, renderers, Link, NavLink, top }}>
+    <ThemeContext.Provider
+      value={{ theme, setTheme: nextTheme, renderers: validatedRenderers, Link, NavLink, top }}
+    >
       {children}
     </ThemeContext.Provider>
   );
@@ -130,7 +133,7 @@ export function useTheme() {
   return { theme, isLight, isDark, setTheme, nextTheme };
 }
 
-export function useNodeRenderers(): Record<string, NodeRenderer> {
+export function useNodeRenderers(): NodeRenderersValidated {
   const context = React.useContext(ThemeContext);
   const { renderers } = context ?? {};
   return renderers ?? {};

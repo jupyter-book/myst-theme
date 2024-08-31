@@ -140,16 +140,16 @@ export const linkBlock: NodeRenderer<TransformedLink> = ({ node }) => {
 const LINK_RENDERERS: NodeRenderers = {
   link: {
     base: SimpleLink,
-    // Put the kinds first as they will match first in the future
-    'link[kind=github]': GithubLinkRenderer,
-    'link[kind=wiki]': WikiLinkRenderer,
-    'link[kind=rrid]': RRIDLinkRenderer,
-    'link[kind=ror]': RORLinkRenderer,
     // Then duplicate the renderers for protocols
     'link[protocol=github]': GithubLinkRenderer,
     'link[protocol=wiki]': WikiLinkRenderer,
     'link[protocol=rrid]': RRIDLinkRenderer,
     'link[protocol=ror]': RORLinkRenderer,
+    // Put the kinds last as they will match first in the future
+    'link[kind=github]': GithubLinkRenderer,
+    'link[kind=wiki]': WikiLinkRenderer,
+    'link[kind=rrid]': RRIDLinkRenderer,
+    'link[kind=ror]': RORLinkRenderer,
   },
   linkBlock,
 };

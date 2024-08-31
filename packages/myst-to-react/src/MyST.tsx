@@ -14,9 +14,9 @@ function DefaultComponent({ node }: { node: GenericNode }) {
 
 export function selectRenderer(renderers: NodeRenderersValidated, node: GenericNode) {
   const componentRenderers = renderers[node.type] ?? renderers['DefaultComponent'];
-  const SpecificComponent = Object.entries(componentRenderers).find(
-    ([selector]) => selector !== 'base' && matches(selector, node),
-  )?.[1];
+  const SpecificComponent = Object.entries(componentRenderers)
+    .reverse()
+    .find(([selector]) => selector !== 'base' && matches(selector, node))?.[1];
   return SpecificComponent ?? componentRenderers.base ?? DefaultComponent;
 }
 

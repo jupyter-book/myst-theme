@@ -26,7 +26,7 @@
     "@radix-ui/react-hover-card": "^1.0.6",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
-    "myst-common": "^1.5.0",
+    "myst-common": "^1.6.0",
     "myst-config": "^1.5.0",
     "myst-spec": "^0.0.5",
     "nanoid": "^4.0.2",

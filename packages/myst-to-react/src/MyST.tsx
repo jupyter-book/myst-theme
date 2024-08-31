@@ -14,10 +14,10 @@ function DefaultComponent({ node }: { node: GenericNode }) {
 
 export function selectRenderer(renderers: NodeRenderersValidated, node: GenericNode) {
   const componentRenderers = renderers[node.type] ?? renderers['DefaultComponent'];
-  const SpecificComponent = Object.entries(componentRenderers)
+  const SpecificComponent = Object.entries(componentRenderers ?? {})
     .reverse()
     .find(([selector]) => selector !== 'base' && matches(selector, node))?.[1];
-  return SpecificComponent ?? componentRenderers.base ?? DefaultComponent;
+  return SpecificComponent ?? componentRenderers?.base ?? DefaultComponent;
 }
 
 export function MyST({ ast }: { ast?: GenericNode | GenericNode[] }) {

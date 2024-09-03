@@ -75,7 +75,6 @@ export function ThemeProvider({
   top?: number;
   NavLink?: NavLink;
 }) {
-
   const validatedRenderers = validateRenderers(renderers);
 
   return (

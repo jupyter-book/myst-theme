@@ -6,6 +6,7 @@ import {
   useSiteManifest,
   useGridSystemProvider,
   useThemeTop,
+  isWide,
 } from '@myst-theme/providers';
 import type { Heading } from '@myst-theme/common';
 import { Toc } from './TableOfContentsItems.js';
@@ -95,10 +96,15 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
   const container = useRef<T>(null);
   const toc = useRef<HTMLDivElement>(null);
   const transitionState = useNavigation().state;
+  const wide = isWide();
   const setHeight = () => {
     if (!container.current || !toc.current) return;
     const height = container.current.offsetHeight - window.scrollY;
     const div = toc.current.firstChild as HTMLDivElement;
+    if (div)
+      div.style.height = wide
+        ? `min(calc(100vh - ${top}px), ${height + inset}px)`
+        : `calc(100vh - ${top}px)`;
     if (div) div.style.height = `min(calc(100vh - ${top}px), ${height + inset}px)`;
     const nav = toc.current.querySelector('nav');
     if (nav) nav.style.opacity = height > 150 ? '1' : '0';
@@ -111,7 +117,7 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [container, toc, transitionState]);
+  }, [container, toc, transitionState, wide]);
   return { container, toc };
 }
 

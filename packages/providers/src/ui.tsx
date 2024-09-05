@@ -30,7 +30,7 @@ export function useNavOpen(): [boolean, (open: boolean) => void] {
   return [state?.isNavOpen ?? false, setOpen];
 }
 
-export function isWide(): boolean {
+export function useIsWide(): boolean {
   const [state, _] = useContext(UiContext) ?? [];
   return state?.isWide ?? false;
 }

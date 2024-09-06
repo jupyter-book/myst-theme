@@ -1,4 +1,3 @@
-import type { Code, InlineCode } from 'myst-spec';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { useTheme } from '@myst-theme/providers';
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -111,7 +110,7 @@ export function CodeBlock(props: Props) {
   );
 }
 
-const code: NodeRenderer<Code & { executable: boolean }> = ({ node }) => {
+const code: NodeRenderer = ({ node }) => {
   return (
     <CodeBlock
       identifier={node.html_id}
@@ -141,7 +140,7 @@ function isColor(maybeColorHash: string): string | undefined {
   return color;
 }
 
-const inlineCode: NodeRenderer<InlineCode> = ({ node }) => {
+const inlineCode: NodeRenderer = ({ node }) => {
   if (isColor(node.value)) {
     return (
       <code className="px-1 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-100">

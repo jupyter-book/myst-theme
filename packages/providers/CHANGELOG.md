@@ -1,5 +1,16 @@
 # @myst-theme/providers
 
+## 0.12.0
+
+### Minor Changes
+
+- a76b8f1: Support localStorage for theme persistence
+
+### Patch Changes
+
+- 3ae88e1: Grow TOC on narrow screens
+  - @myst-theme/common@0.12.0
+
 ## 0.11.0
 
 ### Patch Changes

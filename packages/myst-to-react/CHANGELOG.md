@@ -1,5 +1,14 @@
 # myst-to-react
 
+## 0.12.0
+
+### Patch Changes
+
+- 58d8756: Bumping `thebe-*` dependencies
+- Updated dependencies [3ae88e1]
+- Updated dependencies [a76b8f1]
+  - @myst-theme/providers@0.12.0
+
 ## 0.11.0
 
 ### Patch Changes

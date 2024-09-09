@@ -44,9 +44,11 @@ export function isTheme(value: unknown): value is Theme {
   return typeof value === 'string' && Object.values(Theme).includes(value as Theme);
 }
 
+type SetThemeType = (theme: Theme) => void;
+
 type ThemeContextType = {
   theme: Theme | null;
-  setTheme: (theme: Theme) => void;
+  setTheme: SetThemeType;
   renderers?: NodeRenderersValidated;
   top?: number;
   Link?: Link;
@@ -56,60 +58,38 @@ type ThemeContextType = {
 const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
 ThemeContext.displayName = 'ThemeContext';
 
-const prefersLightMQ = '(prefers-color-scheme: light)';
-
 export function ThemeProvider({
+  theme,
+  setTheme,
   children,
-  theme: startingTheme = Theme.light,
   renderers,
   Link,
   top,
   NavLink,
 }: {
+  theme: Theme | null;
+  setTheme: SetThemeType;
   children: React.ReactNode;
-  theme?: Theme;
   renderers?: NodeRenderers;
   Link?: Link;
   top?: number;
   NavLink?: NavLink;
 }) {
-  const [theme, setTheme] = React.useState<Theme | null>(() => {
-    if (startingTheme) {
-      if (isTheme(startingTheme)) return startingTheme;
-      else return null;
-    }
-    if (typeof document === 'undefined') return null;
-    return window.matchMedia(prefersLightMQ).matches ? Theme.light : Theme.dark;
-  });
-
-  const nextTheme = React.useCallback(
-    (next: Theme) => {
-      if (!next || next === theme || !isTheme(next)) return;
-      if (typeof document !== 'undefined') {
-        document.getElementsByTagName('html')[0].className = next;
-      }
-      const xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('POST', '/api/theme');
-      xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-      xmlhttp.send(JSON.stringify({ theme: next }));
-      setTheme(next);
-    },
-    [theme],
-  );
   const validatedRenderers = validateRenderers(renderers);
+
   return (
     <ThemeContext.Provider
-      value={{ theme, setTheme: nextTheme, renderers: validatedRenderers, Link, NavLink, top }}
+      value={{ theme, setTheme, renderers: validatedRenderers, Link, NavLink, top }}
     >
       {children}
     </ThemeContext.Provider>
   );
 }
 
-export function useTheme() {
+export function useThemeSwitcher() {
   const context = React.useContext(ThemeContext);
   if (context === undefined) {
-    const error = 'useTheme should be used within a ThemeProvider';
+    const error = 'useThemeSwitcher should be used within a ThemeProvider';
     const throwError = () => {
       throw new Error(error);
     };

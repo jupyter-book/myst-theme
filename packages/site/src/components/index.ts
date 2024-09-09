@@ -18,3 +18,4 @@ export { ExternalOrInternalLink } from './ExternalOrInternalLink.js';
 export * from './Navigation/index.js';
 export { renderers } from './renderers.js';
 export { SkipToArticle, SkipTo } from './SkipToArticle.js';
+export { BlockingThemeLoader } from './theme.js';

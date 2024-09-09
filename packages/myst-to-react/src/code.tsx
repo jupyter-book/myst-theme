@@ -1,5 +1,5 @@
 import type { NodeRenderer } from '@myst-theme/providers';
-import { useTheme } from '@myst-theme/providers';
+import { useThemeSwitcher } from '@myst-theme/providers';
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
 import light from 'react-syntax-highlighter/dist/esm/styles/hljs/xcode.js';
 import dark from 'react-syntax-highlighter/dist/esm/styles/hljs/vs2015.js';
@@ -33,7 +33,7 @@ function normalizeLanguage(lang?: string): string | undefined {
 }
 
 export function CodeBlock(props: Props) {
-  const { isLight } = useTheme();
+  const { isLight } = useThemeSwitcher();
   const {
     value,
     lang,

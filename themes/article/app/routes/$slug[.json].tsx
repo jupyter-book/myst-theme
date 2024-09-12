@@ -1,6 +1,6 @@
 import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { getMystXrefJson, getPage } from '~/utils/loaders.server';
+import { getMystXrefJson, getMystSearchJson, getPage } from '~/utils/loaders.server';
 
 function api404(message = 'No API route found at this URL') {
   return json(
@@ -18,6 +18,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   if (slug === 'myst.xref') {
     const xref = await getMystXrefJson();
     if (!xref) return new Response('myst.xref.json not found', { status: 404 });
+    return json(xref);
+  }
+  // Handle /myst.search.json as slug
+  else if (slug === 'myst.search') {
+    const xref = await getMystSearchJson();
+    if (!xref) return new Response('myst.search.json not found', { status: 404 });
     return json(xref);
   }
   const data = await getPage(request, { slug }).catch(() => null);

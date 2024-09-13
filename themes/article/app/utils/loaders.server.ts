@@ -11,7 +11,7 @@ import {
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
-const CONTENT_CDN = `http://localhost:${CONTENT_CDN_PORT}`;
+const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`;
 
 export async function getConfig(): Promise<SiteManifest> {
   const url = `${CONTENT_CDN}/config.json`;

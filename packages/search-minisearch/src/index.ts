@@ -1,5 +1,6 @@
 import MiniSearch, { type Options, type SearchResult as MiniSearchResult } from 'minisearch';
 import type { SearchRecord, SearchResult, ISearch } from '@myst-theme/search';
+import { extractField } from '@myst-theme/search';
 
 export type ExtendedOptions = Options & Required<Pick<Options, 'tokenize' | 'processTerm'>>;
 
@@ -8,6 +9,7 @@ export function prepareOptions(options: Options): ExtendedOptions {
     ...options,
     tokenize: MiniSearch.getDefault('tokenize'),
     processTerm: MiniSearch.getDefault('processTerm'),
+    extractField
   };
 }
 

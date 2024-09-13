@@ -2,6 +2,7 @@ import type { Dependency, SourceFileKind } from 'myst-spec-ext';
 import type { GenericParent, References } from 'myst-common';
 import type { SiteAction, SiteExport, SiteManifest } from 'myst-config';
 import type { PageFrontmatter } from 'myst-frontmatter';
+import type { MystSearchIndex } from '@myst-theme/search';
 
 export enum Theme {
   light = 'light',
@@ -25,6 +26,7 @@ export type Heading = {
 export type SiteLoader = {
   theme?: Theme;
   config?: SiteManifest;
+  searchIndex?: MystSearchIndex;
   CONTENT_CDN_PORT?: string | number;
   MODE?: 'app' | 'static';
   BASE_URL?: string;

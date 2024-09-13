@@ -1,7 +1,7 @@
 import type { LinksFunction, V2_MetaFunction, LoaderFunction } from '@remix-run/node';
 import tailwind from '~/styles/app.css';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
-import { getConfig } from '~/utils/loaders.server';
+import { getConfig, getMystSearchJson } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/common';
 import {
   Document,
@@ -12,7 +12,11 @@ import {
   SkipTo,
 } from '@myst-theme/site';
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
+import { createSearch } from '@myst-theme/search-minisearch';
 import { Outlet, useLoaderData } from '@remix-run/react';
+import { SearchProvider } from '@myst-theme/providers';
+import { type MystSearchIndex, type ISearch, SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
+import { useMemo } from 'react';
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({
@@ -42,39 +46,65 @@ export const links: LinksFunction = () => {
   ];
 };
 
+function createSearchImpl(index?: MystSearchIndex): ISearch | undefined {
+  if (!index) {
+    return undefined;
+  } else {
+    const options = {
+      fields: SEARCH_ATTRIBUTES_ORDERED as any as string[],
+      storeFields: ['hierarchy', 'content', 'url', 'type', 'id', 'position'],
+      idField: 'id',
+      searchOptions: {
+        fuzzy: 0.2,
+        prefix: true,
+      },
+    };
+    return createSearch(index.records, options);
+  }
+}
+
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
-  const [config, themeSession] = await Promise.all([
+  const baseURL = process.env.BASE_URL || undefined;
+  const [config, themeSession, searchIndex] = await Promise.all([
     getConfig().catch(() => null),
     getThemeSession(request),
+    getMystSearchJson(),
   ]);
   if (!config) throw responseNoSite();
   const data = {
     theme: themeSession.getTheme(),
     config,
+    searchIndex: searchIndex ?? undefined,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
     MODE: (process.env.MODE ?? 'app') as 'app' | 'static',
-    BASE_URL: process.env.BASE_URL || undefined,
+    BASE_URL: baseURL,
   };
   return data;
 };
 
 export default function AppWithReload() {
-  const { theme, config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
+  const { theme, config, searchIndex, CONTENT_CDN_PORT, MODE, BASE_URL } =
+    useLoaderData<SiteLoader>();
+
+  const searchImpl = useMemo(() => createSearchImpl(searchIndex), [searchIndex]);
+
   return (
-    <Document
-      theme={theme}
-      config={config}
-      scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
-      staticBuild={MODE === 'static'}
-      baseurl={BASE_URL}
-    >
-      <SkipTo
-        targets={[
-          { id: 'skip-to-frontmatter', title: 'Skip to article frontmatter' },
-          { id: 'skip-to-article', title: 'Skip to article content' },
-        ]}
-      />
-      <Outlet />
-    </Document>
+    <SearchProvider search={searchImpl}>
+      <Document
+        theme={theme}
+        config={config}
+        scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
+        staticBuild={MODE === 'static'}
+        baseurl={BASE_URL}
+      >
+        <SkipTo
+          targets={[
+            { id: 'skip-to-frontmatter', title: 'Skip to article frontmatter' },
+            { id: 'skip-to-article', title: 'Skip to article content' },
+          ]}
+        />
+        <Outlet />
+      </Document>
+    </SearchProvider>
   );
 }

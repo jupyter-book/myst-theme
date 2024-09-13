@@ -30,7 +30,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const config = await getConfig();
   const flat = isFlatSite(config);
   const data = await getPage(request, {
-    project: flat ? project : project ?? slug,
+    project: flat ? project : (project ?? slug),
     slug: flat ? slug : project ? slug : undefined,
   });
   if (!data) return api404('No page found at this URL.');

@@ -54,6 +54,7 @@
   "packageManager": "npm@8.10.0",
   "dependencies": {
     "@myst-theme/search": "^0.0.0",
+    "@radix-ui/react-visually-hidden": "^1.1.0",
     "minisearch": "^7.1.0",
     "string.prototype.matchall": "^4.0.11"
   }

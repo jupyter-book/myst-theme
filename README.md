@@ -109,6 +109,12 @@ To run on a specific port (for example, developing locally between two projects)
 myst start --headless --server-port 3111
 CONTENT_CDN_PORT=3111 npm run theme:book
 ```
+To connect to a remote content server, set the `CONTENT_CDN` environment variable:
+
+```bash
+CONTENT_CDN=https://remote.example.com npm run theme:book
+CONTENT_CDN=https://remote.example.com npm run theme:article
+```
 
 ## Deployment
 

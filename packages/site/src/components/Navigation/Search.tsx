@@ -4,6 +4,7 @@ import {
   DocumentTextIcon,
   HashtagIcon,
   PencilIcon,
+  XCircleIcon,
 } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -155,10 +156,10 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
         <button
           className={classNames(
             className,
-            'flex items-center w-10 h-10 sm:w-64 border border-gray-300 rounded-lg bg-gray-50 hover:ring-blue-500 hover:border-blue-500 dark:bg-gray-700 dark:border-gray-600 text-left dark:hover:ring-blue-500 dark:hover:border-blue-500',
+            'flex items-center h-10 aspect-square sm:w-64 border border-gray-300 rounded-lg bg-gray-50 hover:ring-blue-500 hover:border-blue-500 dark:bg-gray-700 dark:border-gray-600 text-left dark:hover:ring-blue-500 dark:hover:border-blue-500',
           )}
         >
-          <MagnifyingGlassIcon className="px-2 w-10 h-10 text-gray-400 aspect-square" />
+          <MagnifyingGlassIcon className="p-2.5 h-10 w-10 text-gray-400 aspect-square" />
           <span className="hidden sm:block text-gray-400 grow">Search</span>
           <div
             aria-hidden
@@ -176,8 +177,13 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-[#656c85cc] z-[1000]" />
         <Dialog.Content
-          className="fixed flex flex-col left-1/2 -translate-x-1/2 w-[50vw] max-w-screen-sm bg-white z-[1001] rounded-md p-4"
-          style={{ top, maxHeight: `calc(90vh - ${top}px)` }}
+          className="fixed flex flex-col top-0 bg-white z-[1001] h-screen w-screen sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4"
+          style={
+            {
+              '--content-top': `${top}px`,
+              '--content-max-height': `calc(90vh - var(--content-top))`,
+            } as React.CSSProperties
+          }
         >
           <VisuallyHidden.Root asChild>
             <Dialog.Title>Search Website</Dialog.Title>
@@ -187,27 +193,31 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
               Search articles and their contents using fuzzy-search and prefix-matching
             </Dialog.Description>
           </VisuallyHidden.Root>
-          <div className="relative w-full text-gray-900 dark:placeholder-gray-400 dark:text-white">
-            <MagnifyingGlassIcon className="absolute text-gray-400 inset-y-0 start-0 w-8 h-full aspect-square flex items-center ps-3 pointer-events-none" />
+          <div className="relative flex flow-row gap-x-1 h-10 w-full text-gray-900 dark:placeholder-gray-400 dark:text-white">
+            <MagnifyingGlassIcon className="absolute text-gray-400 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
             <input
               className={classNames(
                 className,
-                'block w-full p-2 ps-10 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'block flex-grow p-2 ps-10 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500',
               )}
               placeholder="Search"
               required
               onChange={handleSearchChange}
             />
+            <Dialog.Close asChild className="grow-0 sm:hidden block">
+              <button aria-label="Close">
+                <XCircleIcon className="h-10 w-10 aspect-square flex items-center" />
+              </button>
+            </Dialog.Close>
           </div>
           {!!searchResults.length && (
-            <ul className="overflow-y-scroll">
+            <ul className="overflow-y-scroll mt-4">
               {searchResults.map((result) => (
                 <li
                   key={result.id}
                   className="hover:bg-blue-500 hover:text-white rounded-sm mt-1 p-1"
                 >
-                  {' '}
-                  <SearchItem result={result} />{' '}
+                  <SearchItem result={result} />
                 </li>
               ))}
             </ul>

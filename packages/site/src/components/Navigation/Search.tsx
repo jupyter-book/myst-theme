@@ -14,6 +14,21 @@ import { SPACE_OR_PUNCTUATION, rankAndFilterResults } from '@myst-theme/search';
 import { withBaseurl, useBaseurl, useThemeTop } from '@myst-theme/providers';
 
 /**
+ * Shim for string.matchAll
+ *
+ * @param text - text to repeatedly match with pattern
+ * @param pattern - global pattern
+ */
+function matchAll(text: string, pattern: RegExp) {
+  const matches = [];
+  let match;
+  while ((match = pattern.exec(text))) {
+    matches.push(match);
+  }
+  return matches;
+}
+
+/**
  * Highlight a text string with an array of match words
  *
  * @param text - text to highlight
@@ -21,21 +36,33 @@ import { withBaseurl, useBaseurl, useThemeTop } from '@myst-theme/providers';
  * @param limit - limit to the number of tokens after first match
  */
 function MarkedText({ text, matches, limit }: { text: string; matches: string[]; limit?: number }) {
-  const tokens: string[] = text.split(SPACE_OR_PUNCTUATION);
+  // Split by delimeter, but _keep_ delimeter!
+  const splits = matchAll(text, SPACE_OR_PUNCTUATION);
+  const tokens: string[] = [];
+  let start = 0;
+  for (const splitMatch of splits) {
+    tokens.push(text.slice(start, splitMatch.index));
+    tokens.push(splitMatch[0]);
+    start = splitMatch.index + splitMatch[0].length;
+  }
+  tokens.push(text.slice(start));
+
   // Build RegExp matching all highlight matches
   const allTerms = matches.join('|');
   const pattern = new RegExp(`^(${allTerms})`, 'i'); // Match prefix and total pattern, case-insensitively
   const renderToken = (token: string) =>
     pattern.test(token) ? (
       <>
-        {} <mark>{token}</mark>
+        <mark>{token}</mark>
       </>
     ) : (
-      <> {token}</>
+      token
     );
   let firstIndex: number;
   let lastIndex: number;
-  if (limit === undefined) {
+  const hasLimit = limit !== undefined;
+
+  if (!hasLimit) {
     firstIndex = 0;
     lastIndex = tokens.length;
   } else {
@@ -52,8 +79,10 @@ function MarkedText({ text, matches, limit }: { text: string; matches: string[];
 
     return (
       <>
-        {}... {firstRenderer}
-        {...remainingRenderers} ...{}
+        {hasLimit && '... '}
+        {firstRenderer}
+        {...remainingRenderers}
+        {hasLimit && ' ...'}
       </>
     );
   }

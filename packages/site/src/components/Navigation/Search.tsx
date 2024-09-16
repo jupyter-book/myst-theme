@@ -13,20 +13,14 @@ import { SPACE_OR_PUNCTUATION, rankAndFilterResults } from '@myst-theme/search';
 import { withBaseurl, useBaseurl, useThemeTop } from '@myst-theme/providers';
 
 /**
- * Implement basic HTML highlighting of the given text according to the found matches
+ * Highlight a text string with an array of match words
  *
  * @param text - text to highlight
  * @param result - search result to use for highlighting
+ * @param limit - limit to the number of tokens after first match
  */
-function HighlightedTokens({
-  tokens,
-  matches,
-  limit,
-}: {
-  tokens: string[];
-  matches: string[];
-  limit?: number;
-}) {
+function MarkedText({ text, matches, limit }: { text: string; matches: string[]; limit?: number }) {
+  const tokens: string[] = text.split(SPACE_OR_PUNCTUATION);
   // Build RegExp matching all highlight matches
   const allTerms = matches.join('|');
   const pattern = new RegExp(`^(${allTerms})`, 'i'); // Match prefix and total pattern, case-insensitively
@@ -38,22 +32,21 @@ function HighlightedTokens({
     ) : (
       <> {token}</>
     );
+  let firstIndex: number;
+  let lastIndex: number;
   if (limit === undefined) {
-    const firstRenderer = pattern.test(tokens[0]) ? (
-      <mark>{tokens[0]}</mark>
-    ) : (
-      <span>{tokens[0]}</span>
-    );
-    const remainingRenderers = tokens.slice(1).map((token) => renderToken(token));
-
-    return <> {firstRenderer} {...remainingRenderers} </>;
+    firstIndex = 0;
+    lastIndex = tokens.length;
   } else {
-    const firstIndex = tokens.findIndex((token) => pattern.test(token));
-    if (firstIndex === undefined) {
-      return <>{...tokens}</>;
-    }
+    firstIndex = tokens.findIndex((token) => pattern.test(token));
+    lastIndex = firstIndex + limit;
+  }
+
+  if (tokens.length === 0) {
+    return <>{...tokens}</>;
+  } else {
     const firstRenderer = <mark>{tokens[firstIndex]}</mark>;
-    const remainingTokens = tokens.slice(firstIndex + 1, firstIndex + 1 + limit);
+    const remainingTokens = tokens.slice(firstIndex + 1, lastIndex);
     const remainingRenderers = remainingTokens.map((token) => renderToken(token));
 
     return (
@@ -86,13 +79,8 @@ function SearchItem({ result }: { result: RankedSearchResult }) {
   const title = result.type === 'content' ? result['content'] : hierarchy[type as HeadingLevel]!;
   const matches = queries.flatMap((query) => Object.keys(query.matches));
 
-  const titleTokens = title.split(SPACE_OR_PUNCTUATION);
   const titleRenderer = (
-    <HighlightedTokens
-      tokens={titleTokens}
-      matches={matches}
-      limit={type === 'content' ? 16 : undefined}
-    />
+    <MarkedText text={title} matches={matches} limit={type === 'content' ? 16 : undefined} />
   );
 
   let subtitleRenderer;
@@ -100,8 +88,7 @@ function SearchItem({ result }: { result: RankedSearchResult }) {
     subtitleRenderer = undefined;
   } else {
     const subtitle = result.hierarchy.lvl1!;
-    const subtitleTokens = subtitle.split(SPACE_OR_PUNCTUATION);
-    subtitleRenderer = <HighlightedTokens tokens={subtitleTokens} matches={matches} />;
+    subtitleRenderer = <MarkedText text={subtitle} matches={matches} />;
   }
 
   return (

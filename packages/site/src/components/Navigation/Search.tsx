@@ -13,79 +13,105 @@ import { SPACE_OR_PUNCTUATION, rankAndFilterResults } from '@myst-theme/search';
 import { withBaseurl, useBaseurl, useThemeTop } from '@myst-theme/providers';
 
 /**
- * Shim for string.matchAll
- *
- * @param text - text to repeatedly match with pattern
- * @param pattern - global pattern
- */
-function matchAll(text: string, pattern: RegExp) {
-  const matches = [];
-  let match;
-  while ((match = pattern.exec(text))) {
-    matches.push(match);
-  }
-  return matches;
-}
-
-/**
  * Implement basic HTML highlighting of the given text according to the found matches
  *
  * @param text - text to highlight
  * @param result - search result to use for highlighting
  */
-function highlightTitle(text: string, result: RankedSearchResult): string {
-  const allTerms = result.queries.flatMap((query) => Object.keys(query.matches)).join('|');
-  const pattern = new RegExp(`\\b(${allTerms})\\b`, 'gi');
-  const allMatches = Array.from(matchAll(text, pattern)).map((m) => m);
+function HighlightedTokens({
+  tokens,
+  matches,
+  limit,
+}: {
+  tokens: string[];
+  matches: string[];
+  limit?: number;
+}) {
+  // Build RegExp matching all highlight matches
+  const allTerms = matches.join('|');
+  const pattern = new RegExp(`^(${allTerms})`, 'i'); // Match prefix and total pattern, case-insensitively
+  const renderToken = (token: string) =>
+    pattern.test(token) ? (
+      <>
+        {} <mark>{token}</mark>
+      </>
+    ) : (
+      <> {token}</>
+    );
+  if (limit === undefined) {
+    const firstRenderer = pattern.test(tokens[0]) ? (
+      <mark>{tokens[0]}</mark>
+    ) : (
+      <span>{tokens[0]}</span>
+    );
+    const remainingRenderers = tokens.slice(1).map((token) => renderToken(token));
 
-  const { index: start } = allMatches[0] ?? { index: 0 };
+    return <> {firstRenderer} {...remainingRenderers} </>;
+  } else {
+    const firstIndex = tokens.findIndex((token) => pattern.test(token));
+    if (firstIndex === undefined) {
+      return <>{...tokens}</>;
+    }
+    const firstRenderer = <mark>{tokens[firstIndex]}</mark>;
+    const remainingTokens = tokens.slice(firstIndex + 1, firstIndex + 1 + limit);
+    const remainingRenderers = remainingTokens.map((token) => renderToken(token));
 
-  const tokens = [
-    ...matchAll(text.slice(start), SPACE_OR_PUNCTUATION),
-    { index: text.length - start },
-  ];
-
-  const limitedTokens = tokens.slice(0, 16);
-  const { index: offset } = limitedTokens[limitedTokens.length - 1];
-
-  let title = text.slice(start, start + offset).replace(pattern, '<strong>$&</strong>');
-  if (start !== 0) {
-    title = `... ${title}`;
+    return (
+      <>
+        {}... {firstRenderer}
+        {...remainingRenderers} ...{}
+      </>
+    );
   }
-  if (offset !== text.length) {
-    title = `${title} ...`;
-  }
-
-  return title;
 }
 
 /**
  * Renderer for a single search result
  */
 function SearchItem({ result }: { result: RankedSearchResult }) {
-  const { hierarchy, type, url } = result;
+  const { hierarchy, type, url, queries } = result;
   const baseURL = useBaseurl();
 
+  // Render the icon
+  const iconRenderer =
+    type === 'lvl1' ? (
+      <DocumentTextIcon className="w-6 inline-block mx-2 text-gray-400" />
+    ) : type === 'content' ? (
+      <PencilIcon className="w-6 inline-block mx-2 text-gray-400" />
+    ) : (
+      <HashtagIcon className="w-6 inline-block mx-2 text-gray-400" />
+    );
+
   // Generic "this document matched"
-  const kind = type === 'content' ? 'text' : type === 'lvl1' ? 'file' : 'heading';
-  const title = highlightTitle(
-    result.type === 'content' ? result['content'] : hierarchy[type as HeadingLevel]!,
-    result,
+  const title = result.type === 'content' ? result['content'] : hierarchy[type as HeadingLevel]!;
+  const matches = queries.flatMap((query) => Object.keys(query.matches));
+
+  const titleTokens = title.split(SPACE_OR_PUNCTUATION);
+  const titleRenderer = (
+    <HighlightedTokens
+      tokens={titleTokens}
+      matches={matches}
+      limit={type === 'content' ? 16 : undefined}
+    />
   );
 
-  const icon =
-    kind === 'file' ? (
-      <DocumentTextIcon className="w-6 inline-block mx-2 text-gray-400" />
-    ) : kind === 'heading' ? (
-      <HashtagIcon className="w-6 inline-block mx-2 text-gray-400" />
-    ) : (
-      <PencilIcon className="w-6 inline-block mx-2 text-gray-400" />
-    );
+  let subtitleRenderer;
+  if (result.type === 'lvl1') {
+    subtitleRenderer = undefined;
+  } else {
+    const subtitle = result.hierarchy.lvl1!;
+    const subtitleTokens = subtitle.split(SPACE_OR_PUNCTUATION);
+    subtitleRenderer = <HighlightedTokens tokens={subtitleTokens} matches={matches} />;
+  }
+
   return (
     <a href={withBaseurl(url, baseURL)}>
-      <div>
-        {icon}
-        <span dangerouslySetInnerHTML={{ __html: title }} />
+      <div className="flex flex-row">
+        {iconRenderer}
+        <div className="flex flex-col">
+          <span className="text-sm">{titleRenderer}</span>
+          {subtitleRenderer && <span className="text-xs text-gray-400">{subtitleRenderer}</span>}
+        </div>
       </div>
     </a>
   );

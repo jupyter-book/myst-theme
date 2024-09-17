@@ -135,6 +135,76 @@ function SearchItem({ result }: { result: RankedSearchResult }) {
 }
 
 /**
+ * Return true if the client is a Mac, false if not, or undefined if running on the server
+ */
+function isMac(): boolean | undefined {
+  if (typeof window === 'undefined') {
+    return undefined;
+  } else {
+    console.log({ window });
+    const hostIsMac = /mac/i.test(
+      (window.navigator as any).userAgentData?.platform ?? window.navigator.userAgent,
+    );
+    return hostIsMac;
+  }
+}
+
+// Blocking code to ensure that the pre-hydration state on the client matches the post-hydration state
+// The server with SSR cannot determine the client platform
+const clientThemeCode = `
+;(() => {
+const script = document.currentScript;
+const root = script.parentElement;
+
+const isMac = /mac/i.test(
+      window.navigator.userAgentData?.platform ?? window.navigator.userAgent,
+    );
+root.querySelectorAll(".hide-mac").forEach(node => {node.classList.add(isMac ? "hidden" : "block")});
+root.querySelectorAll(".show-mac").forEach(node => {node.classList.add(!isMac ? "hidden" : "block")});
+})()`;
+
+function BlockingPlatformLoader() {
+  return <script dangerouslySetInnerHTML={{ __html: clientThemeCode }} />;
+}
+
+function SearchShortcut() {
+  const hostIsMac = isMac();
+  return (
+    <div
+      aria-hidden
+      className="hidden sm:flex items-center gap-x-1 text-sm text-gray-400 font-mono mx-1"
+    >
+      <kbd
+        className={classNames(
+          'px-2 py-1 border border-gray-200 rounded-md',
+          'shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)]',
+          'hide-mac',
+          { hidden: hostIsMac === true },
+          { block: hostIsMac === false },
+        )}
+      >
+        CTRL
+      </kbd>
+      <kbd
+        className={classNames(
+          'px-2 py-1 border border-gray-200 rounded-md',
+          'shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)]',
+          'show-mac',
+          { hidden: hostIsMac === false },
+          { block: hostIsMac === true },
+        )}
+      >
+        ⌘
+      </kbd>
+      <kbd className="px-2 py-1 border border-gray-200 rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] ">
+        K
+      </kbd>
+      <BlockingPlatformLoader />
+    </div>
+  );
+}
+
+/**
  * Component that implements a basic search interface
  */
 export function Search({ className, doSearch }: { className?: string; doSearch: ISearch }) {
@@ -162,7 +232,7 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
 
   // Trigger modal on keypress
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
-    if (event.key === 'k' && event.ctrlKey) {
+    if (event.key === 'k' && (isMac() ? event.metaKey : event.ctrlKey)) {
       setOpen(true);
       event.preventDefault();
     }
@@ -185,7 +255,7 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
       document.removeEventListener('keydown', handleKeyPress);
     };
   }, [handleKeyPress]);
-
+  console.log({ isMac: isMac() });
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
@@ -197,17 +267,7 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
         >
           <MagnifyingGlassIcon className="p-2.5 h-10 w-10 text-gray-400 aspect-square" />
           <span className="hidden sm:block text-gray-400 grow">Search</span>
-          <div
-            aria-hidden
-            className="hidden sm:flex items-center gap-x-1 text-sm text-gray-400 font-mono mx-1"
-          >
-            <kbd className="px-2 py-1 border border-gray-200 rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] ">
-              CTRL
-            </kbd>
-            <kbd className="px-2 py-1 border border-gray-200 rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] ">
-              K
-            </kbd>
-          </div>
+          <SearchShortcut />
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>

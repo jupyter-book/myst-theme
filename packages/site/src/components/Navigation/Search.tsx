@@ -73,7 +73,7 @@ function MarkedText({ text, matches, limit }: { text: string; matches: string[];
   if (tokens.length === 0) {
     return <>{...tokens}</>;
   } else {
-    const firstRenderer = <mark>{tokens[firstIndex]}</mark>;
+    const firstRenderer = renderToken(tokens[firstIndex]);
     const remainingTokens = tokens.slice(firstIndex + 1, lastIndex);
     const remainingRenderers = remainingTokens.map((token) => renderToken(token));
 

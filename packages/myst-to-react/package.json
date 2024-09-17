@@ -20,13 +20,18 @@
     "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-regular-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@heroicons/react": "^2.0.18",
+    "@mui/icons-material": "^6.1.0",
+    "@mui/material": "^6.1.0",
     "@myst-theme/providers": "^0.12.0",
+    "@primer/octicons-react": "^19.11.0",
     "@radix-ui/react-hover-card": "^1.0.6",
     "@scienceicons/react": "^0.0.6",
     "buffer": "^6.0.3",

@@ -168,6 +168,13 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
     }
   }, []);
 
+  // Clear search state on close
+  useEffect(() => {
+    if (!open) {
+      setSearchResults([]);
+    }
+  }, [open]);
+
   // Mount the document event handlers
   useEffect(() => {
     // attach the event listener

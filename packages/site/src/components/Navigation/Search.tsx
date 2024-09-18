@@ -166,7 +166,13 @@ function SearchShortcut() {
 /**
  * Renderer for a single search result
  */
-function SearchResultItem({ result, checked, onCheck }: { result: RankedSearchResult }) {
+function SearchResultItem({
+  result,
+  closeSearch,
+}: {
+  result: RankedSearchResult;
+  closeSearch?: () => void;
+}) {
   const { hierarchy, type, url, queries } = result;
   const baseURL = useBaseurl();
 
@@ -198,13 +204,11 @@ function SearchResultItem({ result, checked, onCheck }: { result: RankedSearchRe
 
   return (
     <li
-      aria-checked={checked}
-      data-state={checked ? 'checked' : 'unchecked'}
       role="radio"
       className="group text-gray-700 dark:text-white rounded-sm mt-1 p-1
 aria-checked:bg-blue-600 aria-checked:text-white"
     >
-      <a href={withBaseurl(url, baseURL)}>
+      <a href={withBaseurl(url, baseURL)} onClick={() => closeSearch?.()}>
         <div className="flex flex-row ">
           {iconRenderer}
           <div className="flex flex-col">
@@ -220,9 +224,11 @@ aria-checked:bg-blue-600 aria-checked:text-white"
 function SearchResults({
   results,
   className,
+  closeSearch,
 }: {
   results: RankedSearchResult[];
   className?: string;
+  closeSearch?: () => void;
 }) {
   return (
     <ul
@@ -231,7 +237,7 @@ function SearchResults({
       role="radiogroup"
     >
       {results.map((result) => (
-        <SearchResultItem result={result} key={result.id} />
+        <SearchResultItem result={result} key={result.id} closeSearch={closeSearch} />
       ))}
     </ul>
   );
@@ -350,7 +356,13 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
               </button>
             </Dialog.Close>
           </div>
-          {!!searchResults.length && <SearchResults results={searchResults} className="mt-4" />}
+          {!!searchResults.length && (
+            <SearchResults
+              results={searchResults}
+              className="mt-4"
+              closeSearch={() => setOpen(false)}
+            />
+          )}
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

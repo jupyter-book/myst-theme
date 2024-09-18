@@ -53,7 +53,9 @@ function MarkedText({ text, matches, limit }: { text: string; matches: string[];
   const renderToken = (token: string) =>
     pattern.test(token) ? (
       <>
-        <mark>{token}</mark>
+        <mark className="bg-inherit text-blue-600 dark:text-white group-aria-checked:text-white group-aria-checked:underline">
+          {token}
+        </mark>
       </>
     ) : (
       token
@@ -86,52 +88,6 @@ function MarkedText({ text, matches, limit }: { text: string; matches: string[];
       </>
     );
   }
-}
-
-/**
- * Renderer for a single search result
- */
-function SearchItem({ result }: { result: RankedSearchResult }) {
-  const { hierarchy, type, url, queries } = result;
-  const baseURL = useBaseurl();
-
-  // Render the icon
-  const iconRenderer =
-    type === 'lvl1' ? (
-      <DocumentTextIcon className="w-6 inline-block mx-2 text-gray-400" />
-    ) : type === 'content' ? (
-      <PencilIcon className="w-6 inline-block mx-2 text-gray-400" />
-    ) : (
-      <HashtagIcon className="w-6 inline-block mx-2 text-gray-400" />
-    );
-
-  // Generic "this document matched"
-  const title = result.type === 'content' ? result['content'] : hierarchy[type as HeadingLevel]!;
-  const matches = queries.flatMap((query) => Object.keys(query.matches));
-
-  const titleRenderer = (
-    <MarkedText text={title} matches={matches} limit={type === 'content' ? 16 : undefined} />
-  );
-
-  let subtitleRenderer;
-  if (result.type === 'lvl1') {
-    subtitleRenderer = undefined;
-  } else {
-    const subtitle = result.hierarchy.lvl1!;
-    subtitleRenderer = <MarkedText text={subtitle} matches={matches} />;
-  }
-
-  return (
-    <a href={withBaseurl(url, baseURL)}>
-      <div className="flex flex-row">
-        {iconRenderer}
-        <div className="flex flex-col">
-          <span className="text-sm">{titleRenderer}</span>
-          {subtitleRenderer && <span className="text-xs text-gray-400">{subtitleRenderer}</span>}
-        </div>
-      </div>
-    </a>
-  );
 }
 
 /**
@@ -208,6 +164,80 @@ function SearchShortcut() {
 }
 
 /**
+ * Renderer for a single search result
+ */
+function SearchResultItem({ result, checked, onCheck }: { result: RankedSearchResult }) {
+  const { hierarchy, type, url, queries } = result;
+  const baseURL = useBaseurl();
+
+  // Render the icon
+  const iconRenderer =
+    type === 'lvl1' ? (
+      <DocumentTextIcon className="w-6 inline-block mx-2" />
+    ) : type === 'content' ? (
+      <PencilIcon className="w-6 inline-block mx-2" />
+    ) : (
+      <HashtagIcon className="w-6 inline-block mx-2" />
+    );
+
+  // Generic "this document matched"
+  const title = result.type === 'content' ? result['content'] : hierarchy[type as HeadingLevel]!;
+  const matches = queries.flatMap((query) => Object.keys(query.matches));
+
+  const titleRenderer = (
+    <MarkedText text={title} matches={matches} limit={type === 'content' ? 16 : undefined} />
+  );
+
+  let subtitleRenderer;
+  if (result.type === 'lvl1') {
+    subtitleRenderer = undefined;
+  } else {
+    const subtitle = result.hierarchy.lvl1!;
+    subtitleRenderer = <MarkedText text={subtitle} matches={matches} />;
+  }
+
+  return (
+    <li
+      aria-checked={checked}
+      data-state={checked ? 'checked' : 'unchecked'}
+      role="radio"
+      className="group text-gray-700 dark:text-white rounded-sm mt-1 p-1
+aria-checked:bg-blue-600 aria-checked:text-white"
+    >
+      <a href={withBaseurl(url, baseURL)}>
+        <div className="flex flex-row ">
+          {iconRenderer}
+          <div className="flex flex-col">
+            <span className="text-sm">{titleRenderer}</span>
+            {subtitleRenderer && <span className="text-xs">{subtitleRenderer}</span>}
+          </div>
+        </div>
+      </a>
+    </li>
+  );
+}
+
+function SearchResults({
+  results,
+  className,
+}: {
+  results: RankedSearchResult[];
+  className?: string;
+}) {
+  return (
+    <ul
+      className={classNames('overflow-y-scroll mt-4 flex flex-col gap-y-1', className)}
+      aria-label="Search results"
+      role="radiogroup"
+    >
+      {results.map((result) => (
+        <SearchResultItem result={result} key={result.id} />
+      ))}
+    </ul>
+  );
+}
+
+/**
  * Component that implements a basic search interface
  */
 export function Search({ className, doSearch }: { className?: string; doSearch: ISearch }) {
@@ -258,7 +288,7 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
       document.removeEventListener('keydown', handleKeyPress);
     };
   }, [handleKeyPress]);
-  console.log({ isMac: isMac() });
+
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
@@ -281,6 +311,7 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
         <Dialog.Overlay className="fixed inset-0 bg-[#656c85cc] z-[1000]" />
         <Dialog.Content
           className="fixed flex flex-col top-0 bg-white dark:bg-stone-900 z-[1001] h-screen w-screen sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4 text-gray-900 dark:text-white"
+          // Store state as CSS variables so that we can set the style with tailwind variants
           style={
             {
               '--content-top': `${top}px`,
@@ -309,6 +340,7 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
                 'dark:placeholder-gray-400',
               )}
               placeholder="Search"
+              type="search"
               required
               onChange={handleSearchChange}
             />
@@ -318,18 +350,7 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
               </button>
             </Dialog.Close>
           </div>
-          {!!searchResults.length && (
-            <ul className="overflow-y-scroll mt-4">
-              {searchResults.map((result) => (
-                <li
-                  key={result.id}
-                  className="hover:bg-blue-500 hover:text-white rounded-sm mt-1 p-1"
-                >
-                  <SearchItem result={result} />
-                </li>
-              ))}
-            </ul>
-          )}
+          {!!searchResults.length && <SearchResults results={searchResults} className="mt-4" />}
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

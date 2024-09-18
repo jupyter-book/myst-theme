@@ -167,6 +167,9 @@ function BlockingPlatformLoader() {
   return <script dangerouslySetInnerHTML={{ __html: clientThemeCode }} />;
 }
 
+/**
+ * Component that represents the keyboard shortcut for launching search
+ */
 function SearchShortcut() {
   const hostIsMac = isMac();
   return (
@@ -176,8 +179,8 @@ function SearchShortcut() {
     >
       <kbd
         className={classNames(
-          'px-2 py-1 border border-gray-200 rounded-md',
-          'shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)]',
+          'px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md',
+          'shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none',
           'hide-mac',
           { hidden: hostIsMac === true },
           { block: hostIsMac === false },
@@ -187,8 +190,8 @@ function SearchShortcut() {
       </kbd>
       <kbd
         className={classNames(
-          'px-2 py-1 border border-gray-200 rounded-md',
-          'shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)]',
+          'px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md',
+          'shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none',
           'show-mac',
           { hidden: hostIsMac === false },
           { block: hostIsMac === true },
@@ -196,7 +199,7 @@ function SearchShortcut() {
       >
         ⌘
       </kbd>
-      <kbd className="px-2 py-1 border border-gray-200 rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] ">
+      <kbd className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none ">
         K
       </kbd>
       <BlockingPlatformLoader />
@@ -262,18 +265,22 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
         <button
           className={classNames(
             className,
-            'flex items-center h-10 aspect-square sm:w-64 border border-gray-300 rounded-lg bg-gray-50 hover:ring-blue-500 hover:border-blue-500 dark:bg-gray-700 dark:border-gray-600 text-left dark:hover:ring-blue-500 dark:hover:border-blue-500',
+            'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-400',
+            'border border-gray-300 dark:border-gray-600',
+            'rounded-lg bg-gray-50 dark:bg-gray-700',
+            'hover:ring-blue-500 dark:hover:ring-blue-500',
+            'hover:border-blue-500 dark:hover:border-blue-500',
           )}
         >
-          <MagnifyingGlassIcon className="p-2.5 h-10 w-10 text-gray-400 aspect-square" />
-          <span className="hidden sm:block text-gray-400 grow">Search</span>
+          <MagnifyingGlassIcon className="p-2.5 h-10 w-10 aspect-square" />
+          <span className="hidden sm:block grow">Search</span>
           <SearchShortcut />
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-[#656c85cc] z-[1000]" />
         <Dialog.Content
-          className="fixed flex flex-col top-0 bg-white z-[1001] h-screen w-screen sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4"
+          className="fixed flex flex-col top-0 bg-white dark:bg-stone-900 z-[1001] h-screen w-screen sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4 text-gray-900 dark:text-white"
           style={
             {
               '--content-top': `${top}px`,
@@ -289,12 +296,17 @@ export function Search({ className, doSearch }: { className?: string; doSearch: 
               Search articles and their contents using fuzzy-search and prefix-matching
             </Dialog.Description>
           </VisuallyHidden.Root>
-          <div className="relative flex flow-row gap-x-1 h-10 w-full text-gray-900 dark:placeholder-gray-400 dark:text-white">
+          <div className="relative flex flow-row gap-x-1 h-10 w-full ">
             <MagnifyingGlassIcon className="absolute text-gray-400 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
             <input
               className={classNames(
                 className,
-                'block flex-grow p-2 ps-10 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'block flex-grow p-2 ps-10 placeholder-gray-400',
+                'border border-gray-300 dark:border-gray-600',
+                'rounded-lg bg-gray-50 dark:bg-gray-700',
+                'focus:ring-blue-500 dark:focus:ring-blue-500',
+                'focus:border-blue-500 dark:focus:border-blue-500',
+                'dark:placeholder-gray-400',
               )}
               placeholder="Search"
               required

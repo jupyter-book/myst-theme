@@ -15,9 +15,12 @@ export function prepareOptions(options: Options): ExtendedOptions {
 
 export type RawSearchResult = SearchRecord & MiniSearchResult;
 
-export function combineResults(results: Map<string, Map<string, RawSearchResult>>) {
+export function combineResults(results: Map<string, Map<string, RawSearchResult>>): SearchResult[] {
   const [firstEntry, ...restEntries] = results.entries();
-
+  if (firstEntry === undefined) {
+    return [];
+  }
+  // Transform from { terms, queryTerms, match} to [ { term, matches} ]
   const firstRawResults = firstEntry[1];
   const initialValue = new Map<string, SearchResult>(
     Array.from(firstRawResults.entries(), ([id, rawResult]) => {
@@ -38,6 +41,7 @@ export function combineResults(results: Map<string, Map<string, RawSearchResult>
       ];
     }),
   );
+  // Reduce all entries with this transform
   const mergedResults = restEntries.reduce(
     (accumulator: Map<string, SearchResult>, value: [string, Map<string, RawSearchResult>]) => {
       const nextAccumulator = new Map<string, SearchResult>();

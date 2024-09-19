@@ -136,7 +136,7 @@ export default function Page() {
   const { container } = useOutlineHeight();
   const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
   const baseurl = useBaseurl();
-  const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.options ?? {};
+  const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.site ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
   const { hide_toc, hide_footer_links } = {

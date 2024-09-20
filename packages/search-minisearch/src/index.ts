@@ -9,7 +9,7 @@ export function prepareOptions(options: Options): ExtendedOptions {
     ...options,
     tokenize: MiniSearch.getDefault('tokenize'),
     processTerm: MiniSearch.getDefault('processTerm'),
-    extractField
+    extractField,
   };
 }
 
@@ -73,7 +73,7 @@ export function createSearch(documents: SearchRecord[], options: Options): ISear
   return (query: string) => {
     // Implement executeQuery whilst retaining distinction between terms
     // TODO: should we check for unique terms?
-    const terms = extendedOptions.tokenize(query);
+    const terms = extendedOptions.tokenize(query).filter((token) => !!token);
     const termResults = new Map(
       terms.map((term) => [
         term,

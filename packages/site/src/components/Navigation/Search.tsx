@@ -428,15 +428,36 @@ function SearchForm({
 }
 
 export interface SearchProps {
-  className?: string;
   doSearch: ISearch;
   debounceTime?: number;
+}
+
+interface SearchPlaceholderButtonProps {
+  className?: string;
+}
+function SearchPlaceholderButton({ className }: SearchPlaceholderButtonProps) {
+  return (
+    <button
+      className={classNames(
+        className,
+        'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-400',
+        'border border-gray-300 dark:border-gray-600',
+        'rounded-lg bg-gray-50 dark:bg-gray-700',
+        'hover:ring-blue-500 dark:hover:ring-blue-500',
+        'hover:border-blue-500 dark:hover:border-blue-500',
+      )}
+    >
+      <MagnifyingGlassIcon className="p-2.5 h-10 w-10 aspect-square" />
+      <span className="hidden sm:block grow">Search</span>
+      <SearchShortcut />
+    </button>
+  );
 }
 
 /**
  * Component that implements a basic search interface
  */
-export function Search({ className, doSearch, debounceTime = 500 }: SearchProps) {
+export function Search({ doSearch, debounceTime = 500 }: SearchProps) {
   const [open, setOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<RankedSearchResult[]>([]);
   const [query, setQuery] = useState<string>('');
@@ -489,20 +510,7 @@ export function Search({ className, doSearch, debounceTime = 500 }: SearchProps)
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <button
-          className={classNames(
-            className,
-            'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-400',
-            'border border-gray-300 dark:border-gray-600',
-            'rounded-lg bg-gray-50 dark:bg-gray-700',
-            'hover:ring-blue-500 dark:hover:ring-blue-500',
-            'hover:border-blue-500 dark:hover:border-blue-500',
-          )}
-        >
-          <MagnifyingGlassIcon className="p-2.5 h-10 w-10 aspect-square" />
-          <span className="hidden sm:block grow">Search</span>
-          <SearchShortcut />
-        </button>
+        <SearchPlaceholderButton />
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-[#656c85cc] z-[1000]" />

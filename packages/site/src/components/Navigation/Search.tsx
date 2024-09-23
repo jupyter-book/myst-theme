@@ -232,6 +232,16 @@ group-aria-selected:bg-blue-600 group-aria-selected:text-white shadow-md dark:sh
   );
 }
 
+interface SearchResultsProps {
+  results: RankedSearchResult[];
+  searchListID: string;
+  searchLabelID: string;
+  selectedIndex: number;
+  onHoverSelect: (index: number) => void;
+  className?: string;
+  closeSearch?: () => void;
+}
+
 function SearchResults({
   results,
   searchListID,
@@ -240,15 +250,7 @@ function SearchResults({
   selectedIndex,
   onHoverSelect,
   closeSearch,
-}: {
-  results: RankedSearchResult[];
-  searchListID: string;
-  searchLabelID: string;
-  selectedIndex: number;
-  onHoverSelect: (index: number) => void;
-  className?: string;
-  closeSearch?: () => void;
-}) {
+}: SearchResultsProps) {
   // Array of search item refs
   const itemsRef = useRef<(HTMLLIElement | null)[]>([]);
 
@@ -280,6 +282,7 @@ function SearchResults({
     item?.scrollIntoView({ block: 'nearest' });
   }, [selectedIndex]);
 
+  // Handle mouse movement events that set the current hovered element
   const handleMouseMove = useCallback(
     (event: MouseEvent<HTMLLIElement>) => {
       const index = parseInt((event.currentTarget as HTMLLIElement).dataset.index!);
@@ -312,8 +315,6 @@ function SearchResults({
           aria-selected={selectedIndex === index}
           // Allow for nested-highlighting
           className="group"
-          // Set unique ID
-          id={`option-${index}`}
           // Trigger selection on movement, so that scrolling doesn't trigger handler
           onMouseMove={handleMouseMove}
         >
@@ -323,6 +324,18 @@ function SearchResults({
     </ul>
   );
 }
+
+interface SearchFormProps {
+  results: RankedSearchResult[];
+  setQuery: Dispatch<SetStateAction<string>>;
+  searchInputID: string;
+  searchListID: string;
+  searchLabelID: string;
+  selectedIndex: number;
+  setSelectedIndex: Dispatch<SetStateAction<number>>;
+  closeSearch?: () => void;
+}
+
 function SearchForm({
   results,
   setQuery,
@@ -332,16 +345,7 @@ function SearchForm({
   selectedIndex,
   setSelectedIndex,
   closeSearch,
-}: {
-  results: RankedSearchResult[];
-  setQuery: Dispatch<SetStateAction<string>>;
-  searchInputID: string;
-  searchListID: string;
-  searchLabelID: string;
-  selectedIndex: number;
-  setSelectedIndex: Dispatch<SetStateAction<number>>;
-  closeSearch?: () => void;
-}) {
+}: SearchFormProps) {
   // Handle user input
   const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
@@ -422,18 +426,17 @@ function SearchForm({
     </form>
   );
 }
-/**
- * Component that implements a basic search interface
- */
-export function Search({
-  className,
-  doSearch,
-  debounceTime = 500,
-}: {
+
+export interface SearchProps {
   className?: string;
   doSearch: ISearch;
   debounceTime?: number;
-}) {
+}
+
+/**
+ * Component that implements a basic search interface
+ */
+export function Search({ className, doSearch, debounceTime = 500 }: SearchProps) {
   const [open, setOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<RankedSearchResult[]>([]);
   const [query, setQuery] = useState<string>('');

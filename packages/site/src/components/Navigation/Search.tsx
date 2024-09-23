@@ -1,16 +1,5 @@
-import {
-  useEffect,
-  useState,
-  useMemo,
-  useCallback,
-  useRef,
-  forwardRef,
-  type KeyboardEventHandler,
-  type Dispatch,
-  type SetStateAction,
-  type FormEvent,
-  type MouseEvent,
-} from 'react';
+import { useEffect, useState, useMemo, useCallback, useRef, forwardRef } from 'react';
+import type { KeyboardEventHandler, Dispatch, SetStateAction, FormEvent, MouseEvent } from 'react';
 import { useNavigate, Link, useFetcher } from '@remix-run/react';
 import {
   MagnifyingGlassIcon,
@@ -22,36 +11,9 @@ import {
 import classNames from 'classnames';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import type {
-  ISearch,
-  RankedSearchResult,
-  HeadingLevel,
-  MystSearchIndex,
-} from '@myst-theme/search';
+import type { RankedSearchResult, HeadingLevel, MystSearchIndex } from '@myst-theme/search';
 import { SPACE_OR_PUNCTUATION, rankAndFilterResults } from '@myst-theme/search';
 import { useThemeTop, useSearchFactory } from '@myst-theme/providers';
-
-function useSearch() {
-  const fetcher = useFetcher();
-  // Load index when this component is required
-  useEffect(() => {
-    if (fetcher.state === 'idle' && fetcher.data == null) {
-      fetcher.load('/myst.search.json');
-    }
-  }, [fetcher]);
-
-  const searchFactory = useSearchFactory();
-  const search = useMemo(() => {
-    if (!fetcher.data || !searchFactory) {
-      return undefined;
-    } else {
-      return searchFactory(fetcher.data as MystSearchIndex);
-    }
-  }, [searchFactory, fetcher.data]);
-
-  // Implement pass-through
-  return search;
-}
 
 /**
  * Shim for string.matchAll
@@ -351,6 +313,33 @@ function SearchResults({
       ))}
     </ul>
   );
+}
+
+/**
+ * Build search implementation by requesting search index from server
+ */
+function useSearch() {
+  const fetcher = useFetcher();
+  // Load index when this component is required
+  // TODO: this reloads every time the search box is opened.
+  //       we should lift the state up
+  useEffect(() => {
+    if (fetcher.state === 'idle' && fetcher.data == null) {
+      fetcher.load('/myst.search.json');
+    }
+  }, [fetcher]);
+
+  const searchFactory = useSearchFactory();
+  const search = useMemo(() => {
+    if (!fetcher.data || !searchFactory) {
+      return undefined;
+    } else {
+      return searchFactory(fetcher.data as MystSearchIndex);
+    }
+  }, [searchFactory, fetcher.data]);
+
+  // Implement pass-through
+  return search;
 }
 
 interface SearchFormProps {

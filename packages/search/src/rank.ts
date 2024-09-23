@@ -296,6 +296,6 @@ function cmpRankedSearchResults(left: RankedSearchResult, right: RankedSearchRes
 /**
  * Rank and then filter raw search results
  */
-export function rankAndFilterResults(results: SearchResult[]): RankedSearchResult[] {
+export function rankResults(results: SearchResult[]): RankedSearchResult[] {
   return results.map(rankSearchResult).sort(cmpRankedSearchResults);
 }

@@ -13,7 +13,7 @@ import classNames from 'classnames';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import type { RankedSearchResult, HeadingLevel, MystSearchIndex } from '@myst-theme/search';
-import { SPACE_OR_PUNCTUATION, rankAndFilterResults } from '@myst-theme/search';
+import { SPACE_OR_PUNCTUATION, rankResults } from '@myst-theme/search';
 import { useThemeTop, useSearchFactory, useLinkProvider } from '@myst-theme/providers';
 
 /**
@@ -389,9 +389,9 @@ function SearchForm({
         doSearch(query).then((rawResults) => {
           setSearchResults(
             rawResults &&
-              rankAndFilterResults(rawResults)
+              rankResults(rawResults)
                 // Filter duplicates by URL
-                .filter((result, index) => result.url !== rawResults[index - 1]?.url),
+                .filter((result, index, array) => result.url !== array[index - 1]?.url),
           );
         });
       }

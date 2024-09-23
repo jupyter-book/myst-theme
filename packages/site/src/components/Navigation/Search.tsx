@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo, useCallback, useRef, forwardRef } from 'r
 import type { KeyboardEventHandler, Dispatch, SetStateAction, FormEvent, MouseEvent } from 'react';
 import { useNavigate, useFetcher } from '@remix-run/react';
 import {
+  ArrowTurnDownLeftIcon,
   MagnifyingGlassIcon,
   DocumentTextIcon,
   HashtagIcon,
@@ -204,6 +205,11 @@ function SearchResultItem({
     const subtitle = result.hierarchy.lvl1!;
     subtitleRenderer = <MarkedText text={subtitle} matches={matches} />;
   }
+
+  const enterIconRenderer = (
+    <ArrowTurnDownLeftIcon className="invisible group-aria-selected:visible w-6 mx-2" />
+  );
+
   return (
     <Link
       className="block text-gray-700 dark:text-white rounded px-1 py-2
@@ -214,10 +220,11 @@ group-aria-selected:bg-blue-600 group-aria-selected:text-white shadow-md dark:sh
     >
       <div className="flex flex-row h-11">
         {iconRenderer}
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center grow">
           <span className="text-sm">{titleRenderer}</span>
           {subtitleRenderer && <span className="text-xs">{subtitleRenderer}</span>}
         </div>
+        {enterIconRenderer}
       </div>
     </Link>
   );
@@ -380,7 +387,6 @@ function SearchForm({
     const timeoutId = setTimeout(() => {
       if (query != undefined && !!doSearch) {
         doSearch(query).then((rawResults) => {
-          console.log({ rawResults });
           setSearchResults(
             rawResults &&
               rankAndFilterResults(rawResults)

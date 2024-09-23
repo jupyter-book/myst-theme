@@ -74,13 +74,17 @@ export function createSearch(documents: SearchRecord[], options: Options): ISear
     // Implement executeQuery whilst retaining distinction between terms
     // TODO: should we check for unique terms?
     const terms = extendedOptions.tokenize(query).filter((token) => !!token);
-    const termResults = new Map(
-      terms.map((term) => [
-        term,
-        new Map(search.search(term).map((doc) => [doc.id, doc as RawSearchResult])),
-      ]),
-    );
+    if (!terms.length) {
+      return undefined;
+    } else {
+      const termResults = new Map(
+        terms.map((term) => [
+          term,
+          new Map(search.search(term).map((doc) => [doc.id, doc as RawSearchResult])),
+        ]),
+      );
 
-    return combineResults(termResults);
+      return combineResults(termResults);
+    }
   };
 }

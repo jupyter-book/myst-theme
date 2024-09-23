@@ -43,7 +43,7 @@ export type SearchResult = SearchRecord & {
 };
 
 export interface ISearch {
-  (query: string): Promise<SearchResult[]>;
+  (query: string): Promise<SearchResult[] | undefined>;
 }
 
 /// Search ranking

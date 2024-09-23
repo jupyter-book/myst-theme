@@ -1,7 +1,7 @@
 import type { LinksFunction, V2_MetaFunction, LoaderFunction } from '@remix-run/node';
 import tailwind from '~/styles/app.css';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
-import { getConfig, getMystSearchJson } from '~/utils/loaders.server';
+import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/common';
 import {
   Document,
@@ -14,8 +14,9 @@ import {
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { createSearch as createMiniSearch } from '@myst-theme/search-minisearch';
 import { Outlet, useLoaderData } from '@remix-run/react';
-import { SearchFactoryProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
-import { type ISearch, SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
+import { SearchFactoryProvider } from '@myst-theme/providers';
+import type { ISearch, MystSearchIndex } from '@myst-theme/search';
+import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 import { useCallback, useMemo } from 'react';
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
@@ -63,21 +64,17 @@ export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> =
   return data;
 };
 
-function createSearch(index?: MystSearchIndex): ISearch | undefined {
-  if (!index) {
-    return undefined;
-  } else {
-    const options = {
-      fields: SEARCH_ATTRIBUTES_ORDERED as any as string[],
-      storeFields: ['hierarchy', 'content', 'url', 'type', 'id', 'position'],
-      idField: 'id',
-      searchOptions: {
-        fuzzy: 0.2,
-        prefix: true,
-      },
-    };
-    return createMiniSearch(index.records, options);
-  }
+function createSearch(index: MystSearchIndex): ISearch {
+  const options = {
+    fields: SEARCH_ATTRIBUTES_ORDERED as any as string[],
+    storeFields: ['hierarchy', 'content', 'url', 'type', 'id', 'position'],
+    idField: 'id',
+    searchOptions: {
+      fuzzy: 0.2,
+      prefix: true,
+    },
+  };
+  return createMiniSearch(index.records, options);
 }
 
 export default function AppWithReload() {

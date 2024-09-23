@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useCallback, useRef, forwardRef } from 'react';
 import type { KeyboardEventHandler, Dispatch, SetStateAction, FormEvent, MouseEvent } from 'react';
-import { useNavigate, Link, useFetcher } from '@remix-run/react';
+import { useNavigate, useFetcher } from '@remix-run/react';
 import {
   MagnifyingGlassIcon,
   DocumentTextIcon,
@@ -13,7 +13,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import type { RankedSearchResult, HeadingLevel, MystSearchIndex } from '@myst-theme/search';
 import { SPACE_OR_PUNCTUATION, rankAndFilterResults } from '@myst-theme/search';
-import { useThemeTop, useSearchFactory } from '@myst-theme/providers';
+import { useThemeTop, useSearchFactory, useLinkProvider } from '@myst-theme/providers';
 
 /**
  * Shim for string.matchAll
@@ -175,6 +175,7 @@ function SearchResultItem({
   closeSearch?: () => void;
 }) {
   const { hierarchy, type, url, queries } = result;
+  const Link = useLinkProvider();
 
   // Render the icon
   const iconRenderer =
@@ -223,7 +224,7 @@ group-aria-selected:bg-blue-600 group-aria-selected:text-white shadow-md dark:sh
 }
 
 interface SearchResultsProps {
-  results: RankedSearchResult[];
+  searchResults: RankedSearchResult[];
   searchListID: string;
   searchLabelID: string;
   selectedIndex: number;
@@ -233,7 +234,7 @@ interface SearchResultsProps {
 }
 
 function SearchResults({
-  results,
+  searchResults,
   searchListID,
   searchLabelID,
   className,
@@ -281,37 +282,43 @@ function SearchResults({
     [onHoverSelect],
   );
   return (
-    <ul
-      // Accessiblity:
-      // indicate that this is a selectbox
-      role="listbox"
-      id={searchListID}
-      aria-label="Search results"
-      aria-labelledby={searchLabelID}
-      aria-orientation="vertical"
-      // Track focused item
-      aria-activedescendant={activeDescendent}
-      className={classNames('overflow-y-scroll mt-4 flex flex-col gap-y-2 px-1', className)}
-    >
-      {results.map((result, index) => (
-        <li
-          key={result.id}
-          ref={setItemRef}
-          data-index={index}
+    <div className="overflow-y-scroll mt-4">
+      {searchResults.length ? (
+        <ul
           // Accessiblity:
-          //   Indicate that this is an option
-          role="option"
-          //   Indicate whether this is selected
-          aria-selected={selectedIndex === index}
-          // Allow for nested-highlighting
-          className="group"
-          // Trigger selection on movement, so that scrolling doesn't trigger handler
-          onMouseMove={handleMouseMove}
+          // indicate that this is a selectbox
+          role="listbox"
+          id={searchListID}
+          aria-label="Search results"
+          aria-labelledby={searchLabelID}
+          aria-orientation="vertical"
+          // Track focused item
+          aria-activedescendant={activeDescendent}
+          className={classNames('flex flex-col gap-y-2 px-1', className)}
         >
-          <SearchResultItem result={result} closeSearch={closeSearch} />
-        </li>
-      ))}
-    </ul>
+          {searchResults.map((result, index) => (
+            <li
+              key={result.id}
+              ref={setItemRef}
+              data-index={index}
+              // Accessiblity:
+              //   Indicate that this is an option
+              role="option"
+              //   Indicate whether this is selected
+              aria-selected={selectedIndex === index}
+              // Allow for nested-highlighting
+              className="group"
+              // Trigger selection on movement, so that scrolling doesn't trigger handler
+              onMouseMove={handleMouseMove}
+            >
+              <SearchResultItem result={result} closeSearch={closeSearch} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <span>No results found.</span>
+      )}
+    </div>
   );
 }
 
@@ -344,8 +351,8 @@ function useSearch() {
 
 interface SearchFormProps {
   debounceTime: number;
-  results: RankedSearchResult[];
-  setSearchResults: Dispatch<SetStateAction<RankedSearchResult[]>>;
+  searchResults: RankedSearchResult[] | undefined;
+  setSearchResults: Dispatch<SetStateAction<RankedSearchResult[] | undefined>>;
   searchInputID: string;
   searchListID: string;
   searchLabelID: string;
@@ -356,7 +363,7 @@ interface SearchFormProps {
 
 function SearchForm({
   debounceTime,
-  results: searchResults,
+  searchResults,
   setSearchResults,
   searchInputID,
   searchListID,
@@ -373,11 +380,13 @@ function SearchForm({
     const timeoutId = setTimeout(() => {
       if (query != undefined && !!doSearch) {
         doSearch(query).then((rawResults) => {
-          const rankedResults = rankAndFilterResults(rawResults)
-            // Filter duplicates by URL
-            .filter((result, index) => result.url !== rawResults[index - 1]?.url);
-
-          setSearchResults(rankedResults);
+          console.log({ rawResults });
+          setSearchResults(
+            rawResults &&
+              rankAndFilterResults(rawResults)
+                // Filter duplicates by URL
+                .filter((result, index) => result.url !== rawResults[index - 1]?.url),
+          );
         });
       }
     }, debounceTime);
@@ -395,6 +404,9 @@ function SearchForm({
     (event) => {
       // Ignore modifiers
       if (event.ctrlKey || event.altKey || event.shiftKey) {
+        return;
+      }
+      if (!searchResults) {
         return;
       }
 
@@ -505,14 +517,14 @@ export interface SearchProps {
  */
 export function Search({ debounceTime = 500 }: SearchProps) {
   const [open, setOpen] = useState(false);
-  const [searchResults, setSearchResults] = useState<RankedSearchResult[]>([]);
+  const [searchResults, setSearchResults] = useState<RankedSearchResult[] | undefined>();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const top = useThemeTop();
 
   // Clear search state on close
   useEffect(() => {
     if (!open) {
-      setSearchResults([]);
+      setSearchResults(undefined);
       setSelectedIndex(0);
     }
   }, [open]);
@@ -567,24 +579,22 @@ export function Search({ debounceTime = 500 }: SearchProps) {
             searchLabelID="search-label"
             searchInputID="search-input"
             debounceTime={debounceTime}
-            results={searchResults}
+            searchResults={searchResults}
             setSearchResults={setSearchResults}
             selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}
             closeSearch={triggerClose}
           />
-          {searchResults.length ? (
+          {searchResults && (
             <SearchResults
               searchListID="search-list"
               searchLabelID="search-label"
               className="mt-4"
-              results={searchResults}
+              searchResults={searchResults}
               selectedIndex={selectedIndex}
               onHoverSelect={setSelectedIndex}
               closeSearch={triggerClose}
             />
-          ) : (
-            <span className="mt-4">There's nothing here ...</span>
           )}
         </Dialog.Content>
       </Dialog.Portal>

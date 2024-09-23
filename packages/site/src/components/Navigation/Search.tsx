@@ -234,12 +234,16 @@ group-aria-selected:bg-blue-600 group-aria-selected:text-white shadow-md dark:sh
 
 function SearchResults({
   results,
+  searchListID,
+  searchLabelID,
   className,
   selectedIndex,
   onHoverSelect,
   closeSearch,
 }: {
   results: RankedSearchResult[];
+  searchListID: string;
+  searchLabelID: string;
   selectedIndex: number;
   onHoverSelect: (index: number) => void;
   className?: string;
@@ -288,9 +292,9 @@ function SearchResults({
       // Accessiblity:
       // indicate that this is a selectbox
       role="listbox"
-      id="search-list"
+      id={searchListID}
       aria-label="Search results"
-      aria-labelledby="search-label"
+      aria-labelledby={searchLabelID}
       aria-orientation="vertical"
       // Track focused item
       aria-activedescendant={activeDescendent}
@@ -322,12 +326,18 @@ function SearchResults({
 function SearchForm({
   results,
   setQuery,
+  searchInputID,
+  searchListID,
+  searchLabelID,
   selectedIndex,
   setSelectedIndex,
   closeSearch,
 }: {
   results: RankedSearchResult[];
   setQuery: Dispatch<SetStateAction<string>>;
+  searchInputID: string;
+  searchListID: string;
+  searchLabelID: string;
   selectedIndex: number;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
   closeSearch?: () => void;
@@ -379,7 +389,7 @@ function SearchForm({
   return (
     <form onSubmit={onSubmit}>
       <div className="relative flex flow-row gap-x-1 h-10 w-full ">
-        <label id="search-label" htmlFor="search-input">
+        <label id={searchListID} htmlFor={searchInputID}>
           <MagnifyingGlassIcon className="absolute text-gray-400 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
         </label>
         <input
@@ -394,9 +404,9 @@ function SearchForm({
             'focus:border-blue-500 dark:focus:border-blue-500',
             'dark:placeholder-gray-400',
           )}
-          id="search-input"
-          aria-labelledby="search-label"
-          aria-controls="search-list"
+          id={searchInputID}
+          aria-labelledby={searchLabelID}
+          aria-controls={searchListID}
           placeholder="Search"
           type="search"
           required
@@ -512,6 +522,9 @@ export function Search({
             </Dialog.Description>
           </VisuallyHidden.Root>
           <SearchForm
+            searchListID="search-list"
+            searchLabelID="search-label"
+            searchInputID="search-input"
             setQuery={setQuery}
             results={searchResults}
             selectedIndex={selectedIndex}
@@ -520,6 +533,8 @@ export function Search({
           />
           {!!searchResults.length && (
             <SearchResults
+              searchListID="search-list"
+              searchLabelID="search-label"
               className="mt-4"
               results={searchResults}
               selectedIndex={selectedIndex}

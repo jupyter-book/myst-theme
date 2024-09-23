@@ -4,13 +4,14 @@ import {
   useMemo,
   useCallback,
   useRef,
+  forwardRef,
   type KeyboardEventHandler,
   type Dispatch,
   type SetStateAction,
   type FormEvent,
   type MouseEvent,
 } from 'react';
-import { useNavigate, Link } from '@remix-run/react';
+import { useNavigate, Link, useFetcher } from '@remix-run/react';
 import {
   MagnifyingGlassIcon,
   DocumentTextIcon,
@@ -21,9 +22,36 @@ import {
 import classNames from 'classnames';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import type { ISearch, RankedSearchResult, HeadingLevel } from '@myst-theme/search';
+import type {
+  ISearch,
+  RankedSearchResult,
+  HeadingLevel,
+  MystSearchIndex,
+} from '@myst-theme/search';
 import { SPACE_OR_PUNCTUATION, rankAndFilterResults } from '@myst-theme/search';
-import { useThemeTop } from '@myst-theme/providers';
+import { useThemeTop, useSearchFactory } from '@myst-theme/providers';
+
+function useSearch() {
+  const fetcher = useFetcher();
+  // Load index when this component is required
+  useEffect(() => {
+    if (fetcher.state === 'idle' && fetcher.data == null) {
+      fetcher.load('/myst.search.json');
+    }
+  }, [fetcher]);
+
+  const searchFactory = useSearchFactory();
+  const search = useMemo(() => {
+    if (!fetcher.data || !searchFactory) {
+      return undefined;
+    } else {
+      return searchFactory(fetcher.data as MystSearchIndex);
+    }
+  }, [searchFactory, fetcher.data]);
+
+  // Implement pass-through
+  return search;
+}
 
 /**
  * Shim for string.matchAll
@@ -326,8 +354,9 @@ function SearchResults({
 }
 
 interface SearchFormProps {
+  debounceTime: number;
   results: RankedSearchResult[];
-  setQuery: Dispatch<SetStateAction<string>>;
+  setSearchResults: Dispatch<SetStateAction<RankedSearchResult[]>>;
   searchInputID: string;
   searchListID: string;
   searchLabelID: string;
@@ -337,8 +366,9 @@ interface SearchFormProps {
 }
 
 function SearchForm({
-  results,
-  setQuery,
+  debounceTime,
+  results: searchResults,
+  setSearchResults,
   searchInputID,
   searchListID,
   searchLabelID,
@@ -346,6 +376,24 @@ function SearchForm({
   setSelectedIndex,
   closeSearch,
 }: SearchFormProps) {
+  const [query, setQuery] = useState<string>('');
+  const doSearch = useSearch();
+
+  // Debounce user input
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (query != undefined && !!doSearch) {
+        doSearch(query).then((rawResults) => {
+          const rankedResults = rankAndFilterResults(rawResults)
+            // Filter duplicates by URL
+            .filter((result, index) => result.url !== rawResults[index - 1]?.url);
+
+          setSearchResults(rankedResults);
+        });
+      }
+    }, debounceTime);
+    return () => clearTimeout(timeoutId);
+  }, [doSearch, query, debounceTime]);
   // Handle user input
   const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
@@ -365,7 +413,7 @@ function SearchForm({
       if (event.key === 'Enter') {
         event.preventDefault();
 
-        const url = results[selectedIndex]?.url;
+        const url = searchResults[selectedIndex]?.url;
         if (url) {
           navigate(url);
           closeSearch?.();
@@ -379,12 +427,12 @@ function SearchForm({
           setSelectedIndex(selectedIndex > 0 ? selectedIndex - 1 : 0);
         } else {
           setSelectedIndex(
-            selectedIndex < results.length - 1 ? selectedIndex + 1 : results.length - 1,
+            selectedIndex < searchResults.length - 1 ? selectedIndex + 1 : searchResults.length - 1,
           );
         }
       }
     },
-    [results, selectedIndex],
+    [searchResults, selectedIndex],
   ); // Our form doesn't use the submit function
   const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -427,58 +475,50 @@ function SearchForm({
   );
 }
 
-export interface SearchProps {
-  doSearch: ISearch;
-  debounceTime?: number;
-}
-
 interface SearchPlaceholderButtonProps {
   className?: string;
+  disabled?: boolean;
 }
-function SearchPlaceholderButton({ className }: SearchPlaceholderButtonProps) {
+const SearchPlaceholderButton = forwardRef<
+  HTMLButtonElement,
+  SearchPlaceholderButtonProps & Dialog.DialogTriggerProps
+>(({ className, disabled, ...props }, ref) => {
   return (
     <button
+      {...props}
       className={classNames(
         className,
         'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-400',
         'border border-gray-300 dark:border-gray-600',
         'rounded-lg bg-gray-50 dark:bg-gray-700',
-        'hover:ring-blue-500 dark:hover:ring-blue-500',
-        'hover:border-blue-500 dark:hover:border-blue-500',
+        {
+          'hover:ring-blue-500': !disabled,
+          'dark:hover:ring-blue-500': !disabled,
+          'hover:border-blue-500': !disabled,
+          'dark:hover:border-blue-500': !disabled,
+        },
       )}
+      disabled={!!disabled}
+      ref={ref}
     >
       <MagnifyingGlassIcon className="p-2.5 h-10 w-10 aspect-square" />
       <span className="hidden sm:block grow">Search</span>
       <SearchShortcut />
     </button>
   );
-}
+});
 
+export interface SearchProps {
+  debounceTime?: number;
+}
 /**
  * Component that implements a basic search interface
  */
-export function Search({ doSearch, debounceTime = 500 }: SearchProps) {
+export function Search({ debounceTime = 500 }: SearchProps) {
   const [open, setOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<RankedSearchResult[]>([]);
-  const [query, setQuery] = useState<string>('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const top = useThemeTop();
-
-  // Debounce user input
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (query != undefined) {
-        doSearch(query).then((rawResults) => {
-          const rankedResults = rankAndFilterResults(rawResults)
-            // Filter duplicates by URL
-            .filter((result, index) => result.url !== rawResults[index - 1]?.url);
-
-          setSearchResults(rankedResults);
-        });
-      }
-    }, debounceTime);
-    return () => clearTimeout(timeoutId);
-  }, [doSearch, query, debounceTime]);
 
   // Clear search state on close
   useEffect(() => {
@@ -537,8 +577,9 @@ export function Search({ doSearch, debounceTime = 500 }: SearchProps) {
             searchListID="search-list"
             searchLabelID="search-label"
             searchInputID="search-input"
-            setQuery={setQuery}
+            debounceTime={debounceTime}
             results={searchResults}
+            setSearchResults={setSearchResults}
             selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}
             closeSearch={triggerClose}

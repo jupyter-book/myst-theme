@@ -1,19 +1,20 @@
 import React, { useContext } from 'react';
-import type { ISearch } from '@myst-theme/search';
+import type { ISearch, MystSearchIndex } from '@myst-theme/search';
 
-const SearchContext = React.createContext<ISearch | undefined>(undefined);
+type SearchFactory = (index: MystSearchIndex) => ISearch;
+const SearchFactoryContext = React.createContext<SearchFactory | undefined>(undefined);
 
-export function SearchProvider({
-  search,
+export function SearchFactoryProvider({
+  factory,
   children,
 }: {
-  search?: ISearch;
+  factory?: SearchFactory;
   children: React.ReactNode;
 }) {
-  return <SearchContext.Provider value={search}>{children}</SearchContext.Provider>;
+  return <SearchFactoryContext.Provider value={factory}>{children}</SearchFactoryContext.Provider>;
 }
 
-export function useSearch() {
-  const config = useContext(SearchContext);
+export function useSearchFactory() {
+  const config = useContext(SearchFactoryContext);
   return config;
 }

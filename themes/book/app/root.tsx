@@ -14,9 +14,9 @@ import {
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { createSearch as createMiniSearch } from '@myst-theme/search-minisearch';
 import { Outlet, useLoaderData } from '@remix-run/react';
-import { SearchProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
-import { type MystSearchIndex, type ISearch, SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
-import { useMemo } from 'react';
+import { SearchFactoryProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { type ISearch, SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
+import { useCallback, useMemo } from 'react';
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({
@@ -46,64 +46,16 @@ export const links: LinksFunction = () => {
   ];
 };
 
-async function loadSearchIndex() {
-  const baseURL = useBaseurl();
-  const indexURL = withBaseurl('/myst.search.json', baseURL);
-  try {
-    const response = await fetch(indexURL);
-    return await response.json();
-  } catch {
-    return undefined;
-  }
-}
-
-function createSearch(index?: MystSearchIndex): ISearch | undefined {
-  // If index is not defined, then load the index at search time
-  if (!index) {
-    let searchPromise: Promise<ISearch | undefined> | undefined;
-
-    return async (query: string) => {
-      if (!searchPromise) {
-        searchPromise = loadSearchIndex().then((idx) => createSearchImpl);
-      }
-      const impl = await searchPromise();
-      if (impl) {
-        return impl(query);
-      } else {
-        return [];
-      }
-    };
-  } else {
-    const impl = createSearchImpl(index);
-    return async (query: string) => impl(query);
-  }
-}
-
-function createSearchImpl(index: MystSearchIndex): ISearch {
-  const options = {
-    fields: SEARCH_ATTRIBUTES_ORDERED as any as string[],
-    storeFields: ['hierarchy', 'content', 'url', 'type', 'id', 'position'],
-    idField: 'id',
-    searchOptions: {
-      fuzzy: 0.2,
-      prefix: true,
-    },
-  };
-  return createMiniSearch(index.records, options);
-}
-
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
   const baseURL = process.env.BASE_URL || undefined;
-  const [config, themeSession, searchIndex] = await Promise.all([
+  const [config, themeSession] = await Promise.all([
     getConfig().catch(() => null),
     getThemeSession(request),
-    getMystSearchJson(),
   ]);
   if (!config) throw responseNoSite();
   const data = {
     theme: themeSession.getTheme(),
     config,
-    searchIndex: searchIndex ?? undefined,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
     MODE: (process.env.MODE ?? 'app') as 'app' | 'static',
     BASE_URL: baseURL,
@@ -111,14 +63,33 @@ export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> =
   return data;
 };
 
+function createSearch(index?: MystSearchIndex): ISearch | undefined {
+  if (!index) {
+    return undefined;
+  } else {
+    const options = {
+      fields: SEARCH_ATTRIBUTES_ORDERED as any as string[],
+      storeFields: ['hierarchy', 'content', 'url', 'type', 'id', 'position'],
+      idField: 'id',
+      searchOptions: {
+        fuzzy: 0.2,
+        prefix: true,
+      },
+    };
+    return createMiniSearch(index.records, options);
+  }
+}
+
 export default function AppWithReload() {
   const { theme, config, searchIndex, CONTENT_CDN_PORT, MODE, BASE_URL } =
     useLoaderData<SiteLoader>();
 
-  const searchImpl = useMemo(() => createSearchImpl(searchIndex), [searchIndex]);
+  //  const baseURL = useBaseurl();
+  // const indexURL = withBaseurl('/myst.search.xref', baseURL);
+  const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
 
   return (
-    <SearchProvider search={searchImpl}>
+    <SearchFactoryProvider factory={searchFactory}>
       <Document
         theme={theme}
         config={config}
@@ -134,6 +105,6 @@ export default function AppWithReload() {
         />
         <Outlet />
       </Document>
-    </SearchProvider>
+    </SearchFactoryProvider>
   );
 }

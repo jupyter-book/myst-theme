@@ -468,12 +468,13 @@ export function Search({ doSearch, debounceTime = 500 }: SearchProps) {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (query != undefined) {
-        const rawResults = doSearch(query);
-        const rankedResults = rankAndFilterResults(rawResults)
-          // Filter duplicates by URL
-          .filter((result, index) => result.url !== rawResults[index - 1]?.url);
+        doSearch(query).then((rawResults) => {
+          const rankedResults = rankAndFilterResults(rawResults)
+            // Filter duplicates by URL
+            .filter((result, index) => result.url !== rawResults[index - 1]?.url);
 
-        setSearchResults(rankedResults);
+          setSearchResults(rankedResults);
+        });
       }
     }, debounceTime);
     return () => clearTimeout(timeoutId);

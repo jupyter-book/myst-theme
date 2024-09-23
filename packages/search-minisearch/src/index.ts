@@ -70,7 +70,7 @@ export function createSearch(documents: SearchRecord[], options: Options): ISear
   const extendedOptions = prepareOptions(options);
   const search = new MiniSearch(extendedOptions);
   search.addAll(documents.map((doc, index) => ({ ...doc, id: index })));
-  return (query: string) => {
+  return async (query: string) => {
     // Implement executeQuery whilst retaining distinction between terms
     // TODO: should we check for unique terms?
     const terms = extendedOptions.tokenize(query).filter((token) => !!token);

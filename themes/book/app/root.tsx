@@ -12,9 +12,9 @@ import {
   SkipTo,
 } from '@myst-theme/site';
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
-import { createSearch } from '@myst-theme/search-minisearch';
+import { createSearch as createMiniSearch } from '@myst-theme/search-minisearch';
 import { Outlet, useLoaderData } from '@remix-run/react';
-import { SearchProvider } from '@myst-theme/providers';
+import { SearchProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
 import { type MystSearchIndex, type ISearch, SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 import { useMemo } from 'react';
 
@@ -46,21 +46,50 @@ export const links: LinksFunction = () => {
   ];
 };
 
-function createSearchImpl(index?: MystSearchIndex): ISearch | undefined {
-  if (!index) {
+async function loadSearchIndex() {
+  const baseURL = useBaseurl();
+  const indexURL = withBaseurl('/myst.search.json', baseURL);
+  try {
+    const response = await fetch(indexURL);
+    return await response.json();
+  } catch {
     return undefined;
-  } else {
-    const options = {
-      fields: SEARCH_ATTRIBUTES_ORDERED as any as string[],
-      storeFields: ['hierarchy', 'content', 'url', 'type', 'id', 'position'],
-      idField: 'id',
-      searchOptions: {
-        fuzzy: 0.2,
-        prefix: true,
-      },
-    };
-    return createSearch(index.records, options);
   }
+}
+
+function createSearch(index?: MystSearchIndex): ISearch | undefined {
+  // If index is not defined, then load the index at search time
+  if (!index) {
+    let searchPromise: Promise<ISearch | undefined> | undefined;
+
+    return async (query: string) => {
+      if (!searchPromise) {
+        searchPromise = loadSearchIndex().then((idx) => createSearchImpl);
+      }
+      const impl = await searchPromise();
+      if (impl) {
+        return impl(query);
+      } else {
+        return [];
+      }
+    };
+  } else {
+    const impl = createSearchImpl(index);
+    return async (query: string) => impl(query);
+  }
+}
+
+function createSearchImpl(index: MystSearchIndex): ISearch {
+  const options = {
+    fields: SEARCH_ATTRIBUTES_ORDERED as any as string[],
+    storeFields: ['hierarchy', 'content', 'url', 'type', 'id', 'position'],
+    idField: 'id',
+    searchOptions: {
+      fuzzy: 0.2,
+      prefix: true,
+    },
+  };
+  return createMiniSearch(index.records, options);
 }
 
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {

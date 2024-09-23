@@ -543,7 +543,7 @@ export function Search({ doSearch, debounceTime = 500 }: SearchProps) {
             setSelectedIndex={setSelectedIndex}
             closeSearch={triggerClose}
           />
-          {!!searchResults.length && (
+          {searchResults.length ? (
             <SearchResults
               searchListID="search-list"
               searchLabelID="search-label"
@@ -553,6 +553,8 @@ export function Search({ doSearch, debounceTime = 500 }: SearchProps) {
               onHoverSelect={setSelectedIndex}
               closeSearch={triggerClose}
             />
+          ) : (
+            <span className="mt-4">There's nothing here ...</span>
           )}
         </Dialog.Content>
       </Dialog.Portal>

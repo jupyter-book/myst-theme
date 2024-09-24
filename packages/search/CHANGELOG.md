@@ -1,0 +1,7 @@
+# @myst-theme/search
+
+## 0.13.0
+
+### Patch Changes
+
+- d8b5e0b: Introduce search components

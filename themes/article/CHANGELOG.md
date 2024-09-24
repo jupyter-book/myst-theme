@@ -1,5 +1,25 @@
 # @myst-theme/article
 
+## 0.13.0
+
+### Minor Changes
+
+- 336e47b: Add `myst.search.json` routing
+
+### Patch Changes
+
+- ab19540: 🔍 Make document outline collapsible
+- 2cb619f: Remote CDN and theme button for the article theme
+- 06d5fb3: Per page options for the site
+- Updated dependencies [336e47b]
+- Updated dependencies [ab19540]
+  - @myst-theme/site@0.13.0
+  - @myst-theme/providers@0.13.0
+  - @myst-theme/jupyter@0.13.0
+  - @myst-theme/styles@0.13.0
+  - @myst-theme/common@0.13.0
+  - @myst-theme/icons@0.13.0
+
 ## 0.12.0
 
 ### Patch Changes

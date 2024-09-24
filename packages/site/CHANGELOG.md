@@ -1,5 +1,21 @@
 # @myst-theme/site
 
+## 0.13.0
+
+### Patch Changes
+
+- 336e47b: Update the search template options
+- ab19540: 🔍 Make document outline collapsible
+- Updated dependencies [d8b5e0b]
+  - @myst-theme/search@0.13.0
+  - @myst-theme/providers@0.13.0
+  - @myst-theme/frontmatter@0.13.0
+  - @myst-theme/diagrams@0.13.0
+  - @myst-theme/jupyter@0.13.0
+  - @myst-theme/common@0.13.0
+  - myst-to-react@0.13.0
+  - myst-demo@0.13.0
+
 ## 0.12.0
 
 ### Patch Changes

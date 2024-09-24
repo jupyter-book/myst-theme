@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { OutputDecoration } from './decoration.js';
 
 export function Figure({ node }: { node: GenericNode }) {
-  const { container: Container } = DEFAULT_RENDERERS;
+  const { base: Container } = DEFAULT_RENDERERS['container'];
   const isFromJupyer = node.source?.kind === SourceFileKind.Notebook;
   const output = node.children?.find((child) => child.type === 'output');
   if (isFromJupyer && !!output) {

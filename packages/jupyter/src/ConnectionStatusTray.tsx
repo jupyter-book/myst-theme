@@ -41,8 +41,8 @@ export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: bo
   const host = options?.thebe?.useBinder
     ? 'Jupyter'
     : options?.thebe?.useJupyterLite
-    ? 'JupyterLite'
-    : 'Local Server';
+      ? 'JupyterLite'
+      : 'Local Server';
 
   // TODO radix ui toast!
   if (show && error) {

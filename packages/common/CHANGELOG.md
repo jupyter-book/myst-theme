@@ -1,5 +1,13 @@
 # @myst-theme/common
 
+## 0.12.0
+
+## 0.11.0
+
+### Patch Changes
+
+- 844dbe3f: Updates to myst
+
 ## 0.10.0
 
 ### Patch Changes

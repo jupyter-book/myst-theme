@@ -1,10 +1,9 @@
-import { Heading } from 'myst-spec';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { createElement as e } from 'react';
 import { MyST } from './MyST.js';
 import { HashLink } from './hashLink.js';
 
-const Heading: NodeRenderer<Heading> = ({ node }) => {
+const Heading: NodeRenderer = ({ node }) => {
   const { enumerator, depth, key, identifier, html_id } = node;
   const id = html_id || identifier || key;
   const textContent = (

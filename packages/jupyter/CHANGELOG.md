@@ -1,5 +1,27 @@
 # @myst-theme/jupyter
 
+## 0.12.0
+
+### Patch Changes
+
+- 58d8756: Bumping `thebe-*` dependencies
+- Updated dependencies [3ae88e1]
+- Updated dependencies [a76b8f1]
+- Updated dependencies [58d8756]
+  - @myst-theme/providers@0.12.0
+  - myst-to-react@0.12.0
+
+## 0.11.0
+
+### Patch Changes
+
+- 844dbe3f: Updates to myst
+- ed5a7f66: Allow for specific renderers
+- Updated dependencies [844dbe3f]
+- Updated dependencies [ed5a7f66]
+  - myst-to-react@0.11.0
+  - @myst-theme/providers@0.11.0
+
 ## 0.10.0
 
 ### Patch Changes

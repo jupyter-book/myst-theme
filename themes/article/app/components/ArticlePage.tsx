@@ -1,9 +1,5 @@
 import type { PageLoader } from '@myst-theme/common';
-import {
-  FooterLinksBlock,
-  ArticleHeader,
-  Error404,
-} from '@myst-theme/site';
+import { FooterLinksBlock, ArticleHeader, Error404 } from '@myst-theme/site';
 import { LaunchBinder, useComputeOptions } from '@myst-theme/jupyter';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
@@ -25,7 +21,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
   const grid = useGridSystemProvider();
 
   const siteManifest = useSiteManifest() as SiteManifest;
-  const pageDesign: TemplateOptions = (article.frontmatter as any)?.options ?? {};
+  const pageDesign: TemplateOptions = (article.frontmatter as any)?.site ?? {};
   const siteDesign: TemplateOptions = siteManifest?.options ?? {};
 
   const { projects } = siteManifest;
@@ -112,4 +108,3 @@ export function ArticlePage({ article }: { article: PageLoader }) {
     </ReferencesProvider>
   );
 }
-

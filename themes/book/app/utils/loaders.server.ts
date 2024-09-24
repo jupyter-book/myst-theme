@@ -9,9 +9,10 @@ import {
 } from '@myst-theme/common';
 import { redirect } from '@remix-run/node';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
+import type { MystSearchIndex } from '@myst-theme/search'; 
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
-const CONTENT_CDN = `http://localhost:${CONTENT_CDN_PORT}`;
+const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`;
 
 export async function getConfig(): Promise<SiteManifest> {
   const url = `${CONTENT_CDN}/config.json`;
@@ -87,6 +88,13 @@ export async function getMystXrefJson(): Promise<Record<string, any> | null> {
     ref.data = ref.data?.replace(/^\/content/, '');
   });
   return xrefs;
+}
+
+export async function getMystSearchJson(): Promise<MystSearchIndex | null> {
+  const url = updateLink('/myst.search.json');
+  const response = await fetch(url).catch(() => null);
+  if (!response || response.status === 404) return null;
+  return await response.json();
 }
 
 export async function getFavicon(): Promise<{ contentType: string | null; buffer: Buffer } | null> {

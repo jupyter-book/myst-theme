@@ -1,5 +1,43 @@
 # @myst-theme/site
 
+## 0.12.0
+
+### Patch Changes
+
+- 3ae88e1: Grow TOC on narrow screens
+- a76b8f1: Support localStorage for theme persistence
+- 58d8756: Bumping `thebe-*` dependencies
+- Updated dependencies [3ae88e1]
+- Updated dependencies [a76b8f1]
+- Updated dependencies [58d8756]
+  - @myst-theme/providers@0.12.0
+  - myst-to-react@0.12.0
+  - @myst-theme/jupyter@0.12.0
+  - @myst-theme/diagrams@0.12.0
+  - @myst-theme/frontmatter@0.12.0
+  - @myst-theme/common@0.12.0
+  - myst-demo@0.12.0
+
+## 0.11.0
+
+### Minor Changes
+
+- 6ca6dbbb: Prepare for Remix v2
+
+### Patch Changes
+
+- 844dbe3f: Updates to myst
+- ed5a7f66: Allow for specific renderers
+- Updated dependencies [844dbe3f]
+- Updated dependencies [ed5a7f66]
+  - myst-to-react@0.11.0
+  - myst-demo@0.11.0
+  - @myst-theme/providers@0.11.0
+  - @myst-theme/jupyter@0.11.0
+  - @myst-theme/common@0.11.0
+  - @myst-theme/frontmatter@0.11.0
+  - @myst-theme/diagrams@0.11.0
+
 ## 0.10.0
 
 ### Minor Changes

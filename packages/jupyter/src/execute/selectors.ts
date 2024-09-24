@@ -26,7 +26,7 @@ export function selectAreExecutionScopesBuilding(state: ExecuteScopeState, slug:
 }
 
 export function selectExecutionScopeStatus(state: ExecuteScopeState, slug: string) {
-  return state.pages[slug]?.ready ? 'ready' : state.builds[slug]?.status ?? 'unknown';
+  return state.pages[slug]?.ready ? 'ready' : (state.builds[slug]?.status ?? 'unknown');
 }
 
 //

@@ -1,5 +1,35 @@
 # @myst-theme/article
 
+## 0.12.0
+
+### Patch Changes
+
+- Updated dependencies [3ae88e1]
+- Updated dependencies [a76b8f1]
+- Updated dependencies [58d8756]
+  - @myst-theme/providers@0.12.0
+  - @myst-theme/site@0.12.0
+  - @myst-theme/jupyter@0.12.0
+  - @myst-theme/styles@0.12.0
+  - @myst-theme/common@0.12.0
+  - @myst-theme/icons@0.12.0
+
+## 0.11.0
+
+### Patch Changes
+
+- 6ca6dbbb: Prepare for Remix v2
+- 844dbe3f: Updates to myst
+- Updated dependencies [6ca6dbbb]
+- Updated dependencies [844dbe3f]
+- Updated dependencies [ed5a7f66]
+  - @myst-theme/site@0.11.0
+  - @myst-theme/providers@0.11.0
+  - @myst-theme/jupyter@0.11.0
+  - @myst-theme/common@0.11.0
+  - @myst-theme/styles@0.11.0
+  - @myst-theme/icons@0.11.0
+
 ## 0.10.0
 
 ### Patch Changes

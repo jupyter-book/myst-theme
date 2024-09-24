@@ -66,20 +66,22 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const project = getProject(config, projectName ?? slug);
   const flat = isFlatSite(config);
   const page = await getPage(request, {
-    project: flat ? projectName : projectName ?? slug,
+    project: flat ? projectName : (projectName ?? slug),
     slug: flat ? slug : projectName ? slug : undefined,
     redirect: process.env.MODE === 'static' ? false : true,
   });
   return json({ config, page, project });
 };
 
-export function ArticlePageAndNavigation({
+function ArticlePageAndNavigationInternal({
   children,
   hide_toc,
+  hideSearch,
   projectSlug,
   inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
   hide_toc?: boolean;
+  hideSearch?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
   inset?: number;
@@ -87,8 +89,8 @@ export function ArticlePageAndNavigation({
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
   return (
-    <UiStateProvider>
-      <TopNav hideToc={hide_toc} />
+    <>
+      <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
@@ -105,6 +107,32 @@ export function ArticlePageAndNavigation({
           {children}
         </article>
       </TabStateProvider>
+    </>
+  );
+}
+
+export function ArticlePageAndNavigation({
+  children,
+  hide_toc,
+  hideSearch,
+  projectSlug,
+  inset = 20, // begin text 20px from the top (aligned with menu)
+}: {
+  hide_toc?: boolean;
+  hideSearch?: boolean;
+  projectSlug?: string;
+  children: React.ReactNode;
+  inset?: number;
+}) {
+  return (
+    <UiStateProvider>
+      <ArticlePageAndNavigationInternal
+        children={children}
+        hide_toc={hide_toc}
+        hideSearch={hideSearch}
+        projectSlug={projectSlug}
+        inset={inset}
+      />
     </UiStateProvider>
   );
 }
@@ -113,15 +141,19 @@ export default function Page() {
   const { container } = useOutlineHeight();
   const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
   const baseurl = useBaseurl();
-  const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.options ?? {};
+  const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.site ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
-  const { hide_toc, hide_footer_links } = {
+  const { hide_toc, hide_search, hide_footer_links } = {
     ...siteDesign,
     ...pageDesign,
   };
   return (
-    <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={data.page.project}>
+    <ArticlePageAndNavigation
+      hide_toc={hide_toc}
+      hideSearch={hide_search}
+      projectSlug={data.page.project}
+    >
       {/* <ProjectProvider project={project}> */}
       <ProjectProvider>
         <ComputeOptionsProvider

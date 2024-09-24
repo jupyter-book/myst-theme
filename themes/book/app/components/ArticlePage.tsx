@@ -64,7 +64,7 @@ export const ArticlePage = React.memo(function ({
   const compute = useComputeOptions();
   const top = useThemeTop();
 
-  const pageDesign: TemplateOptions = (article.frontmatter as any)?.options ?? {};
+  const pageDesign: TemplateOptions = (article.frontmatter as any)?.site ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
   const { hide_title_block, hide_footer_links, hide_outline, outline_maxdepth } = {

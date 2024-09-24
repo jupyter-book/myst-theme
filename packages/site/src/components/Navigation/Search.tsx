@@ -4,11 +4,11 @@ import { useNavigate, useFetcher } from '@remix-run/react';
 import {
   ArrowTurnDownLeftIcon,
   MagnifyingGlassIcon,
-  DocumentTextIcon,
   HashtagIcon,
-  PencilIcon,
+  Bars3BottomLeftIcon,
   XCircleIcon,
 } from '@heroicons/react/24/solid';
+import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
@@ -62,7 +62,7 @@ function MarkedText({ text, matches, limit }: { text: string; matches: string[];
   const renderToken = (token: string) =>
     pattern.test(token) ? (
       <>
-        <mark className="bg-inherit text-blue-600 dark:text-blue-400 group-aria-selected:text-white group-aria-selected:underline">
+        <mark className="text-blue-600 bg-inherit dark:text-blue-400 group-aria-selected:text-white group-aria-selected:underline">
           {token}
         </mark>
       </>
@@ -139,7 +139,7 @@ function SearchShortcut() {
   return (
     <div
       aria-hidden
-      className="hidden sm:flex items-center gap-x-1 text-sm text-gray-400 font-mono mx-1"
+      className="items-center hidden mx-1 font-mono text-sm text-gray-400 sm:flex gap-x-1"
     >
       <kbd
         className={classNames(
@@ -187,11 +187,11 @@ function SearchResultItem({
   // Render the icon
   const iconRenderer =
     type === 'lvl1' ? (
-      <DocumentTextIcon className="w-6 inline-block mx-2" />
+      <DocumentIcon className="inline-block w-6 mx-2" />
     ) : type === 'content' ? (
-      <PencilIcon className="w-6 inline-block mx-2" />
+      <Bars3BottomLeftIcon className="inline-block w-6 mx-2" />
     ) : (
-      <HashtagIcon className="w-6 inline-block mx-2" />
+      <HashtagIcon className="inline-block w-6 mx-2" />
     );
 
   // Generic "this document matched"
@@ -213,13 +213,12 @@ function SearchResultItem({
   }
 
   const enterIconRenderer = (
-    <ArrowTurnDownLeftIcon className="invisible group-aria-selected:visible w-6 mx-2" />
+    <ArrowTurnDownLeftIcon className="invisible w-6 mx-2 group-aria-selected:visible" />
   );
 
   return (
     <Link
-      className="block text-gray-700 dark:text-white rounded px-1 py-2
-group-aria-selected:bg-blue-600 group-aria-selected:text-white shadow-md dark:shadow-none dark:bg-stone-800"
+      className="block px-1 py-2 text-gray-700 rounded shadow-md dark:text-white group-aria-selected:bg-blue-600 group-aria-selected:text-white dark:shadow-none dark:bg-stone-800"
       to={url}
       // Close the main search on click
       onClick={closeSearch}
@@ -295,7 +294,7 @@ function SearchResults({
     [onHoverSelect],
   );
   return (
-    <div className="overflow-y-scroll mt-4">
+    <div className="mt-4 overflow-y-scroll">
       {searchResults.length ? (
         <ul
           // Accessiblity:
@@ -340,6 +339,7 @@ function SearchResults({
  */
 function useSearch() {
   const fetcher = useFetcher();
+  const [enabled, setEnabled] = useState(true);
   // Load index when this component is required
   // TODO: this reloads every time the search box is opened.
   //       we should lift the state up
@@ -356,12 +356,16 @@ function useSearch() {
     if (!fetcher.data || !searchFactory) {
       return undefined;
     } else {
-      return searchFactory(fetcher.data as MystSearchIndex);
+      if (fetcher.data?.version && fetcher.data?.records) {
+        return searchFactory(fetcher.data as MystSearchIndex);
+      }
+      setEnabled(false);
+      return undefined;
     }
-  }, [searchFactory, fetcher.data]);
+  }, [searchFactory, fetcher.data, setEnabled]);
 
   // Implement pass-through
-  return search;
+  return { search, enabled };
 }
 
 interface SearchFormProps {
@@ -388,7 +392,7 @@ function SearchForm({
   closeSearch,
 }: SearchFormProps) {
   const [query, setQuery] = useState<string>('');
-  const doSearch = useSearch();
+  const { search: doSearch, enabled } = useSearch();
 
   // Debounce user input
   useEffect(() => {
@@ -454,39 +458,48 @@ function SearchForm({
   }, []);
 
   return (
-    <form onSubmit={onSubmit}>
-      <div className="relative flex flow-row gap-x-1 h-10 w-full ">
-        <label id={searchListID} htmlFor={searchInputID}>
-          <MagnifyingGlassIcon className="absolute text-gray-400 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
-        </label>
-        <input
-          autoComplete="off"
-          spellCheck="false"
-          autoCapitalize="false"
-          className={classNames(
-            'block flex-grow p-2 ps-10 placeholder-gray-400',
-            'border border-gray-300 dark:border-gray-600',
-            'rounded-lg bg-gray-50 dark:bg-gray-700',
-            'focus:ring-blue-500 dark:focus:ring-blue-500',
-            'focus:border-blue-500 dark:focus:border-blue-500',
-            'dark:placeholder-gray-400',
-          )}
-          id={searchInputID}
-          aria-labelledby={searchLabelID}
-          aria-controls={searchListID}
-          placeholder="Search"
-          type="search"
-          required
-          onChange={handleSearchChange}
-          onKeyDown={handleSearchKeyPress}
-        />
-        <Dialog.Close asChild className="grow-0 sm:hidden block">
-          <button aria-label="Close">
-            <XCircleIcon className="h-10 w-10 aspect-square flex items-center" />
-          </button>
-        </Dialog.Close>
-      </div>
-    </form>
+    <>
+      <form onSubmit={onSubmit}>
+        <div className="relative flex w-full h-10 flow-row gap-x-1 ">
+          <label id={searchListID} htmlFor={searchInputID}>
+            <MagnifyingGlassIcon className="absolute text-gray-400 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
+          </label>
+          <input
+            autoComplete="off"
+            spellCheck="false"
+            disabled={!enabled}
+            autoCapitalize="false"
+            className={classNames(
+              'block flex-grow p-2 ps-10 placeholder-gray-400',
+              'border border-gray-300 dark:border-gray-600',
+              'rounded-lg bg-gray-50 dark:bg-gray-700',
+              'focus:ring-blue-500 dark:focus:ring-blue-500',
+              'focus:border-blue-500 dark:focus:border-blue-500',
+              'dark:placeholder-gray-400',
+              { 'border-red-500': !enabled },
+            )}
+            id={searchInputID}
+            aria-labelledby={searchLabelID}
+            aria-controls={searchListID}
+            placeholder="Search"
+            type="search"
+            required
+            onChange={handleSearchChange}
+            onKeyDown={handleSearchKeyPress}
+          />
+          <Dialog.Close asChild className="block grow-0 sm:hidden">
+            <button aria-label="Close">
+              <XCircleIcon className="flex items-center w-10 h-10 aspect-square" />
+            </button>
+          </Dialog.Close>
+        </div>
+      </form>
+      {!enabled && (
+        <div className="mx-2 mt-4 text-sm text-gray-500">
+          Search is not enabled for this site. :(
+        </div>
+      )}
+    </>
   );
 }
 

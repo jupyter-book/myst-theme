@@ -66,7 +66,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const project = getProject(config, projectName ?? slug);
   const flat = isFlatSite(config);
   const page = await getPage(request, {
-    project: flat ? projectName : projectName ?? slug,
+    project: flat ? projectName : (projectName ?? slug),
     slug: flat ? slug : projectName ? slug : undefined,
     redirect: process.env.MODE === 'static' ? false : true,
   });
@@ -76,10 +76,12 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 function ArticlePageAndNavigationInternal({
   children,
   hide_toc,
+  hideSearch,
   projectSlug,
   inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
   hide_toc?: boolean;
+  hideSearch?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
   inset?: number;
@@ -88,7 +90,7 @@ function ArticlePageAndNavigationInternal({
   const { container, toc } = useSidebarHeight(top, inset);
   return (
     <>
-      <TopNav hideToc={hide_toc} />
+      <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
@@ -112,10 +114,12 @@ function ArticlePageAndNavigationInternal({
 export function ArticlePageAndNavigation({
   children,
   hide_toc,
+  hideSearch,
   projectSlug,
   inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
   hide_toc?: boolean;
+  hideSearch?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
   inset?: number;
@@ -125,6 +129,7 @@ export function ArticlePageAndNavigation({
       <ArticlePageAndNavigationInternal
         children={children}
         hide_toc={hide_toc}
+        hideSearch={hideSearch}
         projectSlug={projectSlug}
         inset={inset}
       />
@@ -139,12 +144,16 @@ export default function Page() {
   const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.options ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
-  const { hide_toc, hide_footer_links } = {
+  const { hide_toc, hide_search, hide_footer_links } = {
     ...siteDesign,
     ...pageDesign,
   };
   return (
-    <ArticlePageAndNavigation hide_toc={hide_toc} projectSlug={data.page.project}>
+    <ArticlePageAndNavigation
+      hide_toc={hide_toc}
+      hideSearch={hide_search}
+      projectSlug={data.page.project}
+    >
       {/* <ProjectProvider project={project}> */}
       <ProjectProvider>
         <ComputeOptionsProvider

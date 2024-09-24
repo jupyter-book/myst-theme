@@ -1,4 +1,4 @@
-import type { Dependency, SourceFileKind } from 'myst-spec-ext';
+import type { Dependency, SourceFileKind, MystSearchIndex } from 'myst-spec-ext';
 import type { GenericParent, References } from 'myst-common';
 import type { SiteAction, SiteExport, SiteManifest } from 'myst-config';
 import type { PageFrontmatter } from 'myst-frontmatter';
@@ -25,6 +25,7 @@ export type Heading = {
 export type SiteLoader = {
   theme?: Theme;
   config?: SiteManifest;
+  searchIndex?: MystSearchIndex;
   CONTENT_CDN_PORT?: string | number;
   MODE?: 'app' | 'static';
   BASE_URL?: string;

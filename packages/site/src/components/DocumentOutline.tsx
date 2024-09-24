@@ -302,9 +302,26 @@ function useMarginOccluder() {
           return;
         }
         // Watch margin elements, or their direct descendents (as some margin elements have height set to zero)
-        const marginElements = mainElementRef.current.querySelectorAll(
-          '.col-margin-right, .col-margin-right > *',
-        );
+        const classes = [
+          'col-margin-right',
+          'col-margin-right-inset',
+          'col-gutter-outset-right',
+          'col-screen-right',
+          'col-screen-inset-right',
+          'col-page-right',
+          'col-page-inset-right',
+          'col-body-outset-right',
+          'col-gutter-page-right',
+          'col-screen',
+          'col-page',
+          'col-page-inset',
+          'col-body-outset',
+        ];
+        const selector = classes
+          .map((cls) => [`.${cls}`, `.${cls} > *`])
+          .flat()
+          .join(', ');
+        const marginElements = mainElementRef.current.querySelectorAll(selector);
         setElements(Array.from(marginElements));
       },
       500,

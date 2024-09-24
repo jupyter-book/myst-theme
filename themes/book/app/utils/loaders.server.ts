@@ -92,7 +92,6 @@ export async function getMystXrefJson(): Promise<Record<string, any> | null> {
 
 export async function getMystSearchJson(): Promise<MystSearchIndex | null> {
   const url = updateLink('/myst.search.json');
-	console.log("REQUESTING SEARCH", url)
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
   return await response.json();

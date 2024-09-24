@@ -12,6 +12,8 @@
       "@myst-theme/styles",
       "@myst-theme/common",
       "@myst-theme/icons",
+      "@myst-theme/search",
+      "@myst-theme/search-minisearch",
       "@myst-theme/book",
       "@myst-theme/article",
       "myst-to-react",

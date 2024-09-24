@@ -14,7 +14,13 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import type { RankedSearchResult, HeadingLevel, MystSearchIndex } from '@myst-theme/search';
 import { SPACE_OR_PUNCTUATION, rankResults } from '@myst-theme/search';
-import { useThemeTop, useSearchFactory, useLinkProvider } from '@myst-theme/providers';
+import {
+  useThemeTop,
+  useSearchFactory,
+  useLinkProvider,
+  withBaseurl,
+  useBaseurl,
+} from '@myst-theme/providers';
 
 /**
  * Shim for string.matchAll
@@ -339,7 +345,9 @@ function useSearch() {
   //       we should lift the state up
   useEffect(() => {
     if (fetcher.state === 'idle' && fetcher.data == null) {
-      fetcher.load('/myst.search.json');
+      const baseURL = useBaseurl();
+      const searchURL = withBaseurl('/myst.search.json', baseURL);
+      fetcher.load(searchURL);
     }
   }, [fetcher]);
 

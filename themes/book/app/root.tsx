@@ -80,8 +80,6 @@ function createSearch(index: MystSearchIndex): ISearch {
 export default function AppWithReload() {
   const { theme, config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
-  //  const baseURL = useBaseurl();
-  // const indexURL = withBaseurl('/myst.search.xref', baseURL);
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
 
   return (

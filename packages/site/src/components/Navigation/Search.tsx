@@ -338,6 +338,7 @@ function SearchResults({
  * Build search implementation by requesting search index from server
  */
 function useSearch() {
+  const baseURL = useBaseurl();
   const fetcher = useFetcher();
   const [enabled, setEnabled] = useState(true);
   // Load index when this component is required
@@ -345,11 +346,10 @@ function useSearch() {
   //       we should lift the state up
   useEffect(() => {
     if (fetcher.state === 'idle' && fetcher.data == null) {
-      const baseURL = useBaseurl();
       const searchURL = withBaseurl('/myst.search.json', baseURL);
       fetcher.load(searchURL);
     }
-  }, [fetcher]);
+  }, [fetcher, baseURL]);
 
   const searchFactory = useSearchFactory();
   const search = useMemo(() => {

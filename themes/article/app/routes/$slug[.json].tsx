@@ -17,14 +17,18 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   // Handle /myst.xref.json as slug
   if (slug === 'myst.xref') {
     const xref = await getMystXrefJson();
-    if (!xref) return new Response('myst.xref.json not found', { status: 404 });
+    if (!xref) {
+      return json({ message: 'myst.xref.json not found', status: 404 }, { status: 404 });
+    }
     return json(xref);
   }
   // Handle /myst.search.json as slug
   else if (slug === 'myst.search') {
-    const xref = await getMystSearchJson();
-    if (!xref) return new Response('myst.search.json not found', { status: 404 });
-    return json(xref);
+    const search = await getMystSearchJson();
+    if (!search) {
+      return json({ message: 'myst.search.json not found', status: 404 }, { status: 404 });
+    }
+    return json(search);
   }
   const data = await getPage(request, { slug }).catch(() => null);
   if (!data) return api404('No page found at this URL.');

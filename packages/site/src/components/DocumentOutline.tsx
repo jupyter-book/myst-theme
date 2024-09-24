@@ -312,7 +312,7 @@ function useMarginOccluder() {
           'col-page-inset-right',
           'col-body-outset-right',
           'col-gutter-page-right',
-          'col-screen',
+          // 'col-screen', // This is on everything!
           'col-page',
           'col-page-inset',
           'col-body-outset',
@@ -401,7 +401,7 @@ export const DocumentOutline = ({
           maxHeight: `calc(100vh - ${top + 20}px)`,
         }}
       >
-        <div className="mb-4 flex flex-row text-sm gap-2 rounded-lg leading-6 uppercase text-slate-900 dark:text-slate-100">
+        <div className="flex flex-row gap-2 mb-4 text-sm leading-6 uppercase rounded-lg text-slate-900 dark:text-slate-100">
           In this article
           <Collapsible.Trigger asChild>
             <button className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2">

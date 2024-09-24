@@ -20,6 +20,7 @@ import {
   NavLink,
   useRouteError,
   isRouteErrorResponse,
+  useNavigate,
 } from '@remix-run/react';
 import {
   DEFAULT_NAV_HEIGHT,
@@ -53,6 +54,7 @@ export function Document({
   top?: number;
   renderers?: NodeRenderers;
 }) {
+  const navigate = useNavigate();
   const links = staticBuild
     ? {
         Link: (props: any) => <Link {...{ ...props, reloadDocument: true }} />,
@@ -61,6 +63,7 @@ export function Document({
     : {
         Link: Link as any,
         NavLink: NavLink as any,
+        navigate,
       };
 
   // (Local) theme state driven by SSR and cookie/localStorage

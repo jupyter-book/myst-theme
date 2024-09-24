@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useCallback, useRef, forwardRef } from 'react';
 import type { KeyboardEventHandler, Dispatch, SetStateAction, FormEvent, MouseEvent } from 'react';
-import { useNavigate, useFetcher } from '@remix-run/react';
+import { useFetcher } from '@remix-run/react';
 import {
   ArrowTurnDownLeftIcon,
   MagnifyingGlassIcon,
@@ -20,6 +20,7 @@ import {
   useLinkProvider,
   withBaseurl,
   useBaseurl,
+  useNavigateProvider,
 } from '@myst-theme/providers';
 
 /**
@@ -182,6 +183,7 @@ function SearchResultItem({
   closeSearch?: () => void;
 }) {
   const { hierarchy, type, url, queries } = result;
+  const baseurl = useBaseurl();
   const Link = useLinkProvider();
 
   // Render the icon
@@ -219,7 +221,7 @@ function SearchResultItem({
   return (
     <Link
       className="block px-1 py-2 text-gray-700 rounded shadow-md dark:text-white group-aria-selected:bg-blue-600 group-aria-selected:text-white dark:shadow-none dark:bg-stone-800"
-      to={url}
+      to={withBaseurl(url, baseurl)}
       // Close the main search on click
       onClick={closeSearch}
     >
@@ -415,7 +417,8 @@ function SearchForm({
     setQuery(event.target.value);
   }, []);
   // Handle item selection
-  const navigate = useNavigate();
+  const navigate = useNavigateProvider();
+  const baseurl = useBaseurl();
 
   // Handle item selection and navigation
   const handleSearchKeyPress = useCallback<KeyboardEventHandler<HTMLInputElement>>(
@@ -434,7 +437,7 @@ function SearchForm({
 
         const url = searchResults[selectedIndex]?.url;
         if (url) {
-          navigate(url);
+          navigate(withBaseurl(url, baseurl));
           closeSearch?.();
         }
       }

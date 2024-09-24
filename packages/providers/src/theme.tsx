@@ -53,6 +53,7 @@ type ThemeContextType = {
   top?: number;
   Link?: Link;
   NavLink?: NavLink;
+  navigate?: (to: string) => void;
 };
 
 const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
@@ -64,22 +65,24 @@ export function ThemeProvider({
   children,
   renderers,
   Link,
-  top,
   NavLink,
+  navigate,
+  top,
 }: {
   theme: Theme | null;
   setTheme: SetThemeType;
   children: React.ReactNode;
   renderers?: NodeRenderers;
   Link?: Link;
-  top?: number;
   NavLink?: NavLink;
+  navigate?: (to: string) => void;
+  top?: number;
 }) {
   const validatedRenderers = validateRenderers(renderers);
 
   return (
     <ThemeContext.Provider
-      value={{ theme, setTheme, renderers: validatedRenderers, Link, NavLink, top }}
+      value={{ theme, setTheme, renderers: validatedRenderers, Link, NavLink, navigate, top }}
     >
       {children}
     </ThemeContext.Provider>
@@ -129,6 +132,17 @@ export function useNavLinkProvider(): NavLink {
   const context = React.useContext(ThemeContext);
   const { NavLink } = context ?? {};
   return NavLink ?? HtmlNavLink;
+}
+
+export function useNavigateProvider(): (to: string) => void {
+  const context = React.useContext(ThemeContext);
+  const { navigate } = context ?? {};
+  return (
+    navigate ??
+    ((to: string) => {
+      window.location.href = to;
+    })
+  );
 }
 
 export function useThemeTop(): number {

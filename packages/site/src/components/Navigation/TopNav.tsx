@@ -95,7 +95,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
 export function NavItems({ nav }: { nav?: SiteManifest['nav'] }) {
   if (!nav) return null;
   return (
-    <div className="flex-grow hidden text-md lg:block">
+    <div className="hidden text-md lg:block">
       {nav.map((item) => {
         return <NavItem key={'url' in item ? item.url : item.title} item={item} />;
       })}
@@ -111,7 +111,7 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
   return (
     <div className="bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 sticky w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-nowrap max-w-[1440px] mx-auto">
-        <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center shrink-0">
+        <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center shrink-0 grow-0">
           {!hideToc && (
             <div className="block xl:hidden">
               <button
@@ -127,15 +127,15 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
           )}
           <HomeLink name={title} logo={logo} logoDark={logo_dark} logoText={logo_text} />
         </div>
-        <div className="flex items-center flex-grow w-auto">
+        <div className="flex items-center shrink-0 grow w-auto">
           <NavItems nav={nav} />
-          <div className="flex-grow block"></div>
-          {!hideSearch && <Search />}
-          <ThemeButton />
-          <div className="block sm:hidden">
+          <div className="grow block"></div>
+          {!hideSearch && <Search className="grow-0 sm:grow" />}
+          <ThemeButton className="w-8 h-8 mx-3 shrink-0 grow-0" />
+          <div className="block sm:hidden shrink-0">
             <ActionMenu actions={actions} />
           </div>
-          <div className="hidden sm:block">
+          <div className="hidden sm:block shrink-0">
             {actions?.map((action, index) => (
               <ExternalOrInternalLink
                 key={action.url || index}

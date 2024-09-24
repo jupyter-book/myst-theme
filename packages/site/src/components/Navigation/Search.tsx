@@ -519,7 +519,7 @@ const SearchPlaceholderButton = forwardRef<
       {...props}
       className={classNames(
         className,
-        'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-400',
+        'flex items-center h-10 aspect-square sm:w-48 sm:max-w-64 text-left text-gray-400',
         'border border-gray-300 dark:border-gray-600',
         'rounded-lg bg-gray-50 dark:bg-gray-700',
         {
@@ -541,11 +541,12 @@ const SearchPlaceholderButton = forwardRef<
 
 export interface SearchProps {
   debounceTime?: number;
+  className?: string;
 }
 /**
  * Component that implements a basic search interface
  */
-export function Search({ debounceTime = 500 }: SearchProps) {
+export function Search({ debounceTime = 500, className }: SearchProps) {
   const [open, setOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<RankedSearchResult[] | undefined>();
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -582,7 +583,7 @@ export function Search({ debounceTime = 500 }: SearchProps) {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <SearchPlaceholderButton />
+        <SearchPlaceholderButton className={className} />
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-[#656c85cc] z-[1000]" />

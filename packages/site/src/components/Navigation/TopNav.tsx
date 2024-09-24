@@ -5,12 +5,7 @@ import { ChevronDownIcon, Bars3Icon as MenuIcon } from '@heroicons/react/24/soli
 import type { SiteManifest, SiteNavItem } from 'myst-config';
 import { ThemeButton } from './ThemeButton.js';
 import { Search } from './Search.js';
-import {
-  useLinkProvider,
-  useNavLinkProvider,
-  useNavOpen,
-  useSiteManifest,
-} from '@myst-theme/providers';
+import { useNavLinkProvider, useNavOpen, useSiteManifest } from '@myst-theme/providers';
 import { LoadingBar } from './Loading.js';
 import { HomeLink } from './HomeLink.js';
 import { ActionMenu } from './ActionMenu.js';

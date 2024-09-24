@@ -1,36 +1,7 @@
-// myst-spec-ext types
-export type DocumentHierarchy = {
-  lvl1?: string;
-  lvl2?: string;
-  lvl3?: string;
-  lvl4?: string;
-  lvl5?: string;
-  lvl6?: string;
-};
+import type { SearchRecord, DocumentHierarchy } from 'myst-spec-ext';
+export type { MystSearchIndex, SearchRecord } from 'myst-spec-ext';
 
 export type HeadingLevel = keyof DocumentHierarchy;
-
-export type SearchRecordBase = {
-  hierarchy: DocumentHierarchy;
-  url: string;
-
-  position: number;
-};
-export type HeadingRecord = SearchRecordBase & {
-  type: HeadingLevel;
-};
-export type ContentRecord = SearchRecordBase & {
-  type: 'content';
-  content: string;
-};
-
-export type SearchRecord = ContentRecord | HeadingRecord;
-
-export type MystSearchIndex = {
-  version: '1';
-  records: SearchRecord[];
-};
-///
 
 export type Query = {
   term: string; // Raw search query term

@@ -19,6 +19,7 @@
     "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
-    "@myst-theme/search": "^0.0.0"
+    "@myst-theme/search": "^0.0.0",
+    "minisearch": "^7.1.0"
   }
 }

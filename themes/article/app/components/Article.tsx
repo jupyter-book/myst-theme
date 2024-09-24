@@ -11,7 +11,7 @@ import {
 } from '@myst-theme/site';
 import { ErrorTray, NotebookToolbar, useComputeOptions } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
-import { ReferencesProvider, useThemeTop } from '@myst-theme/providers';
+import { ReferencesProvider, useThemeTop, useMediaQuery } from '@myst-theme/providers';
 import type { GenericParent } from 'myst-common';
 import { copyNode } from 'myst-common';
 import { BusyScopeProvider, ConnectionStatusTray, ExecuteScopeProvider } from '@myst-theme/jupyter';
@@ -38,7 +38,7 @@ export function Article({
   const { title, subtitle } = article.frontmatter;
   const compute = useComputeOptions();
   const top = useThemeTop();
-
+  const isOutlineMargin = useMediaQuery('(min-width: 1024px)');
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -52,7 +52,11 @@ export function Article({
               className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
               style={{ top: top + TOP_OFFSET }}
             >
-              <DocumentOutline className="relative pt-[2px]" maxdepth={outlineMaxDepth}>
+              <DocumentOutline
+                className="relative pt-[2px]"
+                maxdepth={outlineMaxDepth}
+                isMargin={isOutlineMargin}
+              >
                 <SupportingDocuments />
               </DocumentOutline>
             </div>

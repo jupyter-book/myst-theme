@@ -8,10 +8,12 @@ import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type { RefObject } from 'react';
 import { DocumentChartBarIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import * as Collapsible from '@radix-ui/react-collapsible';
 
 const SELECTOR = [1, 2, 3, 4].map((n) => `main h${n}`).join(', ');
-const HIGHLIGHT_CLASS = 'highlight';
 
 const onClient = typeof document !== 'undefined';
 
@@ -25,15 +27,13 @@ export type Heading = {
 
 type Props = {
   headings: Heading[];
-  selector: string;
   activeId?: string;
-  highlight?: () => void;
 };
 /**
  * This renders an item in the table of contents list.
  * scrollIntoView is used to ensure that when a user clicks on an item, it will smoothly scroll.
  */
-const Headings = ({ headings, activeId, highlight, selector }: Props) => (
+const Headings = ({ headings, activeId }: Props) => (
   <ul className="text-sm leading-6 text-slate-400">
     {headings.map((heading) => (
       <li
@@ -62,11 +62,7 @@ const Headings = ({ headings, activeId, highlight, selector }: Props) => (
             e.preventDefault();
             const el = document.querySelector(`#${heading.id}`);
             if (!el) return;
-            getHeaders(selector).forEach((h) => {
-              h.classList.remove(HIGHLIGHT_CLASS);
-            });
-            el.classList.add(HIGHLIGHT_CLASS);
-            highlight?.();
+
             el.scrollIntoView({ behavior: 'smooth' });
             history.replaceState(undefined, '', `#${heading.id}`);
           }}
@@ -105,15 +101,111 @@ function getHeaders(selector: string): HTMLHeadingElement[] {
   return headers as HTMLHeadingElement[];
 }
 
+type MutationCallback = (mutations: MutationRecord[], observer: MutationObserver) => void;
+
+function useMutationObserver(
+  targetRef: RefObject<Element>,
+  callback: MutationCallback,
+  options: Record<string, any>,
+) {
+  const [observer, setObserver] = useState<MutationObserver | null>(null);
+
+  if (!onClient) return { observer };
+
+  // Create observer
+  useEffect(() => {
+    const obs = new MutationObserver(callback);
+    setObserver(obs);
+  }, [callback, setObserver]);
+
+  // Setup observer
+  useEffect(() => {
+    if (!observer || !targetRef.current) {
+      return;
+    }
+
+    try {
+      observer.observe(targetRef.current, options);
+    } catch (e) {
+      console.error(e);
+    }
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [observer]);
+}
+
+const useIntersectionObserver = (elements: Element[], options?: Record<string, any>) => {
+  const [observer, setObserver] = useState<IntersectionObserver | null>(null);
+  const [intersecting, setIntersecting] = useState<Element[]>([]);
+
+  if (!onClient) return { observer };
+  useEffect(() => {
+    const cb: IntersectionObserverCallback = (entries) => {
+      setIntersecting(entries.filter((e) => e.isIntersecting).map((e) => e.target));
+    };
+    const o = new IntersectionObserver(cb, options ?? {});
+    setObserver(o);
+    return () => o.disconnect();
+  }, []);
+
+  // Changes to the DOM mean we need to update our intersection observer
+  useEffect(() => {
+    if (!observer) {
+      return;
+    }
+    // Observe all heading elements
+    const toWatch = elements;
+    toWatch.map((e) => observer.observe(e));
+    // Cleanup afterwards
+    return () => {
+      toWatch.map((e) => observer.unobserve(e));
+    };
+  }, [elements]);
+
+  return { observer, intersecting };
+};
+
+/**
+ * Keep track of which headers are visible, and which header is active
+ */
 export function useHeaders(selector: string, maxdepth: number) {
   if (!onClient) return { activeId: '', headings: [] };
-  const onScreen = useRef<Set<HTMLHeadingElement>>(new Set());
-  const [activeId, setActiveId] = useState<string>();
-  const headingsSet = useRef<Set<HTMLHeadingElement>>(new Set());
+  // Keep track of main manually for now
+  const mainElementRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    mainElementRef.current = document.querySelector('main');
+  }, []);
 
-  const highlight = useCallback(() => {
-    const current = [...onScreen.current];
-    const highlighted = current.reduce(
+  // Track changes to the DOM
+  const [elements, setElements] = useState<HTMLHeadingElement[]>([]);
+  const onMutation = useCallback(
+    throttle(
+      () => {
+        setElements(getHeaders(selector));
+      },
+      500,
+      { trailing: false },
+    ),
+    [selector],
+  );
+  useMutationObserver(mainElementRef, onMutation, {
+    attributes: true,
+    childList: true,
+    subtree: true,
+  });
+
+  // Trigger initial update
+  useEffect(onMutation, []);
+
+  // Watch intersections with headings
+  const { intersecting } = useIntersectionObserver(elements);
+  const [activeId, setActiveId] = useState<string>();
+
+  useEffect(() => {
+    const highlighted = intersecting!.reduce(
       (a, b) => {
         if (a) return a;
         if (b.classList.contains('highlight')) return b.id;
@@ -121,79 +213,42 @@ export function useHeaders(selector: string, maxdepth: number) {
       },
       null as string | null,
     );
-    const active = [...onScreen.current].sort((a, b) => a.offsetTop - b.offsetTop)[0];
+    const active = [...(intersecting as HTMLElement[])].sort(
+      (a, b) => a.offsetTop - b.offsetTop,
+    )[0];
     if (highlighted || active) setActiveId(highlighted || active.id);
-  }, []);
+  }, [intersecting]);
 
-  const { observer } = useIntersectionObserver(highlight, onScreen.current);
-  const [elements, setElements] = useState<HTMLHeadingElement[]>([]);
-
-  const render = throttle(() => setElements(getHeaders(selector)), 500);
+  const [headings, setHeadings] = useState<Heading[]>([]);
   useEffect(() => {
-    // We have to look at the document changes for reloads/mutations
-    const main = document.querySelector('main');
-    const mutations = new MutationObserver(render);
-    // Fire when added to the dom
-    render();
-    if (main) {
-      mutations.observe(main, { attributes: true, childList: true, subtree: true });
-    }
-    return () => mutations.disconnect();
-  }, []);
-
-  useEffect(() => {
-    // Re-observe all elements when the observer changes
-    Array.from(elements).map((e) => observer.current?.observe(e));
-  }, [observer]);
-
-  let minLevel = 10;
-  const headings: Heading[] = elements
-    .map((element) => {
-      return {
-        element,
-        level: Number(element.tagName.slice(1)),
-        id: element.id,
-        text: element.querySelector('.heading-text'),
-      };
-    })
-    .filter((h) => !!h.text)
-    .map(({ element, level, text, id }) => {
-      const { innerText: title, innerHTML: titleHTML } = cloneHeadingElement(
-        text as HTMLSpanElement,
-      );
-      minLevel = Math.min(minLevel, level);
-      return { element, title, titleHTML, id, level };
-    })
-    .filter((heading) => {
-      heading.level = heading.level - minLevel + 1;
-      return heading.level < maxdepth + 1;
-    });
-
-  headings.forEach(({ element: e }) => {
-    if (headingsSet.current.has(e)) return;
-    observer.current?.observe(e);
-    headingsSet.current.add(e);
-  });
-
-  return { activeId, highlight, headings };
-}
-
-const useIntersectionObserver = (highlight: () => void, onScreen: Set<HTMLHeadingElement>) => {
-  const observer = useRef<IntersectionObserver | null>(null);
-  if (!onClient) return { observer };
-  useEffect(() => {
-    const callback: IntersectionObserverCallback = (entries) => {
-      entries.forEach((entry) => {
-        onScreen[entry.isIntersecting ? 'add' : 'delete'](entry.target as HTMLHeadingElement);
+    let minLevel = 10;
+    const thisHeadings: Heading[] = elements
+      .map((element) => {
+        return {
+          element,
+          level: Number(element.tagName.slice(1)),
+          id: element.id,
+          text: element.querySelector('.heading-text'),
+        };
+      })
+      .filter((h) => !!h.text)
+      .map(({ element, level, text, id }) => {
+        const { innerText: title, innerHTML: titleHTML } = cloneHeadingElement(
+          text as HTMLSpanElement,
+        );
+        minLevel = Math.min(minLevel, level);
+        return { element, title, titleHTML, id, level };
+      })
+      .filter((heading) => {
+        heading.level = heading.level - minLevel + 1;
+        return heading.level < maxdepth + 1;
       });
-      highlight();
-    };
-    const o = new IntersectionObserver(callback);
-    observer.current = o;
-    return () => o.disconnect();
-  }, [highlight, onScreen]);
-  return { observer };
-};
+
+    setHeadings(thisHeadings);
+  }, [elements]);
+
+  return { activeId, headings };
+}
 
 export function useOutlineHeight<T extends HTMLElement = HTMLElement>(
   existingContainer?: React.RefObject<T>,
@@ -226,6 +281,71 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>(
   return { container, outline };
 }
 
+/**
+ * Determine whether the margin outline should be occluded by margin elements
+ */
+function useMarginOccluder() {
+  const [occluded, setOccluded] = useState(false);
+  const [elements, setElements] = useState<Element[]>([]);
+
+  // Keep track of main manually for now
+  const mainElementRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    mainElementRef.current = document.querySelector('main');
+  }, []);
+
+  // Update list of margin elements
+  const onMutation = useCallback(
+    throttle(
+      () => {
+        if (!mainElementRef.current) {
+          return;
+        }
+        // Watch margin elements, or their direct descendents (as some margin elements have height set to zero)
+        const classes = [
+          'col-margin-right',
+          'col-margin-right-inset',
+          'col-gutter-outset-right',
+          'col-screen-right',
+          'col-screen-inset-right',
+          'col-page-right',
+          'col-page-inset-right',
+          'col-body-outset-right',
+          'col-gutter-page-right',
+          // 'col-screen', // This is on everything!
+          'col-page',
+          'col-page-inset',
+          'col-body-outset',
+        ];
+        const selector = classes
+          .map((cls) => [`.${cls}`, `.${cls} > *`])
+          .flat()
+          .join(', ');
+        const marginElements = mainElementRef.current.querySelectorAll(selector);
+        setElements(Array.from(marginElements));
+      },
+      500,
+      { trailing: false },
+    ),
+    [],
+  );
+  useMutationObserver(mainElementRef, onMutation, {
+    attributes: true,
+    childList: true,
+    subtree: true,
+  });
+
+  // Trigger initial update
+  useEffect(onMutation, []);
+  // Keep tabs of margin elements on screen
+  const { intersecting } = useIntersectionObserver(elements, { rootMargin: '0px 0px -33% 0px' });
+  useEffect(() => {
+    setOccluded(intersecting!.length > 0);
+  }, [intersecting]);
+
+  return { occluded };
+}
+
 export const DocumentOutline = ({
   outlineRef,
   top = 0,
@@ -233,6 +353,7 @@ export const DocumentOutline = ({
   selector = SELECTOR,
   children,
   maxdepth = 4,
+  isMargin,
 }: {
   outlineRef?: React.RefObject<HTMLElement>;
   top?: number;
@@ -241,31 +362,63 @@ export const DocumentOutline = ({
   selector?: string;
   children?: React.ReactNode;
   maxdepth?: number;
+  isMargin: boolean;
 }) => {
-  const { activeId, headings, highlight } = useHeaders(selector, maxdepth);
+  const { activeId, headings } = useHeaders(selector, maxdepth);
+  const [open, setOpen] = useState(false);
+
+  // Keep track of changing occlusion
+  const { occluded } = useMarginOccluder();
+
+  // Handle transition between margin and non-margin
+  useEffect(() => {
+    setOpen(true);
+  }, [isMargin]);
+
+  // Handle occlusion when outline is in margin
+  useEffect(() => {
+    if (isMargin) {
+      setOpen(!occluded);
+    }
+  }, [occluded, isMargin]);
+
   if (headings.length <= 1 || !onClient) {
     return <nav suppressHydrationWarning>{children}</nav>;
   }
+
   return (
-    <nav
-      ref={outlineRef}
-      aria-label="Document Outline"
-      className={classNames(
-        'not-prose overflow-y-auto',
-        'transition-opacity duration-700', // Animation on load
-        className,
-      )}
-      style={{
-        top: top,
-        maxHeight: `calc(100vh - ${top + 20}px)`,
-      }}
-    >
-      <div className="mb-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">
-        In this article
-      </div>
-      <Headings headings={headings} activeId={activeId} highlight={highlight} selector={selector} />
-      {children}
-    </nav>
+    <Collapsible.Root open={open} onOpenChange={setOpen}>
+      <nav
+        ref={outlineRef}
+        aria-label="Document Outline"
+        className={classNames(
+          'not-prose overflow-y-auto',
+          'transition-opacity duration-700', // Animation on load
+          className,
+        )}
+        style={{
+          top: top,
+          maxHeight: `calc(100vh - ${top + 20}px)`,
+        }}
+      >
+        <div className="flex flex-row gap-2 mb-4 text-sm leading-6 uppercase rounded-lg text-slate-900 dark:text-slate-100">
+          In this article
+          <Collapsible.Trigger asChild>
+            <button className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2">
+              <ChevronRightIcon
+                className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+                height="1.5rem"
+                width="1.5rem"
+              />
+            </button>
+          </Collapsible.Trigger>
+        </div>
+        <Collapsible.Content className="CollapsibleContent">
+          <Headings headings={headings} activeId={activeId} />
+          {children}
+        </Collapsible.Content>
+      </nav>
+    </Collapsible.Root>
   );
 };
 

@@ -3,10 +3,13 @@ import React, { useCallback } from 'react';
 function makeSkipClickHandler(hash: string) {
   return (e: React.UIEvent<HTMLElement, Event>) => {
     e.preventDefault();
-    const el = document.querySelector(`#${hash}`);
+    const el = document.querySelector(`#${hash}`) as HTMLElement;
     if (!el) return;
     (el.nextSibling as HTMLElement).focus();
     history.replaceState(undefined, '', `#${hash}`);
+    // Changes keyboard tab-index location
+    if (el.tabIndex === -1) el.tabIndex = -1;
+    el.focus({ preventScroll: true });
   };
 }
 

@@ -60,11 +60,14 @@ const Headings = ({ headings, activeId }: Props) => (
           href={`#${heading.id}`}
           onClick={(e) => {
             e.preventDefault();
-            const el = document.querySelector(`#${heading.id}`);
+            const el = document.querySelector(`#${heading.id}`) as HTMLElement | undefined;
             if (!el) return;
 
             el.scrollIntoView({ behavior: 'smooth' });
             history.replaceState(undefined, '', `#${heading.id}`);
+            // Changes keyboard tab-index location
+            if (el.tabIndex === -1) el.tabIndex = -1;
+            el.focus({ preventScroll: true });
           }}
           // Note that the title can have math in it!
           dangerouslySetInnerHTML={{ __html: heading.titleHTML }}

@@ -6,7 +6,7 @@ import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { CopyIcon } from './components/index.js';
 import { MyST } from './MyST.js';
-import { useMemo, cloneElement } from 'react';
+import { useMemo } from 'react';
 import type { ComponentProps, CSSProperties } from 'react';
 
 type Props = {

@@ -20,3 +20,213 @@ pre > code > span > .linenumber {
 pre > code > span[data-highlight='true'] > .linenumber {
   color: #5ca5ee;
 }
+
+/*
+
+XCode style (c) Angel Garcia <angelgarcia.mail@gmail.com>
+
+*/
+
+/* Gray DOCTYPE selectors like WebKit */
+.xml .hljs-meta {
+  color: #c0c0c0;
+  background: transparent;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #007400;
+}
+
+.hljs-tag,
+.hljs-attribute,
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-name {
+  color: #aa0d91;
+}
+
+.hljs-variable,
+.hljs-template-variable {
+  color: #3f6e74;
+}
+
+.hljs-code,
+.hljs-string,
+.hljs-meta .hljs-string {
+  color: #c41a16;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #0e0eff;
+}
+
+.hljs-title,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-number {
+  color: #1c00cf;
+}
+
+.hljs-section,
+.hljs-meta {
+  color: #643820;
+}
+
+.hljs-title.class_,
+.hljs-class .hljs-title,
+.hljs-type,
+.hljs-built_in,
+.hljs-params {
+  color: #5c2699;
+}
+
+.hljs-attr {
+  color: #836c28;
+}
+
+.hljs-subst {
+  color: #000;
+}
+
+.hljs-formula {
+  background-color: #eee;
+  font-style: italic;
+}
+
+.hljs-addition {
+  background-color: #baeeba;
+}
+
+.hljs-deletion {
+  background-color: #ffc8bd;
+}
+
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #9b703f;
+}
+
+.hljs-doctag,
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+/*////////////////////////////////////////*/
+/*
+ * Visual Studio 2015 dark style
+ * Author: Nicolas LLOBERA <nllobera@gmail.com>
+ */
+
+.dark .hljs {
+  background: #1e1e1e;
+  color: #dcdcdc;
+}
+
+.dark .hljs-keyword,
+.dark .hljs-literal,
+.dark .hljs-symbol,
+.dark .hljs-name {
+  color: #569cd6;
+}
+.dark .hljs-link {
+  color: #569cd6;
+  text-decoration: underline;
+}
+
+.dark .hljs-built_in,
+.dark .hljs-type {
+  color: #4ec9b0;
+}
+
+.dark .hljs-number,
+.dark .hljs-class {
+  color: #b8d7a3;
+}
+
+.dark .hljs-string,
+.dark .hljs-meta .hljs-string {
+  color: #d69d85;
+}
+
+.dark .hljs-regexp,
+.dark .hljs-template-tag {
+  color: #9a5334;
+}
+
+.dark .hljs-subst,
+.dark .hljs-function,
+.dark .hljs-title,
+.dark .hljs-params,
+.dark .hljs-formula {
+  color: #dcdcdc;
+}
+
+.dark .hljs-comment,
+.dark .hljs-quote {
+  color: #57a64a;
+  font-style: italic;
+}
+
+.dark .hljs-doctag {
+  color: #608b4e;
+}
+
+.dark .hljs-meta,
+.dark .hljs-meta .hljs-keyword,
+.dark .hljs-tag {
+  color: #9b9b9b;
+}
+
+.dark .hljs-variable,
+.dark .hljs-template-variable {
+  color: #bd63c5;
+}
+
+.dark .hljs-attr,
+.dark .hljs-attribute {
+  color: #9cdcfe;
+}
+
+.dark .hljs-section {
+  color: gold;
+}
+
+.dark .hljs-emphasis {
+  font-style: italic;
+}
+
+.dark .hljs-strong {
+  font-weight: bold;
+}
+
+/*.hljs-code {
+  font-family:'Monospace';
+}*/
+
+.dark .hljs-bullet,
+.dark .hljs-selector-tag,
+.dark .hljs-selector-id,
+.dark .hljs-selector-class,
+.dark .hljs-selector-attr,
+.dark .hljs-selector-pseudo {
+  color: #d7ba7d;
+}
+
+.dark .hljs-addition {
+  background-color: #144212;
+  display: inline-block;
+  width: 100%;
+}
+
+.dark .hljs-deletion {
+  background-color: #600;
+  display: inline-block;
+  width: 100%;
+}

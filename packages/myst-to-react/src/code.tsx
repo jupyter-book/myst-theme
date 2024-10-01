@@ -77,6 +77,9 @@ export function CodeBlock(props: Props) {
             } as any)
           : ({ 'data-line-number': `${line}` } as any);
       },
+      customStyle: {
+        backgroundColor: 'unset',
+      },
     };
   }, [emphasizeLines]);
 

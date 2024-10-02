@@ -13,7 +13,7 @@ function FootnoteDefinition({ identifier }: { identifier: string }) {
   return (
     <XRefProvider>
       <div className="hover-document article w-[500px] sm:max-w-[500px] px-3 text-sm">
-        <MyST ast={node.children} />
+        <MyST ast={node?.children} />
       </div>
     </XRefProvider>
   );

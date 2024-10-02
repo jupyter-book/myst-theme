@@ -1,4 +1,12 @@
-import { useEffect, useState, useMemo, useCallback, useRef, forwardRef } from 'react';
+import {
+  createElement,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+  forwardRef,
+} from 'react';
 import type { KeyboardEventHandler, Dispatch, SetStateAction, FormEvent, MouseEvent } from 'react';
 import { useFetcher } from '@remix-run/react';
 import {
@@ -42,10 +50,21 @@ function matchAll(text: string, pattern: RegExp) {
  * Highlight a text string with an array of match words
  *
  * @param text - text to highlight
- * @param result - search result to use for highlighting
- * @param limit - limit to the number of tokens after first match
+ * @param matches - regular expression patterns to match against
+ * @param limit - limit to the number of characters after first match
+ * @param classname - CSS classname to use
  */
-function MarkedText({ text, matches, limit }: { text: string; matches: string[]; limit?: number }) {
+function MarkedText({
+  text,
+  matches,
+  limit,
+  className,
+}: {
+  text: string;
+  matches: string[];
+  limit?: number;
+  className?: string;
+}) {
   // Split by delimeter, but _keep_ delimeter!
   const splits = matchAll(text, SPACE_OR_PUNCTUATION);
   const tokens: string[] = [];
@@ -79,23 +98,38 @@ function MarkedText({ text, matches, limit }: { text: string; matches: string[];
     lastIndex = tokens.length;
   } else {
     firstIndex = tokens.findIndex((token) => pattern.test(token));
-    lastIndex = firstIndex + limit;
+    let numChars = 0;
+    for (
+      lastIndex = firstIndex + 1;
+      lastIndex < tokens.length - 1 && numChars + tokens[lastIndex].length <= limit;
+      lastIndex++
+    ) {
+      numChars += tokens[lastIndex].length;
+    }
   }
 
   if (tokens.length === 0) {
-    return <>{...tokens}</>;
+    return <span className={className}>{...tokens}</span>;
   } else {
     const firstRenderer = renderToken(tokens[firstIndex]);
     const remainingTokens = tokens.slice(firstIndex + 1, lastIndex);
     const remainingRenderers = remainingTokens.map((token) => renderToken(token));
 
     return (
-      <>
-        {hasLimit && '... '}
+      <span
+        className={classNames(
+          className,
+          {
+            "before:content-['..._']": hasLimit,
+            "after:content-['_...']": hasLimit,
+          },
+          'truncate',
+          'w-full',
+        )}
+      >
         {firstRenderer}
         {...remainingRenderers}
-        {hasLimit && ' ...'}
-      </>
+      </span>
     );
   }
 }
@@ -178,8 +212,10 @@ function SearchShortcut() {
 function SearchResultItem({
   result,
   closeSearch,
+  charLimit,
 }: {
   result: RankedSearchResult;
+  charLimit?: number;
   closeSearch?: () => void;
 }) {
   const { hierarchy, type, url, queries } = result;
@@ -187,14 +223,13 @@ function SearchResultItem({
   const Link = useLinkProvider();
 
   // Render the icon
-  const iconRenderer =
-    type === 'lvl1' ? (
-      <DocumentIcon className="inline-block w-6 mx-2" />
-    ) : type === 'content' ? (
-      <Bars3BottomLeftIcon className="inline-block w-6 mx-2" />
-    ) : (
-      <HashtagIcon className="inline-block w-6 mx-2" />
-    );
+  const iconProps = useMemo(() => {
+    return { className: 'inline-block w-6 mx-2 shrink-0' };
+  }, []);
+  const iconRenderer = createElement(
+    type === 'lvl1' ? DocumentIcon : type === 'content' ? Bars3BottomLeftIcon : HashtagIcon,
+    iconProps,
+  );
 
   // Generic "this document matched"
   const title = result.type === 'content' ? result['content'] : hierarchy[type as HeadingLevel]!;
@@ -202,7 +237,12 @@ function SearchResultItem({
 
   // Render the title, i.e. content or heading
   const titleRenderer = (
-    <MarkedText text={title} matches={matches} limit={type === 'content' ? 16 : undefined} />
+    <MarkedText
+      text={title}
+      matches={matches}
+      limit={type === 'content' ? charLimit : undefined}
+      className="text-sm"
+    />
   );
 
   // Render the subtitle i.e. file name
@@ -211,7 +251,7 @@ function SearchResultItem({
     subtitleRenderer = undefined;
   } else {
     const subtitle = result.hierarchy.lvl1!;
-    subtitleRenderer = <MarkedText text={subtitle} matches={matches} />;
+    subtitleRenderer = <MarkedText text={subtitle} matches={matches} className="text-xs" />;
   }
 
   const enterIconRenderer = (
@@ -228,8 +268,8 @@ function SearchResultItem({
       <div className="flex flex-row h-11">
         {iconRenderer}
         <div className="flex flex-col justify-center grow">
-          <span className="text-sm">{titleRenderer}</span>
-          {subtitleRenderer && <span className="text-xs">{subtitleRenderer}</span>}
+          {titleRenderer}
+          {subtitleRenderer}
         </div>
         {enterIconRenderer}
       </div>
@@ -242,6 +282,7 @@ interface SearchResultsProps {
   searchListID: string;
   searchLabelID: string;
   selectedIndex: number;
+  charLimit?: number;
   onHoverSelect: (index: number) => void;
   className?: string;
   closeSearch?: () => void;
@@ -251,6 +292,7 @@ function SearchResults({
   searchResults,
   searchListID,
   searchLabelID,
+  charLimit,
   className,
   selectedIndex,
   onHoverSelect,
@@ -325,7 +367,7 @@ function SearchResults({
               // Trigger selection on movement, so that scrolling doesn't trigger handler
               onMouseMove={handleMouseMove}
             >
-              <SearchResultItem result={result} closeSearch={closeSearch} />
+              <SearchResultItem result={result} closeSearch={closeSearch} charLimit={charLimit} />
             </li>
           ))}
         </ul>
@@ -541,11 +583,12 @@ const SearchPlaceholderButton = forwardRef<
 
 export interface SearchProps {
   debounceTime?: number;
+  charLimit?: number;
 }
 /**
  * Component that implements a basic search interface
  */
-export function Search({ debounceTime = 500 }: SearchProps) {
+export function Search({ debounceTime = 500, charLimit = 64 }: SearchProps) {
   const [open, setOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<RankedSearchResult[] | undefined>();
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -624,6 +667,7 @@ export function Search({ debounceTime = 500 }: SearchProps) {
               selectedIndex={selectedIndex}
               onHoverSelect={setSelectedIndex}
               closeSearch={triggerClose}
+              charLimit={charLimit}
             />
           )}
         </Dialog.Content>

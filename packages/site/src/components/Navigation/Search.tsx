@@ -212,8 +212,10 @@ function SearchShortcut() {
 function SearchResultItem({
   result,
   closeSearch,
+  charLimit,
 }: {
   result: RankedSearchResult;
+  charLimit?: number;
   closeSearch?: () => void;
 }) {
   const { hierarchy, type, url, queries } = result;
@@ -238,7 +240,7 @@ function SearchResultItem({
     <MarkedText
       text={title}
       matches={matches}
-      limit={type === 'content' ? 64 : undefined}
+      limit={type === 'content' ? charLimit : undefined}
       className="text-sm"
     />
   );
@@ -280,6 +282,7 @@ interface SearchResultsProps {
   searchListID: string;
   searchLabelID: string;
   selectedIndex: number;
+  charLimit?: number;
   onHoverSelect: (index: number) => void;
   className?: string;
   closeSearch?: () => void;
@@ -289,6 +292,7 @@ function SearchResults({
   searchResults,
   searchListID,
   searchLabelID,
+  charLimit,
   className,
   selectedIndex,
   onHoverSelect,
@@ -363,7 +367,7 @@ function SearchResults({
               // Trigger selection on movement, so that scrolling doesn't trigger handler
               onMouseMove={handleMouseMove}
             >
-              <SearchResultItem result={result} closeSearch={closeSearch} />
+              <SearchResultItem result={result} closeSearch={closeSearch} charLimit={charLimit} />
             </li>
           ))}
         </ul>
@@ -579,11 +583,12 @@ const SearchPlaceholderButton = forwardRef<
 
 export interface SearchProps {
   debounceTime?: number;
+  charLimit?: number;
 }
 /**
  * Component that implements a basic search interface
  */
-export function Search({ debounceTime = 500 }: SearchProps) {
+export function Search({ debounceTime = 500, charLimit = 64 }: SearchProps) {
   const [open, setOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<RankedSearchResult[] | undefined>();
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -662,6 +667,7 @@ export function Search({ debounceTime = 500 }: SearchProps) {
               selectedIndex={selectedIndex}
               onHoverSelect={setSelectedIndex}
               closeSearch={triggerClose}
+              charLimit={charLimit}
             />
           )}
         </Dialog.Content>

@@ -26,7 +26,10 @@ export const links: LinksFunction = () => {
   return [
     {
       rel: 'icon',
-      href: '/favicon.ico',
+      href:
+        process.env.MODE === 'static'
+          ? `${process.env.BASE_URL || ''}/favicon.ico`
+          : '/favicon.ico',
     },
     { rel: 'stylesheet', href: tailwind },
     { rel: 'stylesheet', href: thebeCoreCss },

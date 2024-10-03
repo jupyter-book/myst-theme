@@ -1,5 +1,22 @@
 # @myst-theme/site
 
+## 0.13.1
+
+### Patch Changes
+
+- d175a30: Change focus when selecting titles or skip-to-article
+- 23e9f9a: add useNavigateProvider
+- Updated dependencies [23e9f9a]
+- Updated dependencies [50c6258]
+  - @myst-theme/providers@0.13.1
+  - myst-to-react@0.13.1
+  - @myst-theme/frontmatter@0.13.1
+  - @myst-theme/diagrams@0.13.1
+  - @myst-theme/jupyter@0.13.1
+  - @myst-theme/common@0.13.1
+  - @myst-theme/search@0.13.1
+  - myst-demo@0.13.1
+
 ## 0.13.0
 
 ### Patch Changes

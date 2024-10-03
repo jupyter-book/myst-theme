@@ -1,5 +1,12 @@
 # @myst-theme/providers
 
+## 0.13.1
+
+### Patch Changes
+
+- 23e9f9a: add useNavigateProvider
+  - @myst-theme/common@0.13.1
+
 ## 0.13.0
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.13.1
+
+### Patch Changes
+
+- 50c6258: App failure when no footnote definition
+- Updated dependencies [23e9f9a]
+  - @myst-theme/providers@0.13.1
+
 ## 0.13.0
 
 ### Patch Changes

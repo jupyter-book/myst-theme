@@ -1,13 +1,11 @@
 import type { NodeRenderer } from '@myst-theme/providers';
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
-import light from 'react-syntax-highlighter/dist/esm/styles/hljs/xcode.js';
-import dark from 'react-syntax-highlighter/dist/esm/styles/hljs/vs2015.js';
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { CopyIcon } from './components/index.js';
 import { MyST } from './MyST.js';
 import { useMemo } from 'react';
-import type { ComponentProps, CSSProperties } from 'react';
+import type { ComponentProps } from 'react';
 
 type Props = {
   value: string;

@@ -1,0 +1,146 @@
+/*
+BSD 3-Clause License
+
+Copyright (c) 2006, Ivan Sagalaev.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Visual Studio 2015 dark style
+Author: Nicolas LLOBERA <nllobera@gmail.com>
+*/
+
+.dark .hljs {
+  background: #1e1e1e !important;
+  color: #dcdcdc;
+}
+
+.dark .hljs-keyword,
+.dark .hljs-literal,
+.dark .hljs-symbol,
+.dark .hljs-name {
+  color: #569cd6;
+}
+.dark .hljs-link {
+  color: #569cd6;
+  text-decoration: underline;
+}
+
+.dark .hljs-built_in,
+.dark .hljs-type {
+  color: #4ec9b0;
+}
+
+.dark .hljs-number,
+.dark .hljs-class {
+  color: #b8d7a3;
+}
+
+.dark .hljs-string,
+.dark .hljs-meta .hljs-string {
+  color: #d69d85;
+}
+
+.dark .hljs-regexp,
+.dark .hljs-template-tag {
+  color: #9a5334;
+}
+
+.dark .hljs-subst,
+.dark .hljs-function,
+.dark .hljs-title,
+.dark .hljs-params,
+.dark .hljs-formula {
+  color: #dcdcdc;
+}
+
+.dark .hljs-comment,
+.dark .hljs-quote {
+  color: #57a64a;
+  font-style: italic;
+}
+
+.dark .hljs-doctag {
+  color: #608b4e;
+}
+
+.dark .hljs-meta,
+.dark .hljs-meta .hljs-keyword,
+.dark .hljs-tag {
+  color: #9b9b9b;
+}
+
+.dark .hljs-variable,
+.dark .hljs-template-variable {
+  color: #bd63c5;
+}
+
+.dark .hljs-attr,
+.dark .hljs-attribute {
+  color: #9cdcfe;
+}
+
+.dark .hljs-section {
+  color: gold;
+}
+
+.dark .hljs-emphasis {
+  font-style: italic;
+}
+
+.dark .hljs-strong {
+  font-weight: bold;
+}
+
+/*.hljs-code {
+  font-family:'Monospace';
+}*/
+
+.dark .hljs-bullet,
+.dark .hljs-selector-tag,
+.dark .hljs-selector-id,
+.dark .hljs-selector-class,
+.dark .hljs-selector-attr,
+.dark .hljs-selector-pseudo {
+  color: #d7ba7d;
+}
+
+.dark .hljs-addition {
+  background-color: #144212;
+  display: inline-block;
+  width: 100%;
+}
+
+.dark .hljs-deletion {
+  background-color: #600;
+  display: inline-block;
+  width: 100%;
+}
+
+.dark .hljs-code {
+  color: unset;
+}

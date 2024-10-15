@@ -1,12 +1,11 @@
 import type { NodeRenderer } from '@myst-theme/providers';
-import { useThemeSwitcher } from '@myst-theme/providers';
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
-import light from 'react-syntax-highlighter/dist/esm/styles/hljs/xcode.js';
-import dark from 'react-syntax-highlighter/dist/esm/styles/hljs/vs2015.js';
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { CopyIcon } from './components/index.js';
 import { MyST } from './MyST.js';
+import { useMemo } from 'react';
+import type { ComponentProps } from 'react';
 
 type Props = {
   value: string;
@@ -32,8 +31,9 @@ function normalizeLanguage(lang?: string): string | undefined {
   }
 }
 
+type HighlightPropsType = ComponentProps<typeof SyntaxHighlighter>;
+
 export function CodeBlock(props: Props) {
-  const { isLight } = useThemeSwitcher();
   const {
     value,
     lang,
@@ -48,7 +48,39 @@ export function CodeBlock(props: Props) {
     background,
     border,
   } = props;
-  const highlightLines = new Set(emphasizeLines);
+  const highlighterProps: Omit<HighlightPropsType, 'children'> = useMemo(() => {
+    const highlightLines = new Set(emphasizeLines);
+    return {
+      language: normalizeLanguage(lang),
+      startingLineNumber,
+      showLineNumbers,
+      useInlineStyles: true,
+      wrapLines: true,
+      lineNumberContainerStyle: {
+        // This stops page content shifts
+        display: 'inline-block',
+        float: 'left',
+        minWidth: '1.25em',
+        paddingRight: '1em',
+        textAlign: 'right',
+        userSelect: 'none',
+        borderLeft: '4px solid transparent',
+      },
+      lineProps: (line: number | boolean) => {
+        if (typeof line === 'boolean') return {};
+        return highlightLines.has(line)
+          ? ({
+              'data-line-number': `${line}`,
+              'data-highlight': 'true',
+            } as any)
+          : ({ 'data-line-number': `${line}` } as any);
+      },
+      customStyle: {
+        backgroundColor: 'unset',
+      },
+    };
+  }, [emphasizeLines]);
+
   return (
     <div
       id={identifier}
@@ -71,33 +103,7 @@ export function CodeBlock(props: Props) {
           </div>
         </div>
       )}
-      <SyntaxHighlighter
-        language={normalizeLanguage(lang)}
-        startingLineNumber={startingLineNumber}
-        showLineNumbers={showLineNumbers}
-        style={isLight ? { ...light, hljs: { ...light.hljs, background: 'transparent' } } : dark}
-        wrapLines
-        lineNumberContainerStyle={{
-          // This stops page content shifts
-          display: 'inline-block',
-          float: 'left',
-          minWidth: '1.25em',
-          paddingRight: '1em',
-          textAlign: 'right',
-          userSelect: 'none',
-          borderLeft: '4px solid transparent',
-        }}
-        lineProps={(line) => {
-          if (typeof line === 'boolean') return {};
-          return highlightLines.has(line)
-            ? ({
-                'data-line-number': `${line}`,
-                'data-highlight': 'true',
-              } as any)
-            : ({ 'data-line-number': `${line}` } as any);
-        }}
-        customStyle={{ padding: '0.8rem' }}
-      >
+      <SyntaxHighlighter {...highlighterProps} className="block hljs">
         {value}
       </SyntaxHighlighter>
       {showCopy && (

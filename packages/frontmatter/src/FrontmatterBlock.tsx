@@ -194,7 +194,7 @@ export function FrontmatterBlock({
   hideExports,
   className,
 }: {
-  frontmatter: PageFrontmatter;
+  frontmatter: Omit<PageFrontmatter, 'parts'>;
   kind?: SourceFileKind;
   authorStyle?: 'block' | 'list';
   hideBadges?: boolean;

@@ -188,28 +188,31 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
       return { ...exp, url: updateUrl(exp.url) };
     });
   }
-  // Fix all of the images to point to the CDN
-  const images = selectAll('image', data.mdast) as Image[];
-  images.forEach((node) => {
-    node.url = updateUrl(node.url);
-    if (node.urlOptimized) {
-      node.urlOptimized = updateUrl(node.urlOptimized);
-    }
-  });
-  const links = selectAll('link,linkBlock,card', data.mdast) as Link[];
-  const staticLinks = links.filter((node) => node.static);
-  staticLinks.forEach((node) => {
-    // These are static links to thinks like PDFs or other referenced files
-    node.url = updateUrl(node.url);
-  });
-  const outputs = selectAll('output', data.mdast) as Output[];
-  outputs.forEach((node) => {
-    if (!node.data) return;
-    walkOutputs(node.data, (obj) => {
-      // The path will be defined from output of myst
-      // Here we are re-assigning it to the current domain
-      if (!obj.path) return;
-      obj.path = updateUrl(obj.path);
+  const allMdastTrees = [data.mdast, ...Object.values(data.frontmatter?.parts ?? {})];
+  allMdastTrees.forEach((tree) => {
+    // Fix all of the images to point to the CDN
+    const images = selectAll('image', tree) as Image[];
+    images.forEach((node) => {
+      node.url = updateUrl(node.url);
+      if (node.urlOptimized) {
+        node.urlOptimized = updateUrl(node.urlOptimized);
+      }
+    });
+    const links = selectAll('link,linkBlock,card', tree) as Link[];
+    const staticLinks = links.filter((node) => node.static);
+    staticLinks.forEach((node) => {
+      // These are static links to thinks like PDFs or other referenced files
+      node.url = updateUrl(node.url);
+    });
+    const outputs = selectAll('output', tree) as Output[];
+    outputs.forEach((node) => {
+      if (!node.data) return;
+      walkOutputs(node.data, (obj) => {
+        // The path will be defined from output of myst
+        // Here we are re-assigning it to the current domain
+        if (!obj.path) return;
+        obj.path = updateUrl(obj.path);
+      });
     });
   });
   return data;

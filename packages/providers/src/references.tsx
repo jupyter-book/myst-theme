@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import type { References } from 'myst-common';
-import type { PageFrontmatter } from 'myst-frontmatter';
+import type { PageLoader } from '@myst-theme/common';
 
 const ReferencesContext = React.createContext<{
-  frontmatter?: PageFrontmatter;
+  frontmatter?: PageLoader['frontmatter'];
   references?: References;
 }>({});
 
@@ -12,7 +12,7 @@ export function ReferencesProvider({
   frontmatter,
   children,
 }: {
-  frontmatter?: PageFrontmatter;
+  frontmatter?: PageLoader['frontmatter'];
   references?: References;
   children: React.ReactNode;
 }) {

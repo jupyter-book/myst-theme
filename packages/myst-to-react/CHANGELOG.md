@@ -1,5 +1,16 @@
 # myst-to-react
 
+## 0.13.1
+
+### Patch Changes
+
+- 4d55ef2: Support parts mdast trees in page frontmatter
+- 348bf3b: Fix themeing of code-blocks
+- 50c6258: App failure when no footnote definition
+- Updated dependencies [4d55ef2]
+- Updated dependencies [23e9f9a]
+  - @myst-theme/providers@0.13.1
+
 ## 0.13.0
 
 ### Patch Changes

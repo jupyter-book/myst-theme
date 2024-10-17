@@ -1,5 +1,15 @@
 # myst-demo
 
+## 0.13.1
+
+### Patch Changes
+
+- 4d55ef2: Support parts mdast trees in page frontmatter
+- Updated dependencies [4d55ef2]
+- Updated dependencies [348bf3b]
+- Updated dependencies [50c6258]
+  - myst-to-react@0.13.1
+
 ## 0.13.0
 
 ### Patch Changes

@@ -28,6 +28,7 @@ export function DownloadLinksArea() {
         {downloads.map((item) => {
           return (
             <Download
+              key={item.filename}
               url={item.url}
               format={item.format}
               filename={item.filename}

@@ -46,7 +46,7 @@ export type FooterLinks = {
 };
 
 type PageFrontmatterWithDownloads = Omit<PageFrontmatter, 'parts' | 'downloads' | 'exports'> & {
-  parts?: Record<string, GenericParent>;
+  parts?: Record<string, { frontmatter?: PageFrontmatter; mdast: GenericParent }>;
   downloads?: SiteAction[];
   exports?: SiteExport[];
 };

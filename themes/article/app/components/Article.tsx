@@ -34,14 +34,7 @@ export function Article({
 }) {
   const keywords = article.frontmatter?.keywords ?? [];
   const tree = copyNode(article.mdast);
-  const parts = {
-    ...extractKnownParts(tree),
-    ...Object.fromEntries(
-      Object.entries(article.frontmatter?.parts ?? {}).map(([k, v]) => {
-        return [k, v.mdast];
-      }),
-    ),
-  };
+  const parts = extractKnownParts(tree, article.frontmatter?.parts);
   const { title, subtitle } = article.frontmatter;
   const compute = useComputeOptions();
   const top = useThemeTop();

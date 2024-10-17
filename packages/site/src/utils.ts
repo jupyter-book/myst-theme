@@ -18,13 +18,21 @@ export type KnownParts = {
   acknowledgments?: GenericParent;
 };
 
-export function extractKnownParts(tree: GenericParent): KnownParts {
+export function extractKnownParts(
+  tree: GenericParent,
+  parts?: Record<string, { mdast?: GenericParent }>,
+): KnownParts {
   const abstract = extractPart(tree, 'abstract');
   const summary = extractPart(tree, 'summary', { requireExplicitPart: true });
   const keypoints = extractPart(tree, ['keypoints'], { requireExplicitPart: true });
   const data_availability = extractPart(tree, ['data_availability', 'data availability']);
   const acknowledgments = extractPart(tree, ['acknowledgments', 'acknowledgements']);
-  return { abstract, summary, keypoints, data_availability, acknowledgments };
+  const otherParts = Object.fromEntries(
+    Object.entries(parts ?? {}).map(([k, v]) => {
+      return [k, v.mdast];
+    }),
+  );
+  return { abstract, summary, keypoints, data_availability, acknowledgments, ...otherParts };
 }
 
 /**

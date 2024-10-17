@@ -1,5 +1,14 @@
 # @myst-theme/providers
 
+## 0.13.1
+
+### Patch Changes
+
+- 4d55ef2: Support parts mdast trees in page frontmatter
+- 23e9f9a: add useNavigateProvider
+- Updated dependencies [4d55ef2]
+  - @myst-theme/common@0.13.1
+
 ## 0.13.0
 
 ### Patch Changes

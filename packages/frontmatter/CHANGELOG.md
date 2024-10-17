@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.13.1
+
+### Patch Changes
+
+- 4d55ef2: Support parts mdast trees in page frontmatter
+
 ## 0.13.0
 
 ## 0.12.0

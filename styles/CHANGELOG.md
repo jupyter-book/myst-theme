@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.13.1
+
+### Patch Changes
+
+- 348bf3b: Add styling for code-blocks
+
 ## 0.13.0
 
 ## 0.12.0

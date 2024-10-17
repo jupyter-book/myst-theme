@@ -8,7 +8,7 @@ export function ErrorUnhandled({ error }: { error: ErrorResponse }) {
     <>
       <h1>Unexpected Error Occurred</h1>
       <p>Status: {error.status}</p>
-      <p>{error.data.message}</p>
+      <p>{error.data?.message ?? ''}</p>
     </>
   );
 }

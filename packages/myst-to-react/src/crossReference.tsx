@@ -7,11 +7,13 @@ import {
   XRefProvider,
   useXRefState,
   type NodeRenderer,
+  useFrontmatter,
 } from '@myst-theme/providers';
 import { InlineError } from './inlineError.js';
 import { default as useSWR } from 'swr';
 import { HoverPopover } from './components/index.js';
 import { MyST } from './MyST.js';
+import type { GenericNode, GenericParent } from 'myst-common';
 import { selectMdastNodes } from 'myst-common';
 import { scrollToElement } from './hashLink.js';
 
@@ -100,11 +102,20 @@ export function useFetchMdast({
 
 function useSelectNodes({ load, identifier }: { load?: boolean; identifier: string }) {
   const references = useReferences();
+  const frontmatter = useFrontmatter();
   const { remote, url, remoteBaseUrl, dataUrl } = useXRefState();
   if (!load) return;
   const { data, error } = useFetchMdast({ remote, url, remoteBaseUrl, dataUrl });
-  const mdast = data?.mdast ?? references?.article;
-  const { nodes, htmlId } = selectMdastNodes(mdast, identifier, 3);
+  const mdast = data ? (data.mdast as GenericParent) : references?.article;
+  const parts = data ? (data.frontmatter?.parts as { mdast: GenericParent }) : frontmatter?.parts;
+  let nodes: GenericNode[] = [];
+  let htmlId: string | undefined;
+  [{ mdast }, ...Object.values(parts ?? {})].forEach(({ mdast: tree }) => {
+    if (!tree || nodes.length > 0) return;
+    const selected = selectMdastNodes(tree, identifier, 3);
+    nodes = selected.nodes;
+    htmlId = selected.htmlId;
+  });
   return { htmlId, nodes, loading: remote && !data, error: remote && error };
 }
 

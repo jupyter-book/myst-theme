@@ -74,7 +74,7 @@ export const ArticlePage = React.memo(function ({
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
-  const parts = extractKnownParts(tree);
+  const parts = extractKnownParts(tree, article.frontmatter?.parts);
   const isOutlineMargin = useMediaQuery('(min-width: 1024px)');
   return (
     <ReferencesProvider

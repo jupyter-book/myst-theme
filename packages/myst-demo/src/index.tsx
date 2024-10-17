@@ -386,6 +386,7 @@ export function MySTRenderer({
   );
 
   const mdastStage = astStage === 'pre' ? mdastPre : mdastPost;
+  const { downloads, exports, parts, ...reducedFrontmatter } = frontmatter;
 
   return (
     <figure
@@ -437,7 +438,7 @@ export function MySTRenderer({
         >
           {previewType === 'DEMO' && (
             <>
-              <ReferencesProvider references={references} frontmatter={frontmatter}>
+              <ReferencesProvider references={references} frontmatter={reducedFrontmatter}>
                 {TitleBlock && <TitleBlock frontmatter={frontmatter}></TitleBlock>}
                 <MyST ast={references.article?.children as GenericNode[]} />
               </ReferencesProvider>

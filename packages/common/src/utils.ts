@@ -188,23 +188,23 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
       return { ...exp, url: updateUrl(exp.url) };
     });
   }
-  const allMdastTrees = [data.mdast, ...Object.values(data.frontmatter?.parts ?? {})];
-  allMdastTrees.forEach((tree) => {
+  const allMdastTrees = [data, ...Object.values(data.frontmatter?.parts ?? {})];
+  allMdastTrees.forEach(({ mdast }) => {
     // Fix all of the images to point to the CDN
-    const images = selectAll('image', tree) as Image[];
+    const images = selectAll('image', mdast) as Image[];
     images.forEach((node) => {
       node.url = updateUrl(node.url);
       if (node.urlOptimized) {
         node.urlOptimized = updateUrl(node.urlOptimized);
       }
     });
-    const links = selectAll('link,linkBlock,card', tree) as Link[];
-    const staticLinks = links.filter((node) => node.static);
+    const links = selectAll('link,linkBlock,card', mdast) as Link[];
+    const staticLinks = links?.filter((node) => node.static);
     staticLinks.forEach((node) => {
       // These are static links to thinks like PDFs or other referenced files
       node.url = updateUrl(node.url);
     });
-    const outputs = selectAll('output', tree) as Output[];
+    const outputs = selectAll('output', mdast) as Output[];
     outputs.forEach((node) => {
       if (!node.data) return;
       walkOutputs(node.data, (obj) => {

@@ -42,7 +42,14 @@ export const ArticlePage = React.memo(function ({
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
-  const parts = { ...extractKnownParts(tree), ...article.frontmatter?.parts };
+  const parts = {
+    ...extractKnownParts(tree),
+    ...Object.fromEntries(
+      Object.entries(article.frontmatter?.parts ?? {}).map(([k, v]) => {
+        return [k, v.mdast];
+      }),
+    ),
+  };
 
   return (
     <ReferencesProvider

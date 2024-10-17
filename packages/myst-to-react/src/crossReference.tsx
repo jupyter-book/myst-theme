@@ -13,7 +13,7 @@ import { InlineError } from './inlineError.js';
 import { default as useSWR } from 'swr';
 import { HoverPopover } from './components/index.js';
 import { MyST } from './MyST.js';
-import type { GenericNode } from 'myst-common';
+import type { GenericNode, GenericParent } from 'myst-common';
 import { selectMdastNodes } from 'myst-common';
 import { scrollToElement } from './hashLink.js';
 
@@ -106,11 +106,11 @@ function useSelectNodes({ load, identifier }: { load?: boolean; identifier: stri
   const { remote, url, remoteBaseUrl, dataUrl } = useXRefState();
   if (!load) return;
   const { data, error } = useFetchMdast({ remote, url, remoteBaseUrl, dataUrl });
-  const mdast = data ? data.mdast : references?.article;
-  const parts = data ? data.frontmatter?.parts : frontmatter?.parts;
+  const mdast = data ? (data.mdast as GenericParent) : references?.article;
+  const parts = data ? (data.frontmatter?.parts as { mdast: GenericParent }) : frontmatter?.parts;
   let nodes: GenericNode[] = [];
   let htmlId: string | undefined;
-  [mdast, ...Object.values(parts ?? {})].forEach((tree) => {
+  [{ mdast }, ...Object.values(parts ?? {})].forEach(({ mdast: tree }) => {
     if (!tree || nodes.length > 0) return;
     const selected = selectMdastNodes(tree, identifier, 3);
     nodes = selected.nodes;
@@ -141,8 +141,8 @@ export function CrossReferenceHover({
   const parent = useXRefState();
   const remoteBaseUrl = remoteBaseUrlIn ?? parent.remoteBaseUrl;
   const remote = !!remoteBaseUrl || parent.remote || remoteIn;
-  const url = parent.remote ? urlIn ?? parent.url : urlIn;
-  const dataUrl = parent.remote ? dataUrlIn ?? parent.dataUrl : dataUrlIn;
+  const url = parent.remote ? (urlIn ?? parent.url) : urlIn;
+  const dataUrl = parent.remote ? (dataUrlIn ?? parent.dataUrl) : dataUrlIn;
   const external = !!remoteBaseUrl || (url?.startsWith('http') ?? false);
   const scroll: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
     e.preventDefault();

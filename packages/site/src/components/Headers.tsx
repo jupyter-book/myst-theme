@@ -7,7 +7,7 @@ import {
 } from '@myst-theme/frontmatter';
 import { useGridSystemProvider } from '@myst-theme/providers';
 import classNames from 'classnames';
-import type { PageFrontmatter } from 'myst-frontmatter';
+import type { PageFrontmatterWithDownloads } from '@myst-theme/common';
 import { ThemeButton } from './Navigation/index.js';
 
 export function ArticleHeader({
@@ -16,13 +16,13 @@ export function ArticleHeader({
   toggleTheme,
   className,
 }: {
-  frontmatter: PageFrontmatter;
+  frontmatter: PageFrontmatterWithDownloads;
   children?: React.ReactNode;
   toggleTheme?: boolean;
   className?: string;
 }) {
   const grid = useGridSystemProvider();
-  const { subject, venue, biblio, ...rest } = frontmatter ?? {};
+  const { subject, venue, volume, issue, ...rest } = frontmatter ?? {};
   const positionBackground = {
     'col-page-right': grid === 'article-left-grid',
     'col-page': grid === 'article-grid',
@@ -71,7 +71,12 @@ export function ArticleHeader({
             })}
           >
             {subject && <div className={classNames('flex-none pr-2 smallcaps')}>{subject}</div>}
-            <Journal venue={venue} biblio={biblio} className="hidden pl-2 border-l md:block" />
+            <Journal
+              venue={venue}
+              volume={volume}
+              issue={issue}
+              className="hidden pl-2 border-l md:block"
+            />
             <div className="flex-grow"></div>
             <div className="hidden sm:block">
               <LicenseBadges license={frontmatter?.license} />

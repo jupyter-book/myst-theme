@@ -152,17 +152,18 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
 
 export function Journal({
   venue,
-  biblio,
+  volume,
+  issue,
   className,
 }: {
   venue?: Required<PageFrontmatter>['venue'];
-  biblio?: Required<PageFrontmatter>['biblio'];
+  volume?: Required<PageFrontmatter>['volume'];
+  issue?: Required<PageFrontmatter>['issue'];
   className?: string;
 }) {
   if (!venue) return null;
   const { title, url } = typeof venue === 'string' ? { title: venue, url: null } : venue;
   if (!title) return null;
-  const { volume, issue } = biblio ?? {};
   return (
     <div className={classNames('flex-none mr-2', className)}>
       {url ? (
@@ -178,8 +179,8 @@ export function Journal({
       )}
       {volume != null && (
         <span className="pl-2 ml-2 border-l">
-          Volume {volume}
-          {issue != null && <>, Issue {issue}</>}
+          Volume {volume.title}
+          {issue != null && <>, Issue {issue.title}</>}
         </span>
       )}
     </div>
@@ -211,7 +212,8 @@ export function FrontmatterBlock({
     license,
     github,
     venue,
-    biblio,
+    volume,
+    issue,
     exports,
     downloads,
     date,
@@ -221,7 +223,7 @@ export function FrontmatterBlock({
   const hasExports = downloads ? downloads.length > 0 : exports && exports.length > 0;
   const hasAuthors = authors && authors.length > 0;
   const hasBadges = !!open_access || !!license || !!hasExports || !!isJupyter || !!github;
-  const hasHeaders = !!subject || !!venue || !!biblio;
+  const hasHeaders = !!subject || !!venue || !!volume || !!issue;
   const hasDateOrDoi = !!doi || !!date;
   const showHeaderBlock = hasHeaders || (hasBadges && !hideBadges) || (hasExports && !hideExports);
   if (!title && !subtitle && !showHeaderBlock && !hasAuthors && !hasDateOrDoi) {
@@ -245,7 +247,7 @@ export function FrontmatterBlock({
               {subject}
             </div>
           )}
-          <Journal venue={venue} biblio={biblio} />
+          <Journal venue={venue} volume={volume} issue={issue} />
           <div className="flex-grow"></div>
           {!hideBadges && (
             <>

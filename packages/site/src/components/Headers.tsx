@@ -7,7 +7,7 @@ import {
 } from '@myst-theme/frontmatter';
 import { useGridSystemProvider } from '@myst-theme/providers';
 import classNames from 'classnames';
-import type { PageFrontmatter } from 'myst-frontmatter';
+import type { PageFrontmatterWithDownloads } from '@myst-theme/common';
 import { ThemeButton } from './Navigation/index.js';
 
 export function ArticleHeader({
@@ -16,7 +16,7 @@ export function ArticleHeader({
   toggleTheme,
   className,
 }: {
-  frontmatter: PageFrontmatter;
+  frontmatter: PageFrontmatterWithDownloads;
   children?: React.ReactNode;
   toggleTheme?: boolean;
   className?: string;

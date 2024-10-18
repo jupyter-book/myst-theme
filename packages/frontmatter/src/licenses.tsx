@@ -11,9 +11,9 @@ import { ScaleIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 
 type License = {
-  name: string;
-  url: string;
-  id: string;
+  id?: string;
+  name?: string;
+  url?: string;
   free?: boolean;
   CC?: boolean;
   osi?: boolean;
@@ -28,6 +28,7 @@ export function CreativeCommonsBadge({
   preamble?: string;
   className?: string;
 }) {
+  if (!license.id) return null;
   const match = /^([CBYSAND0-]+)(?:(?:-)([0-9].[0-9]))?$/.exec(license.id);
   if (!license.CC || !match) return null;
   const title = `${preamble}${license.name ?? (license as any).title} (${license.id})`;

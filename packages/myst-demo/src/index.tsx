@@ -3,7 +3,7 @@ import type { LatexResult } from 'myst-to-tex'; // Only import the type!!
 import type { TypstResult } from 'myst-to-typst'; // Only import the type!!
 import { remove } from 'unist-util-remove';
 import type { VFileMessage } from 'vfile-message';
-import yaml from 'js-yaml';
+import { load as yamlLoad, dump as yamlDump } from 'js-yaml';
 import {
   fileError,
   RuleId,
@@ -60,7 +60,7 @@ function getFrontmatter(vfile: VFile, tree: GenericParent) {
   const firstIsYaml = firstNode?.type === 'code' && firstNode?.lang === 'yaml';
   if (firstIsYaml) {
     try {
-      frontmatter = (yaml.load(firstNode.value) as Record<string, any>) || {};
+      frontmatter = (yamlLoad(firstNode.value) as Record<string, any>) || {};
       (firstNode as any).type = '__delete__';
     } catch (err) {
       fileError(vfile, 'Invalid YAML frontmatter', {
@@ -152,7 +152,7 @@ async function parse(
     footnotes: {},
   };
   const frontmatterRaw = getFrontmatter(vfile, mdast);
-  const frontmatter = validatePageFrontmatter(frontmatterRaw, {
+  const frontmatter: Omit<PageFrontmatter, 'parts'> = validatePageFrontmatter(frontmatterRaw, {
     property: 'frontmatter',
     messages: {},
   });
@@ -449,7 +449,7 @@ export function MySTRenderer({
               <CodeBlock
                 lang={astLang}
                 value={
-                  astLang === 'yaml' ? yaml.dump(mdastStage) : JSON.stringify(mdastStage, null, 2)
+                  astLang === 'yaml' ? yamlDump(mdastStage) : JSON.stringify(mdastStage, null, 2)
                 }
               />
             </>

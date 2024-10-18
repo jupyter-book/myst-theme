@@ -103,7 +103,7 @@ export function CodeBlock(props: Props) {
           </div>
         </div>
       )}
-      <SyntaxHighlighter {...highlighterProps} className="block hljs">
+      <SyntaxHighlighter {...highlighterProps} className="block p-3 hljs">
         {value}
       </SyntaxHighlighter>
       {showCopy && (

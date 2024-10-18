@@ -1,5 +1,14 @@
 # @myst-theme/providers
 
+## 0.13.2
+
+### Patch Changes
+
+- a2e58e5: Update to mystmd 1.3.13
+- Updated dependencies [a2e58e5]
+- Updated dependencies [a2e58e5]
+  - @myst-theme/common@0.13.2
+
 ## 0.13.1
 
 ### Patch Changes

@@ -1,5 +1,21 @@
 # @myst-theme/site
 
+## 0.13.2
+
+### Patch Changes
+
+- a2e58e5: Update to mystmd 1.3.13
+- Updated dependencies [a2e58e5]
+- Updated dependencies [a2e58e5]
+  - @myst-theme/common@0.13.2
+  - myst-to-react@0.13.2
+  - @myst-theme/frontmatter@0.13.2
+  - myst-demo@0.13.2
+  - @myst-theme/providers@0.13.2
+  - @myst-theme/jupyter@0.13.2
+  - @myst-theme/diagrams@0.13.2
+  - @myst-theme/search@0.13.2
+
 ## 0.13.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # myst-demo
 
+## 0.13.2
+
+### Patch Changes
+
+- a2e58e5: Update to mystmd 1.3.13
+- Updated dependencies [a2e58e5]
+  - myst-to-react@0.13.2
+
 ## 0.13.1
 
 ### Patch Changes

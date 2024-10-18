@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.13.2
+
+### Patch Changes
+
+- a2e58e5: Update to mystmd 1.3.13
+
 ## 0.13.1
 
 ### Patch Changes

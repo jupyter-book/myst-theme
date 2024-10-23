@@ -13,9 +13,12 @@ function api404(message = 'No API route found at this URL') {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { slug } = params;
+  const [first, ...rest] = new URL(request.url).pathname
+    .slice(1)
+    .replace(/\.json$/, '')
+    .split('/');
   // Handle /myst.xref.json as slug
-  if (slug === 'myst.xref') {
+  if (rest.length === 0 && first === 'myst.xref') {
     const xref = await getMystXrefJson();
     if (!xref) {
       return json({ message: 'myst.xref.json not found', status: 404 }, { status: 404 });
@@ -23,13 +26,14 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return json(xref);
   }
   // Handle /myst.search.json as slug
-  else if (slug === 'myst.search') {
+  else if (rest.length === 0 && first === 'myst.search') {
     const search = await getMystSearchJson();
     if (!search) {
       return json({ message: 'myst.search.json not found', status: 404 }, { status: 404 });
     }
     return json(search);
   }
+  const slug = [first, ...rest].join('.');
   const data = await getPage(request, { slug }).catch(() => null);
   if (!data) return api404('No page found at this URL.');
   return json(data, {

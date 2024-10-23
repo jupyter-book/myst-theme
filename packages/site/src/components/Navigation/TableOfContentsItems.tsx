@@ -35,10 +35,16 @@ function nestToc(toc: Heading[]): NestedHeading[] {
   return items;
 }
 
+function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: string) {
+  const headingPath = withBaseurl(heading.path, baseurl);
+  if (pathname && headingPath === `${pathname}/index`) return true;
+  return headingPath === pathname;
+}
+
 function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: string): string[] {
   return headings
     .map((heading) => {
-      if (withBaseurl(heading.path, baseurl) === pathname) return [heading.id];
+      if (pathnameMatchesHeading(pathname, heading, baseurl)) return [heading.id];
       const open = childrenOpen(heading.children, pathname, baseurl);
       if (open.length === 0) return [];
       return [heading.id, ...open];
@@ -110,7 +116,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
   useEffect(() => {
     if (nav.state === 'idle') setOpen(startOpen);
   }, [nav.state]);
-  const exact = pathname === withBaseurl(heading.path, baseurl);
+  const exact = pathnameMatchesHeading(pathname, heading, baseurl);
   if (!heading.children || heading.children.length === 0) {
     return (
       <LinkItem

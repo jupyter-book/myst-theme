@@ -77,7 +77,7 @@ export const ConfigurablePrimaryNavigation = ({
 
   if (children)
     console.warn(
-      `Including children in Navigation can break keyboard accessbility and is deprecated. Please move children to the page component.`,
+      `Including children in Navigation can break keyboard accessibility and is deprecated. Please move children to the page component.`,
     );
 
   // the logic on the following line looks wrong, this will return `null` or `<></>`

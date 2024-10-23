@@ -14,9 +14,12 @@ function api404(message = 'No API route found at this URL') {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { project, slug } = params;
+  const [first, ...rest] = new URL(request.url).pathname
+    .slice(1)
+    .replace(/\.json$/, '')
+    .split('/');
   // Handle /myst.xref.json as slug
-  if (project === undefined && slug === 'myst.xref') {
+  if (rest.length === 0 && first === 'myst.xref') {
     const xref = await getMystXrefJson();
     if (!xref) {
       return json({ message: 'myst.xref.json not found', status: 404 }, { status: 404 });
@@ -24,7 +27,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return json(xref);
   }
   // Handle /myst.search.json as slug
-  else if (slug === 'myst.search') {
+  else if (rest.length === 0 && first === 'myst.search') {
     const search = await getMystSearchJson();
     if (!search) {
       return json({ message: 'myst.search.json not found', status: 404 }, { status: 404 });
@@ -33,10 +36,10 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   }
   const config = await getConfig();
   const flat = isFlatSite(config);
-  const data = await getPage(request, {
-    project: flat ? project : (project ?? slug),
-    slug: flat ? slug : project ? slug : undefined,
-  });
+  const project = flat ? undefined : first;
+  const slugParts = flat ? [first, ...rest] : rest;
+  const slug = slugParts.join('.');
+  const data = await getPage(request, { project, slug });
   if (!data) return api404('No page found at this URL.');
   return json(data, {
     headers: {

@@ -62,11 +62,19 @@ export async function getPage(
   const project = getProject(config, projectName);
   if (!project) throw responseNoArticle();
   if (opts.slug === project.index && opts.redirect) {
-    return redirect(projectName ? `/${projectName}` : '/');
+    throw redirect(projectName ? `/${projectName}` : '/');
   }
-  const slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
-  const loader = await getStaticContent(projectName, slug).catch(() => null);
-  if (!loader) throw responseNoArticle();
+  if (opts.slug?.endsWith('.index') && opts.redirect) {
+    const newSlug = opts.slug.slice(0, -6);
+    throw redirect(projectName ? `/${projectName}/${newSlug}` : `/${newSlug}`);
+  }
+  let slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
+  let loader = await getStaticContent(projectName, slug).catch(() => null);
+  if (!loader) {
+    slug = `${slug}.index`;
+    loader = await getStaticContent(projectName, slug).catch(() => null);
+    if (!loader) throw responseNoArticle();
+  }
   const footer = getFooterLinks(config, projectName, slug);
   return { ...loader, footer, domain: getDomainFromRequest(request), project: projectName };
 }

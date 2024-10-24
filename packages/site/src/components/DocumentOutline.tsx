@@ -365,7 +365,7 @@ export const DocumentOutline = ({
   selector?: string;
   children?: React.ReactNode;
   maxdepth?: number;
-  isMargin: boolean;
+  isMargin?: boolean;
 }) => {
   const { activeId, headings } = useHeaders(selector, maxdepth);
   const [open, setOpen] = useState(false);

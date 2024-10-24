@@ -1,5 +1,21 @@
 # @myst-theme/site
 
+## 0.13.3
+
+### Patch Changes
+
+- 8971790: Make margin for outline optional
+- 653bd6c: Support url slugs with multiple path segments
+- Updated dependencies [653bd6c]
+  - @myst-theme/common@0.13.3
+  - @myst-theme/providers@0.13.3
+  - @myst-theme/frontmatter@0.13.3
+  - @myst-theme/diagrams@0.13.3
+  - @myst-theme/jupyter@0.13.3
+  - @myst-theme/search@0.13.3
+  - myst-to-react@0.13.3
+  - myst-demo@0.13.3
+
 ## 0.13.2
 
 ### Patch Changes

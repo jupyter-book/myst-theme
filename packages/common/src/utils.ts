@@ -40,7 +40,7 @@ export function getProjectHeadings(
     },
     ...project.pages.map((p) => {
       if (!('slug' in p)) return p;
-      const slug = p.slug?.replace('.', '/');
+      const slug = p.slug?.replaceAll('.', '/');
       return {
         ...p,
         path: projectSlug && project.slug ? `/${project.slug}/${slug}` : `/${slug}`,

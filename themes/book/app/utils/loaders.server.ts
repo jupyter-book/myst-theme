@@ -66,7 +66,7 @@ export async function getPage(
     throw redirect(projectName ? `/${projectName}` : '/');
   }
   if (opts.slug?.endsWith('.index') && opts.redirect) {
-    const newSlug = opts.slug.slice(0, -6);
+    const newSlug = opts.slug.replace(/\.index$/, '').replace(/\./g, '/');
     throw redirect(projectName ? `/${projectName}/${newSlug}` : `/${newSlug}`);
   }
   let slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;

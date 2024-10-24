@@ -148,7 +148,10 @@ export function getSiteSlugs(
         const projectSlug = project.slug ? `/${project.slug}` : '';
         const pages = project.pages
           .filter((page): page is ManifestProjectItem => 'slug' in page)
-          .map((page) => `${baseurl}${projectSlug}/${page.slug}`);
+          .map(
+            (page) =>
+              `${baseurl}${projectSlug}/${page.slug?.replace(/\.index$/, '').replace(/\./g, '/')}`,
+          );
         if (opts?.excludeIndex) return [...pages];
         return [
           opts?.explicitIndex

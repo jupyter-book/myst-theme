@@ -10,6 +10,7 @@ import {
 import { redirect } from '@remix-run/node';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
 import type { MystSearchIndex } from '@myst-theme/search';
+import { slugToUrl } from 'myst-common';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`;
@@ -66,7 +67,7 @@ export async function getPage(
     throw redirect(projectName ? `/${projectName}` : '/');
   }
   if (opts.slug?.endsWith('.index') && opts.redirect) {
-    const newSlug = opts.slug.replace(/\.index$/, '').replace(/\./g, '/');
+    const newSlug = slugToUrl(opts.slug);
     throw redirect(projectName ? `/${projectName}/${newSlug}` : `/${newSlug}`);
   }
   let slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;

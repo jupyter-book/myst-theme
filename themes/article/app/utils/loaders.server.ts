@@ -71,6 +71,7 @@ export async function getPage(
   let slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
   let loader = await getStaticContent(projectName, slug).catch(() => null);
   if (!loader) {
+    // If you haven't loaded the first time, try the `.index`
     slug = `${slug}.index`;
     loader = await getStaticContent(projectName, slug).catch(() => null);
     if (!loader) throw responseNoArticle();

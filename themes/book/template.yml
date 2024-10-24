@@ -59,7 +59,7 @@ options:
     id: numbered_references
     description: Show references as numbered, rather than in APA-style. Only applies to parenthetical citations.
   - type: boolean
-    id: url_folders
+    id: folders
     description: Respect nested folder structure in URL paths.
 build:
   install: npm install

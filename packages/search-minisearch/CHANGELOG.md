@@ -1,5 +1,11 @@
 # @myst-theme/search-minisearch
 
+## 0.13.3
+
+### Patch Changes
+
+- @myst-theme/search@0.13.3
+
 ## 0.13.2
 
 ### Patch Changes

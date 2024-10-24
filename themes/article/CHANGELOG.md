@@ -1,5 +1,19 @@
 # @myst-theme/article
 
+## 0.13.3
+
+### Patch Changes
+
+- 653bd6c: Support url slugs with multiple path segments
+- Updated dependencies [8971790]
+- Updated dependencies [653bd6c]
+  - @myst-theme/site@0.13.3
+  - @myst-theme/common@0.13.3
+  - @myst-theme/providers@0.13.3
+  - @myst-theme/jupyter@0.13.3
+  - @myst-theme/styles@0.13.3
+  - @myst-theme/icons@0.13.3
+
 ## 0.13.2
 
 ### Patch Changes

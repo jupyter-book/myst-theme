@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.13.3
+
+### Patch Changes
+
+- 653bd6c: Support url slugs with multiple path segments
+
 ## 0.13.2
 
 ### Patch Changes

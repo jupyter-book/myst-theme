@@ -4,6 +4,7 @@ import type { SiteManifest } from 'myst-config';
 import { selectAll } from 'unist-util-select';
 import type { Image as ImageSpec, Link as LinkSpec } from 'myst-spec';
 import type { FooterLinks, Heading, NavigationLink, PageLoader } from './types.js';
+import { slugToUrl } from 'myst-common';
 
 type Image = ImageSpec & { urlOptimized?: string };
 type Link = LinkSpec & { static?: boolean };
@@ -40,9 +41,10 @@ export function getProjectHeadings(
     },
     ...project.pages.map((p) => {
       if (!('slug' in p)) return p;
+      const slug = slugToUrl(p.slug);
       return {
         ...p,
-        path: projectSlug && project.slug ? `/${project.slug}/${p.slug}` : `/${p.slug}`,
+        path: projectSlug && project.slug ? `/${project.slug}/${slug}` : `/${slug}`,
       };
     }),
   ];

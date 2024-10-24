@@ -47,14 +47,15 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }
 export const links: LinksFunction = () => [KatexCSS];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const [first, second] = new URL(request.url).pathname.slice(1).split('/');
-  const projectName = second ? first : undefined;
-  const slug = second || first;
+  const [first, ...rest] = new URL(request.url).pathname.slice(1).split('/');
   const config = await getConfig();
-  const project = getProject(config, projectName ?? slug);
+  const project = getProject(config, first);
+  const projectName = project?.slug === first ? first : undefined;
+  const slugParts = projectName ? rest : [first, ...rest];
+  const slug = slugParts.length ? slugParts.join('.') : undefined;
   const flat = isFlatSite(config);
   const page = await getPage(request, {
-    project: flat ? projectName : projectName ?? slug,
+    project: flat ? projectName : (projectName ?? slug),
     slug: flat ? slug : projectName ? slug : undefined,
     redirect: process.env.MODE === 'static' ? false : true,
   });

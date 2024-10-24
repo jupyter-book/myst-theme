@@ -1,3 +1,4 @@
+import { slugToUrl } from 'myst-common';
 import type { SiteManifest } from 'myst-config';
 
 type ManifestProjectItem = Required<SiteManifest>['projects'][0]['pages'][0];
@@ -148,7 +149,7 @@ export function getSiteSlugs(
         const projectSlug = project.slug ? `/${project.slug}` : '';
         const pages = project.pages
           .filter((page): page is ManifestProjectItem => 'slug' in page)
-          .map((page) => `${baseurl}${projectSlug}/${page.slug}`);
+          .map((page) => `${baseurl}${projectSlug}/${slugToUrl(page.slug)}`);
         if (opts?.excludeIndex) return [...pages];
         return [
           opts?.explicitIndex

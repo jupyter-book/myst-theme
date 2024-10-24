@@ -9,7 +9,8 @@ import {
 } from '@myst-theme/common';
 import { redirect } from '@remix-run/node';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
-import type { MystSearchIndex } from '@myst-theme/search'; 
+import type { MystSearchIndex } from '@myst-theme/search';
+import { slugToUrl } from 'myst-common';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`;
@@ -63,11 +64,19 @@ export async function getPage(
   const project = getProject(config, projectName);
   if (!project) throw responseNoArticle();
   if (opts.slug === project.index && opts.redirect) {
-    return redirect(projectName ? `/${projectName}` : '/');
+    throw redirect(projectName ? `/${projectName}` : '/');
   }
-  const slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
-  const loader = await getStaticContent(projectName, slug).catch(() => null);
-  if (!loader) throw responseNoArticle();
+  if (opts.slug?.endsWith('.index') && opts.redirect) {
+    const newSlug = slugToUrl(opts.slug);
+    throw redirect(projectName ? `/${projectName}/${newSlug}` : `/${newSlug}`);
+  }
+  let slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
+  let loader = await getStaticContent(projectName, slug).catch(() => null);
+  if (!loader) {
+    slug = `${slug}.index`;
+    loader = await getStaticContent(projectName, slug).catch(() => null);
+    if (!loader) throw responseNoArticle();
+  }
   const footer = getFooterLinks(config, projectName, slug);
   return { ...loader, footer, domain: getDomainFromRequest(request), project: projectName };
 }

@@ -12,6 +12,7 @@ import type { RefObject } from 'react';
 import { DocumentChartBarIcon } from '@heroicons/react/24/outline';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import * as Collapsible from '@radix-ui/react-collapsible';
+import { slugToUrl } from 'myst-common';
 
 const SELECTOR = [1, 2, 3, 4].map((n) => `main h${n}`).join(', ');
 
@@ -443,7 +444,7 @@ export function SupportingDocuments() {
             return (
               <li key={p.slug}>
                 <NavLink
-                  to={withBaseurl(`/${p.slug}#main`, baseurl)}
+                  to={withBaseurl(`/${slugToUrl(p.slug)}#main`, baseurl)}
                   prefetch="intent"
                   className={({ isActive }) =>
                     classNames('no-underline flex self-center hover:text-blue-700', {

@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import { redirect } from '@remix-run/node';
 import type { SiteManifest } from 'myst-config';
+import { slugToUrl } from 'myst-common';
 import {
   type PageLoader,
   getFooterLinks,
@@ -65,7 +66,7 @@ export async function getPage(
     throw redirect(projectName ? `/${projectName}` : '/');
   }
   if (opts.slug?.endsWith('.index') && opts.redirect) {
-    const newSlug = opts.slug.slice(0, -6);
+    const newSlug = slugToUrl(opts.slug);
     throw redirect(projectName ? `/${projectName}/${newSlug}` : `/${newSlug}`);
   }
   let slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;

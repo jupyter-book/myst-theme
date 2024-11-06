@@ -267,7 +267,7 @@ function SearchResultItem({
     >
       <div className="flex flex-row h-11">
         {iconRenderer}
-        <div className="flex flex-col justify-center grow">
+        <div className="flex flex-col justify-center truncate grow">
           {titleRenderer}
           {subtitleRenderer}
         </div>

@@ -1,5 +1,19 @@
 # @myst-theme/site
 
+## 0.13.4
+
+### Patch Changes
+
+- cc7e94b: Update slugToUrl in article theme
+  - @myst-theme/providers@0.13.4
+  - @myst-theme/frontmatter@0.13.4
+  - @myst-theme/diagrams@0.13.4
+  - @myst-theme/jupyter@0.13.4
+  - @myst-theme/common@0.13.4
+  - @myst-theme/search@0.13.4
+  - myst-to-react@0.13.4
+  - myst-demo@0.13.4
+
 ## 0.13.3
 
 ### Patch Changes

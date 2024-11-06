@@ -1,5 +1,18 @@
 # @myst-theme/book
 
+## 0.13.4
+
+### Patch Changes
+
+- fde7014: Update favicon links for build time fetches
+- Updated dependencies [cc7e94b]
+  - @myst-theme/site@0.13.4
+  - @myst-theme/providers@0.13.4
+  - @myst-theme/jupyter@0.13.4
+  - @myst-theme/styles@0.13.4
+  - @myst-theme/common@0.13.4
+  - @myst-theme/icons@0.13.4
+
 ## 0.13.3
 
 ### Patch Changes

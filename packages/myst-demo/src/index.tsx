@@ -231,6 +231,7 @@ async function parse(
 }
 
 export function MySTRenderer({
+	id,
   value,
   column,
   fullscreen,
@@ -239,6 +240,7 @@ export function MySTRenderer({
   captureTab,
   className,
 }: {
+	id?: string;
   value: string;
   column?: boolean;
   fullscreen?: boolean;
@@ -390,6 +392,7 @@ export function MySTRenderer({
 
   return (
     <figure
+      id={id}
       className={classnames(
         'relative',
         {
@@ -503,5 +506,5 @@ export function MySTRenderer({
 }
 
 export const MystDemoRenderer: NodeRenderer = ({ node }) => {
-  return <MySTRenderer value={node.value} numbering={node.numbering} />;
+  return <MySTRenderer id={node.html_id || node.identifier} value={node.value} numbering={node.numbering} className={node.class} />;
 };

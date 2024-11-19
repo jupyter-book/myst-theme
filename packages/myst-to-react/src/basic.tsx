@@ -50,6 +50,10 @@ type Include = {
   type: 'include';
 };
 
+type Glossary = {
+  type: 'glossary';
+};
+
 type BasicNodeRenderers = {
   text: NodeRenderer<spec.Text>;
   span: NodeRenderer<GenericNode>;
@@ -90,6 +94,7 @@ type BasicNodeRenderers = {
   definitionTerm: NodeRenderer<DefinitionTerm>;
   definitionDescription: NodeRenderer<DefinitionDescription>;
   include: NodeRenderer<Include>;
+  glossary: NodeRenderer<Glossary>;
 };
 
 const BASIC_RENDERERS: BasicNodeRenderers = {
@@ -344,7 +349,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   definitionList({ node }) {
     return (
-      <dl className="my-5" id={node.html_id}>
+      <dl className="my-5" id={node.html_id || node.identifier || node.key}>
         <MyST ast={node.children} />
       </dl>
     );
@@ -355,7 +360,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       node.children?.reduce((allowed, n) => allowed && allowedStrongTypes.has(n.type), true) ??
       false;
     return (
-      <dt id={node.html_id}>
+      <dt id={node.html_id || node.identifier || node.key}>
         {makeStrong ? (
           <strong>
             <MyST ast={node.children} />
@@ -383,6 +388,14 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   include({ node }) {
     // TODO, provider could give context about the filename
     return <MyST ast={node.children} />;
+  },
+  glossary({ node }) {
+    // TODO, provider could give context about the filename
+    return (
+      <div id={node.html_id || node.identifier || node.key} className={node.class}>
+        <MyST ast={node.children} />
+      </div>
+    );
   },
 };
 

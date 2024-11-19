@@ -10,7 +10,15 @@ async function parse(id: string, text: string): Promise<string> {
   });
 }
 
-export function MermaidRenderer({ id, value }: { value: string; id: string }) {
+export function MermaidRenderer({
+  id,
+  value,
+  className,
+}: {
+  value: string;
+  id: string;
+  className?: string;
+}) {
   const key = useId();
   const [graph, setGraph] = useState<string>();
   const [error, setError] = useState<Error>();
@@ -26,7 +34,7 @@ export function MermaidRenderer({ id, value }: { value: string; id: string }) {
       });
   }, []);
   return (
-    <figure id={id}>
+    <figure id={id} className={className}>
       {graph && <div dangerouslySetInnerHTML={{ __html: graph }}></div>}
       {error && (
         <pre>
@@ -42,5 +50,11 @@ export function MermaidRenderer({ id, value }: { value: string; id: string }) {
 }
 
 export const MermaidNodeRenderer: NodeRenderer = ({ node }) => {
-  return <MermaidRenderer id={node.html_id || node.identifier} value={node.value} />;
+  return (
+    <MermaidRenderer
+      id={node.html_id || node.identifier}
+      value={node.value}
+      className={node.class}
+    />
+  );
 };

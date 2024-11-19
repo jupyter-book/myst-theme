@@ -22,16 +22,19 @@ export function Details({
   title,
   children,
   open,
+  className,
 }: {
   title: React.ReactNode;
   children: React.ReactNode;
   open?: boolean;
+  className?: string;
 }) {
   return (
     <details
       className={classNames(
         'rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
         'bg-gray-50 dark:bg-stone-800',
+        className,
       )}
       open={open}
     >
@@ -61,7 +64,7 @@ export function Details({
 export const DetailsRenderer: NodeRenderer<DropdownSpec> = ({ node }) => {
   const [title, ...rest] = node.children as any[];
   return (
-    <Details title={<MyST ast={[title]} />} open={node.open}>
+    <Details title={<MyST ast={[title]} />} open={node.open} className={node.class}>
       <MyST ast={rest} />
     </Details>
   );

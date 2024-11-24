@@ -8,6 +8,15 @@
   animation: close-content 300ms ease-out;
 }
 
+/* Hide PrimarySidebar scrollbar */
+.no-scrollbar::-webkit-scrollbar { /*Chrome, Safari and Opera */
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 @keyframes open-content {
   from {
     height: 0;

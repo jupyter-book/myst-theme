@@ -46,7 +46,13 @@ export function Article({
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
-          {!hideTitle && <FrontmatterBlock frontmatter={{ title, subtitle }} className="mb-5" />}
+          {!hideTitle && (
+            <FrontmatterBlock
+              frontmatter={{ title, subtitle }}
+              location={article.location}
+              className="mb-5"
+            />
+          )}
           {!hideOutline && (
             <div
               className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"

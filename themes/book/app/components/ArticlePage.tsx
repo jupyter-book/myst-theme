@@ -86,6 +86,7 @@ export const ArticlePage = React.memo(function ({
           {!hide_title_block && (
             <FrontmatterBlock
               kind={article.kind}
+              location={article.location}
               frontmatter={{ ...article.frontmatter, downloads }}
               className="mb-8 pt-9"
             />

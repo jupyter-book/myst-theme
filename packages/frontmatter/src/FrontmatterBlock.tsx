@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import { SourceFileKind } from 'myst-spec-ext';
@@ -6,6 +6,8 @@ import { JupyterIcon, OpenAccessIcon, GithubIcon, TwitterIcon } from '@scienceic
 import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
+import * as Popover from '@radix-ui/react-popover';
+import { RocketIcon, Cross2Icon } from '@radix-ui/react-icons';
 
 function ExternalOrInternalLink({
   to,
@@ -187,6 +189,76 @@ export function Journal({
   );
 }
 
+function LaunchButton(props: { github: string; location: string; binder?: string }) {
+  const binder = props.binder ?? 'https://mybinder.org';
+
+  const repoExpr = new RegExp('(?:https?://github.com/)([^/]+/[^/]+).*');
+  const github = props.github.match(repoExpr)![1];
+
+  const launchOnBinder = useCallback(() => {
+    const url = new URL(binder);
+
+    if (!url.pathname.endsWith('/')) {
+      url.pathname = `${url.pathname}/`;
+    }
+    url.pathname = `${url.pathname}v2/gh/${github}/HEAD`; // TODO: SHA
+    const component = encodeURIComponent(props.location);
+    url.search = `?labpath=${component}`;
+    window?.open(url, '_blank')?.focus();
+  }, [binder]);
+  return (
+    <Popover.Root>
+      <Popover.Trigger asChild>
+        <button
+          className="ml-2 inline-flex size-[24px] cursor-default items-center justify-center rounded-full bg-white text-violet11 shadow-[0_2px_10px] shadow-blackA4 outline-none hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-black"
+          aria-label="Update dimensions"
+        >
+          <RocketIcon />
+        </button>
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content
+          className="w-[260px] rounded bg-white p-5 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] focus:shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2),0_0_0_2px_theme(colors.violet7)] data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=top]:animate-slideDownAndFade"
+          sideOffset={5}
+        >
+          <div className="flex flex-col gap-2.5">
+            <p className="mb-2.5 text-[15px] font-medium leading-[19px] text-mauve12">
+              Launch Externally
+            </p>
+            <fieldset className="flex items-center gap-5">
+              <label className="w-[75px] text-[13px] text-violet11" htmlFor="width">
+                Binder URL
+              </label>
+              <input
+                className="inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 outline-none focus:shadow-[0_0_0_2px] focus:shadow-violet8"
+                id="width"
+                defaultValue={props.binder ?? 'https://mybinder.org'}
+              />
+            </fieldset>
+            <div className="mt-[25px] flex justify-end">
+              <Popover.Close asChild>
+                <button
+                  className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none text-green11 hover:bg-green5 focus:shadow-[0_0_0_2px] focus:shadow-green7 focus:outline-none"
+                  onClick={launchOnBinder}
+                >
+                  Launch on Binder
+                </button>
+              </Popover.Close>
+            </div>
+          </div>
+          <Popover.Close
+            className="absolute right-[5px] top-[5px] inline-flex size-[25px] cursor-default items-center justify-center rounded-full text-violet11 outline-none hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7"
+            aria-label="Close"
+          >
+            <Cross2Icon />
+          </Popover.Close>
+          <Popover.Arrow className="fill-white" />
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
+  );
+}
+
 export function FrontmatterBlock({
   frontmatter,
   kind = SourceFileKind.Article,
@@ -194,6 +266,7 @@ export function FrontmatterBlock({
   hideBadges,
   hideExports,
   className,
+  location,
 }: {
   frontmatter: Omit<PageFrontmatter, 'parts'>;
   kind?: SourceFileKind;
@@ -201,6 +274,7 @@ export function FrontmatterBlock({
   hideBadges?: boolean;
   hideExports?: boolean;
   className?: string;
+  location?: string;
 }) {
   if (!frontmatter) return null;
   const {
@@ -226,6 +300,8 @@ export function FrontmatterBlock({
   const hasHeaders = !!subject || !!venue || !!volume || !!issue;
   const hasDateOrDoi = !!doi || !!date;
   const showHeaderBlock = hasHeaders || (hasBadges && !hideBadges) || (hasExports && !hideExports);
+  const hideLaunch: boolean = false;
+
   if (!title && !subtitle && !showHeaderBlock && !hasAuthors && !hasDateOrDoi) {
     // Nothing to show!
     return null;
@@ -267,6 +343,13 @@ export function FrontmatterBlock({
             </>
           )}
           {!hideExports && <DownloadsDropdown exports={(downloads ?? exports) as any} />}
+          {!hideLaunch && frontmatter.github && location && (
+            <LaunchButton
+              github={frontmatter.github}
+              location={location}
+              binder={frontmatter.binder}
+            />
+          )}
         </div>
       )}
       {title && <h1 className="mb-0">{title}</h1>}

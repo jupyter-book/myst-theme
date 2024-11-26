@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useRef, useCallback } from 'react';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import { SourceFileKind } from 'myst-spec-ext';
@@ -189,28 +189,48 @@ export function Journal({
   );
 }
 
-function LaunchButton(props: { github: string; location: string; binder?: string }) {
-  const binder = props.binder ?? 'https://mybinder.org';
+export function LaunchButton(props: {
+  github: string;
+  location: string;
+  binder?: string;
+  ref?: string;
+}) {
+  // Ensure Binder link ends in /
+  const defaultBinderBaseURL = props.binder ?? 'https://mybinder.org';
 
-  const repoExpr = new RegExp('(?:https?://github.com/)([^/]+/[^/]+).*');
-  const github = props.github.match(repoExpr)![1];
+  // Determine Git ref
+  // TODO: pull this from frontmatter
+  const refComponent = encodeURIComponent(props.ref ?? 'HEAD');
+  const locationComponent = encodeURIComponent(props.location);
+
+  // Parse the repo, assume it is a validated GitHub URL
+  const repo = new RegExp('https://github.com/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)');
+  const githubComponent = props.github.match(repo)![1];
+
+  const binderInputRef = useRef<HTMLInputElement>(null);
 
   const launchOnBinder = useCallback(() => {
-    const url = new URL(binder);
-
-    if (!url.pathname.endsWith('/')) {
-      url.pathname = `${url.pathname}/`;
+    // Parse input URL (or fallback)
+    const parsedBinderBaseURL = new URL(binderInputRef.current?.value ?? defaultBinderBaseURL);
+    // Drop any fragments
+    let binderBaseURL = `${parsedBinderBaseURL.origin}${parsedBinderBaseURL.pathname}`;
+    // Ensure a trailing fragment
+    if (!binderBaseURL.endsWith('/')) {
+      binderBaseURL = `${binderBaseURL}/`;
     }
-    url.pathname = `${url.pathname}v2/gh/${github}/HEAD`; // TODO: SHA
-    const component = encodeURIComponent(props.location);
-    url.search = `?labpath=${component}`;
-    window?.open(url, '_blank')?.focus();
-  }, [binder]);
+    // Build Binder URL
+    const binderURL = new URL(binderBaseURL);
+    binderURL.pathname = `${binderURL.pathname}v2/gh/${githubComponent}/${refComponent}`;
+    binderURL.search = `?labpath=${locationComponent}`;
+
+    window?.open(binderURL, '_blank')?.focus();
+  }, [defaultBinderBaseURL, binderInputRef, githubComponent, refComponent, locationComponent]);
+
   return (
     <Popover.Root>
       <Popover.Trigger asChild>
         <button
-          className="ml-2 inline-flex size-[24px] cursor-default items-center justify-center rounded-full bg-white text-violet11 shadow-[0_2px_10px] shadow-blackA4 outline-none hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-black"
+          className="inline-flex size-[24px] hover:text-[#E18435] items-center justify-center"
           aria-label="Update dimensions"
         >
           <RocketIcon />
@@ -218,27 +238,26 @@ function LaunchButton(props: { github: string; location: string; binder?: string
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
-          className="w-[260px] rounded bg-white p-5 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] focus:shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2),0_0_0_2px_theme(colors.violet7)] data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=top]:animate-slideDownAndFade"
+          className="z-30 text-gray-700 dark:text-white bg-white dark:bg-stone-800 p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)]"
           sideOffset={5}
         >
           <div className="flex flex-col gap-2.5">
-            <p className="mb-2.5 text-[15px] font-medium leading-[19px] text-mauve12">
-              Launch Externally
-            </p>
+            <p className="mb-2.5 text-[15px] font-medium leading-[19px]">Launch Externally</p>
             <fieldset className="flex items-center gap-5">
-              <label className="w-[75px] text-[13px] text-violet11" htmlFor="width">
+              <label className="w-[75px] text-[13px]" htmlFor="width">
                 Binder URL
               </label>
               <input
-                className="inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 outline-none focus:shadow-[0_0_0_2px] focus:shadow-violet8"
+                ref={binderInputRef}
+                className="inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none bg-gray-50 dark:bg-gray-700"
                 id="width"
-                defaultValue={props.binder ?? 'https://mybinder.org'}
+                placeholder={defaultBinderBaseURL}
               />
             </fieldset>
             <div className="mt-[25px] flex justify-end">
               <Popover.Close asChild>
                 <button
-                  className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none text-green11 hover:bg-green5 focus:shadow-[0_0_0_2px] focus:shadow-green7 focus:outline-none"
+                  className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none bg-orange-500 outline-none text-white"
                   onClick={launchOnBinder}
                 >
                   Launch on Binder
@@ -247,7 +266,7 @@ function LaunchButton(props: { github: string; location: string; binder?: string
             </div>
           </div>
           <Popover.Close
-            className="absolute right-[5px] top-[5px] inline-flex size-[25px] cursor-default items-center justify-center rounded-full text-violet11 outline-none hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7"
+            className="absolute right-[5px] top-[5px] inline-flex size-[25px] items-center justify-center rounded-full"
             aria-label="Close"
           >
             <Cross2Icon />

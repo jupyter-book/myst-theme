@@ -8,6 +8,7 @@ import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
 import * as Popover from '@radix-ui/react-popover';
 import { RocketIcon, Cross2Icon } from '@radix-ui/react-icons';
+import * as Tabs from '@radix-ui/react-tabs';
 
 function ExternalOrInternalLink({
   to,
@@ -189,12 +190,21 @@ export function Journal({
   );
 }
 
-export function LaunchButton(props: {
+type CommonLaunchProps = {
   github: string;
   location: string;
-  binder?: string;
   ref?: string;
-}) {
+};
+
+type JupyterHubLaunchProps = CommonLaunchProps & {
+  jupyterhub?: string;
+};
+
+type BinderLaunchProps = CommonLaunchProps & {
+  binder?: string;
+};
+
+function BinderLaunchContent(props: BinderLaunchProps) {
   // Ensure Binder link ends in /
   const defaultBinderBaseURL = props.binder ?? 'https://mybinder.org';
 
@@ -227,11 +237,105 @@ export function LaunchButton(props: {
   }, [defaultBinderBaseURL, binderInputRef, githubComponent, refComponent, locationComponent]);
 
   return (
+    <div className="flex flex-col gap-2.5">
+      <p className="mb-2.5 text-[15px] font-medium leading-[19px]">
+        Launch on a BinderHub e.g. <a href="https://mybinder.org">mybinder.org</a>
+      </p>
+      <fieldset className="flex items-center gap-5">
+        <label className="w-[75px] text-[13px]" htmlFor="width">
+          Binder URL
+        </label>
+        <input
+          ref={binderInputRef}
+          className="inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none bg-gray-50 dark:bg-gray-700"
+          id="width"
+          placeholder={defaultBinderBaseURL}
+        />
+      </fieldset>
+      <div className="mt-[25px] flex justify-end">
+        <Popover.Close asChild>
+          <button
+            className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none bg-orange-500 outline-none text-white"
+            onClick={launchOnBinder}
+          >
+            Launch
+          </button>
+        </Popover.Close>
+      </div>
+    </div>
+  );
+}
+function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
+  // Ensure Binder link ends in /
+  const defaultHubBaseURL = props.jupyterhub ?? '';
+
+  // Determine Git ref
+  // TODO: pull this from frontmatter
+  const refComponent = encodeURIComponent(props.ref ?? 'HEAD');
+  const locationComponent = encodeURIComponent(props.location);
+
+  // Parse the repo, assume it is a validated GitHub URL
+  const repo = new RegExp('https://github.com/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)');
+  const githubComponent = props.github.match(repo)![1];
+
+  const hubInputRef = useRef<HTMLInputElement>(null);
+
+  const launchOnBinder = useCallback(() => {
+    // Parse input URL (or fallback)
+    const rawHubBaseURL = hubInputRef.current?.value;
+    if (!rawHubBaseURL) {
+      return;
+    }
+    // Drop any fragments
+    const parsedHubBaseURL = new URL(rawHubBaseURL);
+    let hubBaseURL = `${parsedHubBaseURL.origin}${parsedHubBaseURL.pathname}`;
+    // Ensure a trailing fragment
+    if (!hubBaseURL.endsWith('/')) {
+      hubBaseURL = `${hubBaseURL}/`;
+    }
+    // Build Binder URL
+    const binderURL = new URL(hubBaseURL);
+    binderURL.pathname = `${binderURL.pathname}v2/gh/${githubComponent}/${refComponent}`;
+    binderURL.search = `?labpath=${locationComponent}`;
+
+    // window?.open(binderURL, '_blank')?.focus();
+  }, [defaultHubBaseURL, hubInputRef, githubComponent, refComponent, locationComponent]);
+
+  return (
+    <div className="flex flex-col gap-2.5">
+      <p className="mb-2.5 text-[15px] font-medium leading-[19px]">Launch on a JupyterHub</p>
+      <fieldset className="flex items-center gap-5">
+        <label className="w-[75px] text-[13px]" htmlFor="width">
+          Binder URL
+        </label>
+        <input
+          ref={hubInputRef}
+          className="inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none bg-gray-50 dark:bg-gray-700"
+          id="width"
+          placeholder={defaultHubBaseURL}
+        />
+      </fieldset>
+      <div className="mt-[25px] flex justify-end">
+        <Popover.Close asChild>
+          <button
+            className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none bg-orange-500 outline-none text-white"
+            onClick={launchOnBinder}
+          >
+            Launch
+          </button>
+        </Popover.Close>
+      </div>
+    </div>
+  );
+}
+
+export function LaunchButton(props: BinderLaunchProps | JupyterHubLaunchProps) {
+  return (
     <Popover.Root>
       <Popover.Trigger asChild>
         <button
           className="inline-flex size-[24px] hover:text-[#E18435] items-center justify-center"
-          aria-label="Update dimensions"
+          aria-label="Launch in external computing interface"
         >
           <RocketIcon />
         </button>
@@ -241,30 +345,37 @@ export function LaunchButton(props: {
           className="z-30 text-gray-700 dark:text-white bg-white dark:bg-stone-800 p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)]"
           sideOffset={5}
         >
-          <div className="flex flex-col gap-2.5">
-            <p className="mb-2.5 text-[15px] font-medium leading-[19px]">Launch Externally</p>
-            <fieldset className="flex items-center gap-5">
-              <label className="w-[75px] text-[13px]" htmlFor="width">
-                Binder URL
-              </label>
-              <input
-                ref={binderInputRef}
-                className="inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none bg-gray-50 dark:bg-gray-700"
-                id="width"
-                placeholder={defaultBinderBaseURL}
-              />
-            </fieldset>
-            <div className="mt-[25px] flex justify-end">
-              <Popover.Close asChild>
-                <button
-                  className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none bg-orange-500 outline-none text-white"
-                  onClick={launchOnBinder}
-                >
-                  Launch on Binder
-                </button>
-              </Popover.Close>
-            </div>
-          </div>
+          <Tabs.Root className="flex w-[300px] flex-col" defaultValue="binder">
+            <Tabs.List
+              className="flex shrink-0 border-b border-mauve6"
+              aria-label="Launch into computing interface"
+            >
+              <Tabs.Trigger
+                className="flex h-[45px] flex-1 cursor-default items-center justify-center bg-white px-5 text-[15px] outline-none data-[state=active]:underline"
+                value="binder"
+              >
+                Binder
+              </Tabs.Trigger>
+              <Tabs.Trigger
+                className="flex h-[45px] flex-1 cursor-default items-center justify-center bg-white px-5 text-[15px] outline-none data-[state=active]:underline"
+                value="jupyterhub"
+              >
+                JupyterHub
+              </Tabs.Trigger>
+            </Tabs.List>
+            <Tabs.Content
+              className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-black"
+              value="binder"
+            >
+              <BinderLaunchContent {...props} />
+            </Tabs.Content>
+            <Tabs.Content
+              className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-black"
+              value="jupyterhub"
+            >
+              <JupyterHubLaunchContent {...props} />
+            </Tabs.Content>
+          </Tabs.Root>
           <Popover.Close
             className="absolute right-[5px] top-[5px] inline-flex size-[25px] items-center justify-center rounded-full"
             aria-label="Close"

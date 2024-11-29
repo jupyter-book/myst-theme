@@ -207,11 +207,18 @@ type BinderLaunchProps = CommonLaunchProps & {
 const GITHUB_PATTERN = /https:\/\/github.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)/;
 
 type GitResource = {
+  // Provider
+  provider: 'github';
+  // Per-provider info
   org: string;
   repo: string;
-  provider: 'github';
 };
 
+/**
+ * Parse a Git source URL into a Git "resource" consisting of a provider and provider info
+ *
+ * @param git - git URL
+ */
 function parseKnownGitProvider(git: string): GitResource | undefined {
   let match;
   if ((match = git.match(GITHUB_PATTERN))) {
@@ -224,6 +231,36 @@ function parseKnownGitProvider(git: string): GitResource | undefined {
   return undefined;
 }
 
+/**
+ * Ensure URL of for http://foo.com/bar?baz
+ * has the form      http://foo.com/bar/
+ *
+ * @param url - URL to parse
+ */
+function ensureBasename(url: string): URL {
+  // Parse input URL (or fallback)
+  const parsedURL = new URL(url);
+  // Drop any fragments
+  let baseURL = `${parsedURL.origin}${parsedURL.pathname}`;
+  // Ensure a trailing fragment
+  if (!baseURL.endsWith('/')) {
+    baseURL = `${baseURL}/`;
+  }
+  return new URL(baseURL);
+}
+
+/**
+ * Equivalent to Python's `urllib.parse.urlencode` function
+ *
+ * @param params - mapping from parameter name to string value
+ */
+function encodeURLParams(params: Record<string, string | undefined>): string {
+  return Object.entries(params)
+    .filter(([key, value]) => value !== undefined)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
+    .join('&');
+}
+
 function BinderLaunchContent(props: BinderLaunchProps) {
   // Ensure Binder link ends in /
   const defaultBinderBaseURL = props.binder ?? 'https://mybinder.org';
@@ -231,7 +268,8 @@ function BinderLaunchContent(props: BinderLaunchProps) {
   // Determine Git ref
   // TODO: pull this from frontmatter
   const refComponent = encodeURIComponent(props.ref ?? 'HEAD');
-  const locationComponent = encodeURIComponent(`/lab/tree/${props.location}`);
+
+  const query = encodeURLParams({ urlpath: `/lab/tree/${props.location}` });
 
   // Parse the repo, assume it is a validated GitHub URL
   let gitComponent: string;
@@ -249,21 +287,12 @@ function BinderLaunchContent(props: BinderLaunchProps) {
   const binderInputRef = useRef<HTMLInputElement>(null);
 
   const launchOnBinder = useCallback(() => {
-    // Parse input URL (or fallback)
-    const parsedBinderBaseURL = new URL(binderInputRef.current?.value ?? defaultBinderBaseURL);
-    // Drop any fragments
-    let binderBaseURL = `${parsedBinderBaseURL.origin}${parsedBinderBaseURL.pathname}`;
-    // Ensure a trailing fragment
-    if (!binderBaseURL.endsWith('/')) {
-      binderBaseURL = `${binderBaseURL}/`;
-    }
-    // Build Binder URL
-    const binderURL = new URL(binderBaseURL);
+    const binderURL = ensureBasename(binderInputRef.current?.value || defaultBinderBaseURL);
     binderURL.pathname = `${binderURL.pathname}v2/${gitComponent}/${refComponent}`;
-    binderURL.search = `?urlpath=${locationComponent}`;
+    binderURL.search = `?${query}`;
 
     window?.open(binderURL, '_blank')?.focus();
-  }, [defaultBinderBaseURL, binderInputRef, gitComponent, refComponent, locationComponent]);
+  }, [defaultBinderBaseURL, binderInputRef, gitComponent, refComponent, query]);
 
   return (
     <div className="flex flex-col gap-2.5">
@@ -294,6 +323,7 @@ function BinderLaunchContent(props: BinderLaunchProps) {
     </div>
   );
 }
+
 function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
   // Ensure Binder link ends in /
   const defaultHubBaseURL = props.jupyterhub ?? '';
@@ -310,36 +340,24 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
     }
   }
 
-  const pullQuery = Object.entries({
+  const query = encodeURLParams({
     repo: props.git,
     urlpath: urlPath,
     branch: props.ref, // TODO master/main?
-  })
-    .filter(([key, value]) => value !== undefined)
-    .map(([key, value]) => `${key}=${encodeURIComponent(value as string)}`)
-    .join('&');
+  });
 
   const launchOnJupyterHub = useCallback(() => {
     // Parse input URL (or fallback)
     const rawHubBaseURL = hubInputRef.current?.value;
-    console.log(rawHubBaseURL);
     if (!rawHubBaseURL) {
       return;
     }
-    // Drop any fragments
-    const parsedHubBaseURL = new URL(rawHubBaseURL);
-    let hubBaseURL = `${parsedHubBaseURL.origin}${parsedHubBaseURL.pathname}`;
-    // Ensure a trailing fragment
-    if (!hubBaseURL.endsWith('/')) {
-      hubBaseURL = `${hubBaseURL}/`;
-    }
-    // Build Binder URL
-    const hubURL = new URL(hubBaseURL);
+    const hubURL = ensureBasename(rawHubBaseURL);
     hubURL.pathname = `${hubURL.pathname}hub/user-redirect/git-pull`;
-    hubURL.search = `?${pullQuery}`;
+    hubURL.search = `?${query}`;
 
     window?.open(hubURL, '_blank')?.focus();
-  }, [defaultHubBaseURL, hubInputRef, pullQuery]);
+  }, [defaultHubBaseURL, hubInputRef, query]);
 
   return (
     <div className="flex flex-col gap-2.5">
@@ -369,7 +387,7 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
   );
 }
 
-export function LaunchButton(props: BinderLaunchProps | JupyterHubLaunchProps) {
+function LaunchButton(props: BinderLaunchProps | JupyterHubLaunchProps) {
   return (
     <Popover.Root>
       <Popover.Trigger asChild>

@@ -9,6 +9,7 @@ import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
 import * as Popover from '@radix-ui/react-popover';
 import { RocketIcon, Cross2Icon } from '@radix-ui/react-icons';
 import * as Tabs from '@radix-ui/react-tabs';
+import * as Form from '@radix-ui/react-form';
 
 function ExternalOrInternalLink({
   to,
@@ -194,6 +195,7 @@ type CommonLaunchProps = {
   git: string;
   location: string;
   ref?: string;
+  onLaunch?: () => void;
 };
 
 type JupyterHubLaunchProps = CommonLaunchProps & {
@@ -284,53 +286,55 @@ function BinderLaunchContent(props: BinderLaunchProps) {
       gitComponent = `git/${escapedURL}`;
     }
   }
-  const binderInputRef = useRef<HTMLInputElement>(null);
 
-  const launchOnBinder = useCallback(() => {
-    const binderURL = ensureBasename(binderInputRef.current?.value || defaultBinderBaseURL);
-    binderURL.pathname = `${binderURL.pathname}v2/${gitComponent}/${refComponent}`;
-    binderURL.search = `?${query}`;
+  const handleSubmit = useCallback(
+    (event: React.SyntheticEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-    window?.open(binderURL, '_blank')?.focus();
-  }, [defaultBinderBaseURL, binderInputRef, gitComponent, refComponent, query]);
+      const data = Object.fromEntries(new FormData(event.currentTarget) as any);
+
+      const binderURL = ensureBasename(data.url || defaultBinderBaseURL);
+      binderURL.pathname = `${binderURL.pathname}v2/${gitComponent}/${refComponent}`;
+      binderURL.search = `?${query}`;
+
+      window?.open(binderURL, '_blank')?.focus();
+      props.onLaunch?.();
+    },
+    [defaultBinderBaseURL, gitComponent, refComponent, query],
+  );
 
   return (
-    <div className="flex flex-col gap-2.5">
+    <Form.Root className="w-[260px]" onSubmit={handleSubmit}>
       <p className="mb-2.5 text-[15px] font-medium leading-[19px]">
         Launch on a BinderHub e.g. <a href="https://mybinder.org">mybinder.org</a>
       </p>
-      <fieldset className="flex items-center gap-5">
-        <label className="w-[75px] text-[13px]" htmlFor="width">
-          Binder URL
-        </label>
-        <input
-          ref={binderInputRef}
-          className="inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none bg-gray-50 dark:bg-gray-700"
-          id="width"
-          placeholder={defaultBinderBaseURL}
-        />
-      </fieldset>
-      <div className="mt-[25px] flex justify-end">
-        <Popover.Close asChild>
-          <button
-            className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none bg-orange-500 outline-none text-white"
-            onClick={launchOnBinder}
-          >
-            Launch
-          </button>
-        </Popover.Close>
-      </div>
-    </div>
+      <Form.Field className="mb-2.5 grid" name="url">
+        <div className="flex items-baseline justify-between">
+          <Form.Label className="text-[15px] font-medium leading-[35px]">Binder URL</Form.Label>
+          <Form.Message className="text-[13px] opacity-80" match="typeMismatch">
+            Please provide a valid URL
+          </Form.Message>
+        </div>
+        <Form.Control asChild>
+          <input
+            className="box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
+            type="url"
+            placeholder={defaultBinderBaseURL}
+          />
+        </Form.Control>
+      </Form.Field>
+      <Form.Submit asChild>
+        <button className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
+          Launch
+        </button>
+      </Form.Submit>
+    </Form.Root>
   );
 }
 
 function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
   // Ensure Binder link ends in /
   const defaultHubBaseURL = props.jupyterhub ?? '';
-
-  // Determine Git ref
-  // TODO: pull this from frontmatter
-  const hubInputRef = useRef<HTMLInputElement>(null);
 
   const resource = parseKnownGitProvider(props.git);
   let urlPath = 'lab/tree';
@@ -346,48 +350,64 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
     branch: props.ref, // TODO master/main?
   });
 
-  const launchOnJupyterHub = useCallback(() => {
-    // Parse input URL (or fallback)
-    const rawHubBaseURL = hubInputRef.current?.value;
-    if (!rawHubBaseURL) {
-      return;
-    }
-    const hubURL = ensureBasename(rawHubBaseURL);
-    hubURL.pathname = `${hubURL.pathname}hub/user-redirect/git-pull`;
-    hubURL.search = `?${query}`;
+  const handleSubmit = useCallback(
+    (event: React.SyntheticEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-    window?.open(hubURL, '_blank')?.focus();
-  }, [defaultHubBaseURL, hubInputRef, query]);
+      const data = Object.fromEntries(new FormData(event.currentTarget) as any);
+
+      // Parse input URL (or fallback)
+      console.dir(data);
+      const rawHubBaseURL = data.url;
+      if (!rawHubBaseURL) {
+        return;
+      }
+      const hubURL = ensureBasename(rawHubBaseURL);
+      hubURL.pathname = `${hubURL.pathname}hub/user-redirect/git-pull`;
+      hubURL.search = `?${query}`;
+
+      window?.open(hubURL, '_blank')?.focus();
+      props.onLaunch?.();
+    },
+    [defaultHubBaseURL, query],
+  );
 
   return (
-    <div className="flex flex-col gap-2.5">
+    <Form.Root className="w-[260px]" onSubmit={handleSubmit}>
       <p className="mb-2.5 text-[15px] font-medium leading-[19px]">Launch on a JupyterHub</p>
-      <fieldset className="flex items-center gap-5">
-        <label className="w-[75px] text-[13px]" htmlFor="width">
-          JupyterHub URL
-        </label>
-        <input
-          ref={hubInputRef}
-          className="inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none bg-gray-50 dark:bg-gray-700"
-          id="width"
-          placeholder={defaultHubBaseURL}
-        />
-      </fieldset>
-      <div className="mt-[25px] flex justify-end">
-        <Popover.Close asChild>
-          <button
-            className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none bg-orange-500 outline-none text-white"
-            onClick={launchOnJupyterHub}
-          >
-            Launch
-          </button>
-        </Popover.Close>
-      </div>
-    </div>
+      <Form.Field className="mb-2.5 grid" name="url">
+        <div className="flex items-baseline justify-between">
+          <Form.Label className="text-[15px] font-medium leading-[35px]">JupyterHub URL</Form.Label>
+          <Form.Message className="text-[13px] opacity-80" match="valueMissing">
+            Please enter a URL
+          </Form.Message>
+
+          <Form.Message className="text-[13px] opacity-80" match="typeMismatch">
+            Please provide a valid URL
+          </Form.Message>
+        </div>
+        <Form.Control asChild>
+          <input
+            className="box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
+            type="url"
+            required
+          />
+        </Form.Control>
+      </Form.Field>
+      <Form.Submit asChild>
+        <button className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
+          Launch
+        </button>
+      </Form.Submit>
+    </Form.Root>
   );
 }
 
 function LaunchButton(props: BinderLaunchProps | JupyterHubLaunchProps) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const closePopover = useCallback(() => {
+    closeRef.current?.click?.();
+  }, []);
   return (
     <Popover.Root>
       <Popover.Trigger asChild>
@@ -409,34 +429,29 @@ function LaunchButton(props: BinderLaunchProps | JupyterHubLaunchProps) {
               aria-label="Launch into computing interface"
             >
               <Tabs.Trigger
-                className="flex h-[45px] flex-1 cursor-default items-center justify-center bg-white px-5 text-[15px] outline-none data-[state=active]:underline"
+                className="flex h-[45px] flex-1 cursor-default items-center justify-center px-5 text-[15px] outline-none data-[state=active]:underline"
                 value="binder"
               >
                 Binder
               </Tabs.Trigger>
               <Tabs.Trigger
-                className="flex h-[45px] flex-1 cursor-default items-center justify-center bg-white px-5 text-[15px] outline-none data-[state=active]:underline"
+                className="flex h-[45px] flex-1 cursor-default items-center justify-center px-5 text-[15px] outline-none data-[state=active]:underline"
                 value="jupyterhub"
               >
                 JupyterHub
               </Tabs.Trigger>
             </Tabs.List>
-            <Tabs.Content
-              className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-black"
-              value="binder"
-            >
-              <BinderLaunchContent {...props} />
+            <Tabs.Content className="grow rounded-b-md p-5 outline-none" value="binder">
+              <BinderLaunchContent {...props} onLaunch={closePopover} />
             </Tabs.Content>
-            <Tabs.Content
-              className="grow rounded-b-md bg-white p-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-black"
-              value="jupyterhub"
-            >
-              <JupyterHubLaunchContent {...props} />
+            <Tabs.Content className="grow rounded-b-md p-5 outline-none" value="jupyterhub">
+              <JupyterHubLaunchContent {...props} onLaunch={closePopover} />
             </Tabs.Content>
           </Tabs.Root>
           <Popover.Close
             className="absolute right-[5px] top-[5px] inline-flex size-[25px] items-center justify-center rounded-full"
             aria-label="Close"
+            ref={closeRef}
           >
             <Cross2Icon />
           </Popover.Close>

@@ -7,7 +7,7 @@ import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
 import * as Popover from '@radix-ui/react-popover';
-import { RocketIcon, Cross2Icon } from '@radix-ui/react-icons';
+import { RocketIcon, Cross2Icon, ClipboardCopyIcon } from '@radix-ui/react-icons';
 import * as Tabs from '@radix-ui/react-tabs';
 import * as Form from '@radix-ui/react-form';
 
@@ -263,14 +263,53 @@ function encodeURLParams(params: Record<string, string | undefined>): string {
     .join('&');
 }
 
+type CopyButtonProps = {
+  defaultMessage: string;
+  alternateMessage?: string;
+  timeout?: number;
+  buildLink: () => string | undefined;
+  className?: string;
+};
+
+function CopyButton(props: CopyButtonProps) {
+  const { className, defaultMessage, alternateMessage, buildLink, timeout } = props;
+
+  const messageRef = useRef<HTMLSpanElement>(null);
+
+  const copyLink = useCallback(() => {
+    const link = props.buildLink();
+    if (window.isSecureContext && link) {
+      window.navigator.clipboard.writeText(link);
+
+      const messageBox = messageRef.current;
+      if (messageBox) {
+        messageBox.innerText = alternateMessage ?? defaultMessage;
+        setTimeout(() => {
+          messageBox.innerText = defaultMessage;
+        }, timeout ?? 1000);
+      }
+    }
+  }, [messageRef, defaultMessage, alternateMessage, buildLink, timeout]);
+  return (
+    <button
+      type="button"
+      className={classNames(className, 'flex flex-row items-center gap-1')}
+      onClick={copyLink}
+    >
+      <span ref={messageRef}>{defaultMessage}</span> <ClipboardCopyIcon className="inline-block" />
+    </button>
+  );
+}
+
 function BinderLaunchContent(props: BinderLaunchProps) {
-  // Ensure Binder link ends in /
+  const { onLaunch } = props;
   const defaultBinderBaseURL = props.binder ?? 'https://mybinder.org';
 
   // Determine Git ref
   // TODO: pull this from frontmatter
   const refComponent = encodeURIComponent(props.ref ?? 'HEAD');
 
+  // Build binder URL path
   const query = encodeURLParams({ urlpath: `/lab/tree/${props.location}` });
 
   // Parse the repo, assume it is a validated GitHub URL
@@ -287,24 +326,40 @@ function BinderLaunchContent(props: BinderLaunchProps) {
     }
   }
 
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const buildLink = useCallback(() => {
+    const form = formRef.current;
+    if (!form) {
+      return;
+    }
+
+    const data = Object.fromEntries(new FormData(form) as any);
+
+    const binderURL = ensureBasename(data.url || defaultBinderBaseURL);
+    binderURL.pathname = `${binderURL.pathname}v2/${gitComponent}/${refComponent}`;
+    binderURL.search = `?${query}`;
+
+    return binderURL.toString();
+  }, [formRef, gitComponent, refComponent, query]);
+
   const handleSubmit = useCallback(
     (event: React.SyntheticEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      const data = Object.fromEntries(new FormData(event.currentTarget) as any);
+      const link = buildLink();
 
-      const binderURL = ensureBasename(data.url || defaultBinderBaseURL);
-      binderURL.pathname = `${binderURL.pathname}v2/${gitComponent}/${refComponent}`;
-      binderURL.search = `?${query}`;
-
-      window?.open(binderURL, '_blank')?.focus();
-      props.onLaunch?.();
+      // Link should exist, but guard anyway
+      if (link) {
+        window?.open(link, '_blank')?.focus();
+      }
+      onLaunch?.();
     },
-    [defaultBinderBaseURL, gitComponent, refComponent, query],
+    [defaultBinderBaseURL, buildLink, onLaunch],
   );
 
   return (
-    <Form.Root className="w-[260px]" onSubmit={handleSubmit}>
+    <Form.Root className="w-[260px]" onSubmit={handleSubmit} ref={formRef}>
       <p className="mb-2.5 text-[15px] font-medium leading-[19px]">
         Launch on a BinderHub e.g. <a href="https://mybinder.org">mybinder.org</a>
       </p>
@@ -323,20 +378,29 @@ function BinderLaunchContent(props: BinderLaunchProps) {
           />
         </Form.Control>
       </Form.Field>
-      <Form.Submit asChild>
-        <button className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
-          Launch
-        </button>
-      </Form.Submit>
+      <div className="flex flex-row justify-between">
+        <Form.Submit asChild>
+          <button className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
+            Launch
+          </button>
+        </Form.Submit>
+        <CopyButton
+          className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-gray-400 hover:bg-gray-500 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none"
+          defaultMessage="Copy Link"
+          alternateMessage="Copied Link"
+          buildLink={buildLink}
+        />
+      </div>
     </Form.Root>
   );
 }
 
 function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
-  // Ensure Binder link ends in /
+  const { onLaunch } = props;
   const defaultHubBaseURL = props.jupyterhub ?? '';
 
   const resource = parseKnownGitProvider(props.git);
+
   let urlPath = 'lab/tree';
   switch (resource?.provider) {
     case 'github': {
@@ -344,36 +408,51 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
     }
   }
 
+  // Encode query for nbgitpuller
   const query = encodeURLParams({
     repo: props.git,
     urlpath: urlPath,
     branch: props.ref, // TODO master/main?
   });
 
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const buildLink = useCallback(() => {
+    const form = formRef.current;
+    if (!form) {
+      return;
+    }
+
+    const data = Object.fromEntries(new FormData(form) as any);
+
+    const rawHubBaseURL = data.url;
+    if (!rawHubBaseURL) {
+      return;
+    }
+    const hubURL = ensureBasename(rawHubBaseURL);
+    hubURL.pathname = `${hubURL.pathname}hub/user-redirect/git-pull`;
+    hubURL.search = `?${query}`;
+
+    return hubURL.toString();
+  }, [formRef, query]);
+
   const handleSubmit = useCallback(
     (event: React.SyntheticEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      const data = Object.fromEntries(new FormData(event.currentTarget) as any);
+      const link = buildLink();
 
-      // Parse input URL (or fallback)
-      console.dir(data);
-      const rawHubBaseURL = data.url;
-      if (!rawHubBaseURL) {
-        return;
+      // Link should exist, but guard anyway
+      if (link) {
+        window?.open(link, '_blank')?.focus();
       }
-      const hubURL = ensureBasename(rawHubBaseURL);
-      hubURL.pathname = `${hubURL.pathname}hub/user-redirect/git-pull`;
-      hubURL.search = `?${query}`;
-
-      window?.open(hubURL, '_blank')?.focus();
-      props.onLaunch?.();
+      onLaunch?.();
     },
-    [defaultHubBaseURL, query],
+    [defaultHubBaseURL, buildLink, onLaunch],
   );
 
   return (
-    <Form.Root className="w-[260px]" onSubmit={handleSubmit}>
+    <Form.Root className="w-[260px]" onSubmit={handleSubmit} ref={formRef}>
       <p className="mb-2.5 text-[15px] font-medium leading-[19px]">Launch on a JupyterHub</p>
       <Form.Field className="mb-2.5 grid" name="url">
         <div className="flex items-baseline justify-between">
@@ -394,11 +473,20 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
           />
         </Form.Control>
       </Form.Field>
-      <Form.Submit asChild>
-        <button className="inline-flex h-[35px] items-center justify-center rounded bg-green4 px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
-          Launch
-        </button>
-      </Form.Submit>
+
+      <div className="flex flex-row justify-between">
+        <Form.Submit asChild>
+          <button className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
+            Launch
+          </button>
+        </Form.Submit>
+        <CopyButton
+          className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-gray-400 hover:bg-gray-500 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none"
+          defaultMessage="Copy Link"
+          alternateMessage="Copied Link"
+          buildLink={buildLink}
+        />
+      </div>
     </Form.Root>
   );
 }

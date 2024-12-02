@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import { SourceFileKind } from 'myst-spec-ext';
@@ -273,30 +273,32 @@ type CopyButtonProps = {
 
 function CopyButton(props: CopyButtonProps) {
   const { className, defaultMessage, alternateMessage, buildLink, timeout } = props;
-
-  const messageRef = useRef<HTMLSpanElement>(null);
+  const [message, setMessage] = useState(defaultMessage);
 
   const copyLink = useCallback(() => {
+    // Build the link for the clipboard
     const link = props.buildLink();
+    // In secure links, if we have a link, we can copy it!
     if (window.isSecureContext && link) {
+      // Write to clipboard
       window.navigator.clipboard.writeText(link);
+      // Update UI
+      setMessage(alternateMessage ?? defaultMessage);
 
-      const messageBox = messageRef.current;
-      if (messageBox) {
-        messageBox.innerText = alternateMessage ?? defaultMessage;
-        setTimeout(() => {
-          messageBox.innerText = defaultMessage;
-        }, timeout ?? 1000);
-      }
+      // Set callback to restore message
+      setTimeout(() => {
+        setMessage(defaultMessage);
+      }, timeout ?? 1000);
     }
-  }, [messageRef, defaultMessage, alternateMessage, buildLink, timeout]);
+  }, [defaultMessage, alternateMessage, buildLink, timeout, setMessage]);
+
   return (
     <button
       type="button"
       className={classNames(className, 'flex flex-row items-center gap-1')}
       onClick={copyLink}
     >
-      <span ref={messageRef}>{defaultMessage}</span> <ClipboardCopyIcon className="inline-block" />
+      {message} <ClipboardCopyIcon className="inline-block" />
     </button>
   );
 }
@@ -306,7 +308,6 @@ function BinderLaunchContent(props: BinderLaunchProps) {
   const defaultBinderBaseURL = props.binder ?? 'https://mybinder.org';
 
   // Determine Git ref
-  // TODO: pull this from frontmatter
   const refComponent = encodeURIComponent(props.ref ?? 'HEAD');
 
   // Build binder URL path
@@ -335,11 +336,9 @@ function BinderLaunchContent(props: BinderLaunchProps) {
     }
 
     const data = Object.fromEntries(new FormData(form) as any);
-
     const binderURL = ensureBasename(data.url || defaultBinderBaseURL);
     binderURL.pathname = `${binderURL.pathname}v2/${gitComponent}/${refComponent}`;
     binderURL.search = `?${query}`;
-
     return binderURL.toString();
   }, [formRef, gitComponent, refComponent, query]);
 
@@ -412,7 +411,7 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
   const query = encodeURLParams({
     repo: props.git,
     urlpath: urlPath,
-    branch: props.ref, // TODO master/main?
+    branch: props.ref,
   });
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -424,7 +423,6 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
     }
 
     const data = Object.fromEntries(new FormData(form) as any);
-
     const rawHubBaseURL = data.url;
     if (!rawHubBaseURL) {
       return;
@@ -432,7 +430,6 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
     const hubURL = ensureBasename(rawHubBaseURL);
     hubURL.pathname = `${hubURL.pathname}hub/user-redirect/git-pull`;
     hubURL.search = `?${query}`;
-
     return hubURL.toString();
   }, [formRef, query]);
 

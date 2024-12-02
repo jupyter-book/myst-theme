@@ -7,7 +7,7 @@ import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
 import * as Popover from '@radix-ui/react-popover';
-import { RocketIcon, Cross2Icon, ClipboardCopyIcon } from '@radix-ui/react-icons';
+import { RocketIcon, Cross2Icon, ClipboardCopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons';
 import * as Tabs from '@radix-ui/react-tabs';
 import * as Form from '@radix-ui/react-form';
 
@@ -380,8 +380,8 @@ function BinderLaunchContent(props: BinderLaunchProps) {
       </Form.Field>
       <div className="flex flex-row justify-between">
         <Form.Submit asChild>
-          <button className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
-            Launch
+          <button className="inline-flex flex-row gap-1 h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
+            <span>Launch</span> <ExternalLinkIcon className="inline-block" />
           </button>
         </Form.Submit>
         <CopyButton
@@ -476,8 +476,8 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
 
       <div className="flex flex-row justify-between">
         <Form.Submit asChild>
-          <button className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
-            Launch
+          <button className="inline-flex flex-row gap-1 h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
+            <span>Launch</span> <ExternalLinkIcon className="inline-block" />
           </button>
         </Form.Submit>
         <CopyButton

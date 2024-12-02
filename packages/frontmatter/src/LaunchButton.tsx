@@ -93,10 +93,10 @@ function CopyButton(props: CopyButtonProps) {
   const copyLink = useCallback(() => {
     // Build the link for the clipboard
     const link = props.buildLink();
-    // In secure links, if we have a link, we can copy it!
-    if (window.isSecureContext && link) {
+    // In secure links, we can copy it!
+    if (window.isSecureContext) {
       // Write to clipboard
-      window.navigator.clipboard.writeText(link);
+      window.navigator.clipboard.writeText(link ?? '<invalid link>');
       // Update UI
       setMessage(alternateMessage ?? defaultMessage);
 
@@ -143,7 +143,6 @@ function BinderLaunchContent(props: BinderLaunchProps) {
   }
 
   const formRef = useRef<HTMLFormElement>(null);
-
   const buildLink = useCallback(() => {
     const form = formRef.current;
     if (!form) {
@@ -156,6 +155,16 @@ function BinderLaunchContent(props: BinderLaunchProps) {
     binderURL.search = `?${query}`;
     return binderURL.toString();
   }, [formRef, gitComponent, refComponent, query]);
+
+  // FIXME: use ValidityState from radix-ui once passing-by-name is fixed
+  const urlRef = useRef<HTMLInputElement>(null);
+  const buildValidLink = useCallback(() => {
+    if (urlRef.current?.dataset.invalid === 'true') {
+      return;
+    } else {
+      return buildLink();
+    }
+  }, [buildLink, urlRef]);
 
   const handleSubmit = useCallback(
     (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -171,7 +180,6 @@ function BinderLaunchContent(props: BinderLaunchProps) {
     },
     [defaultBinderBaseURL, buildLink, onLaunch],
   );
-
   return (
     <Form.Root className="w-[260px]" onSubmit={handleSubmit} ref={formRef}>
       <p className="mb-2.5 text-[15px] font-medium leading-[19px]">
@@ -189,6 +197,7 @@ function BinderLaunchContent(props: BinderLaunchProps) {
             className="box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
             type="url"
             placeholder={defaultBinderBaseURL}
+            ref={urlRef}
           />
         </Form.Control>
       </Form.Field>
@@ -202,7 +211,7 @@ function BinderLaunchContent(props: BinderLaunchProps) {
           className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-gray-400 hover:bg-gray-500 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none"
           defaultMessage="Copy Link"
           alternateMessage="Copied Link"
-          buildLink={buildLink}
+          buildLink={buildValidLink}
         />
       </div>
     </Form.Root>
@@ -230,7 +239,6 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
   });
 
   const formRef = useRef<HTMLFormElement>(null);
-
   const buildLink = useCallback(() => {
     const form = formRef.current;
     if (!form) {
@@ -247,6 +255,16 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
     hubURL.search = `?${query}`;
     return hubURL.toString();
   }, [formRef, query]);
+
+  // FIXME: use ValidityState from radix-ui once passing-by-name is fixed
+  const urlRef = useRef<HTMLInputElement>(null);
+  const buildValidLink = useCallback(() => {
+    if (urlRef.current?.dataset.invalid === 'true') {
+      return;
+    } else {
+      return buildLink();
+    }
+  }, [buildLink, urlRef]);
 
   const handleSubmit = useCallback(
     (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -282,6 +300,7 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
             className="box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
             type="url"
             required
+            ref={urlRef}
           />
         </Form.Control>
       </Form.Field>
@@ -296,7 +315,7 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
           className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-gray-400 hover:bg-gray-500 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none"
           defaultMessage="Copy Link"
           alternateMessage="Copied Link"
-          buildLink={buildLink}
+          buildLink={buildValidLink}
         />
       </div>
     </Form.Root>

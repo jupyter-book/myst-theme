@@ -5,78 +5,14 @@ import * as Popover from '@radix-ui/react-popover';
 import { RocketIcon, Cross2Icon, ClipboardCopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons';
 import * as Tabs from '@radix-ui/react-tabs';
 import * as Form from '@radix-ui/react-form';
+import type { ExpandedThebeFrontmatter, BinderHubOptions } from 'myst-frontmatter';
 
-export type CommonLaunchProps = {
-  repo: string;
-  location: string;
-  ref?: string;
-  onLaunch?: () => void;
-};
-
-export type JupyterHubLaunchProps = CommonLaunchProps & {
-  jupyterhub?: string;
-};
-
-export type BinderLaunchProps = CommonLaunchProps & {
-  binder?: string;
-};
-
-const GITHUB_PATTERN = /https:\/\/github.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)/;
-
-type GitResource = {
-  // Provider
-  provider: 'github';
-  // Per-provider info
-  org: string;
-  repo: string;
-};
-
-/**
- * Parse a Git source URL into a Git "resource" consisting of a provider and provider info
- *
- * @param git - git URL
- */
-function parseKnownGitProvider(git: string): GitResource | undefined {
-  let match;
-  if ((match = git.match(GITHUB_PATTERN))) {
-    return {
-      provider: 'github',
-      org: match[1],
-      repo: match[2],
-    };
-  }
-  return undefined;
-}
-
-/**
- * Ensure URL of for http://foo.com/bar?baz
- * has the form      http://foo.com/bar/
- *
- * @param url - URL to parse
- */
-function ensureBasename(url: string): URL {
-  // Parse input URL (or fallback)
-  const parsedURL = new URL(url);
-  // Drop any fragments
-  let baseURL = `${parsedURL.origin}${parsedURL.pathname}`;
-  // Ensure a trailing fragment
-  if (!baseURL.endsWith('/')) {
-    baseURL = `${baseURL}/`;
-  }
-  return new URL(baseURL);
-}
-
-/**
- * Equivalent to Python's `urllib.parse.urlencode` function
- *
- * @param params - mapping from parameter name to string value
- */
-function encodeURLParams(params: Record<string, string | undefined>): string {
-  return Object.entries(params)
-    .filter(([key, value]) => value !== undefined)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
-    .join('&');
-}
+const GITHUB_USERNAME_REPO_REGEX =
+  /^(?:https?:\/\/github.com\/)?([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:.git)?\/?$/;
+const GITLAB_USERNAME_REPO_REGEX =
+  /^(?:https?:\/\/gitlab.com\/)?([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:.git)?\/?$/;
+const GIST_USERNAME_REPO_REGEX =
+  /^(?:https?:\/\/gist.github.com\/)?([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:.git)?\/?$/;
 
 type CopyButtonProps = {
   defaultMessage: string;
@@ -118,29 +54,184 @@ function CopyButton(props: CopyButtonProps) {
   );
 }
 
-function BinderLaunchContent(props: BinderLaunchProps) {
-  const { onLaunch } = props;
-  const defaultBinderBaseURL = props.binder ?? 'https://mybinder.org';
+export type LaunchProps = {
+  thebe: ExpandedThebeFrontmatter;
+  location: string;
+};
+type ModalLaunchProps = LaunchProps & {
+  onLaunch?: () => void;
+};
 
-  // Determine Git ref
-  const refComponent = encodeURIComponent(props.ref ?? 'HEAD');
+/**
+ * Ensure URL of for http://foo.com/bar?baz
+ * has the form      http://foo.com/bar/
+ *
+ * @param url - URL to parse
+ */
+function ensureBasename(url: string): string {
+  // Parse input URL (or fallback)
+  const parsedURL = new URL(url);
+  // Drop any fragments
+  let baseURL = `${parsedURL.origin}${parsedURL.pathname}`;
+  // Ensure a trailing fragment
+  if (!baseURL.endsWith('/')) {
+    baseURL = `${baseURL}/`;
+  }
+  return baseURL;
+}
 
-  // Build binder URL path
-  const query = encodeURLParams({ urlpath: `/lab/tree/${props.location}` });
+/**
+ * Equivalent to Python's `urllib.parse.urlencode` function
+ *
+ * @param params - mapping from parameter name to string value
+ */
+function encodeURLParams(params: Record<string, string | undefined>): string {
+  return Object.entries(params)
+    .filter(([key, value]) => value !== undefined)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
+    .join('&');
+}
 
-  // Parse the repo, assume it is a validated GitHub URL
-  let gitComponent: string;
-  const resource = parseKnownGitProvider(props.repo);
-  switch (resource?.provider) {
+/**
+ * Make a binder url for supported providers
+ *
+ * - trim gitlab.com from repo
+ * - trim trailing or leading '/' on repo
+ * - convert to URL acceptable string. Required for gitlab
+ * - trailing / on binderUrl
+ *
+ * Copied from thebe-core
+ *
+ * @param opts BinderOptions
+ * @returns  a binder compatible url
+ */
+function makeBinderURL(
+  options: BinderHubOptions,
+  location: string,
+  version: string = 'v2',
+): string | undefined {
+  let stub: string;
+
+  if (!options.repo || !options.url) {
+    return undefined;
+  }
+
+  switch (options.provider) {
+    case 'git': {
+      const encodedRepo = encodeURIComponent(options.repo);
+      const encodedRef = encodeURIComponent(options.ref ?? 'HEAD');
+      stub = `git/${encodedRepo}/${encodedRef}`;
+      break;
+    }
+    case 'gitlab': {
+      const [, org, repo] = options.repo.match(GITLAB_USERNAME_REPO_REGEX) ?? [];
+      if (!org) {
+        return undefined;
+      }
+      const encodedRef = encodeURIComponent(options.ref ?? 'HEAD');
+      stub = `gl/${org}/${repo}/${encodedRef}`;
+      break;
+    }
     case 'github': {
-      gitComponent = `gh/${resource.org}/${resource.repo}`;
+      const [, org, repo] = options.repo.match(GITHUB_USERNAME_REPO_REGEX) ?? [];
+      if (!org) {
+        return undefined;
+      }
+      const encodedRef = encodeURIComponent(options.ref ?? 'HEAD');
+      stub = `gh/${org}/${repo}/${encodedRef}`;
+      break;
+    }
+    case 'gist': {
+      const [, org, repo] = options.repo.match(GIST_USERNAME_REPO_REGEX) ?? [];
+      if (!org) {
+        return undefined;
+      }
+      const encodedRef = encodeURIComponent(options.ref ?? 'HEAD');
+      stub = `gist/${org}/${repo}/${encodedRef}`;
       break;
     }
     default: {
-      const escapedURL = encodeURIComponent(props.repo);
-      gitComponent = `git/${escapedURL}`;
+      return undefined;
     }
   }
+  // Build binder URL path
+  const query = encodeURLParams({ urlpath: `/lab/tree/${location}` });
+
+  const binderURL = ensureBasename(options.url);
+  return `${binderURL}${version}/${stub}?${query}`;
+}
+
+function cloneNameFromRepo(repo: string) {
+  const url = new URL(repo);
+  const parts = url.pathname.slice(1).split('/');
+  return parts[parts.length - 1] || url.hostname;
+}
+
+/**
+ * Make an nbgitpuller url for supported providers
+ *
+ * - trim gitlab.com from repo
+ * - trim trailing or leading '/' on repo
+ * - convert to URL acceptable string. Required for gitlab
+ * - trailing / on binderUrl
+ *
+ * Copied from thebe-core
+ *
+ * @param opts BinderOptions
+ * @returns  a binder compatible url
+ */
+function makeNbgitpullerURL(options: BinderHubOptions, location: string): string | undefined {
+  if (!options.repo || !options.url) {
+    return undefined;
+  }
+  const { ref } = options;
+
+  let repo: string;
+  let cloneName: string;
+
+  switch (options.provider) {
+    case 'git': {
+      repo = options.repo;
+      cloneName = cloneNameFromRepo(repo);
+      break;
+    }
+    case 'gitlab': {
+      const [, org, name] = options.repo.match(GITLAB_USERNAME_REPO_REGEX) ?? [];
+      repo = `https://gitlab.com/${org}/${name}.git`;
+      cloneName = name;
+      break;
+    }
+    case 'github': {
+      const [, org, name] = options.repo.match(GITHUB_USERNAME_REPO_REGEX) ?? [];
+      repo = `https://github.com/${org}/${name}.git`;
+      cloneName = name;
+      break;
+    }
+    case 'gist': {
+      const [, , rev] = options.repo.match(GIST_USERNAME_REPO_REGEX) ?? [];
+      repo = `https://gist.github.com/${rev}.git`;
+      cloneName = rev;
+      break;
+    }
+    default: {
+      return undefined;
+    }
+  }
+
+  // Build binder URL path
+  const query = encodeURLParams({
+    repo,
+    branch: ref,
+    urlpath: `/lab/tree/${cloneName}/${location}`,
+  });
+
+  return `git-pull?${query}`;
+}
+
+function BinderLaunchContent(props: ModalLaunchProps) {
+  const { thebe, location, onLaunch } = props;
+  const { binder } = thebe;
+  const defaultBinderBaseURL = binder?.url ?? 'https://mybinder.org';
 
   const formRef = useRef<HTMLFormElement>(null);
   const buildLink = useCallback(() => {
@@ -150,11 +241,8 @@ function BinderLaunchContent(props: BinderLaunchProps) {
     }
 
     const data = Object.fromEntries(new FormData(form) as any);
-    const binderURL = ensureBasename(data.url || defaultBinderBaseURL);
-    binderURL.pathname = `${binderURL.pathname}v2/${gitComponent}/${refComponent}`;
-    binderURL.search = `?${query}`;
-    return binderURL.toString();
-  }, [formRef, gitComponent, refComponent, query]);
+    return makeBinderURL({ ...(binder ?? {}), url: data.url || defaultBinderBaseURL }, location);
+  }, [formRef, location, binder]);
 
   // FIXME: use ValidityState from radix-ui once passing-by-name is fixed
   const urlRef = useRef<HTMLInputElement>(null);
@@ -218,25 +306,11 @@ function BinderLaunchContent(props: BinderLaunchProps) {
   );
 }
 
-function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
-  const { onLaunch } = props;
-  const defaultHubBaseURL = props.jupyterhub ?? '';
+function JupyterHubLaunchContent(props: ModalLaunchProps) {
+  const { onLaunch, location, thebe } = props;
+  const { binder } = thebe;
 
-  const resource = parseKnownGitProvider(props.repo);
-
-  let urlPath = 'lab/tree';
-  switch (resource?.provider) {
-    case 'github': {
-      urlPath = `${urlPath}/${resource.repo}${props.location}`;
-    }
-  }
-
-  // Encode query for nbgitpuller
-  const query = encodeURLParams({
-    repo: props.repo,
-    urlpath: urlPath,
-    branch: props.ref,
-  });
+  const defaultHubBaseURL = '';
 
   const formRef = useRef<HTMLFormElement>(null);
   const buildLink = useCallback(() => {
@@ -250,11 +324,10 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
     if (!rawHubBaseURL) {
       return;
     }
+    const gitPullURL = makeNbgitpullerURL(binder ?? {}, location);
     const hubURL = ensureBasename(rawHubBaseURL);
-    hubURL.pathname = `${hubURL.pathname}hub/user-redirect/git-pull`;
-    hubURL.search = `?${query}`;
-    return hubURL.toString();
-  }, [formRef, query]);
+    return `${hubURL}hub/user-redirect/${gitPullURL}`;
+  }, [formRef, location, binder]);
 
   // FIXME: use ValidityState from radix-ui once passing-by-name is fixed
   const urlRef = useRef<HTMLInputElement>(null);
@@ -322,7 +395,7 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
   );
 }
 
-export function LaunchButton(props: BinderLaunchProps | JupyterHubLaunchProps) {
+export function LaunchButton(props: LaunchProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const closePopover = useCallback(() => {
     closeRef.current?.click?.();

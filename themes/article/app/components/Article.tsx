@@ -46,19 +46,9 @@ export function Article({
   const compute = useComputeOptions();
   const top = useThemeTop();
   const isOutlineMargin = useMediaQuery('(min-width: 1024px)');
-  const launchOptions = React.useMemo(() => {
-    if (!manifest) {
-      return undefined;
-    }
-    const repo = manifest.thebe?.binder?.repo ?? manifest.github;
-    if (!repo) {
-      return undefined;
-    }
-    const binder = manifest.thebe?.binder?.url;
-    const location = article.location;
-    const ref = manifest.thebe?.binder?.ref;
-    return { repo, binder, location, ref };
-  }, [manifest, article.location]);
+
+  const { thebe } = manifest as any;
+  const { location } = article;
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -69,7 +59,8 @@ export function Article({
           {!hideTitle && (
             <FrontmatterBlock
               frontmatter={{ title, subtitle }}
-              launchOptions={launchOptions}
+              thebe={thebe}
+	      location={location}
               className="mb-5"
             />
           )}

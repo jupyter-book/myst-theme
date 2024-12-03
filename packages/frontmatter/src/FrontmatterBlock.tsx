@@ -1,13 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-import type { PageFrontmatter } from 'myst-frontmatter';
+import type { ExpandedThebeFrontmatter, PageFrontmatter } from 'myst-frontmatter';
 import { SourceFileKind } from 'myst-spec-ext';
 import { JupyterIcon, OpenAccessIcon, GithubIcon, TwitterIcon } from '@scienceicons/react/24/solid';
 import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
 import { LaunchButton } from './LaunchButton.js';
-import type { BinderLaunchProps, JupyterHubLaunchProps } from './LaunchButton.js';
 
 function ExternalOrInternalLink({
   to,
@@ -189,8 +188,6 @@ export function Journal({
   );
 }
 
-export type LaunchOptions = BinderLaunchProps | JupyterHubLaunchProps;
-
 export function FrontmatterBlock({
   frontmatter,
   kind = SourceFileKind.Article,
@@ -198,7 +195,8 @@ export function FrontmatterBlock({
   hideBadges,
   hideExports,
   className,
-  launchOptions,
+  thebe,
+  location,
 }: {
   frontmatter: Omit<PageFrontmatter, 'parts'>;
   kind?: SourceFileKind;
@@ -206,7 +204,8 @@ export function FrontmatterBlock({
   hideBadges?: boolean;
   hideExports?: boolean;
   className?: string;
-  launchOptions?: LaunchOptions;
+  thebe?: ExpandedThebeFrontmatter;
+  location?: string;
 }) {
   if (!frontmatter) return null;
   const {
@@ -275,7 +274,7 @@ export function FrontmatterBlock({
             </>
           )}
           {!hideExports && <DownloadsDropdown exports={(downloads ?? exports) as any} />}
-          {!hideLaunch && launchOptions && <LaunchButton {...launchOptions} />}
+          {!hideLaunch && thebe && location && <LaunchButton thebe={thebe} location={location} />}
         </div>
       )}
       {title && <h1 className="mb-0">{title}</h1>}

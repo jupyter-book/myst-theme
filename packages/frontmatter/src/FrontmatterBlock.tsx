@@ -6,7 +6,8 @@ import { JupyterIcon, OpenAccessIcon, GithubIcon, TwitterIcon } from '@scienceic
 import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
-import { LaunchButton, BinderLaunchProps, JupyterHubLaunchProps } from './LaunchButton.js';
+import { LaunchButton } from './LaunchButton.js';
+import type { BinderLaunchProps, JupyterHubLaunchProps } from './LaunchButton.js';
 
 function ExternalOrInternalLink({
   to,

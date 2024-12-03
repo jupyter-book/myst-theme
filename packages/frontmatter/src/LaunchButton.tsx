@@ -422,13 +422,13 @@ export function LaunchButton(props: LaunchProps) {
               aria-label="Launch into computing interface"
             >
               <Tabs.Trigger
-                className="flex h-[45px] flex-1 cursor-default items-center justify-center px-5 text-[15px] outline-none data-[state=active]:underline"
+                className="flex h-[45px] flex-1 cursor-default items-center justify-center px-5 text-[15px] outline-none data-[state=active]:underline border-gray-200 dark:border-gray-400"
                 value="binder"
               >
                 Binder
               </Tabs.Trigger>
               <Tabs.Trigger
-                className="flex h-[45px] flex-1 cursor-default items-center justify-center px-5 text-[15px] outline-none data-[state=active]:underline"
+                className="flex h-[45px] flex-1 cursor-default items-center justify-center px-5 text-[15px] outline-none data-[state=active]:underline border-gray-200 dark:border-gray-400"
                 value="jupyterhub"
               >
                 JupyterHub

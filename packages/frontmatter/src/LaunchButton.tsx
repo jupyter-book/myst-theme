@@ -6,18 +6,18 @@ import { RocketIcon, Cross2Icon, ClipboardCopyIcon, ExternalLinkIcon } from '@ra
 import * as Tabs from '@radix-ui/react-tabs';
 import * as Form from '@radix-ui/react-form';
 
-type CommonLaunchProps = {
+export type CommonLaunchProps = {
   repo: string;
   location: string;
   ref?: string;
   onLaunch?: () => void;
 };
 
-type JupyterHubLaunchProps = CommonLaunchProps & {
+export type JupyterHubLaunchProps = CommonLaunchProps & {
   jupyterhub?: string;
 };
 
-type BinderLaunchProps = CommonLaunchProps & {
+export type BinderLaunchProps = CommonLaunchProps & {
   binder?: string;
 };
 

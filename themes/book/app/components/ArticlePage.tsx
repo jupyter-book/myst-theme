@@ -86,7 +86,8 @@ export const ArticlePage = React.memo(function ({
     }
     const binder = manifest.thebe?.binder?.url;
     const location = article.location;
-    return { repo, binder, location };
+    const ref = manifest.thebe?.binder?.ref;
+    return { repo, binder, location, ref };
   }, [manifest, article.location]);
 
   return (

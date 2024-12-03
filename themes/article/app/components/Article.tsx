@@ -9,9 +9,15 @@ import {
   extractKnownParts,
   Footnotes,
 } from '@myst-theme/site';
+import React from 'react';
 import { ErrorTray, NotebookToolbar, useComputeOptions } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
-import { ReferencesProvider, useThemeTop, useMediaQuery } from '@myst-theme/providers';
+import {
+  ReferencesProvider,
+  useThemeTop,
+  useMediaQuery,
+  useProjectManifest,
+} from '@myst-theme/providers';
 import type { GenericParent } from 'myst-common';
 import { copyNode } from 'myst-common';
 import { BusyScopeProvider, ConnectionStatusTray, ExecuteScopeProvider } from '@myst-theme/jupyter';
@@ -32,6 +38,7 @@ export function Article({
   hideTitle?: boolean;
   outlineMaxDepth?: number;
 }) {
+  const manifest = useProjectManifest();
   const keywords = article.frontmatter?.keywords ?? [];
   const tree = copyNode(article.mdast);
   const parts = extractKnownParts(tree, article.frontmatter?.parts);
@@ -49,7 +56,8 @@ export function Article({
     }
     const binder = manifest.thebe?.binder?.url;
     const location = article.location;
-    return { repo, binder, location };
+    const ref = manifest.thebe?.binder?.ref;
+    return { repo, binder, location, ref };
   }, [manifest, article.location]);
   return (
     <ReferencesProvider

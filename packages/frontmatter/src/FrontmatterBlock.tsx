@@ -6,7 +6,7 @@ import { JupyterIcon, OpenAccessIcon, GithubIcon, TwitterIcon } from '@scienceic
 import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
-import { LaunchButton } from './LaunchButton.js';
+import { LaunchButton, BinderLaunchProps, JupyterHubLaunchProps } from './LaunchButton.js';
 
 function ExternalOrInternalLink({
   to,
@@ -188,12 +188,7 @@ export function Journal({
   );
 }
 
-export type LaunchOptions = {
-  repo: string;
-  location: string;
-  binder?: string;
-  jupyterhub?: string;
-};
+export type LaunchOptions = BinderLaunchProps | JupyterHubLaunchProps;
 
 export function FrontmatterBlock({
   frontmatter,

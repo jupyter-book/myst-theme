@@ -276,9 +276,9 @@ function BinderLaunchContent(props: ModalLaunchProps) {
       </p>
       <Form.Field className="mb-2.5 grid" name="url">
         <div className="flex items-baseline justify-between">
-          <Form.Label className="text-[15px] font-medium leading-[35px]">Binder URL</Form.Label>
+          <Form.Label className="text-[15px] font-medium leading-[35px]">BinderHub URL</Form.Label>
           <Form.Message className="text-[13px] opacity-80" match="typeMismatch">
-            Please provide a valid URL
+            Please provide a valid URL that starts with http(s).
           </Form.Message>
         </div>
         <Form.Control asChild>
@@ -362,11 +362,11 @@ function JupyterHubLaunchContent(props: ModalLaunchProps) {
         <div className="flex items-baseline justify-between">
           <Form.Label className="text-[15px] font-medium leading-[35px]">JupyterHub URL</Form.Label>
           <Form.Message className="text-[13px] opacity-80" match="valueMissing">
-            Please enter a URL
+            Please provide a URL.
           </Form.Message>
 
           <Form.Message className="text-[13px] opacity-80" match="typeMismatch">
-            Please provide a valid URL
+            Please provide a valid URL that starts with http(s).
           </Form.Message>
         </div>
         <Form.Control asChild>
@@ -418,7 +418,7 @@ export function LaunchButton(props: LaunchProps) {
         >
           <Tabs.Root className="flex w-[300px] flex-col" defaultValue="binder">
             <Tabs.List
-              className="flex shrink-0 border-b border-mauve6"
+              className="flex shrink-0 border-b divide-x border-gray-200 dark:border-gray-400"
               aria-label="Launch into computing interface"
             >
               <Tabs.Trigger

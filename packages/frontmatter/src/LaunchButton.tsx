@@ -197,19 +197,19 @@ function makeNbgitpullerURL(options: BinderHubOptions, location: string): string
     }
     case 'gitlab': {
       const [, org, name] = options.repo.match(GITLAB_USERNAME_REPO_REGEX) ?? [];
-      repo = `https://gitlab.com/${org}/${name}.git`;
+      repo = `https://gitlab.com/${org}/${name}`;
       cloneName = name;
       break;
     }
     case 'github': {
       const [, org, name] = options.repo.match(GITHUB_USERNAME_REPO_REGEX) ?? [];
-      repo = `https://github.com/${org}/${name}.git`;
+      repo = `https://github.com/${org}/${name}`;
       cloneName = name;
       break;
     }
     case 'gist': {
       const [, , rev] = options.repo.match(GIST_USERNAME_REPO_REGEX) ?? [];
-      repo = `https://gist.github.com/${rev}.git`;
+      repo = `https://gist.github.com/${rev}`;
       cloneName = rev;
       break;
     }
@@ -221,8 +221,9 @@ function makeNbgitpullerURL(options: BinderHubOptions, location: string): string
   // Build binder URL path
   const query = encodeURLParams({
     repo,
-    branch: ref,
-    urlpath: `/lab/tree/${cloneName}/${location}`,
+    // Need a valid branch name, not a rev
+    // branch: ref,
+    urlpath: `/lab/tree/${cloneName}${location}`,
   });
 
   return `git-pull?${query}`;

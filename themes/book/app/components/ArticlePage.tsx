@@ -76,6 +76,19 @@ export const ArticlePage = React.memo(function ({
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree, article.frontmatter?.parts);
   const isOutlineMargin = useMediaQuery('(min-width: 1024px)');
+  const launchOptions = React.useMemo(() => {
+    if (!manifest) {
+      return undefined;
+    }
+    const repo = manifest.thebe?.binder?.repo ?? manifest.github;
+    if (!repo) {
+      return undefined;
+    }
+    const binder = manifest.thebe?.binder?.url;
+    const location = article.location;
+    return { repo, binder, location };
+  }, [manifest, article.location]);
+
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -86,9 +99,9 @@ export const ArticlePage = React.memo(function ({
           {!hide_title_block && (
             <FrontmatterBlock
               kind={article.kind}
-              location={article.location}
               frontmatter={{ ...article.frontmatter, downloads }}
               className="mb-8 pt-9"
+              launchOptions={launchOptions}
             />
           )}
           {!hide_outline && (

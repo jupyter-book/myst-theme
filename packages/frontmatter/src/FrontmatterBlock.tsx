@@ -188,6 +188,13 @@ export function Journal({
   );
 }
 
+export type LaunchOptions = {
+  repo: string;
+  location: string;
+  binder?: string;
+  jupyterhub?: string;
+};
+
 export function FrontmatterBlock({
   frontmatter,
   kind = SourceFileKind.Article,
@@ -195,7 +202,7 @@ export function FrontmatterBlock({
   hideBadges,
   hideExports,
   className,
-  location,
+  launchOptions,
 }: {
   frontmatter: Omit<PageFrontmatter, 'parts'>;
   kind?: SourceFileKind;
@@ -203,7 +210,7 @@ export function FrontmatterBlock({
   hideBadges?: boolean;
   hideExports?: boolean;
   className?: string;
-  location?: string;
+  launchOptions?: LaunchOptions;
 }) {
   if (!frontmatter) return null;
   const {
@@ -272,13 +279,7 @@ export function FrontmatterBlock({
             </>
           )}
           {!hideExports && <DownloadsDropdown exports={(downloads ?? exports) as any} />}
-          {!hideLaunch && frontmatter.github && location && (
-            <LaunchButton
-              git={frontmatter.github}
-              location={location}
-              binder={frontmatter.binder}
-            />
-          )}
+          {!hideLaunch && launchOptions && <LaunchButton {...launchOptions} />}
         </div>
       )}
       {title && <h1 className="mb-0">{title}</h1>}

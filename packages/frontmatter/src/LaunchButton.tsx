@@ -7,7 +7,7 @@ import * as Tabs from '@radix-ui/react-tabs';
 import * as Form from '@radix-ui/react-form';
 
 type CommonLaunchProps = {
-  git: string;
+  repo: string;
   location: string;
   ref?: string;
   onLaunch?: () => void;
@@ -130,14 +130,14 @@ function BinderLaunchContent(props: BinderLaunchProps) {
 
   // Parse the repo, assume it is a validated GitHub URL
   let gitComponent: string;
-  const resource = parseKnownGitProvider(props.git);
+  const resource = parseKnownGitProvider(props.repo);
   switch (resource?.provider) {
     case 'github': {
       gitComponent = `gh/${resource.org}/${resource.repo}`;
       break;
     }
     default: {
-      const escapedURL = encodeURIComponent(props.git);
+      const escapedURL = encodeURIComponent(props.repo);
       gitComponent = `git/${escapedURL}`;
     }
   }
@@ -222,7 +222,7 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
   const { onLaunch } = props;
   const defaultHubBaseURL = props.jupyterhub ?? '';
 
-  const resource = parseKnownGitProvider(props.git);
+  const resource = parseKnownGitProvider(props.repo);
 
   let urlPath = 'lab/tree';
   switch (resource?.provider) {
@@ -233,7 +233,7 @@ function JupyterHubLaunchContent(props: JupyterHubLaunchProps) {
 
   // Encode query for nbgitpuller
   const query = encodeURLParams({
-    repo: props.git,
+    repo: props.repo,
     urlpath: urlPath,
     branch: props.ref,
   });

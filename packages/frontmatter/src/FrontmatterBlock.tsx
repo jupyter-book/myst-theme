@@ -1,11 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-import type { PageFrontmatter } from 'myst-frontmatter';
+import type { ExpandedThebeFrontmatter, PageFrontmatter } from 'myst-frontmatter';
 import { SourceFileKind } from 'myst-spec-ext';
 import { JupyterIcon, OpenAccessIcon, GithubIcon, TwitterIcon } from '@scienceicons/react/24/solid';
 import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
+import { LaunchButton } from './LaunchButton.js';
 
 function ExternalOrInternalLink({
   to,
@@ -194,6 +195,8 @@ export function FrontmatterBlock({
   hideBadges,
   hideExports,
   className,
+  thebe,
+  location,
 }: {
   frontmatter: Omit<PageFrontmatter, 'parts'>;
   kind?: SourceFileKind;
@@ -201,6 +204,8 @@ export function FrontmatterBlock({
   hideBadges?: boolean;
   hideExports?: boolean;
   className?: string;
+  thebe?: ExpandedThebeFrontmatter;
+  location?: string;
 }) {
   if (!frontmatter) return null;
   const {
@@ -226,6 +231,8 @@ export function FrontmatterBlock({
   const hasHeaders = !!subject || !!venue || !!volume || !!issue;
   const hasDateOrDoi = !!doi || !!date;
   const showHeaderBlock = hasHeaders || (hasBadges && !hideBadges) || (hasExports && !hideExports);
+  const hideLaunch: boolean = false;
+
   if (!title && !subtitle && !showHeaderBlock && !hasAuthors && !hasDateOrDoi) {
     // Nothing to show!
     return null;
@@ -267,6 +274,7 @@ export function FrontmatterBlock({
             </>
           )}
           {!hideExports && <DownloadsDropdown exports={(downloads ?? exports) as any} />}
+          {!hideLaunch && thebe && location && <LaunchButton thebe={thebe} location={location} />}
         </div>
       )}
       {title && <h1 className="mb-0">{title}</h1>}

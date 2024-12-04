@@ -44,6 +44,9 @@ export const ArticlePage = React.memo(function ({
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree, article.frontmatter?.parts);
 
+  const { thebe } = manifest as any;
+  const { location } = article;
+
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -55,6 +58,8 @@ export const ArticlePage = React.memo(function ({
             <FrontmatterBlock
               kind={article.kind}
               frontmatter={{ ...article.frontmatter, downloads }}
+              thebe={thebe}
+              location={location}
               className="mb-8 pt-9"
             />
           )}

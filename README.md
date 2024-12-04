@@ -91,13 +91,23 @@ To interact with the themes in development mode (e.g. with live-reload of compon
 2. the renderer/application (theme)
 3. a process watching all components
 
+First, start the theme application:
 ```bash
-# In a directory with content
-myst start --headless
-# In myst-theme
+# Install dependencies
+npm install
+# First, build the theme
+npm run build
+
+# Then start the theme
 npm run theme:book
 # In another terminal, watch for changes and rebuild
 npm run dev
+```
+
+Then, start the content server application in e.g. the mystmd docs:
+```bash
+# In a directory with content
+myst start --headless
 ```
 
 > **Note**: in the future, this repository will likely have it's own content to test out with the themes.

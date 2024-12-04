@@ -76,6 +76,9 @@ export const ArticlePage = React.memo(function ({
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree, article.frontmatter?.parts);
   const isOutlineMargin = useMediaQuery('(min-width: 1024px)');
+  const { thebe } = manifest as any;
+  const { location } = article;
+
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -88,6 +91,8 @@ export const ArticlePage = React.memo(function ({
               kind={article.kind}
               frontmatter={{ ...article.frontmatter, downloads }}
               className="mb-8 pt-9"
+              thebe={thebe}
+	      location={location}
             />
           )}
           {!hide_outline && (

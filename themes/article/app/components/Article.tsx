@@ -9,9 +9,15 @@ import {
   extractKnownParts,
   Footnotes,
 } from '@myst-theme/site';
+import React from 'react';
 import { ErrorTray, NotebookToolbar, useComputeOptions } from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
-import { ReferencesProvider, useThemeTop, useMediaQuery } from '@myst-theme/providers';
+import {
+  ReferencesProvider,
+  useThemeTop,
+  useMediaQuery,
+  useProjectManifest,
+} from '@myst-theme/providers';
 import type { GenericParent } from 'myst-common';
 import { copyNode } from 'myst-common';
 import { BusyScopeProvider, ConnectionStatusTray, ExecuteScopeProvider } from '@myst-theme/jupyter';
@@ -32,6 +38,7 @@ export function Article({
   hideTitle?: boolean;
   outlineMaxDepth?: number;
 }) {
+  const manifest = useProjectManifest();
   const keywords = article.frontmatter?.keywords ?? [];
   const tree = copyNode(article.mdast);
   const parts = extractKnownParts(tree, article.frontmatter?.parts);
@@ -39,6 +46,9 @@ export function Article({
   const compute = useComputeOptions();
   const top = useThemeTop();
   const isOutlineMargin = useMediaQuery('(min-width: 1024px)');
+
+  const { thebe } = manifest as any;
+  const { location } = article;
   return (
     <ReferencesProvider
       references={{ ...article.references, article: article.mdast }}
@@ -46,7 +56,14 @@ export function Article({
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
-          {!hideTitle && <FrontmatterBlock frontmatter={{ title, subtitle }} className="mb-5" />}
+          {!hideTitle && (
+            <FrontmatterBlock
+              frontmatter={{ title, subtitle }}
+              thebe={thebe}
+	      location={location}
+              className="mb-5"
+            />
+          )}
           {!hideOutline && (
             <div
               className="block my-10 lg:sticky lg:top-0 lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"

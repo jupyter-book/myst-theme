@@ -1,5 +1,13 @@
 # myst-demo
 
+## 0.13.5
+
+### Patch Changes
+
+- fdccb23: Add more support for class and identifier
+- Updated dependencies [fdccb23]
+  - myst-to-react@0.13.5
+
 ## 0.13.4
 
 ### Patch Changes

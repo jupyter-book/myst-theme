@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/providers",
-  "version": "0.13.4",
+  "version": "0.13.5",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,7 +22,7 @@
     "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
-    "@myst-theme/common": "^0.13.4"
+    "@myst-theme/common": "^0.13.5"
   },
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",

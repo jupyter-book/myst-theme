@@ -140,9 +140,10 @@ export function SessionStarter({
       // in order to allow for multiple independent sessions of the same notebook
       let path = `/${pageSlug}-${notebookSlug}.ipynb`;
       console.debug('session starter path:', path);
-      const match = location?.match(/(.*)\/.*.ipynb$/) ?? null;
+      const match = location?.match(/(.*)\/.*/) ?? null;
       if (match) {
         console.debug('session starter match:', match);
+        // Choose an arbitrary suffix, not important
         path = `${match[1]}/${pageSlug}-${notebookSlug}.ipynb`;
         console.debug('session starter path (modified):', path);
       }

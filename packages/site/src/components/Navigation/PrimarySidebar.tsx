@@ -174,7 +174,7 @@ export const PrimarySidebar = ({
           },
         )}
       >
-        <div className="flex-grow py-6 overflow-y-auto">
+        <div className="flex-grow py-6 overflow-y-auto primary-scrollbar">
           {nav && (
             <nav
               aria-label="Navigation"

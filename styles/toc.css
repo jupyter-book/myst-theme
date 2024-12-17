@@ -25,3 +25,13 @@
     height: 0;
   }
 }
+
+.primary-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.primary-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  @apply bg-slate-300/30
+}

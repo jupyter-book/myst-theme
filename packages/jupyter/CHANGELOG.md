@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.13.5
+
+### Patch Changes
+
+- ceb8196: Fix path of non-ipynb files in thebe
+- Updated dependencies [fdccb23]
+  - myst-to-react@0.13.5
+  - @myst-theme/providers@0.13.5
+
 ## 0.13.4
 
 ### Patch Changes

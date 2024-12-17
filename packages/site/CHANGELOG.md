@@ -1,5 +1,22 @@
 # @myst-theme/site
 
+## 0.13.5
+
+### Patch Changes
+
+- 815265f: Update search to truncate long results
+- a88fac6: Replace token-length limit with character-length limit, hide ellipsis from markup
+- Updated dependencies [ceb8196]
+- Updated dependencies [fdccb23]
+  - @myst-theme/jupyter@0.13.5
+  - @myst-theme/diagrams@0.13.5
+  - myst-demo@0.13.5
+  - myst-to-react@0.13.5
+  - @myst-theme/providers@0.13.5
+  - @myst-theme/frontmatter@0.13.5
+  - @myst-theme/common@0.13.5
+  - @myst-theme/search@0.13.5
+
 ## 0.13.4
 
 ### Patch Changes

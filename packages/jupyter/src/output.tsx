@@ -7,7 +7,7 @@ import { JupyterOutputs } from './jupyter.js';
 import { useMemo } from 'react';
 import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
-import { MyST } from 'myst-to-react';
+import { Details, MyST } from 'myst-to-react';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -91,7 +91,7 @@ export function JupyterOutput({
 }
 
 export function Output({ node }: { node: GenericNode }) {
-  return (
+  const output = (
     <JupyterOutput
       className={classNames({ hidden: node.visibility === 'remove' })}
       outputId={node.id}
@@ -100,4 +100,8 @@ export function Output({ node }: { node: GenericNode }) {
       data={node.data}
     />
   );
+  if (node.visibility === 'hide') {
+    return <Details title="Output">{output}</Details>;
+  }
+  return output;
 }

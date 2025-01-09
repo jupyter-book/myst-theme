@@ -1,4 +1,4 @@
-import { MyST } from 'myst-to-react';
+import { Details, MyST } from 'myst-to-react';
 import { SourceFileKind } from 'myst-spec-ext';
 import type { GenericParent } from 'myst-common';
 import classNames from 'classnames';
@@ -22,17 +22,18 @@ export function Block({
   className?: string;
 }) {
   const grid = useGridSystemProvider();
-  const subGrid = `${grid} subgrid-gap col-screen`;
+  const subGrid = node.visibility === 'hide' ? '' : `${grid} subgrid-gap col-screen`;
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
   // Hide the subgrid if either the dataClass or the className exists and includes `col-`
   const noSubGrid =
     (dataClassName && dataClassName.includes('col-')) || (className && className.includes('col-'));
-  return (
+  const block = (
     <div
       key={`block-${id}`}
       id={id}
       className={classNames('relative group/block', className, dataClassName, {
         [subGrid]: !noSubGrid,
+        hidden: node.visibility === 'remove',
       })}
     >
       {pageKind === SourceFileKind.Notebook && isACodeCell(node) && (
@@ -53,6 +54,10 @@ export function Block({
       <MyST ast={node.children} />
     </div>
   );
+  if (node.visibility === 'hide') {
+    return <Details title="Notebook Cell">{block}</Details>;
+  }
+  return block;
 }
 
 export function ContentBlocks({

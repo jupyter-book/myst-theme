@@ -6,6 +6,7 @@ import { CopyIcon } from './components/index.js';
 import { MyST } from './MyST.js';
 import { useMemo } from 'react';
 import type { ComponentProps } from 'react';
+import { Details } from './dropdown.js';
 
 type Props = {
   value: string;
@@ -117,7 +118,7 @@ export function CodeBlock(props: Props) {
 }
 
 const code: NodeRenderer = ({ node }) => {
-  return (
+  const child = (
     <CodeBlock
       identifier={node.html_id}
       // data-cell-id={node.executable ? parentId : undefined}
@@ -135,6 +136,10 @@ const code: NodeRenderer = ({ node }) => {
       className={classNames({ hidden: node.visibility === 'remove' }, node.class)}
     />
   );
+  if (node.visibility === 'hide') {
+    return <Details title="Source">{child}</Details>;
+  }
+  return child;
 };
 
 function isColor(maybeColorHash: string): string | undefined {

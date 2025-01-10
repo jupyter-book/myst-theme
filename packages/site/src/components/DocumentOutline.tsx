@@ -352,6 +352,7 @@ function useMarginOccluder() {
 
 export const DocumentOutline = ({
   outlineRef,
+  title = 'Contents',
   top = 0,
   className,
   selector = SELECTOR,
@@ -360,6 +361,7 @@ export const DocumentOutline = ({
   isMargin,
 }: {
   outlineRef?: React.RefObject<HTMLElement>;
+  title?: React.ReactNode;
   top?: number;
   height?: number;
   className?: string;
@@ -406,7 +408,7 @@ export const DocumentOutline = ({
         }}
       >
         <div className="flex flex-row gap-2 mb-4 text-sm leading-6 uppercase rounded-lg text-slate-900 dark:text-slate-100">
-          In this article
+          {title}
           <Collapsible.Trigger asChild>
             <button className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2">
               <ChevronRightIcon

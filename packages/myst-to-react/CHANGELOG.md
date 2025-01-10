@@ -1,5 +1,14 @@
 # myst-to-react
 
+## 0.13.5
+
+### Patch Changes
+
+- fb1d1bd: Set min grid columns at main breakpoint
+- 7dedad3: Hide content when tags are activated
+- fdccb23: Add more support for class and identifier
+  - @myst-theme/providers@0.13.5
+
 ## 0.13.4
 
 ### Patch Changes

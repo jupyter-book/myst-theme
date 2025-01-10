@@ -1,5 +1,17 @@
 # @myst-theme/jupyter
 
+## 0.13.5
+
+### Patch Changes
+
+- ceb8196: Fix path of non-ipynb files in thebe
+- 7dedad3: Hide content when tags are activated
+- Updated dependencies [fb1d1bd]
+- Updated dependencies [7dedad3]
+- Updated dependencies [fdccb23]
+  - myst-to-react@0.13.5
+  - @myst-theme/providers@0.13.5
+
 ## 0.13.4
 
 ### Patch Changes

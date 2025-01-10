@@ -100,7 +100,7 @@ function gridColumnClasses(columns?: number[]): string {
   }
   return [
     // getColumnClassName(gridClassNames.main, columns[0]),
-    getColumnClassName(gridClassNames.sm, columns[0]),
+    getColumnClassName(gridClassNames.main, columns[0]),
     getColumnClassName(gridClassNames.md, columns[1]),
     getColumnClassName(gridClassNames.lg, columns[2]),
     getColumnClassName(gridClassNames.xl, columns[3]),

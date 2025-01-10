@@ -1,5 +1,27 @@
 # @myst-theme/site
 
+## 0.13.5
+
+### Patch Changes
+
+- 815265f: Update search to truncate long results
+- 5311b9d: In this article --> Contents
+- 40572ab: Hide long bibliography changed to 15
+- a88fac6: Replace token-length limit with character-length limit, hide ellipsis from markup
+- 7dedad3: Hide content when tags are activated
+- Updated dependencies [ceb8196]
+- Updated dependencies [fb1d1bd]
+- Updated dependencies [7dedad3]
+- Updated dependencies [fdccb23]
+  - @myst-theme/jupyter@0.13.5
+  - myst-to-react@0.13.5
+  - @myst-theme/diagrams@0.13.5
+  - myst-demo@0.13.5
+  - @myst-theme/providers@0.13.5
+  - @myst-theme/frontmatter@0.13.5
+  - @myst-theme/common@0.13.5
+  - @myst-theme/search@0.13.5
+
 ## 0.13.4
 
 ### Patch Changes

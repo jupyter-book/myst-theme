@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { Tooltip } from './components/index.js';
 import { MyST } from './MyST.js';
 import type { GenericNode } from 'myst-common';
+import { LinkOrButton } from './links/renderer.js';
 
 type TableExts = {
   rowspan?: number;
@@ -167,9 +168,9 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   link({ node }) {
     return (
-      <a target="_blank" href={node.url} rel="noreferrer">
+      <LinkOrButton href={node.url} className={node.class} kind={node.kind as any}>
         <MyST ast={node.children} />
-      </a>
+      </LinkOrButton>
     );
   },
   paragraph({ node }) {

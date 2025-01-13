@@ -12,6 +12,7 @@ import { RRIDLink } from './rrid.js';
 import { RORLink } from './ror.js';
 import { GithubLink } from './github.js';
 import { MyST } from '../MyST.js';
+import classNames from 'classnames';
 
 type TransformedLink = Link & { internal?: boolean; protocol?: string };
 
@@ -23,7 +24,7 @@ function getPageInfo(site: SiteManifest | undefined, path: string) {
   return project.pages.find((p) => p.slug === (pageSlug || projectSlug));
 }
 
-function InternalLink({ url, children }: { url: string; children: React.ReactNode }) {
+function InternalLink({ url, children, className}: { url: string; children: React.ReactNode, className?: string }) {
   const Link = useLinkProvider();
   const site = useSiteManifest();
   const page = getPageInfo(site, url);
@@ -31,7 +32,7 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent">
+      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={className}>
         {children}
       </Link>
     );
@@ -48,7 +49,7 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
         />
       }
     >
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent">
+      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={className}>
         {children}
       </Link>
     </HoverPopover>
@@ -56,14 +57,16 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
 }
 
 export const WikiLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
-  return (
-    <WikiLink url={node.url} page={node.data?.page as string} wiki={node.data?.wiki as string}>
+  const className = classNames(node.class, { button: node.kind === 'button' });
+  return ( 
+  <WikiLink url={node.url} page={node.data?.page as string} wiki={node.data?.wiki as string} className={className}>
       <MyST ast={node.children} />
-    </WikiLink>
+  </WikiLink>
   );
 };
 
 export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
+  const className = classNames(node.class, { button: node.kind === 'button' });
   return (
     <GithubLink
       kind={node.data?.kind as any}
@@ -75,31 +78,39 @@ export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
       from={node.data?.from as number | undefined}
       to={node.data?.to as number | undefined}
       issue_number={node.data?.issue_number as number | undefined}
+      className={className}
     >
       <MyST ast={node.children} />
     </GithubLink>
   );
 };
 
-export const RRIDLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => (
-  <RRIDLink rrid={node.data?.rrid as string} />
-);
+export const RRIDLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
+  const className = classNames(node.class, { button: node.kind === 'button' });
+  return (
+  <RRIDLink rrid={node.data?.rrid as string} className={className} />
+  );
+};
 
-export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => (
-  <RORLink node={node} ror={node.data?.ror as string} />
-);
+export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
+  const className = classNames(node.class, { button: node.kind === 'button' });
+  return (
+  <RORLink node={node} ror={node.data?.ror as string} className={className} />
+  );
+};
 
 export const SimpleLink: NodeRenderer<TransformedLink> = ({ node }) => {
   const internal = node.internal ?? false;
+  const className = classNames(node.class, {button: node.kind=== 'button'});
   if (internal) {
     return (
-      <InternalLink url={node.url}>
+      <InternalLink url={node.url} className={className}>
         <MyST ast={node.children} />
       </InternalLink>
     );
   }
   return (
-    <a target="_blank" href={node.url} rel="noreferrer">
+    <a href={node.url} className={className}>
       <MyST ast={node.children} />
     </a>
   );

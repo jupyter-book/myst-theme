@@ -51,6 +51,7 @@ function GithubFilePreview({
   from,
   to,
   open,
+  className,
 }: {
   url: string;
   raw: string;
@@ -60,6 +61,7 @@ function GithubFilePreview({
   from?: number;
   to?: number;
   open: boolean;
+  className?: string;
 }) {
   const { data, error } = useLoadWhenOpen(open, raw, fetcher);
   let code = data;
@@ -68,7 +70,7 @@ function GithubFilePreview({
       <div className="hover-document article w-[500px] sm:max-w-[500px]">
         <a
           href={url}
-          className="block text-inherit hover:text-inherit"
+          className={classNames("block text-inherit hover:text-inherit", className)}
           target="_blank"
           rel="noreferrer"
         >
@@ -138,12 +140,14 @@ function GithubIssuePreview({
   repo,
   issue_number,
   open,
+  className,
 }: {
   url: string;
   org: string;
   repo: string;
   issue_number?: string | number;
   open: boolean;
+  className?: string;
 }) {
   const { data, error } = useLoadWhenOpen(
     open,
@@ -163,7 +167,7 @@ function GithubIssuePreview({
       <div className="hover-document article">
         <a
           href={url}
-          className="block text-inherit hover:text-inherit"
+          className={classNames("block text-inherit hover:text-inherit", className)}
           target="_blank"
           rel="noreferrer"
         >
@@ -238,6 +242,7 @@ export function GithubLink({
   from,
   to,
   issue_number,
+  className,
 }: {
   children: React.ReactNode;
   kind: 'file' | 'issue';
@@ -249,6 +254,7 @@ export function GithubLink({
   from?: number;
   issue_number?: string | number;
   to?: number;
+  className?: string;
 }) {
   return (
     <HoverPopover
@@ -264,6 +270,7 @@ export function GithubLink({
               open={load}
               org={org}
               repo={repo}
+              className={className}
             />
           );
         }
@@ -275,12 +282,13 @@ export function GithubLink({
               org={org}
               issue_number={issue_number}
               repo={repo}
+              className={className}
             />
           );
         }
       }}
     >
-      <a href={url} className="italic" target="_blank" rel="noreferrer">
+      <a href={url} className={classNames("italic", className)} target="_blank" rel="noreferrer">
         {children}
       </a>
     </HoverPopover>

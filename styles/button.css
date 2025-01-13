@@ -1,0 +1,9 @@
+a.button {
+  @apply px-4 py-2 font-bold rounded;
+}
+a.button-blue {
+  @apply text-white bg-blue-500;
+}
+a.button-blue:hover {
+  @apply bg-blue-700;
+}

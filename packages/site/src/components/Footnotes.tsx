@@ -50,7 +50,7 @@ export function Footnotes({
                           key={(ref as GenericNode).key}
                           id={`fnref-${(ref as GenericNode).key}`}
                           title="Link to Content"
-                          hover
+                          hover="desktop"
                           className="p-1"
                           children="↩"
                           scrollBehavior="instant"

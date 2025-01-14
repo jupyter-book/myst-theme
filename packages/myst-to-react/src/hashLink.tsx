@@ -61,7 +61,7 @@ export function HashLink({
   id?: string;
   kind?: string;
   title?: string;
-  hover?: boolean;
+  hover?: boolean | 'desktop';
   children?: '#' | '¶' | React.ReactNode;
   canSelectText?: boolean;
   className?: string;
@@ -84,7 +84,9 @@ export function HashLink({
     <a
       className={classNames('no-underline text-inherit hover:text-inherit', className, {
         'select-none': !canSelectText,
-        'transition-opacity opacity-0 focus:opacity-100 group-hover:opacity-70': hover,
+        'transition-opacity opacity-0 focus:opacity-100 group-hover:opacity-70': hover === true,
+        '[@media(hover:hover)]:transition-opacity [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:focus:opacity-100 [@media(hover:hover)]:group-hover:opacity-70':
+          hover === 'desktop',
         'hover:underline': !hover,
       })}
       onClick={scroll}

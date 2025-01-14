@@ -61,6 +61,12 @@ options:
   - type: boolean
     id: folders
     description: Respect nested folder structure in URL paths.
+  - type: string
+    id: theme
+    description: Force initial theme. Either 'light' or 'dark'
+  - type: boolean
+    id: hide_theme_toggle
+    description: Hide the theme toggle button on the header
 build:
   install: npm install
   start: npm run start

@@ -60,7 +60,7 @@ export function Article({
             <FrontmatterBlock
               frontmatter={{ title, subtitle }}
               thebe={thebe}
-	      location={location}
+              location={location}
               className="mb-5"
             />
           )}
@@ -73,8 +73,7 @@ export function Article({
                 className="relative pt-[2px]"
                 maxdepth={outlineMaxDepth}
                 isMargin={isOutlineMargin}
-		title="In this article"
-
+                title="In this article"
               >
                 <SupportingDocuments />
               </DocumentOutline>

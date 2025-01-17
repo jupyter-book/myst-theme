@@ -118,7 +118,7 @@ export function WikiLink({
 }) {
   return (
     <HoverPopover card={({ load }) => <WikiChild wiki={wiki} page={page} load={load} />}>
-      <a href={url} className={classNames("italic", className)} target="_blank" rel="noreferrer">
+      <a href={url} className={classNames('italic', className)} target="_blank" rel="noreferrer">
         {children}
       </a>
     </HoverPopover>

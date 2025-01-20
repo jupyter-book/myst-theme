@@ -223,7 +223,8 @@ export function FrontmatterBlock({
     downloads,
     date,
     authors,
-  } = frontmatter;
+    enumerator,
+  } = frontmatter as any;
   const isJupyter = kind === SourceFileKind.Notebook;
   const hasExports = downloads ? downloads.length > 0 : exports && exports.length > 0;
   const hasAuthors = authors && authors.length > 0;
@@ -277,7 +278,12 @@ export function FrontmatterBlock({
           {!hideLaunch && thebe && location && <LaunchButton thebe={thebe} location={location} />}
         </div>
       )}
-      {title && <h1 className="mb-0">{title}</h1>}
+      {title && (
+        <h1 className="mb-0">
+          {enumerator && <span className="mr-3 select-none">{enumerator}</span>}
+          {title}
+        </h1>
+      )}
       {subtitle && <p className="mt-2 mb-0 lead text-zinc-600 dark:text-zinc-400">{subtitle}</p>}
       {hasAuthors && authorStyle === 'list' && (
         <AuthorsList authors={frontmatter.authors} affiliations={frontmatter.affiliations} />

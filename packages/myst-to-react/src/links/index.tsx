@@ -12,7 +12,6 @@ import { RRIDLink } from './rrid.js';
 import { RORLink } from './ror.js';
 import { GithubLink } from './github.js';
 import { MyST } from '../MyST.js';
-import classNames from 'classnames';
 
 type TransformedLink = Link & { internal?: boolean; protocol?: string };
 

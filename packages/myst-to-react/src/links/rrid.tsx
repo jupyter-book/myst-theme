@@ -71,7 +71,12 @@ function RRIDChild({ rrid }: { rrid: string }) {
 export function RRIDLink({ rrid, className }: { rrid: string; className?: string }) {
   return (
     <HoverPopover card={<RRIDChild rrid={rrid} />}>
-      <a href={`https://scicrunch.org/resolver/${rrid}`} target="_blank" rel="noopener noreferrer" className={className}>
+      <a
+        href={`https://scicrunch.org/resolver/${rrid}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+      >
         RRID: <cite className="italic">{rrid}</cite>
       </a>
     </HoverPopover>

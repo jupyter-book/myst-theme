@@ -2,8 +2,8 @@ import type { Link as SpecLink } from 'myst-spec-ext';
 import classNames from 'classnames';
 
 type Link = SpecLink & {
-  kind?: 'button';
-  class?: string;
+    kind?: 'button';
+    class?: string;
 };
 
 export function LinkOrButton({

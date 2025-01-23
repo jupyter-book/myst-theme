@@ -70,7 +70,7 @@ function GithubFilePreview({
       <div className="hover-document article w-[500px] sm:max-w-[500px]">
         <a
           href={url}
-          className={classNames('block text-inherit hover:text-inherit', className)}
+          className={classNames("block text-inherit hover:text-inherit", className)}
           target="_blank"
           rel="noreferrer"
         >
@@ -167,7 +167,7 @@ function GithubIssuePreview({
       <div className="hover-document article">
         <a
           href={url}
-          className={classNames('block text-inherit hover:text-inherit', className)}
+          className={classNames("block text-inherit hover:text-inherit", className)}
           target="_blank"
           rel="noreferrer"
         >
@@ -288,7 +288,7 @@ export function GithubLink({
         }
       }}
     >
-      <a href={url} className={classNames('italic', className)} target="_blank" rel="noreferrer">
+      <a href={url} className={classNames("italic", className)} target="_blank" rel="noreferrer">
         {children}
       </a>
     </HoverPopover>

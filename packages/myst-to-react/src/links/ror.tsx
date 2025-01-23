@@ -82,23 +82,10 @@ function RORChild({ ror }: { ror: string }) {
   );
 }
 
-export function RORLink({
-  node,
-  ror,
-  className,
-}: {
-  node: GenericNode;
-  ror: string;
-  className?: string;
-}) {
+export function RORLink({ node, ror, className }: { node: GenericNode; ror: string; className?: string }) {
   return (
     <HoverPopover card={<RORChild ror={ror} />}>
-      <a
-        href={`https://ror.org/${ror}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={className}
-      >
+      <a href={`https://ror.org/${ror}`} target="_blank" rel="noopener noreferrer" className={className}>
         <MyST ast={node.children} />
       </a>
     </HoverPopover>

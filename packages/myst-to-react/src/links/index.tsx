@@ -24,15 +24,7 @@ function getPageInfo(site: SiteManifest | undefined, path: string) {
   return project.pages.find((p) => p.slug === (pageSlug || projectSlug));
 }
 
-function InternalLink({
-  url,
-  children,
-  className,
-}: {
-  url: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
+function InternalLink({ url, children, className}: { url: string; children: React.ReactNode, className?: string }) {
   const Link = useLinkProvider();
   const site = useSiteManifest();
   const page = getPageInfo(site, url);
@@ -66,15 +58,10 @@ function InternalLink({
 
 export const WikiLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
   const className = classNames(node.class, { button: node.kind === 'button' });
-  return (
-    <WikiLink
-      url={node.url}
-      page={node.data?.page as string}
-      wiki={node.data?.wiki as string}
-      className={className}
-    >
+  return ( 
+  <WikiLink url={node.url} page={node.data?.page as string} wiki={node.data?.wiki as string} className={className}>
       <MyST ast={node.children} />
-    </WikiLink>
+  </WikiLink>
   );
 };
 
@@ -100,17 +87,21 @@ export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
 
 export const RRIDLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
   const className = classNames(node.class, { button: node.kind === 'button' });
-  return <RRIDLink rrid={node.data?.rrid as string} className={className} />;
+  return (
+  <RRIDLink rrid={node.data?.rrid as string} className={className} />
+  );
 };
 
 export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
   const className = classNames(node.class, { button: node.kind === 'button' });
-  return <RORLink node={node} ror={node.data?.ror as string} className={className} />;
+  return (
+  <RORLink node={node} ror={node.data?.ror as string} className={className} />
+  );
 };
 
 export const SimpleLink: NodeRenderer<TransformedLink> = ({ node }) => {
   const internal = node.internal ?? false;
-  const className = classNames(node.class, { button: node.kind === 'button' });
+  const className = classNames(node.class, {button: node.kind=== 'button'});
   if (internal) {
     return (
       <InternalLink url={node.url} className={className}>

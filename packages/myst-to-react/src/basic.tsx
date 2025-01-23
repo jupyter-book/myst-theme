@@ -167,7 +167,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     );
   },
   link({ node }) {
-    const className = classNames(node.class, { button: node.kind === 'button' });
+    const className = classNames(node.class, {button: node.kind === 'button'});
     return (
       <a target="_blank" href={node.url} className={className} rel="noreferrer">
         <MyST ast={node.children} />

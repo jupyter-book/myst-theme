@@ -24,7 +24,15 @@ function getPageInfo(site: SiteManifest | undefined, path: string) {
   return project.pages.find((p) => p.slug === (pageSlug || projectSlug));
 }
 
-function InternalLink({ url, children, className}: { url: string; children: React.ReactNode, className?: string }) {
+function InternalLink({
+  url,
+  children,
+  className,
+}: {
+  url: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   const Link = useLinkProvider();
   const site = useSiteManifest();
   const page = getPageInfo(site, url);
@@ -57,16 +65,19 @@ function InternalLink({ url, children, className}: { url: string; children: Reac
 }
 
 export const WikiLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
-  const className = classNames(node.class, { button: node.kind === 'button' });
-  return ( 
-  <WikiLink url={node.url} page={node.data?.page as string} wiki={node.data?.wiki as string} className={className}>
+  return (
+    <WikiLink
+      url={node.url}
+      page={node.data?.page as string}
+      wiki={node.data?.wiki as string}
+      className={node.class}
+    >
       <MyST ast={node.children} />
-  </WikiLink>
+    </WikiLink>
   );
 };
 
 export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
-  const className = classNames(node.class, { button: node.kind === 'button' });
   return (
     <GithubLink
       kind={node.data?.kind as any}
@@ -78,7 +89,7 @@ export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
       from={node.data?.from as number | undefined}
       to={node.data?.to as number | undefined}
       issue_number={node.data?.issue_number as number | undefined}
-      className={className}
+      className={node.class}
     >
       <MyST ast={node.children} />
     </GithubLink>
@@ -86,31 +97,24 @@ export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
 };
 
 export const RRIDLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
-  const className = classNames(node.class, { button: node.kind === 'button' });
-  return (
-  <RRIDLink rrid={node.data?.rrid as string} className={className} />
-  );
+  return <RRIDLink rrid={node.data?.rrid as string} className={node.class} />;
 };
 
 export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
-  const className = classNames(node.class, { button: node.kind === 'button' });
-  return (
-  <RORLink node={node} ror={node.data?.ror as string} className={className} />
-  );
+  return <RORLink node={node} ror={node.data?.ror as string} className={node.class} />;
 };
 
 export const SimpleLink: NodeRenderer<TransformedLink> = ({ node }) => {
   const internal = node.internal ?? false;
-  const className = classNames(node.class, {button: node.kind=== 'button'});
   if (internal) {
     return (
-      <InternalLink url={node.url} className={className}>
+      <InternalLink url={node.url} className={node.class}>
         <MyST ast={node.children} />
       </InternalLink>
     );
   }
   return (
-    <a href={node.url} className={className}>
+    <a href={node.url} className={node.class}>
       <MyST ast={node.children} />
     </a>
   );

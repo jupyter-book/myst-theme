@@ -153,7 +153,7 @@ export function CrossReferenceHover({
     const el = document.getElementById(htmlId);
     scrollToElement(el, { htmlId });
   };
-  const isButtonLike = !!className?.includes('button');
+  const isButtonLike = (className ?? '').split(' ').includes('button');
   return (
     <HoverPopover
       card={({ load }) => (

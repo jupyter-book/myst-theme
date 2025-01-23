@@ -114,7 +114,7 @@ export const SimpleLink: NodeRenderer<TransformedLink> = ({ node }) => {
     );
   }
   return (
-    <a href={node.url} className={node.class}>
+    <a target="_blank" rel="noreferrer" href={node.url} className={node.class}>
       <MyST ast={node.children} />
     </a>
   );

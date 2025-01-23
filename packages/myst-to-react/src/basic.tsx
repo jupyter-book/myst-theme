@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { Tooltip } from './components/index.js';
 import { MyST } from './MyST.js';
 import type { GenericNode } from 'myst-common';
+import { LinkOrButton } from './links/renderer.js';
 
 type TableExts = {
   rowspan?: number;

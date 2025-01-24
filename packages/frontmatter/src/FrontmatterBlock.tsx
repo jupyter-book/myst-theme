@@ -224,7 +224,7 @@ export function FrontmatterBlock({
     date,
     authors,
     enumerator,
-  } = frontmatter as any;
+  } = frontmatter;
   const isJupyter = kind === SourceFileKind.Notebook;
   const hasExports = downloads ? downloads.length > 0 : exports && exports.length > 0;
   const hasAuthors = authors && authors.length > 0;

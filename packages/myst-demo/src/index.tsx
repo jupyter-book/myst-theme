@@ -115,6 +115,7 @@ async function parse(
   const { default: mystToTypst } = await import('myst-to-typst');
   const { default: mystToJats } = await import('myst-to-jats').catch(() => ({ default: null }));
   const { mystToHtml } = await import('myst-to-html');
+  const { buttonRole } = await import('myst-ext-button');
   const { cardDirective } = await import('myst-ext-card');
   const { gridDirective } = await import('myst-ext-grid');
   const { tabDirectives } = await import('myst-ext-tabs');
@@ -126,6 +127,7 @@ async function parse(
       markdownit: { linkify: true },
       directives: [
         cardDirective,
+        buttonRole,
         gridDirective,
         ...tabDirectives,
         proofDirective,
@@ -397,19 +399,19 @@ export function MySTRenderer({
         'relative',
         {
           'grid grid-cols-2 gap-0 grid-rows-[3rem_1fr]': column,
-          'shadow-lg rounded': !fullscreen,
+          'rounded shadow-lg': !fullscreen,
           'm-0': fullscreen,
         },
         className,
       )}
     >
       {column && (
-        <div className="flex flex-row items-stretch h-full col-span-2 px-2 border dark:border-slate-600">
+        <div className="flex flex-row col-span-2 items-stretch px-2 h-full border dark:border-slate-600">
           <div className="flex-grow"></div>
           {demoMenu}
         </div>
       )}
-      <div className={classnames('myst relative', { 'overflow-auto': column })}>
+      <div className={classnames('relative myst', { 'overflow-auto': column })}>
         <CopyIcon text={text} className="absolute right-0 p-1" />
         <label>
           <span className="sr-only">Edit the MyST Markdown text</span>
@@ -417,7 +419,7 @@ export function MySTRenderer({
             ref={area}
             value={text}
             className={classnames(
-              'block p-6 shadow-inner resize-none w-full font-mono bg-slate-50/50 dark:bg-slate-800/50 outline-none',
+              'block p-6 w-full font-mono shadow-inner outline-none resize-none bg-slate-50/50 dark:bg-slate-800/50',
               { 'text-sm': !column },
               { 'h-full': column },
             )}
@@ -427,7 +429,7 @@ export function MySTRenderer({
       </div>
       {/* The `exclude-from-outline` class is excluded from the document outline */}
       <div
-        className={classnames('exclude-from-outline relative min-h-1 dark:bg-slate-900', {
+        className={classnames('relative exclude-from-outline min-h-1 dark:bg-slate-900', {
           'overflow-auto': column,
         })}
       >
@@ -464,7 +466,7 @@ export function MySTRenderer({
           {previewType === 'DOCX' && (
             <div>
               <button
-                className="p-3 border rounded"
+                className="p-3 rounded border"
                 onClick={() => saveDocxFile('demo.docx', references.article)}
                 title={`Download Micorsoft Word`}
                 aria-label={`Download Micorsoft Word`}

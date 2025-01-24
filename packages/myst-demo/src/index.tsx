@@ -127,13 +127,12 @@ async function parse(
       markdownit: { linkify: true },
       directives: [
         cardDirective,
-        buttonRole,
         gridDirective,
         ...tabDirectives,
         proofDirective,
         ...exerciseDirectives,
       ],
-      // roles: [reactiveRole],
+      roles: [buttonRole],
       vfile,
     });
   const mdast = parseMyst(text);

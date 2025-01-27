@@ -2,6 +2,7 @@ import { default as useSWR } from 'swr';
 import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
 import { HoverPopover, LinkCard } from '../components/index.js';
 import React from 'react';
+import classNames from 'classnames';
 
 const WikiTextMark = () => (
   <svg
@@ -107,15 +108,17 @@ export function WikiLink({
   page,
   url,
   wiki,
+  className,
 }: {
   children: React.ReactNode;
   page: string;
   url: string;
   wiki: string;
+  className?: string;
 }) {
   return (
     <HoverPopover card={({ load }) => <WikiChild wiki={wiki} page={page} load={load} />}>
-      <a href={url} className="italic" target="_blank" rel="noreferrer">
+      <a href={url} className={classNames('italic', className)} target="_blank" rel="noreferrer">
         {children}
       </a>
     </HoverPopover>

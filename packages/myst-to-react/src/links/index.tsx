@@ -23,7 +23,15 @@ function getPageInfo(site: SiteManifest | undefined, path: string) {
   return project.pages.find((p) => p.slug === (pageSlug || projectSlug));
 }
 
-function InternalLink({ url, children }: { url: string; children: React.ReactNode }) {
+function InternalLink({
+  url,
+  children,
+  className,
+}: {
+  url: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   const Link = useLinkProvider();
   const site = useSiteManifest();
   const page = getPageInfo(site, url);
@@ -31,7 +39,7 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent">
+      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={className}>
         {children}
       </Link>
     );
@@ -48,7 +56,7 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
         />
       }
     >
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent">
+      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={className}>
         {children}
       </Link>
     </HoverPopover>
@@ -57,7 +65,12 @@ function InternalLink({ url, children }: { url: string; children: React.ReactNod
 
 export const WikiLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
   return (
-    <WikiLink url={node.url} page={node.data?.page as string} wiki={node.data?.wiki as string}>
+    <WikiLink
+      url={node.url}
+      page={node.data?.page as string}
+      wiki={node.data?.wiki as string}
+      className={node.class}
+    >
       <MyST ast={node.children} />
     </WikiLink>
   );
@@ -75,31 +88,32 @@ export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
       from={node.data?.from as number | undefined}
       to={node.data?.to as number | undefined}
       issue_number={node.data?.issue_number as number | undefined}
+      className={node.class}
     >
       <MyST ast={node.children} />
     </GithubLink>
   );
 };
 
-export const RRIDLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => (
-  <RRIDLink rrid={node.data?.rrid as string} />
-);
+export const RRIDLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
+  return <RRIDLink rrid={node.data?.rrid as string} className={node.class} />;
+};
 
-export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => (
-  <RORLink node={node} ror={node.data?.ror as string} />
-);
+export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
+  return <RORLink node={node} ror={node.data?.ror as string} className={node.class} />;
+};
 
 export const SimpleLink: NodeRenderer<TransformedLink> = ({ node }) => {
   const internal = node.internal ?? false;
   if (internal) {
     return (
-      <InternalLink url={node.url}>
+      <InternalLink url={node.url} className={node.class}>
         <MyST ast={node.children} />
       </InternalLink>
     );
   }
   return (
-    <a target="_blank" href={node.url} rel="noreferrer">
+    <a target="_blank" rel="noreferrer" href={node.url} className={node.class}>
       <MyST ast={node.children} />
     </a>
   );

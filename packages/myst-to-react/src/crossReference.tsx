@@ -16,6 +16,7 @@ import { MyST } from './MyST.js';
 import type { GenericNode, GenericParent } from 'myst-common';
 import { selectMdastNodes } from 'myst-common';
 import { scrollToElement } from './hashLink.js';
+import classNames from 'classnames';
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => {
@@ -126,6 +127,7 @@ export function CrossReferenceHover({
   remoteBaseUrl: remoteBaseUrlIn,
   children,
   identifier,
+  className,
   htmlId = '',
 }: {
   remote?: boolean;
@@ -134,6 +136,7 @@ export function CrossReferenceHover({
   remoteBaseUrl?: string;
   identifier: string;
   htmlId?: string;
+  className?: string;
   children: React.ReactNode;
 }) {
   const Link = useLinkProvider();
@@ -150,6 +153,7 @@ export function CrossReferenceHover({
     const el = document.getElementById(htmlId);
     scrollToElement(el, { htmlId });
   };
+  const isButtonLike = (className ?? '').split(' ').includes('button');
   return (
     <HoverPopover
       card={({ load }) => (
@@ -159,7 +163,7 @@ export function CrossReferenceHover({
               <div className="w-full px-3 py-1 text-xs border-b bg-gray-50">
                 <strong className="text-gray-700">Source: </strong>
                 <a
-                  className="text-gray-700"
+                  className={classNames('text-gray-700', className)}
                   href={`${createRemoteBaseUrl(url, remoteBaseUrl)}${htmlId ? `#${htmlId}` : ''}`}
                   target="_blank"
                 >
@@ -179,7 +183,7 @@ export function CrossReferenceHover({
           <a
             href={`${createRemoteBaseUrl(url, remoteBaseUrl)}${htmlId ? `#${htmlId}` : ''}`}
             target="_blank"
-            className="hover-link"
+            className={classNames({ 'hover-link': !isButtonLike }, className)}
           >
             {children}
           </a>
@@ -188,13 +192,17 @@ export function CrossReferenceHover({
           <Link
             to={`${withBaseurl(url, baseurl)}${htmlId ? `#${htmlId}` : ''}`}
             prefetch="intent"
-            className="hover-link"
+            className={classNames({ 'hover-link': !isButtonLike }, className)}
           >
             {children}
           </Link>
         )}
         {!remote && (
-          <a href={`#${htmlId}`} onClick={scroll} className="hover-link">
+          <a
+            href={`#${htmlId}`}
+            onClick={scroll}
+            className={classNames({ 'hover-link': !isButtonLike }, className)}
+          >
             {children}
           </a>
         )}
@@ -212,7 +220,15 @@ export const CrossReferenceNode: NodeRenderer<CrossReference> = ({ node }) => {
       />
     );
   }
-  const { remote, url, dataUrl, remoteBaseUrl, identifier, html_id } = node as any;
+  const {
+    remote,
+    url,
+    dataUrl,
+    remoteBaseUrl,
+    identifier,
+    html_id,
+    class: className,
+  } = node as any;
   return (
     <CrossReferenceHover
       identifier={identifier}
@@ -221,6 +237,7 @@ export const CrossReferenceNode: NodeRenderer<CrossReference> = ({ node }) => {
       url={url}
       dataUrl={dataUrl}
       remoteBaseUrl={remoteBaseUrl}
+      className={className}
     >
       {node.prefix && <>{node.prefix} </>}
       <MyST ast={node.children} />

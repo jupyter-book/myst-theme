@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "@remix-run/dev": "~1.17.0",
-    "@remix-run/eslint-config": "~1.17.0",
     "@remix-run/serve": "~1.17.0",
     "@tailwindcss/typography": "^0.5.9",
     "@types/node-fetch": "^2.6.4",

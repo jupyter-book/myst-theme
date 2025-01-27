@@ -1,1 +1,7 @@
 @import '@myst-theme/styles';
+
+.article-grid > *,
+.article-left-grid > *,
+.article-center-grid > * {
+  grid-column: page;
+}

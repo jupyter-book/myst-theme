@@ -167,7 +167,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   link({ node }) {
     return (
-      <a target="_blank" href={node.url} rel="noreferrer">
+      <a target="_blank" href={node.url} className={node.class} rel="noreferrer">
         <MyST ast={node.children} />
       </a>
     );

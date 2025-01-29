@@ -38,6 +38,7 @@ export function getProjectHeadings(
       slug: project.index,
       path: project.slug ? `/${project.slug}` : '/',
       level: 'index',
+      enumerator: project.enumerator,
     },
     ...project.pages.map((p) => {
       if (!('slug' in p)) return p;

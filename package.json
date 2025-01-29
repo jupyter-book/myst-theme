@@ -27,8 +27,8 @@
     "version": "changeset version && npm install",
     "publish": "npm run clean && npm run build -- --force && changeset publish && git push --follow-tags",
     "publish:ci": "npm run clean && npm run build && changeset publish && git push --follow-tags",
-    "bump:myst:packages": "npx npm-upgrade-monorepo -w 'packages/*' 'myst-* @myst-theme/*'",
-    "bump:myst:themes": "npx npm-upgrade-monorepo -w 'themes/*' 'myst-* @myst-theme/*'",
+    "bump:myst:packages": "npx npm-upgrade-monorepo -w 'packages/*' 'myst-* @myst-theme/* thebe*'",
+    "bump:myst:themes": "npx npm-upgrade-monorepo -w 'themes/*' 'myst-* @myst-theme/* thebe*'",
     "bump:myst": "npm run bump:myst:packages && npm run bump:myst:themes"
   },
   "devDependencies": {

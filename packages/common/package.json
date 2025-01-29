@@ -19,9 +19,9 @@
     "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
-    "myst-common": "^1.7.7",
-    "myst-config": "^1.7.7",
-    "myst-spec-ext": "^1.7.7",
+    "myst-common": "^1.7.8",
+    "myst-config": "^1.7.8",
+    "myst-spec-ext": "^1.7.8",
     "nbtx": "^0.2.3",
     "unist-util-select": "^4.0.3"
   }

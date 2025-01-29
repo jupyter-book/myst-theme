@@ -158,7 +158,10 @@ async function parse(
     messages: {},
   });
   const state = new ReferenceState('', {
-    numbering: frontmatter.numbering ?? defaultFrontmatter?.numbering,
+    frontmatter: {
+      ...frontmatter,
+      numbering: frontmatter.numbering ?? defaultFrontmatter?.numbering,
+    },
     vfile,
   });
   visit(mdast, (n) => {

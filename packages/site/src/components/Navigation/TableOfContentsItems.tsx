@@ -78,20 +78,20 @@ function LinkItem({
   if (!heading.path) {
     return (
       <div
-        title={heading.title}
+        title={`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
         className={classNames('block break-words rounded', className)}
         onClick={() => {
           onClick?.();
         }}
       >
-        {heading.short_title || heading.title}
+        {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.short_title || heading.title}`}
       </div>
     );
   }
   return (
     <NavLink
       prefetch="intent"
-      title={heading.title}
+      title={`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
       className={classNames(
         'block break-words focus:outline outline-blue-200 outline-2 rounded',
         className,
@@ -102,7 +102,7 @@ function LinkItem({
         setOpen(false);
       }}
     >
-      {heading.short_title || heading.title}
+      {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.short_title || heading.title}`}
     </NavLink>
   );
 }

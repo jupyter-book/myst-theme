@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.13.6
+
+### Patch Changes
+
+- a4350b4: Always show hover HashLink on mobile
+- c2db8fb: Render links with `button` class as buttons
+- e65d974: Bump all myst and thebe package versions
+- Updated dependencies [e65d974]
+  - @myst-theme/providers@0.13.6
+
 ## 0.13.5
 
 ### Patch Changes

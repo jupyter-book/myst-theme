@@ -1,5 +1,21 @@
 # @myst-theme/article
 
+## 0.13.6
+
+### Patch Changes
+
+- de028cd: Restore orignial title for article theme
+- e65d974: Bump all myst and thebe package versions
+- Updated dependencies [e65d974]
+- Updated dependencies [c2db8fb]
+- Updated dependencies [e65d974]
+  - @myst-theme/common@0.13.6
+  - @myst-theme/site@0.13.6
+  - @myst-theme/styles@0.13.6
+  - @myst-theme/providers@0.13.6
+  - @myst-theme/jupyter@0.13.6
+  - @myst-theme/icons@0.13.6
+
 ## 0.13.5
 
 ### Patch Changes

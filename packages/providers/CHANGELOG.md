@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 0.13.6
+
+### Patch Changes
+
+- e65d974: Bump all myst and thebe package versions
+- Updated dependencies [e65d974]
+  - @myst-theme/common@0.13.6
+
 ## 0.13.5
 
 ### Patch Changes

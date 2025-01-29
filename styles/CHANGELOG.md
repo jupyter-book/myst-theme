@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.13.6
+
+### Patch Changes
+
+- c2db8fb: Render links with `button` class as buttons
+
 ## 0.13.5
 
 ## 0.13.4

@@ -1,5 +1,24 @@
 # @myst-theme/site
 
+## 0.13.6
+
+### Patch Changes
+
+- e65d974: Add enumerators to page titles and toc
+- e65d974: Bump all myst and thebe package versions
+- Updated dependencies [a4350b4]
+- Updated dependencies [e65d974]
+- Updated dependencies [c2db8fb]
+- Updated dependencies [e65d974]
+  - myst-to-react@0.13.6
+  - @myst-theme/frontmatter@0.13.6
+  - @myst-theme/common@0.13.6
+  - myst-demo@0.13.6
+  - @myst-theme/providers@0.13.6
+  - @myst-theme/jupyter@0.13.6
+  - @myst-theme/diagrams@0.13.6
+  - @myst-theme/search@0.13.6
+
 ## 0.13.5
 
 ### Patch Changes

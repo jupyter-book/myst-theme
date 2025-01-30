@@ -103,7 +103,7 @@ export function NavItems({ nav }: { nav?: SiteManifest['nav'] }) {
   );
 }
 
-export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?: boolean }) {
+export function TopNav({ hideToc, hideSearch, hideThemeToggle }: { hideToc?: boolean; hideSearch?: boolean; hideThemeToggle?: boolean }) {
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
   const { title, nav, actions } = config ?? {};
@@ -131,7 +131,7 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
           <NavItems nav={nav} />
           <div className="flex-grow block"></div>
           {!hideSearch && <Search />}
-          <ThemeButton />
+	  {!hideThemeToggle && <ThemeButton />}
           <div className="block sm:hidden">
             <ActionMenu actions={actions} />
           </div>

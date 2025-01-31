@@ -140,7 +140,7 @@ export default function Page() {
           features={{ notebookCompute: true, figureCompute: true, launchBinder: false }}
         >
           <ThebeLoaderAndServer baseurl={baseurl}>
-            <main ref={container} className="article-grid subgrid-gap col-screen">
+            <main ref={container} className="landing-page article-grid subgrid-gap col-screen">
               <LandingPage article={data.page} hide_all_footer_links={hide_footer_links} />
             </main>
           </ThebeLoaderAndServer>

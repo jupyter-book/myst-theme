@@ -1,5 +1,5 @@
 import { Details, MyST } from 'myst-to-react';
-import { SourceFileKind } from 'myst-spec-ext';
+import { SourceFileKind, Heading } from 'myst-spec-ext';
 import type { GenericParent } from 'myst-common';
 import classNames from 'classnames';
 import {
@@ -7,8 +7,102 @@ import {
   NotebookRunCell,
   NotebookRunCellSpinnerOnly,
 } from '@myst-theme/jupyter';
+import { select, selectAll } from 'unist-util-select';
+import { filter } from 'unist-util-filter';
 import { useGridSystemProvider } from '@myst-theme/providers';
 import { isACodeCell } from '../utils.js';
+import { walkOutputs } from 'nbtx';
+
+function parse_header(mdast: GenericParent): {
+  subtitle: GenericParent | undefined;
+  heading: GenericParent | undefined;
+  body: GenericParent;
+} {
+  let heading, subtitle, i;
+  for (i = 0; i < mdast.children.length; i++) {
+    const node = mdast.children[i];
+    if (node.type === 'paragraph') {
+      subtitle = node;
+    } else if (node.type === 'heading') {
+      heading = node;
+      break;
+    }
+  }
+  if (heading) {
+    const body = { type: 'block', children: mdast.children.slice(i + 1) };
+    return { subtitle: subtitle as any, heading: heading as any, body: body as any };
+  } else {
+    return {
+      subtitle: undefined,
+      heading: undefined,
+      body: { type: 'block', children: mdast.children as any },
+    };
+  }
+}
+
+function BlockChild({ node }: { node: GenericParent }) {
+  if (node.data?.block === 'split-image') {
+    return <SplitImageCTA node={node} />;
+  } else if (node.data?.block === 'logo-cloud') {
+    return <LogoCloud node={node} />;
+  } else {
+    return <MyST ast={node.children} />;
+  }
+}
+function SplitImageCTA({ node }: { node: GenericParent }) {
+  const { subtitle, heading, body: rawBody } = parse_header(node);
+  const body = filter(rawBody, (node) => !['link', 'crossReference', 'image'].includes(node.type));
+  const links = selectAll('link,crossReference', rawBody);
+  const image = select('image', rawBody);
+  if (!image || !body) {
+    return <span>Damn!</span>; // TODO
+  }
+  // TODO: set heading depth
+  //
+  return (
+    <div className="my-8 relative bg-gray-900 text-white rounded-md overflow-hidden">
+      <div className="lg:absolute lg:h-full lg:w-[calc(50%)] overflow-hidden h-80 relative [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_img]:m-0 [&_picture]:m-0 [&_picture]:inline">
+        <MyST ast={image} />
+      </div>
+      <div className="relative py-24">
+        <div className="lg:ml-auto lg:w-[calc(50%)] lg:p-8 px-6 lg:pl-16">
+          {subtitle && (
+            <p className="font-semibold text-indigo-400 uppercase">
+              <MyST ast={subtitle.children} />
+            </p>
+          )}
+          {heading && (
+            <h2 className="text-5xl text-white font-semibold tracking-tight mt-2">
+              <MyST ast={heading.children} />
+            </h2>
+          )}
+          <div className="mt-4 text-gray-300">
+            <MyST ast={body} />
+          </div>
+          {links && (
+            <div className="mt-8">
+              <MyST ast={links} />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LogoCloud({ node }: { node: GenericParent }) {
+  const body = filter(node, (child) => child.type !== 'grid')!;
+  const grid = select('grid', node);
+
+  return (
+    <div className="text-center">
+      <div className="font-semibold text-gray-900">
+        <MyST ast={body} />
+      </div>
+      {grid && <MyST ast={grid} />}
+    </div>
+  );
+}
 
 export function Block({
   id,
@@ -27,6 +121,7 @@ export function Block({
   // Hide the subgrid if either the dataClass or the className exists and includes `col-`
   const noSubGrid =
     (dataClassName && dataClassName.includes('col-')) || (className && className.includes('col-'));
+
   const block = (
     <div
       key={`block-${id}`}
@@ -51,7 +146,7 @@ export function Block({
           </div>
         </>
       )}
-      <MyST ast={node.children} />
+      <BlockChild node={node} />
     </div>
   );
   if (node.visibility === 'hide') {

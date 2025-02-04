@@ -24,32 +24,50 @@ const GIST_USERNAME_REPO_REGEX =
 
 type CopyButtonProps = {
   defaultMessage: string;
-  alternateMessage?: string;
-  timeout?: number;
+  copiedMessage?: string;
+  invalidLinkFallback?: string;
+  copiedMessageDuration?: number;
   buildLink: () => string | undefined;
   className?: string;
 };
 
+/**
+ * Component to add a copy-to-clipboard button
+ */
 function CopyButton(props: CopyButtonProps) {
-  const { className, defaultMessage, alternateMessage, buildLink, timeout } = props;
+  const {
+    className,
+    defaultMessage,
+    copiedMessage,
+    invalidLinkFallback,
+    buildLink,
+    copiedMessageDuration,
+  } = props;
   const [message, setMessage] = useState(defaultMessage);
 
   const copyLink = useCallback(() => {
-    // Build the link for the clipboard
-    const link = props.buildLink();
     // In secure links, we can copy it!
     if (window.isSecureContext) {
+      // Build the link for the clipboard
+      const link = props.buildLink();
       // Write to clipboard
-      window.navigator.clipboard.writeText(link ?? '<invalid link>');
+      window.navigator.clipboard.writeText(link ?? invalidLinkFallback ?? '<invalid link>');
       // Update UI
-      setMessage(alternateMessage ?? defaultMessage);
+      setMessage(copiedMessage ?? defaultMessage);
 
       // Set callback to restore message
       setTimeout(() => {
         setMessage(defaultMessage);
-      }, timeout ?? 1000);
+      }, copiedMessageDuration ?? 1000);
     }
-  }, [defaultMessage, alternateMessage, buildLink, timeout, setMessage]);
+  }, [
+    defaultMessage,
+    copiedMessage,
+    buildLink,
+    copiedMessageDuration,
+    invalidLinkFallback,
+    setMessage,
+  ]);
 
   return (
     <button
@@ -495,7 +513,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
         <CopyButton
           className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-gray-400 hover:bg-gray-500 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none"
           defaultMessage="Copy Link"
-          alternateMessage="Copied Link"
+          copiedMessage="Link Copied"
           buildLink={buildValidLink}
         />
       </fieldset>

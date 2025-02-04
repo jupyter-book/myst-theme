@@ -390,10 +390,10 @@ function DetectLaunchContent(props: ModalLaunchProps) {
       .then((provider: ProviderType | 'error') => {
         if (provider !== 'error') {
           setDetectedProviderType(provider);
-        } else if (baseName.includes('binder')) {
+        }
+        // Special case for mybinder.org
+        else if (/https?:\/\/mybinder.org\//.test(baseName)) {
           setDetectedProviderType('binderhub');
-        } else if (baseName.includes('showcase')) {
-          setDetectedProviderType('jupyterhub');
         } else {
           setDetectedProviderType('error');
         }

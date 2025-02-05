@@ -1,7 +1,7 @@
 import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
-import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { useLinkProvider, useBaseurl, withBaseurl, usePrettyUrl, withPrettyUrl } from '@myst-theme/providers';
 import { MyST } from './MyST.js';
 import type { GenericNode } from 'myst-common';
 
@@ -79,6 +79,7 @@ function ExternalOrInternalLink({
 }) {
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
+  const prettyurl = usePrettyUrl();
   if (to.startsWith('http') || isStatic) {
     return (
       <a href={to} className={className} target="_blank" rel="noopener noreferrer">
@@ -86,8 +87,9 @@ function ExternalOrInternalLink({
       </a>
     );
   }
+  const url = withPrettyUrl(withBaseurl(to, baseurl), prettyurl)
   return (
-    <Link to={withBaseurl(to, baseurl)} className={className} prefetch={prefetch}>
+    <Link to={url} className={className} prefetch={prefetch}>
       {children}
     </Link>
   );

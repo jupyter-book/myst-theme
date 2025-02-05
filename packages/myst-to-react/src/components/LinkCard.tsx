@@ -1,4 +1,4 @@
-import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { useLinkProvider, useBaseurl, withBaseurl, usePrettyUrl, withPrettyUrl } from '@myst-theme/providers';
 import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 
@@ -21,7 +21,9 @@ export function LinkCard({
 }) {
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
-  const to = withBaseurl(url, baseurl);
+  const prettyurl = usePrettyUrl();
+  // I don't think either should be used with !internal URLs, but it was already like this.
+  const to = withPrettyUrl(withBaseurl(url, baseurl), prettyurl);
   return (
     <div
       className={classNames('hover-card-content rounded overflow-hidden', className, {

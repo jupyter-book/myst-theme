@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { FooterLinks, NavigationLink } from '@myst-theme/common';
-import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { useLinkProvider, useBaseurl, withBaseurl, usePrettyUrl, withPrettyUrl } from '@myst-theme/providers';
 
 export const FooterLink = ({
   title,
@@ -11,12 +11,13 @@ export const FooterLink = ({
   right,
 }: NavigationLink & { right?: boolean }) => {
   const baseurl = useBaseurl();
+  const prettyurl = usePrettyUrl();
   const Link = useLinkProvider();
   return (
     <Link
       prefetch="intent"
       className="flex-1 block p-4 font-normal text-gray-600 no-underline border border-gray-200 rounded shadow-sm group hover:border-blue-600 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 dark:text-gray-100 dark:border-gray-500 hover:shadow-lg dark:shadow-neutral-700"
-      to={withBaseurl(url, baseurl)}
+      to={withPrettyUrl(withBaseurl(url, baseurl), prettyurl)}
     >
       <div className="flex h-full align-middle">
         {right && (

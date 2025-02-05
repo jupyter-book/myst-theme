@@ -3,6 +3,7 @@ import type { SiteLoader } from '@myst-theme/common';
 import type { NodeRenderers } from '@myst-theme/providers';
 import {
   BaseUrlProvider,
+  PrettyUrlProvider,
   SiteProvider,
   Theme,
   ThemeProvider,
@@ -41,6 +42,7 @@ export function Document({
   title,
   staticBuild,
   baseurl,
+  prettyurl,
   top = DEFAULT_NAV_HEIGHT,
   renderers = defaultRenderers,
 }: {
@@ -51,6 +53,7 @@ export function Document({
   title?: string;
   staticBuild?: boolean;
   baseurl?: string;
+  prettyurl?: boolean;
   top?: number;
   renderers?: NodeRenderers;
 }) {
@@ -82,6 +85,7 @@ export function Document({
         title={title}
         liveReloadListener={!staticBuild}
         baseurl={baseurl}
+        prettyurl={prettyurl}
         top={top}
       />
     </ThemeProvider>
@@ -95,6 +99,7 @@ export function DocumentWithoutProviders({
   config,
   title,
   baseurl,
+  prettyurl,
   top = DEFAULT_NAV_HEIGHT,
   liveReloadListener,
 }: {
@@ -104,6 +109,7 @@ export function DocumentWithoutProviders({
   config?: SiteManifest;
   title?: string;
   baseurl?: string;
+  prettyurl?: boolean;
   useLocalStorageForDarkMode?: boolean;
   top?: number;
   theme?: Theme;
@@ -137,7 +143,9 @@ export function DocumentWithoutProviders({
       </head>
       <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
         <BaseUrlProvider baseurl={baseurl}>
-          <SiteProvider config={config}>{children}</SiteProvider>
+          <PrettyUrlProvider prettyurl={prettyurl}>
+            <SiteProvider config={config}>{children}</SiteProvider>
+          </PrettyUrlProvider>
         </BaseUrlProvider>
         <ScrollRestoration />
         <Scripts />

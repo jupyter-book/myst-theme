@@ -58,9 +58,22 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }
 
 export const links: LinksFunction = () => [KatexCSS];
 
+export const pretty_urls = (url: string, config: SiteManifest) => {
+  const components = new URL(url).pathname.slice(1).split('/')
+  if (config.options?.pretty_urls === false && components.length > 0) {
+    const lastIdx = components.length - 1;
+    const last = components[lastIdx]
+    if (last.endsWith('.html')) {
+      components[lastIdx] = last.substring(0, last.length - 5)
+    }
+  }
+  return components
+}
+
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const [first, ...rest] = new URL(request.url).pathname.slice(1).split('/');
   const config = await getConfig();
+  let [first, ...rest] = pretty_urls(request.url, config);
+
   const project = getProject(config, first);
   const projectName = project?.slug === first ? first : undefined;
   const slugParts = projectName ? rest : [first, ...rest];

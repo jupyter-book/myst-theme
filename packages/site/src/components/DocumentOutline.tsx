@@ -1,8 +1,10 @@
 import {
   useBaseurl,
   useNavLinkProvider,
+  usePrettyUrl,
   useSiteManifest,
   withBaseurl,
+  withPrettyUrl,
 } from '@myst-theme/providers';
 import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
@@ -432,6 +434,7 @@ export function SupportingDocuments() {
   const { projects } = useSiteManifest() ?? {};
   const NavLink = useNavLinkProvider();
   const baseurl = useBaseurl();
+  const prettyurl = usePrettyUrl();
   const pages = projects?.[0]?.pages;
   if (!pages || pages.length === 0) return null;
   return (
@@ -446,7 +449,7 @@ export function SupportingDocuments() {
             return (
               <li key={p.slug}>
                 <NavLink
-                  to={withBaseurl(`/${slugToUrl(p.slug)}#main`, baseurl)}
+                  to={withPrettyUrl(withBaseurl(`/${slugToUrl(p.slug)}`, baseurl), prettyurl) + '#main'}
                   prefetch="intent"
                   className={({ isActive }) =>
                     classNames('no-underline flex self-center hover:text-blue-700', {

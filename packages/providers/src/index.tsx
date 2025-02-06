@@ -3,6 +3,7 @@ export * from './theme.js';
 export * from './grid.js';
 export * from './references.js';
 export * from './baseurl.js';
+export * from './pretty.js';
 export * from './ui.js';
 export * from './site.js';
 export * from './search.js';

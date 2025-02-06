@@ -3,7 +3,7 @@ import {
   ArrowTopRightOnSquareIcon as ExternalLinkIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline';
-import { useLinkProvider, useSiteManifest, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { useLinkProvider, useSiteManifest, useBaseurl, withBaseurl, withPrettyUrl, usePrettyUrl } from '@myst-theme/providers';
 import type { SiteManifest } from 'myst-config';
 import type { NodeRenderer, NodeRenderers } from '@myst-theme/providers';
 import { HoverPopover, LinkCard } from '../components/index.js';
@@ -36,10 +36,15 @@ function InternalLink({
   const site = useSiteManifest();
   const page = getPageInfo(site, url);
   const baseurl = useBaseurl();
+  let to = withBaseurl(url, baseurl);
+  if (page) {
+    const prettyurl = usePrettyUrl();
+    to = withPrettyUrl(to, prettyurl)
+  }
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={className}>
+      <Link to={to} prefetch="intent" className={className}>
         {children}
       </Link>
     );
@@ -56,7 +61,7 @@ function InternalLink({
         />
       }
     >
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={className}>
+      <Link to={to} prefetch="intent" className={className}>
         {children}
       </Link>
     </HoverPopover>

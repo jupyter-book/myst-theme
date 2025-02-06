@@ -8,6 +8,8 @@ import {
   useXRefState,
   type NodeRenderer,
   useFrontmatter,
+  withPrettyUrl,
+  usePrettyUrl,
 } from '@myst-theme/providers';
 import { InlineError } from './inlineError.js';
 import { default as useSWR } from 'swr';
@@ -141,6 +143,7 @@ export function CrossReferenceHover({
 }) {
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
+  const prettyurl = usePrettyUrl();
   const parent = useXRefState();
   const remoteBaseUrl = remoteBaseUrlIn ?? parent.remoteBaseUrl;
   const remote = !!remoteBaseUrl || parent.remote || remoteIn;
@@ -190,7 +193,7 @@ export function CrossReferenceHover({
         )}
         {remote && !external && (
           <Link
-            to={`${withBaseurl(url, baseurl)}${htmlId ? `#${htmlId}` : ''}`}
+            to={`${withPrettyUrl(withBaseurl(url, baseurl), prettyurl)}${htmlId ? `#${htmlId}` : ''}`}
             prefetch="intent"
             className={classNames({ 'hover-link': !isButtonLike }, className)}
           >

@@ -61,6 +61,9 @@ options:
   - type: boolean
     id: folders
     description: Respect nested folder structure in URL paths.
+  - type: boolean
+    id: pretty_urls
+    description: Whether to use static ('/document.html') or pretty ('/document') URLs
 build:
   install: npm install
   start: npm run start

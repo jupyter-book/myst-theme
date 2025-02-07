@@ -49,34 +49,53 @@ function BlockChild({ node }: { node: GenericParent }) {
     return <MyST ast={node.children} />;
   }
 }
+
+function InvalidBlock({ node, blockName }: { node: GenericParent; blockName: string }) {
+  return (
+    <div>
+      <div role="alert">
+        <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">Danger</div>
+        <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+          <p>This {blockName} block does not conform to the expected AST structure.</p>
+        </div>
+      </div>
+
+      <MyST ast={node} />
+    </div>
+  );
+}
+
 function SplitImageCTA({ node }: { node: GenericParent }) {
   const { subtitle, heading, body: rawBody } = parse_header(node);
-  const body = filter(rawBody, (node) => !['link', 'crossReference', 'image'].includes(node.type));
+  const body = filter(
+    rawBody,
+    (otherNode: any) => !['link', 'crossReference', 'image'].includes(otherNode.type),
+  );
   const links = selectAll('link,crossReference', rawBody);
   const image = select('image', rawBody);
   if (!image || !body) {
-    return <span>Damn!</span>; // TODO
+    return <InvalidBlock node={node} blockName="split-image" />;
   }
   // TODO: set heading depth
   //
   return (
-    <div className="my-8 relative bg-gray-900 text-white rounded-md overflow-hidden">
-      <div className="lg:absolute lg:h-full lg:w-[calc(50%)] overflow-hidden h-80 relative [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_img]:m-0 [&_picture]:m-0 [&_picture]:inline">
+    <div className="my-8 relative bg-gray-900 text-white rounded-md">
+      <div className="lg:absolute lg:h-full lg:w-[calc(50%)] h-80 relative [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_img]:m-0 [&_picture]:m-0 [&_picture]:inline">
         <MyST ast={image} />
       </div>
       <div className="relative py-24">
-        <div className="lg:ml-auto lg:w-[calc(50%)] lg:p-8 px-6 lg:pl-16">
+        <div className="lg:ml-auto lg:w-[calc(50%)] lg:p-8 px-6 lg:pl-24">
           {subtitle && (
-            <p className="font-semibold text-indigo-400 uppercase">
+            <p className="font-semibold text-indigo-400 uppercase my-0">
               <MyST ast={subtitle.children} />
             </p>
           )}
           {heading && (
-            <h2 className="text-5xl text-white font-semibold tracking-tight mt-2">
+            <h2 className="text-5xl text-white font-semibold tracking-tight mt-2 mb-0">
               <MyST ast={heading.children} />
             </h2>
           )}
-          <div className="mt-4 text-gray-300">
+          <div className="mt-6 text-gray-300">
             <MyST ast={body} />
           </div>
           {links && (
@@ -93,6 +112,9 @@ function SplitImageCTA({ node }: { node: GenericParent }) {
 function LogoCloud({ node }: { node: GenericParent }) {
   const body = filter(node, (child) => child.type !== 'grid')!;
   const grid = select('grid', node);
+  if (!grid) {
+    return <InvalidBlock node={node} blockName="logo-cloud" />;
+  }
 
   return (
     <div className="text-center">

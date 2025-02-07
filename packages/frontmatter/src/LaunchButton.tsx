@@ -11,7 +11,7 @@ import {
   UpdateIcon,
   Link2Icon,
 } from '@radix-ui/react-icons';
-import { JupyterIcon } from '@scienceicons/react/24/solid';
+import { BinderIcon, JupyterIcon } from '@scienceicons/react/24/solid';
 import * as Form from '@radix-ui/react-form';
 import type { ExpandedThebeFrontmatter, BinderHubOptions } from 'myst-frontmatter';
 
@@ -438,11 +438,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
         <div className="relative flex">
           <span className="flex absolute h-full" aria-hidden>
             {(detectedProviderType === 'binderhub' && (
-              <img
-                src="https://mybinder.readthedocs.io/en/latest/_static/favicon.png"
-                className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none"
-                aria-hidden
-              />
+              <BinderIcon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
             )) ||
               (detectedProviderType === 'jupyterhub' && (
                 <JupyterIcon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />

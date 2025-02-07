@@ -41,26 +41,54 @@ function parse_header(mdast: GenericParent): {
 }
 
 function BlockChild({ node }: { node: GenericParent }) {
-  if (node.data?.block === 'split-image') {
-    return <SplitImageCTA node={node} />;
-  } else if (node.data?.block === 'logo-cloud') {
-    return <LogoCloud node={node} />;
-  } else {
+  const block = node.data?.block as string | undefined;
+  if (block === undefined) {
     return <MyST ast={node.children} />;
+  }
+  switch (block) {
+    case 'split-image': {
+      return <SplitImageCTA node={node} />;
+    }
+    case 'justified': {
+      return <Justified node={node} />;
+    }
+    case 'logo-cloud': {
+      return <LogoCloud node={node} />;
+    }
+    default: {
+      return <UnknownBlock node={node} blockName={block} />;
+    }
   }
 }
 
 function InvalidBlock({ node, blockName }: { node: GenericParent; blockName: string }) {
   return (
-    <div>
-      <div role="alert">
-        <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">Danger</div>
-        <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-          <p>This {blockName} block does not conform to the expected AST structure.</p>
+    <div className="relative" role="alert">
+      <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+        Invalid block <span className="font-mono">{blockName}</span>
+      </div>
+      <div className="border border-t-0 border-red-400 rounded-b ">
+        <div className="bg-red-100 text-red-700 px-4 py-3">
+          <p>This '{blockName}' block does not conform to the expected AST structure.</p>
+        </div>
+
+        <div className="px-4 py-3">
+          <MyST ast={node} />
         </div>
       </div>
+    </div>
+  );
+}
 
-      <MyST ast={node} />
+function UnknownBlock({ node, blockName }: { node: GenericParent; blockName: string }) {
+  return (
+    <div className="relative" role="alert">
+      <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+        Unknown block <span className="font-mono">{blockName}</span>
+      </div>
+      <div className="border border-t-0 border-red-400 rounded-b px-4 py-3">
+        <MyST ast={node} />
+      </div>
     </div>
   );
 }
@@ -79,7 +107,7 @@ function SplitImageCTA({ node }: { node: GenericParent }) {
   // TODO: set heading depth
   //
   return (
-    <div className="my-8 relative bg-gray-900 text-white rounded-md">
+    <div className="relative bg-gray-900 text-white rounded-md">
       <div className="lg:absolute lg:h-full lg:w-[calc(50%)] h-80 relative [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_img]:m-0 [&_picture]:m-0 [&_picture]:inline">
         <MyST ast={image} />
       </div>
@@ -99,7 +127,7 @@ function SplitImageCTA({ node }: { node: GenericParent }) {
             <MyST ast={body} />
           </div>
           {links && (
-            <div className="mt-8">
+            <div className="mt-8 flex gap-4 items-center">
               <MyST ast={links} />
             </div>
           )}
@@ -108,20 +136,53 @@ function SplitImageCTA({ node }: { node: GenericParent }) {
     </div>
   );
 }
+// block:24, sm:block:32, lg:inline:8
+function Justified({ node }: { node: GenericParent }) {
+  const headerNode = select('heading', node) as GenericParent | null;
+  if (!headerNode) {
+    return <InvalidBlock node={node} blockName="justified" />;
+  }
+  const links = selectAll('link,crossReference', node);
+  return (
+    <div className="relative">
+      <div className="py-20 sm:py-28 lg:px-8 lg:flex lg:content-center lg:justify-between">
+        {' '}
+        <h2 className="text-5xl font-semibold tracking-tight my-0">
+          <MyST ast={headerNode.children} />
+        </h2>
+        {links && (
+          <div className="mt-8 flex gap-4 items-center">
+            <MyST ast={links} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 function LogoCloud({ node }: { node: GenericParent }) {
-  const body = filter(node, (child) => child.type !== 'grid')!;
   const grid = select('grid', node);
   if (!grid) {
     return <InvalidBlock node={node} blockName="logo-cloud" />;
   }
+  const rawBody = filter(node, (child) => child.type !== 'grid')!;
+  const body = filter(
+    rawBody,
+    (child) => child.type !== 'link' && child.type !== 'crossReference',
+  )!;
+  const links = selectAll('link,crossReference', rawBody);
 
   return (
-    <div className="text-center">
+    <div className="text-center py-20 sm:py-28">
       <div className="font-semibold text-gray-900">
         <MyST ast={body} />
       </div>
       {grid && <MyST ast={grid} />}
+      {links && (
+        <div className="mt-8 flex gap-4 items-center justify-center">
+          <MyST ast={links} />
+        </div>
+      )}
     </div>
   );
 }

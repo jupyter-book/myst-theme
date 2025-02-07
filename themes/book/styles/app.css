@@ -5,3 +5,7 @@
 .landing-page .article-center-grid > * {
   grid-column: page;
 }
+
+.landing-page {
+  @apply gap-y-6;
+}

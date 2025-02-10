@@ -150,25 +150,32 @@ function Justified({ node }: { node: GenericParent }) {
   }
   const links = selectAll('link,crossReference', node);
   return (
-    <div className="relative">
-      <div className="py-20 sm:py-28 lg:px-8 lg:flex lg:content-center lg:justify-between">
-        <div>
-          {subtitle && (
-            <p className="font-semibold text-indigo-400 uppercase my-0">
-              <MyST ast={subtitle.children} />
-            </p>
-          )}
+    <div className="py-20 sm:py-28 lg:px-8">
+      {subtitle && (
+        <p className="font-semibold text-indigo-400 uppercase my-0">
+          <MyST ast={subtitle.children} />
+        </p>
+      )}
+      <div className="flex flex-col lg:content-center lg:justify-between lg:flex-row">
+        <div className="flex flex-col">
           {heading && (
             <h2 className="text-5xl font-semibold tracking-tight mt-2 mb-0">
               <MyST ast={heading.children} />
             </h2>
           )}
+          {body && (
+            <div className="mt-6">
+              <MyST ast={body} />
+            </div>
+          )}
         </div>
-        {links && (
-          <div className="mt-8 flex gap-4 items-center">
-            <MyST ast={links} />
-          </div>
-        )}
+        <div className="flex flex-col">
+          {links && (
+            <div className="flex flex-row mt-8 gap-4 items-center">
+              <MyST ast={links} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -187,18 +194,21 @@ function Centered({ node }: { node: GenericParent }) {
   return (
     <div className="relative text-center">
       <div className="py-20 sm:py-28">
-        <div>
-          {subtitle && (
-            <p className="font-semibold text-indigo-400 uppercase my-0">
-              <MyST ast={subtitle.children} />
-            </p>
-          )}
-          {heading && (
-            <h2 className="text-5xl font-semibold tracking-tight mt-2 mb-0">
-              <MyST ast={heading.children} />
-            </h2>
-          )}
-        </div>
+        {subtitle && (
+          <p className="font-semibold text-indigo-400 uppercase my-0">
+            <MyST ast={subtitle.children} />
+          </p>
+        )}
+        {heading && (
+          <h2 className="text-5xl font-semibold tracking-tight mt-2 mb-0">
+            <MyST ast={heading.children} />
+          </h2>
+        )}
+        {body && (
+          <div className="mt-6">
+            <MyST ast={body} />
+          </div>
+        )}
         {links && (
           <div className="mt-8 flex gap-4 items-center justify-center">
             <MyST ast={links} />

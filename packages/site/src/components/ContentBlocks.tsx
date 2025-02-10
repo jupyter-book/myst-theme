@@ -52,6 +52,9 @@ function BlockChild({ node }: { node: GenericParent }) {
     case 'justified': {
       return <Justified node={node} />;
     }
+    case 'centered': {
+      return <Centered node={node} />;
+    }
     case 'logo-cloud': {
       return <LogoCloud node={node} />;
     }
@@ -136,22 +139,68 @@ function SplitImageCTA({ node }: { node: GenericParent }) {
     </div>
   );
 }
-// block:24, sm:block:32, lg:inline:8
 function Justified({ node }: { node: GenericParent }) {
-  const headerNode = select('heading', node) as GenericParent | null;
-  if (!headerNode) {
+  const { subtitle, heading, body: rawBody } = parse_header(node);
+  const body = filter(
+    rawBody,
+    (otherNode: any) => !['link', 'crossReference', 'image'].includes(otherNode.type),
+  );
+  if (!body) {
     return <InvalidBlock node={node} blockName="justified" />;
   }
   const links = selectAll('link,crossReference', node);
   return (
     <div className="relative">
       <div className="py-20 sm:py-28 lg:px-8 lg:flex lg:content-center lg:justify-between">
-        {' '}
-        <h2 className="text-5xl font-semibold tracking-tight my-0">
-          <MyST ast={headerNode.children} />
-        </h2>
+        <div>
+          {subtitle && (
+            <p className="font-semibold text-indigo-400 uppercase my-0">
+              <MyST ast={subtitle.children} />
+            </p>
+          )}
+          {heading && (
+            <h2 className="text-5xl font-semibold tracking-tight mt-2 mb-0">
+              <MyST ast={heading.children} />
+            </h2>
+          )}
+        </div>
         {links && (
           <div className="mt-8 flex gap-4 items-center">
+            <MyST ast={links} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Centered({ node }: { node: GenericParent }) {
+  const { subtitle, heading, body: rawBody } = parse_header(node);
+  const body = filter(
+    rawBody,
+    (otherNode: any) => !['link', 'crossReference', 'image'].includes(otherNode.type),
+  );
+  if (!body) {
+    return <InvalidBlock node={node} blockName="justified" />;
+  }
+  const links = selectAll('link,crossReference', node);
+  return (
+    <div className="relative text-center">
+      <div className="py-20 sm:py-28">
+        <div>
+          {subtitle && (
+            <p className="font-semibold text-indigo-400 uppercase my-0">
+              <MyST ast={subtitle.children} />
+            </p>
+          )}
+          {heading && (
+            <h2 className="text-5xl font-semibold tracking-tight mt-2 mb-0">
+              <MyST ast={heading.children} />
+            </h2>
+          )}
+        </div>
+        {links && (
+          <div className="mt-8 flex gap-4 items-center justify-center">
             <MyST ast={links} />
           </div>
         )}

@@ -347,7 +347,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
         return `${baseUrl}hub/user-redirect/${gitPullURL}`;
       }
       case 'binderhub': {
-        return makeBinderURL({ ...(binder ?? {}), url: baseUrl || defaultBinderBaseURL }, location);
+        return makeBinderURL({ ...(binder ?? {}), url: baseUrl }, location);
       }
       case undefined: {
         return;

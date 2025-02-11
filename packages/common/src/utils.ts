@@ -4,6 +4,7 @@ import type { SiteManifest } from 'myst-config';
 import { selectAll } from 'unist-util-select';
 import type { Image as ImageSpec, Link as LinkSpec } from 'myst-spec';
 import type { FooterLinks, Heading, NavigationLink, PageLoader } from './types.js';
+import type { GenericParent } from 'myst-common';
 import { slugToUrl } from 'myst-common';
 
 type Image = ImageSpec & { urlOptimized?: string };
@@ -95,6 +96,33 @@ export function getFooterLinks(
 
 type UpdateUrl = (url: string) => string;
 
+function updateMdastStaticLinksInplace(mdast: GenericParent, updateUrl: UpdateUrl) {
+  // Fix all of the images to point to the CDN
+  const images = selectAll('image', mdast) as Image[];
+  images.forEach((node) => {
+    node.url = updateUrl(node.url);
+    if (node.urlOptimized) {
+      node.urlOptimized = updateUrl(node.urlOptimized);
+    }
+  });
+  const links = selectAll('link,linkBlock,card', mdast) as Link[];
+  const staticLinks = links?.filter((node) => node.static);
+  staticLinks.forEach((node) => {
+    // These are static links to thinks like PDFs or other referenced files
+    node.url = updateUrl(node.url);
+  });
+  const outputs = selectAll('output', mdast) as Output[];
+  outputs.forEach((node) => {
+    if (!node.data) return;
+    walkOutputs(node.data, (obj) => {
+      // The path will be defined from output of myst
+      // Here we are re-assigning it to the current domain
+      if (!obj.path) return;
+      obj.path = updateUrl(obj.path);
+    });
+  });
+}
+
 export function updateSiteManifestStaticLinksInplace(
   data: SiteManifest,
   updateUrl: UpdateUrl,
@@ -137,6 +165,11 @@ export function updateSiteManifestStaticLinksInplace(
   if (data.options.logo) data.options.logo = updateUrl(data.options.logo);
   if (data.options.logo_dark) data.options.logo_dark = updateUrl(data.options.logo_dark);
   if (data.options.favicon) data.options.favicon = updateUrl(data.options.favicon);
+  if (data.parts) {
+    Object.values(data.parts).forEach(({ mdast }) => {
+      updateMdastStaticLinksInplace(mdast, updateUrl);
+    });
+  }
   // Update the thumbnails to point at the CDN
   data.projects?.forEach((project) => {
     if (project.banner) project.banner = updateUrl(project.banner);
@@ -162,6 +195,11 @@ export function updateSiteManifestStaticLinksInplace(
         if (page.thumbnail) page.thumbnail = updateUrl(page.thumbnail);
         if (page.thumbnailOptimized) page.thumbnailOptimized = updateUrl(page.thumbnailOptimized);
       });
+    if (project.parts) {
+      Object.values(project.parts).forEach(({ mdast }) => {
+        updateMdastStaticLinksInplace(mdast, updateUrl);
+      });
+    }
   });
   return data;
 }
@@ -193,30 +231,7 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
   }
   const allMdastTrees = [data, ...Object.values(data.frontmatter?.parts ?? {})];
   allMdastTrees.forEach(({ mdast }) => {
-    // Fix all of the images to point to the CDN
-    const images = selectAll('image', mdast) as Image[];
-    images.forEach((node) => {
-      node.url = updateUrl(node.url);
-      if (node.urlOptimized) {
-        node.urlOptimized = updateUrl(node.urlOptimized);
-      }
-    });
-    const links = selectAll('link,linkBlock,card', mdast) as Link[];
-    const staticLinks = links?.filter((node) => node.static);
-    staticLinks.forEach((node) => {
-      // These are static links to thinks like PDFs or other referenced files
-      node.url = updateUrl(node.url);
-    });
-    const outputs = selectAll('output', mdast) as Output[];
-    outputs.forEach((node) => {
-      if (!node.data) return;
-      walkOutputs(node.data, (obj) => {
-        // The path will be defined from output of myst
-        // Here we are re-assigning it to the current domain
-        if (!obj.path) return;
-        obj.path = updateUrl(obj.path);
-      });
-    });
+    updateMdastStaticLinksInplace(mdast, updateUrl);
   });
   return data;
 }

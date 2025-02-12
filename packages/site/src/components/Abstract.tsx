@@ -1,6 +1,5 @@
 import type { GenericParent } from 'myst-common';
-import { MyST } from 'myst-to-react';
-import { HashLink } from 'myst-to-react';
+import { MyST, HashLink } from 'myst-to-react';
 
 export function Abstract({
   content,

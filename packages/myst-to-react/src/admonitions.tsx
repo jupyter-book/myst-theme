@@ -112,8 +112,8 @@ function AdmonitionIcon({ kind, className }: { kind: AdmonitionKind; className?:
   return <InformationCircleIcon {...opts} />;
 }
 
-export const AdmonitionTitle: NodeRenderer<AdmonitionTitleSpec> = ({ node }) => {
-  return <MyST ast={node.children} />;
+export const AdmonitionTitle: NodeRenderer<AdmonitionTitleSpec> = ({ node, className }) => {
+  return <MyST ast={node.children} className={className} />;
 };
 
 const WrapperElement = ({
@@ -242,7 +242,7 @@ export function Admonition({
   );
 }
 
-export const AdmonitionRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
+export const AdmonitionRenderer: NodeRenderer<AdmonitionSpec> = ({ node, className }) => {
   const [title, ...rest] = node.children as GenericNode[];
   const classes = getClasses(node.class);
   const { kind, color } = getFirstKind({ kind: node.kind, classes });
@@ -262,7 +262,7 @@ export const AdmonitionRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
       open={isOpen}
       simple={isSimple}
       hideIcon={hideIcon}
-      className={classNames(classes)}
+      className={classNames(classes, className)}
     >
       {useTitle ? <MyST ast={rest} /> : <MyST ast={node.children} />}
     </Admonition>

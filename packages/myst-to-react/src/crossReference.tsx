@@ -211,12 +211,13 @@ export function CrossReferenceHover({
   );
 }
 
-export const CrossReferenceNode: NodeRenderer<CrossReference> = ({ node }) => {
+export const CrossReferenceNode: NodeRenderer<CrossReference> = ({ node, className }) => {
   if (!node.children) {
     return (
       <InlineError
         value={node.label || node.identifier || 'No Label'}
         message="Cross Reference Not Found"
+        className={className}
       />
     );
   }
@@ -227,7 +228,7 @@ export const CrossReferenceNode: NodeRenderer<CrossReference> = ({ node }) => {
     remoteBaseUrl,
     identifier,
     html_id,
-    class: className,
+    class: nodeClass,
   } = node as any;
   return (
     <CrossReferenceHover
@@ -237,7 +238,7 @@ export const CrossReferenceNode: NodeRenderer<CrossReference> = ({ node }) => {
       url={url}
       dataUrl={dataUrl}
       remoteBaseUrl={remoteBaseUrl}
-      className={className}
+      className={classNames(nodeClass, className)}
     >
       {node.prefix && <>{node.prefix} </>}
       <MyST ast={node.children} />

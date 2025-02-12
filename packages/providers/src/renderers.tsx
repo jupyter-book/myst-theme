@@ -1,7 +1,7 @@
 import type React from 'react';
 import type { GenericNode } from 'myst-common';
 
-export type NodeRenderer<T = any> = React.FC<{ node: GenericNode & T }>;
+export type NodeRenderer<T = any> = React.FC<{ node: GenericNode & T; className?: string }>;
 export type NodeRenderers = Record<string, NodeRenderer | Record<'base' | string, NodeRenderer>>;
 export type NodeRenderersValidated = Record<
   string,

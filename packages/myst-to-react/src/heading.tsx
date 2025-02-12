@@ -2,8 +2,9 @@ import type { NodeRenderer } from '@myst-theme/providers';
 import { createElement as e } from 'react';
 import { MyST } from './MyST.js';
 import { HashLink } from './hashLink.js';
+import classNames from 'classnames';
 
-const Heading: NodeRenderer = ({ node }) => {
+const Heading: NodeRenderer = ({ node, className }) => {
   const { enumerator, depth, key, identifier, html_id } = node;
   const id = html_id || identifier || key;
   const textContent = (
@@ -20,7 +21,7 @@ const Heading: NodeRenderer = ({ node }) => {
     `h${depth}`,
     {
       id,
-      className: 'relative group',
+      className: classNames('relative group', className),
     },
     textContent,
   );

@@ -1,5 +1,6 @@
 import type { NodeRenderer } from '@myst-theme/providers';
 import { useEffect, useId, useState } from 'react';
+import classNames from 'classnames';
 
 async function parse(id: string, text: string): Promise<string> {
   const { default: mermaid } = await import('mermaid');
@@ -49,12 +50,12 @@ export function MermaidRenderer({
   );
 }
 
-export const MermaidNodeRenderer: NodeRenderer = ({ node }) => {
+export const MermaidNodeRenderer: NodeRenderer = ({ node, className }) => {
   return (
     <MermaidRenderer
       id={node.html_id || node.identifier}
       value={node.value}
-      className={node.class}
+      className={classNames(node.class, className)}
     />
   );
 };

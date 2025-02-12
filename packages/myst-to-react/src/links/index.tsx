@@ -12,6 +12,7 @@ import { RRIDLink } from './rrid.js';
 import { RORLink } from './ror.js';
 import { GithubLink } from './github.js';
 import { MyST } from '../MyST.js';
+import classNames from 'classnames';
 
 type TransformedLink = Link & { internal?: boolean; protocol?: string };
 
@@ -63,20 +64,20 @@ function InternalLink({
   );
 }
 
-export const WikiLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
+export const WikiLinkRenderer: NodeRenderer<TransformedLink> = ({ node, className }) => {
   return (
     <WikiLink
       url={node.url}
       page={node.data?.page as string}
       wiki={node.data?.wiki as string}
-      className={node.class}
+      className={classNames(node.class, className)}
     >
       <MyST ast={node.children} />
     </WikiLink>
   );
 };
 
-export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
+export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node, className }) => {
   return (
     <GithubLink
       kind={node.data?.kind as any}
@@ -88,38 +89,51 @@ export const GithubLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
       from={node.data?.from as number | undefined}
       to={node.data?.to as number | undefined}
       issue_number={node.data?.issue_number as number | undefined}
-      className={node.class}
+      className={classNames(node.class, className)}
     >
       <MyST ast={node.children} />
     </GithubLink>
   );
 };
 
-export const RRIDLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
-  return <RRIDLink rrid={node.data?.rrid as string} className={node.class} />;
+export const RRIDLinkRenderer: NodeRenderer<TransformedLink> = ({ node, className }) => {
+  return (
+    <RRIDLink rrid={node.data?.rrid as string} className={classNames(node.class, className)} />
+  );
 };
 
-export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node }) => {
-  return <RORLink node={node} ror={node.data?.ror as string} className={node.class} />;
+export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node, className }) => {
+  return (
+    <RORLink
+      node={node}
+      ror={node.data?.ror as string}
+      className={classNames(node.class, className)}
+    />
+  );
 };
 
-export const SimpleLink: NodeRenderer<TransformedLink> = ({ node }) => {
+export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) => {
   const internal = node.internal ?? false;
   if (internal) {
     return (
-      <InternalLink url={node.url} className={node.class}>
+      <InternalLink url={node.url} className={classNames(node.class, className)}>
         <MyST ast={node.children} />
       </InternalLink>
     );
   }
   return (
-    <a target="_blank" rel="noreferrer" href={node.url} className={node.class}>
+    <a
+      target="_blank"
+      rel="noreferrer"
+      href={node.url}
+      className={classNames(node.class, className)}
+    >
       <MyST ast={node.children} />
     </a>
   );
 };
 
-export const linkBlock: NodeRenderer<TransformedLink> = ({ node }) => {
+export const linkBlock: NodeRenderer<TransformedLink> = ({ node, className }) => {
   const iconClass = 'self-center transition-transform flex-none ml-3';
   const containerClass =
     'flex-1 p-4 my-5 block border font-normal hover:border-blue-500 dark:hover:border-blue-400 no-underline hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-100 border-gray-200 dark:border-gray-500 rounded shadow-sm hover:shadow-lg dark:shadow-neutral-700';
@@ -139,13 +153,18 @@ export const linkBlock: NodeRenderer<TransformedLink> = ({ node }) => {
 
   if (internal) {
     return (
-      <a href={node.url} className={containerClass}>
+      <a href={node.url} className={classNames(containerClass, className)}>
         {nested}
       </a>
     );
   }
   return (
-    <a className={containerClass} target="_blank" rel="noopener noreferrer" href={node.url}>
+    <a
+      className={classNames(containerClass, className)}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={node.url}
+    >
       {nested}
     </a>
   );

@@ -14,8 +14,8 @@ type SummarySpec = {
 
 const iconClass = 'inline-block pl-2 mr-2 -translate-y-[1px]';
 
-export const SummaryTitle: NodeRenderer<SummarySpec> = ({ node }) => {
-  return <MyST ast={node.children} />;
+export const SummaryTitle: NodeRenderer<SummarySpec> = ({ node, className }) => {
+  return <MyST ast={node.children} className={className} />;
 };
 
 export function Details({
@@ -61,10 +61,14 @@ export function Details({
   );
 }
 
-export const DetailsRenderer: NodeRenderer<DropdownSpec> = ({ node }) => {
+export const DetailsRenderer: NodeRenderer<DropdownSpec> = ({ node, className }) => {
   const [title, ...rest] = node.children as any[];
   return (
-    <Details title={<MyST ast={[title]} />} open={node.open} className={node.class}>
+    <Details
+      title={<MyST ast={[title]} />}
+      open={node.open}
+      className={classNames(node.class, className)}
+    >
       <MyST ast={rest} />
     </Details>
   );

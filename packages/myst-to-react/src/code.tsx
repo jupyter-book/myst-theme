@@ -117,7 +117,7 @@ export function CodeBlock(props: Props) {
   );
 }
 
-const code: NodeRenderer = ({ node }) => {
+const code: NodeRenderer = ({ node, className }) => {
   const child = (
     <CodeBlock
       identifier={node.html_id}
@@ -133,7 +133,7 @@ const code: NodeRenderer = ({ node }) => {
       shadow
       border={node.executable}
       background={!node.executable}
-      className={classNames({ hidden: node.visibility === 'remove' }, node.class)}
+      className={classNames({ hidden: node.visibility === 'remove' }, node.class, className)}
     />
   );
   if (node.visibility === 'hide') {
@@ -151,10 +151,15 @@ function isColor(maybeColorHash: string): string | undefined {
   return color;
 }
 
-const inlineCode: NodeRenderer = ({ node }) => {
+const inlineCode: NodeRenderer = ({ node, className }) => {
   if (isColor(node.value)) {
     return (
-      <code className="px-1 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-100">
+      <code
+        className={classNames(
+          'px-1 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-100',
+          className,
+        )}
+      >
         {node.value}
         <span
           style={{ backgroundColor: node.value }}
@@ -166,12 +171,12 @@ const inlineCode: NodeRenderer = ({ node }) => {
   if (node.children && node.children.length > 0) {
     // The inline code can potentially have children
     return (
-      <code>
+      <code className={className}>
         <MyST ast={node.children} />
       </code>
     );
   }
-  return <code>{node.value}</code>;
+  return <code className={className}>{node.value}</code>;
 };
 
 const CODE_RENDERERS = {

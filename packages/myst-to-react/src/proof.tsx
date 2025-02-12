@@ -118,6 +118,7 @@ export function Proof({
   children,
   identifier,
   enumerator,
+  className,
 }: {
   title?: React.ReactNode;
   color?: Color;
@@ -126,6 +127,7 @@ export function Proof({
   dropdown?: boolean;
   identifier?: string;
   enumerator?: string;
+  className?: string;
 }) {
   return (
     <WrapperElement
@@ -143,6 +145,7 @@ export function Proof({
           'dark:border-red-500/60': color === 'red',
           'dark:border-purple-500/60': color === 'purple',
         },
+        className,
       )}
     >
       <HeaderElement
@@ -190,7 +193,7 @@ export function Proof({
   );
 }
 
-export const ProofRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
+export const ProofRenderer: NodeRenderer<AdmonitionSpec> = ({ node, className }) => {
   const [title, ...rest] = node.children as GenericNode[];
   const classes = getClasses(node.class);
   const { color } = getColor({ kind: node.kind, classes });
@@ -206,6 +209,7 @@ export const ProofRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
       enumerator={(node as any).enumerator}
       color={color}
       dropdown={isDropdown}
+      className={className}
     >
       {useTitle ? <MyST ast={rest} /> : <MyST ast={node.children} />}
     </Proof>

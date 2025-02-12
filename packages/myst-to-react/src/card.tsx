@@ -20,25 +20,35 @@ type FooterSpec = {
   type: 'footer';
 };
 
-export const Header: NodeRenderer<HeaderSpec> = ({ node }) => {
+export const Header: NodeRenderer<HeaderSpec> = ({ node, className }) => {
   return (
-    <header className="py-1 pl-3 m-0 border-b border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800">
+    <header
+      className={classNames(
+        'py-1 pl-3 m-0 border-b border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800',
+        className,
+      )}
+    >
       <MyST ast={node.children} />
     </header>
   );
 };
 
-export const Footer: NodeRenderer<FooterSpec> = ({ node }) => {
+export const Footer: NodeRenderer<FooterSpec> = ({ node, className }) => {
   return (
-    <footer className="py-1 pl-3 m-0 border-t border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800">
+    <footer
+      className={classNames(
+        'py-1 pl-3 m-0 border-t border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800',
+        className,
+      )}
+    >
       <MyST ast={node.children} />
     </footer>
   );
 };
 
-export const CardTitle: NodeRenderer<CardTitleSpec> = ({ node }) => {
+export const CardTitle: NodeRenderer<CardTitleSpec> = ({ node, className }) => {
   return (
-    <div className="pt-3 font-bold group-hover:underline">
+    <div className={classNames('pt-3 font-bold group-hover:underline', className)}>
       <MyST ast={node.children} />
     </div>
   );
@@ -93,7 +103,7 @@ function ExternalOrInternalLink({
   );
 }
 
-export const CardRenderer: NodeRenderer<CardSpec> = ({ node }) => {
+export const CardRenderer: NodeRenderer<CardSpec> = ({ node, className }) => {
   const parts = getParts(node.children);
   const url = node.url;
   const isStatic = node.static || false;
@@ -110,6 +120,7 @@ export const CardRenderer: NodeRenderer<CardSpec> = ({ node }) => {
           'text-inherit hover:text-inherit',
           'block font-normal no-underline hover:no-underline cursor-pointer group',
           'hover:border-blue-500 dark:hover:border-blue-400',
+          className,
         )}
       >
         <MyST ast={parts.header} />
@@ -121,7 +132,7 @@ export const CardRenderer: NodeRenderer<CardSpec> = ({ node }) => {
     );
   }
   return (
-    <div className={sharedStyle}>
+    <div className={classNames(sharedStyle, className)}>
       <MyST ast={parts.header} />
       <div className="flex-grow px-4 py-2">
         <MyST ast={parts.body} />

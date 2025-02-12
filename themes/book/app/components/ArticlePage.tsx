@@ -5,10 +5,10 @@ import {
   useSiteManifest,
   useThemeTop,
   useMediaQuery,
+  PageKindProvider,
 } from '@myst-theme/providers';
 import {
   Bibliography,
-  ContentBlocks,
   FooterLinksBlock,
   FrontmatterParts,
   BackmatterParts,
@@ -28,6 +28,7 @@ import {
   ErrorTray,
   useComputeOptions,
 } from '@myst-theme/jupyter';
+import { MyST } from 'myst-to-react';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import type { SiteAction } from 'myst-config';
 import type { TemplateOptions } from '../types.js';
@@ -86,43 +87,45 @@ export const ArticlePage = React.memo(function ({
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
-          {!hide_title_block && (
-            <FrontmatterBlock
-              kind={article.kind}
-              frontmatter={{ ...article.frontmatter, downloads }}
-              className="mb-8 pt-9"
-              thebe={thebe}
-	      location={location}
-            />
-          )}
-          {!hide_outline && (
-            <div
-              className="block my-10 lg:sticky lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
-              style={{ top }}
-            >
-              <DocumentOutline
-                className="relative mt-9"
-                maxdepth={outline_maxdepth}
-                isMargin={isOutlineMargin}
+          <PageKindProvider pageKind={article.kind}>
+            {!hide_title_block && (
+              <FrontmatterBlock
+                kind={article.kind}
+                frontmatter={{ ...article.frontmatter, downloads }}
+                className="mb-8 pt-9"
+                thebe={thebe}
+                location={location}
               />
-            </div>
-          )}
-          {compute?.enabled &&
-            compute.features.notebookCompute &&
-            article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
-          {compute?.enabled && article.kind === SourceFileKind.Article && (
-            <ErrorTray pageSlug={article.slug} />
-          )}
-          <div id="skip-to-article" />
-          <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
-          <ContentBlocks pageKind={article.kind} mdast={tree as GenericParent} />
-          <BackmatterParts parts={parts} />
-          <Footnotes />
-          <Bibliography />
-          <ConnectionStatusTray />
-          {!hide_footer_links && !hide_all_footer_links && (
-            <FooterLinksBlock links={article.footer} />
-          )}
+            )}
+            {!hide_outline && (
+              <div
+                className="block my-10 lg:sticky lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
+                style={{ top }}
+              >
+                <DocumentOutline
+                  className="relative mt-9"
+                  maxdepth={outline_maxdepth}
+                  isMargin={isOutlineMargin}
+                />
+              </div>
+            )}
+            {compute?.enabled &&
+              compute.features.notebookCompute &&
+              article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
+            {compute?.enabled && article.kind === SourceFileKind.Article && (
+              <ErrorTray pageSlug={article.slug} />
+            )}
+            <div id="skip-to-article" />
+            <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
+            <MyST ast={tree.children as GenericParent[]} />
+            <BackmatterParts parts={parts} />
+            <Footnotes />
+            <Bibliography />
+            <ConnectionStatusTray />
+            {!hide_footer_links && !hide_all_footer_links && (
+              <FooterLinksBlock links={article.footer} />
+            )}
+          </PageKindProvider>
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ReferencesProvider>

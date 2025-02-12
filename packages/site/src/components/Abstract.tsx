@@ -1,5 +1,5 @@
 import type { GenericParent } from 'myst-common';
-import { ContentBlocks } from './ContentBlocks.js';
+import { MyST } from 'myst-to-react';
 import { HashLink } from 'myst-to-react';
 
 export function Abstract({
@@ -21,7 +21,7 @@ export function Abstract({
         <HashLink id={id} title={`Link to ${title}`} hover className="ml-2" />
       </h2>
       <div className="px-6 py-1 mb-3 rounded-sm bg-slate-50 dark:bg-slate-800">
-        <ContentBlocks mdast={content} className="col-body" />
+        <MyST ast={content} className="col-body" />
       </div>
     </div>
   );

@@ -22,13 +22,13 @@ function getStyleValue(width?: number | string): number | undefined {
   return width;
 }
 
-export const IFrame: NodeRenderer = ({ node }) => {
+export const IFrame: NodeRenderer = ({ node, className }) => {
   const width = getStyleValue(node.width) || 70;
   return (
     <div
       id={node.label || undefined}
       style={{ textAlign: node.align || 'center' }}
-      className={classNames('leading-[0]', node.class)}
+      className={classNames('leading-[0]', node.class, className)}
     >
       <div
         className="relative inline-block"

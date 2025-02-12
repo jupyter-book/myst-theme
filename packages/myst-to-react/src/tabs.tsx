@@ -21,7 +21,15 @@ function TabSetStateProvider({ active, children }: { active: string; children: R
 
 type Tab = { title: string | React.ReactNode; id: string; sync?: string; selected?: boolean };
 
-export function TabSet({ tabs, children }: { tabs: Tab[]; children: React.ReactNode }) {
+export function TabSet({
+  tabs,
+  children,
+  className,
+}: {
+  tabs: Tab[];
+  children: React.ReactNode;
+  className?: string;
+}) {
   const [lastClickedTab, onClickSyncedTab] = useTabSet() ?? [];
   const [active, setActive] = useState<string>(tabs.find((t) => t.selected)?.id ?? tabs?.[0]?.id);
   const onClick = (tab: Tab) => {
@@ -43,7 +51,7 @@ export function TabSet({ tabs, children }: { tabs: Tab[]; children: React.ReactN
 
   return (
     <TabSetStateProvider active={active}>
-      <div className="my-5">
+      <div className={classNames('my-5', className)}>
         <div className="flex flex-row overflow-x-auto border-b border-b-gray-100">
           {tabs.map((tab) => {
             return (
@@ -73,13 +81,14 @@ export function TabSet({ tabs, children }: { tabs: Tab[]; children: React.ReactN
 export function TabItem({
   id,
   children,
-}: Omit<Tab, 'title' | 'sync'> & { children: React.ReactNode }) {
+  className,
+}: Omit<Tab, 'title' | 'sync'> & { children: React.ReactNode; className?: string }) {
   const active = useContext(TabSetContext);
   const open = active === id;
-  return <div className={classNames({ hidden: !open })}>{children}</div>;
+  return <div className={classNames({ hidden: !open }, className)}>{children}</div>;
 }
 
-export const TabSetRenderer: NodeRenderer = ({ node }) => {
+export const TabSetRenderer: NodeRenderer = ({ node, className }) => {
   // Add the key as the ID (key is special in react)
   const tabs = (selectAll('tabItem', node) as TabItem[]).map((tab) => ({
     title: tab.title,
@@ -87,15 +96,15 @@ export const TabSetRenderer: NodeRenderer = ({ node }) => {
     sync: tab.sync,
   }));
   return (
-    <TabSet tabs={tabs}>
+    <TabSet tabs={tabs} className={className}>
       <MyST ast={node.children} />
     </TabSet>
   );
 };
 
-export const TabItemRenderer: NodeRenderer<TabItem> = ({ node }) => {
+export const TabItemRenderer: NodeRenderer<TabItem> = ({ node, className }) => {
   return (
-    <TabItem id={node.key}>
+    <TabItem id={node.key} className={className}>
       <MyST ast={node.children} />
     </TabItem>
   );

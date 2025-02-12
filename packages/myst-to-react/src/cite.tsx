@@ -22,16 +22,19 @@ function CiteChild({ html }: { html?: string }) {
   );
 }
 
-export const CiteGroup: NodeRenderer<GenericParent> = ({ node }) => {
+export const CiteGroup: NodeRenderer<GenericParent> = ({ node, className }) => {
   const allCite = node.children?.every((child) => child.type === 'cite') ?? false;
   return (
     <span
-      className={classNames({
-        'cite-group': allCite,
-        'xref-group': !allCite,
-        narrative: node.kind === 'narrative',
-        parenthetical: node.kind === 'parenthetical',
-      })}
+      className={classNames(
+        {
+          'cite-group': allCite,
+          'xref-group': !allCite,
+          narrative: node.kind === 'narrative',
+          parenthetical: node.kind === 'parenthetical',
+        },
+        className,
+      )}
     >
       <MyST ast={node.children} />
     </span>
@@ -42,23 +45,31 @@ export const Cite = ({
   label,
   error,
   children,
+  className,
 }: {
   label?: string;
   error?: boolean;
   children: React.ReactNode;
+  className?: string;
 }) => {
   const references = useReferences();
   if (!label) {
-    return <InlineError value="cite (no label)" message={'Citation Has No Label'} />;
+    return (
+      <InlineError
+        value="cite (no label)"
+        message={'Citation Has No Label'}
+        className={className}
+      />
+    );
   }
   const { html, doi: doiString, url: refUrl } = references?.cite?.data[label] ?? {};
   if (error) {
-    return <InlineError value={label} message={'Citation Not Found'} />;
+    return <InlineError value={label} message={'Citation Not Found'} className={className} />;
   }
   const url = doiString ? doi.buildUrl(doiString as string) : refUrl;
   return (
     <HoverPopover openDelay={300} card={<CiteChild html={html} />}>
-      <cite>
+      <cite className={className}>
         {url && (
           <a href={url} target="_blank" rel="noreferrer" className="hover-link">
             {children}
@@ -70,10 +81,10 @@ export const Cite = ({
   );
 };
 
-export const CiteRenderer: NodeRenderer = ({ node }) => {
+export const CiteRenderer: NodeRenderer = ({ node, className }) => {
   const numbered = useNumberedReferences();
   return (
-    <Cite label={node.label} error={node.error}>
+    <Cite label={node.label} error={node.error} className={className}>
       {numbered && node.kind === 'parenthetical' ? node.enumerator : <MyST ast={node.children} />}
     </Cite>
   );

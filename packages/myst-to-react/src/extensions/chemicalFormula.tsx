@@ -1,4 +1,5 @@
 import type { NodeRenderer } from '@myst-theme/providers';
+import classNames from 'classnames';
 
 /**
  * Separate numbers and letters so that numbers can be <sub>2</sub>
@@ -24,10 +25,10 @@ function parseFormula(formula?: string) {
   }, [] as string[]);
 }
 
-export const ChemicalFormula: NodeRenderer = ({ node }) => {
+export const ChemicalFormula: NodeRenderer = ({ node, className }) => {
   const parts = parseFormula(node.value);
   return (
-    <span className="text-inherit" aria-roledescription="Chemical Formula">
+    <span className={classNames('text-inherit', className)} aria-roledescription="Chemical Formula">
       {parts.map((letter, index) => {
         if (letter.match(/[0-9]/)) return <sub key={index}>{letter}</sub>;
         return <span key={index}>{letter}</span>;

@@ -1,5 +1,6 @@
 import type { Image as ImageNodeSpec } from 'myst-spec';
 import type { NodeRenderer } from '@myst-theme/providers';
+import classNames from 'classnames';
 
 type Alignment = 'left' | 'center' | 'right';
 
@@ -56,7 +57,7 @@ function Video({
 }) {
   return (
     <video
-      // className={className}
+      className={className}
       id={id}
       style={{
         width: getStyleValue(width),
@@ -131,10 +132,10 @@ function Picture({
   );
 }
 
-export const Image: NodeRenderer<ImageNode> = ({ node }) => {
+export const Image: NodeRenderer<ImageNode> = ({ node, className }) => {
   return (
     <Picture
-      className={node.class}
+      className={classNames(node.class, className)}
       id={node.html_id || node.identifier || node.key}
       src={node.url}
       srcOptimized={(node as any).urlOptimized}

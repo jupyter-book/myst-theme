@@ -509,13 +509,13 @@ export function MySTRenderer({
   );
 }
 
-export const MystDemoRenderer: NodeRenderer = ({ node }) => {
+export const MystDemoRenderer: NodeRenderer = ({ node, className }) => {
   return (
     <MySTRenderer
       id={node.html_id || node.identifier}
       value={node.value}
       numbering={node.numbering}
-      className={node.class}
+      className={classnames(node.class, className)}
     />
   );
 };

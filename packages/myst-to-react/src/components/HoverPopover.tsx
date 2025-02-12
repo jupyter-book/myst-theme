@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as HoverCard from '@radix-ui/react-hover-card';
+import classNames from 'classnames';
 
 export function HoverPopover({
   children,
@@ -37,15 +38,22 @@ export function HoverPopover({
 export function Tooltip({
   title,
   children,
+  className,
 }: {
   title: React.ReactNode;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
     <HoverPopover
       side="top"
       card={
-        <div className="p-1 text-xs text-white bg-blue-900 dark:bg-white dark:text-black">
+        <div
+          className={classNames(
+            'p-1 text-xs text-white bg-blue-900 dark:bg-white dark:text-black',
+            className,
+          )}
+        >
           {title}
         </div>
       }

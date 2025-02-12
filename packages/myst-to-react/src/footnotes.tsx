@@ -19,13 +19,13 @@ function FootnoteDefinition({ identifier }: { identifier: string }) {
   );
 }
 
-export const FootnoteReference: NodeRenderer = ({ node }) => {
+export const FootnoteReference: NodeRenderer = ({ node, className }) => {
   return (
     <HoverPopover
       openDelay={0}
       card={<FootnoteDefinition identifier={node.identifier as string} />}
     >
-      <span id={`fnref-${node.key}`}>
+      <span id={`fnref-${node.key}`} className={className}>
         <sup className="hover-link">
           <HashLink
             id={`fn-${node.identifier}`}

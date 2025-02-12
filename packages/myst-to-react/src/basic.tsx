@@ -116,119 +116,124 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       </>
     );
   },
-  span({ node }) {
+  span({ node, className }) {
     return (
-      <span className={node.class} style={node.style} id={node.html_id}>
+      <span className={classNames(node.class, className)} style={node.style} id={node.html_id}>
         <MyST ast={node.children} />
       </span>
     );
   },
-  div({ node }) {
+  div({ node, className }) {
     return (
-      <div className={node.class} style={node.style} id={node.html_id}>
+      <div className={classNames(node.class, className)} style={node.style} id={node.html_id}>
         <MyST ast={node.children} />
       </div>
     );
   },
-  delete({ node }) {
+  delete({ node, className }) {
     return (
-      <del>
+      <del className={className}>
         <MyST ast={node.children} />
       </del>
     );
   },
-  strong({ node }) {
+  strong({ node, className }) {
     return (
-      <strong>
+      <strong className={className}>
         <MyST ast={node.children} />
       </strong>
     );
   },
-  emphasis({ node }) {
+  emphasis({ node, className }) {
     return (
-      <em>
+      <em className={className}>
         <MyST ast={node.children} />
       </em>
     );
   },
-  underline({ node }) {
+  underline({ node, className }) {
     return (
-      <span style={{ textDecoration: 'underline' }}>
+      <span style={{ textDecoration: 'underline' }} className={className}>
         <MyST ast={node.children} />
       </span>
     );
   },
-  smallcaps({ node }) {
+  smallcaps({ node, className }) {
     return (
-      <span style={{ fontVariant: 'small-caps' }}>
+      <span style={{ fontVariant: 'small-caps' }} className={className}>
         <MyST ast={node.children} />
       </span>
     );
   },
-  link({ node }) {
+  link({ node, className }) {
     return (
-      <a target="_blank" href={node.url} className={node.class} rel="noreferrer">
+      <a
+        target="_blank"
+        href={node.url}
+        className={classNames(node.class, className)}
+        rel="noreferrer"
+      >
         <MyST ast={node.children} />
       </a>
     );
   },
-  paragraph({ node }) {
+  paragraph({ node, className }) {
     return (
-      <p id={node.html_id}>
+      <p id={node.html_id} className={className}>
         <MyST ast={node.children} />
       </p>
     );
   },
-  algorithmLine({ node }) {
+  algorithmLine({ node, className }) {
     // Used in algorithms
     const style = {
       paddingLeft: `${(node.indent ?? 0) + 2}rem`,
     };
     return (
-      <p className="line" style={style} data-line-number={node.enumerator}>
+      <p className={classNames('line', className)} style={style} data-line-number={node.enumerator}>
         <MyST ast={node.children} />
       </p>
     );
   },
-  break() {
-    return <br />;
+  break({ className }) {
+    return <br className={className} />;
   },
-  inlineMath({ node }) {
-    return <code>{node.value}</code>;
+  inlineMath({ node, className }) {
+    return <code className={className}>{node.value}</code>;
   },
-  math({ node }) {
-    return <code>{node.value}</code>;
+  math({ node, className }) {
+    return <code className={className}>{node.value}</code>;
   },
-  list({ node }) {
+  list({ node, className }) {
     if (node.ordered) {
       return (
-        <ol start={node.start || undefined} id={node.html_id}>
+        <ol start={node.start || undefined} id={node.html_id} className={className}>
           <MyST ast={node.children} />
         </ol>
       );
     }
     return (
-      <ul id={node.html_id}>
+      <ul id={node.html_id} className={className}>
         <MyST ast={node.children} />
       </ul>
     );
   },
-  listItem({ node }) {
+  listItem({ node, className }) {
     if (node.checked == null) {
       return (
-        <li>
+        <li className={className}>
           <MyST ast={node.children} />
         </li>
       );
     }
     return (
-      <li className="task-list-item">
+      <li className={classNames('task-list-item', className)}>
         <input type="checkbox" className="task-list-item-checkbox" defaultChecked={node.checked} />
         <MyST ast={node.children} />
       </li>
     );
   },
-  container({ node }) {
+  container({ node, className }) {
     const figureName = `fig-${node.kind}`;
     return (
       <figure
@@ -236,29 +241,30 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
         className={classNames(
           { [figureName]: !!node.kind, subcontainer: node.subcontainer },
           node.class,
+          className,
         )}
       >
         <MyST ast={node.children} />
       </figure>
     );
   },
-  caption({ node }) {
+  caption({ node, className }) {
     return (
-      <figcaption className="group">
+      <figcaption className={classNames('group', className)}>
         <MyST ast={node.children} />
       </figcaption>
     );
   },
-  legend({ node }) {
+  legend({ node, className }) {
     return (
-      <figcaption className="text-sm">
+      <figcaption className={classNames('text-sm', className)}>
         <MyST ast={node.children} />
       </figcaption>
     );
   },
-  blockquote({ node }) {
+  blockquote({ node, className }) {
     return (
-      <blockquote id={node.html_id}>
+      <blockquote id={node.html_id} className={className}>
         <MyST ast={node.children} />
       </blockquote>
     );
@@ -266,36 +272,39 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   thematicBreak() {
     return <hr className="py-2 my-5 translate-y-2" />;
   },
-  captionNumber({ node }) {
+  captionNumber({ node, className }) {
     const id = node.html_id || node.identifier || node.key;
     return (
       <HashLink
         id={id}
         kind={node.kind}
-        className="mr-1 font-semibold text-inherit hover:text-inherit hover:font-semibold"
+        className={classNames(
+          'mr-1 font-semibold text-inherit hover:text-inherit hover:font-semibold',
+          className,
+        )}
       >
         <MyST ast={node.children} />
       </HashLink>
     );
   },
-  table({ node }) {
+  table({ node, className }) {
     // TODO: actually render the tbody on the server if it isn't included here.
     return (
-      <table className={node.class} style={node.style}>
+      <table className={classNames(node.class, className)} style={node.style}>
         <tbody>
           <MyST ast={node.children} />
         </tbody>
       </table>
     );
   },
-  tableRow({ node }) {
+  tableRow({ node, className }) {
     return (
-      <tr className={node.class} style={node.style}>
+      <tr className={classNames(node.class, className)} style={node.style}>
         <MyST ast={node.children} />
       </tr>
     );
   },
-  tableCell({ node }) {
+  tableCell({ node, className }) {
     const ifGreaterThanOne = (num?: number) => (num === 1 ? undefined : num);
     const attrs = {
       rowSpan: ifGreaterThanOne(node.rowspan),
@@ -308,33 +317,33 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     };
     if (node.header)
       return (
-        <th className={classNames(node.class, align)} style={node.style} {...attrs}>
+        <th className={classNames(node.class, align, className)} style={node.style} {...attrs}>
           <MyST ast={node.children} />
         </th>
       );
     return (
-      <td className={classNames(node.class, align)} style={node.style} {...attrs}>
+      <td className={classNames(node.class, align, className)} style={node.style} {...attrs}>
         <MyST ast={node.children} />
       </td>
     );
   },
-  subscript({ node }) {
+  subscript({ node, className }) {
     return (
-      <sub>
+      <sub className={className}>
         <MyST ast={node.children} />
       </sub>
     );
   },
-  superscript({ node }) {
+  superscript({ node, className }) {
     return (
-      <sup>
+      <sup className={className}>
         <MyST ast={node.children} />
       </sup>
     );
   },
-  abbreviation({ node }) {
+  abbreviation({ node, className }) {
     return (
-      <Tooltip title={node.title}>
+      <Tooltip title={node.title} className={classNames(className)}>
         <abbr aria-label={node.title} className="border-b border-dotted cursor-help">
           <MyST ast={node.children} />
         </abbr>
@@ -347,20 +356,23 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   comment() {
     return null;
   },
-  definitionList({ node }) {
+  definitionList({ node, className }) {
     return (
-      <dl className="my-5" id={node.html_id || node.identifier || node.key}>
+      <dl
+        className={classNames('my-5', className)}
+        id={node.html_id || node.identifier || node.key}
+      >
         <MyST ast={node.children} />
       </dl>
     );
   },
-  definitionTerm({ node }) {
+  definitionTerm({ node, className }) {
     const allowedStrongTypes = new Set(['text', 'emphasis']);
     const makeStrong =
       node.children?.reduce((allowed, n) => allowed && allowedStrongTypes.has(n.type), true) ??
       false;
     return (
-      <dt id={node.html_id || node.identifier || node.key}>
+      <dt id={node.html_id || node.identifier || node.key} className={className}>
         {makeStrong ? (
           <strong>
             <MyST ast={node.children} />
@@ -371,28 +383,31 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
       </dt>
     );
   },
-  definitionDescription({ node }) {
+  definitionDescription({ node, className }) {
     return (
-      <dd>
+      <dd className={className}>
         <MyST ast={node.children} />
       </dd>
     );
   },
-  keyboard({ node }) {
+  keyboard({ node, className }) {
     return (
-      <kbd>
+      <kbd className={className}>
         <MyST ast={node.children} />
       </kbd>
     );
   },
-  include({ node }) {
+  include({ node, className }) {
     // TODO, provider could give context about the filename
-    return <MyST ast={node.children} />;
+    return <MyST ast={node.children} className={className} />;
   },
-  glossary({ node }) {
+  glossary({ node, className }) {
     // TODO, provider could give context about the filename
     return (
-      <div id={node.html_id || node.identifier || node.key} className={node.class}>
+      <div
+        id={node.html_id || node.identifier || node.key}
+        className={classNames(node.class, className)}
+      >
         <MyST ast={node.children} />
       </div>
     );

@@ -79,6 +79,7 @@ export function Callout({
   dropdown,
   children,
   identifier,
+  className,
   Icon,
 }: {
   title?: React.ReactNode;
@@ -86,6 +87,7 @@ export function Callout({
   children: React.ReactNode;
   dropdown?: boolean;
   identifier?: string;
+  className?: string;
   Icon?: (props: { width?: string; height?: string; className?: string }) => JSX.Element;
 }) {
   return (
@@ -104,6 +106,7 @@ export function Callout({
           'dark:border-red-500/60': color === 'red',
           'dark:border-purple-500/60': color === 'purple',
         },
+        className,
       )}
     >
       <HeaderElement
@@ -167,7 +170,7 @@ export function Callout({
   );
 }
 
-export const ExerciseRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
+export const ExerciseRenderer: NodeRenderer<AdmonitionSpec> = ({ node, className }) => {
   if ((node as any).hidden) return null;
   const [title, ...rest] = (node.children as GenericNode[]) ?? [];
   const classes = getClasses(node.class);
@@ -196,13 +199,19 @@ export const ExerciseRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
   );
 
   return (
-    <Callout identifier={identifier} title={titleNode} color={color} dropdown={isDropdown}>
+    <Callout
+      identifier={identifier}
+      title={titleNode}
+      color={color}
+      dropdown={isDropdown}
+      className={className}
+    >
       {useTitle ? <MyST ast={rest} /> : <MyST ast={node.children} />}
     </Callout>
   );
 };
 
-export const SolutionRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
+export const SolutionRenderer: NodeRenderer<AdmonitionSpec> = ({ node, className }) => {
   if ((node as any).hidden) return null;
   const [title, ...rest] = (node.children as GenericNode[]) ?? [];
   const classes = getClasses(node.class);
@@ -230,6 +239,7 @@ export const SolutionRenderer: NodeRenderer<AdmonitionSpec> = ({ node }) => {
       title={useTitle ? titleNode : undefined}
       color={color}
       dropdown={isDropdown}
+      className={className}
     >
       {useTitle ? <MyST ast={rest} /> : <MyST ast={node.children} />}
     </Callout>

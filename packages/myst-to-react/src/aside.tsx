@@ -27,18 +27,18 @@ function getAsideClass(kind?: string) {
   }
 }
 
-export const AsideRenderer: NodeRenderer<Aside> = ({ node }) => {
+export const AsideRenderer: NodeRenderer<Aside> = ({ node, className }) => {
   const [title, ...rest] = node.children as GenericNode[];
   const classes = getAsideClass(node.kind);
   if (title.type !== 'admonitionTitle') {
     return (
-      <aside className={classNames(classes.container, node.class)}>
+      <aside className={classNames(classes.container, node.class, className)}>
         <MyST ast={node.children} />
       </aside>
     );
   }
   return (
-    <aside className={classNames(classes.container, node.class)}>
+    <aside className={classNames(classes.container, node.class, className)}>
       <div className={classes.title}>
         <MyST ast={title} />
       </div>

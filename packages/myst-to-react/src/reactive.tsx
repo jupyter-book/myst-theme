@@ -1,25 +1,27 @@
 import type { NodeRenderer } from '@myst-theme/providers';
 import { createElement as e } from 'react';
 
-export const RVar: NodeRenderer = ({ node }) => {
+export const RVar: NodeRenderer = ({ node, className }) => {
   return e('r-var', {
     name: node.name,
     value: node.value,
     ':value': node.valueFunction,
     format: node.format,
+    className: className,
   });
 };
 
-export const RDisplay: NodeRenderer = ({ node }) => {
+export const RDisplay: NodeRenderer = ({ node, className }) => {
   return e('r-display', {
     name: node.name,
     value: node.value,
     ':value': node.valueFunction,
     format: node.format,
+    className: className,
   });
 };
 
-export const RDynamic: NodeRenderer = ({ node }) => {
+export const RDynamic: NodeRenderer = ({ node, className }) => {
   return e('r-dynamic', {
     name: node.name,
     value: node.value,
@@ -32,10 +34,11 @@ export const RDynamic: NodeRenderer = ({ node }) => {
     ':step': node.stepFunction,
     ':change': node.changeFunction,
     format: node.format,
+    className: className,
   });
 };
 
-export const RRange: NodeRenderer = ({ node }) => {
+export const RRange: NodeRenderer = ({ node, className }) => {
   return e('r-range', {
     name: node.name,
     value: node.value,
@@ -47,6 +50,7 @@ export const RRange: NodeRenderer = ({ node }) => {
     step: node.step,
     ':step': node.stepFunction,
     ':change': node.changeFunction,
+    className: className,
   });
 };
 

@@ -3,6 +3,7 @@ import type { InlineMath, Math } from 'myst-spec';
 import { InlineError } from './inlineError.js';
 import { HashLink } from './hashLink.js';
 import type { NodeRenderer } from '@myst-theme/providers';
+import classNames from 'classnames';
 
 // function Math({ value, html }: { value: string; html: string }) {
 //   const [loaded, setLoaded] = useState(false);
@@ -35,11 +36,11 @@ type MathLike = (InlineMath | Math) & {
   html?: string;
 };
 
-const mathRenderer: NodeRenderer<MathLike> = ({ node }) => {
+const mathRenderer: NodeRenderer<MathLike> = ({ node, className }) => {
   if (node.type === 'math') {
     if (node.error || !node.html) {
       return (
-        <pre title={node.message}>
+        <pre title={node.message} className={className}>
           <span className="text-red-500">
             <ExclamationCircleIcon width="1rem" height="1rem" className="inline mr-1" />
             {node.message}
@@ -51,7 +52,7 @@ const mathRenderer: NodeRenderer<MathLike> = ({ node }) => {
     }
     const id = node.html_id || node.identifier || node.key;
     return (
-      <div id={id} className="flex my-5 group">
+      <div id={id} className={classNames('flex my-5 group', className)}>
         <div
           dangerouslySetInnerHTML={{ __html: node.html }}
           className="flex-grow overflow-x-auto overflow-y-hidden"
@@ -67,9 +68,9 @@ const mathRenderer: NodeRenderer<MathLike> = ({ node }) => {
     );
   }
   if (node.error || !node.html) {
-    return <InlineError value={node.value} message={node.message} />;
+    return <InlineError value={node.value} message={node.message} className={className} />;
   }
-  return <span dangerouslySetInnerHTML={{ __html: node.html }} />;
+  return <span dangerouslySetInnerHTML={{ __html: node.html }} className={className} />;
   // return <Math html={node.html} value={node.value as string} />;
 };
 

@@ -2,7 +2,7 @@ import { Embed } from './embed.js';
 import { Output } from './output.js';
 import { Figure } from './figure.js';
 
-const OUTPUT_RENDERERS = {
+const JUPYTER_RENDERERS = {
   output: Output,
   embed: Embed,
   container: Figure,
@@ -15,6 +15,7 @@ export * from './providers.js';
 export * from './execute/index.js';
 export * from './controls/index.js';
 export * from './utils.js';
+export { default as BLOCK_RENDERERS } from './block.js';
 export { useLaunchBinder } from './hooks.js';
 
-export default OUTPUT_RENDERERS;
+export default JUPYTER_RENDERERS;

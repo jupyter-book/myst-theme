@@ -10,9 +10,15 @@ import {
   getThemeSession,
   ContentReload,
   SkipTo,
+  renderers as defaultRenderers,
 } from '@myst-theme/site';
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { Outlet, useLoaderData } from '@remix-run/react';
+import type { NodeRenderers } from '@myst-theme/providers';
+import { mergeRenderers } from '@myst-theme/providers';
+import { BLOCK_RENDERERS } from '@myst-theme/jupyter';
+
+const RENDERERS: NodeRenderers = mergeRenderers([defaultRenderers, BLOCK_RENDERERS]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({
@@ -68,6 +74,7 @@ export default function AppWithReload() {
       staticBuild={MODE === 'static'}
       baseurl={BASE_URL}
       top={0}
+      renderers={RENDERERS}
     >
       <SkipTo targets={[{ id: 'skip-to-article', title: 'Skip to article content' }]} />
       <Outlet />

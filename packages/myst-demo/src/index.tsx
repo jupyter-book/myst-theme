@@ -17,7 +17,7 @@ import type { DocxResult } from 'myst-to-docx';
 import { validatePageFrontmatter } from 'myst-frontmatter';
 import type { PageFrontmatter } from 'myst-frontmatter';
 import type { NodeRenderer } from '@myst-theme/providers';
-import { ReferencesProvider, GridSystemProvider } from '@myst-theme/providers';
+import { ArticleProvider, GridSystemProvider } from '@myst-theme/providers';
 import { CopyIcon, CodeBlock, MyST } from 'myst-to-react';
 import { useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';
@@ -445,12 +445,16 @@ export function MySTRenderer({
         >
           {previewType === 'DEMO' && (
             <>
-              <ReferencesProvider references={references} frontmatter={reducedFrontmatter}>
+              <ArticleProvider
+                kind={SourceFileKind.Article}
+                references={references}
+                frontmatter={reducedFrontmatter}
+              >
                 <GridSystemProvider gridSystem="demo-grid">
                   {TitleBlock && <TitleBlock frontmatter={frontmatter}></TitleBlock>}
                   <MyST ast={references.article?.children as GenericNode[]} />
                 </GridSystemProvider>
-              </ReferencesProvider>
+              </ArticleProvider>
             </>
           )}
           {previewType === 'AST' && (

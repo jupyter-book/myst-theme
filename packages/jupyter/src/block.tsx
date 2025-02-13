@@ -9,7 +9,7 @@ import {
   NotebookRunCellSpinnerOnly,
 } from './controls/index.js';
 import { executableNodesFromBlock } from './execute/utils.js';
-import { useGridSystemProvider, usePageKindProvider } from '@myst-theme/providers';
+import { useGridSystemProvider, usePageKind } from '@myst-theme/providers';
 import type { NodeRenderer } from '@myst-theme/providers';
 
 export function isACodeCell(node: GenericParent) {
@@ -24,7 +24,7 @@ export function Block({
   node: GenericParent;
   className?: string;
 }) {
-  const pageKind = usePageKindProvider();
+  const pageKind = usePageKind();
   const grid = useGridSystemProvider();
   const subGrid = node.visibility === 'hide' ? '' : `${grid} subgrid-gap col-screen`;
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;

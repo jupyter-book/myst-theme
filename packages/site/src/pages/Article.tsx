@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReferencesProvider, useProjectManifest, PageKindProvider } from '@myst-theme/providers';
+import { ArticleProvider, useProjectManifest, PageKindProvider } from '@myst-theme/providers';
 import {
   Bibliography,
   FooterLinksBlock,
@@ -48,40 +48,39 @@ export const ArticlePage = React.memo(function ({
   const { location } = article;
 
   return (
-    <ReferencesProvider
+    <ArticleProvider
+      kind={article.kind}
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
-          <PageKindProvider pageKind={article.kind}>
-            {!hide_title_block && (
-              <FrontmatterBlock
-                kind={article.kind}
-                frontmatter={{ ...article.frontmatter, downloads }}
-                thebe={thebe}
-                location={location}
-                className="mb-8 pt-9"
-              />
-            )}
-            {compute?.enabled &&
-              compute.features.notebookCompute &&
-              article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
-            {compute?.enabled && article.kind === SourceFileKind.Article && (
-              <ErrorTray pageSlug={article.slug} />
-            )}
-            <div id="skip-to-article" />
-            <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
-            <MyST ast={tree.children as GenericParent[]} />
-            <BackmatterParts parts={parts} />
-            <Bibliography />
-            <ConnectionStatusTray />
-            {!hide_footer_links && !hide_all_footer_links && (
-              <FooterLinksBlock links={article.footer} />
-            )}
-          </PageKindProvider>
+          {!hide_title_block && (
+            <FrontmatterBlock
+              kind={article.kind}
+              frontmatter={{ ...article.frontmatter, downloads }}
+              thebe={thebe}
+              location={location}
+              className="mb-8 pt-9"
+            />
+          )}
+          {compute?.enabled &&
+            compute.features.notebookCompute &&
+            article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
+          {compute?.enabled && article.kind === SourceFileKind.Article && (
+            <ErrorTray pageSlug={article.slug} />
+          )}
+          <div id="skip-to-article" />
+          <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
+          <MyST ast={tree.children as GenericParent[]} />
+          <BackmatterParts parts={parts} />
+          <Bibliography />
+          <ConnectionStatusTray />
+          {!hide_footer_links && !hide_all_footer_links && (
+            <FooterLinksBlock links={article.footer} />
+          )}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
-    </ReferencesProvider>
+    </ArticleProvider>
   );
 });

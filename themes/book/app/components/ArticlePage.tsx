@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-  ReferencesProvider,
+  ArticleProvider,
   useProjectManifest,
   useSiteManifest,
   useThemeTop,
   useMediaQuery,
-  PageKindProvider,
 } from '@myst-theme/providers';
 import {
   Bibliography,
@@ -81,53 +80,52 @@ export const ArticlePage = React.memo(function ({
   const { location } = article;
 
   return (
-    <ReferencesProvider
+    <ArticleProvider
+      kind={article.pageKind}
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
-          <PageKindProvider pageKind={article.kind}>
-            {!hide_title_block && (
-              <FrontmatterBlock
-                kind={article.kind}
-                frontmatter={{ ...article.frontmatter, downloads }}
-                className="mb-8 pt-9"
-                thebe={thebe}
-                location={location}
+          {!hide_title_block && (
+            <FrontmatterBlock
+              kind={article.kind}
+              frontmatter={{ ...article.frontmatter, downloads }}
+              className="mb-8 pt-9"
+              thebe={thebe}
+              location={location}
+            />
+          )}
+          {!hide_outline && (
+            <div
+              className="block my-10 lg:sticky lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
+              style={{ top }}
+            >
+              <DocumentOutline
+                className="relative mt-9"
+                maxdepth={outline_maxdepth}
+                isMargin={isOutlineMargin}
               />
-            )}
-            {!hide_outline && (
-              <div
-                className="block my-10 lg:sticky lg:z-10 lg:h-0 lg:pt-0 lg:my-0 lg:ml-10 lg:col-margin-right"
-                style={{ top }}
-              >
-                <DocumentOutline
-                  className="relative mt-9"
-                  maxdepth={outline_maxdepth}
-                  isMargin={isOutlineMargin}
-                />
-              </div>
-            )}
-            {compute?.enabled &&
-              compute.features.notebookCompute &&
-              article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
-            {compute?.enabled && article.kind === SourceFileKind.Article && (
-              <ErrorTray pageSlug={article.slug} />
-            )}
-            <div id="skip-to-article" />
-            <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
-            <MyST ast={tree.children as GenericParent[]} />
-            <BackmatterParts parts={parts} />
-            <Footnotes />
-            <Bibliography />
-            <ConnectionStatusTray />
-            {!hide_footer_links && !hide_all_footer_links && (
-              <FooterLinksBlock links={article.footer} />
-            )}
-          </PageKindProvider>
+            </div>
+          )}
+          {compute?.enabled &&
+            compute.features.notebookCompute &&
+            article.kind === SourceFileKind.Notebook && <NotebookToolbar showLaunch />}
+          {compute?.enabled && article.kind === SourceFileKind.Article && (
+            <ErrorTray pageSlug={article.slug} />
+          )}
+          <div id="skip-to-article" />
+          <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
+          <MyST ast={tree.children as GenericParent[]} />
+          <BackmatterParts parts={parts} />
+          <Footnotes />
+          <Bibliography />
+          <ConnectionStatusTray />
+          {!hide_footer_links && !hide_all_footer_links && (
+            <FooterLinksBlock links={article.footer} />
+          )}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
-    </ReferencesProvider>
+    </ArticleProvider>
   );
 });

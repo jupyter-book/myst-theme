@@ -81,7 +81,7 @@ export const ArticlePage = React.memo(function ({
 
   return (
     <ArticleProvider
-      kind={article.pageKind}
+      kind={article.kind}
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >

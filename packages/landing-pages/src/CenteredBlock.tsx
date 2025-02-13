@@ -13,19 +13,24 @@ import { LandingBlock, type LandingBlockProps } from './LandingBlock.js';
 
 export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
   const { node } = props;
-  const { head, body: rawBody } = useMemo(() => splitByHeader(node), [node]);
+  const { body, links, subtitle, heading } = useMemo(() => {
+    const { head, body: rawBody } = splitByHeader(node);
 
-  const body = useMemo(
-    () =>
-      filter(
-        rawBody,
-        (otherNode: GenericNode) => !['link', 'crossReference'].includes(otherNode.type),
-      )!.children,
-    [rawBody],
-  );
-  const links = useMemo(() => selectAll('link,crossReference', rawBody), [rawBody]);
-  const subtitle = useMemo(() => select('paragraph', head) as GenericParent | null, [head]);
-  const heading = useMemo(() => select('heading[depth=2]', head) as GenericParent | null, [head]);
+    const linksNode = selectAll('link,crossReference', rawBody);
+    const subtitleNode = select('paragraph', head) as GenericParent | null;
+    const headingNode = select('heading[depth=2]', head) as GenericParent | null;
+    const bodyNode = filter(
+      rawBody,
+      (otherNode: GenericNode) => !['link', 'crossReference'].includes(otherNode.type),
+    )!.children;
+
+    return {
+      body: bodyNode,
+      links: linksNode,
+      subtitle: subtitleNode,
+      heading: headingNode,
+    };
+  }, [node]);
 
   if (!body) {
     return <InvalidBlock {...props} blockName="justified" />;

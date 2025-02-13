@@ -7,7 +7,7 @@ import { mergeRenderers } from '@myst-theme/providers';
 
 const BLOCK_RENDERERS: NodeRenderers = mergeRenderers([
   SPLIT_IMAGE_RENDERERS,
-  //CENTERED_RENDERERS,
+  CENTERED_RENDERERS,
   JUSTIFIED_RENDERERS,
   LOGO_CLOUD_RENDERERS,
 ]);

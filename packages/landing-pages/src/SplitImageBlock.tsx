@@ -20,7 +20,7 @@ export function SplitImageBlock(props: Omit<LandingBlockProps, 'children'>) {
       filter(
         rawBody,
         (otherNode: GenericNode) => !['link', 'crossReference', 'image'].includes(otherNode.type),
-      )!,
+      )!.children,
     [rawBody],
   );
   const links = useMemo(() => selectAll('link,crossReference', rawBody), [rawBody]);

@@ -16,7 +16,7 @@ export function InvalidBlock(props: Omit<LandingBlockProps, 'children'> & { bloc
           </div>
 
           <div className="px-4 py-3">
-            <MyST ast={node} />
+            <MyST ast={node.children} />
           </div>
         </div>
       </div>

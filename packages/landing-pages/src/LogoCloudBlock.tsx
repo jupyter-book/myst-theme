@@ -14,7 +14,7 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
 
   const grid = useMemo(() => select('grid', node), [node]);
   const rawBody = useMemo(
-    () => filter((node as any).children, (child: GenericNode) => child.type !== 'grid')!,
+    () => filter(node, (child: GenericNode) => child.type !== 'grid')!,
     [node],
   );
   const body = useMemo(
@@ -22,7 +22,7 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
       filter(
         rawBody,
         (child: GenericNode) => child.type !== 'link' && child.type !== 'crossReference',
-      )!,
+      )!.children,
     [rawBody],
   );
   const links = useMemo(() => selectAll('link,crossReference', rawBody), [rawBody]);

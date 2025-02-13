@@ -20,7 +20,7 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
       filter(
         rawBody,
         (otherNode: GenericNode) => !['link', 'crossReference'].includes(otherNode.type),
-      )!,
+      )!.children,
     [rawBody],
   );
   const links = useMemo(() => selectAll('link,crossReference', rawBody), [rawBody]);

@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.13.7
+
+### Patch Changes
+
+- 098de07: Update static links in parts in config
+
 ## 0.13.6
 
 ### Patch Changes

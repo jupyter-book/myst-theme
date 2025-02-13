@@ -4,7 +4,7 @@ import { MyST } from 'myst-to-react';
 export { Block } from 'myst-to-react';
 
 /**
- * @deprecated This component is not maintained, in favor of generic MyST component
+ * @deprecated This component is not maintained, in favor of the generic `MyST` component
  */
 export function ContentBlocks({
   mdast,

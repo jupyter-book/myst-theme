@@ -1,4 +1,3 @@
-import React from 'react';
 import { Details, MyST } from 'myst-to-react';
 import { SourceFileKind } from 'myst-spec-ext';
 import type { GenericParent } from 'myst-common';
@@ -10,12 +9,12 @@ import {
 } from './controls/index.js';
 import { executableNodesFromBlock } from './execute/utils.js';
 import { useGridSystemProvider, usePageKind } from '@myst-theme/providers';
-import type { NodeRenderer } from '@myst-theme/providers';
+import type { NodeRenderers, NodeRenderer } from '@myst-theme/providers';
 
 export function isACodeCell(node: GenericParent) {
   return !!executableNodesFromBlock(node);
 }
-export function Block({
+export function NotebookBlock({
   id,
   node,
   className,
@@ -40,7 +39,7 @@ export function Block({
         hidden: node.visibility === 'remove',
       })}
     >
-      {pageKind === SourceFileKind.Notebook && isACodeCell(node) && (
+      {pageKind === SourceFileKind.Notebook && node.kind === 'notebook-code' && (
         <>
           <div className="flex sticky top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:hidden">
             <div className="absolute top-0 -right-[28px] flex md:flex-col">
@@ -64,14 +63,21 @@ export function Block({
   return block;
 }
 
-export const BlockRenderer: NodeRenderer = ({ node, className }) => {
+export const NotebookBlockRenderer: NodeRenderer = ({ node, className }) => {
   return (
-    <Block key={node.key} id={node.key} node={node} className={classNames(node.class, className)} />
+    <NotebookBlock
+      key={node.key}
+      id={node.key}
+      node={node}
+      className={classNames(node.class, className)}
+    />
   );
 };
 
-const BLOCK_RENDERERS: Record<string, NodeRenderer> = {
-  block: BlockRenderer,
+const NOTEBOOK_RENDERERS: NodeRenderers = {
+  block: {
+    'block[kind=notebook-code],block[kind=notebook-content]': NotebookBlockRenderer,
+  },
 };
 
-export default BLOCK_RENDERERS;
+export default NOTEBOOK_RENDERERS;

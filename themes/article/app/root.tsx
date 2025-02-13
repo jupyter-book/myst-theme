@@ -18,7 +18,7 @@ import type { NodeRenderers } from '@myst-theme/providers';
 import { mergeRenderers } from '@myst-theme/providers';
 import { BLOCK_RENDERERS } from '@myst-theme/jupyter';
 
-const RENDERERS: NodeRenderers = mergeRenderers([defaultRenderers, BLOCK_RENDERERS]);
+const RENDERERS: NodeRenderers = mergeRenderers([BLOCK_RENDERERS, defaultRenderers]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({

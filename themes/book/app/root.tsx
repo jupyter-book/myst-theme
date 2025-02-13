@@ -22,7 +22,7 @@ import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 import { BLOCK_RENDERERS } from '@myst-theme/jupyter';
 import { useCallback } from 'react';
 
-const RENDERERS: NodeRenderers = mergeRenderers([defaultRenderers, BLOCK_RENDERERS]);
+const RENDERERS: NodeRenderers = mergeRenderers([BLOCK_RENDERERS, defaultRenderers]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({

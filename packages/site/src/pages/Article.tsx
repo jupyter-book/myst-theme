@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArticleProvider, useProjectManifest, PageKindProvider } from '@myst-theme/providers';
+import { ArticleProvider, useProjectManifest } from '@myst-theme/providers';
 import {
   Bibliography,
   FooterLinksBlock,

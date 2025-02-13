@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.13.7
+
+### Patch Changes
+
+- 013cfeb: Add `class` to all myst-to-react components
+- Updated dependencies [013cfeb]
+  - @myst-theme/providers@0.13.7
+
 ## 0.13.6
 
 ### Patch Changes

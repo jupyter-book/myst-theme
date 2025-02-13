@@ -22,6 +22,7 @@
     "@myst-theme/site": "^0.13.7",
     "@myst-theme/common": "^0.13.7",
     "@myst-theme/styles": "^0.13.7",
+    "@myst-theme/landing-pages": "^0.0.0",
     "@remix-run/node": "~1.17.0",
     "@remix-run/react": "~1.17.0",
     "@remix-run/vercel": "~1.17.0",
@@ -33,7 +34,6 @@
   },
   "devDependencies": {
     "@remix-run/dev": "~1.17.0",
-    "@remix-run/eslint-config": "~1.17.0",
     "@remix-run/serve": "~1.17.0",
     "@tailwindcss/typography": "^0.5.9",
     "@types/node-fetch": "^2.6.4",

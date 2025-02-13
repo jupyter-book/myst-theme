@@ -43,7 +43,8 @@
     "react-merge-refs": "^2.1.1",
     "string.prototype.matchall": "^4.0.11",
     "thebe-react": "0.5.0",
-    "unist-util-select": "^4.0.1"
+    "unist-util-select": "^4.0.1",
+    "unist-util-filter": "^4.0.0"
   },
   "peerDependencies": {
     "@remix-run/node": "^1.19",

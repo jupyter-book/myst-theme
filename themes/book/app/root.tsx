@@ -79,7 +79,10 @@ function createSearch(index: MystSearchIndex): ISearch {
 
 export default function AppWithReload() {
   const { theme, config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
-
+  let prettyurl = config?.options?.pretty_urls as boolean | undefined
+  if (typeof prettyurl === 'undefined') {
+    prettyurl = true;
+  }
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
 
   return (
@@ -90,6 +93,7 @@ export default function AppWithReload() {
         scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
         staticBuild={MODE === 'static'}
         baseurl={BASE_URL}
+        prettyurl={prettyurl}
       >
         <SkipTo
           targets={[

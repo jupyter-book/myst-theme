@@ -29,6 +29,8 @@ import {
   withBaseurl,
   useBaseurl,
   useNavigateProvider,
+  usePrettyUrl,
+  withPrettyUrl,
 } from '@myst-theme/providers';
 
 /**
@@ -220,6 +222,7 @@ function SearchResultItem({
 }) {
   const { hierarchy, type, url, queries } = result;
   const baseurl = useBaseurl();
+  const prettyurl = usePrettyUrl();
   const Link = useLinkProvider();
 
   // Render the icon
@@ -261,7 +264,7 @@ function SearchResultItem({
   return (
     <Link
       className="block px-1 py-2 text-gray-700 rounded shadow-md dark:text-white group-aria-selected:bg-blue-600 group-aria-selected:text-white dark:shadow-none dark:bg-stone-800"
-      to={withBaseurl(url, baseurl)}
+      to={withPrettyUrl(withBaseurl(url, baseurl), prettyurl)}
       // Close the main search on click
       onClick={closeSearch}
     >
@@ -461,6 +464,7 @@ function SearchForm({
   // Handle item selection
   const navigate = useNavigateProvider();
   const baseurl = useBaseurl();
+  const prettyurl = usePrettyUrl();
 
   // Handle item selection and navigation
   const handleSearchKeyPress = useCallback<KeyboardEventHandler<HTMLInputElement>>(
@@ -479,7 +483,7 @@ function SearchForm({
 
         const url = searchResults[selectedIndex]?.url;
         if (url) {
-          navigate(withBaseurl(url, baseurl));
+          navigate(withPrettyUrl(withBaseurl(url, baseurl), prettyurl));
           closeSearch?.();
         }
       }

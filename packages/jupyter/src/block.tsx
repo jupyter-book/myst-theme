@@ -7,13 +7,9 @@ import {
   NotebookRunCell,
   NotebookRunCellSpinnerOnly,
 } from './controls/index.js';
-import { executableNodesFromBlock } from './execute/utils.js';
 import { useGridSystemProvider, usePageKind } from '@myst-theme/providers';
 import type { NodeRenderers, NodeRenderer } from '@myst-theme/providers';
 
-export function isACodeCell(node: GenericParent) {
-  return !!executableNodesFromBlock(node);
-}
 export function NotebookBlock({
   id,
   node,

@@ -57,7 +57,7 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
           )}
           {links && (
             <div className="mt-8 flex gap-4 items-center justify-center">
-              <MyST ast={links} />
+              <MyST ast={links} className="shrink-0" />
             </div>
           )}
         </div>
@@ -68,7 +68,7 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
 
 const CENTERED_RENDERERS: NodeRenderers = {
   block: {
-    'block[class~=centered]': CenteredBlock,
+    'block[class*=centered]': CenteredBlock,
   },
 };
 export default CENTERED_RENDERERS;

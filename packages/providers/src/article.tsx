@@ -42,4 +42,21 @@ export function usePageKind() {
   return data?.kind ?? SourceFileKind.Article;
 }
 
-export { ArticleProvider as ReferencesProvider };
+/**
+ * @deprecated This component is not maintained, in favor of the reworked `ArticleProvider` component
+ */
+export function ReferencesProvider({
+  references,
+  frontmatter,
+  children,
+}: {
+  frontmatter?: PageLoader['frontmatter'];
+  references?: References;
+  children: React.ReactNode;
+}) {
+  return (
+    <ArticleContext.Provider value={{ references, frontmatter }}>
+      {children}
+    </ArticleContext.Provider>
+  );
+}

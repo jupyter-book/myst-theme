@@ -16,9 +16,9 @@ export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import type { NodeRenderers } from '@myst-theme/providers';
 import { mergeRenderers } from '@myst-theme/providers';
-import { BLOCK_RENDERERS } from '@myst-theme/jupyter';
+import JUPYTER_RENDERERS from '@myst-theme/jupyter';
 
-const RENDERERS: NodeRenderers = mergeRenderers([BLOCK_RENDERERS, defaultRenderers]);
+const RENDERERS: NodeRenderers = mergeRenderers([JUPYTER_RENDERERS, defaultRenderers]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({

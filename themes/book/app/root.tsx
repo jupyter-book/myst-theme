@@ -3,6 +3,7 @@ import tailwind from '~/styles/app.css';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/common';
+import { Theme } from '@myst-theme/common';
 import {
   Document,
   responseNoSite,
@@ -54,8 +55,11 @@ export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> =
     getThemeSession(request),
   ]);
   if (!config) throw responseNoSite();
+  const themeOption = config?.options?.theme ?? '';
+  const theme = themeOption === 'light' ? Theme.light : themeOption === 'dark' ? Theme.dark : themeSession.getTheme();
+  themeSession.setTheme(theme);
   const data = {
-    theme: themeSession.getTheme(),
+    theme: theme,
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
     MODE: (process.env.MODE ?? 'app') as 'app' | 'static',

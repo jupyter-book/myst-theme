@@ -78,11 +78,13 @@ function ArticlePageAndNavigationInternal({
   children,
   hide_toc,
   hideSearch,
+  hideThemeToggle,
   projectSlug,
   inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
   hide_toc?: boolean;
   hideSearch?: boolean;
+  hideThemeToggle?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
   inset?: number;
@@ -91,7 +93,7 @@ function ArticlePageAndNavigationInternal({
   const { container, toc } = useSidebarHeight(top, inset);
   return (
     <>
-      <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
+      <TopNav hideToc={hide_toc} hideSearch={hideSearch} hideThemeToggle={hideThemeToggle}/>
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
@@ -116,11 +118,13 @@ export function ArticlePageAndNavigation({
   children,
   hide_toc,
   hideSearch,
+  hideThemeToggle,
   projectSlug,
   inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
   hide_toc?: boolean;
   hideSearch?: boolean;
+  hideThemeToggle?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
   inset?: number;
@@ -131,6 +135,7 @@ export function ArticlePageAndNavigation({
         children={children}
         hide_toc={hide_toc}
         hideSearch={hideSearch}
+	hideThemeToggle={hideThemeToggle}
         projectSlug={projectSlug}
         inset={inset}
       />
@@ -145,7 +150,7 @@ export default function Page() {
   const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.site ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
-  const { hide_toc, hide_search, hide_footer_links } = {
+  const { hide_toc, hide_search, hide_footer_links, hide_theme_toggle} = {
     ...siteDesign,
     ...pageDesign,
   };
@@ -153,6 +158,7 @@ export default function Page() {
     <ArticlePageAndNavigation
       hide_toc={hide_toc}
       hideSearch={hide_search}
+      hideThemeToggle={hide_theme_toggle}
       projectSlug={data.page.project}
     >
       {/* <ProjectProvider project={project}> */}

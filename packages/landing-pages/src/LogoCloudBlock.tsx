@@ -16,13 +16,14 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
     const rawBodyNode = filter(node, (child: GenericNode) => child.type !== 'grid')!;
 
     const linksNode = selectAll('link,crossReference', rawBodyNode);
-    const bodyNode = filter(
-      rawBodyNode,
-      (otherNode: GenericNode) => !['link', 'crossReference'].includes(otherNode.type),
-    )!.children;
+    const bodyNodes =
+      filter(
+        rawBodyNode,
+        (otherNode: GenericNode) => !['link', 'crossReference'].includes(otherNode.type),
+      )?.children ?? [];
 
     return {
-      body: bodyNode,
+      body: bodyNodes,
       grid: gridNode,
       links: linksNode,
     };
@@ -41,7 +42,7 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
         {grid && <MyST ast={grid} />}
         {links && (
           <div className="mt-8 flex gap-4 items-center justify-center">
-            <MyST ast={links} className="shrink-0" />
+            <MyST ast={links} />
           </div>
         )}
       </div>

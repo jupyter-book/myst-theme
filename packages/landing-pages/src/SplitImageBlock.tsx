@@ -18,7 +18,7 @@ export function SplitImageBlock(props: Omit<LandingBlockProps, 'children'>) {
 
     const linksNode = selectAll('link,crossReference', rawBody);
     const subtitleNode = select('paragraph', head) as GenericParent | null;
-    const headingNode = select('heading[depth=2]', head) as GenericParent | null;
+    const headingNode = select('heading', head) as GenericParent | null;
     const imageNode = select('image', rawBody);
     const bodyNode = filter(
       rawBody,

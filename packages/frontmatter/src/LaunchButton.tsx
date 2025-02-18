@@ -474,7 +474,14 @@ function DetectLaunchContent(props: ModalLaunchProps) {
           given?
         </legend>
         <div>
-          <input id="jupyterhub" type="radio" name="provider" value="jupyterhub" className="mr-2" defaultChecked />
+          <input
+            id="jupyterhub"
+            type="radio"
+            name="provider"
+            value="jupyterhub"
+            className="mr-2"
+            defaultChecked
+          />
           <label className="cursor-pointer " htmlFor="jupyterhub">
             JupyterHub
           </label>

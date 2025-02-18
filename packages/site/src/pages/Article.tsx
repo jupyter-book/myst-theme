@@ -1,13 +1,13 @@
 import React from 'react';
-import { ReferencesProvider, useProjectManifest } from '@myst-theme/providers';
+import { ArticleProvider, useProjectManifest } from '@myst-theme/providers';
 import {
   Bibliography,
-  ContentBlocks,
   FooterLinksBlock,
   FrontmatterParts,
   BackmatterParts,
 } from '../components/index.js';
 import type { PageLoader } from '@myst-theme/common';
+import { MyST } from 'myst-to-react';
 import { copyNode, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {
@@ -48,7 +48,8 @@ export const ArticlePage = React.memo(function ({
   const { location } = article;
 
   return (
-    <ReferencesProvider
+    <ArticleProvider
+      kind={article.kind}
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
@@ -71,7 +72,7 @@ export const ArticlePage = React.memo(function ({
           )}
           <div id="skip-to-article" />
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
-          <ContentBlocks pageKind={article.kind} mdast={tree as GenericParent} />
+          <MyST ast={tree.children as GenericParent[]} />
           <BackmatterParts parts={parts} />
           <Bibliography />
           <ConnectionStatusTray />
@@ -80,6 +81,6 @@ export const ArticlePage = React.memo(function ({
           )}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
-    </ReferencesProvider>
+    </ArticleProvider>
   );
 });

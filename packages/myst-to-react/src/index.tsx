@@ -2,6 +2,7 @@ import { mergeRenderers } from '@myst-theme/providers';
 import BASIC_RENDERERS from './basic.js';
 import ADMONITION_RENDERERS from './admonitions.js';
 import DROPDOWN_RENDERERS from './dropdown.js';
+import BLOCK_RENDERERS from './block.js';
 import CARD_RENDERERS from './card.js';
 import GRID_RENDERERS from './grid.js';
 import CITE_RENDERERS from './cite.js';
@@ -22,6 +23,7 @@ import EXERCISE_RENDERERS from './exercise.js';
 import ASIDE_RENDERERS from './aside.js';
 import UNKNOWN_MYST_RENDERERS from './unknown.js';
 
+export { Block } from './block.js';
 export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components/index.js';
 export { CodeBlock } from './code.js';
 export { HashLink, scrollToElement } from './hashLink.js';
@@ -34,6 +36,7 @@ export const DEFAULT_RENDERERS = mergeRenderers(
   [
     BASIC_RENDERERS,
     UNKNOWN_MYST_RENDERERS,
+    BLOCK_RENDERERS,
     IMAGE_RENDERERS,
     LINK_RENDERERS,
     CODE_RENDERERS,

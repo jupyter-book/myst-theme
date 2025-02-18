@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ReferencesProvider,
+  ArticleProvider,
   useProjectManifest,
   useSiteManifest,
   useThemeTop,
@@ -8,7 +8,6 @@ import {
 } from '@myst-theme/providers';
 import {
   Bibliography,
-  ContentBlocks,
   FooterLinksBlock,
   FrontmatterParts,
   BackmatterParts,
@@ -28,6 +27,7 @@ import {
   ErrorTray,
   useComputeOptions,
 } from '@myst-theme/jupyter';
+import { MyST } from 'myst-to-react';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import type { SiteAction } from 'myst-config';
 import type { TemplateOptions } from '../types.js';
@@ -80,7 +80,8 @@ export const ArticlePage = React.memo(function ({
   const { location } = article;
 
   return (
-    <ReferencesProvider
+    <ArticleProvider
+      kind={article.kind}
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
@@ -92,7 +93,7 @@ export const ArticlePage = React.memo(function ({
               frontmatter={{ ...article.frontmatter, downloads }}
               className="mb-8 pt-9"
               thebe={thebe}
-	      location={location}
+              location={location}
             />
           )}
           {!hide_outline && (
@@ -115,7 +116,7 @@ export const ArticlePage = React.memo(function ({
           )}
           <div id="skip-to-article" />
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
-          <ContentBlocks pageKind={article.kind} mdast={tree as GenericParent} />
+          <MyST ast={tree.children as GenericParent[]} />
           <BackmatterParts parts={parts} />
           <Footnotes />
           <Bibliography />
@@ -125,6 +126,6 @@ export const ArticlePage = React.memo(function ({
           )}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
-    </ReferencesProvider>
+    </ArticleProvider>
   );
 });

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import type { GenericParent, GenericNode } from 'myst-common';
 import { MyST } from 'myst-to-react';
 
-import { select, selectAll } from 'unist-util-select';
+import { select, selectAll, matches } from 'unist-util-select';
 import { filter } from 'unist-util-filter';
 import type { NodeRenderers } from '@myst-theme/providers';
 
@@ -16,13 +16,14 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
   const { body, links, subtitle, heading } = useMemo(() => {
     const { head, body: rawBody } = splitByHeader(node);
 
-    const linksNode = selectAll('link,crossReference', rawBody);
+    const linksNode = selectAll('link[class*=button], crossReference[class*=button]', rawBody);
     const subtitleNode = select('paragraph', head) as GenericParent | null;
     const headingNode = select('heading', head) as GenericParent | null;
     const bodyNodes =
       filter(
         rawBody,
-        (otherNode: GenericNode) => !['link', 'crossReference'].includes(otherNode.type),
+        (otherNode: GenericNode) =>
+          !matches('link[class*=button], crossReference[class*=button]', otherNode),
       )?.children ?? [];
 
     return {
@@ -34,7 +35,7 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
   }, [node]);
 
   if (!body) {
-    return <InvalidBlock {...props} blockName="justified" />;
+    return <InvalidBlock {...props} blockName="centered" />;
   }
   return (
     <LandingBlock {...props}>

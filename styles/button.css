@@ -1,5 +1,5 @@
 a.button {
-  @apply px-4 py-2 font-bold rounded;
+  @apply px-4 py-2 font-bold rounded no-underline;
 }
 a.button {
   @apply text-white bg-blue-500;

@@ -1,5 +1,17 @@
 # @myst-theme/article
 
+## 0.13.8
+
+### Patch Changes
+
+- Updated dependencies [9be227d]
+  - @myst-theme/styles@0.13.8
+  - @myst-theme/providers@0.13.8
+  - @myst-theme/jupyter@0.13.8
+  - @myst-theme/site@0.13.8
+  - @myst-theme/common@0.13.8
+  - @myst-theme/icons@0.13.8
+
 ## 0.13.7
 
 ### Patch Changes

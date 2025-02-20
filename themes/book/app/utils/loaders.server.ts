@@ -119,3 +119,18 @@ export async function getFavicon(): Promise<{ contentType: string | null; buffer
   if (!response || response.status === 404) return null;
   return { contentType: response.headers.get('Content-Type'), buffer: await response.buffer() };
 }
+
+export async function getCustomStyleSheet(): Promise<{
+  contentType: string | null;
+  buffer: Buffer;
+} | null> {
+  // We are always fetching this at run time, so we don't want the rewritten links
+  const config = await getConfig({ rewriteStaticFolder: false });
+  const url = config.options?.style;
+  if (!url) {
+    return null;
+  }
+  const response = await fetch(url).catch(() => null);
+  if (!response || response.status === 404) return null;
+  return { contentType: response.headers.get('Content-Type'), buffer: await response.buffer() };
+}

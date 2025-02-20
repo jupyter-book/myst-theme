@@ -63,7 +63,7 @@ options:
     description: Respect nested folder structure in URL paths
   - type: file
     id: style
-    description: Local path to a Tailwind CSS file
+    description: Local path to a CSS file
 build:
   install: npm install
   start: npm run start

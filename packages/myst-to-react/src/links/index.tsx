@@ -36,11 +36,8 @@ function InternalLink({
   const site = useSiteManifest();
   const page = getPageInfo(site, url);
   const baseurl = useBaseurl();
-  let to = withBaseurl(url, baseurl);
-  if (page) {
-    const prettyurl = usePrettyUrl();
-    to = withPrettyUrl(to, prettyurl)
-  }
+  const prettyurl = usePrettyUrl();
+  let to = withPrettyUrl(withBaseurl(url, baseurl), prettyurl);
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (

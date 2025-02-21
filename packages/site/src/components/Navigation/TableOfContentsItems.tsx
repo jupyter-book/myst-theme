@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import type { Heading } from '@myst-theme/common';
-import { useBaseurl, useNavLinkProvider, useNavOpen, withBaseurl } from '@myst-theme/providers';
+import { useBaseurl, useNavLinkProvider, useNavOpen, usePrettyUrl, withBaseurl, withPrettyUrl } from '@myst-theme/providers';
 import { useLocation, useNavigation } from '@remix-run/react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 
@@ -35,17 +35,20 @@ function nestToc(toc: Heading[]): NestedHeading[] {
   return items;
 }
 
-function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: string) {
+function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: string, prettyurl?: boolean) {
   const headingPath = withBaseurl(heading.path, baseurl);
+  if (prettyurl === false && pathname.endsWith('.html')) {
+    pathname = pathname.substring(0, pathname.length - 5);
+  }
   if (pathname && headingPath === `${pathname}/index`) return true;
   return headingPath === pathname;
 }
 
-function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: string): string[] {
+function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: string, prettyurl?: boolean): string[] {
   return headings
     .map((heading) => {
-      if (pathnameMatchesHeading(pathname, heading, baseurl)) return [heading.id];
-      const open = childrenOpen(heading.children, pathname, baseurl);
+      if (pathnameMatchesHeading(pathname, heading, baseurl, prettyurl)) return [heading.id];
+      const open = childrenOpen(heading.children, pathname, baseurl, prettyurl);
       if (open.length === 0) return [];
       return [heading.id, ...open];
     })
@@ -74,6 +77,7 @@ function LinkItem({
 }) {
   const NavLink = useNavLinkProvider();
   const baseurl = useBaseurl();
+  const prettyurl = usePrettyUrl();
   const [, setOpen] = useNavOpen();
   if (!heading.path) {
     return (
@@ -96,7 +100,7 @@ function LinkItem({
         'block break-words focus:outline outline-blue-200 outline-2 rounded',
         className,
       )}
-      to={withBaseurl(heading.path, baseurl)}
+      to={withPrettyUrl(withBaseurl(heading.path, baseurl), prettyurl)}
       onClick={() => {
         onClick?.();
         setOpen(false);
@@ -110,13 +114,14 @@ function LinkItem({
 const NestedToc = ({ heading }: { heading: NestedHeading }) => {
   const { pathname } = useLocation();
   const baseurl = useBaseurl();
-  const startOpen = childrenOpen([heading], pathname, baseurl).includes(heading.id);
+  const prettyurl = usePrettyUrl();
+  const startOpen = childrenOpen([heading], pathname, baseurl, prettyurl).includes(heading.id);
   const nav = useNavigation();
   const [open, setOpen] = React.useState(startOpen);
   useEffect(() => {
     if (nav.state === 'idle') setOpen(startOpen);
   }, [nav.state]);
-  const exact = pathnameMatchesHeading(pathname, heading, baseurl);
+  const exact = pathnameMatchesHeading(pathname, heading, baseurl, prettyurl);
   if (!heading.children || heading.children.length === 0) {
     return (
       <LinkItem

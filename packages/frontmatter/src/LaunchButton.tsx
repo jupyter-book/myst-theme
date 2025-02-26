@@ -465,6 +465,24 @@ function DetectLaunchContent(props: ModalLaunchProps) {
         </div>
       </Form.Field>
 
+      <div
+        className={classNames('p-4 rounded-lg text-blue-600 bg-blue-50 dark:bg-slate-900', {
+          hidden: detectedProviderType === 'binderhub',
+        })}
+      >
+        <p className="mb-1">
+          Launching on a JupyterHub requires the{' '}
+          <a href="https://github.com/jupyterhub/nbgitpuller" className="underline">
+            nbgitpuller
+          </a>{' '}
+          extension to be installed.
+        </p>
+        <p>
+          Contact the Hub administrator for more information about using nbgitpuller with
+          JupyterHub.
+        </p>
+      </div>
+
       <fieldset
         disabled={detectedProviderType !== 'error'}
         className={classNames('mt-6', { hidden: detectedProviderType !== 'error' })}

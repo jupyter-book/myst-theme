@@ -12,15 +12,25 @@ function variables(vars: MystThemeVariables) {
     .map(([name, value]) => `--${name}: '${value}';`)
     .join('\n  ');
   if (!css) return '';
-  return `:root {\n  ${css}}`;
+  return `:root {\n  ${css}\n}`;
 }
 
-export function themeCSS(options?: ThemeCssOptions) {
+export function themeCSS(options?: ThemeCssOptions, css?: string): string {
   const numbered_references = !!options?.numbered_references;
   const citationCss = numbered_references
     ? { 'cite-group-open': '[', 'cite-group-close': ']' }
     : {};
-  return variables({ ...citationCss });
+  const vars = variables({ ...citationCss });
+  const themeCss = vars ? `/* MyST Theme Options */\n\n${vars}` : '';
+  const userCss = css
+    ? `/* User Provided Stylesheet */\n\n${css}`
+    : '/* No Custom Stylesheet Provided */';
+  return (
+    [themeCss, userCss]
+      .map((s) => s.trim())
+      .join('\n\n')
+      .trim() + '\n'
+  );
 }
 
 export function cssResponse(css: string): Response {

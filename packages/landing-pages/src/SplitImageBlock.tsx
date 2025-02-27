@@ -76,7 +76,7 @@ export function SplitImageBlock(props: Omit<LandingBlockProps, 'children'>) {
 
 const SPLIT_IMAGE_RENDERERS: NodeRenderers = {
   block: {
-    'block[class*=split-image]': SplitImageBlock,
+    'block[kind=split-image]': SplitImageBlock,
   },
 };
 export default SPLIT_IMAGE_RENDERERS;

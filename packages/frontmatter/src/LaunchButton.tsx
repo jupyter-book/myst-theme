@@ -11,6 +11,7 @@ import {
   UpdateIcon,
   Link2Icon,
 } from '@radix-ui/react-icons';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import { BinderIcon, JupyterIcon } from '@scienceicons/react/24/solid';
 import * as Form from '@radix-ui/react-form';
 import type { ExpandedThebeFrontmatter, BinderHubOptions } from 'myst-frontmatter';
@@ -465,23 +466,53 @@ function DetectLaunchContent(props: ModalLaunchProps) {
         </div>
       </Form.Field>
 
-      <div
-        className={classNames('p-4 rounded-lg text-blue-600 bg-blue-50 dark:bg-slate-900', {
-          hidden: detectedProviderType === 'binderhub',
-        })}
+      <details
+        className={classNames(
+          'rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
+          'bg-gray-50 dark:bg-stone-800',
+          { hidden: !(detectedProviderType === 'jupyterhub' || detectedProviderType === 'error') },
+        )}
+        open={false}
       >
-        <p className="mb-1">
-          Launching on a JupyterHub requires the{' '}
-          <a href="https://github.com/jupyterhub/nbgitpuller" className="underline">
-            nbgitpuller
-          </a>{' '}
-          extension to be installed.
-        </p>
-        <p>
-          Contact the Hub administrator for more information about using nbgitpuller with
-          JupyterHub.
-        </p>
-      </div>
+        <summary
+          className={classNames(
+            'm-0 text-lg font-medium py-1 min-h-[2em] pl-3',
+            'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]',
+            'bg-gray-100 dark:bg-slate-900',
+          )}
+        >
+          <span className="text-neutral-900 dark:text-white">
+            <span className="block float-right text-sm font-thin text-neutral-700 dark:text-neutral-200">
+              <ChevronRightIcon
+                width="1.5rem"
+                height="1.5rem"
+                className={classNames('details-toggle', 'transition-transform')}
+              />
+            </span>
+            JupyterHub Requirements
+          </span>
+        </summary>
+        <div className="px-4 py-1 details-body flex flex-col gap-1">
+          <p>
+            Launching on a JupyterHub will usually require you to choose a "profile". You should
+            select a profile that has the right packages, and enough resources to run the code-cells
+            and inline expressions in this MyST project.
+          </p>
+
+          <p>
+            Whichever image you choose, it must have the{' '}
+            <a href="https://github.com/jupyterhub/nbgitpuller" className="underline">
+              nbgitpuller
+            </a>{' '}
+            extension installed. If it is missing, you will see an HTTP 404 error once the server
+            starts.
+          </p>
+          <p>
+            Contact the Hub administrator for more information about using nbgitpuller with
+            JupyterHub.
+          </p>
+        </div>
+      </details>
 
       <fieldset
         disabled={detectedProviderType !== 'error'}

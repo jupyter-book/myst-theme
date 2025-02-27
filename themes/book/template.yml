@@ -30,7 +30,7 @@ options:
     description: Disable the search
   - type: number
     id: outline_maxdepth
-    description: The maximum depth to show on the document outline, for example, `2` would show only two depths of headings (e.g. `<H1>` and `<H2>`).
+    description: The maximum depth to show on the document outline, for example, `2` would show only two depths of headings (e.g. `<H1>` and `<H2>`)
     min: 1
     max: 6
     integer: true
@@ -57,10 +57,13 @@ options:
     description: Plausible analytics key
   - type: boolean
     id: numbered_references
-    description: Show references as numbered, rather than in APA-style. Only applies to parenthetical citations.
+    description: Show references as numbered, rather than in APA-style. Only applies to parenthetical citations
   - type: boolean
     id: folders
-    description: Respect nested folder structure in URL paths.
+    description: Respect nested folder structure in URL paths
+  - type: file
+    id: style
+    description: Local path to a CSS file
 build:
   install: npm install
   start: npm run start

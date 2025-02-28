@@ -1,5 +1,29 @@
 # @myst-theme/site
 
+## 0.14.0
+
+### Minor Changes
+
+- 0c5f40a: Move ContentBlocks to MyST
+
+### Patch Changes
+
+- 0c5f40a: Remove unused function `isACodeCell`
+- 0c5f40a: Remove deprecated `ArticlePage`
+- 0c5f40a: Remove dependence on `@myst-theme/jupyter`
+- b0b67b6: Update to myst 1.3.24
+- Updated dependencies [0c5f40a]
+- Updated dependencies [b0b67b6]
+- Updated dependencies [0c5f40a]
+- Updated dependencies [0ae2575]
+  - myst-to-react@0.14.0
+  - myst-demo@0.14.0
+  - @myst-theme/providers@0.14.0
+  - @myst-theme/diagrams@0.14.0
+  - @myst-theme/common@0.14.0
+  - @myst-theme/frontmatter@0.14.0
+  - @myst-theme/search@0.14.0
+
 ## 0.13.7
 
 ### Patch Changes

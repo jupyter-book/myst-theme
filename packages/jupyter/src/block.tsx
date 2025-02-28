@@ -70,10 +70,19 @@ export const NotebookBlockRenderer: NodeRenderer = ({ node, className }) => {
   );
 };
 
-const NOTEBOOK_RENDERERS: NodeRenderers = {
+/**
+ * The logic for the selector is complex:
+ *
+ *  - MD files have `notebook-code` and otherwise blocks with no kind.
+ *  - IPyNB files have both `notebook-code` and `notebook-content` blocks.
+ *  - An article may contain `notebook-code` blocks from the `code-cell` directive even though it is not considered a notebook (i.e., no frontmatter kernelspec).
+ *
+ * This component therefore only renders for `code-cells` (both ipynb and .md) and `content-cells` (ipynb).
+ *
+ * The benefit of this is that we can use the block-kind to figure out if e.g. the cell is executable.
+ */
+export const NOTEBOOK_BLOCK_RENDERERS: NodeRenderers = {
   block: {
     'block[kind=notebook-code],block[kind=notebook-content]': NotebookBlockRenderer,
   },
 };
-
-export default NOTEBOOK_RENDERERS;

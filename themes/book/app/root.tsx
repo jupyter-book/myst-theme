@@ -19,10 +19,10 @@ import { SearchFactoryProvider, mergeRenderers } from '@myst-theme/providers';
 import type { NodeRenderers } from '@myst-theme/providers';
 import type { ISearch, MystSearchIndex } from '@myst-theme/search';
 import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
-import JUPYTER_RENDERERS from '@myst-theme/jupyter';
+import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { useCallback } from 'react';
 
-const RENDERERS: NodeRenderers = mergeRenderers([JUPYTER_RENDERERS, defaultRenderers]);
+const RENDERERS: NodeRenderers = mergeRenderers([defaultRenderers, JUPYTER_RENDERERS]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({

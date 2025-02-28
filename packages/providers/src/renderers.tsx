@@ -31,6 +31,15 @@ export function validateRenderers(renderers?: NodeRenderers): NodeRenderersValid
   return validatedRenderers;
 }
 
+/**
+ * Combines a list of renderers. Put more specific renderers **later** in the list.
+ *
+ * When a renderer is selected, it will look for a match in **reversed** order.
+ *
+ * ```typescript
+ * mergeRenderers([defaultRenderers, specificRenderers])
+ * ```
+ */
 export function mergeRenderers(renderers: NodeRenderers[], validate: true): NodeRenderersValidated;
 export function mergeRenderers(renderers: NodeRenderers[], validate?: false): NodeRenderers;
 export function mergeRenderers(renderers: NodeRenderers[], validate?: boolean): NodeRenderers {

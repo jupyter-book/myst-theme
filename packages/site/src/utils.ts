@@ -2,7 +2,6 @@ import type { GenericNode, GenericParent } from 'myst-common';
 import { extractPart } from 'myst-common';
 import type { PageLoader } from '@myst-theme/common';
 import type { SiteAction } from 'myst-config';
-import { executableNodesFromBlock } from '@myst-theme/jupyter';
 
 export function getDomainFromRequest(request: Request) {
   const url = new URL(request.url);
@@ -65,8 +64,4 @@ export function getChildren(content?: GenericParent): GenericNode | GenericNode[
     return content.children[0].children as GenericNode[];
   }
   return content as GenericNode;
-}
-
-export function isACodeCell(node: GenericParent) {
-  return !!executableNodesFromBlock(node);
 }

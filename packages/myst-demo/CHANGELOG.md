@@ -1,5 +1,15 @@
 # myst-demo
 
+## 0.14.0
+
+### Patch Changes
+
+- 0c5f40a: Move ContentBlocks to MyST
+- b0b67b6: Update to myst 1.3.24
+- Updated dependencies [0c5f40a]
+- Updated dependencies [b0b67b6]
+  - myst-to-react@0.14.0
+
 ## 0.13.7
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @myst-theme/providers
 
+## 0.14.0
+
+### Patch Changes
+
+- 0c5f40a: Move ContentBlocks to MyST
+- b0b67b6: Update to myst 1.3.24
+- 0c5f40a: Move `ReferencesProvider` to `ArticleProvider`
+- Updated dependencies [b0b67b6]
+- Updated dependencies [0ae2575]
+  - @myst-theme/common@0.14.0
+
 ## 0.13.7
 
 ### Patch Changes

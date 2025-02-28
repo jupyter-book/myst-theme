@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.14.0
+
+### Patch Changes
+
+- 9be227d: Do not underline button text
+
 ## 0.13.7
 
 ## 0.13.6

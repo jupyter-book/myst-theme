@@ -1,5 +1,27 @@
 # @myst-theme/article
 
+## 0.14.0
+
+### Patch Changes
+
+- 0c5f40a: Move ContentBlocks to MyST
+- b0b67b6: Update to myst 1.3.24
+- 0ae2575: Add support for custom CSS styles
+- Updated dependencies [9be227d]
+- Updated dependencies [0c5f40a]
+- Updated dependencies [0c5f40a]
+- Updated dependencies [0c5f40a]
+- Updated dependencies [0c5f40a]
+- Updated dependencies [b0b67b6]
+- Updated dependencies [0c5f40a]
+- Updated dependencies [0ae2575]
+  - @myst-theme/styles@0.14.0
+  - @myst-theme/site@0.14.0
+  - @myst-theme/providers@0.14.0
+  - @myst-theme/jupyter@0.14.0
+  - @myst-theme/common@0.14.0
+  - @myst-theme/icons@0.14.0
+
 ## 0.13.7
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @myst-theme/diagrams
 
+## 0.14.0
+
+### Patch Changes
+
+- 0c5f40a: Move ContentBlocks to MyST
+- Updated dependencies [0c5f40a]
+- Updated dependencies [b0b67b6]
+- Updated dependencies [0c5f40a]
+  - @myst-theme/providers@0.14.0
+
 ## 0.13.7
 
 ### Patch Changes

@@ -10,14 +10,19 @@ import {
   getThemeSession,
   ContentReload,
   SkipTo,
+  renderers as defaultRenderers,
 } from '@myst-theme/site';
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { createSearch as createMiniSearch } from '@myst-theme/search-minisearch';
 import { Outlet, useLoaderData } from '@remix-run/react';
-import { SearchFactoryProvider } from '@myst-theme/providers';
+import { SearchFactoryProvider, mergeRenderers } from '@myst-theme/providers';
+import type { NodeRenderers } from '@myst-theme/providers';
 import type { ISearch, MystSearchIndex } from '@myst-theme/search';
 import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
-import { useCallback, useMemo } from 'react';
+import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
+import { useCallback } from 'react';
+
+const RENDERERS: NodeRenderers = mergeRenderers([defaultRenderers, JUPYTER_RENDERERS]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({
@@ -90,6 +95,7 @@ export default function AppWithReload() {
         scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
         staticBuild={MODE === 'static'}
         baseurl={BASE_URL}
+        renderers={RENDERERS}
       >
         <SkipTo
           targets={[

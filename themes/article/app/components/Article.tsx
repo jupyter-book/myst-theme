@@ -1,7 +1,6 @@
 import { type PageLoader } from '@myst-theme/common';
 import {
   Bibliography,
-  ContentBlocks,
   DocumentOutline,
   SupportingDocuments,
   FrontmatterParts,
@@ -10,18 +9,25 @@ import {
   Footnotes,
 } from '@myst-theme/site';
 import React from 'react';
-import { ErrorTray, NotebookToolbar, useComputeOptions } from '@myst-theme/jupyter';
+import {
+  ErrorTray,
+  NotebookToolbar,
+  useComputeOptions,
+  BusyScopeProvider,
+  ConnectionStatusTray,
+  ExecuteScopeProvider,
+} from '@myst-theme/jupyter';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import {
-  ReferencesProvider,
+  ArticleProvider,
   useThemeTop,
   useMediaQuery,
   useProjectManifest,
 } from '@myst-theme/providers';
 import type { GenericParent } from 'myst-common';
 import { copyNode } from 'myst-common';
-import { BusyScopeProvider, ConnectionStatusTray, ExecuteScopeProvider } from '@myst-theme/jupyter';
 import { SourceFileKind } from 'myst-spec-ext';
+import { MyST } from 'myst-to-react';
 
 const TOP_OFFSET = 24;
 
@@ -50,7 +56,8 @@ export function Article({
   const { thebe } = manifest as any;
   const { location } = article;
   return (
-    <ReferencesProvider
+    <ArticleProvider
+      kind={article.kind}
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
@@ -86,13 +93,13 @@ export function Article({
           <ErrorTray pageSlug={article.slug} />
           <div id="skip-to-article" />
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
-          <ContentBlocks mdast={tree as GenericParent} />
+          <MyST ast={tree.children as GenericParent[]} />
           <BackmatterParts parts={parts} />
           <Footnotes />
           <Bibliography />
           <ConnectionStatusTray />
         </ExecuteScopeProvider>
       </BusyScopeProvider>
-    </ReferencesProvider>
+    </ArticleProvider>
   );
 }

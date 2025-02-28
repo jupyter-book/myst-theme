@@ -5,7 +5,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 import type { SiteManifest } from 'myst-config';
 import {
-  ReferencesProvider,
+  ArticleProvider,
   useBaseurl,
   useGridSystemProvider,
   useLinkProvider,
@@ -38,7 +38,8 @@ export function ArticlePage({ article }: { article: PageLoader }) {
   if (!project) return <Error404 />;
 
   return (
-    <ReferencesProvider
+    <ArticleProvider
+      kind={article.kind}
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
@@ -105,6 +106,6 @@ export function ArticlePage({ article }: { article: PageLoader }) {
           {!hide_footer_links && <FooterLinksBlock links={article.footer} />}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
-    </ReferencesProvider>
+    </ArticleProvider>
   );
 }

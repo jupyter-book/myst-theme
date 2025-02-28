@@ -1,5 +1,12 @@
 # @myst-theme/common
 
+## 0.14.0
+
+### Patch Changes
+
+- b0b67b6: Update to myst 1.3.24
+- 0ae2575: Add support for custom CSS styles
+
 ## 0.13.7
 
 ### Patch Changes

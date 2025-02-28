@@ -2,7 +2,7 @@ a.button {
   @apply px-4 py-2 font-bold rounded no-underline;
 }
 a.button {
-  @apply text-white bg-blue-500;
+  @apply text-white bg-blue-500 whitespace-nowrap;
 }
 a.button:hover {
   @apply bg-blue-700;

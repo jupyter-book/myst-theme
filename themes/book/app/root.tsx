@@ -25,9 +25,9 @@ import LANDING_PAGE_RENDERERS from '@myst-theme/landing-pages';
 import { useCallback } from 'react';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
-  LANDING_PAGE_RENDERERS,
-  JUPYTER_RENDERERS,
   defaultRenderers,
+  JUPYTER_RENDERERS,
+  LANDING_PAGE_RENDERERS,
 ]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {

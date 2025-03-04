@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 0.14.1
+
+### Patch Changes
+
+- 6cd2bbe: Simplify blocks
+- Updated dependencies [6cd2bbe]
+  - myst-to-react@0.14.1
+  - @myst-theme/providers@0.14.1
+
 ## 0.14.0
 
 ### Patch Changes

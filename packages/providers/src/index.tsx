@@ -10,3 +10,4 @@ export * from './tabs.js';
 export * from './xref.js';
 export * from './renderers.js';
 export * from './project.js';
+export * from './block.js';

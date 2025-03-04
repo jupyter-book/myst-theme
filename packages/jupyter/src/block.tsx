@@ -7,7 +7,12 @@ import {
   NotebookRunCell,
   NotebookRunCellSpinnerOnly,
 } from './controls/index.js';
-import { useGridSystemProvider, usePageKind } from '@myst-theme/providers';
+import {
+  useBlockDepth,
+  BlockDepthProvider,
+  useGridSystemProvider,
+  usePageKind,
+} from '@myst-theme/providers';
 import type { NodeRenderers, NodeRenderer } from '@myst-theme/providers';
 
 export function NotebookBlock({
@@ -19,13 +24,16 @@ export function NotebookBlock({
   node: GenericParent;
   className?: string;
 }) {
+  const depth = useBlockDepth();
   const pageKind = usePageKind();
   const grid = useGridSystemProvider();
   const subGrid = node.visibility === 'hide' ? '' : `${grid} subgrid-gap col-screen`;
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
   // Hide the subgrid if either the dataClass or the className exists and includes `col-`
   const noSubGrid =
-    (dataClassName && dataClassName.includes('col-')) || (className && className.includes('col-'));
+    depth > 0 ||
+    (dataClassName && dataClassName.includes('col-')) ||
+    (className && className.includes('col-'));
   const block = (
     <div
       key={`block-${id}`}
@@ -50,7 +58,9 @@ export function NotebookBlock({
           </div>
         </>
       )}
-      <MyST ast={node.children} />
+      <BlockDepthProvider depth={depth + 1}>
+        <MyST ast={node.children} />
+      </BlockDepthProvider>
     </div>
   );
   if (node.visibility === 'hide') {

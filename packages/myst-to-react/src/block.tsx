@@ -2,7 +2,7 @@ import { Details } from './dropdown.js';
 import { MyST } from './MyST.js';
 import type { GenericParent } from 'myst-common';
 import classNames from 'classnames';
-import { useGridSystemProvider } from '@myst-theme/providers';
+import { useBlockDepth, useGridSystemProvider, BlockDepthProvider } from '@myst-theme/providers';
 import type { NodeRenderer } from '@myst-theme/providers';
 
 export function Block({
@@ -14,12 +14,15 @@ export function Block({
   node: GenericParent;
   className?: string;
 }) {
+  const depth = useBlockDepth();
   const grid = useGridSystemProvider();
   const subGrid = node.visibility === 'hide' ? '' : `${grid} subgrid-gap col-screen`;
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
   // Hide the subgrid if either the dataClass or the className exists and includes `col-`
   const noSubGrid =
-    (dataClassName && dataClassName.includes('col-')) || (className && className.includes('col-'));
+    depth > 0 ||
+    (dataClassName && dataClassName.includes('col-')) ||
+    (className && className.includes('col-'));
   const block = (
     <div
       key={`block-${id}`}
@@ -29,7 +32,9 @@ export function Block({
         hidden: node.visibility === 'remove',
       })}
     >
-      <MyST ast={node.children} />
+      <BlockDepthProvider depth={depth + 1}>
+        <MyST ast={node.children} />
+      </BlockDepthProvider>
     </div>
   );
   if (node.visibility === 'hide') {

@@ -5,6 +5,7 @@ import {
   useSiteManifest,
   useThemeTop,
   useMediaQuery,
+  useGridSystemProvider,
 } from '@myst-theme/providers';
 import {
   Bibliography,
@@ -27,7 +28,7 @@ import {
   ErrorTray,
   useComputeOptions,
 } from '@myst-theme/jupyter';
-import { MyST } from 'myst-to-react';
+import { MyST, blockGridClassName } from 'myst-to-react';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import type { SiteAction } from 'myst-config';
 import type { TemplateOptions } from '../types.js';
@@ -78,6 +79,7 @@ export const ArticlePage = React.memo(function ({
   const isOutlineMargin = useMediaQuery('(min-width: 1024px)');
   const { thebe } = manifest as any;
   const { location } = article;
+  const grid = useGridSystemProvider();
 
   return (
     <ArticleProvider
@@ -116,7 +118,9 @@ export const ArticlePage = React.memo(function ({
           )}
           <div id="skip-to-article" />
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
-          <MyST ast={tree.children as GenericParent[]} />
+          {...(tree.children as GenericParent[]).map((block) => (
+            <MyST ast={block} className={blockGridClassName(block, grid)} />
+          ))}
           <BackmatterParts parts={parts} />
           <Footnotes />
           <Bibliography />

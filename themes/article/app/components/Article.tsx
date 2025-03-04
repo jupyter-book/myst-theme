@@ -23,11 +23,12 @@ import {
   useThemeTop,
   useMediaQuery,
   useProjectManifest,
+  useGridSystemProvider,
 } from '@myst-theme/providers';
 import type { GenericParent } from 'myst-common';
 import { copyNode } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
-import { MyST } from 'myst-to-react';
+import { MyST, blockGridClassName } from 'myst-to-react';
 
 const TOP_OFFSET = 24;
 
@@ -93,7 +94,9 @@ export function Article({
           <ErrorTray pageSlug={article.slug} />
           <div id="skip-to-article" />
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
-          <MyST ast={tree.children as GenericParent[]} />
+          {...(tree.children as GenericParent[]).map((block) => (
+            <MyST ast={block} className={blockGridClassName(block, grid)} />
+          ))}
           <BackmatterParts parts={parts} />
           <Footnotes />
           <Bibliography />

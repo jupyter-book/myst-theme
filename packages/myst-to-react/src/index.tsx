@@ -23,7 +23,7 @@ import EXERCISE_RENDERERS from './exercise.js';
 import ASIDE_RENDERERS from './aside.js';
 import UNKNOWN_MYST_RENDERERS from './unknown.js';
 
-export { Block } from './block.js';
+export { Block, blockGridClassName } from './block.js';
 export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components/index.js';
 export { CodeBlock } from './code.js';
 export { HashLink, scrollToElement } from './hashLink.js';

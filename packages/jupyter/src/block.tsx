@@ -7,7 +7,7 @@ import {
   NotebookRunCell,
   NotebookRunCellSpinnerOnly,
 } from './controls/index.js';
-import { useGridSystemProvider, usePageKind } from '@myst-theme/providers';
+import { usePageKind } from '@myst-theme/providers';
 import type { NodeRenderers, NodeRenderer } from '@myst-theme/providers';
 
 export function NotebookBlock({
@@ -20,18 +20,12 @@ export function NotebookBlock({
   className?: string;
 }) {
   const pageKind = usePageKind();
-  const grid = useGridSystemProvider();
-  const subGrid = node.visibility === 'hide' ? '' : `${grid} subgrid-gap col-screen`;
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
-  // Hide the subgrid if either the dataClass or the className exists and includes `col-`
-  const noSubGrid =
-    (dataClassName && dataClassName.includes('col-')) || (className && className.includes('col-'));
   const block = (
     <div
       key={`block-${id}`}
       id={id}
       className={classNames('relative group/block', className, dataClassName, {
-        [subGrid]: !noSubGrid,
         hidden: node.visibility === 'remove',
       })}
     >

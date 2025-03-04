@@ -2,8 +2,15 @@ import { Details } from './dropdown.js';
 import { MyST } from './MyST.js';
 import type { GenericParent } from 'myst-common';
 import classNames from 'classnames';
-import { useGridSystemProvider } from '@myst-theme/providers';
 import type { NodeRenderer } from '@myst-theme/providers';
+
+export function blockGridClassName(node: GenericParent, grid: string): string {
+  const subGrid = node.visibility === 'hide' ? '' : `${grid} subgrid-gap col-screen`;
+  const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
+  // Hide the subgrid if either the dataClass or the className exists and includes `col-`
+  const noSubGrid = dataClassName && dataClassName.includes('col-');
+  return classNames({ [subGrid]: !noSubGrid });
+}
 
 export function Block({
   id,
@@ -14,18 +21,12 @@ export function Block({
   node: GenericParent;
   className?: string;
 }) {
-  const grid = useGridSystemProvider();
-  const subGrid = node.visibility === 'hide' ? '' : `${grid} subgrid-gap col-screen`;
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
-  // Hide the subgrid if either the dataClass or the className exists and includes `col-`
-  const noSubGrid =
-    (dataClassName && dataClassName.includes('col-')) || (className && className.includes('col-'));
   const block = (
     <div
       key={`block-${id}`}
       id={id}
       className={classNames('relative group/block', className, dataClassName, {
-        [subGrid]: !noSubGrid,
         hidden: node.visibility === 'remove',
       })}
     >

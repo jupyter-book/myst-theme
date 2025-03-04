@@ -45,6 +45,7 @@ export function Article({
   hideTitle?: boolean;
   outlineMaxDepth?: number;
 }) {
+  const grid = useGridSystemProvider();
   const manifest = useProjectManifest();
   const keywords = article.frontmatter?.keywords ?? [];
   const tree = copyNode(article.mdast);

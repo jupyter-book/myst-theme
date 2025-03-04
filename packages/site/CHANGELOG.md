@@ -1,5 +1,18 @@
 # @myst-theme/site
 
+## 0.14.1
+
+### Patch Changes
+
+- Updated dependencies [6cd2bbe]
+  - myst-to-react@0.14.1
+  - @myst-theme/providers@0.14.1
+  - @myst-theme/frontmatter@0.14.1
+  - @myst-theme/diagrams@0.14.1
+  - @myst-theme/common@0.14.1
+  - @myst-theme/search@0.14.1
+  - myst-demo@0.14.1
+
 ## 0.14.0
 
 ### Minor Changes

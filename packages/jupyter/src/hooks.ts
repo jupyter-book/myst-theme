@@ -34,6 +34,7 @@ async function fetcher(url: string) {
         // pass
       }
     }
+    console.log('fetcher', url, content);
     return { content } as any;
   }
   throw new Error(`Content returned with status ${resp.status}.`);
@@ -52,8 +53,8 @@ export function useLongContent(
   return { data, error };
 }
 
-const arrayFetcher = (...urls: string[][]) => {
-  return Promise.all(urls.map((url) => fetcher(url[0])));
+const arrayFetcher = (urls: string[]) => {
+  return Promise.all(urls.map((url) => fetcher(url)));
 };
 
 type ObjectWithPath = MinifiedErrorOutput | MinifiedStreamOutput | MinifiedMimePayload;
@@ -89,10 +90,9 @@ export function useFetchAnyTruncatedContent(outputs: MinifiedOutput[]): {
     }
   });
 
-  const { data, error } = useSWRImmutable<LongContent[]>(
-    itemsWithPaths.map(({ path }) => path),
-    arrayFetcher as any,
-  );
+  const paths = itemsWithPaths.map(({ path }) => path);
+
+  const { data, error } = useSWRImmutable<LongContent[]>(paths, arrayFetcher as any);
 
   data?.forEach(({ content }, idx) => {
     const obj = itemsWithPaths[idx];

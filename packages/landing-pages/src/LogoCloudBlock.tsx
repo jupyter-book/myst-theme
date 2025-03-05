@@ -3,7 +3,7 @@ import type { GenericNode } from 'myst-common';
 import { MyST } from 'myst-to-react';
 import type { NodeRenderers } from '@myst-theme/providers';
 
-import { select, selectAll } from 'unist-util-select';
+import { select, selectAll, matches } from 'unist-util-select';
 import { filter } from 'unist-util-filter';
 
 import { InvalidBlock } from './InvalidBlock.js';
@@ -15,11 +15,12 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
     const gridNode = select('grid', node);
     const rawBodyNode = filter(node, (child: GenericNode) => child.type !== 'grid')!;
 
-    const linksNode = selectAll('link,crossReference', rawBodyNode);
+    const linksNode = selectAll('link[class*=button], crossReference[class*=button]', rawBodyNode);
     const bodyNodes =
       filter(
         rawBodyNode,
-        (otherNode: GenericNode) => !['link', 'crossReference'].includes(otherNode.type),
+        (otherNode: GenericNode) =>
+          !matches('link[class*=button], crossReference[class*=button]', otherNode),
       )?.children ?? [];
 
     return {

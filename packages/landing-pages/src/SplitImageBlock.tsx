@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import type { GenericParent, GenericNode } from 'myst-common';
 import { MyST } from 'myst-to-react';
 
-import { select, selectAll } from 'unist-util-select';
+import { select, selectAll, matches } from 'unist-util-select';
 import { filter } from 'unist-util-filter';
 import type { NodeRenderers } from '@myst-theme/providers';
 
@@ -23,7 +23,8 @@ export function SplitImageBlock(props: Omit<LandingBlockProps, 'children'>) {
     const bodyNodes =
       filter(
         rawBody,
-        (otherNode: GenericNode) => !['link', 'crossReference', 'image'].includes(otherNode.type),
+        (otherNode: GenericNode) =>
+          !matches('link[class*=button], crossReference[class*=button], image', otherNode),
       )?.children ?? [];
 
     return {

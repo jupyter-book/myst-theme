@@ -19,13 +19,14 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
     const linksNode = selectAll('link,crossReference', rawBody);
     const subtitleNode = select('paragraph', head) as GenericParent | null;
     const headingNode = select('heading', head) as GenericParent | null;
-    const bodyNode = filter(
-      rawBody,
-      (otherNode: GenericNode) => !['link', 'crossReference'].includes(otherNode.type),
-    )!.children;
+    const bodyNodes =
+      filter(
+        rawBody,
+        (otherNode: GenericNode) => !['link', 'crossReference'].includes(otherNode.type),
+      )?.children ?? [];
 
     return {
-      body: bodyNode,
+      body: bodyNodes,
       links: linksNode,
       subtitle: subtitleNode,
       heading: headingNode,
@@ -57,7 +58,7 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
           )}
           {links && (
             <div className="mt-8 flex gap-4 items-center justify-center">
-              <MyST ast={links} className="shrink-0" />
+              <MyST ast={links} />
             </div>
           )}
         </div>

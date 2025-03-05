@@ -70,7 +70,7 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
 
 const CENTERED_RENDERERS: NodeRenderers = {
   block: {
-    'block[class*=centered]': CenteredBlock,
+    'block[kind=centered]': CenteredBlock,
   },
 };
 export default CENTERED_RENDERERS;

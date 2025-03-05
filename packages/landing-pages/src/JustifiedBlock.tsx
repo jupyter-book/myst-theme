@@ -75,7 +75,7 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
 
 const JUSTIFIED_RENDERERS: NodeRenderers = {
   block: {
-    'block[class*=justified]': JustifiedBlock,
+    'block[kind=justified]': JustifiedBlock,
   },
 };
 export default JUSTIFIED_RENDERERS;

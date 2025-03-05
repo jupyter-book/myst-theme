@@ -53,7 +53,7 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
 
 const LOGO_CLOUD_RENDERERS: NodeRenderers = {
   block: {
-    'block[class*=logo-cloud]': LogoCloudBlock,
+    'block[kind=logo-cloud]': LogoCloudBlock,
   },
 };
 export default LOGO_CLOUD_RENDERERS;

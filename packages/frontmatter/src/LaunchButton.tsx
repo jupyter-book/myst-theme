@@ -2,8 +2,17 @@ import React, { useRef, useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 import * as Popover from '@radix-ui/react-popover';
-import { RocketIcon, Cross2Icon, ClipboardCopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons';
-import * as Tabs from '@radix-ui/react-tabs';
+import {
+  RocketIcon,
+  Cross2Icon,
+  ClipboardCopyIcon,
+  ExternalLinkIcon,
+  QuestionMarkCircledIcon,
+  UpdateIcon,
+  Link2Icon,
+} from '@radix-ui/react-icons';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import { BinderIcon, JupyterIcon } from '@scienceicons/react/24/solid';
 import * as Form from '@radix-ui/react-form';
 import type { ExpandedThebeFrontmatter, BinderHubOptions } from 'myst-frontmatter';
 
@@ -16,32 +25,50 @@ const GIST_USERNAME_REPO_REGEX =
 
 type CopyButtonProps = {
   defaultMessage: string;
-  alternateMessage?: string;
-  timeout?: number;
+  copiedMessage?: string;
+  invalidLinkFallback?: string;
+  copiedMessageDuration?: number;
   buildLink: () => string | undefined;
   className?: string;
 };
 
+/**
+ * Component to add a copy-to-clipboard button
+ */
 function CopyButton(props: CopyButtonProps) {
-  const { className, defaultMessage, alternateMessage, buildLink, timeout } = props;
+  const {
+    className,
+    defaultMessage,
+    copiedMessage,
+    invalidLinkFallback,
+    buildLink,
+    copiedMessageDuration,
+  } = props;
   const [message, setMessage] = useState(defaultMessage);
 
   const copyLink = useCallback(() => {
-    // Build the link for the clipboard
-    const link = props.buildLink();
     // In secure links, we can copy it!
     if (window.isSecureContext) {
+      // Build the link for the clipboard
+      const link = props.buildLink();
       // Write to clipboard
-      window.navigator.clipboard.writeText(link ?? '<invalid link>');
+      window.navigator.clipboard.writeText(link ?? invalidLinkFallback ?? '<invalid link>');
       // Update UI
-      setMessage(alternateMessage ?? defaultMessage);
+      setMessage(copiedMessage ?? defaultMessage);
 
       // Set callback to restore message
       setTimeout(() => {
         setMessage(defaultMessage);
-      }, timeout ?? 1000);
+      }, copiedMessageDuration ?? 1000);
     }
-  }, [defaultMessage, alternateMessage, buildLink, timeout, setMessage]);
+  }, [
+    defaultMessage,
+    copiedMessage,
+    buildLink,
+    copiedMessageDuration,
+    invalidLinkFallback,
+    setMessage,
+  ]);
 
   return (
     <button
@@ -229,12 +256,77 @@ function makeNbgitpullerURL(options: BinderHubOptions, location: string): string
   return `git-pull?${query}`;
 }
 
-function BinderLaunchContent(props: ModalLaunchProps) {
+function useDebounce<T>(value: T, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  React.useEffect(() => {
+    const handle = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handle);
+    };
+  }, [value, delay]);
+  return debouncedValue;
+}
+
+type ProviderType = 'binderhub' | 'jupyterhub';
+
+/**
+ * Interrogate a possible remote provider URL to
+ * determine whether it is a BinderHub or JupyterHub
+ *
+ * @param baseUrl - URL to interrogate, ending with a slash
+ */
+async function interrogateProviderType(baseUrl: string): Promise<ProviderType | 'error'> {
+  const binderURL = `${baseUrl}versions`;
+  try {
+    const response = await fetch(binderURL);
+    const data = await response.json();
+    if ('binderhub' in data) {
+      return 'binderhub';
+    }
+  } catch (err) {
+    console.debug(`Couldn't reach ${binderURL}`);
+  }
+  const hubURL = `${baseUrl}hub/api/`;
+  try {
+    const response = await fetch(hubURL);
+    const data = await response.json();
+    if ('version' in data) {
+      return 'jupyterhub';
+    }
+  } catch (err) {
+    console.debug(`Couldn't reach ${binderURL}`);
+  }
+
+  return 'error';
+}
+
+function DetectLaunchContent(props: ModalLaunchProps) {
   const { thebe, location, onLaunch } = props;
   const { binder } = thebe;
   const defaultBinderBaseURL = binder?.url ?? 'https://mybinder.org';
 
+  // Detect the provider type
+  const [detectedProviderType, setDetectedProviderType] = useState<
+    ProviderType | 'error' | undefined
+  >(undefined);
+
+  // Handle URL entry that needs to be debounced
+  const [url, setURL] = useState('');
+  const onUrlChanged = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      // Reset the known state of the provider
+      setDetectedProviderType(undefined);
+      // Update the recorded state of the URL input
+      setURL(event.target.value);
+    },
+    [setURL],
+  );
+
   const formRef = useRef<HTMLFormElement>(null);
+
   const buildLink = useCallback(() => {
     const form = formRef.current;
     if (!form) {
@@ -242,8 +334,27 @@ function BinderLaunchContent(props: ModalLaunchProps) {
     }
 
     const data = Object.fromEntries(new FormData(form) as any);
-    return makeBinderURL({ ...(binder ?? {}), url: data.url || defaultBinderBaseURL }, location);
-  }, [formRef, location, binder]);
+    const rawBaseUrl = data.url;
+    if (!rawBaseUrl) {
+      return;
+    }
+    const baseUrl = ensureBasename(rawBaseUrl);
+
+    const userProvider = data?.provider as ProviderType | undefined;
+    const provider = userProvider ?? detectedProviderType;
+    switch (provider) {
+      case 'jupyterhub': {
+        const gitPullURL = makeNbgitpullerURL(binder ?? {}, location);
+        return `${baseUrl}hub/user-redirect/${gitPullURL}`;
+      }
+      case 'binderhub': {
+        return makeBinderURL({ ...(binder ?? {}), url: baseUrl }, location);
+      }
+      case undefined: {
+        return;
+      }
+    }
+  }, [formRef, location, binder, detectedProviderType]);
 
   // FIXME: use ValidityState from radix-ui once passing-by-name is fixed
   const urlRef = useRef<HTMLInputElement>(null);
@@ -254,6 +365,44 @@ function BinderLaunchContent(props: ModalLaunchProps) {
       return buildLink();
     }
   }, [buildLink, urlRef]);
+
+  // Detect the provider type on debounced text input
+  const debouncedURL = useDebounce(url, 100);
+  const [isInterrogating, setIsInterrogating] = useState(false);
+  React.useEffect(() => {
+    // Check validity manually to ensure that we don't make requests that aren't sensible
+    const urlIsValid = !!urlRef.current?.checkValidity?.();
+    // Don't detect URL if it isn't valid
+    if (!urlIsValid) {
+      return;
+    }
+
+    // Enter interrogating state
+    setIsInterrogating(true);
+
+    // Interrogate remote endpoint
+    let baseName;
+    try {
+      baseName = ensureBasename(debouncedURL);
+    } catch (err) {
+      return;
+    }
+    interrogateProviderType(baseName)
+      .then((provider: ProviderType | 'error') => {
+        if (provider !== 'error') {
+          setDetectedProviderType(provider);
+        }
+        // Special case for mybinder.org
+        else if (/https?:\/\/mybinder.org\//.test(baseName)) {
+          setDetectedProviderType('binderhub');
+        } else {
+          setDetectedProviderType('error');
+        }
+      })
+      .catch(console.error)
+      // Clear the interrogating state
+      .finally(() => setIsInterrogating(false));
+  }, [debouncedURL, urlRef, setIsInterrogating]);
 
   const handleSubmit = useCallback(
     (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -269,129 +418,150 @@ function BinderLaunchContent(props: ModalLaunchProps) {
     },
     [defaultBinderBaseURL, buildLink, onLaunch],
   );
+
   return (
-    <Form.Root className="w-[260px]" onSubmit={handleSubmit} ref={formRef}>
-      <p className="mb-2.5 text-[15px] font-medium leading-[19px]">
-        Launch on a BinderHub e.g. <a href="https://mybinder.org">mybinder.org</a>
-      </p>
+    <Form.Root onSubmit={handleSubmit} ref={formRef}>
       <Form.Field className="mb-2.5 grid" name="url">
-        <div className="flex items-baseline justify-between">
-          <Form.Label className="text-[15px] font-medium leading-[35px]">BinderHub URL</Form.Label>
+        <div className="flex flex-col items-baseline justify-between">
+          <Form.Label className="text-[15px] font-medium leading-[35px]">
+            Enter a JupyterHub or BinderHub URL, e.g.{' '}
+            <a
+              href="https://mybinder.org"
+              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            >
+              https://mybinder.org
+            </a>
+          </Form.Label>
           <Form.Message className="text-[13px] opacity-80" match="typeMismatch">
             Please provide a valid URL that starts with http(s).
           </Form.Message>
         </div>
-        <Form.Control asChild>
-          <input
-            className="box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
-            type="url"
-            placeholder={defaultBinderBaseURL}
-            ref={urlRef}
-          />
-        </Form.Control>
+        <div className="relative flex">
+          <span className="flex absolute h-full" aria-hidden>
+            {(detectedProviderType === 'binderhub' && (
+              <BinderIcon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
+            )) ||
+              (detectedProviderType === 'jupyterhub' && (
+                <JupyterIcon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
+              )) ||
+              (detectedProviderType === 'error' && (
+                <QuestionMarkCircledIcon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
+              )) ||
+              (isInterrogating && (
+                <UpdateIcon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none motion-safe:animate-spin" />
+              )) || (
+                <Link2Icon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
+              )}
+          </span>
+          <Form.Control asChild>
+            <input
+              className="ps-[32px] box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
+              type="url"
+              placeholder={defaultBinderBaseURL}
+              required
+              ref={urlRef}
+              onChange={onUrlChanged}
+            />
+          </Form.Control>
+        </div>
       </Form.Field>
-      <div className="flex flex-row justify-between">
+
+      <details
+        className={classNames(
+          'rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
+          'bg-gray-50 dark:bg-stone-800',
+          { hidden: !(detectedProviderType === 'jupyterhub' || detectedProviderType === 'error') },
+        )}
+        open={false}
+      >
+        <summary
+          className={classNames(
+            'm-0 text-lg font-medium py-1 min-h-[2em] pl-3',
+            'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]',
+            'bg-gray-100 dark:bg-slate-900',
+          )}
+        >
+          <span className="text-neutral-900 dark:text-white">
+            <span className="block float-right text-sm font-thin text-neutral-700 dark:text-neutral-200">
+              <ChevronRightIcon
+                width="1.5rem"
+                height="1.5rem"
+                className={classNames('details-toggle', 'transition-transform')}
+              />
+            </span>
+            JupyterHub Requirements
+          </span>
+        </summary>
+        <div className="px-4 py-1 details-body flex flex-col gap-1">
+          <p>
+            Launching on a JupyterHub will usually require you to choose a "profile". You should
+            select a profile that has the right packages, and enough resources to run the code-cells
+            and inline expressions in this MyST project.
+          </p>
+
+          <p>
+            Whichever image you choose, it must have the{' '}
+            <a href="https://github.com/jupyterhub/nbgitpuller" className="underline">
+              nbgitpuller
+            </a>{' '}
+            extension installed. If it is missing, you will see an HTTP 404 error once the server
+            starts.
+          </p>
+          <p>
+            Contact the Hub administrator for more information about using nbgitpuller with
+            JupyterHub.
+          </p>
+        </div>
+      </details>
+
+      <fieldset
+        disabled={detectedProviderType !== 'error'}
+        className={classNames('mt-6', { hidden: detectedProviderType !== 'error' })}
+      >
+        <legend className="mb-3">
+          The provider type could not be detected automatically. what kind of provider have you
+          given?
+        </legend>
+        <div>
+          <input
+            id="jupyterhub"
+            type="radio"
+            name="provider"
+            value="jupyterhub"
+            className="mr-2"
+            defaultChecked
+          />
+          <label className="cursor-pointer " htmlFor="jupyterhub">
+            JupyterHub
+          </label>
+        </div>
+        <div>
+          <input id="binderhub" type="radio" name="provider" className="mr-2" value="binderhub" />
+          <label className="cursor-pointer " htmlFor="binderhub">
+            BinderHub
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset
+        className={classNames('flex flex-row justify-between mt-6', {
+          hidden: detectedProviderType === undefined,
+        })}
+        disabled={detectedProviderType === undefined}
+      >
         <Form.Submit asChild>
           <button className="inline-flex flex-row gap-1 h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
             <span>Launch</span> <ExternalLinkIcon className="inline-block" />
           </button>
         </Form.Submit>
+
         <CopyButton
           className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-gray-400 hover:bg-gray-500 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none"
           defaultMessage="Copy Link"
-          alternateMessage="Copied Link"
+          copiedMessage="Link Copied"
           buildLink={buildValidLink}
         />
-      </div>
-    </Form.Root>
-  );
-}
-
-function JupyterHubLaunchContent(props: ModalLaunchProps) {
-  const { onLaunch, location, thebe } = props;
-  const { binder } = thebe;
-
-  const defaultHubBaseURL = '';
-
-  const formRef = useRef<HTMLFormElement>(null);
-  const buildLink = useCallback(() => {
-    const form = formRef.current;
-    if (!form) {
-      return;
-    }
-
-    const data = Object.fromEntries(new FormData(form) as any);
-    const rawHubBaseURL = data.url;
-    if (!rawHubBaseURL) {
-      return;
-    }
-    const gitPullURL = makeNbgitpullerURL(binder ?? {}, location);
-    const hubURL = ensureBasename(rawHubBaseURL);
-    return `${hubURL}hub/user-redirect/${gitPullURL}`;
-  }, [formRef, location, binder]);
-
-  // FIXME: use ValidityState from radix-ui once passing-by-name is fixed
-  const urlRef = useRef<HTMLInputElement>(null);
-  const buildValidLink = useCallback(() => {
-    if (urlRef.current?.dataset.invalid === 'true') {
-      return;
-    } else {
-      return buildLink();
-    }
-  }, [buildLink, urlRef]);
-
-  const handleSubmit = useCallback(
-    (event: React.SyntheticEvent<HTMLFormElement>) => {
-      event.preventDefault();
-
-      const link = buildLink();
-
-      // Link should exist, but guard anyway
-      if (link) {
-        window?.open(link, '_blank')?.focus();
-      }
-      onLaunch?.();
-    },
-    [defaultHubBaseURL, buildLink, onLaunch],
-  );
-
-  return (
-    <Form.Root className="w-[260px]" onSubmit={handleSubmit} ref={formRef}>
-      <p className="mb-2.5 text-[15px] font-medium leading-[19px]">Launch on a JupyterHub</p>
-      <Form.Field className="mb-2.5 grid" name="url">
-        <div className="flex items-baseline justify-between">
-          <Form.Label className="text-[15px] font-medium leading-[35px]">JupyterHub URL</Form.Label>
-          <Form.Message className="text-[13px] opacity-80" match="valueMissing">
-            Please provide a URL.
-          </Form.Message>
-
-          <Form.Message className="text-[13px] opacity-80" match="typeMismatch">
-            Please provide a valid URL that starts with http(s).
-          </Form.Message>
-        </div>
-        <Form.Control asChild>
-          <input
-            className="box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
-            type="url"
-            required
-            ref={urlRef}
-          />
-        </Form.Control>
-      </Form.Field>
-
-      <div className="flex flex-row justify-between">
-        <Form.Submit asChild>
-          <button className="inline-flex flex-row gap-1 h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
-            <span>Launch</span> <ExternalLinkIcon className="inline-block" />
-          </button>
-        </Form.Submit>
-        <CopyButton
-          className="inline-flex h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-gray-400 hover:bg-gray-500 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none"
-          defaultMessage="Copy Link"
-          alternateMessage="Copied Link"
-          buildLink={buildValidLink}
-        />
-      </div>
+      </fieldset>
     </Form.Root>
   );
 }
@@ -413,34 +583,10 @@ export function LaunchButton(props: LaunchProps) {
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
-          className="z-30 text-gray-700 dark:text-white bg-white dark:bg-stone-800 p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)]"
+          className="z-30 text-gray-700 dark:text-white bg-white dark:bg-stone-800 p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] max-w-[400px]"
           sideOffset={5}
         >
-          <Tabs.Root className="flex w-[300px] flex-col" defaultValue="binder">
-            <Tabs.List
-              className="flex shrink-0 border-b divide-x border-gray-200 dark:border-gray-400"
-              aria-label="Launch into computing interface"
-            >
-              <Tabs.Trigger
-                className="flex h-[45px] flex-1 cursor-default items-center justify-center px-5 text-[15px] outline-none data-[state=active]:underline border-gray-200 dark:border-gray-400"
-                value="binder"
-              >
-                Binder
-              </Tabs.Trigger>
-              <Tabs.Trigger
-                className="flex h-[45px] flex-1 cursor-default items-center justify-center px-5 text-[15px] outline-none data-[state=active]:underline border-gray-200 dark:border-gray-400"
-                value="jupyterhub"
-              >
-                JupyterHub
-              </Tabs.Trigger>
-            </Tabs.List>
-            <Tabs.Content className="grow rounded-b-md p-5 outline-none" value="binder">
-              <BinderLaunchContent {...props} onLaunch={closePopover} />
-            </Tabs.Content>
-            <Tabs.Content className="grow rounded-b-md p-5 outline-none" value="jupyterhub">
-              <JupyterHubLaunchContent {...props} onLaunch={closePopover} />
-            </Tabs.Content>
-          </Tabs.Root>
+          <DetectLaunchContent {...props} onLaunch={closePopover} />
           <Popover.Close
             className="absolute right-[5px] top-[5px] inline-flex size-[25px] items-center justify-center rounded-full"
             aria-label="Close"

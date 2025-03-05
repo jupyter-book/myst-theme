@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import type { GenericParent, GenericNode } from 'myst-common';
 import { MyST } from 'myst-to-react';
 
@@ -42,7 +42,7 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
     <LandingBlock {...props}>
       <div className="py-20 sm:py-28 lg:px-8">
         {subtitle && (
-          <p className="font-semibold text-indigo-400 uppercase my-0">
+          <p className="my-0 font-semibold text-indigo-400 uppercase">
             <MyST ast={subtitle.children} />
           </p>
         )}
@@ -51,7 +51,7 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
             {heading && (
               <BlockHeading
                 node={heading}
-                className="text-5xl font-semibold tracking-tight mt-2 mb-0"
+                className="mt-2 mb-0 text-5xl font-semibold tracking-tight"
               />
             )}
             {body && (
@@ -62,7 +62,7 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
           </div>
           <div className="flex flex-col mt-8 lg:mt-0">
             {links && (
-              <div className="flex flex-row gap-4 items-center">
+              <div className="flex flex-row items-center gap-4">
                 <MyST ast={links} />
               </div>
             )}
@@ -73,9 +73,8 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
   );
 }
 
-const JUSTIFIED_RENDERERS: NodeRenderers = {
+export const JUSTIFIED_RENDERERS: NodeRenderers = {
   block: {
     'block[kind=justified]': JustifiedBlock,
   },
 };
-export default JUSTIFIED_RENDERERS;

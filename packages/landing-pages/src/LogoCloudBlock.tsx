@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import type { GenericNode } from 'myst-common';
 import { MyST } from 'myst-to-react';
 import type { NodeRenderers } from '@myst-theme/providers';
@@ -36,13 +36,13 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
 
   return (
     <LandingBlock {...props}>
-      <div className="text-center py-20 sm:py-28">
+      <div className="py-20 text-center sm:py-28">
         <div className="font-semibold">
           <MyST ast={body} />
         </div>
         {grid && <MyST ast={grid} />}
         {links && (
-          <div className="mt-8 flex gap-4 items-center justify-center">
+          <div className="flex items-center justify-center gap-4 mt-8">
             <MyST ast={links} />
           </div>
         )}
@@ -51,9 +51,8 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
   );
 }
 
-const LOGO_CLOUD_RENDERERS: NodeRenderers = {
+export const LOGO_CLOUD_RENDERERS: NodeRenderers = {
   block: {
     'block[kind=logo-cloud]': LogoCloudBlock,
   },
 };
-export default LOGO_CLOUD_RENDERERS;

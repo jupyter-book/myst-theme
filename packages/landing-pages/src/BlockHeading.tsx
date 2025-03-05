@@ -1,7 +1,7 @@
+import { createElement as e } from 'react';
 import type { GenericParent } from 'myst-common';
 import { MyST, HashLink } from 'myst-to-react';
 import classNames from 'classnames';
-import React, { createElement as e } from 'react';
 
 export function BlockHeading({ node, className }: { node: GenericParent; className?: string }) {
   const { enumerator, depth, key, identifier, html_id } = node;

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import type { GenericParent, GenericNode } from 'myst-common';
 import { MyST } from 'myst-to-react';
 
@@ -42,14 +42,14 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
       <div className="relative text-center">
         <div className="py-20 sm:py-28">
           {subtitle && (
-            <p className="font-semibold text-indigo-400 uppercase my-0">
+            <p className="my-0 font-semibold text-indigo-400 uppercase">
               <MyST ast={subtitle.children} />
             </p>
           )}
           {heading && (
             <BlockHeading
               node={heading}
-              className="text-5xl font-semibold tracking-tight mt-2 mb-0"
+              className="mt-2 mb-0 text-5xl font-semibold tracking-tight"
             />
           )}
           {body && (
@@ -58,7 +58,7 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
             </div>
           )}
           {links && (
-            <div className="mt-8 flex gap-4 items-center justify-center">
+            <div className="flex items-center justify-center gap-4 mt-8">
               <MyST ast={links} />
             </div>
           )}
@@ -68,9 +68,8 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
   );
 }
 
-const CENTERED_RENDERERS: NodeRenderers = {
+export const CENTERED_RENDERERS: NodeRenderers = {
   block: {
     'block[kind=centered]': CenteredBlock,
   },
 };
-export default CENTERED_RENDERERS;

@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import type { GenericParent } from 'myst-common';
 
 import { useGridSystemProvider } from '@myst-theme/providers';
@@ -7,7 +7,7 @@ import classNames from 'classnames';
 export type LandingBlockProps = {
   node: GenericParent;
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export function LandingBlock({ node, className, children }: LandingBlockProps) {

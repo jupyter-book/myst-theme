@@ -21,7 +21,7 @@ Open up [http://localhost:3000](http://localhost:3000) and you should be ready t
 
 ## Development
 
-This repository depends on the packages in [myst-theme](https://github.com/executablebooks/myst-theme) and is best developed in that repository to allow for live-reload, etc.
+This repository depends on the packages in [myst-theme](https://github.com/jupyter-book/myst-theme) and is best developed in that repository to allow for live-reload, etc.
 
 ## Deployment
 

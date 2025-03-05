@@ -1,6 +1,6 @@
-# @myst-theme/diagrams
+# @myst-theme/jupyter
 
-[![myst-demo on npm](https://img.shields.io/npm/v/myst-demo.svg)](https://www.npmjs.com/package/myst-demo)
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/curvenote/curvenote/blob/main/LICENSE)
+[![@myst-theme/jupyter on npm](https://img.shields.io/npm/v/@myst-theme/jupyter.svg)](https://www.npmjs.com/package/@myst-theme/jupyter)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jupyter-book/myst-theme/blob/main/LICENSE)
 
-A demo component for MyST
+React components for integrating Jupyter with MyST.

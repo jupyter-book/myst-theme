@@ -1,7 +1,7 @@
 # myst-demo
 
 [![myst-demo on npm](https://img.shields.io/npm/v/myst-demo.svg)](https://www.npmjs.com/package/myst-demo)
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/curvenote/curvenote/blob/main/LICENSE)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jupyter-book/myst-theme/blob/main/LICENSE)
 
 A demo component for MyST Markdown, for example, [in the sandbox](https://mystmd.org/sandbox).
 

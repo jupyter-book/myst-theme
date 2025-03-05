@@ -1,7 +1,7 @@
 # `myst-theme`
 
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/executablebooks/myst-theme/blob/main/LICENSE)
-[![CI](https://github.com/executablebooks/myst-theme/workflows/CI/badge.svg)](https://github.com/executablebooks/myst-theme/actions)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jupyter-book/myst-theme/blob/main/LICENSE)
+[![CI](https://github.com/jupyter-book/myst-theme/workflows/CI/badge.svg)](https://github.com/jupyter-book/myst-theme/actions)
 
 Packages for creating MyST websites themes using React and Remix.
 
@@ -55,7 +55,7 @@ When first cloning the repository use `git clone --recursive`,
 then install the various dependencies:
 
 ```
-git clone --recursive https://github.com/executablebooks/myst-theme.git
+git clone --recursive https://github.com/jupyter-book/myst-theme.git
 cd myst-theme
 npm install
 ```

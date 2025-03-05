@@ -14,7 +14,7 @@ export function LandingBlock({ node, className, children }: LandingBlockProps) {
   const grid = useGridSystemProvider();
   const { key } = node;
 
-  const subGrid = node.visibility === 'hide' ? '' : `${grid} subgrid-gap col-screen`;
+  const subGrid = node.visibility === 'hide' ? '' : `${grid} subgrid-gap col-page [&>*]:col-page`;
   const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
   // Hide the subgrid if either the dataClass or the className exists and includes `col-`
   const noSubGrid =
@@ -24,7 +24,7 @@ export function LandingBlock({ node, className, children }: LandingBlockProps) {
     <div
       key={`block-${key}`}
       id={key}
-      className={classNames('relative group/block', className, dataClassName, {
+      className={classNames('relative group/block py-6', className, dataClassName, {
         [subGrid]: !noSubGrid,
         hidden: node.visibility === 'remove',
       })}

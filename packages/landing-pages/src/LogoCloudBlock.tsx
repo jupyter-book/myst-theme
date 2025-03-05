@@ -41,7 +41,7 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
         {grid && <MyST ast={grid} />}
         {links && (
           <div className="mt-8 flex gap-4 items-center justify-center">
-            <MyST ast={links} />
+            <MyST ast={links} className="shrink-0" />
           </div>
         )}
       </div>
@@ -51,7 +51,7 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
 
 const LOGO_CLOUD_RENDERERS: NodeRenderers = {
   block: {
-    'block[class~=logo-cloud]': LogoCloudBlock,
+    'block[class*=logo-cloud]': LogoCloudBlock,
   },
 };
 export default LOGO_CLOUD_RENDERERS;

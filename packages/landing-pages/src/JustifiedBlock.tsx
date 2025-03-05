@@ -61,7 +61,7 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
           <div className="flex flex-col">
             {links && (
               <div className="flex flex-row mt-8 gap-4 items-center">
-                <MyST ast={links} />
+                <MyST ast={links} className="shrink-0" />
               </div>
             )}
           </div>
@@ -73,7 +73,7 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
 
 const JUSTIFIED_RENDERERS: NodeRenderers = {
   block: {
-    'block[class~=justified]': JustifiedBlock,
+    'block[class*=justified]': JustifiedBlock,
   },
 };
 export default JUSTIFIED_RENDERERS;

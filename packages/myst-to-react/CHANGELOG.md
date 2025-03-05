@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 0.14.2
+
+### Patch Changes
+
+- a46ef25: Allow for no-width pilcrows on headings.
+  - @myst-theme/providers@0.14.2
+
 ## 0.14.1
 
 ### Patch Changes

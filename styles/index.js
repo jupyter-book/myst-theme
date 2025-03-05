@@ -7,6 +7,7 @@ const content = [
   'node_modules/@myst-theme/frontmatter/{src,dist}/**/*.{js,ts,jsx,tsx}',
   'node_modules/@myst-theme/jupyter/{src,dist}/**/*.{js,ts,jsx,tsx}',
   'node_modules/@myst-theme/icons/{src,dist}/**/*.{js,ts,jsx,tsx}',
+  'node_modules/@myst-theme/landing-pages/{src,dist}/**/*.{js,ts,jsx,tsx}',
   // Duplicate the above in case this is in a submodule
   '../../packages/myst-to-react/{src,dist}/**/*.{js,ts,jsx,tsx}',
   '../../packages/myst-demo/{src,dist}/**/*.{js,ts,jsx,tsx}',
@@ -14,6 +15,7 @@ const content = [
   '../../packages/frontmatter/{src,dist}/**/*.{js,ts,jsx,tsx}',
   '../../packages/jupyter/{src,dist}/**/*.{js,ts,jsx,tsx}',
   '../../packages/icons/{src,dist}/**/*.{js,ts,jsx,tsx}',
+  '../../packages/landing-pages/{src,dist}/**/*.{js,ts,jsx,tsx}',
 ];
 
 const themeExtensions = {

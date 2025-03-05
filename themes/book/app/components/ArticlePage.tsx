@@ -92,7 +92,7 @@ export const ArticlePage = React.memo(function ({
               frontmatter={{ ...article.frontmatter, downloads }}
               className="mb-8 pt-9"
               thebe={thebe}
-	      location={location}
+              location={location}
             />
           )}
           {!hide_outline && (

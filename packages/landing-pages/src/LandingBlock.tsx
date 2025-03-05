@@ -14,18 +14,16 @@ export function LandingBlock({ node, className, children }: LandingBlockProps) {
   const grid = useGridSystemProvider();
   const { key } = node;
 
+  const externalClassNames = classNames(className, node.class);
   const subGrid = node.visibility === 'hide' ? '' : `${grid} subgrid-gap col-page [&>*]:col-page`;
-  const dataClassName = typeof node.data?.class === 'string' ? node.data?.class : undefined;
-  // Hide the subgrid if either the dataClass or the className exists and includes `col-`
-  const noSubGrid =
-    (dataClassName && dataClassName.includes('col-')) || (className && className.includes('col-'));
 
   return (
     <div
       key={`block-${key}`}
       id={key}
-      className={classNames('relative group/block py-6', className, dataClassName, {
-        [subGrid]: !noSubGrid,
+      className={classNames('relative group/block py-6', externalClassNames, {
+        // Hide the subgrid if either the dataClass or the className exists and includes `col-`
+        [subGrid]: !(externalClassNames && externalClassNames.includes('col-')),
         hidden: node.visibility === 'remove',
       })}
     >

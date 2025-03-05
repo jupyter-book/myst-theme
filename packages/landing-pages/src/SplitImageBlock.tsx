@@ -13,19 +13,26 @@ import { LandingBlock, type LandingBlockProps } from './LandingBlock.js';
 
 export function SplitImageBlock(props: Omit<LandingBlockProps, 'children'>) {
   const { node } = props;
-  const { head, body: rawBody } = useMemo(() => splitByHeader(node), [node]);
-  const image = useMemo(() => select('image', rawBody), [rawBody]);
-  const body = useMemo(
-    () =>
-      filter(
-        rawBody,
-        (otherNode: GenericNode) => !['link', 'crossReference', 'image'].includes(otherNode.type),
-      )!.children,
-    [rawBody],
-  );
-  const links = useMemo(() => selectAll('link,crossReference', rawBody), [rawBody]);
-  const subtitle = useMemo(() => select('paragraph', head) as GenericParent | null, [head]);
-  const heading = useMemo(() => select('heading[depth=2]', head) as GenericParent | null, [head]);
+  const { image, body, links, subtitle, heading } = useMemo(() => {
+    const { head, body: rawBody } = splitByHeader(node);
+
+    const linksNode = selectAll('link,crossReference', rawBody);
+    const subtitleNode = select('paragraph', head) as GenericParent | null;
+    const headingNode = select('heading[depth=2]', head) as GenericParent | null;
+    const imageNode = select('image', rawBody);
+    const bodyNode = filter(
+      rawBody,
+      (otherNode: GenericNode) => !['link', 'crossReference', 'image'].includes(otherNode.type),
+    )!.children;
+
+    return {
+      body: bodyNode,
+      image: imageNode,
+      links: linksNode,
+      subtitle: subtitleNode,
+      heading: headingNode,
+    };
+  }, [node]);
 
   if (!image || !body) {
     return <InvalidBlock {...props} blockName="split-image" />;

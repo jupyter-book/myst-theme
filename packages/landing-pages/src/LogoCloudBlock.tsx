@@ -11,21 +11,23 @@ import { LandingBlock, type LandingBlockProps } from './LandingBlock.js';
 
 export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
   const { node } = props;
+  const { grid, body, links } = useMemo(() => {
+    const gridNode = select('grid', node);
+    const rawBodyNode = filter(node, (child: GenericNode) => child.type !== 'grid')!;
 
-  const grid = useMemo(() => select('grid', node), [node]);
-  const rawBody = useMemo(
-    () => filter(node, (child: GenericNode) => child.type !== 'grid')!,
-    [node],
-  );
-  const body = useMemo(
-    () =>
-      filter(
-        rawBody,
-        (child: GenericNode) => child.type !== 'link' && child.type !== 'crossReference',
-      )!.children,
-    [rawBody],
-  );
-  const links = useMemo(() => selectAll('link,crossReference', rawBody), [rawBody]);
+    const linksNode = selectAll('link,crossReference', rawBodyNode);
+    const bodyNode = filter(
+      rawBodyNode,
+      (otherNode: GenericNode) => !['link', 'crossReference'].includes(otherNode.type),
+    )!.children;
+
+    return {
+      body: bodyNode,
+      grid: gridNode,
+      links: linksNode,
+    };
+  }, [node]);
+
   if (!grid) {
     return <InvalidBlock {...props} blockName="logo-cloud" />;
   }

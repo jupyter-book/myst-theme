@@ -22,6 +22,7 @@
     "@myst-theme/site": "^0.14.1",
     "@myst-theme/common": "^0.14.1",
     "@myst-theme/styles": "^0.14.1",
+    "@myst-theme/landing-pages": "^0.0.0",
     "@remix-run/node": "~1.17.0",
     "@remix-run/react": "~1.17.0",
     "@remix-run/vercel": "~1.17.0",

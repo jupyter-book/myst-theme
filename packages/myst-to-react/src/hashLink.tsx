@@ -57,6 +57,7 @@ export function HashLink({
   scrollBehavior,
   historyState,
   focusTarget,
+  noWidth,
 }: {
   id?: string;
   kind?: string;
@@ -66,6 +67,8 @@ export function HashLink({
   canSelectText?: boolean;
   className?: string;
   hideInPopup?: boolean;
+  /** Ensures that when centered it doesn't take up space */
+  noWidth?: boolean;
 } & HashLinkBehavior) {
   const { inCrossRef } = useXRefState();
   if (inCrossRef || !id) {
@@ -82,13 +85,18 @@ export function HashLink({
   };
   return (
     <a
-      className={classNames('no-underline text-inherit hover:text-inherit', className, {
-        'select-none': !canSelectText,
-        'transition-opacity opacity-0 focus:opacity-100 group-hover:opacity-70': hover === true,
-        '[@media(hover:hover)]:transition-opacity [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:focus:opacity-100 [@media(hover:hover)]:group-hover:opacity-70':
-          hover === 'desktop',
-        'hover:underline': !hover,
-      })}
+      className={classNames(
+        'no-underline text-inherit hover:text-inherit',
+        { 'inline-block w-0 px-0 translate-x-[10px]': noWidth === true },
+        className,
+        {
+          'select-none': !canSelectText,
+          'transition-opacity opacity-0 focus:opacity-100 group-hover:opacity-70': hover === true,
+          '[@media(hover:hover)]:transition-opacity [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:focus:opacity-100 [@media(hover:hover)]:group-hover:opacity-70':
+            hover === 'desktop',
+          'hover:underline': !hover,
+        },
+      )}
       onClick={scroll}
       href={`#${id}`}
       title={title}

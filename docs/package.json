@@ -7,9 +7,9 @@
   "author": "Rowan Cockett <rowan@curvenote.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/executablebooks/myst-theme/issues"
+    "url": "https://github.com/jupyter-book/myst-theme/issues"
   },
-  "homepage": "https://github.com/executablebooks/myst-theme",
+  "homepage": "https://github.com/jupyter-book/myst-theme",
   "devDependencies": {
     "@babel/preset-env": "^7.22.5",
     "@babel/preset-react": "^7.22.5",

@@ -48,7 +48,7 @@
 
 ### Patch Changes
 
-- 929f161b: Revert recent `col-margin` change to fix [442](https://github.com/executablebooks/myst-theme/issues/422)
+- 929f161b: Revert recent `col-margin` change to fix [442](https://github.com/jupyter-book/myst-theme/issues/422)
 
 ## 0.9.8
 

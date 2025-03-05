@@ -3,7 +3,7 @@ title: Article Theme
 description: Simple site for displaying an article with associated notebooks.
 version: 1.0.0
 license: MIT
-source: https://github.com/executablebooks/myst-theme
+source: https://github.com/jupyter-book/myst-theme
 thumbnail: ./thumbnail.png
 authors:
   - name: Rowan Cockett

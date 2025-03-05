@@ -40,7 +40,7 @@ export function SplitImageBlock(props: Omit<LandingBlockProps, 'children'>) {
 
   return (
     <LandingBlock {...props}>
-      <div className="relative bg-stone-900 dark:bg-stone-800 text-white rounded-md">
+      <div className="relative bg-stone-900 dark:bg-stone-800 rounded-md prose prose-invert">
         <div className="lg:absolute lg:h-full lg:w-[calc(50%)] h-80 relative [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_img]:m-0 [&_picture]:m-0 [&_picture]:inline">
           <MyST ast={image} />
         </div>
@@ -54,10 +54,10 @@ export function SplitImageBlock(props: Omit<LandingBlockProps, 'children'>) {
             {heading && (
               <BlockHeading
                 node={heading}
-                className="text-5xl text-white font-semibold tracking-tight mt-2 mb-0"
+                className="text-5xl font-semibold tracking-tight mt-2 mb-0"
               />
             )}
-            <div className="mt-6 text-gray-300">
+            <div className="mt-6">
               <MyST ast={body} />
             </div>
             {links && (

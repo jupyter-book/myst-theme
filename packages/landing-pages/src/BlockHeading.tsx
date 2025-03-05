@@ -18,7 +18,7 @@ export function BlockHeading({ node, className }: { node: GenericParent; classNa
       <span className="heading-text">
         <MyST ast={node.children} />
       </span>
-      <HashLink id={id} kind="Section" className="px-2 font-normal" hover hideInPopup />
+      <HashLink id={id} kind="Section" className="font-normal" hover hideInPopup noWidth />
     </>,
   );
 }

@@ -1,13 +1,16 @@
 import type { GenericParent } from 'myst-common';
 
-export function splitByHeader(mdast: GenericParent): {
+export function splitByHeader(
+  mdast: GenericParent,
+  depth?: number | undefined,
+): {
   head: GenericParent | undefined;
   body: GenericParent;
 } {
   let i;
   for (i = 0; i < mdast.children.length; i++) {
     const node = mdast.children[i];
-    if (node.type === 'heading' && node.depth === 2) {
+    if (node.type === 'heading' && (depth === undefined || node.depth === depth)) {
       break;
     }
   }

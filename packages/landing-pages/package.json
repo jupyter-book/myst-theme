@@ -17,9 +17,7 @@
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "dev": "npm-run-all --parallel \"build:* -- --watch\"",
     "build:esm": "tsc",
-    "build": "npm-run-all -l clean -p build:esm",
-    "test": "vitest run",
-    "test:watch": "vitest watch"
+    "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
     "@myst-theme/providers": "^0.14.1",

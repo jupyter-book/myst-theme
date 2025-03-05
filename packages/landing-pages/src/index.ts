@@ -10,10 +10,9 @@ export * from './CenteredBlock.js';
 export * from './JustifiedBlock.js';
 export * from './LogoCloudBlock.js';
 
-const BLOCK_RENDERERS: NodeRenderers = mergeRenderers([
+export const LANDING_PAGE_RENDERERS: NodeRenderers = mergeRenderers([
   SPLIT_IMAGE_RENDERERS,
   CENTERED_RENDERERS,
   JUSTIFIED_RENDERERS,
   LOGO_CLOUD_RENDERERS,
 ]);
-export default BLOCK_RENDERERS;

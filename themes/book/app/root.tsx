@@ -21,7 +21,7 @@ import type { ISearch, MystSearchIndex } from '@myst-theme/search';
 import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
-import LANDING_PAGE_RENDERERS from '@myst-theme/landing-pages';
+import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { useCallback } from 'react';
 
 const RENDERERS: NodeRenderers = mergeRenderers([

@@ -1,5 +1,12 @@
 # @myst-theme/frontmatter
 
+## 0.14.2
+
+### Patch Changes
+
+- 55e0435: Add note about JHub requirements
+- 55e0435: Add awesomebar support to launch button
+
 ## 0.14.1
 
 ## 0.14.0

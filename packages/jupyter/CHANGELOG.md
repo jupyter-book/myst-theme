@@ -1,5 +1,15 @@
 # @myst-theme/jupyter
 
+## 0.14.2
+
+### Patch Changes
+
+- 5af4e8d: Fix minified mimebundle fetching for the case of multiple minified bundles in a single output
+- c742ca6: [chore]: remove stray `console.log`
+- Updated dependencies [a46ef25]
+  - myst-to-react@0.14.2
+  - @myst-theme/providers@0.14.2
+
 ## 0.14.1
 
 ### Patch Changes

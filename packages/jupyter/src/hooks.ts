@@ -34,7 +34,6 @@ async function fetcher(url: string) {
         // pass
       }
     }
-    console.log('fetcher', url, content);
     return { content } as any;
   }
   throw new Error(`Content returned with status ${resp.status}.`);

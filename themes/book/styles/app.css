@@ -1,1 +1,11 @@
 @import '@myst-theme/styles';
+
+.landing-page .article-grid > *,
+.landing-page .article-left-grid > *,
+.landing-page .article-center-grid > * {
+  grid-column: page;
+}
+
+.landing-page {
+  @apply gap-y-6;
+}

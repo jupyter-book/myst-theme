@@ -1,5 +1,21 @@
 # @myst-theme/site
 
+## 0.14.3
+
+### Patch Changes
+
+- b84cf8f: Enable a head react component for the Document to be passed in.
+- b84cf8f: Move favicon/styles from LinkFunciton to React.
+- Updated dependencies [2bd3881]
+- Updated dependencies [2bd3881]
+  - myst-to-react@0.14.3
+  - @myst-theme/providers@0.14.3
+  - @myst-theme/frontmatter@0.14.3
+  - @myst-theme/diagrams@0.14.3
+  - @myst-theme/common@0.14.3
+  - @myst-theme/search@0.14.3
+  - myst-demo@0.14.3
+
 ## 0.14.2
 
 ### Patch Changes

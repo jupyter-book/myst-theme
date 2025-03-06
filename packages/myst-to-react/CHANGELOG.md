@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.14.3
+
+### Patch Changes
+
+- 2bd3881: Add `root` renderer
+- 2bd3881: Ensure that a node with `{length: 0}` as a property can be rendered.
+  - @myst-theme/providers@0.14.3
+
 ## 0.14.2
 
 ### Patch Changes

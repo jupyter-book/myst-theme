@@ -418,13 +418,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     );
   },
   root({ node, className }) {
-    if (node.children === undefined) {
-      return <></>;
-    }
-    const childComponents = node.children.map((child) => (
-      <MyST ast={child} className={className} />
-    ));
-    return <>{...childComponents}</>;
+    return <MyST ast={node.children} className={className} />;
   },
 };
 

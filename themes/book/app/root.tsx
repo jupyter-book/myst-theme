@@ -40,13 +40,8 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 
 export const links: LinksFunction = () => {
   return [
-    {
-      rel: 'icon',
-      href: '/favicon.ico',
-    },
     { rel: 'stylesheet', href: tailwind },
     { rel: 'stylesheet', href: thebeCoreCss },
-    { rel: 'stylesheet', href: '/myst-theme.css' },
     {
       rel: 'stylesheet',
       href: 'https://cdn.jsdelivr.net/npm/jupyter-matplotlib@0.11.3/css/mpl_widget.css',
@@ -102,6 +97,12 @@ export default function AppWithReload() {
         staticBuild={MODE === 'static'}
         baseurl={BASE_URL}
         renderers={RENDERERS}
+        head={
+          <>
+            <link rel="icon" href={`${BASE_URL || ''}/favicon.ico`} />
+            <link rel="stylesheet" href={`${BASE_URL || ''}/myst-theme.css`} />
+          </>
+        }
       >
         <SkipTo
           targets={[

@@ -54,6 +54,10 @@ type Glossary = {
   type: 'glossary';
 };
 
+type Root = {
+  type: 'root';
+};
+
 type BasicNodeRenderers = {
   text: NodeRenderer<spec.Text>;
   span: NodeRenderer<GenericNode>;
@@ -95,6 +99,7 @@ type BasicNodeRenderers = {
   definitionDescription: NodeRenderer<DefinitionDescription>;
   include: NodeRenderer<Include>;
   glossary: NodeRenderer<Glossary>;
+  root: NodeRenderer<Root>;
 };
 
 const BASIC_RENDERERS: BasicNodeRenderers = {
@@ -411,6 +416,15 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
         <MyST ast={node.children} />
       </div>
     );
+  },
+  root({ node, className }) {
+    if (node.children === undefined) {
+      return <></>;
+    }
+    const childComponents = node.children.map((child) => (
+      <MyST ast={child} className={className} />
+    ));
+    return <>{...childComponents}</>;
   },
 };
 

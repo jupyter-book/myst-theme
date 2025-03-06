@@ -4,13 +4,7 @@ import type { TypstResult } from 'myst-to-typst'; // Only import the type!!
 import { remove } from 'unist-util-remove';
 import type { VFileMessage } from 'vfile-message';
 import { load as yamlLoad, dump as yamlDump } from 'js-yaml';
-import {
-  fileError,
-  RuleId,
-  type GenericNode,
-  type GenericParent,
-  type References,
-} from 'myst-common';
+import { fileError, RuleId, type GenericParent, type References } from 'myst-common';
 import type { Code } from 'myst-spec';
 import { SourceFileKind } from 'myst-spec-ext';
 import type { DocxResult } from 'myst-to-docx';
@@ -148,9 +142,8 @@ async function parse(
   const mdastPre = JSON.parse(JSON.stringify(mdast));
   visit(mdastPre, (n) => delete n.position);
   const htmlString = mystToHtml(JSON.parse(JSON.stringify(mdast)));
-  const references = {
+  const references: References = {
     cite: { order: [], data: {} },
-    footnotes: {},
   };
   const frontmatterRaw = getFrontmatter(vfile, mdast);
   const frontmatter: Omit<PageFrontmatter, 'parts'> = validatePageFrontmatter(frontmatterRaw, {

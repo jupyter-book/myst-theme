@@ -1,5 +1,19 @@
 # @myst-theme/article
 
+## 0.14.3
+
+### Patch Changes
+
+- b84cf8f: Move favicon/styles from LinkFunciton to React.
+- Updated dependencies [b84cf8f]
+- Updated dependencies [b84cf8f]
+  - @myst-theme/site@0.14.3
+  - @myst-theme/providers@0.14.3
+  - @myst-theme/jupyter@0.14.3
+  - @myst-theme/styles@0.14.3
+  - @myst-theme/common@0.14.3
+  - @myst-theme/icons@0.14.3
+
 ## 0.14.2
 
 ### Patch Changes

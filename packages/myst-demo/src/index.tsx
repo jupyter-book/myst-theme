@@ -408,7 +408,7 @@ export function MySTRenderer({
       )}
     >
       {column && (
-        <div className="flex flex-row col-span-2 items-stretch px-2 h-full border dark:border-slate-600">
+        <div className="flex flex-row items-stretch h-full col-span-2 px-2 border dark:border-slate-600">
           <div className="flex-grow"></div>
           {demoMenu}
         </div>
@@ -452,7 +452,7 @@ export function MySTRenderer({
               >
                 <GridSystemProvider gridSystem="demo-grid">
                   {TitleBlock && <TitleBlock frontmatter={frontmatter}></TitleBlock>}
-                  <MyST ast={references.article?.children as GenericNode[]} />
+                  <MyST ast={references.article} />
                 </GridSystemProvider>
               </ArticleProvider>
             </>
@@ -474,7 +474,7 @@ export function MySTRenderer({
           {previewType === 'DOCX' && (
             <div>
               <button
-                className="p-3 rounded border"
+                className="p-3 border rounded"
                 onClick={() => saveDocxFile('demo.docx', references.article)}
                 title={`Download Micorsoft Word`}
                 aria-label={`Download Micorsoft Word`}

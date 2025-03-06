@@ -43,6 +43,7 @@ export function Document({
   baseurl,
   top = DEFAULT_NAV_HEIGHT,
   renderers = defaultRenderers,
+  head,
 }: {
   children: React.ReactNode;
   scripts?: React.ReactNode;
@@ -53,6 +54,7 @@ export function Document({
   baseurl?: string;
   top?: number;
   renderers?: NodeRenderers;
+  head?: React.ReactNode;
 }) {
   const navigate = useNavigate();
   const links = staticBuild
@@ -70,14 +72,19 @@ export function Document({
   const [theme, setTheme] = useTheme({ ssrTheme: ssrTheme, useLocalStorage: staticBuild });
 
   // Inject blocking element to set proper pre-hydration state
-  const head = ssrTheme ? undefined : <BlockingThemeLoader useLocalStorage={!!staticBuild} />;
+  const headAndLoader = (
+    <>
+      {head}
+      {ssrTheme ? undefined : <BlockingThemeLoader useLocalStorage={!!staticBuild} />}
+    </>
+  );
 
   return (
     <ThemeProvider theme={theme} setTheme={setTheme} renderers={renderers} {...links} top={top}>
       <DocumentWithoutProviders
         children={children}
         scripts={scripts}
-        head={head}
+        head={headAndLoader}
         config={config}
         title={title}
         liveReloadListener={!staticBuild}

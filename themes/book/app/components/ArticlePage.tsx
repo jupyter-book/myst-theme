@@ -116,7 +116,7 @@ export const ArticlePage = React.memo(function ({
           )}
           <div id="skip-to-article" />
           <FrontmatterParts parts={parts} keywords={keywords} hideKeywords={hideKeywords} />
-          <MyST ast={tree.children as GenericParent[]} />
+          <MyST ast={tree} />
           <BackmatterParts parts={parts} />
           <Footnotes />
           <Bibliography />

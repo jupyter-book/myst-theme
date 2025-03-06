@@ -28,11 +28,12 @@ export function MyST({
   className?: string;
 }) {
   const renderers = useNodeRenderers();
-  if (!ast || ast.length === 0) return null;
+  if (!ast) return null;
   if (!Array.isArray(ast)) {
     const Component = selectRenderer(renderers, ast);
     return <Component key={ast.key} node={ast} className={className} />;
   }
+  if (ast.length === 0) return null;
   return (
     <>
       {ast?.map((node) => {

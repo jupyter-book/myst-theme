@@ -21,6 +21,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
+      - name: Install dependencies
+        # TODO: this only needs to install thebe install deps
+        run: npm install
       - name: Configure Git
         run: git config --global url."https://${{ secrets.MYST_TEMPLATES_USER }}:${{ secrets.MYST_TEMPLATES_TOKEN}}@github.com".insteadOf "https://github.com"
       - name: Deploy book

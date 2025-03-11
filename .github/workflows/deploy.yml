@@ -27,6 +27,9 @@ jobs:
       - name: Build MyST Theme
         run: npm run build
       - name: Configure Git
-        run: git config --global url."https://${{ secrets.MYST_TEMPLATES_USER }}:${{ secrets.MYST_TEMPLATES_TOKEN}}@github.com".insteadOf "https://github.com"
+        run: |
+          git config --global url."https://${{ secrets.MYST_TEMPLATES_USER }}:${{ secrets.MYST_TEMPLATES_TOKEN}}@github.com".insteadOf "https://github.com"
+          git config --global user.email "bot@github.com"
+          git config --global user.name "MyST Theme Bot"
       - name: Deploy book
         run: make deploy-${{ matrix.theme }}

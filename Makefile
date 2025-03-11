@@ -15,6 +15,7 @@ build-theme:
 	git clone --depth 1 https://github.com/myst-templates/$(THEME)-theme .deploy/$(THEME)
 	rm -rf .deploy/$(THEME)/public .deploy/$(THEME)/build .deploy/$(THEME)/package.json .deploy/$(THEME)/package-lock.json .deploy/$(THEME)/template.yml .deploy/$(THEME)/server.js
 	find template -type f  -exec cp {} .deploy/$(THEME) \;
+	rm -rf themes/$(THEME)/{public,build}
 	cd themes/$(THEME) && npm run prod:build
 	cp -r themes/$(THEME)/public .deploy/$(THEME)/public
 	cp -r themes/$(THEME)/build .deploy/$(THEME)/build

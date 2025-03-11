@@ -36,3 +36,15 @@ jobs:
       - name: Send a Slack notification if a publish happens
         if: steps.changesets.outputs.published == 'true'
         run: echo "A new version of ${GITHUB_REPOSITORY} was published!"
+      - name: Configure Git to Push Built Artifacts
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          git config --global url."https://${{ secrets.MYST_TEMPLATES_USER }}:${{ secrets.MYST_TEMPLATES_TOKEN}}@github.com".insteadOf "https://github.com"
+          git config --global user.email "bot@github.com"
+          git config --global user.name "MyST Theme Bot"
+      - name: Deploy Book
+        if: steps.changesets.outputs.published == 'true'
+        run: make deploy-book
+      - name: Deploy Article
+        if: steps.changesets.outputs.published == 'true'
+        run: make deploy-article

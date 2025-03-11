@@ -1,0 +1,35 @@
+
+name: Release
+on:
+  release
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  release:
+    strategy:
+      matrix:
+        theme: [book, article]
+    name: Release ${{ matrix.theme }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - name: Install Dependencies
+        # TODO: this only needs to install thebe install deps
+        run: npm install
+      - name: Build MyST Theme
+        run: npm run build
+      - name: Configure Git
+        run: |
+          git config --global url."https://${{ secrets.MYST_TEMPLATES_USER }}:${{ secrets.MYST_TEMPLATES_TOKEN}}@github.com".insteadOf "https://github.com"
+          git config --global user.email "bot@github.com"
+          git config --global user.name "MyST Theme Bot"
+      - name: Deploy book
+        run: make deploy-${{ matrix.theme }}

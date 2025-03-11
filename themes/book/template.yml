@@ -3,7 +3,7 @@ title: Book Theme
 description: Simple site for displaying multiple articles and notebooks with a table of contents.
 version: 1.0.0
 license: MIT
-source: https://github.com/executablebooks/myst-book-theme
+source: https://github.com/jupyter-book/myst-theme
 thumbnail: ./thumbnail.png
 authors:
   - name: Rowan Cockett

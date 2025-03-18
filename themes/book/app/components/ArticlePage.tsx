@@ -31,6 +31,7 @@ import { MyST } from 'myst-to-react';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import type { SiteAction } from 'myst-config';
 import type { TemplateOptions } from '../types.js';
+import { SiteFooter } from './SiteFooter.js';
 
 /**
  * Combines the project downloads and the export options
@@ -71,6 +72,7 @@ export const ArticlePage = React.memo(function ({
     ...siteDesign,
     ...pageDesign,
   };
+  const projectParts = useSiteManifest()?.parts;
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
@@ -124,6 +126,7 @@ export const ArticlePage = React.memo(function ({
           {!hide_footer_links && !hide_all_footer_links && (
             <FooterLinksBlock links={article.footer} />
           )}
+          {projectParts?.footer && <SiteFooter content={projectParts.footer.mdast} />}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ArticleProvider>

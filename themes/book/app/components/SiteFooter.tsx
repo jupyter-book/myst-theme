@@ -22,12 +22,11 @@ export function SiteFooter({ tight, content }: { tight?: boolean }) {
       >
         <div className="my-10 col-page">
           <div className="flex flex-col items-center w-full p-2 my-4 sm:p-5 lg:flex-row lg:flex-wrap">
-            <div className="max-w-24">
+            <div className="max-w-[200px]">
               <MyST ast={footerBlock}/>
             </div>
-
+            <div className="hidden grow lg:block"></div>
             <div className="flex flex-row">
-              <div className="hidden grow lg:block"></div>
               {footerLists.map((lst, i) => <MyST ast={lst} key={i} className="list-none mr-10 leading-loose lg:px-4"/>)}
             </div>
 

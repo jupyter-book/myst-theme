@@ -8,6 +8,8 @@ import { useMemo } from 'react';
 import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
 import { Details, MyST } from 'myst-to-react';
+import { selectAll } from 'unist-util-select';
+import { useOutputsContext, OutputsContextProvider } from './providers.js';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -37,43 +39,42 @@ export function allOutputsAreSafe(
   }, true);
 }
 
-export function JupyterOutput({
-  outputId,
-  identifier,
-  data,
-  align,
-  className,
-}: {
-  outputId: string;
-  identifier?: string;
-  data: MinifiedOutput[];
-  align?: 'left' | 'center' | 'right';
-  className?: string;
-}) {
-  const { ready } = useCellExecution(outputId);
-  const outputs: MinifiedOutput[] = data;
+export function Output({ node }: { node: GenericNode }) {
+  const { outputsId, allSafe } = useOutputsContext();
+  const { ready } = useCellExecution(outputsId);
+  const outputs = useMemo(() => [node.jupyter_data], [node]);
+  return allSafe && !ready ? (
+    <SafeOutputs keyStub={outputsId} outputs={outputs} />
+  ) : (
+    <JupyterOutputs id={outputsId} outputs={outputs} />
+  );
+}
+
+export function Outputs({ node }: { node: GenericNode }) {
+  const className = classNames({ hidden: node.visibility === 'remove' });
+  const { children, identifier, align } = node;
+  const outputsId = node.id ?? node.key;
+  const cellExecutionContext = useCellExecution(outputsId);
+  const { ready } = cellExecutionContext;
+
+  const outputs: MinifiedOutput[] = useMemo(
+    () => selectAll('output', node).map((child) => (child as any).jupyter_data),
+    [children],
+  );
   const allSafe = useMemo(
     () => allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES),
     [outputs],
   );
   const placeholder = usePlaceholder();
 
-  let component;
-  if (allSafe && !ready) {
-    if (placeholder && (!outputs || outputs.length === 0)) {
-      if (placeholder) {
-        return <MyST ast={placeholder} />;
-      }
-    }
-    component = <SafeOutputs keyStub={outputId} outputs={outputs} />;
-  } else {
-    component = <JupyterOutputs id={outputId} outputs={outputs} />;
+  if (allSafe && !ready && placeholder && (!outputs || outputs.length === 0)) {
+    return <MyST ast={placeholder} />;
   }
 
-  return (
+  const output = (
     <div
       id={identifier || undefined}
-      data-mdast-node-id={outputId}
+      data-mdast-node-id={outputsId}
       className={classNames(
         'max-w-full overflow-y-visible overflow-x-auto m-0 group not-prose relative',
         {
@@ -85,21 +86,12 @@ export function JupyterOutput({
         className,
       )}
     >
-      {component}
+      <OutputsContextProvider outputsId={outputsId} allSafe={allSafe}>
+        <MyST ast={children} />
+      </OutputsContextProvider>
     </div>
   );
-}
 
-export function Output({ node }: { node: GenericNode }) {
-  const output = (
-    <JupyterOutput
-      className={classNames({ hidden: node.visibility === 'remove' })}
-      outputId={node.id}
-      identifier={node.identifier}
-      align={node.align}
-      data={node.data}
-    />
-  );
   if (node.visibility === 'hide') {
     return <Details title="Output">{output}</Details>;
   }

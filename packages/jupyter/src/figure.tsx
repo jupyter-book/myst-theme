@@ -18,7 +18,7 @@ export function Figure({ node }: { node: GenericNode }) {
       >
         <OutputDecoration
           key={node.key}
-          outputId={output.id}
+          outputId={output.id ?? output.key}
           placeholder={placeholder}
           title={node.source?.title}
           url={node.source?.url}

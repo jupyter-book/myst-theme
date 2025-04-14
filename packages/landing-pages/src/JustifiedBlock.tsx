@@ -62,7 +62,7 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
           </div>
           <div className="flex flex-col mt-8 lg:mt-0">
             {links && (
-              <div className="flex flex-row items-center gap-4">
+              <div className="flex flex-row flex-wrap items-center gap-4">
                 <MyST ast={links} />
               </div>
             )}

@@ -42,7 +42,7 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
         </div>
         {grid && <MyST ast={grid} />}
         {links && (
-          <div className="flex items-center justify-center gap-4 mt-8">
+          <div className="flex flex-row flex-wrap items-center justify-center gap-4 mt-8">
             <MyST ast={links} />
           </div>
         )}

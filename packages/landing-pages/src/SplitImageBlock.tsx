@@ -63,7 +63,7 @@ export function SplitImageBlock(props: Omit<LandingBlockProps, 'children'>) {
               <MyST ast={body} className="prose prose-invert" />
             </div>
             {links && (
-              <div className="flex items-center gap-4 mt-8">
+              <div className="flex flex-row flex-wrap items-center gap-4 mt-8">
                 <MyST ast={links} className="prose prose-invert" />
               </div>
             )}

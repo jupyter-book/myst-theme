@@ -67,11 +67,17 @@ export const Cite = ({
     return <InlineError value={label} message={'Citation Not Found'} className={className} />;
   }
   const url = doiString ? doi.buildUrl(doiString as string) : refUrl;
+  const isButtonLike = (className ?? '').split(' ').includes('button');
   return (
     <HoverPopover openDelay={300} card={<CiteChild html={html} />}>
       <cite className={className}>
         {url && (
-          <a href={url} target="_blank" rel="noreferrer" className="hover-link">
+          <a
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+            className={classNames({ 'hover-link': !isButtonLike })}
+          >
             {children}
           </a>
         )}
@@ -84,7 +90,7 @@ export const Cite = ({
 export const CiteRenderer: NodeRenderer = ({ node, className }) => {
   const numbered = useNumberedReferences();
   return (
-    <Cite label={node.label} error={node.error} className={className}>
+    <Cite label={node.label} error={node.error} className={classNames(className, node.class)}>
       {numbered && node.kind === 'parenthetical' ? node.enumerator : <MyST ast={node.children} />}
     </Cite>
   );

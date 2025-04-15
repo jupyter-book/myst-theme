@@ -40,34 +40,28 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
   }
   return (
     <LandingBlock {...props}>
-      <div className="py-20 sm:py-28 lg:px-8">
+      <div className="grid-areas-just-narrow md:grid-areas-just-wide grid grid-cols-[auto_1fr_auto] justify-between gap-2 py-20 sm:py-28 lg:px-8">
         {subtitle && (
-          <p className="my-0 font-semibold text-indigo-400 uppercase">
+          <p className="grid-area-subtitle my-0 font-semibold text-indigo-400 uppercase">
             <MyST ast={subtitle.children} />
           </p>
         )}
-        <div className="flex flex-col lg:content-center lg:justify-between lg:flex-row">
-          <div className="flex flex-col">
-            {heading && (
-              <BlockHeading
-                node={heading}
-                className="mt-2 mb-0 text-5xl font-semibold tracking-tight"
-              />
-            )}
-            {body && (
-              <div className="mt-6">
-                <MyST ast={body} />
-              </div>
-            )}
+        {heading && (
+          <BlockHeading
+            node={heading}
+            className="grid-area-title mt-2 mb-0 text-5xl font-semibold tracking-tight"
+          />
+        )}
+        {body && (
+          <div className="grid-area-body mt-6">
+            <MyST ast={body} />
           </div>
-          <div className="flex flex-col mt-8 lg:mt-0">
-            {links && (
-              <div className="flex flex-row flex-wrap items-center gap-4">
-                <MyST ast={links} />
-              </div>
-            )}
+        )}
+        {links && (
+          <div className="grid-area-links flex flex-row flex-wrap items-center gap-4">
+            <MyST ast={links} />
           </div>
-        </div>
+        )}
       </div>
     </LandingBlock>
   );

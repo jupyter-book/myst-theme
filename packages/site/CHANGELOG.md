@@ -1,5 +1,17 @@
 # @myst-theme/site
 
+## 0.14.4
+
+### Patch Changes
+
+- @myst-theme/providers@0.14.4
+- @myst-theme/frontmatter@0.14.4
+- @myst-theme/diagrams@0.14.4
+- @myst-theme/common@0.14.4
+- @myst-theme/search@0.14.4
+- myst-to-react@0.14.4
+- myst-demo@0.14.4
+
 ## 0.14.3
 
 ### Patch Changes

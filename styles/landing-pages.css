@@ -1,0 +1,28 @@
+/* CSS rules for grid configuration of landing pages */
+@layer components {
+  .grid-area-subtitle {
+    grid-area: subtitle;
+  }
+  .grid-area-title {
+    grid-area: title;
+  }
+  .grid-area-body {
+    grid-area: body;
+  }
+  .grid-area-links {
+    grid-area: links;
+  }
+  .grid-areas-just-narrow {
+    grid-template-areas:
+      'subtitle subtitle subtitle'
+      'title title title'
+      'body body body'
+      'links links links';
+  }
+  .grid-areas-just-wide {
+    grid-template-areas:
+      'subtitle subtitle subtitle'
+      'title . links'
+      'body body body';
+  }
+}

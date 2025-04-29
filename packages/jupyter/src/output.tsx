@@ -8,6 +8,8 @@ import { useMemo } from 'react';
 import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
 import { Details, MyST } from 'myst-to-react';
+import { selectAll } from 'unist-util-select';
+import { useOutputsContext, OutputsContextProvider } from './providers.js';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -19,61 +21,72 @@ export const DIRECT_MIME_TYPES = new Set([
   KnownCellOutputMimeTypes.ImageBmp,
 ]) as Set<string>;
 
+export function isOutputSafe(
+  output: MinifiedOutput,
+  directOutputTypes: Set<string>,
+  directMimeTypes: Set<string>,
+) {
+  if (directOutputTypes.has(output.output_type)) return true;
+  const data = (output as MinifiedMimeOutput).data;
+  const mimetypes = data ? Object.keys(data) : [];
+  return (
+    'data' in output &&
+    Boolean(output.data) &&
+    mimetypes.every((mimetype) => directMimeTypes.has(mimetype))
+  );
+}
+
 export function allOutputsAreSafe(
   outputs: MinifiedOutput[],
   directOutputTypes: Set<string>,
   directMimeTypes: Set<string>,
 ) {
   if (!outputs || outputs.length === 0) return true;
-  return outputs.reduce((flag, output) => {
-    if (directOutputTypes.has(output.output_type)) return flag && true;
-    const data = (output as MinifiedMimeOutput).data;
-    const mimetypes = data ? Object.keys(data) : [];
-    const safe =
-      'data' in output &&
-      Boolean(output.data) &&
-      mimetypes.every((mimetype) => directMimeTypes.has(mimetype));
-    return flag && safe;
-  }, true);
+  return outputs.reduce(
+    (flag, output) => flag && isOutputSafe(output, directOutputTypes, directMimeTypes),
+    true,
+  );
 }
 
-export function JupyterOutput({
-  outputId,
-  identifier,
-  data,
-  align,
-  className,
-}: {
-  outputId: string;
-  identifier?: string;
-  data: MinifiedOutput[];
-  align?: 'left' | 'center' | 'right';
-  className?: string;
-}) {
-  const { ready } = useCellExecution(outputId);
-  const outputs: MinifiedOutput[] = data;
+export function Output({ node }: { node: GenericNode }) {
+  const { outputsId } = useOutputsContext();
+  const { ready } = useCellExecution(outputsId);
+  const jupyterLikeOutput = useMemo(() => [node.jupyter_data], [node]);
+  const isSafe = isOutputSafe(jupyterLikeOutput[0], DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES);
+  return isSafe && !ready ? (
+    <SafeOutputs keyStub={outputsId} outputs={jupyterLikeOutput} />
+  ) : (
+    <JupyterOutputs id={outputsId} outputs={jupyterLikeOutput} />
+  );
+}
+
+export function Outputs({ node }: { node: GenericNode }) {
+  const className = classNames({ hidden: node.visibility === 'remove' });
+  const { children, identifier, align } = node;
+  const outputsId = node.id ?? node.key;
+  const cellExecutionContext = useCellExecution(outputsId);
+  const { ready } = cellExecutionContext;
+
+  const outputs: MinifiedOutput[] = useMemo(
+    () => selectAll('output', node).map((child) => (child as any).jupyter_data),
+    [children],
+  );
+
+  // top level all safe only used for placeholder behaviour
   const allSafe = useMemo(
     () => allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES),
     [outputs],
   );
   const placeholder = usePlaceholder();
 
-  let component;
-  if (allSafe && !ready) {
-    if (placeholder && (!outputs || outputs.length === 0)) {
-      if (placeholder) {
-        return <MyST ast={placeholder} />;
-      }
-    }
-    component = <SafeOutputs keyStub={outputId} outputs={outputs} />;
-  } else {
-    component = <JupyterOutputs id={outputId} outputs={outputs} />;
+  if (allSafe && !ready && placeholder && (!outputs || outputs.length === 0)) {
+    return <MyST ast={placeholder} />;
   }
 
-  return (
+  const output = (
     <div
       id={identifier || undefined}
-      data-mdast-node-id={outputId}
+      data-mdast-node-id={outputsId}
       className={classNames(
         'max-w-full overflow-y-visible overflow-x-auto m-0 group not-prose relative',
         {
@@ -85,21 +98,12 @@ export function JupyterOutput({
         className,
       )}
     >
-      {component}
+      <OutputsContextProvider outputsId={outputsId}>
+        <MyST ast={children} />
+      </OutputsContextProvider>
     </div>
   );
-}
 
-export function Output({ node }: { node: GenericNode }) {
-  const output = (
-    <JupyterOutput
-      className={classNames({ hidden: node.visibility === 'remove' })}
-      outputId={node.id}
-      identifier={node.identifier}
-      align={node.align}
-      data={node.data}
-    />
-  );
   if (node.visibility === 'hide') {
     return <Details title="Output">{output}</Details>;
   }

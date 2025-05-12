@@ -50,12 +50,10 @@ The core themes are also included in this repository to aid in development.
 
 ## Development
 
-This repository depends on themes which are brought in as a sub-module.
-When first cloning the repository use `git clone --recursive`,
-then install the various dependencies:
+First, clone the repository, install the various dependencies:
 
 ```
-git clone --recursive https://github.com/jupyter-book/myst-theme.git
+git clone https://github.com/jupyter-book/myst-theme.git
 cd myst-theme
 npm install
 ```

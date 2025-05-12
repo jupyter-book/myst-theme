@@ -157,7 +157,7 @@ export function EditLink({ editUrl }: { editUrl?: string }) {
   return (
     <a
       href={editUrl}
-      title={`Edit This Page`}
+      title="Edit This Page"
       target="_blank"
       rel="noopener noreferrer"
       className="text-inherit hover:text-inherit"

@@ -50,7 +50,7 @@ The core themes are also included in this repository to aid in development.
 
 ## Development
 
-First, clone the repository, install the various dependencies:
+First, clone the repository, then install the various dependencies:
 
 ```
 git clone https://github.com/jupyter-book/myst-theme.git

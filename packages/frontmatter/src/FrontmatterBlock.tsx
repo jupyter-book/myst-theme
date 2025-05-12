@@ -8,6 +8,8 @@ import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
 import { LaunchButton } from './LaunchButton.js';
 
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
+
 function ExternalOrInternalLink({
   to,
   className,
@@ -151,6 +153,25 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
   );
 }
 
+export function EditLink({ editUrl }: { editUrl?: string }) {
+  if (!editUrl) return null;
+  return (
+    <a
+      href={editUrl}
+      title="Edit This Page"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-inherit hover:text-inherit"
+    >
+      <PencilSquareIcon
+        width="1.25rem"
+        height="1.25rem"
+        className="inline-block mr-1 opacity-60 hover:opacity-100"
+      />
+    </a>
+  );
+}
+
 export function Journal({
   venue,
   volume,
@@ -224,6 +245,7 @@ export function FrontmatterBlock({
     date,
     authors,
     enumerator,
+    edit_url,
   } = frontmatter;
   const isJupyter = kind === SourceFileKind.Notebook;
   const hasExports = downloads ? downloads.length > 0 : exports && exports.length > 0;
@@ -274,6 +296,7 @@ export function FrontmatterBlock({
               )}
             </>
           )}
+          <EditLink editUrl={edit_url ?? undefined} />
           {!hideExports && <DownloadsDropdown exports={(downloads ?? exports) as any} />}
           {!hideLaunch && thebe && location && <LaunchButton thebe={thebe} location={location} />}
         </div>

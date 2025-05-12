@@ -154,6 +154,7 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
 }
 
 export function EditLink({ editUrl }: { editUrl?: string }) {
+  if (!editUrl) return null;
   return (
     <a
       href={editUrl}
@@ -295,7 +296,7 @@ export function FrontmatterBlock({
               )}
             </>
           )}
-          {edit_url && <EditLink editUrl={edit_url} />}
+          <EditLink editUrl={edit_url ?? undefined} />
           {!hideExports && <DownloadsDropdown exports={(downloads ?? exports) as any} />}
           {!hideLaunch && thebe && location && <LaunchButton thebe={thebe} location={location} />}
         </div>

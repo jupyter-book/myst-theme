@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 0.15.0
+
+### Patch Changes
+
+- b356191: Fix justified landing-page block layout
+
 ## 0.14.3
 
 ## 0.14.2

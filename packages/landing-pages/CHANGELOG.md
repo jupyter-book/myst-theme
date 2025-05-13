@@ -1,5 +1,14 @@
 # @myst-theme/landing-pages
 
+## 0.15.0
+
+### Patch Changes
+
+- b356191: Fix justified landing-page block layout
+- e1a4c8b: Fix wrapping of links on landing pages
+  - @myst-theme/providers@0.15.0
+  - myst-to-react@0.15.0
+
 ## 0.14.3
 
 ### Patch Changes

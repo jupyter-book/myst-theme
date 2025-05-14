@@ -74,7 +74,7 @@ export const ArticlePage = React.memo(function ({
   };
   const projectParts = useSiteManifest()?.parts;
   const pageParts = (article.frontmatter as any)?.site?.parts ?? {};
-  const parts = {...projectParts, ...pageParts}
+  const siteAndPageParts = {...projectParts, ...pageParts}
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
@@ -128,7 +128,7 @@ export const ArticlePage = React.memo(function ({
           {!hide_footer_links && !hide_all_footer_links && (
             <FooterLinksBlock links={article.footer} />
           )}
-          {parts.footer && <SiteFooter content={parts.footer.mdast} />}
+          {siteAndPageParts.footer && <SiteFooter content={siteAndPageParts.footer.mdast} />}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ArticleProvider>

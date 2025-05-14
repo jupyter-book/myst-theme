@@ -67,6 +67,7 @@ options:
 parts:
   - id: footer
     description: The site wide footer
+    required: false
 build:
   install: npm install
   start: npm run start

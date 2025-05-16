@@ -29,6 +29,7 @@ import {
 import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { ArticlePage } from '../components/ArticlePage.js';
+import { Footer } from '../components/Footer.js';
 import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 type ManifestProject = Required<SiteManifest>['projects'][0];
@@ -89,6 +90,7 @@ function ArticlePageAndNavigationInternal({
 }) {
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
+  const projectParts = useSiteManifest()?.parts;
   return (
     <>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
@@ -107,6 +109,8 @@ function ArticlePageAndNavigationInternal({
         >
           {children}
         </article>
+
+        {projectParts?.footer && <Footer content={projectParts.footer.mdast} />}
       </TabStateProvider>
     </>
   );
@@ -150,24 +154,24 @@ export default function Page() {
     ...pageDesign,
   };
   return (
-    <ArticlePageAndNavigation
-      hide_toc={hide_toc}
-      hideSearch={hide_search}
-      projectSlug={data.page.project}
-    >
-      {/* <ProjectProvider project={project}> */}
-      <ProjectProvider>
-        <ComputeOptionsProvider
-          features={{ notebookCompute: true, figureCompute: true, launchBinder: false }}
-        >
-          <ThebeLoaderAndServer baseurl={baseurl}>
+    <ProjectProvider>
+      <ComputeOptionsProvider
+        features={{ notebookCompute: true, figureCompute: true, launchBinder: false }}
+      >
+        <ThebeLoaderAndServer baseurl={baseurl}>
+          <ArticlePageAndNavigation
+            hide_toc={hide_toc}
+            hideSearch={hide_search}
+            projectSlug={data.page.project}
+          >
+            {/* <ProjectProvider project={project}> */}
             <main ref={container} className="article-grid subgrid-gap col-screen">
               <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
             </main>
-          </ThebeLoaderAndServer>
-        </ComputeOptionsProvider>
-      </ProjectProvider>
-    </ArticlePageAndNavigation>
+          </ArticlePageAndNavigation>
+        </ThebeLoaderAndServer>
+      </ComputeOptionsProvider>
+    </ProjectProvider>
   );
 }
 

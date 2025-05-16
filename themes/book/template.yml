@@ -64,6 +64,10 @@ options:
   - type: file
     id: style
     description: Local path to a CSS file
+parts:
+  - id: footer
+    description: The site wide footer
+    required: false
 build:
   install: npm install
   start: npm run start

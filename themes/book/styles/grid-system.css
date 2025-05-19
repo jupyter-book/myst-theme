@@ -2,9 +2,10 @@
   /* 
 * The default article-grid styles affect body content via `.article-grid > *` 
 * We want to style body-content of the footer, which is footer .article-grid > *
-* We use :where() to avoid taking higher specificity than user-defined rules
+* Users will add col- classes to their markup to override this.
+* We use :where() to avoid taking higher specificity than user-defined rules (0-1-0)
 */
-  footer.article-grid > * {
+  :where(footer).article-grid > * {
     @apply col-page;
   }
 }

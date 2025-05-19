@@ -9,9 +9,9 @@
     @apply grid content-start grid-cols-article-center-sm md:grid-cols-article-center-md lg:grid-cols-article-center-lg xl:grid-cols-article-center-xl 2xl:grid-cols-article-center-2xl;
   }
 
-  :where(.article-grid) > *,
-  :where(.article-left-grid) > *,
-  :where(.article-center-grid) > * {
+  .article-grid > *,
+  .article-left-grid > *,
+  .article-center-grid > * {
     /* The default is spanning the body for any child component */
     @apply col-body;
     /* Grids do not have margin-collapse, so each direct child needs to be addressed */

@@ -154,24 +154,24 @@ export default function Page() {
     ...pageDesign,
   };
   return (
-    <ProjectProvider>
-      <ComputeOptionsProvider
-        features={{ notebookCompute: true, figureCompute: true, launchBinder: false }}
-      >
-        <ThebeLoaderAndServer baseurl={baseurl}>
-          <ArticlePageAndNavigation
-            hide_toc={hide_toc}
-            hideSearch={hide_search}
-            projectSlug={data.page.project}
-          >
-            {/* <ProjectProvider project={project}> */}
+    <ArticlePageAndNavigation
+      hide_toc={hide_toc}
+      hideSearch={hide_search}
+      projectSlug={data.page.project}
+    >
+      {/* <ProjectProvider project={project}> */}
+      <ProjectProvider>
+        <ComputeOptionsProvider
+          features={{ notebookCompute: true, figureCompute: true, launchBinder: false }}
+        >
+          <ThebeLoaderAndServer baseurl={baseurl}>
             <main ref={container} className="article-grid subgrid-gap col-screen">
               <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
             </main>
-          </ArticlePageAndNavigation>
-        </ThebeLoaderAndServer>
-      </ComputeOptionsProvider>
-    </ProjectProvider>
+          </ThebeLoaderAndServer>
+        </ComputeOptionsProvider>
+      </ProjectProvider>
+    </ArticlePageAndNavigation>
   );
 }
 

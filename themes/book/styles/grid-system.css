@@ -4,7 +4,7 @@
 * We want to style body-content of the footer, which is footer .article-grid > *
 * We use :where() to avoid taking higher specificity than user-defined rules
 */
-  footer :where(.article-grid) > * {
+  footer.article-grid > * {
     @apply col-page;
   }
 }

@@ -127,7 +127,7 @@ function Grid({
 
 export const GridRenderer: NodeRenderer<GridSpec> = ({ node, className }) => {
   return (
-    <Grid columns={node.columns} className={className}>
+    <Grid columns={node.columns} className={classNames(className, node.class)}>
       <MyST ast={node.children} />
     </Grid>
   );

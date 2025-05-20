@@ -28,8 +28,9 @@ import {
 } from '@myst-theme/providers';
 import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
-import { ArticlePage } from '~/components/ArticlePage';
-import type { TemplateOptions } from '~/types';
+import { ArticlePage } from '../components/ArticlePage.js';
+import { Footer } from '../components/Footer.js';
+import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 import {
   Footer,
@@ -96,6 +97,7 @@ function ArticlePageAndNavigationInternal({
 }) {
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
+  const projectParts = useSiteManifest()?.parts;
   return (
     <>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
@@ -109,12 +111,13 @@ function ArticlePageAndNavigationInternal({
         <article
           ref={container}
           className="article content article-grid grid-gap"
-          // article does not neet to get top as it is in the page flow (z-0)
+          // article does not need to get top as it is in the page flow (z-0)
           // style={{ marginTop: top }}
         >
           {children}
         </article>
       </TabStateProvider>
+<<<<<<< HEAD
       <Footer>
         <div className="flex flex-col">
           <div>Developed by the Office of eResearch, QUT</div>
@@ -165,6 +168,9 @@ function ArticlePageAndNavigationInternal({
           hasExternalIcon={true}
         />
       </Footer>
+      <TabStateProvider>
+        {projectParts?.footer && <Footer content={projectParts.footer.mdast} />}
+      </TabStateProvider>
     </>
   );
 }

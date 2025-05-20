@@ -5,7 +5,10 @@
 * Users will add col- classes to their markup to override this.
 * We use :where() to avoid taking higher specificity than user-defined rules (0-1-0)
 */
-  :where(footer).article-grid > * {
+  :where(footer).article-grid > *,
+  :where(footer).article-left-grid > *,
+  :where(footer).article-center-grid > *,
+  {
     @apply col-page;
   }
 }

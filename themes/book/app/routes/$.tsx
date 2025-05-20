@@ -75,7 +75,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   return json({ config, page, project });
 };
 
-function ArticlePageAndNavigationInternal({
+export function ArticlePageAndNavigation({
   children,
   hide_toc,
   hideSearch,
@@ -92,7 +92,7 @@ function ArticlePageAndNavigationInternal({
   const { container, toc } = useSidebarHeight(top, inset);
   const projectParts = useSiteManifest()?.parts;
   return (
-    <>
+    <UiStateProvider>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
       <PrimaryNavigation
         sidebarRef={toc}
@@ -104,40 +104,16 @@ function ArticlePageAndNavigationInternal({
         <article
           ref={container}
           className="article content article-grid grid-gap"
-          // article does not neet to get top as it is in the page flow (z-0)
+          // article does not need to get top as it is in the page flow (z-0)
           // style={{ marginTop: top }}
         >
           {children}
         </article>
+      </TabStateProvider>
 
+      <TabStateProvider>
         {projectParts?.footer && <Footer content={projectParts.footer.mdast} />}
       </TabStateProvider>
-    </>
-  );
-}
-
-export function ArticlePageAndNavigation({
-  children,
-  hide_toc,
-  hideSearch,
-  projectSlug,
-  inset = 20, // begin text 20px from the top (aligned with menu)
-}: {
-  hide_toc?: boolean;
-  hideSearch?: boolean;
-  projectSlug?: string;
-  children: React.ReactNode;
-  inset?: number;
-}) {
-  return (
-    <UiStateProvider>
-      <ArticlePageAndNavigationInternal
-        children={children}
-        hide_toc={hide_toc}
-        hideSearch={hideSearch}
-        projectSlug={projectSlug}
-        inset={inset}
-      />
     </UiStateProvider>
   );
 }

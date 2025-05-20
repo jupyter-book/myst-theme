@@ -104,12 +104,14 @@ function ArticlePageAndNavigationInternal({
         <article
           ref={container}
           className="article content article-grid grid-gap"
-          // article does not neet to get top as it is in the page flow (z-0)
+          // article does not need to get top as it is in the page flow (z-0)
           // style={{ marginTop: top }}
         >
           {children}
         </article>
+      </TabStateProvider>
 
+      <TabStateProvider>
         {projectParts?.footer && <Footer content={projectParts.footer.mdast} />}
       </TabStateProvider>
     </>

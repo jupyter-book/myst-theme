@@ -88,13 +88,13 @@ export function ErrorBoundary() {
   const error = useRouteError();
   return (
     <ArticlePageAndNavigation>
-      <main className="article">
+      <article className="article content ">
         {isRouteErrorResponse(error) ? (
           <ErrorDocumentNotFound />
         ) : (
           <ErrorUnhandled error={error as any} />
         )}
-      </main>
+      </article>
     </ArticlePageAndNavigation>
   );
 }

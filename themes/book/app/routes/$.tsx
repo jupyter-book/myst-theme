@@ -101,14 +101,14 @@ function ArticlePageAndNavigationInternal({
         projectSlug={projectSlug}
       />
       <TabStateProvider>
-        <article
+        <main
           ref={container}
-          className="article content article-grid grid-gap"
+          className="article-grid grid-gap"
           // article does not need to get top as it is in the page flow (z-0)
           // style={{ marginTop: top }}
         >
           {children}
-        </article>
+        </main>
       </TabStateProvider>
 
       <TabStateProvider>
@@ -167,9 +167,12 @@ export default function Page() {
           features={{ notebookCompute: true, figureCompute: true, launchBinder: false }}
         >
           <ThebeLoaderAndServer baseurl={baseurl}>
-            <main ref={container} className="article-grid subgrid-gap col-screen">
+            <article
+              ref={container}
+              className="article-grid subgrid-gap col-screen article content"
+            >
               <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
-            </main>
+            </article>
           </ThebeLoaderAndServer>
         </ComputeOptionsProvider>
       </ProjectProvider>

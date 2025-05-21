@@ -7,8 +7,7 @@
 */
   :where(footer).article-grid > *,
   :where(footer).article-left-grid > *,
-  :where(footer).article-center-grid > *,
-  {
+  :where(footer).article-center-grid > * {
     @apply col-page;
   }
 }

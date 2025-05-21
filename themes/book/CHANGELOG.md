@@ -1,5 +1,18 @@
 # @myst-theme/book
 
+## 0.15.2
+
+### Patch Changes
+
+- ca43b5f: Remove spurious comma
+  - @myst-theme/providers@0.15.2
+  - @myst-theme/jupyter@0.15.2
+  - @myst-theme/site@0.15.2
+  - @myst-theme/styles@0.15.2
+  - @myst-theme/common@0.15.2
+  - @myst-theme/icons@0.15.2
+  - @myst-theme/landing-pages@0.15.2
+
 ## 0.15.1
 
 ### Patch Changes

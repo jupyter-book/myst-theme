@@ -1,0 +1,22 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: 933322c4-66d5-4ddf-862d-74d0c39dad1a
+  title: myst-theme documentation
+  description: |
+    Documentation for the article and book web themes for mystmd,
+    packaged as `myst-themes`.
+  # keywords: []
+  # authors: []
+  github: https://github.com/jupyter-book/myst-theme
+  # To autogenerate a Table of Contents, run "myst init --write-toc"
+  toc:
+    - file: index.md
+site:
+  template: book-theme
+  options:
+    logo: https://jupyterbook.org/en/stable/_images/logo-square.svg
+    # favicon: favicon.ico
+  nav:
+    - title: React components
+      url: /components

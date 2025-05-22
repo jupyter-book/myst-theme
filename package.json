@@ -16,8 +16,6 @@
     "theme:book": "turbo run dev --parallel --filter='./themes/book'",
     "theme:article": "turbo run dev --parallel --filter='./themes/article'",
     "test": "turbo run test",
-    "storybook": "cd docs && npm run storybook",
-    "build-storybook": "npm run build && cd docs && storybook build",
     "clean": "turbo run clean --parallel && find . -name '.turbo' -type d -prune -exec rm -rf '{}' +",
     "lint": "turbo run lint",
     "lint:format": "turbo run lint:format",
@@ -27,6 +25,7 @@
     "version": "changeset version && npm install",
     "publish": "npm run clean && npm run build -- --force && changeset publish && git push --follow-tags",
     "publish:ci": "npm run clean && npm run build && changeset publish && git push --follow-tags",
+    "docs:ci": "cd docs && myst build --html && cd storybook && echo -e '\n$ npm install' && npm install && npm run build",
     "bump:myst:packages": "npx npm-upgrade-monorepo -w 'packages/*' 'myst-* @myst-theme/* thebe*'",
     "bump:myst:themes": "npx npm-upgrade-monorepo -w 'themes/*' 'myst-* @myst-theme/* thebe*'",
     "bump:myst": "npm run bump:myst:packages && npm run bump:myst:themes"

@@ -4,8 +4,8 @@
   "main": "index.js",
   "style": "app.css",
   "scripts": {
-    "build": "tailwindcss -m -i ./app.css -o ../docs/public/tailwind.css",
-    "dev": "tailwindcss -w -i ./app.css -o ../docs/public/tailwind.css"
+    "build": "tailwindcss -m -i ./app.css -o ../docs/_build/html/components/tailwind.css",
+    "dev": "tailwindcss -w -i ./app.css -o ../docs/_build/html/components/tailwind.css"
   },
   "author": "Rowan Cockett <rowan@curvenote.com>",
   "license": "MIT",

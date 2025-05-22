@@ -26,13 +26,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
-      - run: npm install
-      - run: npm run build
-      - run: npm run build-storybook
+      - run: npm install  # unsure whether this step is needed
+      - run: npm run docs:ci
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './docs/storybook-static'
+          path: './docs/_build/html'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

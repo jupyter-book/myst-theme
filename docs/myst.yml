@@ -12,6 +12,21 @@ project:
   # To autogenerate a Table of Contents, run "myst init --write-toc"
   toc:
     - file: index.md
+    - file: templates.md
+    - file: navigation.md
+    - file: metadata.md
+    - file: seo-and-social.md
+    - file: style.md
+    - file: accessibility-and-performance.md
+    - file: analytics.md
+    - file: downloads.md
+    - file: deployment.md
+      children:
+        - file: deployment-github-pages.md
+        - file: deployment-curvenote.md
+        - file: deployment-netlify.md
+    - file: landing-pages.md
+
 site:
   template: book-theme
   options:

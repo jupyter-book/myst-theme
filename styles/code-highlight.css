@@ -1,22 +1,23 @@
-pre > code > span[data-line-number] {
-  display: block;
-  position: relative;
-  line-height: 1.4rem;
-  padding-right: 1rem;
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark) !important;
 }
-pre > code > span[data-highlight='true']::after {
-  content: ' ';
-  position: absolute;
-  right: -0.8rem;
-  top: 0;
-  width: calc(100% + 1.6rem);
-  opacity: 0.1;
-  pointer-events: none;
-  background: #5ca5ee;
+
+.shiki {
+  background-color: unset !important;
 }
-pre > code > span > .linenumber {
-  color: rgb(128, 128, 128);
-}
-pre > code > span[data-highlight='true'] > .linenumber {
-  color: #5ca5ee;
+
+.numbered .shiki code {
+  counter-reset: step;
+  counter-increment: step calc(var(--numbered-start, 1) - 1);
+
+  & .line::before {
+    content: counter(step);
+    counter-increment: step;
+    width: 1rem;
+    margin-right: 1.5rem;
+    display: inline-block;
+    text-align: right;
+    color: rgb(128, 128, 128);
+  }
 }

@@ -6,3 +6,18 @@ html.dark .shiki span {
 .shiki {
   background-color: unset !important;
 }
+
+.numbered .shiki code {
+  counter-reset: step;
+  counter-increment: step calc(var(--numbered-start, 1) - 1);
+
+  & .line::before {
+    content: counter(step);
+    counter-increment: step;
+    width: 1rem;
+    margin-right: 1.5rem;
+    display: inline-block;
+    text-align: right;
+    color: rgb(128, 128, 128);
+  }
+}

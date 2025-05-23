@@ -38,8 +38,8 @@ export function CodeBlock(props: Props) {
     background,
     border,
   } = props;
+  const highlightLines = useMemo(() => new Set(emphasizeLines), [emphasizeLines]);
   const highlighterProps: any = useMemo(() => {
-    const highlightLines = new Set(emphasizeLines);
     return {
       language: lang,
       startingLineNumber,
@@ -69,9 +69,15 @@ export function CodeBlock(props: Props) {
         backgroundColor: 'unset',
       },
     };
-  }, [emphasizeLines]);
-
-  const [code, setCode] = useState(`<pre>\n${escapeHTML(value)}\n</pre>`);
+  }, [highlightLines]);
+  const lines = useMemo(() => {
+    const html = escapeHTML(value);
+    return html
+      .split(/\n/)
+      .map((line) => `<span class="line">${line}</span>`)
+      .join('\n');
+  }, [value]);
+  const [code, setCode] = useState(`<pre class="shiki"><code>${lines}</code></pre>`);
   useEffect(() => {
     codeToHtml(value, {
       lang: lang ?? 'text',
@@ -105,7 +111,10 @@ export function CodeBlock(props: Props) {
         </div>
       )}
 
-      <div className="block p-3" dangerouslySetInnerHTML={{ __html: code }}></div>
+      <div
+        className={classNames('block p-3', { numbered: showLineNumbers })}
+        dangerouslySetInnerHTML={{ __html: code }}
+      ></div>
       {showCopy && (
         <CopyIcon
           text={value}

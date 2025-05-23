@@ -1,12 +1,12 @@
 import type { NodeRenderer } from '@myst-theme/providers';
-import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { codeToHtml } from 'shiki';
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { CopyIcon } from './components/index.js';
 import { MyST } from './MyST.js';
-import { useMemo } from 'react';
-import type { ComponentProps } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Details } from './dropdown.js';
+import escapeHTML from 'escape-html';
 
 type Props = {
   value: string;
@@ -23,17 +23,6 @@ type Props = {
   className?: string;
 };
 
-function normalizeLanguage(lang?: string): string | undefined {
-  switch (lang) {
-    case 'html':
-      return 'xml';
-    default:
-      return lang;
-  }
-}
-
-type HighlightPropsType = ComponentProps<typeof SyntaxHighlighter>;
-
 export function CodeBlock(props: Props) {
   const {
     value,
@@ -49,10 +38,10 @@ export function CodeBlock(props: Props) {
     background,
     border,
   } = props;
-  const highlighterProps: Omit<HighlightPropsType, 'children'> = useMemo(() => {
+  const highlighterProps: any = useMemo(() => {
     const highlightLines = new Set(emphasizeLines);
     return {
-      language: normalizeLanguage(lang),
+      language: lang,
       startingLineNumber,
       showLineNumbers,
       useInlineStyles: true,
@@ -82,6 +71,17 @@ export function CodeBlock(props: Props) {
     };
   }, [emphasizeLines]);
 
+  const [code, setCode] = useState(`<pre>\n${escapeHTML(value)}\n</pre>`);
+  useEffect(() => {
+    codeToHtml(value, {
+      lang: lang ?? 'text',
+      themes: {
+        light: 'min-light',
+        dark: 'nord',
+      },
+    }).then((html) => setCode(html));
+  }, [value]);
+
   return (
     <div
       id={identifier}
@@ -104,9 +104,8 @@ export function CodeBlock(props: Props) {
           </div>
         </div>
       )}
-      <SyntaxHighlighter {...highlighterProps} className="block p-3 hljs">
-        {value}
-      </SyntaxHighlighter>
+
+      <div className="block p-3" dangerouslySetInnerHTML={{ __html: code }}></div>
       {showCopy && (
         <CopyIcon
           text={value}

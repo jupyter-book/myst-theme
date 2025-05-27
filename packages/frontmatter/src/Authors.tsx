@@ -5,6 +5,28 @@ import { OrcidIcon, EmailIcon, TwitterIcon } from '@scienceicons/react/24/solid'
 import { AuthorPopover } from './AuthorPopover.js';
 import { Affiliation } from './Affiliations.js';
 
+function AuthorIconLink({
+  href,
+  icon: Icon,
+  title,
+  className,
+}: {
+  href: string;
+  icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  title: string;
+  className?: string;
+}) {
+  return (
+    <a className="ml-1" href={href} title={title} target="_blank" rel="noopener noreferrer">
+      <Icon
+        width="1rem"
+        height="1rem"
+        className={classNames('inline-block text-gray-400 -translate-y-[0.1em]', className)}
+      />
+    </a>
+  );
+}
+
 export function Author({
   author,
   affiliations,
@@ -20,49 +42,28 @@ export function Author({
         {author.name}
       </AuthorPopover>
       {author.email && author.corresponding && (
-        <a
-          className="ml-1"
+        <AuthorIconLink
           href={`mailto:${author.email}`}
           title={`${author.name} <${author.email}>`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <EmailIcon
-            width="1rem"
-            height="1rem"
-            className="inline-block text-gray-400 hover:text-blue-400 -translate-y-[0.1em]"
-          />
-        </a>
+          icon={EmailIcon}
+          className="hover:text-blue-400"
+        />
       )}
       {author.orcid && (
-        <a
-          className="ml-1"
+        <AuthorIconLink
           href={`https://orcid.org/${author.orcid}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          title="ORCID (Open Researcher and Contributor ID)"
-        >
-          <OrcidIcon
-            width="1rem"
-            height="1rem"
-            className="inline-block text-gray-400 hover:text-[#A9C751] -translate-y-[0.1em]"
-          />
-        </a>
+          title={`ORCID: ${author.orcid}`}
+          icon={OrcidIcon}
+          className="hover:text-[#A9C751]"
+        />
       )}
       {author.twitter && (
-        <a
-          className="ml-1"
+        <AuthorIconLink
           href={`https://twitter.com/${author.twitter}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          title={`Twitter: ${author.twitter}`}
-        >
-          <TwitterIcon
-            width="1rem"
-            height="1rem"
-            className="inline-block text-gray-400 hover:text-[#1DA1F2] -translate-y-[0.1em]"
-          />
-        </a>
+          title={`Twitter: @${author.twitter}`}
+          icon={TwitterIcon}
+          className="hover:text-[#1DA1F2]"
+        />
       )}
     </span>
   );

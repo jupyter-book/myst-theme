@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import type { PageFrontmatter } from 'myst-frontmatter';
-import { OrcidIcon, EmailIcon, TwitterIcon, GithubIcon } from '@scienceicons/react/24/solid';
+import { OrcidIcon, EmailIcon, TwitterIcon } from '@scienceicons/react/24/solid';
 import { AuthorPopover } from './AuthorPopover.js';
 import { Affiliation } from './Affiliations.js';
 
@@ -65,13 +65,6 @@ export function Author({
           className="hover:text-[#1DA1F2]"
         />
       )}
-      {author.github && (
-        <AuthorIconLink
-          href={`https://github.com/${author.github}`}
-          title={`GitHub: @${author.github}`}
-          icon={GithubIcon}
-          className="hover:text-[#282C2C]"
-        />
       )}
     </span>
   );

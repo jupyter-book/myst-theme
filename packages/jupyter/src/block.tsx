@@ -15,7 +15,7 @@ export function NotebookBlock({ node, className }: { node: GenericParent; classN
   const block = (
     <div
       id={node.key}
-      className={classNames('relative group/block', className, node.class, {
+      className={classNames('relative group/block pr-[28px]', className, node.class, {
         [node.data?.class]: typeof node.data?.class === 'string',
         hidden: node.visibility === 'remove',
       })}

@@ -65,7 +65,6 @@ export function Author({
           className="hover:text-[#1DA1F2]"
         />
       )}
-      )}
     </span>
   );
 }

@@ -5,7 +5,7 @@ export function NotebookRunCell({ id }: { id: string }) {
   const { ready, cellIsExecuting, notebookIsBusy, execute } = useCellExecution(id);
   if (!ready) return null;
   return (
-    <Run ready={ready} executing={cellIsExecuting} disabled={notebookIsBusy} onClick={execute} />
+    <Run ready={ready} executing={cellIsExecuting} disabled={notebookIsBusy} onClick={execute} title="Run cell" />
   );
 }
 

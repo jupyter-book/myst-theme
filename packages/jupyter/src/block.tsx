@@ -29,7 +29,7 @@ export function NotebookBlock({ node, className }: { node: GenericParent; classN
           </div>
           <div className="hidden sticky top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:flex">
             <div className="absolute top-0 -right-[28px] flex md:flex-col">
-              <NotebookRunCell id={`run-${node.key}`}/>
+              <NotebookRunCell id={`run-${node.key}`} />
               <NotebookClearCell id={`clear-${node.key}`} />
             </div>
           </div>

@@ -15,7 +15,7 @@
 /* Here we use important to overwrite mt from typography.css */
 
 table.dataframe {
-  @apply border-none border-collapse border-spacing-0 text-black text-xs table-fixed m-0 !important;
+  @apply border-none border-collapse border-spacing-0 text-xs table-fixed m-0 !important;
 }
 
 .dataframe thead {

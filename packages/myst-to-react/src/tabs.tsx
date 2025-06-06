@@ -52,7 +52,7 @@ export function TabSet({
   return (
     <TabSetStateProvider active={active}>
       <div className={classNames('my-5', className)}>
-        <div className="flex flex-row overflow-x-auto border-b border-b-gray-100">
+        <div className="flex flex-row flex-wrap overflow-x-auto border-b border-b-gray-100">
           {tabs.map((tab) => {
             return (
               <div

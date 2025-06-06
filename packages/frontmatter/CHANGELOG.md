@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 0.15.3
+
+### Patch Changes
+
+- 968ad68: Abstract social icon rendering into component
+
 ## 0.15.2
 
 ## 0.15.1

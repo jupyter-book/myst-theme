@@ -1,5 +1,12 @@
 # @myst-theme/jupyter
 
+## 0.15.3
+
+### Patch Changes
+
+- @myst-theme/providers@0.15.3
+- myst-to-react@0.15.3
+
 ## 0.15.2
 
 ### Patch Changes

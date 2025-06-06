@@ -31,12 +31,13 @@ table.dataframe {
 }
 
 /* System to override the Jupyter colors depending on line parity */
+
+.jp-OutputArea-output table tr:nth-child(odd) {
+  @apply bg-neutral-100 dark:bg-neutral-900 [&>*]:hover:bg-sky-100 [&>*]:dark:hover:bg-sky-950;
 }
-.dataframe tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-.dataframe tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
+
+.jp-OutputArea-output table tr:nth-child(even) {
+  @apply bg-neutral-200 dark:bg-neutral-800 [&>*]:hover:bg-sky-100 [&>*]:dark:hover:bg-sky-950;
 }
 
 html.dark {

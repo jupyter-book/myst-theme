@@ -1,41 +1,36 @@
 .font-system {
   font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 }
+
 .jupyter-error {
-  background-color: rgb(255, 221, 221);
+  @apply bg-red-100;
 }
+
 /* Hide the output prompts from jupyter by default */
 .jp-OutputPrompt {
-  display: none;
+  @apply hidden;
 }
+
 /* Pandas tables */
 /* Here we use important to overwrite mt from typography.css */
+
 table.dataframe {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 1em;
-  table-layout: fixed;
-  margin: 0 !important;
+  @apply border-none border-collapse border-spacing-0 text-black text-xs table-fixed m-0 !important;
 }
+
 .dataframe thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
+  @apply align-bottom border-b border-black;
 }
-.dataframe tr,
-.dataframe th,
-.dataframe td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
+
 .dataframe th {
-  font-weight: bold;
+  @apply font-bold;
+}
+
+.dataframe td {
+  @apply p-2 leading-normal text-right whitespace-normal align-middle border-none max-w-none;
+}
+
+/* System to override the Jupyter colors depending on line parity */
 }
 .dataframe tbody tr:nth-child(odd) {
   background: #f5f5f5;

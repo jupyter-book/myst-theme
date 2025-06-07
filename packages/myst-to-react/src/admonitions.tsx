@@ -175,16 +175,16 @@ export function Admonition({
       dropdown={dropdown}
       open={open}
       className={classNames(
-        'my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
+        '-admonition-wrapper my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
         'bg-gray-50/10 dark:bg-stone-800',
         'overflow-hidden',
         {
-          'rounded border-l-4': !simple,
-          'border-l-2': simple,
-          'border-blue-500': !color || color === 'blue',
-          'border-green-600': color === 'green',
-          'border-amber-600': color === 'yellow',
-          'border-red-600': color === 'red',
+          '-admonition-wrapper-default rounded border-l-4': !simple,
+          '-admonition-wrapper-simple border-l-2': simple,
+          '-admonition-wrapper-blue border-blue-500': !color || color === 'blue',
+          '-admonition-wrapper-green border-green-600': color === 'green',
+          '-admonition-wrapper-yellow border-amber-600': color === 'yellow',
+          '-admonition-wrapper-red border-red-600': color === 'red',
         },
         className,
       )}
@@ -192,15 +192,15 @@ export function Admonition({
       {title && (
         <HeaderElement
           dropdown={dropdown}
-          className={classNames('m-0 font-medium py-1 flex min-w-0', {
-            'text-lg': !simple,
-            'text-md': simple,
+          className={classNames('-admonition-header m-0 font-medium py-1 flex min-w-0', {
+            '-admonition-header-default text-lg': !simple,
+            '-admonition-header-simple text-md': simple,
             'bg-gray-100 dark:bg-stone-700': simple,
-            'text-blue-600 bg-blue-50 dark:bg-slate-900': !simple && (!color || color === 'blue'),
-            'text-green-600 bg-green-50 dark:bg-slate-900': !simple && color === 'green',
-            'text-amber-600 bg-amber-50 dark:bg-slate-900': !simple && color === 'yellow',
-            'text-red-600 bg-red-50 dark:bg-slate-900': !simple && color === 'red',
-            'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
+            '-admonition-header-blue text-blue-600 bg-blue-50 dark:bg-slate-900': !simple && (!color || color === 'blue'),
+            '-admonition-header-green text-green-600 bg-green-50 dark:bg-slate-900': !simple && color === 'green',
+            '-admonition-header-yellow text-amber-600 bg-amber-50 dark:bg-slate-900': !simple && color === 'yellow',
+            '-admonition-header-red text-red-600 bg-red-50 dark:bg-slate-900': !simple && color === 'red',
+            '-admonition-header-dropdown cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           })}
         >
@@ -209,6 +209,7 @@ export function Admonition({
               kind={kind ?? AdmonitionKind.note}
               className={classNames({
                 // Needed for simple!
+                // Not sure what exactly this defines, could be expanded
                 'text-blue-600': !color || color === 'blue',
                 'text-green-600': color === 'green',
                 'text-amber-600': color === 'yellow',
@@ -218,7 +219,7 @@ export function Admonition({
           )}
           <div
             className={classNames(
-              'text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
+              '-admonition-header-text text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
               { 'ml-4': hideIcon },
             )}
           >
@@ -235,7 +236,7 @@ export function Admonition({
           )}
         </HeaderElement>
       )}
-      <div className={classNames('px-4', { 'py-1': !simple, 'details-body': dropdown })}>
+      <div className={classNames('-admonition-paragraph-text px-4', { 'py-1': !simple, 'details-body': dropdown })}>
         {children}
       </div>
     </WrapperElement>

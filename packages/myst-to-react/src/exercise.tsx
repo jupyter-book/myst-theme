@@ -95,16 +95,16 @@ export function Callout({
       id={identifier}
       dropdown={dropdown}
       className={classNames(
-        '-prf my-5 shadow dark:bg-stone-800 overflow-hidden',
+        '-exercise my-5 shadow dark:bg-stone-800 overflow-hidden',
         'dark:border-l-4 border-slate-400',
         {
-          '-prf-gray dark:border-gray-500/60': !color || color === 'gray',
-          '-prf-blue dark:border-blue-500/60': color === 'blue',
-          '-prf-green dark:border-green-500/60': color === 'green',
-          '-prf-yellow dark:border-amber-500/70': color === 'yellow',
-          '-prf-orange dark:border-orange-500/60': color === 'orange',
-          '-prf-red dark:border-red-500/60': color === 'red',
-          '-prf-purple dark:border-purple-500/60': color === 'purple',
+          '-exercise-gray dark:border-gray-500/60': !color || color === 'gray',
+          '-exercise-blue dark:border-blue-500/60': color === 'blue',
+          '-exercise-green dark:border-green-500/60': color === 'green',
+          '-exercise-yellow dark:border-amber-500/70': color === 'yellow',
+          '-exercise-orange dark:border-orange-500/60': color === 'orange',
+          '-exercise-red dark:border-red-500/60': color === 'red',
+          '-exercise-purple dark:border-purple-500/60': color === 'purple',
         },
         className,
       )}
@@ -112,18 +112,18 @@ export function Callout({
       <HeaderElement
         dropdown={dropdown}
         className={classNames(
-          '-prf-header m-0 font-medium py-2 flex min-w-0',
+          '-exercise-header m-0 font-medium py-2 flex min-w-0',
           'text-md',
           'border-y dark:border-y-0',
           {
-            '-prf-header-default bg-gray-50/80 dark:bg-slate-900': !color || color === 'gray',
-            '-prf-header-blue bg-blue-50/80 dark:bg-slate-900': color === 'blue',
-            '-prf-header-green bg-green-50/80 dark:bg-slate-900': color === 'green',
-            '-prf-header-yellow bg-amber-50/80 dark:bg-slate-900': color === 'yellow',
-            '-prf-header-orange bg-orange-50/80 dark:bg-slate-900': color === 'orange',
-            '-prf-header-red bg-red-50/80 dark:bg-slate-900': color === 'red',
-            '-prf-header-purple bg-purple-50/80 dark:bg-slate-900': color === 'purple',
-            '-prf-header-dropdown cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
+            '-exercise-header-default bg-gray-50/80 dark:bg-slate-900': !color || color === 'gray',
+            '-exercise-header-blue bg-blue-50/80 dark:bg-slate-900': color === 'blue',
+            '-exercise-header-green bg-green-50/80 dark:bg-slate-900': color === 'green',
+            '-exercise-header-yellow bg-amber-50/80 dark:bg-slate-900': color === 'yellow',
+            '-exercise-header-orange bg-orange-50/80 dark:bg-slate-900': color === 'orange',
+            '-exercise-header-red bg-red-50/80 dark:bg-slate-900': color === 'red',
+            '-exercise-header-purple bg-purple-50/80 dark:bg-slate-900': color === 'purple',
+            '-exercise-header-dropdown cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           },
         )}
@@ -148,7 +148,7 @@ export function Callout({
         )}
         <div
           className={classNames(
-            '-prf-title text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
+            '-exercise-title text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
             { 'ml-4': !Icon }, // No icon!
             'group', // For nested cross-reference links
           )}
@@ -165,7 +165,7 @@ export function Callout({
           </div>
         )}
       </HeaderElement>
-      <div className={classNames('-prf-body px-4', { 'details-body': dropdown })}>{children}</div>
+      <div className={classNames('-exercise-body px-4', { 'details-body': dropdown })}>{children}</div>
     </WrapperElement>
   );
 }

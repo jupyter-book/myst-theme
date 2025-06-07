@@ -134,16 +134,16 @@ export function Proof({
       id={identifier}
       dropdown={dropdown}
       className={classNames(
-        'my-5 shadow dark:bg-stone-800 overflow-hidden',
+        '-proof my-5 shadow dark:bg-stone-800 overflow-hidden',
         'dark:border-l-4 border-slate-400',
         {
-          'dark:border-gray-500/60': !color || color === 'gray',
-          'dark:border-blue-500/60': color === 'blue',
-          'dark:border-green-500/60': color === 'green',
-          'dark:border-amber-500/70': color === 'yellow',
-          'dark:border-orange-500/60': color === 'orange',
-          'dark:border-red-500/60': color === 'red',
-          'dark:border-purple-500/60': color === 'purple',
+          '-proof-default dark:border-gray-500/60': !color || color === 'gray',
+          '-proof-blue dark:border-blue-500/60': color === 'blue',
+          '-proof-green dark:border-green-500/60': color === 'green',
+          '-proof-yellow dark:border-amber-500/70': color === 'yellow',
+          '-proof-orange dark:border-orange-500/60': color === 'orange',
+          '-proof-red dark:border-red-500/60': color === 'red',
+          '-proof-purple dark:border-purple-500/60': color === 'purple',
         },
         className,
       )}
@@ -151,25 +151,25 @@ export function Proof({
       <HeaderElement
         dropdown={dropdown}
         className={classNames(
-          'm-0 font-medium py-2 flex min-w-0',
+          '-proof-header m-0 font-medium py-2 flex min-w-0',
           'text-md',
           'border-y dark:border-y-0',
           {
-            'bg-gray-50/80 dark:bg-slate-900': !color || color === 'gray',
-            'bg-blue-50/80 dark:bg-slate-900': color === 'blue',
-            'bg-green-50/80 dark:bg-slate-900': color === 'green',
-            'bg-amber-50/80 dark:bg-slate-900': color === 'yellow',
-            'bg-orange-50/80 dark:bg-slate-900': color === 'orange',
-            'bg-red-50/80 dark:bg-slate-900': color === 'red',
-            'bg-purple-50/80 dark:bg-slate-900': color === 'purple',
-            'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
+            '-proof-header-default bg-gray-50/80 dark:bg-slate-900': !color || color === 'gray',
+            '-proof-header-blue bg-blue-50/80 dark:bg-slate-900': color === 'blue',
+            '-proof-header-green bg-green-50/80 dark:bg-slate-900': color === 'green',
+            '-proof-header-yellow bg-amber-50/80 dark:bg-slate-900': color === 'yellow',
+            '-proof-header-orange bg-orange-50/80 dark:bg-slate-900': color === 'orange',
+            '-proof-header-red bg-red-50/80 dark:bg-slate-900': color === 'red',
+            '-proof-header-purple bg-purple-50/80 dark:bg-slate-900': color === 'purple',
+            '-proof-header-dropdown cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           },
         )}
       >
         <div
           className={classNames(
-            'text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
+            '-proof-title text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
             'ml-4', // No icon!
           )}
         >
@@ -188,7 +188,7 @@ export function Proof({
           </div>
         )}
       </HeaderElement>
-      <div className={classNames('px-4', { 'details-body': dropdown })}>{children}</div>
+      <div className={classNames('-proof-body px-4', { 'details-body': dropdown })}>{children}</div>
     </WrapperElement>
   );
 }

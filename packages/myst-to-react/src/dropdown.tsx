@@ -32,7 +32,7 @@ export function Details({
   return (
     <details
       className={classNames(
-        '-dropdown-style rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
+        '-dropdown rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
         'bg-gray-50 dark:bg-stone-800',
         className,
       )}

@@ -109,7 +109,7 @@ export const CardRenderer: NodeRenderer<CardSpec> = ({ node, className }) => {
   const isStatic = node.static || false;
   const link = !!url;
   const sharedStyle =
-    '-card-style my-5 rounded shadow dark:shadow-neutral-800 overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col';
+    '-card my-5 rounded shadow dark:shadow-neutral-800 overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col';
   if (link) {
     return (
       <ExternalOrInternalLink

@@ -175,16 +175,16 @@ export function Admonition({
       dropdown={dropdown}
       open={open}
       className={classNames(
-        '-admonition-wrapper my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
+        '-admonition my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
         'bg-gray-50/10 dark:bg-stone-800',
         'overflow-hidden',
         {
-          '-admonition-wrapper-default rounded border-l-4': !simple,
-          '-admonition-wrapper-simple border-l-2': simple,
-          '-admonition-wrapper-blue border-blue-500': !color || color === 'blue',
-          '-admonition-wrapper-green border-green-600': color === 'green',
-          '-admonition-wrapper-yellow border-amber-600': color === 'yellow',
-          '-admonition-wrapper-red border-red-600': color === 'red',
+          '-admonition-default rounded border-l-4': !simple,
+          '-admonition-simple border-l-2': simple,
+          '-admonition-blue border-blue-500': !color || color === 'blue',
+          '-admonition-green border-green-600': color === 'green',
+          '-admonition-yellow border-amber-600': color === 'yellow',
+          '-admonition-red border-red-600': color === 'red',
         },
         className,
       )}
@@ -236,7 +236,7 @@ export function Admonition({
           )}
         </HeaderElement>
       )}
-      <div className={classNames('-admonition-paragraph-text px-4', { 'py-1': !simple, 'details-body': dropdown })}>
+      <div className={classNames('-admonition-body px-4', { 'py-1': !simple, 'details-body': dropdown })}>
         {children}
       </div>
     </WrapperElement>

@@ -11,18 +11,18 @@ function getAsideClass(kind?: string) {
   switch (kind) {
     case 'topic':
       return {
-        container: 'my-5 shadow dark:bg-stone-800 overflow-hidden dark:border-l-4 border-slate-400',
+        container: '-aside-topic-container my-5 shadow dark:bg-stone-800 overflow-hidden dark:border-l-4 border-slate-400',
         title:
-          'm-0 font-medium py-2 px-4 flex min-w-0 text-md border-y dark:border-y-0 bg-gray-50/80 dark:bg-slate-900',
-        body: 'px-4',
+          '-aside-topic-title m-0 font-medium py-2 px-4 flex min-w-0 text-md border-y dark:border-y-0 bg-gray-50/80 dark:bg-slate-900',
+        body: '-aside-topic-body px-4',
       };
     case 'margin':
     case 'sidebar':
     default:
       return {
-        container: 'text-sm lg:h-0 col-margin-right',
-        title: 'text-base font-semibold',
-        body: '',
+        container: '-aside-default-container text-sm lg:h-0 col-margin-right',
+        title: '-aside-default-title text-base font-semibold',
+        body: '-aside-default-body',
       };
   }
 }

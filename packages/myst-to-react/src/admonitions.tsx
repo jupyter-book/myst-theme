@@ -209,11 +209,10 @@ export function Admonition({
               kind={kind ?? AdmonitionKind.note}
               className={classNames({
                 // Needed for simple!
-                // Not sure what exactly this defines, could be expanded
-                'text-blue-600': !color || color === 'blue',
-                'text-green-600': color === 'green',
-                'text-amber-600': color === 'yellow',
-                'text-red-600': color === 'red',
+                '-admonition-header-blue text-blue-600': !color || color === 'blue',
+                '-admonition-header-green text-green-600': color === 'green',
+                '-admonition-header-amber text-amber-600': color === 'yellow',
+                '-admonition-header-red text-red-600': color === 'red',
               })}
             />
           )}

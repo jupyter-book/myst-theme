@@ -85,7 +85,7 @@ export function CodeBlock(props: Props) {
   return (
     <div
       id={identifier}
-      className={classNames('relative group not-prose overflow-auto', className, {
+      className={classNames('-code relative group not-prose overflow-auto', className, {
         'shadow hover:shadow-md dark:shadow-2xl dark:shadow-neutral-900 my-5 text-sm': shadow,
         'bg-stone-200/10': background,
         'border border-l-4 border-l-blue-400 border-gray-200 dark:border-l-blue-400 dark:border-gray-800':
@@ -93,24 +93,24 @@ export function CodeBlock(props: Props) {
       })}
     >
       {filename && (
-        <div className="flex flex-row pl-2 bg-white border-b dark:bg-slate-600 dark:border-slate-300">
+        <div className="-code-filename-row flex flex-row pl-2 bg-white border-b dark:bg-slate-600 dark:border-slate-300">
           <DocumentIcon
             width="16px"
             height="16px"
-            className="self-center flex-none inline-block text-gray-500 dark:text-gray-100"
+            className="-code-filename-icon self-center flex-none inline-block text-gray-500 dark:text-gray-100"
           />
-          <div className="self-center p-2 text-sm leading-3 prose text-slate-600 dark:text-white">
+          <div className="-code-filename-title self-center p-2 text-sm leading-3 prose text-slate-600 dark:text-white">
             {filename}
           </div>
         </div>
       )}
-      <SyntaxHighlighter {...highlighterProps} className="block p-3 hljs">
+      <SyntaxHighlighter {...highlighterProps} className="-code-body block p-3 hljs">
         {value}
       </SyntaxHighlighter>
       {showCopy && (
         <CopyIcon
           text={value}
-          className={classNames('absolute right-1', { 'top-[32px]': filename, 'top-1': !filename })}
+          className={classNames('-code-copy-icon absolute right-1', { 'top-[32px]': filename, 'top-1': !filename })}
         />
       )}
     </div>

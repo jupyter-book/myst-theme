@@ -1,47 +1,43 @@
 .font-system {
   font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 }
+
 .jupyter-error {
-  background-color: rgb(255, 221, 221);
+  @apply bg-red-100;
 }
+
 /* Hide the output prompts from jupyter by default */
 .jp-OutputPrompt {
-  display: none;
+  @apply hidden;
 }
+
 /* Pandas tables */
 /* Here we use important to overwrite mt from typography.css */
+
 table.dataframe {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 1em;
-  table-layout: fixed;
-  margin: 0 !important;
+  @apply border-none border-collapse text-black border-spacing-0 text-xs table-fixed !m-0;
 }
+
 .dataframe thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
+  @apply align-bottom border-b border-black;
 }
-.dataframe tr,
-.dataframe th,
-.dataframe td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
+
 .dataframe th {
-  font-weight: bold;
+  @apply font-bold;
 }
-.dataframe tbody tr:nth-child(odd) {
-  background: #f5f5f5;
+
+.dataframe td {
+  @apply p-2 leading-normal text-right whitespace-normal align-middle border-none max-w-none;
 }
-.dataframe tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
+
+/* System to override the Jupyter colors depending on line parity */
+
+.jp-OutputArea-output table tr:nth-child(odd) {
+  @apply bg-neutral-100 dark:bg-neutral-900 [&>*]:hover:bg-sky-100 [&>*]:dark:hover:bg-sky-950;
+}
+
+.jp-OutputArea-output table tr:nth-child(even) {
+  @apply bg-neutral-200 dark:bg-neutral-800 [&>*]:hover:bg-sky-100 [&>*]:dark:hover:bg-sky-950;
 }
 
 html.dark {

@@ -83,40 +83,53 @@ npm run dev
 
 ## Working with themes
 
-To interact with the themes in development mode (e.g. with live-reload of components and styles as you are making changes), you need three things running:
+To interact with the themes in development mode (e.g. with live-reload of components and styles as you are making changes), you need three things running at the same time (each in a different terminal window):
 
-1. a content server
-2. the renderer/application (theme)
-3. a process watching all components
+1. Content: A content server that serves AST to the theme server.
+2. Theme: A dev server that watches for changes to this theme and re-builds it automatically.
+3. Theme: The theme server / renderer application.
 
-First, start the theme application:
+First, start [a content server application](https://mystmd.org/guide/developer#content-server) in another MyST site (e.g., with the MySTMD guide documentation).
+
 ```bash
-# Install dependencies
-npm install
-# First, build the theme
-npm run build
-
-# Then start the theme
-npm run theme:book
-# In another terminal, watch for changes and rebuild
-npm run dev
-```
-
-Then, start the content server application in e.g. the mystmd docs:
-```bash
-# In a directory with content
+# Open a first terminal.
+# `cd` into a directory with MyST content (e.g., the MyST docs)
+# Then start a headless content server:
+cd path/to/your/myst/docs
 myst start --headless
 ```
+
+The content server will parse MyST content into AST and send it to the theme server. By using `--headless`, we tell the content server **not** to start its own theme server, which allows the one we've started above to render the content.
+
+Next, start the dev server and the theme application, which will take AST from the content server and allow you to preview changes:
+```bash
+# Open a second terminal in the theme repository
+# First install the latest dependencies for the theme
+npm install
+
+# Start dev mode.
+# This will watch for changes in the theme repository and re-build them on the fly.
+# This lets you preview changes in real-time. watch for changes and rebuild
+npm run dev
+
+# Open a third terminal, and run the theme server.
+# The theme server will run in a headless state.
+# It will accept content from a content server, which we'll run in the next step.
+npm run theme:book
+```
+
+Open the port that is printed in the terminal for your theme server (usually, `https://localhost/3000`). The theme server will start serving the AST from the content as a website at that port.
 
 > **Note**: in the future, this repository will likely have it's own content to test out with the themes.
 > You can currently look to the mystjs/docs folder, or an [article](https://github.com/simpeg/tle-finitevolume) or a [thesis](https://github.com/rowanc1/phd-thesis).
 
-To run on a specific port (for example, developing locally between two projects), you can specify a custom port with:
+By default, the theme server will use the same port as the content server for changes to the AST. If you'd like to use a custom port, you can do so like this:
 
 ```bash
 myst start --headless --server-port 3111
 CONTENT_CDN_PORT=3111 npm run theme:book
 ```
+
 To connect to a remote content server, set the `CONTENT_CDN` environment variable:
 
 ```bash

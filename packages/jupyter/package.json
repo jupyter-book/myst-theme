@@ -26,7 +26,7 @@
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "@myst-theme/providers": "^0.15.2",
-    "@scienceicons/react": "^0.0.11",
+    "@scienceicons/react": "^0.0.13",
     "buffer": "^6.0.3",
     "classnames": "^2.5.1",
     "jupyterlab-plotly": "^5.24.0",

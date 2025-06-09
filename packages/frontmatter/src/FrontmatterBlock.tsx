@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import type { ExpandedThebeFrontmatter, PageFrontmatter } from 'myst-frontmatter';
 import { SourceFileKind } from 'myst-spec-ext';
-import { JupyterIcon, OpenAccessIcon, GithubIcon, TwitterIcon } from '@scienceicons/react/24/solid';
+import { JupyterIcon, OpenAccessIcon, GithubIcon, XIcon } from '@scienceicons/react/24/solid';
 import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
@@ -96,16 +96,16 @@ export function DateString({
 
 export function TwitterLink({ twitter: possibleLink }: { twitter?: string }) {
   if (!possibleLink) return null;
-  const twitter = possibleLink.replace(/^(https?:\/\/)?twitter\.com\//, '');
+  const twitter = possibleLink.replace(/^(https?:\/\/)?(?:twitter|x)\.com\//, '');
   return (
     <a
-      href={`https://twitter.com/${twitter}`}
-      title={`Twitter: ${twitter}`}
+      href={`https://x.com/${twitter}`}
+      title={`X Account: ${twitter}`}
       target="_blank"
       rel="noopener noreferrer"
       className="text-inherit hover:text-inherit"
     >
-      <TwitterIcon
+      <XIcon
         width="1.25rem"
         height="1.25rem"
         className="inline-block mr-1 opacity-60 hover:opacity-100"

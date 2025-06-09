@@ -22,7 +22,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@myst-theme/providers": "^0.15.2",
-    "@scienceicons/react": "^0.0.11",
+    "@scienceicons/react": "^0.0.13",
     "@radix-ui/react-hover-card": "^1.0.6",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",

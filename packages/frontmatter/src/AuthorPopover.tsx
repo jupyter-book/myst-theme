@@ -94,13 +94,13 @@ export const AuthorPopover = ({
                 </Definition>
               )}
               {author.twitter && (
-                <Definition title="Twitter">
+                <Definition title="X Account">
                   <a
                     className="ml-1"
-                    href={`https://twitter.com/${author.twitter}`}
+                    href={`https://x.com/${author.twitter}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    title={`Twitter: ${author.twitter}`}
+                    title={`X Account: ${author.twitter}`}
                   >
                     @{author.twitter}
                   </a>

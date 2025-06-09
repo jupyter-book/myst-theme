@@ -94,7 +94,7 @@ function getFirstKind({
   return { kind: AdmonitionKind.note, color: 'blue' };
 }
 
-const iconClass = 'inline-block pl-2 mr-2 self-center flex-none';
+const iconClass = '-admonition-header-icon inline-block pl-2 mr-2 self-center flex-none';
 
 function AdmonitionIcon({ kind, className }: { kind: AdmonitionKind; className?: string }) {
   const cn = classNames(iconClass, className);

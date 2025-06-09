@@ -12,7 +12,7 @@ type SummarySpec = {
   type: 'summary';
 };
 
-const iconClass = 'inline-block pl-2 mr-2 -translate-y-[1px]';
+const iconClass = '-dropdown-header-icon inline-block pl-2 mr-2 -translate-y-[1px]';
 
 export const SummaryTitle: NodeRenderer<SummarySpec> = ({ node, className }) => {
   return <MyST ast={node.children} className={className} />;

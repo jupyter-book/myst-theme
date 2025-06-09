@@ -60,7 +60,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
                 disabled={building}
                 aria-label="start compute environment"
               >
-                <PowerIcon className="inline-block w-6 h-6 align-top" title="enable compute" />
+                <PowerIcon className="inline-block w-6 h-6 align-top" title="Launch kernel" />
               </button>
               {(connecting || building) && !error && (
                 <span

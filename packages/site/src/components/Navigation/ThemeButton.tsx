@@ -11,8 +11,8 @@ export function ThemeButton({ className = 'w-8 h-8 mx-3' }: { className?: string
         'theme rounded-full aspect-square border border-stone-700 dark:border-white hover:bg-neutral-100 border-solid overflow-hidden text-stone-700 dark:text-white hover:text-stone-500 dark:hover:text-neutral-800',
         className,
       )}
-      title={`Toggle theme between light and dark mode.`}
-      aria-label={`Toggle theme between light and dark mode.`}
+      title={`Toggle theme between light and dark mode`}
+      aria-label={`Toggle theme between light and dark mode`}
       onClick={nextTheme}
     >
       <MoonIcon className="h-full w-full p-0.5 hidden dark:block" />

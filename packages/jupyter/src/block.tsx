@@ -23,12 +23,12 @@ export function NotebookBlock({ node, className }: { node: GenericParent; classN
       {pageKind === SourceFileKind.Notebook && node.kind === 'notebook-code' && (
         <>
           <div className="flex sticky top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:hidden">
-            <div className="absolute top-0 -right-[28px] flex md:flex-col">
+            <div className="absolute top-0 right-0 flex">
               <NotebookRunCellSpinnerOnly id={node.key} />
             </div>
           </div>
-          <div className="sticky top-[80px] z-10 opacity-0 group-hover/block:opacity-100 group-hover/block:flex">
-            <div className="absolute -top-[12px] md:top-0 md:-right-[28px] flex flex-row md:flex-col">
+          <div className="top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:flex">
+            <div className="absolute -top-[12px] right-0 flex flex-row">
               <NotebookRunCell id={node.key} />
               <NotebookClearCell id={node.key} />
             </div>

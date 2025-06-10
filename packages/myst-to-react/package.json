@@ -32,6 +32,8 @@
     "nanoid": "^4.0.2",
     "react-syntax-highlighter": "15.5.0",
     "swr": "^2.1.5",
+    "shiki": "^3.4.0",
+    "escape-html": "^1.0.3",
     "unist-util-select": "^4.0.3",
     "unist-util-visit": "^4.1.2"
   },

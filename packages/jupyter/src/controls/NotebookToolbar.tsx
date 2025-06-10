@@ -38,9 +38,21 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
   const error = !!serverError; // TODO broader build & session errors
   let title = 'Connect to a compute server';
   if (error) {
-    title = 'Error connecting to compute server';
+    title = 'Error connecting to a compute server';
   } else if (building) {
-    title = status;
+    if (status == 'pending') {
+      title = 'Pending...';
+    } else if (status == 'fetching') {
+      title = 'Fetching...';
+    } else if (status == 'build-notebooks') {
+      title = 'Building notebooks...';
+    } else if (status == 'wait-for-server') {
+      title = 'Waiting for server...';
+    } else if (status == 'start-session') {
+      title = 'Starting session...';
+    } else {
+      title = 'Error';
+    }
   }
 
   if (computable)

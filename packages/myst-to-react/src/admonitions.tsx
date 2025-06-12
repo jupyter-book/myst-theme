@@ -94,7 +94,7 @@ function getFirstKind({
   return { kind: AdmonitionKind.note, color: 'blue' };
 }
 
-const iconClass = '-admonition-header-icon inline-block pl-2 mr-2 self-center flex-none';
+const iconClass = 'myst-admonition-header-icon inline-block pl-2 mr-2 self-center flex-none';
 
 function AdmonitionIcon({ kind, className }: { kind: AdmonitionKind; className?: string }) {
   const cn = classNames(iconClass, className);
@@ -175,16 +175,16 @@ export function Admonition({
       dropdown={dropdown}
       open={open}
       className={classNames(
-        '-admonition my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
+        'myst-admonition my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
         'bg-gray-50/10 dark:bg-stone-800',
         'overflow-hidden',
         {
-          '-admonition-default rounded border-l-4': !simple,
-          '-admonition-simple border-l-2': simple,
-          '-admonition-blue border-blue-500': !color || color === 'blue',
-          '-admonition-green border-green-600': color === 'green',
-          '-admonition-yellow border-amber-600': color === 'yellow',
-          '-admonition-red border-red-600': color === 'red',
+          'myst-admonition-default rounded border-l-4': !simple,
+          'myst-admonition-simple border-l-2': simple,
+          'border-blue-500': !color || color === 'blue',
+          'border-green-600': color === 'green',
+          'border-amber-600': color === 'yellow',
+          'border-red-600': color === 'red',
         },
         className,
       )}
@@ -192,15 +192,15 @@ export function Admonition({
       {title && (
         <HeaderElement
           dropdown={dropdown}
-          className={classNames('-admonition-header m-0 font-medium py-1 flex min-w-0', {
-            '-admonition-header-default text-lg': !simple,
-            '-admonition-header-simple text-md': simple,
+          className={classNames('myst-admonition-header m-0 font-medium py-1 flex min-w-0', {
+            'myst-admonition-header-default text-lg': !simple,
+            'myst-admonition-header-simple text-md': simple,
             'bg-gray-100 dark:bg-stone-700': simple,
-            '-admonition-header-blue text-blue-600 bg-blue-50 dark:bg-slate-900': !simple && (!color || color === 'blue'),
-            '-admonition-header-green text-green-600 bg-green-50 dark:bg-slate-900': !simple && color === 'green',
-            '-admonition-header-yellow text-amber-600 bg-amber-50 dark:bg-slate-900': !simple && color === 'yellow',
-            '-admonition-header-red text-red-600 bg-red-50 dark:bg-slate-900': !simple && color === 'red',
-            '-admonition-header-dropdown cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
+            'text-blue-600 bg-blue-50 dark:bg-slate-900': !simple && (!color || color === 'blue'),
+            'text-green-600 bg-green-50 dark:bg-slate-900': !simple && color === 'green',
+            'text-amber-600 bg-amber-50 dark:bg-slate-900': !simple && color === 'yellow',
+            'text-red-600 bg-red-50 dark:bg-slate-900': !simple && color === 'red',
+            'myst-admonition-header-dropdown cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           })}
         >
@@ -209,16 +209,16 @@ export function Admonition({
               kind={kind ?? AdmonitionKind.note}
               className={classNames({
                 // Needed for simple!
-                '-admonition-header-blue text-blue-600': !color || color === 'blue',
-                '-admonition-header-green text-green-600': color === 'green',
-                '-admonition-header-amber text-amber-600': color === 'yellow',
-                '-admonition-header-red text-red-600': color === 'red',
+                'text-blue-600': !color || color === 'blue',
+                'text-green-600': color === 'green',
+                'text-amber-600': color === 'yellow',
+                'text-red-600': color === 'red',
               })}
             />
           )}
           <div
             className={classNames(
-              '-admonition-header-text text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
+              'myst-admonition-header-text text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
               { 'ml-4': hideIcon },
             )}
           >
@@ -235,7 +235,7 @@ export function Admonition({
           )}
         </HeaderElement>
       )}
-      <div className={classNames('-admonition-body px-4', { 'py-1': !simple, 'details-body': dropdown })}>
+      <div className={classNames('myst-admonition-body px-4', { 'py-1': !simple, 'details-body': dropdown })}>
         {children}
       </div>
     </WrapperElement>

@@ -95,7 +95,7 @@ export function Callout({
       id={identifier}
       dropdown={dropdown}
       className={classNames(
-        'my-5 shadow dark:bg-stone-800 overflow-hidden',
+        'myst-exercise my-5 shadow dark:bg-stone-800 overflow-hidden',
         'dark:border-l-4 border-slate-400',
         {
           'dark:border-gray-500/60': !color || color === 'gray',
@@ -112,7 +112,7 @@ export function Callout({
       <HeaderElement
         dropdown={dropdown}
         className={classNames(
-          'm-0 font-medium py-2 flex min-w-0',
+          'myst-exercise-header m-0 font-medium py-2 flex min-w-0',
           'text-md',
           'border-y dark:border-y-0',
           {
@@ -123,12 +123,12 @@ export function Callout({
             'bg-orange-50/80 dark:bg-slate-900': color === 'orange',
             'bg-red-50/80 dark:bg-slate-900': color === 'red',
             'bg-purple-50/80 dark:bg-slate-900': color === 'purple',
-            'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
+            'myst-exercise-header-dropdown cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           },
         )}
       >
-        {Icon && (
+        {Icon && ( // I am relatively sure this is not used for proof directives right now
           <Icon
             width="2rem"
             height="2rem"
@@ -148,7 +148,7 @@ export function Callout({
         )}
         <div
           className={classNames(
-            'text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
+            'myst-exercise-title text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
             { 'ml-4': !Icon }, // No icon!
             'group', // For nested cross-reference links
           )}
@@ -165,7 +165,7 @@ export function Callout({
           </div>
         )}
       </HeaderElement>
-      <div className={classNames('px-4', { 'details-body': dropdown })}>{children}</div>
+      <div className={classNames('myst-exercise-body px-4', { 'details-body': dropdown })}>{children}</div>
     </WrapperElement>
   );
 }

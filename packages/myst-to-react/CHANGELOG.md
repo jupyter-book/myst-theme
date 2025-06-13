@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 0.15.3
+
+### Patch Changes
+
+- e2fa549: Upgrade to scienceicons 0.0.13
+  - @myst-theme/providers@0.15.3
+
 ## 0.15.2
 
 ### Patch Changes

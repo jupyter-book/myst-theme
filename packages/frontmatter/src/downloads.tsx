@@ -132,7 +132,7 @@ export function DownloadsDropdown({ exports }: HasExports) {
     <Menu as="div" className="relative flex inline-block mx-1 grow-0">
       <Menu.Button className="relative ml-2 -mr-1">
         <span className="sr-only">Downloads</span>
-        <ArrowDownTrayIcon width="1.25rem" height="1.25rem" aria-hidden="true" />
+        <ArrowDownTrayIcon width="1.25rem" height="1.25rem" aria-hidden="true" title="Download" />
       </Menu.Button>
       <Menu.Items className="absolute z-10 overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
         {exports.map((exp, index) => (

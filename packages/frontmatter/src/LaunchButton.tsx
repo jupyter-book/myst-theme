@@ -577,6 +577,7 @@ export function LaunchButton(props: LaunchProps) {
         <button
           className="inline-flex size-[24px] hover:text-[#E18435] items-center justify-center"
           aria-label="Launch in external computing interface"
+          title="Launch in external computing interface"
         >
           <RocketIcon />
         </button>

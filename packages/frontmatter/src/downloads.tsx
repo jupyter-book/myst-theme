@@ -130,7 +130,7 @@ export function DownloadsDropdown({ exports }: HasExports) {
   if (!exports || exports.length === 0) return null;
   return (
     <Menu as="div" className="relative flex inline-block mx-1 grow-0">
-      <Menu.Button className="relative ml-2 -mr-1 hover:text-[#E18435]">
+      <Menu.Button className="relative ml-2 -mr-1">
         <span className="sr-only">Downloads</span>
         <ArrowDownTrayIcon width="1.25rem" height="1.25rem" aria-hidden="true" title="Download" />
       </Menu.Button>

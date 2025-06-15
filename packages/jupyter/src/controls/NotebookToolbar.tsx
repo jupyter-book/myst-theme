@@ -50,8 +50,10 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
       title = 'Waiting for server...';
     } else if (status == 'start-session') {
       title = 'Starting session...';
-    } else {
+    } else if (status == 'error') {
       title = 'Error';
+    } else {
+      title = 'Unknown'
     }
   }
 

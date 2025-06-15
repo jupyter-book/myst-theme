@@ -44,3 +44,7 @@ deploy-article:
 
 deploy-book:
 	make THEME=book deploy-theme
+
+build-docs:
+	make build-book
+	cd docs && myst build --execute --html

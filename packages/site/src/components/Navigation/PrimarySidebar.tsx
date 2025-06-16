@@ -84,7 +84,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
 export function SidebarNav({ nav }: { nav?: SiteManifest['nav'] }) {
   if (!nav) return null;
   return (
-    <div className="w-full px-1 dark:text-white">
+    <div className="w-full px-1 dark:text-white font-medium">
       {nav.map((item) => {
         return <SidebarNavItem key={'url' in item ? item.url : item.title} item={item} />;
       })}
@@ -126,12 +126,14 @@ export const PrimarySidebar = ({
   nav,
   footer,
   headings,
+  hide_toc,
   mobileOnly,
 }: {
   sidebarRef?: React.RefObject<HTMLElement>;
   nav?: SiteManifest['nav'];
   headings?: Heading[];
   footer?: React.ReactNode;
+  hide_toc?: boolean;
   mobileOnly?: boolean;
 }) => {
   const top = useThemeTop();
@@ -156,6 +158,7 @@ export const PrimarySidebar = ({
         'fixed',
         `xl:${grid}`, // for example, xl:article-grid
         'grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
+        {'lg:hidden' : nav && hide_toc},
         { hidden: !open, 'z-30': open, 'z-10': !open },
       )}
       style={{ top }}

@@ -123,7 +123,7 @@ export function Callout({
             'bg-orange-50/80 dark:bg-slate-900': color === 'orange',
             'bg-red-50/80 dark:bg-slate-900': color === 'red',
             'bg-purple-50/80 dark:bg-slate-900': color === 'purple',
-            'myst-exercise-header-dropdown cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
+            'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           },
         )}

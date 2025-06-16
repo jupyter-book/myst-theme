@@ -93,7 +93,7 @@ export function CodeBlock(props: Props) {
       })}
     >
       {filename && (
-        <div className="myst-code-filename-row flex flex-row pl-2 bg-white border-b dark:bg-slate-600 dark:border-slate-300">
+        <div className="flex flex-row pl-2 bg-white border-b dark:bg-slate-600 dark:border-slate-300">
           <DocumentIcon
             width="16px"
             height="16px"

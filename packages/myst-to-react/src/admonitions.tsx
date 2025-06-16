@@ -193,14 +193,14 @@ export function Admonition({
         <HeaderElement
           dropdown={dropdown}
           className={classNames('myst-admonition-header m-0 font-medium py-1 flex min-w-0', {
-            'myst-admonition-header-default text-lg': !simple,
-            'myst-admonition-header-simple text-md': simple,
+            'text-lg': !simple,
+            'text-md': simple,
             'bg-gray-100 dark:bg-stone-700': simple,
             'text-blue-600 bg-blue-50 dark:bg-slate-900': !simple && (!color || color === 'blue'),
             'text-green-600 bg-green-50 dark:bg-slate-900': !simple && color === 'green',
             'text-amber-600 bg-amber-50 dark:bg-slate-900': !simple && color === 'yellow',
             'text-red-600 bg-red-50 dark:bg-slate-900': !simple && color === 'red',
-            'myst-admonition-header-dropdown cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
+            'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           })}
         >

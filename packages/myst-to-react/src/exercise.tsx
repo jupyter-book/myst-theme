@@ -165,7 +165,9 @@ export function Callout({
           </div>
         )}
       </HeaderElement>
-      <div className={classNames('myst-exercise-body px-4', { 'details-body': dropdown })}>{children}</div>
+      <div className={classNames('myst-exercise-body px-4', { 'details-body': dropdown })}>
+        {children}
+      </div>
     </WrapperElement>
   );
 }

@@ -235,7 +235,12 @@ export function Admonition({
           )}
         </HeaderElement>
       )}
-      <div className={classNames('myst-admonition-body px-4', { 'py-1': !simple, 'details-body': dropdown })}>
+      <div
+        className={classNames('myst-admonition-body px-4', {
+          'py-1': !simple,
+          'details-body': dropdown,
+        })}
+      >
         {children}
       </div>
     </WrapperElement>

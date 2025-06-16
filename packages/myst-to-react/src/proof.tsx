@@ -188,7 +188,9 @@ export function Proof({
           </div>
         )}
       </HeaderElement>
-      <div className={classNames('myst-proof-body px-4', { 'details-body': dropdown })}>{children}</div>
+      <div className={classNames('myst-proof-body px-4', { 'details-body': dropdown })}>
+        {children}
+      </div>
     </WrapperElement>
   );
 }

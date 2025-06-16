@@ -110,7 +110,10 @@ export function CodeBlock(props: Props) {
       {showCopy && (
         <CopyIcon
           text={value}
-          className={classNames('myst-code-copy-icon absolute right-1', { 'top-[32px]': filename, 'top-1': !filename })}
+          className={classNames('myst-code-copy-icon absolute right-1', {
+            'top-[32px]': filename,
+            'top-1': !filename,
+          })}
         />
       )}
     </div>

@@ -79,11 +79,13 @@ function ArticlePageAndNavigationInternal({
   children,
   hide_toc,
   hideSearch,
+  hide_myst_branding,
   projectSlug,
   inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
   hide_toc?: boolean;
   hideSearch?: boolean;
+  hide_myst_branding?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
   inset?: number;
@@ -91,13 +93,14 @@ function ArticlePageAndNavigationInternal({
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
   const projectParts = useSiteManifest()?.parts;
+  const footer = hide_myst_branding ? <MadeWithMyst /> : null;
   return (
     <>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
-        footer={<MadeWithMyst />}
+        footer={footer}
         projectSlug={projectSlug}
       />
       <TabStateProvider>
@@ -121,12 +124,14 @@ function ArticlePageAndNavigationInternal({
 export function ArticlePageAndNavigation({
   children,
   hide_toc,
+  hide_myst_branding,
   hideSearch,
   projectSlug,
   inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
   hide_toc?: boolean;
   hideSearch?: boolean;
+  hide_myst_branding?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
   inset?: number;
@@ -136,6 +141,7 @@ export function ArticlePageAndNavigation({
       <ArticlePageAndNavigationInternal
         children={children}
         hide_toc={hide_toc}
+        hide_myst_branding={hide_myst_branding}
         hideSearch={hideSearch}
         projectSlug={projectSlug}
         inset={inset}
@@ -151,7 +157,7 @@ export default function Page() {
   const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.site ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
-  const { hide_toc, hide_search, hide_footer_links } = {
+  const { hide_toc, hide_search, hide_footer_links, hide_myst_branding } = {
     ...siteDesign,
     ...pageDesign,
   };
@@ -159,6 +165,7 @@ export default function Page() {
     <ArticlePageAndNavigation
       hide_toc={hide_toc}
       hideSearch={hide_search}
+      hide_myst_branding={hide_myst_branding}
       projectSlug={data.page.project}
     >
       {/* <ProjectProvider project={project}> */}

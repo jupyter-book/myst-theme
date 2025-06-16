@@ -28,6 +28,9 @@ options:
   - type: boolean
     id: hide_search
     description: Disable the search
+  - type: boolean
+    id: hide_myst_branding
+    description: Disable the Made with Myst plaque below ToC
   - type: number
     id: outline_maxdepth
     description: The maximum depth to show on the document outline, for example, `2` would show only two depths of headings (e.g. `<H1>` and `<H2>`)

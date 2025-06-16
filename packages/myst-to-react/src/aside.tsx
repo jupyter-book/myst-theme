@@ -22,7 +22,7 @@ function getAsideClass(kind?: string) {
     default:
       return {
         container: 'myst-aside myst-aside-${kind} text-sm lg:h-0 col-margin-right',
-        title: 'myst-aside-title myst-aside-default-title text-base font-semibold',
+        title: 'myst-aside-title text-base font-semibold',
         body: 'myst-aside-body',
       };
   }

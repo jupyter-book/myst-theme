@@ -18,7 +18,7 @@ function getAsideClass(kind?: string) {
         body: 'myst-aside-body px-4',
       };
     case 'margin':
-    case 'sidebar': 
+    case 'sidebar':
     default:
       return {
         container: 'myst-aside myst-aside-${kind} text-sm lg:h-0 col-margin-right',

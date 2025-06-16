@@ -53,7 +53,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
     } else if (status == 'error') {
       title = 'Error';
     } else {
-      title = 'Unknown'
+      title = 'Unknown';
     }
   }
 

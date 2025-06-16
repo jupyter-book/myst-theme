@@ -128,12 +128,12 @@ export function Callout({
           },
         )}
       >
-        {Icon && ( // I am relatively sure this is not used for proof directives right now
+        {Icon && (
           <Icon
             width="2rem"
             height="2rem"
             className={classNames(
-              'inline-block pl-2 mr-2 self-center flex-none',
+              'myst-exercise-header-icon inline-block pl-2 mr-2 self-center flex-none',
               classNames({
                 'text-gray-600': !color || color === 'gray',
                 'text-blue-600': color === 'blue',

@@ -158,7 +158,7 @@ export const PrimarySidebar = ({
         'fixed',
         `xl:${grid}`, // for example, xl:article-grid
         'grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
-        {'lg:hidden' : nav && hide_toc},
+        { 'lg:hidden': nav && hide_toc },
         { hidden: !open, 'z-30': open, 'z-10': !open },
       )}
       style={{ top }}

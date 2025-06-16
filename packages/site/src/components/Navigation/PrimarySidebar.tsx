@@ -127,12 +127,14 @@ export const PrimarySidebar = ({
   footer,
   headings,
   mobileOnly,
+  hide_myst_branding,
 }: {
   sidebarRef?: React.RefObject<HTMLElement>;
   nav?: SiteManifest['nav'];
   headings?: Heading[];
   footer?: React.ReactNode;
   mobileOnly?: boolean;
+  hide_myst_branding?: boolean;
 }) => {
   const top = useThemeTop();
   const grid = useGridSystemProvider();
@@ -193,7 +195,7 @@ export const PrimarySidebar = ({
             </nav>
           )}
         </div>
-        {footer && (
+        {!hide_myst_branding && footer && (
           <div
             className="flex-none py-6 transition-all duration-700 translate-y-6 opacity-0"
             ref={footerRef}

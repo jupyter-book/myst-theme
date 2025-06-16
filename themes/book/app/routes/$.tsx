@@ -93,14 +93,14 @@ function ArticlePageAndNavigationInternal({
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
   const projectParts = useSiteManifest()?.parts;
-  const footer = hide_myst_branding ? <MadeWithMyst /> : null;
   return (
     <>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
-        footer={footer}
+        hide_myst_branding={hide_myst_branding}
+        footer={<MadeWithMyst />}
         projectSlug={projectSlug}
       />
       <TabStateProvider>

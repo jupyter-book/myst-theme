@@ -5,5 +5,4 @@ export interface TemplateOptions {
   hide_footer_links?: boolean;
   outline_maxdepth?: number;
   hide_title_block?: boolean;
-  hide_myst_branding?: boolean;
 }

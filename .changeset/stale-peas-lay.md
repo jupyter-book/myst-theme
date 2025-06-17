@@ -3,4 +3,4 @@
 '@myst-theme/book': patch
 ---
 
-Add site.options.hide_myst_branding option
+Add site.parts.sidebar_footer option

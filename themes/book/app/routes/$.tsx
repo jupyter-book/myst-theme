@@ -32,6 +32,7 @@ import { ArticlePage } from '../components/ArticlePage.js';
 import { Footer } from '../components/Footer.js';
 import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
+import { MyST } from 'myst-to-react';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }) => {
@@ -79,13 +80,11 @@ function ArticlePageAndNavigationInternal({
   children,
   hide_toc,
   hideSearch,
-  hide_myst_branding,
   projectSlug,
   inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
   hide_toc?: boolean;
   hideSearch?: boolean;
-  hide_myst_branding?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
   inset?: number;
@@ -99,8 +98,7 @@ function ArticlePageAndNavigationInternal({
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
-        hide_myst_branding={hide_myst_branding}
-        footer={<MadeWithMyst />}
+        footer={projectParts?.sidebar_footer ? <a><MyST ast={projectParts.sidebar_footer.mdast} /> </a>: <MadeWithMyst />}
         projectSlug={projectSlug}
       />
       <TabStateProvider>
@@ -124,14 +122,12 @@ function ArticlePageAndNavigationInternal({
 export function ArticlePageAndNavigation({
   children,
   hide_toc,
-  hide_myst_branding,
   hideSearch,
   projectSlug,
   inset = 20, // begin text 20px from the top (aligned with menu)
 }: {
   hide_toc?: boolean;
   hideSearch?: boolean;
-  hide_myst_branding?: boolean;
   projectSlug?: string;
   children: React.ReactNode;
   inset?: number;
@@ -141,7 +137,6 @@ export function ArticlePageAndNavigation({
       <ArticlePageAndNavigationInternal
         children={children}
         hide_toc={hide_toc}
-        hide_myst_branding={hide_myst_branding}
         hideSearch={hideSearch}
         projectSlug={projectSlug}
         inset={inset}
@@ -157,7 +152,7 @@ export default function Page() {
   const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.site ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
-  const { hide_toc, hide_search, hide_footer_links, hide_myst_branding } = {
+  const { hide_toc, hide_search, hide_footer_links } = {
     ...siteDesign,
     ...pageDesign,
   };
@@ -165,7 +160,6 @@ export default function Page() {
     <ArticlePageAndNavigation
       hide_toc={hide_toc}
       hideSearch={hide_search}
-      hide_myst_branding={hide_myst_branding}
       projectSlug={data.page.project}
     >
       {/* <ProjectProvider project={project}> */}

@@ -13,7 +13,6 @@ export const PrimaryNavigation = ({
   projectSlug,
   sidebarRef,
   hide_toc,
-  hide_myst_branding,
   mobileOnly,
   footer,
 }: {
@@ -21,7 +20,6 @@ export const PrimaryNavigation = ({
   projectSlug?: string;
   sidebarRef?: React.RefObject<HTMLDivElement>;
   hide_toc?: boolean;
-  hide_myst_branding?: boolean;
   mobileOnly?: boolean;
   footer?: React.ReactNode;
 }) => {
@@ -39,7 +37,6 @@ export const PrimaryNavigation = ({
       children={children}
       sidebarRef={sidebarRef}
       hide_toc={hide_toc}
-      hide_myst_branding={hide_myst_branding}
       mobileOnly={mobileOnly}
       nav={nav}
       headings={headings}
@@ -62,7 +59,6 @@ export const ConfigurablePrimaryNavigation = ({
   children,
   sidebarRef,
   hide_toc,
-  hide_myst_branding,
   mobileOnly,
   nav,
   headings,
@@ -71,7 +67,6 @@ export const ConfigurablePrimaryNavigation = ({
   children?: React.ReactNode;
   sidebarRef?: React.RefObject<HTMLDivElement>;
   hide_toc?: boolean;
-  hide_myst_branding?: boolean;
   mobileOnly?: boolean;
   nav?: SiteManifest['nav'];
   headings?: Heading[];
@@ -104,7 +99,6 @@ export const ConfigurablePrimaryNavigation = ({
         headings={headings}
         footer={footer}
         mobileOnly={mobileOnly}
-        hide_myst_branding={hide_myst_branding}
       />
       {children}
     </>

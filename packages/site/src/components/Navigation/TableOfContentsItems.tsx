@@ -7,7 +7,7 @@ import {
   useLinkProvider,
   useNavLinkProvider,
   useNavOpen,
-  withBaseurl
+  withBaseurl,
 } from '@myst-theme/providers';
 import { useLocation, useNavigation } from '@remix-run/react';
 import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
@@ -58,7 +58,13 @@ function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: str
     .flat();
 }
 
-export const Toc = ({ headings, open_urls_in_new_tab }: { headings: Heading[], open_urls_in_new_tab?: boolean }) => {
+export const Toc = ({
+  headings,
+  open_urls_in_new_tab,
+}: {
+  headings: Heading[];
+  open_urls_in_new_tab?: boolean;
+}) => {
   const nested = nestToc(headings);
   return (
     <div className="w-full px-1 dark:text-white">
@@ -73,7 +79,7 @@ function LinkItem({
   className,
   heading,
   onClick,
-  target
+  target,
 }: {
   className?: string;
   heading: NestedHeading;
@@ -101,9 +107,7 @@ function LinkItem({
         target={target}
       >
         {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
-        <ArrowTopRightOnSquareIcon
-          className="inline h-4 w-4 align-baseline ml-[0.2rem]"
-        />
+        <ArrowTopRightOnSquareIcon className="inline h-4 w-4 align-baseline ml-[0.2rem]" />
       </Link>
     );
   }
@@ -143,7 +147,13 @@ function LinkItem({
   );
 }
 
-const NestedToc = ({ heading, open_urls_in_new_tab }: { heading: NestedHeading, open_urls_in_new_tab?: boolean }) => {
+const NestedToc = ({
+  heading,
+  open_urls_in_new_tab,
+}: {
+  heading: NestedHeading;
+  open_urls_in_new_tab?: boolean;
+}) => {
   const { pathname } = useLocation();
   const baseurl = useBaseurl();
   const startOpen = childrenOpen([heading], pathname, baseurl).includes(heading.id);
@@ -162,7 +172,7 @@ const NestedToc = ({ heading, open_urls_in_new_tab }: { heading: NestedHeading, 
           'font-bold': heading.level === 'index',
         })}
         heading={heading}
-        target={open_urls_in_new_tab ? "_blank" : "_self"}
+        target={open_urls_in_new_tab ? '_blank' : '_self'}
       />
     );
   }

@@ -7,8 +7,7 @@ import {
   useLinkProvider,
   useNavLinkProvider,
   useNavOpen,
-  withBaseurl,
-  HtmlLink,
+  withBaseurl
 } from '@myst-theme/providers';
 import { useLocation, useNavigation } from '@remix-run/react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';

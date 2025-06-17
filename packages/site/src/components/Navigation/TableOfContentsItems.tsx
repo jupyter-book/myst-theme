@@ -10,7 +10,7 @@ import {
   withBaseurl
 } from '@myst-theme/providers';
 import { useLocation, useNavigation } from '@remix-run/react';
-import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 
 type NestedHeading = Heading & { id: string; children: NestedHeading[] };
 
@@ -99,6 +99,9 @@ function LinkItem({
         target="_blank"
       >
         {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
+        <ArrowTopRightOnSquareIcon
+          class="inline h-4 w-4 align-baseline ml-[0.2rem]"
+        />
       </Link>
     );
   }

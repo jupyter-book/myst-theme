@@ -58,12 +58,12 @@ function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: str
     .flat();
 }
 
-export const Toc = ({ headings }: { headings: Heading[] }) => {
+export const Toc = ({ headings, open_urls_in_new_tab }: { headings: Heading[], open_urls_in_new_tab?: boolean }) => {
   const nested = nestToc(headings);
   return (
     <div className="w-full px-1 dark:text-white">
       {nested.map((item) => (
-        <NestedToc heading={item} key={item.id} />
+        <NestedToc heading={item} key={item.id} open_urls_in_new_tab={open_urls_in_new_tab} />
       ))}
     </div>
   );
@@ -73,10 +73,12 @@ function LinkItem({
   className,
   heading,
   onClick,
+  target
 }: {
   className?: string;
   heading: NestedHeading;
   onClick?: () => void;
+  target?: string;
 }) {
   const Link = useLinkProvider();
   const NavLink = useNavLinkProvider();
@@ -96,11 +98,11 @@ function LinkItem({
           onClick?.();
           setOpen(false);
         }}
-        target="_blank"
+        target={target}
       >
         {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
         <ArrowTopRightOnSquareIcon
-          class="inline h-4 w-4 align-baseline ml-[0.2rem]"
+          className="inline h-4 w-4 align-baseline ml-[0.2rem]"
         />
       </Link>
     );
@@ -141,7 +143,7 @@ function LinkItem({
   );
 }
 
-const NestedToc = ({ heading }: { heading: NestedHeading }) => {
+const NestedToc = ({ heading, open_urls_in_new_tab }: { heading: NestedHeading, open_urls_in_new_tab?: boolean }) => {
   const { pathname } = useLocation();
   const baseurl = useBaseurl();
   const startOpen = childrenOpen([heading], pathname, baseurl).includes(heading.id);
@@ -160,6 +162,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
           'font-bold': heading.level === 'index',
         })}
         heading={heading}
+        target={open_urls_in_new_tab ? "_blank" : "_self"}
       />
     );
   }
@@ -197,7 +200,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
       </div>
       <Collapsible.Content className="pl-3 pr-[2px] collapsible-content">
         {heading.children.map((item) => (
-          <NestedToc heading={item} key={item.id} />
+          <NestedToc heading={item} key={item.id} open_urls_in_new_tab={open_urls_in_new_tab} />
         ))}
       </Collapsible.Content>
     </Collapsible.Root>

@@ -191,7 +191,6 @@ export const PrimarySidebar = ({
             >
               <Toc
                 headings={headings}
-                open_urls_in_same_tab={config?.options?.open_toc_urls_in_same_tab}
               />
             </nav>
           )}

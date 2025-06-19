@@ -21,7 +21,9 @@ export type Heading = {
   level: number | 'index';
   group?: string;
   enumerator?: string;
+  // For external URLs
   url?: string;
+  open_in_same_tab?: boolean;
 };
 
 export type SiteLoader = {

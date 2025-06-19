@@ -17,8 +17,8 @@ options:
     id: hide_toc
     description: Hide the table of contents
   - type: boolean
-    id: open_toc_urls_in_new_tab
-    description: Whether to open URLs in the table of contents in a new tab
+    id: open_toc_urls_in_same_tab
+    description: Open URLs in the table of contents in the same tab, instead of in a new one
   - type: boolean
     id: hide_footer_links
     description: Hide the previous/next links in the footer

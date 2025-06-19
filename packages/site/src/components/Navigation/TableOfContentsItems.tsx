@@ -60,16 +60,16 @@ function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: str
 
 export const Toc = ({
   headings,
-  open_urls_in_new_tab,
+  open_urls_in_same_tab,
 }: {
   headings: Heading[];
-  open_urls_in_new_tab?: boolean;
+  open_urls_in_same_tab?: boolean;
 }) => {
   const nested = nestToc(headings);
   return (
     <div className="w-full px-1 dark:text-white">
       {nested.map((item) => (
-        <NestedToc heading={item} key={item.id} open_urls_in_new_tab={open_urls_in_new_tab} />
+        <NestedToc heading={item} key={item.id} open_urls_in_same_tab={open_urls_in_same_tab} />
       ))}
     </div>
   );
@@ -149,10 +149,10 @@ function LinkItem({
 
 const NestedToc = ({
   heading,
-  open_urls_in_new_tab,
+  open_urls_in_same_tab,
 }: {
   heading: NestedHeading;
-  open_urls_in_new_tab?: boolean;
+  open_urls_in_same_tab?: boolean;
 }) => {
   const { pathname } = useLocation();
   const baseurl = useBaseurl();
@@ -172,7 +172,7 @@ const NestedToc = ({
           'font-bold': heading.level === 'index',
         })}
         heading={heading}
-        target={open_urls_in_new_tab ? '_blank' : '_self'}
+        target={open_urls_in_same_tab ? '_self' : '_blank'}
       />
     );
   }
@@ -210,7 +210,7 @@ const NestedToc = ({
       </div>
       <Collapsible.Content className="pl-3 pr-[2px] collapsible-content">
         {heading.children.map((item) => (
-          <NestedToc heading={item} key={item.id} open_urls_in_new_tab={open_urls_in_new_tab} />
+          <NestedToc heading={item} key={item.id} open_urls_in_same_tab={open_urls_in_same_tab} />
         ))}
       </Collapsible.Content>
     </Collapsible.Root>

@@ -19,7 +19,7 @@ export const InlineTableOfContents = ({
   if (!headings) return null;
   return (
     <nav aria-label="Table of Contents" className={className} ref={sidebarRef}>
-      <Toc headings={headings} open_urls_in_new_tab={config?.options?.open_toc_urls_in_new_tab} />
+      <Toc headings={headings} open_urls_in_same_tab={config?.options?.open_toc_urls_in_same_tab} />
     </nav>
   );
 };

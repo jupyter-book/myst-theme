@@ -12,6 +12,7 @@ export type LinkProps = {
   children: React.ReactNode;
   onClick?: () => void;
   suppressHydrationWarning?: boolean;
+  target?: string;
 };
 
 export type NavLinkProps = Omit<LinkProps, 'className'> & {

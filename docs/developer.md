@@ -38,3 +38,10 @@ make build-docs
 
 We use Netlify to build the latest version of this theme from Pull Requests, and provide a preview.
 Ask one of the team members if you need access to its configuration.
+
+:::{note} We may move more theme documentation here
+Currently most of our theme documentation is in [the MyST Guide](https://mystmd.org/guide). We are considering moving all of that documentation to the `myst-theme` repository so they are in one place. Follow this issue for details:
+
+https://github.com/jupyter-book/myst-theme/issues/391
+
+:::

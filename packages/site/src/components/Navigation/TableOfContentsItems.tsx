@@ -99,8 +99,10 @@ function LinkItem({
         }}
         target={target}
       >
-        {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
-        <ArrowTopRightOnSquareIcon className="inline h-4 w-4 align-baseline ml-[0.2rem]" />
+        <span className="inline align-middle">
+          {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
+        </span>
+        <ArrowTopRightOnSquareIcon className="inline h-4 w-4 align-middle ml-[0.2rem]" />
       </Link>
     );
   }

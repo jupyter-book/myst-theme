@@ -1,5 +1,22 @@
 # @myst-theme/book
 
+## 0.15.3
+
+### Patch Changes
+
+- 208c87e: Fix primary sidebar & header not showing navigation buttons correctly when ToC is hidden
+- Updated dependencies [208c87e]
+- Updated dependencies [d2415a1]
+- Updated dependencies [05945ec]
+- Updated dependencies [e2fa549]
+  - @myst-theme/jupyter@0.15.3
+  - @myst-theme/site@0.15.3
+  - @myst-theme/styles@0.15.3
+  - @myst-theme/providers@0.15.3
+  - @myst-theme/common@0.15.3
+  - @myst-theme/icons@0.15.3
+  - @myst-theme/landing-pages@0.15.3
+
 ## 0.15.2
 
 ### Patch Changes

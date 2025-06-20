@@ -189,9 +189,7 @@ export const PrimarySidebar = ({
               aria-label="Table of Contents"
               className="flex-grow overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px]"
             >
-              <Toc
-                headings={headings}
-              />
+              <Toc headings={headings} />
             </nav>
           )}
         </div>

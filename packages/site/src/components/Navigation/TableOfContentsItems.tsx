@@ -58,16 +58,12 @@ function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: str
     .flat();
 }
 
-export const Toc = ({
-  headings
-}: {
-  headings: Heading[];
-}) => {
+export const Toc = ({ headings }: { headings: Heading[] }) => {
   const nested = nestToc(headings);
   return (
     <div className="w-full px-1 dark:text-white">
       {nested.map((item) => (
-        <NestedToc heading={item} key={item.id}/>
+        <NestedToc heading={item} key={item.id} />
       ))}
     </div>
   );
@@ -77,12 +73,10 @@ function LinkItem({
   className,
   heading,
   onClick,
-  target,
 }: {
   className?: string;
   heading: NestedHeading;
   onClick?: () => void;
-  target?: string;
 }) {
   const Link = useLinkProvider();
   const NavLink = useNavLinkProvider();
@@ -146,11 +140,7 @@ function LinkItem({
   );
 }
 
-const NestedToc = ({
-  heading,
-}: {
-  heading: NestedHeading;
-}) => {
+const NestedToc = ({ heading }: { heading: NestedHeading }) => {
   const { pathname } = useLocation();
   const baseurl = useBaseurl();
   const startOpen = childrenOpen([heading], pathname, baseurl).includes(heading.id);
@@ -206,7 +196,7 @@ const NestedToc = ({
       </div>
       <Collapsible.Content className="pl-3 pr-[2px] collapsible-content">
         {heading.children.map((item) => (
-          <NestedToc heading={item} key={item.id}/>
+          <NestedToc heading={item} key={item.id} />
         ))}
       </Collapsible.Content>
     </Collapsible.Root>

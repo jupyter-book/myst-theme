@@ -12,6 +12,10 @@ project:
     - file: index.md
     - file: examples.md
     - file: developer.md
+  exports:
+    # NOTE: You must run `make deploy-book` to generate the local version of this theme.
+    - format: html
+      template: ../.deploy/book
 site:
   # NOTE: You must run `make deploy-book` to generate the local version of this theme.
   template: ../.deploy/book

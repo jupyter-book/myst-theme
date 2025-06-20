@@ -47,4 +47,4 @@ deploy-book:
 
 build-docs:
 	make build-book
-	cd docs && myst build --execute --html
+	cd docs && myst build -d --execute --html

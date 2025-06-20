@@ -175,7 +175,7 @@ export function Admonition({
       dropdown={dropdown}
       open={open}
       className={classNames(
-        'myst-admonition my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900',
+        `myst-admonition myst-admonition-${kind} my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900`,
         'bg-gray-50/10 dark:bg-stone-800',
         'overflow-hidden',
         {

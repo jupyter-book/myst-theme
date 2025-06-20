@@ -168,11 +168,11 @@ export function AppErrorBoundary() {
   const error = useRouteError();
   return (
     <Document theme={Theme.light}>
-      <article className="article">
-        <main className="article-grid subgrid-gap col-screen">
+      <main className="article-grid subgrid-gap col-screen">
+        <article className="article">
           {isRouteErrorResponse(error) ? <Error404 /> : <ErrorUnhandled error={error as any} />}
-        </main>
-      </article>
+        </article>
+      </main>
     </Document>
   );
 }

@@ -82,7 +82,11 @@ export const ConfigurablePrimaryNavigation = ({
 
   // the logic on the following line looks wrong, this will return `null` or `<></>`
   // we should just return `null` if `hide_toc` is true?
-  if (hide_toc) return children ? null : <>{children}</>;
+  if (!nav && hide_toc) return children ? null : <>{children}</>;
+  if (nav && hide_toc) {
+    headings = undefined;
+    footer = null;
+  }
 
   return (
     <>
@@ -98,6 +102,7 @@ export const ConfigurablePrimaryNavigation = ({
         nav={nav}
         headings={headings}
         footer={footer}
+        hide_toc={hide_toc}
         mobileOnly={mobileOnly}
       />
       {children}

@@ -1,5 +1,24 @@
 # @myst-theme/site
 
+## 0.15.3
+
+### Patch Changes
+
+- 208c87e: Fix primary sidebar & header not showing navigation buttons correctly when ToC is hidden
+- d2415a1: Make Jupyter tables readable in dark theme
+- Updated dependencies [e2fa549]
+- Updated dependencies [968ad68]
+- Updated dependencies [208c87e]
+- Updated dependencies [05945ec]
+- Updated dependencies [e2fa549]
+  - @myst-theme/frontmatter@0.15.3
+  - myst-to-react@0.15.3
+  - @myst-theme/providers@0.15.3
+  - @myst-theme/diagrams@0.15.3
+  - @myst-theme/common@0.15.3
+  - @myst-theme/search@0.15.3
+  - myst-demo@0.15.3
+
 ## 0.15.2
 
 ### Patch Changes

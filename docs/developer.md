@@ -37,4 +37,4 @@ make build-docs
 ## Previews in Pull Requests
 
 We use Netlify to build the latest version of this theme from Pull Requests, and provide a preview.
-Ask one of the team members if you need access to the configuration of this.
+Ask one of the team members if you need access to its configuration.

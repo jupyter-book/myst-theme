@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 0.16.0
+
+### Minor Changes
+
+- 8fba231: Render external URLs in table of contents
+
 ## 0.15.2
 
 ## 0.15.1

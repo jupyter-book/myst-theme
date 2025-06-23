@@ -1,5 +1,27 @@
 # @myst-theme/book
 
+## 0.16.0
+
+### Minor Changes
+
+- 8fba231: Render external URLs in table of contents
+
+### Patch Changes
+
+- 208c87e: Fix primary sidebar & header not showing navigation buttons correctly when ToC is hidden
+- Updated dependencies [8fba231]
+- Updated dependencies [208c87e]
+- Updated dependencies [d2415a1]
+- Updated dependencies [05945ec]
+- Updated dependencies [e2fa549]
+  - @myst-theme/providers@0.16.0
+  - @myst-theme/common@0.16.0
+  - @myst-theme/site@0.16.0
+  - @myst-theme/jupyter@0.16.0
+  - @myst-theme/styles@0.16.0
+  - @myst-theme/landing-pages@0.16.0
+  - @myst-theme/icons@0.16.0
+
 ## 0.15.2
 
 ### Patch Changes

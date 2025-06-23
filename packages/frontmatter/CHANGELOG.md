@@ -1,5 +1,13 @@
 # @myst-theme/frontmatter
 
+## 0.16.0
+
+### Patch Changes
+
+- e2fa549: Rebrand twitter --> x
+- 968ad68: Abstract social icon rendering into component
+- e2fa549: Upgrade to scienceicons 0.0.13
+
 ## 0.15.2
 
 ## 0.15.1

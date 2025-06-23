@@ -2,9 +2,15 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import type { Heading } from '@myst-theme/common';
-import { useBaseurl, useNavLinkProvider, useNavOpen, withBaseurl } from '@myst-theme/providers';
+import {
+  useBaseurl,
+  useLinkProvider,
+  useNavLinkProvider,
+  useNavOpen,
+  withBaseurl,
+} from '@myst-theme/providers';
 import { useLocation, useNavigation } from '@remix-run/react';
-import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 
 type NestedHeading = Heading & { id: string; children: NestedHeading[] };
 
@@ -72,9 +78,34 @@ function LinkItem({
   heading: NestedHeading;
   onClick?: () => void;
 }) {
+  const Link = useLinkProvider();
   const NavLink = useNavLinkProvider();
   const baseurl = useBaseurl();
   const [, setOpen] = useNavOpen();
+  // Render external URL
+  if (heading.url) {
+    const target = heading.open_in_same_tab ? '_self' : '_blank';
+    return (
+      <Link
+        title={`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
+        className={classNames(
+          'block break-words focus:outline outline-blue-200 outline-2 rounded',
+          className,
+        )}
+        to={heading.url}
+        onClick={() => {
+          onClick?.();
+          setOpen(false);
+        }}
+        target={target}
+      >
+        <span className="inline align-middle">
+          {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
+        </span>
+        <ArrowTopRightOnSquareIcon className="inline h-4 w-4 align-middle ml-[0.2rem]" />
+      </Link>
+    );
+  }
   if (!heading.path) {
     return (
       <div
@@ -84,7 +115,9 @@ function LinkItem({
           onClick?.();
         }}
       >
-        {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.short_title || heading.title}`}
+        {`${heading.enumerator ? `${heading.enumerator} ` : ''}${
+          heading.short_title || heading.title
+        }`}
       </div>
     );
   }
@@ -102,7 +135,9 @@ function LinkItem({
         setOpen(false);
       }}
     >
-      {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.short_title || heading.title}`}
+      {`${heading.enumerator ? `${heading.enumerator} ` : ''}${
+        heading.short_title || heading.title
+      }`}
     </NavLink>
   );
 }

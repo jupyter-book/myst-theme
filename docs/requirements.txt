@@ -1,4 +1,7 @@
+altair
 jupyter
-numpy
 matplotlib
+numpy
 pandas
+plotly
+

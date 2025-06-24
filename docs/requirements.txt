@@ -1,0 +1,7 @@
+altair
+jupyter
+matplotlib
+numpy
+pandas
+plotly
+

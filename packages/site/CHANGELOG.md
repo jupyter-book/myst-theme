@@ -1,5 +1,29 @@
 # @myst-theme/site
 
+## 0.16.0
+
+### Minor Changes
+
+- 8fba231: Render external URLs in table of contents
+
+### Patch Changes
+
+- 208c87e: Fix primary sidebar & header not showing navigation buttons correctly when ToC is hidden
+- d2415a1: Make Jupyter tables readable in dark theme
+- Updated dependencies [8fba231]
+- Updated dependencies [e2fa549]
+- Updated dependencies [968ad68]
+- Updated dependencies [208c87e]
+- Updated dependencies [05945ec]
+- Updated dependencies [e2fa549]
+  - @myst-theme/providers@0.16.0
+  - @myst-theme/common@0.16.0
+  - @myst-theme/frontmatter@0.16.0
+  - myst-to-react@0.16.0
+  - @myst-theme/diagrams@0.16.0
+  - @myst-theme/search@0.16.0
+  - myst-demo@0.16.0
+
 ## 0.15.2
 
 ### Patch Changes

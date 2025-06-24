@@ -51,18 +51,21 @@ export function TabSet({
 
   return (
     <TabSetStateProvider active={active}>
-      <div className={classNames('my-5', className)}>
-        <div className="flex flex-row overflow-x-auto border-b border-b-gray-100">
+      <div className={classNames('myst-tab-set my-5', className)}>
+        <div className="myst-tab-set-row flex flex-row flex-wrap overflow-x-auto border-b border-b-gray-100">
           {tabs.map((tab) => {
             return (
               <div
                 key={tab.id}
-                className={classNames('flex-none px-3 py-1 font-semibold cursor-pointer', {
-                  'text-blue-600 border-b-2 border-b-blue-600 dark:border-b-white dark:text-white':
-                    active === tab.id,
-                  'text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100':
-                    active !== tab.id,
-                })}
+                className={classNames(
+                  'myst-tab-item-header flex-none px-3 py-1 font-semibold cursor-pointer',
+                  {
+                    'myst-tab-item-header-active text-blue-600 border-b-2 border-b-blue-600 dark:border-b-white dark:text-white':
+                      active === tab.id,
+                    'myst-tab-item-header-inactive text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100':
+                      active !== tab.id,
+                  },
+                )}
                 onClick={() => onClick(tab)}
               >
                 {tab.title}
@@ -70,8 +73,8 @@ export function TabSet({
             );
           })}
         </div>
-        <div className="flex shadow">
-          <div className="w-full px-6">{children}</div>
+        <div className="myst-tab-item-body flex shadow">
+          <div className="myst-tab-item-text w-full px-6">{children}</div>
         </div>
       </div>
     </TabSetStateProvider>

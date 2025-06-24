@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/frontmatter",
-  "version": "0.15.2",
+  "version": "0.16.0",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -25,7 +25,7 @@
     "@radix-ui/react-form": "^0.1.0",
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-popover": "^1.1.2",
-    "@scienceicons/react": "^0.0.12",
+    "@scienceicons/react": "^0.0.13",
     "classnames": "^2.3.2",
     "myst-common": "*",
     "myst-frontmatter": "*"

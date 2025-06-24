@@ -1,5 +1,19 @@
 # @myst-theme/jupyter
 
+## 0.16.0
+
+### Patch Changes
+
+- 208c87e: Fix primary sidebar & header not showing navigation buttons correctly when ToC is hidden
+- 05945ec: Fix jupyter cell buttons layout issues, myst-theme #593 and mystmd #2066, #2068
+- e2fa549: Upgrade to scienceicons 0.0.13
+- Updated dependencies [8fba231]
+- Updated dependencies [208c87e]
+- Updated dependencies [05945ec]
+- Updated dependencies [e2fa549]
+  - @myst-theme/providers@0.16.0
+  - myst-to-react@0.16.0
+
 ## 0.15.2
 
 ### Patch Changes

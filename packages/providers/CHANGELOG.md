@@ -1,5 +1,16 @@
 # @myst-theme/providers
 
+## 0.16.0
+
+### Minor Changes
+
+- 8fba231: Render external URLs in table of contents
+
+### Patch Changes
+
+- Updated dependencies [8fba231]
+  - @myst-theme/common@0.16.0
+
 ## 0.15.2
 
 ### Patch Changes

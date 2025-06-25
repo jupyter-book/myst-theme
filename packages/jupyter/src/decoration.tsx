@@ -54,7 +54,7 @@ export function OutputDecoration({
 
   if (showComputeControls) {
     return (
-      <div className="mb-4 shadow">
+      <div data-name="output-decoration-with-compute-ctrls" className="mb-4 shadow">
         <div
           className="sticky z-[2] w-full bg-gray-100/80 backdrop-blur dark:bg-neutral-800/80 py-1 px-2"
           style={{ top }}
@@ -86,7 +86,7 @@ export function OutputDecoration({
   // light
   if (kind === SourceFileKind.Article) {
     return (
-      <>
+      <div data-name="output-decoration-article">
         <div className="flex items-center justify-end text-xs">
           <JupyterIcon width="0.75rem" height="0.75rem" className="inline-block" />
           <div className="ml-1">Source:</div>
@@ -100,10 +100,10 @@ export function OutputDecoration({
           )}
         </div>
         <PlaceholderProvider placeholder={placeholder}>{children}</PlaceholderProvider>
-      </>
+      </div>
     );
   }
 
   // Notebook outputs do not need any decoration
-  return <>{children}</>;
+  return <div data-name="output-decoration-notebook-output">{children}</div>;
 }

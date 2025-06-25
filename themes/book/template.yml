@@ -50,6 +50,9 @@ options:
     id: logo_text
     description: Short text to display next to logo at the top of all pages
   - type: string
+    id: logo_url
+    description: If specified, link logo to this URL. Otherwise, point to root page.
+  - type: string
     id: analytics_google
     description: Google analytics key
   - type: string

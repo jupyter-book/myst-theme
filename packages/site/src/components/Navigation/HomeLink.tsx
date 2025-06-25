@@ -6,11 +6,13 @@ export function HomeLink({
   logoDark,
   logoText,
   name,
+  url
 }: {
   logo?: string;
   logoDark?: string;
   logoText?: string;
   name?: string;
+  url?: string;
 }) {
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
@@ -18,7 +20,7 @@ export function HomeLink({
   return (
     <Link
       className="flex items-center ml-3 dark:text-white w-fit md:ml-5 xl:ml-7"
-      to={withBaseurl('/', baseurl)}
+      to={url ? url : withBaseurl('/', baseurl)}
       prefetch="intent"
     >
       {logo && (

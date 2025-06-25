@@ -107,7 +107,7 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
   const { title, nav, actions } = config ?? {};
-  const { logo, logo_dark, logo_text } = config?.options ?? {};
+  const { logo, logo_dark, logo_text, logo_url } = config?.options ?? {};
   return (
     <div className="bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 sticky w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-nowrap max-w-[1440px] mx-auto">
@@ -130,7 +130,7 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
               </button>
             </div>
           }
-          <HomeLink name={title} logo={logo} logoDark={logo_dark} logoText={logo_text} />
+          <HomeLink name={title} logo={logo} logoDark={logo_dark} logoText={logo_text} url={logo_url} />
         </div>
         <div className="flex items-center flex-grow w-auto">
           <NavItems nav={nav} />

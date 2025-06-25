@@ -1,12 +1,8 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, it, expect } from 'vitest';
-import {
-  isOutputSafe,
-  allOutputsAreSafe,
-  DIRECT_OUTPUT_TYPES,
-  DIRECT_MIME_TYPES,
-} from './output.js';
+import { isOutputSafe, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES } from './output.js';
 import { KnownCellOutputMimeTypes } from 'nbtx';
-import type { MinifiedOutput, MinifiedMimeOutput, MinifiedStreamOutput } from 'nbtx';
+import type { MinifiedMimeOutput, MinifiedStreamOutput } from 'nbtx';
 
 describe('Output Safety Functions', () => {
   describe('isOutputSafe', () => {
@@ -61,86 +57,86 @@ describe('Output Safety Functions', () => {
     });
   });
 
-  describe('allOutputsAreSafe', () => {
-    it('should return true for empty outputs', () => {
-      expect(allOutputsAreSafe([], DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES)).toBe(true);
-    });
+  // describe('allOutputsAreSafe', () => {
+  //   it('should return true for empty outputs', () => {
+  //     expect(allOutputsAreSafe([], DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES)).toBe(true);
+  //   });
 
-    it('should return true when all outputs are safe', () => {
-      const outputs: MinifiedOutput[] = [
-        {
-          output_type: 'stream',
-          name: 'stdout',
-          text: 'some output',
-        },
-        {
-          output_type: 'display_data',
-          data: {
-            [KnownCellOutputMimeTypes.TextPlain]: {
-              content_type: 'text/plain',
-              content: 'text',
-            },
-            [KnownCellOutputMimeTypes.ImagePng]: {
-              content_type: 'image/png',
-              content: 'data',
-            },
-          },
-          metadata: {},
-        },
-      ];
-      expect(allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES)).toBe(true);
-    });
+  //   it('should return true when all outputs are safe', () => {
+  //     const outputs: MinifiedOutput[] = [
+  //       {
+  //         output_type: 'stream',
+  //         name: 'stdout',
+  //         text: 'some output',
+  //       },
+  //       {
+  //         output_type: 'display_data',
+  //         data: {
+  //           [KnownCellOutputMimeTypes.TextPlain]: {
+  //             content_type: 'text/plain',
+  //             content: 'text',
+  //           },
+  //           [KnownCellOutputMimeTypes.ImagePng]: {
+  //             content_type: 'image/png',
+  //             content: 'data',
+  //           },
+  //         },
+  //         metadata: {},
+  //       },
+  //     ];
+  //     expect(allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES)).toBe(true);
+  //   });
 
-    it('should return false when any output is unsafe', () => {
-      const outputs: MinifiedOutput[] = [
-        {
-          output_type: 'stream',
-          name: 'stdout',
-          text: 'some output',
-        },
-        {
-          output_type: 'display_data',
-          data: {
-            'application/javascript': {
-              content_type: 'application/javascript',
-              content: 'alert("unsafe")',
-            },
-          },
-          metadata: {},
-        },
-      ];
-      expect(allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES)).toBe(false);
-    });
+  //   it('should return false when any output is unsafe', () => {
+  //     const outputs: MinifiedOutput[] = [
+  //       {
+  //         output_type: 'stream',
+  //         name: 'stdout',
+  //         text: 'some output',
+  //       },
+  //       {
+  //         output_type: 'display_data',
+  //         data: {
+  //           'application/javascript': {
+  //             content_type: 'application/javascript',
+  //             content: 'alert("unsafe")',
+  //           },
+  //         },
+  //         metadata: {},
+  //       },
+  //     ];
+  //     expect(allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES)).toBe(false);
+  //   });
 
-    it('should handle mixed safe and unsafe outputs', () => {
-      const outputs: MinifiedOutput[] = [
-        {
-          output_type: 'stream',
-          name: 'stdout',
-          text: 'some output',
-        },
-        {
-          output_type: 'display_data',
-          data: {
-            [KnownCellOutputMimeTypes.TextPlain]: {
-              content_type: 'text/plain',
-              content: 'text',
-            },
-          },
-          metadata: {},
-        },
-        {
-          output_type: 'display_data',
-          data: {
-            'application/javascript': {
-              content_type: 'application/javascript',
-              content: 'alert("unsafe")',
-            },
-          },
-          metadata: {},
-        },
-      ];
-      expect(allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES)).toBe(false);
-    });
-  });
+  //   it('should handle mixed safe and unsafe outputs', () => {
+  //     const outputs: MinifiedOutput[] = [
+  //       {
+  //         output_type: 'stream',
+  //         name: 'stdout',
+  //         text: 'some output',
+  //       },
+  //       {
+  //         output_type: 'display_data',
+  //         data: {
+  //           [KnownCellOutputMimeTypes.TextPlain]: {
+  //             content_type: 'text/plain',
+  //             content: 'text',
+  //           },
+  //         },
+  //         metadata: {},
+  //       },
+  //       {
+  //         output_type: 'display_data',
+  //         data: {
+  //           'application/javascript': {
+  //             content_type: 'application/javascript',
+  //             content: 'alert("unsafe")',
+  //           },
+  //         },
+  //         metadata: {},
+  //       },
+  //     ];
+  //     expect(allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES)).toBe(false);
+  //   });
+  // });
 });

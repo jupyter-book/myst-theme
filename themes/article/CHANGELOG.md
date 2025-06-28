@@ -1,5 +1,21 @@
 # @myst-theme/article
 
+## 0.17.0
+
+### Minor Changes
+
+- e6921c2: Allow overriding URL that navigation bar logo links to.
+
+### Patch Changes
+
+- Updated dependencies [e6921c2]
+  - @myst-theme/site@0.17.0
+  - @myst-theme/providers@0.17.0
+  - @myst-theme/jupyter@0.17.0
+  - @myst-theme/styles@0.17.0
+  - @myst-theme/common@0.17.0
+  - @myst-theme/icons@0.17.0
+
 ## 0.16.0
 
 ### Patch Changes

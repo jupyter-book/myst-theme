@@ -6,7 +6,7 @@ export function HomeLink({
   logoDark,
   logoText,
   name,
-  url
+  url,
 }: {
   logo?: string;
   logoDark?: string;

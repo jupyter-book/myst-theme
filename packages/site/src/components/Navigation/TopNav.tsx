@@ -130,7 +130,13 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
               </button>
             </div>
           }
-          <HomeLink name={title} logo={logo} logoDark={logo_dark} logoText={logo_text} url={logo_url} />
+          <HomeLink
+            name={title}
+            logo={logo}
+            logoDark={logo_dark}
+            logoText={logo_text}
+            url={logo_url}
+          />
         </div>
         <div className="flex items-center flex-grow w-auto">
           <NavItems nav={nav} />

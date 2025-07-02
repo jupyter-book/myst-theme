@@ -121,6 +121,8 @@ function Picture({
       src={src}
       alt={alt}
       data-canonical-url={urlSource}
+      // Don't set className if nested under picture
+      className={srcOptimized ? undefined : className}
     />
   );
   if (!srcOptimized) return image;

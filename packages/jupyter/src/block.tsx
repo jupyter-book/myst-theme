@@ -14,7 +14,7 @@ export function NotebookBlock({ node, className }: { node: GenericParent; classN
   const pageKind = usePageKind();
   const block = (
     <div
-      id={node.key}
+      id={node.identifier ?? node.html_id ?? node.key}
       className={classNames('relative group/block', className, node.class, {
         [node.data?.class]: typeof node.data?.class === 'string',
         hidden: node.visibility === 'remove',
@@ -23,14 +23,14 @@ export function NotebookBlock({ node, className }: { node: GenericParent; classN
       {pageKind === SourceFileKind.Notebook && node.kind === 'notebook-code' && (
         <>
           <div className="flex sticky top-[115px] z-10 opacity-90 group-hover/block:opacity-100 group-hover/block:hidden">
-            <div className="absolute top-0 right-0 flex">
-              <NotebookRunCellSpinnerOnly id={node.key} />
+            <div className="flex absolute top-0 right-0">
+              <NotebookRunCellSpinnerOnly id={`spinner-${node.key}`} />
             </div>
           </div>
           <div className="sticky top-[115px] z-10 opacity-90 group-hover/block:opacity-100 group-hover/block:flex">
             <div className="absolute -top-[12px] right-0 flex flex-row rounded bg-white dark:bg-slate-800">
-              <NotebookRunCell id={node.key} />
-              <NotebookClearCell id={node.key} />
+              <NotebookRunCell id={`run-${node.key}`} />
+              <NotebookClearCell id={`clear-${node.key}`} />
             </div>
           </div>
         </>

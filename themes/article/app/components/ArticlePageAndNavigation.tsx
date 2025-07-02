@@ -9,7 +9,13 @@ export function ArticlePageAndNavigation({ children }: { children: React.ReactNo
           <div className="fixed top-4 right-4 z-50">
             <ThemeButton />
           </div>
-          <main className="article-left-grid subgrid-gap">{children}</main>
+          <main
+            id="main"
+            data-name="article-page-and-navigation-main"
+            className="article-left-grid subgrid-gap"
+          >
+            {children}
+          </main>
         </GridSystemProvider>
       </TabStateProvider>
     </UiStateProvider>

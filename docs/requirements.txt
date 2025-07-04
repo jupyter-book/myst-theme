@@ -1,4 +1,5 @@
 altair
+bokeh
 jupyter
 matplotlib
 numpy

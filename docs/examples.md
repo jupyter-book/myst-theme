@@ -9,6 +9,10 @@ jupyter:
 
 This page contains example content for previewing or demonstrating theme functionality.
 
+:::{seealse} See the example outputs repository examples generating outputs
+The [Example Outputs Site](https://jupyter-book.github.io/example-outputs/) has more comprehensive examples to show off MyST generating outputs with computation.
+:::
+
 ## Admonitions
 
 ```{note} A sample admonition.
@@ -71,6 +75,27 @@ chart = alt.Chart(df.reset_index()).mark_circle().encode(
 )
 
 chart
+```
+
+### Bokeh
+
+```{code-cell}
+from bokeh.plotting import figure, show
+from bokeh.io import output_notebook
+
+# Configure Bokeh to display plots inline
+output_notebook()
+
+# Create the plot
+p = figure(width=400, height=300, title='Interactive Scatter Plot with Bokeh')
+p.scatter(df['A'], df['B'], size=8, alpha=0.7, color='navy')
+
+# Customize the plot
+p.xaxis.axis_label = 'Column A'
+p.yaxis.axis_label = 'Column B'
+p.grid.grid_line_alpha = 0.3
+
+show(p)
 ```
 
 ## Sidebars

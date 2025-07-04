@@ -9,6 +9,10 @@ jupyter:
 
 This page contains example content for previewing or demonstrating theme functionality.
 
+:::{seealse} See the example outputs repository examples generating outputs
+The [Example Outputs Site](https://jupyter-book.github.io/example-outputs/) has more comprehensive examples to show off MyST generating outputs with computation.
+:::
+
 ## Admonitions
 
 ```{note} A sample admonition.

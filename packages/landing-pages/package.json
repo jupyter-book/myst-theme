@@ -22,11 +22,11 @@
   "dependencies": {
     "@myst-theme/providers": "^0.16.0",
     "classnames": "^2.5.1",
-    "myst-common": "^1.7.9",
+    "myst-common": "^1.8.1",
     "myst-config": "^1.7.9",
-    "myst-frontmatter": "^1.7.9",
+    "myst-frontmatter": "^1.8.1",
     "myst-spec": "^0.0.5",
-    "myst-spec-ext": "^1.7.9",
+    "myst-spec-ext": "^1.8.1",
     "myst-to-react": "^0.16.0",
     "unist-util-select": "^4.0.3",
     "unist-util-filter": "^4.0.0"

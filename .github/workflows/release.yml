@@ -33,7 +33,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Send a Slack notification if a publish happens
+      - name: Notification if a publish happens
         if: steps.changesets.outputs.published == 'true'
         run: echo "A new version of ${GITHUB_REPOSITORY} was published!"
       - name: Configure Git to Push Built Artifacts

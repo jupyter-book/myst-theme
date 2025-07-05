@@ -1,5 +1,16 @@
 # @myst-theme/landing-pages
 
+## 0.17.0
+
+### Patch Changes
+
+- 2049d12: Upgrade to mystmd 1.5.1
+- Updated dependencies [e345bfc]
+- Updated dependencies [5310f76]
+- Updated dependencies [2049d12]
+  - myst-to-react@0.17.0
+  - @myst-theme/providers@0.17.0
+
 ## 0.16.0
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # myst-to-react
 
+## 0.17.0
+
+### Patch Changes
+
+- e345bfc: Fix code block cell background color stops for long lines and copy icon positioning
+- 5310f76: Fix missing classname for image
+- 2049d12: Upgrade to mystmd 1.5.1
+- Updated dependencies [2049d12]
+  - @myst-theme/providers@0.17.0
+
 ## 0.16.0
 
 ### Patch Changes

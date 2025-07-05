@@ -1,5 +1,25 @@
 # @myst-theme/site
 
+## 0.17.0
+
+### Minor Changes
+
+- e6921c2: Allow overriding URL that navigation bar logo links to.
+
+### Patch Changes
+
+- 2049d12: Upgrade to mystmd 1.5.1
+- Updated dependencies [e345bfc]
+- Updated dependencies [5310f76]
+- Updated dependencies [2049d12]
+  - myst-to-react@0.17.0
+  - myst-demo@0.17.0
+  - @myst-theme/providers@0.17.0
+  - @myst-theme/common@0.17.0
+  - @myst-theme/frontmatter@0.17.0
+  - @myst-theme/diagrams@0.17.0
+  - @myst-theme/search@0.17.0
+
 ## 0.16.0
 
 ### Minor Changes

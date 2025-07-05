@@ -85,10 +85,10 @@ export function CodeBlock(props: Props) {
   return (
     <div
       id={identifier}
-      className={classNames('myst-code relative group not-prose overflow-auto', className, {
-        'shadow hover:shadow-md dark:shadow-2xl dark:shadow-neutral-900 my-5 text-sm': shadow,
+      className={classNames('relative myst-code group not-prose', className, {
+        'my-5 text-sm shadow hover:shadow-md dark:shadow-2xl dark:shadow-neutral-900': shadow,
         'bg-stone-200/10': background,
-        'border border-l-4 border-l-blue-400 border-gray-200 dark:border-l-blue-400 dark:border-gray-800':
+        'border border-l-4 border-gray-200 border-l-blue-400 dark:border-l-blue-400 dark:border-gray-800':
           border,
       })}
     >
@@ -97,20 +97,23 @@ export function CodeBlock(props: Props) {
           <DocumentIcon
             width="16px"
             height="16px"
-            className="myst-code-filename-icon self-center flex-none inline-block text-gray-500 dark:text-gray-100"
+            className="inline-block flex-none self-center text-gray-500 myst-code-filename-icon dark:text-gray-100"
           />
-          <div className="myst-code-filename-title self-center p-2 text-sm leading-3 prose text-slate-600 dark:text-white">
+          <div className="self-center p-2 text-sm leading-3 myst-code-filename-title prose text-slate-600 dark:text-white">
             {filename}
           </div>
         </div>
       )}
-      <SyntaxHighlighter {...highlighterProps} className="myst-code-body block p-3 hljs">
+      <SyntaxHighlighter
+        {...highlighterProps}
+        className="block overflow-auto p-3 myst-code-body hljs"
+      >
         {value}
       </SyntaxHighlighter>
       {showCopy && (
         <CopyIcon
           text={value}
-          className={classNames('myst-code-copy-icon absolute right-1', {
+          className={classNames('absolute right-1 myst-code-copy-icon', {
             'top-[32px]': filename,
             'top-1': !filename,
           })}

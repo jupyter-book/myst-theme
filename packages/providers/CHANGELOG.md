@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 0.17.0
+
+### Patch Changes
+
+- 2049d12: Upgrade to mystmd 1.5.1
+- Updated dependencies [2049d12]
+  - @myst-theme/common@0.17.0
+
 ## 0.16.0
 
 ### Minor Changes

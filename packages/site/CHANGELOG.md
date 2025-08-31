@@ -1,5 +1,18 @@
 # @myst-theme/site
 
+## 0.17.1
+
+### Patch Changes
+
+- 4ee2d3f: Changes to DOM ordering to ensure that `main` encloses `article` and that there is only one `main` on a page in both themes.
+  - @myst-theme/providers@0.17.1
+  - @myst-theme/frontmatter@0.17.1
+  - @myst-theme/diagrams@0.17.1
+  - @myst-theme/common@0.17.1
+  - @myst-theme/search@0.17.1
+  - myst-to-react@0.17.1
+  - myst-demo@0.17.1
+
 ## 0.17.0
 
 ### Minor Changes

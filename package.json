@@ -29,7 +29,8 @@
     "publish:ci": "npm run clean && npm run build && changeset publish && git push --follow-tags",
     "bump:myst:packages": "npx npm-upgrade-monorepo -w 'packages/*' 'myst-* @myst-theme/* thebe*'",
     "bump:myst:themes": "npx npm-upgrade-monorepo -w 'themes/*' 'myst-* @myst-theme/* thebe*'",
-    "bump:myst": "npm run bump:myst:packages && npm run bump:myst:themes"
+    "bump:myst": "npm run bump:myst:packages && npm run bump:myst:themes",
+    "install-pre-commit": "husky"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
@@ -40,6 +41,8 @@
     "@types/react-dom": "^18.2.8",
     "concurrently": "^8.2.0",
     "eslint-config-curvenote": "^0.0.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "npm-run-all": "^4.1.5",
     "patch-package": "^6.5.1",
     "prettier": "latest",
@@ -55,5 +58,8 @@
     "node": ">=14.0.0"
   },
   "packageManager": "npm@8.10.0",
-  "dependencies": {}
+  "lint-staged": {
+    "*.ts": "eslint --config ./.eslintrc.cjs --fix",
+    "*.{js,jsx,ts,tsx,md,html,css,json}": "prettier --write"
+  }
 }

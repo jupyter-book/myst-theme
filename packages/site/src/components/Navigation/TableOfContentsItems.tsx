@@ -43,8 +43,9 @@ function nestToc(toc: Heading[]): NestedHeading[] {
 
 function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: string) {
   const headingPath = withBaseurl(heading.path, baseurl);
-  if (pathname && headingPath === `${pathname}/index`) return true;
-  return headingPath === pathname;
+  const normalizedPathname = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+  if (normalizedPathname && headingPath === `${normalizedPathname}/index`) return true;
+  return headingPath === normalizedPathname;
 }
 
 function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: string): string[] {

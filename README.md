@@ -121,7 +121,7 @@ npm run theme:book
 Open the port that is printed in the terminal for your theme server (usually, `https://localhost/3000`). The theme server will start serving the AST from the content as a website at that port.
 
 > **Note**: in the future, this repository will likely have it's own content to test out with the themes.
-> You can currently look to the mystjs/docs folder, or an [article](https://github.com/simpeg/tle-finitevolume) or a [thesis](https://github.com/rowanc1/phd-thesis).
+> You can currently look to the docs folder in `jupyter-book/mystmd`, or an [article](https://github.com/simpeg/tle-finitevolume) or a [thesis](https://github.com/rowanc1/phd-thesis).
 
 By default, the theme server will use the same port as the content server for changes to the AST. If you'd like to use a custom port, you can do so like this:
 

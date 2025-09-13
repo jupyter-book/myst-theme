@@ -46,7 +46,7 @@ function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: st
   // In static html builds, pathname ends up with an unwanted trailing slash
   // and then won't match the heading's slashless path. So first normalize the
   // given path by removing any trailing slash.
-  const normalizedPathname = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+  const normalizedPathname = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
   if (normalizedPathname && headingPath === `${normalizedPathname}/index`) return true;
   return headingPath === normalizedPathname;
 }

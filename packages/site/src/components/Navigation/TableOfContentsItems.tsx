@@ -47,7 +47,7 @@ function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: st
   // and then won't match the heading's slashless path. So first normalize the
   // given path by removing any trailing slash.
   const normedPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
-  if (normedPath && headingPath === `${normedPath}/index`) return True;
+  if (normedPath && headingPath === `${normedPath}/index`) return true;
   return headingPath === normedPath;
 }
 

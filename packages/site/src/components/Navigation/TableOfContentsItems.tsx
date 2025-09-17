@@ -43,8 +43,12 @@ function nestToc(toc: Heading[]): NestedHeading[] {
 
 function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: string) {
   const headingPath = withBaseurl(heading.path, baseurl);
-  if (pathname && headingPath === `${pathname}/index`) return true;
-  return headingPath === pathname;
+  // In static html builds, pathname ends up with an unwanted trailing slash
+  // and then won't match the heading's slashless path. So first normalize the
+  // given path by removing any trailing slash.
+  const normedPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+  if (normedPath && headingPath === `${normedPath}/index`) return true;
+  return headingPath === normedPath;
 }
 
 function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: string): string[] {

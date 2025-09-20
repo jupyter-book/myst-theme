@@ -5,7 +5,13 @@ import { ChevronDownIcon, Bars3Icon as MenuIcon } from '@heroicons/react/24/soli
 import type { SiteManifest, SiteNavItem } from 'myst-config';
 import { ThemeButton } from './ThemeButton.js';
 import { Search } from './Search.js';
-import { useNavLinkProvider, useNavOpen, useSiteManifest } from '@myst-theme/providers';
+import {
+  useBaseurl,
+  useNavLinkProvider,
+  useNavOpen,
+  useSiteManifest,
+  withBaseurl,
+} from '@myst-theme/providers';
 import { LoadingBar } from './Loading.js';
 import { HomeLink } from './HomeLink.js';
 import { ActionMenu } from './ActionMenu.js';
@@ -15,12 +21,13 @@ export const DEFAULT_NAV_HEIGHT = 60;
 
 export function NavItem({ item }: { item: SiteNavItem }) {
   const NavLink = useNavLinkProvider();
+  const baseurl = useBaseurl();
   if (!('children' in item)) {
     return (
       <div className="relative inline-block mx-2 grow-0">
         <ExternalOrInternalLink
           nav
-          to={item.url ?? ''}
+          to={withBaseurl(item.url, baseurl) ?? ''}
           className={({ isActive }) =>
             classNames(
               'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',

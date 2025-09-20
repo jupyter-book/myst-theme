@@ -15,5 +15,9 @@ project:
 site:
   # NOTE: You must run `make deploy-book` to generate the local version of this theme.
   template: ../.deploy/book
+  
+  nav:
+    - title: Developer page
+      url: /developer
   options:
     site_title: MyST Theme Documentation

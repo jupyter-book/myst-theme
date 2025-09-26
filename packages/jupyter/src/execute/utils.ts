@@ -68,7 +68,7 @@ export function notebookFromMdast(
       };
 
       idkmap[block.key] = target; // can reference from block in notebook views
-      idkmap[output.id] = target; // can reference from output in article views
+      idkmap[output.id ?? output.key] = target; // can reference from output in article views
 
       // include identifiers to enable lookup by (normalized) labels
       if (block.identifier) idkmap[block.identifier] = target;

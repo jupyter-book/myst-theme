@@ -1,5 +1,21 @@
 # @myst-theme/site
 
+## 0.17.1
+
+### Patch Changes
+
+- b61c5ec: On static builds, fix sidebar menu not expanding for current page (closes [#635](https://github.com/jupyter-book/mystmd/issues/2288)).
+- 630812f: Add `aria-label` for `DocumentOutline.tsx` dropdown button
+- 4ee2d3f: Changes to DOM ordering to ensure that `main` encloses `article` and that there is only one `main` on a page in both themes.
+- 8981edd: Fix top navigation links not following the BASE_URL environment variable
+  - @myst-theme/providers@0.17.1
+  - @myst-theme/frontmatter@0.17.1
+  - @myst-theme/diagrams@0.17.1
+  - @myst-theme/common@0.17.1
+  - @myst-theme/search@0.17.1
+  - myst-to-react@0.17.1
+  - myst-demo@0.17.1
+
 ## 0.17.0
 
 ### Minor Changes

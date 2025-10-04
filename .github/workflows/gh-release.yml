@@ -1,0 +1,103 @@
+name: Publish Book and Article as a GH Release
+
+# here's the content of a published theme zip
+# build/
+# public/
+# template.yml
+# package-lock.json  package.json
+# server.js
+# README.md (copied from the GH repo - hopefully not needed)
+
+# -- as per Makefile they come from
+# build:        themes/$(THEME)/build/    (built)
+# public:       themes/$(THEME)/public/   (built)
+# template.yml: themes/$(THEME)/          (built)
+# package.json: template/                 (sed template->$(THEME) and VERSION->$(VERSION)
+# server.js:    template/                 (as-is from repo)
+
+# Note: xxx this workflow does not publish to npm for now
+
+# not triggering on branch pushes
+# note that this will trigger only once if several tags are pushed in a batch
+on:
+  push:
+    # branches: [ main ]
+    tags: [ '*' ]
+
+jobs:
+  github-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Run tests
+        run: npm run test
+
+      - name: build book
+        run: cd themes/book && npm run prod:build
+      - name: build article
+        run: cd themes/article && npm run prod:build
+
+      - name: package book
+        run: |
+          rm -rf dist-book && mkdir dist-book
+          cp -r themes/book/public dist-book/public
+          cp -r themes/book/build dist-book/build
+          cp -r themes/book/template.yml dist-book/template.yml
+          cp template/server.js dist-book/server.js
+          VERSION=$(node -p "require('./packages/site/package.json').version") && sed -e "s/VERSION/$VERSION/g" -e "s/THEME/book/g" template/package.json > dist-book/package.json
+          cd dist-book && npm install
+
+      - name: package article
+        run: |
+          rm -rf dist-article && mkdir dist-article
+          cp -r themes/article/public dist-article/public
+          cp -r themes/article/build dist-article/build
+          cp -r themes/article/template.yml dist-article/template.yml
+          cp template/server.js dist-article/server.js
+          VERSION=$(node -p "require('./packages/site/package.json').version") && sed -e "s/VERSION/$VERSION/g" -e "s/THEME/article/g" template/package.json > dist-article/package.json
+          cd dist-article && npm install
+
+        # xxx publishing to npm kept out of this workflow for now
+
+      # Create zips
+      - name: zip artifacts
+        run: |
+          mkdir dist_zip
+          zip -r dist_zip/book.zip dist-book/
+          zip -r dist_zip/article.zip dist-article/
+
+      # Determine version/tag for naming
+      # if this is a tagged build, use the tag
+      - name: Determine release name
+        id: vars
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            TAG="${GITHUB_REF#refs/tags/}"
+            echo "name=${TAG}" >> $GITHUB_OUTPUT
+          else
+            echo name=$(cut -c1-7 <<< "${GITHUB_SHA}") >> $GITHUB_OUTPUT
+          fi
+
+      # Publish both zips as release assets
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Build ${{ steps.vars.outputs.name }}"
+          tag_name: "${{ steps.vars.outputs.name }}"
+          files: |
+            dist_zip/book.zip
+            dist_zip/article.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

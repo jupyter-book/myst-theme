@@ -24,7 +24,6 @@ export function Keywords({
           {k}
         </span>
       ))}
-      <HashLink id="keywords" title="Link to Keywords" hover className="ml-2" />
     </div>
   );
 }

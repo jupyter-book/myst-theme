@@ -49,27 +49,19 @@ jobs:
       - name: build article
         run: cd themes/article && npm run prod:build
 
-      - name: package book
+      - name: package themes
         run: |
-          rm -rf dist-book && mkdir dist-book
-          cp -r themes/book/public dist-book/public
-          cp -r themes/book/build dist-book/build
-          cp -r themes/book/template.yml dist-book/template.yml
-          cp template/server.js dist-book/server.js
-          VERSION=$(node -p "require('./packages/site/package.json').version") && sed -e "s/VERSION/$VERSION/g" -e "s/THEME/book/g" template/package.json > dist-book/package.json
-          cd dist-book && npm install
-
-      - name: package article
-        run: |
-          rm -rf dist-article && mkdir dist-article
-          cp -r themes/article/public dist-article/public
-          cp -r themes/article/build dist-article/build
-          cp -r themes/article/template.yml dist-article/template.yml
-          cp template/server.js dist-article/server.js
-          VERSION=$(node -p "require('./packages/site/package.json').version") && sed -e "s/VERSION/$VERSION/g" -e "s/THEME/article/g" template/package.json > dist-article/package.json
-          cd dist-article && npm install
-
-        # xxx publishing to npm kept out of this workflow for now
+          for THEME in book article; do
+            DIST="dist-$THEME"
+            rm -rf "$DIST" && mkdir "$DIST"
+            cp -r "themes/$THEME/public" "$DIST/public"
+            cp -r "themes/$THEME/build" "$DIST/build"
+            cp -r "themes/$THEME/template.yml" "$DIST/template.yml"
+            cp template/server.js "$DIST/server.js"
+            VERSION=$(node -p "require('./packages/site/package.json').version")
+            sed -e "s/VERSION/$VERSION/g" -e "s/THEME/$THEME/g" template/package.json > "$DIST/package.json"
+            (cd "$DIST" && npm install)
+          done
 
       # Create zips
       - name: zip artifacts

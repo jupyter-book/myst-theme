@@ -55,3 +55,13 @@ This updates the git repository, and sometimes is a large diff and can cause git
 ```bash
 git config --global http.postBuffer 157286400
 ```
+
+## Deployment to GH releases
+
+### How to publish
+
+As of this first step towards GH releases, publication is done by pushing a tag to github, which has the effect of making a release named after that tag
+
+### Browse available versions
+
+Published versions of the `article` and `book` themes can be found [![as GH releases](https://img.shields.io/badge/as%20GH%20releases-blue?logo=github&style=flat-square)](https://github.com/jupyter-book/myst-theme/releases)

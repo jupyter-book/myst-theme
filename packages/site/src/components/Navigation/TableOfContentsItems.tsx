@@ -65,7 +65,7 @@ function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: str
 export const Toc = ({ headings }: { headings: Heading[] }) => {
   const nested = nestToc(headings);
   return (
-    <div className="w-full px-1 dark:text-white">
+    <div className="myst-toc w-full px-1 dark:text-white">
       {nested.map((item) => (
         <NestedToc heading={item} key={item.id} />
       ))}
@@ -159,8 +159,8 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
   if (!heading.children || heading.children.length === 0) {
     return (
       <LinkItem
-        className={classNames('p-2 my-1 rounded-lg', {
-          'bg-blue-300/30': exact,
+        className={classNames('myst-toc-item p-2 my-1 rounded-lg', {
+          'myst-toc-item-exact bg-blue-300/30': exact,
           'hover:bg-slate-300/30': !exact,
           'font-bold': heading.level === 'index',
         })}
@@ -172,9 +172,9 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
     <Collapsible.Root className="w-full" open={open} onOpenChange={setOpen}>
       <div
         className={classNames(
-          'flex flex-row w-full gap-2 px-2 my-1 text-left rounded-lg outline-none',
+          'myst-toc-item flex flex-row w-full gap-2 px-2 my-1 text-left rounded-lg outline-none',
           {
-            'bg-blue-300/30': exact,
+            'myst-toc-item-exact bg-blue-300/30': exact,
             'hover:bg-slate-300/30': !exact,
           },
         )}

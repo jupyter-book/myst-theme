@@ -19,13 +19,13 @@ export function HomeLink({
   const nothingSet = !logo && !logoText;
   return (
     <Link
-      className="flex items-center ml-3 dark:text-white w-fit md:ml-5 xl:ml-7"
+      className="myst-home-link flex items-center ml-3 dark:text-white w-fit md:ml-5 xl:ml-7"
       to={url ? url : withBaseurl('/', baseurl)}
       prefetch="intent"
     >
       {logo && (
         <div
-          className={classNames('p-1 mr-3', {
+          className={classNames('myst-home-link-logo p-1 mr-3', {
             'dark:bg-white dark:rounded': !logoDark,
           })}
         >

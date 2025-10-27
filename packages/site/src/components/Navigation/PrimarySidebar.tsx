@@ -22,6 +22,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
         nav
         to={item.url ?? ''}
         className={classNames(
+          'myst-primary-sidebar-item-short',
           'p-2 my-1 rounded-lg',
           'hover:bg-slate-300/30',
           'block break-words focus:outline outline-blue-200 outline-2 rounded',
@@ -36,6 +37,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
     <Collapsible.Root className="w-full" open={open} onOpenChange={setOpen}>
       <div
         className={classNames(
+          'myst-primary-sidebar-item',
           'flex flex-row w-full gap-2 px-2 my-1 text-left rounded-lg outline-none',
           'hover:bg-slate-300/30',
         )}
@@ -43,31 +45,32 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
         <ExternalOrInternalLink
           nav
           to={item.url ?? ''}
-          className={classNames('py-2 grow', {})}
+          className={classNames('myst-primary-sidebar-item-title py-2 grow', {})}
           onClick={() => setOpen(!open)}
         >
           {item.title}
         </ExternalOrInternalLink>
         <Collapsible.Trigger asChild>
           <button
-            className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+            className="myst-primary-sidebar-item-child self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
             aria-label="Open Folder"
           >
             <ChevronRightIcon
-              className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+              className="myst-primary-sidebar-item-icon transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
               height="1.5rem"
               width="1.5rem"
             />
           </button>
         </Collapsible.Trigger>
       </div>
-      <Collapsible.Content className="pl-3 pr-[2px] collapsible-content">
+      <Collapsible.Content className="myst-primary-sidebar-item-content pl-3 pr-[2px] collapsible-content">
         {item.children.map((action) => (
           <ExternalOrInternalLink
             nav
             key={action.url}
             to={action.url || ''}
             className={classNames(
+              "myst-primary-sidebar-item-link",
               'p-2 my-1 rounded-lg',
               'hover:bg-slate-300/30',
               'block break-words focus:outline outline-blue-200 outline-2 rounded',
@@ -155,6 +158,7 @@ export const PrimarySidebar = ({
     <div
       ref={sidebarRef as any}
       className={classNames(
+        'myst-primary-sidebar',
         'fixed',
         `xl:${grid}`, // for example, xl:article-grid
         'grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
@@ -165,6 +169,7 @@ export const PrimarySidebar = ({
     >
       <div
         className={classNames(
+          "myst-primary-sidebar-pointer",
           'pointer-events-auto',
           'xl:col-margin-left flex-col',
           'overflow-hidden',
@@ -177,7 +182,7 @@ export const PrimarySidebar = ({
           },
         )}
       >
-        <div className="flex-grow py-6 overflow-y-auto primary-scrollbar">
+        <div className="myst-primary-sidebar-nav flex-grow py-6 overflow-y-auto primary-scrollbar">
           {nav && (
             <nav
               aria-label="Navigation"
@@ -190,7 +195,7 @@ export const PrimarySidebar = ({
           {headings && (
             <nav
               aria-label="Table of Contents"
-              className="flex-grow overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px]"
+              className="myst-primary-sidebar-toc flex-grow overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px]"
             >
               <Toc headings={headings} />
             </nav>
@@ -198,7 +203,7 @@ export const PrimarySidebar = ({
         </div>
         {footer && (
           <div
-            className="flex-none py-6 transition-all duration-700 translate-y-6 opacity-0"
+            className="myst-primary-sidebar-footer flex-none py-6 transition-all duration-700 translate-y-6 opacity-0"
             ref={footerRef}
           >
             {footer}

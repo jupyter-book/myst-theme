@@ -62,7 +62,7 @@ export async function triggerBlobDownload(blob: Blob, filename: string) {
   return true;
 }
 
-const ICON_CLASS = 'self-center flex-none inline-block mr-3';
+const ICON_CLASS = 'myst-fm-download-icon self-center flex-none inline-block mr-3';
 
 export function Download({
   url,
@@ -92,14 +92,14 @@ export function Download({
     );
     return (
       <a
-        className={classNames(className, 'flex no-underline')}
+        className={classNames('myst-fm-download', className, 'flex no-underline')}
         href={url}
         target={!internal ? '_blank' : undefined}
         rel={!internal ? 'noreferrer noopener' : undefined}
       >
         <span className="sr-only">Visit URL {title ?? ''}</span>
         {icon}
-        <span className="w-max max-w-[200px] self-center">{title ?? url}</span>
+        <span className="myst-fm-download-text w-max max-w-[200px] self-center">{title ?? url}</span>
       </a>
     );
   }
@@ -111,7 +111,7 @@ export function Download({
     [url, filename],
   );
   return (
-    <a className={classNames(className, 'flex no-underline')} href={url} onClick={clickDownload}>
+    <a className={classNames('myst-fm-download', className, 'flex no-underline')} href={url} onClick={clickDownload}>
       <span className="sr-only">
         Download{format ? ` as ${format}` : ''} {title ?? ''}
       </span>
@@ -121,7 +121,7 @@ export function Download({
         className={ICON_CLASS}
         aria-hidden="true"
       />
-      <span className="w-max max-w-[200px] self-center">{title ?? filename}</span>
+      <span className="myst-fm-download-text w-max max-w-[200px] self-center">{title ?? filename}</span>
     </a>
   );
 }
@@ -129,16 +129,16 @@ export function Download({
 export function DownloadsDropdown({ exports }: HasExports) {
   if (!exports || exports.length === 0) return null;
   return (
-    <Menu as="div" className="relative flex inline-block mx-1 grow-0">
-      <Menu.Button className="relative ml-2 -mr-1">
+    <Menu as="div" className="myst-fm-downloads-dropdown relative flex inline-block mx-1 grow-0">
+      <Menu.Button className="myst-fm-downloads-button relative ml-2 -mr-1">
         <span className="sr-only">Downloads</span>
-        <ArrowDownTrayIcon width="1.25rem" height="1.25rem" aria-hidden="true" title="Download" />
+        <ArrowDownTrayIcon width="1.25rem" height="1.25rem" className="myst-fm-downloads-icon" aria-hidden="true" title="Download" />
       </Menu.Button>
-      <Menu.Items className="absolute z-10 overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <Menu.Items className="myst-fm-downloads-menu absolute z-10 overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
         {exports.map((exp, index) => (
           <Menu.Item key={index}>
             <Download
-              className="block p-3 no-underline hover:bg-stone-700 dark:hover:bg-stone-200 hover:text-white dark:hover:text-black"
+              className="myst-fm-downloads-item block p-3 no-underline hover:bg-stone-700 dark:hover:bg-stone-200 hover:text-white dark:hover:text-black"
               url={exp.url}
               filename={exp.filename}
               format={exp.format}

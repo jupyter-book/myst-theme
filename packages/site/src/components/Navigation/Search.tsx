@@ -174,7 +174,7 @@ function SearchShortcut() {
   return (
     <div
       aria-hidden
-      className="items-center hidden mx-1 font-mono text-sm text-gray-400 sm:flex gap-x-1"
+      className="myst-search-shortcut items-center hidden mx-1 font-mono text-sm text-gray-400 sm:flex gap-x-1"
     >
       <kbd
         className={classNames(
@@ -560,13 +560,13 @@ const SearchPlaceholderButton = forwardRef<
     <button
       {...props}
       className={classNames(
-        'myst-search-button',
+        'myst-search-bar',
         className,
         'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-400',
         'border border-gray-300 dark:border-gray-600',
         'rounded-lg bg-gray-50 dark:bg-gray-700',
         {
-          'myst-search-button-disabled hover:ring-blue-500': !disabled,
+          'myst-search-bar-disabled hover:ring-blue-500': !disabled,
           'dark:hover:ring-blue-500': !disabled,
           'hover:border-blue-500': !disabled,
           'dark:hover:border-blue-500': !disabled,
@@ -576,8 +576,8 @@ const SearchPlaceholderButton = forwardRef<
       ref={ref}
     >
       <MagnifyingGlassIcon className="p-2.5 h-10 w-10 aspect-square" />
-      <span className="hidden sm:block grow">Search</span>
-      <SearchShortcut />
+      <span className="myst-search-text-placeholder hidden sm:block grow">Search</span>
+      <SearchShortcut/>
     </button>
   );
 });

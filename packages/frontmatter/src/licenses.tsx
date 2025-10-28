@@ -157,7 +157,7 @@ export function LicenseBadges({
           preamble="Code License: "
           className={className}
         />
-      </>
+      </span>
     );
   }
   return <SingleLicenseBadge license={license as License} className={className} />;

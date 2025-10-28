@@ -294,7 +294,7 @@ export function FrontmatterBlock({
                   />
                 </div>
               )}
-            </>
+            </div>
           )}
           <EditLink editUrl={edit_url ?? undefined} />
           {!hideExports && <DownloadsDropdown exports={(downloads ?? exports) as any} />}

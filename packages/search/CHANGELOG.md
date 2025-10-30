@@ -1,5 +1,11 @@
 # @myst-theme/search
 
+## 0.17.2
+
+### Patch Changes
+
+- ba1e034: Fix accessibility bugs in search form dialog
+
 ## 0.17.1
 
 ## 0.17.0

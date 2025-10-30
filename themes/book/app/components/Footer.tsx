@@ -7,7 +7,7 @@ export function Footer({ content, className }: { content: GenericParent; classNa
     // Outer footer, sets up the grid, leaves margin above
     <footer
       className={classNames(
-        'article footer article-grid bg-white dark:bg-slate-950 mt-10 shadow-2xl py-10',
+        'article footer article-grid bg-white dark:bg-slate-950 mt-10 shadow-2xl shadow py-10',
         className,
       )}
     >

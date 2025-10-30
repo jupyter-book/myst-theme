@@ -37,7 +37,11 @@ export function Footnotes({
         <ol>
           {defs.map((fn) => {
             return (
-              <li key={(fn as GenericNode).key} id={`fn-${fn.identifier}`} className="myst-footnotes-item group">
+              <li
+                key={(fn as GenericNode).key}
+                id={`fn-${fn.identifier}`}
+                className="myst-footnotes-item group"
+              >
                 <div className="flex flex-row">
                   <div className="myst-footnote-content break-words grow">
                     <MyST ast={fn.children} />

@@ -93,7 +93,7 @@ function LinkItem({
       <Link
         title={`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
         className={classNames(
-          'block break-words focus:outline outline-blue-200 outline-2 rounded',
+          'myst-toc-heading block break-words focus:outline outline-blue-200 outline-2 rounded',
           className,
         )}
         to={heading.url}

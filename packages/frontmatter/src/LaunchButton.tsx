@@ -73,7 +73,11 @@ function CopyButton(props: CopyButtonProps) {
   return (
     <button
       type="button"
-      className={classNames('myst-fm-launch-copy-button', className, 'flex flex-row items-center gap-1')}
+      className={classNames(
+        'myst-fm-launch-copy-button',
+        className,
+        'flex flex-row items-center gap-1',
+      )}
       onClick={copyLink}
     >
       {message} <ClipboardCopyIcon className="inline-block" />
@@ -516,7 +520,9 @@ function DetectLaunchContent(props: ModalLaunchProps) {
 
       <fieldset
         disabled={detectedProviderType !== 'error'}
-        className={classNames('myst-fm-launch-option mt-6', { hidden: detectedProviderType !== 'error' })}
+        className={classNames('myst-fm-launch-option mt-6', {
+          hidden: detectedProviderType !== 'error',
+        })}
       >
         <legend className="mb-3">
           The provider type could not be detected automatically. what kind of provider have you

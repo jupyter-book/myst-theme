@@ -394,7 +394,7 @@ export const DocumentOutline = ({
   }
 
   return (
-    <Collapsible.Root open={open} onOpenChange={setOpen}>
+    <Collapsible.Root open={open} onOpenChange={setOpen} className="myst-outline-section">
       <nav
         ref={outlineRef}
         aria-label="Document Outline"

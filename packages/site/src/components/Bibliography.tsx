@@ -22,7 +22,12 @@ export function Bibliography({
   return (
     <section
       id="references"
-      className={classNames('myst-bibliography', grid, 'subgrid-gap col-screen', containerClassName)}
+      className={classNames(
+        'myst-bibliography',
+        grid,
+        'subgrid-gap col-screen',
+        containerClassName,
+      )}
     >
       <div className={innerClassName}>
         {!!hideLongBibliography && filtered.length > hideLongBibliography && (

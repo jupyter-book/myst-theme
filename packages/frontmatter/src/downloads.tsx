@@ -99,7 +99,9 @@ export function Download({
       >
         <span className="sr-only">Visit URL {title ?? ''}</span>
         {icon}
-        <span className="myst-fm-download-text w-max max-w-[200px] self-center">{title ?? url}</span>
+        <span className="myst-fm-download-text w-max max-w-[200px] self-center">
+          {title ?? url}
+        </span>
       </a>
     );
   }
@@ -111,7 +113,11 @@ export function Download({
     [url, filename],
   );
   return (
-    <a className={classNames('myst-fm-download', className, 'flex no-underline')} href={url} onClick={clickDownload}>
+    <a
+      className={classNames('myst-fm-download', className, 'flex no-underline')}
+      href={url}
+      onClick={clickDownload}
+    >
       <span className="sr-only">
         Download{format ? ` as ${format}` : ''} {title ?? ''}
       </span>
@@ -121,7 +127,9 @@ export function Download({
         className={ICON_CLASS}
         aria-hidden="true"
       />
-      <span className="myst-fm-download-text w-max max-w-[200px] self-center">{title ?? filename}</span>
+      <span className="myst-fm-download-text w-max max-w-[200px] self-center">
+        {title ?? filename}
+      </span>
     </a>
   );
 }
@@ -132,7 +140,13 @@ export function DownloadsDropdown({ exports }: HasExports) {
     <Menu as="div" className="myst-fm-downloads-dropdown relative flex inline-block mx-1 grow-0">
       <Menu.Button className="myst-fm-downloads-button relative ml-2 -mr-1">
         <span className="sr-only">Downloads</span>
-        <ArrowDownTrayIcon width="1.25rem" height="1.25rem" className="myst-fm-downloads-icon" aria-hidden="true" title="Download" />
+        <ArrowDownTrayIcon
+          width="1.25rem"
+          height="1.25rem"
+          className="myst-fm-downloads-icon"
+          aria-hidden="true"
+          title="Download"
+        />
       </Menu.Button>
       <Menu.Items className="myst-fm-downloads-menu absolute z-10 overflow-hidden bg-white rounded-sm shadow-lg -right-1 dark:bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
         {exports.map((exp, index) => (

@@ -34,7 +34,10 @@ export function DoiText({ doi: possibleLink, className }: { doi?: string; classN
   const url = `https://doi.org/${doi}`;
   return (
     <a
-      className={classNames('myst-fm-doi-text no-underline text-inherit hover:text-inherit', className)}
+      className={classNames(
+        'myst-fm-doi-text no-underline text-inherit hover:text-inherit',
+        className,
+      )}
       target="_blank"
       rel="noopener noreferrer"
       href={url}
@@ -50,7 +53,10 @@ export function DoiBadge({ doi: possibleLink, className }: { doi?: string; class
   const doi = possibleLink.replace(/^(https?:\/\/)?(dx\.)?doi\.org\//, '');
   const url = `https://doi.org/${doi}`;
   return (
-    <div className={classNames('myst-fm-doi-badge flex-none', className)} title="DOI (Digital Object Identifier)">
+    <div
+      className={classNames('myst-fm-doi-badge flex-none', className)}
+      title="DOI (Digital Object Identifier)"
+    >
       <a
         className="myst-fm-doi-link font-light no-underline hover:font-light hover:underline text-inherit hover:text-inherit"
         target="_blank"
@@ -303,11 +309,17 @@ export function FrontmatterBlock({
       )}
       {title && (
         <h1 className="myst-fm-block-title mb-0">
-          {enumerator && <span className="myst-fm-block-enumerator mr-3 select-none">{enumerator}</span>}
+          {enumerator && (
+            <span className="myst-fm-block-enumerator mr-3 select-none"> {enumerator} </span>
+          )}
           {title}
         </h1>
       )}
-      {subtitle && <p className="myst-fm-block-subtitle mt-2 mb-0 lead text-zinc-600 dark:text-zinc-400">{subtitle}</p>}
+      {subtitle && (
+        <p className="myst-fm-block-subtitle mt-2 mb-0 lead text-zinc-600 dark:text-zinc-400">
+          {subtitle}
+        </p>
+      )}
       {hasAuthors && authorStyle === 'list' && (
         <AuthorsList authors={frontmatter.authors} affiliations={frontmatter.affiliations} />
       )}

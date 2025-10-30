@@ -43,7 +43,12 @@ export function Backmatter({
 }) {
   if (!content) return null;
   return (
-    <div className={classNames('myst-backmatter flex flex-col w-full md:flex-row group/backmatter', className)}>
+    <div
+      className={classNames(
+        'myst-backmatter flex flex-col w-full md:flex-row group/backmatter',
+        className,
+      )}
+    >
       <h2
         id={id}
         className="myst-backmatter-title mt-5 text-base font-semibold group md:w-[200px] self-start md:flex-none opacity-90 group-hover/backmatter:opacity-100"

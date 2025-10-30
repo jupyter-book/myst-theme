@@ -14,7 +14,7 @@ export function ContentBlocks({
   pageKind?: SourceFileKind;
   className?: string;
 }) {
-  return <MyST ast={mdast} className={classNames("myst-content-blocks", className)} />;
+  return <MyST ast={mdast} className={classNames('myst-content-blocks', className)} />;
 }
 
 /** @deprecated use `import { Block } from 'myst-to-react';` */

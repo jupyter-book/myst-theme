@@ -186,7 +186,7 @@ export const PrimarySidebar = ({
           {nav && (
             <nav
               aria-label="Navigation"
-              className="overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden"
+              className="myst-primary-sidebar-topnav overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden"
             >
               <SidebarNav nav={nav} />
             </nav>

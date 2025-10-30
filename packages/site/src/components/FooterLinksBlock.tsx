@@ -30,7 +30,9 @@ export const FooterLink = ({
           />
         )}
         <div className={classNames('flex-grow', { 'text-right': right })}>
-          <div className="myst-footer-link-group text-xs text-gray-500 dark:text-gray-400">{group || ' '}</div>
+          <div className="myst-footer-link-group text-xs text-gray-500 dark:text-gray-400">
+            {group || ' '}
+          </div>
           {short_title || title}
         </div>
         {!right && (

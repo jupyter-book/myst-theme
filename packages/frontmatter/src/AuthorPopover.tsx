@@ -9,8 +9,12 @@ type Affiliations = Required<PageFrontmatter>['affiliations'];
 function Definition({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="myst-fm-popover-definition px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-      <dt className="myst-fm-popover-definition-title text-sm font-medium leading-6 text-gray-900">{title}</dt>
-      <dd className="myst-fm-popover-definition-value mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{children}</dd>
+      <dt className="myst-fm-popover-definition-title text-sm font-medium leading-6 text-gray-900">
+        {title}
+      </dt>
+      <dd className="myst-fm-popover-definition-value mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {children}
+      </dd>
     </div>
   );
 }

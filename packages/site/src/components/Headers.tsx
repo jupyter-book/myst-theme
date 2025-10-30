@@ -83,7 +83,9 @@ export function ArticleHeader({
               <OpenAccessBadge open_access={frontmatter?.open_access} />
               <GitHubLink github={frontmatter?.github} />
             </div>
-            {toggleTheme && <ThemeButton className="myst-article-header-theme-button inline-block w-5 h-5 mt-0.5 ml-1" />}
+            {toggleTheme && (
+              <ThemeButton className="myst-article-header-theme-button inline-block w-5 h-5 mt-0.5 ml-1" />
+            )}
           </div>
           <div className="flex flex-col mb-10 md:flex-row">
             <FrontmatterBlock

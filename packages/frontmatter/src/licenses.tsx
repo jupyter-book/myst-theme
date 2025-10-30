@@ -44,7 +44,12 @@ export function CreativeCommonsBadge({
       )}
       aria-label={title}
     >
-      <CcIcon width="1.25rem" height="1.25rem" className="myst-fm-license-cc-icon myst-fm-license-cc-icon-main inline-block mx-1" title={title} />
+      <CcIcon
+        width="1.25rem"
+        height="1.25rem"
+        className="myst-fm-license-cc-icon myst-fm-license-cc-icon-main inline-block mx-1"
+        title={title}
+      />
       {(kind.startsWith('CC0') || kind.startsWith('CC-0') || kind.includes('ZERO')) && (
         <CcZeroIcon
           width="1.25rem"
@@ -119,7 +124,10 @@ function SingleLicenseBadge({
         <ScaleIcon
           width="1.25rem"
           height="1.25rem"
-          className={classNames('myst-fm-license-icon mx-1 inline-block opacity-60 hover:opacity-100', className)}
+          className={classNames(
+            'myst-fm-license-icon mx-1 inline-block opacity-60 hover:opacity-100',
+            className,
+          )}
         />
       )}
       {license.osi && (

@@ -17,11 +17,20 @@ function AuthorIconLink({
   className?: string;
 }) {
   return (
-    <a className="myst-fm-author-icon-link ml-1" href={href} title={title} target="_blank" rel="noopener noreferrer">
+    <a
+      className="myst-fm-author-icon-link ml-1"
+      href={href}
+      title={title}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <Icon
         width="1rem"
         height="1rem"
-        className={classNames('myst-fm-author-icon inline-block text-gray-400 -translate-y-[0.1em]', className)}
+        className={classNames(
+          'myst-fm-author-icon inline-block text-gray-400 -translate-y-[0.1em]',
+          className,
+        )}
       />
     </a>
   );
@@ -109,8 +118,12 @@ export function AuthorAndAffiliations({
       <div className="myst-fm-authors-grid grid grid-cols-1 sm:grid-cols-2 gap-y-1">
         {authors.length > 1 && (
           <>
-            <div className="myst-fm-authors-header-authors pb-2 text-xs font-thin uppercase">Authors</div>
-            <div className="myst-fm-authors-header-affil pb-2 text-xs font-thin uppercase">Affiliations</div>
+            <div className="myst-fm-authors-header-authors pb-2 text-xs font-thin uppercase">
+              Authors
+            </div>
+            <div className="myst-fm-authors-header-affil pb-2 text-xs font-thin uppercase">
+              Affiliations
+            </div>
           </>
         )}
         {authors.map((author) => (

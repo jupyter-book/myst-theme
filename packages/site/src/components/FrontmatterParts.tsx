@@ -19,7 +19,10 @@ export function FrontmatterParts({
   if (!parts.abstract && !parts.keypoints && !parts.summary) return null;
   return (
     <div className={classNames('myst-fm-parts', containerClassName)}>
-      <Abstract className={classNames('myst-fm-section', innerClassName)} content={parts.abstract} />
+      <Abstract
+        className={classNames('myst-fm-section', innerClassName)}
+        content={parts.abstract}
+      />
       <Abstract
         className={classNames('myst-fm-section', innerClassName)}
         content={parts.keypoints}
@@ -32,7 +35,11 @@ export function FrontmatterParts({
         title="Plain Language Summary"
         id="summary"
       />
-      <Keywords className={classNames('myst-fm-section', innerClassName)} keywords={keywords} hideKeywords={hideKeywords} />
+      <Keywords
+        className={classNames('myst-fm-section', innerClassName)}
+        keywords={keywords}
+        hideKeywords={hideKeywords}
+      />
     </div>
   );
 }

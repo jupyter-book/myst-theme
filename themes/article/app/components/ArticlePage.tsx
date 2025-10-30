@@ -59,7 +59,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
           </ArticleHeader>
           <article
             data-name="article-page-main"
-            className={classNames('article', grid, 'subgrid-gap col-screen', {
+            className={classNames('myst-article', 'article', grid, 'subgrid-gap col-screen', {
               'pt-10': isIndex,
             })}
           >

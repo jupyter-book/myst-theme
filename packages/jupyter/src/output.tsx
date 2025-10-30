@@ -75,7 +75,7 @@ export function JupyterOutput({
       id={identifier || undefined}
       data-mdast-node-id={outputId}
       className={classNames(
-        'max-w-full overflow-y-visible overflow-x-auto m-0 group not-prose relative',
+        'myst-jp-output max-w-full overflow-y-visible overflow-x-auto m-0 group not-prose relative',
         {
           'text-left': !align || align === 'left',
           'text-center': align === 'center',

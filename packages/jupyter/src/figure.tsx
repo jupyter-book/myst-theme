@@ -14,7 +14,7 @@ export function Figure({ node }: { node: GenericNode }) {
     return (
       <figure
         id={node.html_id || node.identifier || node.key}
-        className={classNames({ subcontainer: node.subcontainer }, node.class)}
+        className={classNames('myst-jp-figure', { subcontainer: node.subcontainer }, node.class)}
       >
         <OutputDecoration
           key={node.key}

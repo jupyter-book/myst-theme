@@ -9,7 +9,7 @@ export default function Stream({ output }: { output: MinifiedStreamOutput }) {
       content={ensureString(output.text)}
       path={output.path}
       render={(content?: string) => (
-        <pre className="text-sm font-thin font-system">
+        <pre className="myst-jp-stream-output text-sm font-thin font-system">
           <Ansi>{content ?? ''}</Ansi>
         </pre>
       )}

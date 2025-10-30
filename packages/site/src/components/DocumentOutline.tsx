@@ -35,15 +35,16 @@ type Props = {
  * scrollIntoView is used to ensure that when a user clicks on an item, it will smoothly scroll.
  */
 const Headings = ({ headings, activeId }: Props) => (
-  <ul className="text-sm leading-6 text-slate-400">
+  <ul className="myst-outline-list text-sm leading-6 text-slate-400">
     {headings.map((heading) => (
       <li
         key={heading.id}
-        className={classNames('border-l-2 hover:border-l-blue-500', {
+        className={classNames('myst-outline-item border-l-2 hover:border-l-blue-500', {
           'text-blue-600': heading.id === activeId,
           'border-l-gray-300 dark:border-l-gray-50': heading.id !== activeId,
           'border-l-blue-500': heading.id === activeId,
           'bg-blue-50 dark:bg-slate-800': heading.id === activeId,
+          'myst-outline-item-active': heading.id === activeId,
         })}
       >
         <a
@@ -393,12 +394,12 @@ export const DocumentOutline = ({
   }
 
   return (
-    <Collapsible.Root open={open} onOpenChange={setOpen}>
+    <Collapsible.Root open={open} onOpenChange={setOpen} className="myst-outline-section">
       <nav
         ref={outlineRef}
         aria-label="Document Outline"
         className={classNames(
-          'not-prose overflow-y-auto',
+          'myst-outline not-prose overflow-y-auto',
           'transition-opacity duration-700', // Animation on load
           className,
         )}
@@ -407,11 +408,11 @@ export const DocumentOutline = ({
           maxHeight: `calc(100vh - ${top + 20}px)`,
         }}
       >
-        <div className="flex flex-row gap-2 mb-4 text-sm leading-6 uppercase rounded-lg text-slate-900 dark:text-slate-100">
+        <div className="myst-outline-header flex flex-row gap-2 mb-4 text-sm leading-6 uppercase rounded-lg text-slate-900 dark:text-slate-100">
           {title}
           <Collapsible.Trigger asChild>
             <button
-              className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+              className="myst-outline-collapsible self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
               aria-label="Open Contents"
             >
               <ChevronRightIcon
@@ -439,7 +440,7 @@ export function SupportingDocuments() {
   if (!pages || pages.length === 0) return null;
   return (
     <>
-      <div className="my-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">
+      <div className="myst-supporting-documents my-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">
         Supporting Documents
       </div>
       <ul className="flex flex-col gap-2 pl-0 text-sm leading-6 list-none text-slate-700 dark:text-slate-300">

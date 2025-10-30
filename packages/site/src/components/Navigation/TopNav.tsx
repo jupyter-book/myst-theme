@@ -24,7 +24,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
   const baseurl = useBaseurl();
   if (!('children' in item)) {
     return (
-      <div className="relative inline-block mx-2 grow-0">
+      <div className="myst-top-nav-item relative inline-block mx-2 grow-0">
         <ExternalOrInternalLink
           nav
           to={withBaseurl(item.url, baseurl) ?? ''}
@@ -43,7 +43,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
     );
   }
   return (
-    <Menu as="div" className="relative inline-block mx-2 grow-0">
+    <Menu as="div" className="myst-top-nav-dropdown relative inline-block mx-2 grow-0">
       <div className="inline-block">
         <Menu.Button className="inline-flex items-center justify-center w-full py-1 mx-2 font-medium rounded-md text-md text-stone-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
           <span>{item.title}</span>
@@ -63,14 +63,14 @@ export function NavItem({ item }: { item: SiteNavItem }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute w-48 py-1 mt-2 origin-top-left bg-white rounded-sm shadow-lg left-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="myst-top-nav-dropdown-items absolute w-48 py-1 mt-2 origin-top-left bg-white rounded-sm shadow-lg left-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
           {item.children?.map((action) => (
             <Menu.Item key={action.url}>
               {/* This is really ugly, BUT, the action needs to be defined HERE or the click away doesn't work for some reason */}
               {action.url?.startsWith('http') ? (
                 <a
                   href={action.url || ''}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black"
+                  className="myst-top-nav-dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -81,7 +81,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
                   to={action.url || ''}
                   className={({ isActive }) =>
                     classNames(
-                      ' block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black ',
+                      'myst-top-nav-dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black',
                       {
                         'text-black font-bold': isActive,
                       },
@@ -116,8 +116,8 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
   const { title, nav, actions } = config ?? {};
   const { logo, logo_dark, logo_text, logo_url } = config?.options ?? {};
   return (
-    <div className="bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 sticky w-screen top-0 z-30 h-[60px]">
-      <nav className="flex items-center justify-between flex-nowrap max-w-[1440px] mx-auto">
+    <div className="myst-top-nav bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 sticky w-screen top-0 z-30 h-[60px]">
+      <nav className="myst-top-nav-bar flex items-center justify-between flex-nowrap max-w-[1440px] mx-auto">
         <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center shrink-0">
           {
             <div
@@ -127,7 +127,7 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
               })}
             >
               <button
-                className="flex items-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100"
+                className="myst-top-nav-menu-button flex items-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100"
                 onClick={() => {
                   setOpen(!open);
                 }}

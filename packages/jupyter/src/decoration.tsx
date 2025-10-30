@@ -54,19 +54,19 @@ export function OutputDecoration({
 
   if (showComputeControls) {
     return (
-      <div className="mb-4 shadow">
+      <div className="myst-jp-output-deco mb-4 shadow">
         <div
-          className="sticky z-[2] w-full bg-gray-100/80 backdrop-blur dark:bg-neutral-800/80 py-1 px-2"
+          className="myst-jp-output-deco-header sticky z-[2] w-full bg-gray-100/80 backdrop-blur dark:bg-neutral-800/80 py-1 px-2"
           style={{ top }}
         >
-          <div className="flex items-center">
-            <div className="flex items-center">
+          <div className="myst-jp-output-deco-inner flex items-center">
+            <div className="myst-jp-output-deco-source flex items-center">
               <JupyterIcon width="1.25rem" height="1.25rem" className="inline-block" />
-              <span className="ml-2">Source:</span>
+              <span className="myst-jp-output-deco-label ml-2">Source:</span>
               {url && (
                 <Link
                   to={withBaseurl(url, remoteBaseUrl ?? baseurl)}
-                  className="ml-2 no-underline text-normal hover:underline"
+                  className="myst-jp-output-deco-link ml-2 no-underline text-normal hover:underline"
                 >
                   {title}
                 </Link>
@@ -87,13 +87,13 @@ export function OutputDecoration({
   if (kind === SourceFileKind.Article) {
     return (
       <>
-        <div className="flex items-center justify-end text-xs">
+        <div className="myst-jp-output-deco-light flex items-center justify-end text-xs">
           <JupyterIcon width="0.75rem" height="0.75rem" className="inline-block" />
-          <div className="ml-1">Source:</div>
+          <div className="myst-jp-output-deco-label ml-1">Source:</div>
           {url && (
             <Link
               to={withBaseurl(url, remoteBaseUrl ?? baseurl)}
-              className="ml-1 no-underline text-normal hover:underline"
+              className="myst-jp-output-deco-link ml-1 no-underline text-normal hover:underline"
             >
               {title}
             </Link>

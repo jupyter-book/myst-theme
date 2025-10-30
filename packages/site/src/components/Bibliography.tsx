@@ -22,25 +22,30 @@ export function Bibliography({
   return (
     <section
       id="references"
-      className={classNames(grid, 'subgrid-gap col-screen', containerClassName)}
+      className={classNames(
+        'myst-bibliography',
+        grid,
+        'subgrid-gap col-screen',
+        containerClassName,
+      )}
     >
       <div className={innerClassName}>
         {!!hideLongBibliography && filtered.length > hideLongBibliography && (
           <button
             onClick={() => setHidden(!hidden)}
-            className="float-right p-1 px-2 text-xs border rounded hover:border-blue-500 dark:hover:border-blue-400"
+            className="myst-bibliography-toggle float-right p-1 px-2 text-xs border rounded hover:border-blue-500 dark:hover:border-blue-400"
           >
             {hidden ? 'Show All' : 'Collapse'}
           </button>
         )}
-        <header className="text-lg font-semibold text-stone-900 dark:text-white group">
+        <header className="myst-bibliography-header text-lg font-semibold text-stone-900 dark:text-white group">
           References
           <HashLink id="references" title="Link to References" hover className="ml-2" />
         </header>
       </div>
       <div
         className={classNames(
-          'pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300',
+          'myst-bibliography-list pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300',
           innerClassName,
         )}
       >
@@ -50,7 +55,7 @@ export function Bibliography({
             return (
               <li
                 key={label}
-                className="break-words"
+                className="myst-bibliography-item break-words"
                 id={`cite-${label}`}
                 dangerouslySetInnerHTML={{ __html: html || '' }}
               />
@@ -60,7 +65,7 @@ export function Bibliography({
             <li className="text-center list-none">
               <button
                 onClick={() => setHidden(!hidden)}
-                className="p-2 border rounded hover:border-blue-500 dark:hover:border-blue-400"
+                className="myst-bibliography-toggle p-2 border rounded hover:border-blue-500 dark:hover:border-blue-400"
               >
                 {hidden ? `Show all ${filtered.length} references` : 'Collapse references'}
               </button>

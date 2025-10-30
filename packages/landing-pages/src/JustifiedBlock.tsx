@@ -40,25 +40,25 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
   }
   return (
     <LandingBlock {...props}>
-      <div className="grid-areas-just-narrow md:grid-areas-just-wide grid grid-cols-[auto_1fr_auto] justify-between gap-2 py-20 sm:py-28 lg:px-8">
+      <div className="myst-landing-justified grid-areas-just-narrow md:grid-areas-just-wide grid grid-cols-[auto_1fr_auto] justify-between gap-2 py-20 sm:py-28 lg:px-8">
         {subtitle && (
-          <p className="grid-area-subtitle my-0 font-semibold text-indigo-400 uppercase">
+          <p className="myst-landing-justified-subtitle grid-area-subtitle my-0 font-semibold text-indigo-400 uppercase">
             <MyST ast={subtitle.children} />
           </p>
         )}
         {heading && (
           <BlockHeading
             node={heading}
-            className="grid-area-title mt-2 mb-0 text-5xl font-semibold tracking-tight"
+            className="myst-landing-justified-heading grid-area-title mt-2 mb-0 text-5xl font-semibold tracking-tight"
           />
         )}
         {body && (
-          <div className="grid-area-body mt-6">
+          <div className="myst-landing-justified-body grid-area-body mt-6">
             <MyST ast={body} />
           </div>
         )}
         {links && (
-          <div className="grid-area-links flex flex-row flex-wrap items-center gap-4">
+          <div className="myst-landing-justified-links grid-area-links flex flex-row flex-wrap items-center gap-4">
             <MyST ast={links} />
           </div>
         )}

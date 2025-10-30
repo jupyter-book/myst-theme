@@ -1,6 +1,6 @@
 export function Spinner({ size }: { size: number }) {
   return (
-    <div role="status">
+    <div className="myst-jp-spinner" role="status">
       <svg
         aria-hidden="true"
         width={size}

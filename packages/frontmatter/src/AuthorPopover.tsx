@@ -8,9 +8,13 @@ type Affiliations = Required<PageFrontmatter>['affiliations'];
 
 function Definition({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-      <dt className="text-sm font-medium leading-6 text-gray-900">{title}</dt>
-      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{children}</dd>
+    <div className="myst-fm-popover-definition px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+      <dt className="myst-fm-popover-definition-title text-sm font-medium leading-6 text-gray-900">
+        {title}
+      </dt>
+      <dd className="myst-fm-popover-definition-value mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        {children}
+      </dd>
     </div>
   );
 }
@@ -29,7 +33,7 @@ export const AuthorPopover = ({
     <Popover.Root>
       <Popover.Trigger asChild>
         <button
-          className="focus:shadow-[0_0_0_2px] focus:shadow-black outline-none hover:underline"
+          className="myst-fm-author-popover focus:shadow-[0_0_0_2px] focus:shadow-black outline-none hover:underline"
           aria-label="Author Details"
         >
           {children}
@@ -37,14 +41,14 @@ export const AuthorPopover = ({
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
-          className="hover-card-content rounded p-5 w-[400px] bg-white shadow"
+          className="myst-fm-author-popover-content hover-card-content rounded p-5 w-[400px] bg-white shadow"
           sideOffset={5}
         >
           <div className="flex flex-col gap-2.5">
-            <p className="text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
+            <p className="myst-fm-author-popover-name text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
               {author.name}
             </p>
-            <p className="text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
+            <p className="myst-fm-author-popover-affiliations text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
               {author.affiliations?.map((affiliationId) => (
                 <Affiliation
                   key={affiliationId}
@@ -53,11 +57,11 @@ export const AuthorPopover = ({
                 />
               ))}
             </p>
-            <dl className="divide-y divide-gray-100">
+            <dl className="myst-fm-author-popover-details divide-y divide-gray-100">
               {author.email && (
                 <Definition title="Email">
                   <a
-                    className="ml-1"
+                    className="myst-fm-author-popover-link ml-1"
                     href={`mailto:${author.email}`}
                     title={`${author.name} <${author.email}>`}
                     target="_blank"
@@ -70,7 +74,7 @@ export const AuthorPopover = ({
               {author.orcid && (
                 <Definition title="ORCID">
                   <a
-                    className="ml-1"
+                    className="myst-fm-author-popover-orcid ml-1"
                     href={`https://orcid.org/${author.orcid}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -83,7 +87,7 @@ export const AuthorPopover = ({
               {author.github && (
                 <Definition title="GitHub">
                   <a
-                    className="ml-1"
+                    className="myst-fm-author-popover-github ml-1"
                     href={`https://github.com/${author.github}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -96,7 +100,7 @@ export const AuthorPopover = ({
               {author.twitter && (
                 <Definition title="X Account">
                   <a
-                    className="ml-1"
+                    className="myst-fm-author-popover-twitter ml-1"
                     href={`https://x.com/${author.twitter}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -109,7 +113,7 @@ export const AuthorPopover = ({
               {author.url && (
                 <Definition title="Website">
                   <a
-                    className="ml-1"
+                    className="myst-fm-author-popover-link ml-1"
                     href={author.url}
                     target="_blank"
                     rel="noopener noreferrer"

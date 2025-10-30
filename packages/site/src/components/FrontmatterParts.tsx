@@ -1,6 +1,7 @@
 import { type KnownParts } from '../utils.js';
 import { Abstract } from './Abstract.js';
 import { Keywords } from './Keywords.js';
+import classNames from 'classnames';
 
 export function FrontmatterParts({
   parts,
@@ -17,21 +18,28 @@ export function FrontmatterParts({
 }) {
   if (!parts.abstract && !parts.keypoints && !parts.summary) return null;
   return (
-    <div className={containerClassName}>
-      <Abstract className={innerClassName} content={parts.abstract} />
+    <div className={classNames('myst-fm-parts', containerClassName)}>
       <Abstract
-        className={innerClassName}
+        className={classNames('myst-fm-section', innerClassName)}
+        content={parts.abstract}
+      />
+      <Abstract
+        className={classNames('myst-fm-section', innerClassName)}
         content={parts.keypoints}
         title="Key Points"
         id="keypoints"
       />
       <Abstract
-        className={innerClassName}
+        className={classNames('myst-fm-section', innerClassName)}
         content={parts.summary}
         title="Plain Language Summary"
         id="summary"
       />
-      <Keywords className={innerClassName} keywords={keywords} hideKeywords={hideKeywords} />
+      <Keywords
+        className={classNames('myst-fm-section', innerClassName)}
+        keywords={keywords}
+        hideKeywords={hideKeywords}
+      />
     </div>
   );
 }

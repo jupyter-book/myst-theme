@@ -404,7 +404,7 @@ export const DocumentOutline = ({
         )}
         style={{
           top: top,
-          maxHeight: `calc(100vh - ${top + 20}px)`,
+          maxHeight: `calc(100vh - ${top + 100}px)`,
         }}
       >
         <div className="flex flex-row gap-2 mb-4 text-sm leading-6 uppercase rounded-lg text-slate-900 dark:text-slate-100">

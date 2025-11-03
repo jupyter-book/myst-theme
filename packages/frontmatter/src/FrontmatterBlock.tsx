@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import type { ExpandedThebeFrontmatter, PageFrontmatter } from 'myst-frontmatter';
 import { SourceFileKind } from 'myst-spec-ext';
-import { JupyterIcon, OpenAccessIcon, GithubIcon, XIcon } from '@scienceicons/react/24/solid';
+import { OpenAccessIcon, GithubIcon, XIcon } from '@scienceicons/react/24/solid';
 import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
@@ -267,11 +267,11 @@ export function FrontmatterBlock({
       className={classNames(className)}
     >
       {showHeaderBlock && (
-        <div className="flex items-center h-6 mb-5 text-sm font-light">
+        <div className="flex items-center mb-5 h-6 text-sm font-light">
           {subject && (
             <div
               className={classNames('flex-none pr-2 smallcaps', {
-                'border-r mr-2': venue,
+                'mr-2 border-r': venue,
               })}
             >
               {subject}
@@ -284,16 +284,6 @@ export function FrontmatterBlock({
               <LicenseBadges license={license} />
               <OpenAccessBadge open_access={open_access} />
               <GitHubLink github={github} />
-              {isJupyter && (
-                <div className="inline-block mr-1">
-                  <JupyterIcon
-                    width="1.25rem"
-                    height="1.25rem"
-                    className="inline-block"
-                    title="Jupyter Notebook"
-                  />
-                </div>
-              )}
             </>
           )}
           <EditLink editUrl={edit_url ?? undefined} />

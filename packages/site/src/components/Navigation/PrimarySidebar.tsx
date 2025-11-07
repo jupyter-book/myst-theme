@@ -7,6 +7,8 @@ import {
   useGridSystemProvider,
   useThemeTop,
   useIsWide,
+  useBaseurl,
+  withBaseurl,
 } from '@myst-theme/providers';
 import type { Heading } from '@myst-theme/common';
 import { Toc } from './TableOfContentsItems.js';
@@ -16,11 +18,12 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 
 export function SidebarNavItem({ item }: { item: SiteNavItem }) {
+  const baseurl = useBaseurl();
   if (!item.children?.length) {
     return (
       <ExternalOrInternalLink
         nav
-        to={item.url ?? ''}
+        to={withBaseurl(item.url, baseurl) ?? ''}
         className={classNames(
           'p-2 my-1 rounded-lg',
           'hover:bg-slate-300/30',
@@ -42,7 +45,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
       >
         <ExternalOrInternalLink
           nav
-          to={item.url ?? ''}
+          to={withBaseurl(item.url, baseurl) ?? ''}
           className={classNames('py-2 grow', {})}
           onClick={() => setOpen(!open)}
         >
@@ -66,7 +69,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
           <ExternalOrInternalLink
             nav
             key={action.url}
-            to={action.url || ''}
+            to={withBaseurl(action.url, baseurl) || ''}
             className={classNames(
               'p-2 my-1 rounded-lg',
               'hover:bg-slate-300/30',

@@ -67,10 +67,11 @@ export const ArticlePage = React.memo(function ({
   const pageDesign: TemplateOptions = (article.frontmatter as any)?.site ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
-  const { hide_title_block, hide_footer_links, hide_outline, outline_maxdepth } = {
+  const { hide_title_block, hide_footer_links, hide_outline, outline_maxdepth, hide_author_list } = {
     ...siteDesign,
     ...pageDesign,
   };
+  console.log({ siteDesign })
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
@@ -94,6 +95,7 @@ export const ArticlePage = React.memo(function ({
               className="mb-8 pt-9"
               thebe={thebe}
               location={location}
+              hideAuthors={hide_author_list}
             />
           )}
           {!hide_outline && (

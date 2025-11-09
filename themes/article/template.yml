@@ -23,7 +23,7 @@ options:
     id: hide_outline
     description: Hide the document outline on all pages
   - type: boolean
-    id: hide_author_list
+    id: hide_authors
     description: Hide the authors list on all pages
   - type: number
     id: outline_maxdepth

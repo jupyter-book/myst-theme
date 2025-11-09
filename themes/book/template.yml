@@ -26,7 +26,7 @@ options:
     id: hide_title_block
     description: Hide the document title on all pages
   - type: boolean
-    id: hide_author_list
+    id: hide_authors
     description: Hide the authors list on all pages
   - type: boolean
     id: hide_search

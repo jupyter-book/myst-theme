@@ -1,2 +1,2 @@
-import type { CommonTemplateOptions } from 'myst-common';
+import type { CommonTemplateOptions } from '@myst-theme/common';
 export type TemplateOptions = CommonTemplateOptions & {};

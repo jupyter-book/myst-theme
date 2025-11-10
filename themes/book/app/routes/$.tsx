@@ -95,7 +95,9 @@ function ArticlePageAndNavigationInternal({
   const projectParts = siteManifest?.projects?.[0]?.parts;
   return (
     <>
+      <TabStateProvider>
       {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
+      </TabStateProvider>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
       <PrimaryNavigation
         sidebarRef={toc}

@@ -71,7 +71,6 @@ export const ArticlePage = React.memo(function ({
     ...siteDesign,
     ...pageDesign,
   };
-  console.log({ siteDesign })
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];

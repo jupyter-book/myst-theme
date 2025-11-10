@@ -84,4 +84,9 @@ export type CommonTemplateOptions = {
   numbered_references?: boolean;
   folders?: boolean;
   style?: string;
+  hide_authors?: boolean;
+  hide_footer_links?: boolean;
+  hide_toc?: boolean;
+  hide_outline?: boolean;
+
 };

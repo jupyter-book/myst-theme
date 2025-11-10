@@ -20,7 +20,7 @@ project:
 
 - Appears at the top of every page, above the navigation
 - Users can dismiss it by clicking the X button
-- Dismissal persists in the browser (using `localStorage`)
+- Dismissal persists in the browser
 - Will expand vertically if extra content is in it
 - If you change the banner content, it will reappear for all users
 

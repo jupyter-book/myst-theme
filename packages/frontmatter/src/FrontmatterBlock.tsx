@@ -290,7 +290,7 @@ export function FrontmatterBlock({
               <LicenseBadges license={license} />
               <OpenAccessBadge open_access={open_access} />
               <GitHubLink github={github} />
-            </>
+            </div>
           )}
           <EditLink editUrl={edit_url ?? undefined} />
           {!hideExports && <DownloadsDropdown exports={(downloads ?? exports) as any} />}

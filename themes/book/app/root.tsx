@@ -1,6 +1,6 @@
-import type { LinksFunction, V2_MetaFunction, LoaderFunction } from '@remix-run/node';
-import tailwind from '~/styles/app.css';
-import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
+import type { LinksFunction, MetaFunction, LoaderFunction } from 'react-router';
+import tailwind from '~/styles/app.css?url';
+import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css?url';
 import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/common';
 import {
@@ -14,7 +14,7 @@ import {
 } from '@myst-theme/site';
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { createSearch as createMiniSearch } from '@myst-theme/search-minisearch';
-import { Outlet, useLoaderData } from '@remix-run/react';
+import { Outlet, useLoaderData } from 'react-router';
 import { SearchFactoryProvider, mergeRenderers } from '@myst-theme/providers';
 import type { NodeRenderers } from '@myst-theme/providers';
 import type { ISearch, MystSearchIndex } from '@myst-theme/search';
@@ -30,7 +30,7 @@ const RENDERERS: NodeRenderers = mergeRenderers([
   LANDING_PAGE_RENDERERS,
 ]);
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({
     title: data?.config?.title,
     description: data?.config?.description,

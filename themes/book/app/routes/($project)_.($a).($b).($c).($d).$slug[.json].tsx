@@ -1,6 +1,6 @@
 import { isFlatSite } from '@myst-theme/common';
-import type { LoaderFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
+import type { LoaderFunction } from 'react-router';
+import { data as json } from 'react-router';
 import { getConfig, getMystXrefJson, getMystSearchJson, getPage } from '~/utils/loaders.server';
 
 function api404(message = 'No API route found at this URL') {

@@ -7,7 +7,7 @@ import {
   updatePageStaticLinksInplace,
   updateSiteManifestStaticLinksInplace,
 } from '@myst-theme/common';
-import { redirect } from '@remix-run/node';
+import { redirect } from 'react-router';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
 import type { MystSearchIndex } from '@myst-theme/search';
 import { slugToUrl } from 'myst-common';

@@ -4,7 +4,7 @@ import {
   useSiteManifest,
   withBaseurl,
 } from '@myst-theme/providers';
-import { useNavigation } from '@remix-run/react';
+import { useNavigation } from 'react-router';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';

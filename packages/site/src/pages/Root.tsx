@@ -10,7 +10,6 @@ import {
 } from '@myst-theme/providers';
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -21,7 +20,7 @@ import {
   useRouteError,
   isRouteErrorResponse,
   useNavigate,
-} from '@remix-run/react';
+} from 'react-router';
 import {
   DEFAULT_NAV_HEIGHT,
   renderers as defaultRenderers,
@@ -129,7 +128,7 @@ export function DocumentWithoutProviders({
   const { theme } = useThemeSwitcher();
   return (
     // Set the theme during SSR if possible, otherwise leave it up to the BlockingThemeLoader
-    <html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>
+    (<html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -148,10 +147,9 @@ export function DocumentWithoutProviders({
         </BaseUrlProvider>
         <ScrollRestoration />
         <Scripts />
-        {liveReloadListener && <LiveReload />}
         {scripts}
       </body>
-    </html>
+    </html>)
   );
 }
 

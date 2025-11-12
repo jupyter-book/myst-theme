@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import type { ExpandedThebeFrontmatter, PageFrontmatter } from 'myst-frontmatter';
 import { SourceFileKind } from 'myst-spec-ext';
-import { OpenAccessIcon, GithubIcon, TwitterIcon } from '@scienceicons/react/24/solid';
+import { OpenAccessIcon, GithubIcon, XIcon } from '@scienceicons/react/24/solid';
 import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
@@ -105,7 +105,7 @@ export function TwitterLink({ twitter: possibleLink }: { twitter?: string }) {
       rel="noopener noreferrer"
       className="text-inherit hover:text-inherit"
     >
-      <TwitterIcon
+      <XIcon
         width="1.25rem"
         height="1.25rem"
         className="inline-block mr-1 opacity-60 hover:opacity-100"

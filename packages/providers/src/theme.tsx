@@ -113,6 +113,7 @@ export function useThemeSwitcher() {
   const nextTheme = React.useCallback(() => {
     const next = theme === Theme.light ? Theme.dark : Theme.light;
     setTheme(next);
+    console.log('SWITCH');
   }, [theme]);
   return { theme, isLight, isDark, setTheme, nextTheme };
 }

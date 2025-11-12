@@ -39,3 +39,4 @@ _build
 # yalc
 .yalc
 yalc.lock
+.react-router/

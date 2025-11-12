@@ -4,8 +4,8 @@ import {
   responseNoArticle,
   responseNoSite,
 } from '@myst-theme/site';
-import type { LinksFunction, LoaderFunction, V2_MetaFunction } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import type { LinksFunction, LoaderFunction, MetaFunction } from 'react-router';
+import { data as json, redirect } from 'react-router';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import Page from './$';
 import { SiteManifest } from 'myst-config';
@@ -13,7 +13,7 @@ import { getProject } from '@myst-theme/common';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;

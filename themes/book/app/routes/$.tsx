@@ -1,9 +1,9 @@
 import {
-  json,
-  type V2_MetaFunction,
+  data as json,
+  type MetaFunction,
   type LinksFunction,
   type LoaderFunction,
-} from '@remix-run/node';
+} from 'react-router';
 import { getProject, isFlatSite, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
@@ -16,7 +16,7 @@ import {
   ErrorUnhandled,
 } from '@myst-theme/site';
 import { getConfig, getPage } from '~/utils/loaders.server';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData } from 'react-router';
 import type { SiteManifest } from 'myst-config';
 import {
   TabStateProvider,
@@ -32,10 +32,10 @@ import { ArticlePage } from '../components/ArticlePage.js';
 import { Footer } from '../components/Footer.js';
 import { Banner } from '../components/Banner.js';
 import type { TemplateOptions } from '../types.js';
-import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
+import { useRouteError, isRouteErrorResponse } from 'react-router';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) => {
   if (!data) return [];
 
   const config: SiteManifest = data.config;
@@ -151,7 +151,7 @@ export function ArticlePageAndNavigation({
 
 export default function Page() {
   const { container } = useOutlineHeight();
-  const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
+  const data = useLoaderData<typeof loader>();
   const baseurl = useBaseurl();
   const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.site ?? {};
   const siteDesign: TemplateOptions =

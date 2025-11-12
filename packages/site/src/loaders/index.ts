@@ -1,3 +1,3 @@
-export * from './errors.server.js';
+export * from './errors.js';
 export * from './links.js';
-export * from './theme.server.js';
+export * from './theme.js';

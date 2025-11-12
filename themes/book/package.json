@@ -1,19 +1,20 @@
 {
   "name": "@myst-theme/book",
   "version": "0.17.1",
+  "type": "module",
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "compile": "tsc --noEmit --skipLibCheck",
+    "compile": "react-router typegen && tsc --noEmit --skipLibCheck",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
-    "dev:copy": "cp remix.config.dev.js remix.config.js",
-    "prod:copy": "cp remix.config.prod.js remix.config.js",
+    "dev:copy": "cp vite.config.dev.ts vite.config.ts",
+    "prod:copy": "cp vite.config.prod.ts vite.config.ts",
     "clean": "rimraf public/build build api",
     "build:thebe": "node ../../bin/copy-thebe-assets.cjs ./public",
-    "prod:build": "npm run prod:copy && npm run build:thebe && npm run build:css && remix build",
+    "prod:build": "npm run prod:copy && npm run build:thebe && npm run build:css && react-router build",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
-    "dev": "npm run dev:copy && npm run build:thebe && concurrently \"npm run dev:css\" \"remix dev\"",
-    "start": "npm run build:css && remix dev"
+    "dev": "npm run dev:copy && npm run build:thebe && concurrently \"npm run dev:css\" \"react-router dev\"",
+    "start": "npm run build:css && react-router dev"
   },
   "dependencies": {
     "@myst-theme/icons": "^0.17.1",
@@ -23,27 +24,31 @@
     "@myst-theme/common": "^0.17.1",
     "@myst-theme/styles": "^0.17.1",
     "@myst-theme/landing-pages": "^0.17.1",
-    "@remix-run/node": "~1.17.0",
-    "@remix-run/react": "~1.17.0",
-    "@remix-run/vercel": "~1.17.0",
     "myst-common": "^1.8.1",
     "myst-config": "^1.8.1",
+    "@react-router/fs-routes": "^7.9.2",
+    "@react-router/node": "^7.9.2",
+    "@react-router/serve": "^7.9.2",
+    "isbot": "^5.1.31",
     "node-fetch": "^2.6.11",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router": "^7.9.2"
   },
   "devDependencies": {
-    "@remix-run/dev": "~1.17.0",
-    "@remix-run/eslint-config": "~1.17.0",
-    "@remix-run/serve": "~1.17.0",
+    "@react-router/dev": "^7.9.2",
+    "@remix-run/eslint-config": "^2.2.0",
     "@tailwindcss/typography": "^0.5.9",
     "@types/node-fetch": "^2.6.4",
     "@types/react": "^18.2.24",
     "@types/react-dom": "^18.2.8",
-    "@vercel/node": "^2.15.1"
+    "@vercel/node": "^2.15.1",
+    "typescript": "^5.1.6",
+    "vite": "^7.1.7",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "packageManager": "npm@8.10.0"
 }

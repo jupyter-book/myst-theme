@@ -9,8 +9,8 @@ import {
   useNavOpen,
   withBaseurl,
 } from '@myst-theme/providers';
-import { useLocation, useNavigation } from '@remix-run/react';
 import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
+import { useLocation, useNavigation } from 'react-router';
 
 type NestedHeading = Heading & { id: string; children: NestedHeading[] };
 

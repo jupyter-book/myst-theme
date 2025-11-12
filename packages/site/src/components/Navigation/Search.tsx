@@ -174,7 +174,7 @@ function SearchShortcut() {
   return (
     <div
       aria-hidden
-      className="items-center hidden mx-1 font-mono text-sm text-gray-400 sm:flex gap-x-1"
+      className="items-center hidden mx-1 font-mono text-sm text-gray-600 sm:flex gap-x-1"
     >
       <kbd
         className={classNames(

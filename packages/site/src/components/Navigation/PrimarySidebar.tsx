@@ -158,7 +158,7 @@ export const PrimarySidebar = ({
     <div
       ref={sidebarRef as any}
       className={classNames(
-        'fixed',
+        'sticky',
         `xl:${grid}`, // for example, xl:article-grid
         'grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
         { 'lg:hidden': nav && hide_toc },

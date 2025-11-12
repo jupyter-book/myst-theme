@@ -25,7 +25,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
   const siteDesign: TemplateOptions = siteManifest?.options ?? {};
 
   const { projects } = siteManifest;
-  const { hide_footer_links, hide_outline, outline_maxdepth } = {
+  const { hide_footer_links, hide_outline, outline_maxdepth, hide_authors } = {
     ...siteDesign,
     ...pageDesign,
   };
@@ -45,7 +45,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
     >
       <BusyScopeProvider>
         <ExecuteScopeProvider enable={compute?.enabled ?? false} contents={article}>
-          <ArticleHeader frontmatter={project}>
+          <ArticleHeader frontmatter={project} hideAuthors={hide_authors}>
             <div className="pt-5 md:self-center h-fit lg:pt-0 col-body lg:col-margin-right-inset">
               <DownloadLinksArea />
               {compute?.enabled && compute.features.launchBinder && (
@@ -100,6 +100,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
               hideKeywords={!isIndex}
               hideTitle={isIndex}
               hideOutline={hide_outline}
+              hideAuthors={hide_authors}
               outlineMaxDepth={outline_maxdepth}
             />
           </article>

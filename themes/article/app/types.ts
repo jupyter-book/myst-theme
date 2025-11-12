@@ -1,5 +1,2 @@
-export interface TemplateOptions {
-  hide_outline?: boolean;
-  hide_footer_links?: boolean;
-  outline_maxdepth?: number;
-}
+import type { CommonTemplateOptions } from '@myst-theme/common';
+export type TemplateOptions = CommonTemplateOptions & {};

@@ -15,11 +15,13 @@ export function ArticleHeader({
   children,
   toggleTheme,
   className,
+  hideAuthors,
 }: {
   frontmatter: PageFrontmatterWithDownloads;
   children?: React.ReactNode;
   toggleTheme?: boolean;
   className?: string;
+  hideAuthors?: boolean;
 }) {
   const grid = useGridSystemProvider();
   const { subject, venue, volume, issue, ...rest } = frontmatter ?? {};
@@ -93,6 +95,7 @@ export function ArticleHeader({
                 'pt-6 px-6': frontmatter?.banner,
                 ...positionFrontmatter,
               })}
+              hideAuthors={hideAuthors}
               hideBadges
               hideExports
             />

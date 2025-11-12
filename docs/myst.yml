@@ -8,9 +8,13 @@ project:
   # keywords: []
   # authors: []
   github: https://github.com/jupyter-book/myst-theme
+  parts:
+    banner: _site/banner.md
+    footer: _site/footer.md
   toc:
     - file: index.md
     - file: examples.md
+    - file: ui.md
     - file: developer.md
 site:
   # NOTE: You must run `make deploy-book` to generate the local version of this theme.

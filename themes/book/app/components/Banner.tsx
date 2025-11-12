@@ -26,12 +26,12 @@ export function Banner({
   // Check dismissal state on client side only
   // If the banner content changes, the ID will be different and it'll show again
   useEffect(() => {
-    const dismissed = localStorage.getItem(`dismissed-banner-${bannerId}`) === 'true';
+    const dismissed = localStorage.getItem(`myst--dismissed-banner-${bannerId}`) === 'true';
     setIsVisible(!dismissed);
   }, [bannerId]);
 
   const handleDismiss = () => {
-    localStorage.setItem(`dismissed-banner-${bannerId}`, 'true');
+    localStorage.setItem(`myst--dismissed-banner-${bannerId}`, 'true');
     setIsVisible(false);
   };
 
@@ -44,7 +44,7 @@ export function Banner({
       role="region"
       aria-label="Announcement banner"
       className={classNames(
-        'w-full bg-blue-50 dark:bg-blue-900/30 border-b border-blue-200 dark:border-blue-800',
+        'myst-banner w-full bg-blue-50 dark:bg-blue-900/30 border-b border-blue-200 dark:border-blue-800',
         'px-4 py-3 sm:px-6 lg:px-8',
         'relative z-40',
         className,

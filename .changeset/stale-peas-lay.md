@@ -3,4 +3,4 @@
 '@myst-theme/book': patch
 ---
 
-Add site.parts.sidebar_footer option
+Add project.parts.primary_sidebar_footer option

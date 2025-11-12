@@ -31,9 +31,9 @@ import { MadeWithMyst } from '@myst-theme/icons';
 import { ArticlePage } from '../components/ArticlePage.js';
 import { Footer } from '../components/Footer.js';
 import { Banner } from '../components/Banner.js';
+import { SidebarFooter } from '../components/SidebarFooter.js';
 import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
-import { MyST } from 'myst-to-react';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }) => {
@@ -103,7 +103,7 @@ function ArticlePageAndNavigationInternal({
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
-        footer={projectParts?.sidebar_footer ? <a><MyST ast={projectParts.sidebar_footer.mdast} /> </a>: <MadeWithMyst />}
+        footer={<SidebarFooter content={projectParts?.primary_sidebar_footer?.mdast} />}
         projectSlug={projectSlug}
       />
       <TabStateProvider>

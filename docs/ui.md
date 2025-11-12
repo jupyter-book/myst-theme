@@ -42,3 +42,23 @@ project:
 
 - Appears at the bottom of every page
 - Supports any MyST markdown content (links, formatting, etc.)
+
+## Sidebar Footer
+
+Display custom content at the bottom of the primary sidebar (table of contents).
+
+### Configuration
+
+Create a markdown file with your sidebar footer content and add it to `myst.yml`:
+
+```yaml
+project:
+  parts:
+    primary_sidebar_footer: _site/primary_sidebar_footer.md
+```
+
+### Behavior
+
+- Appears at the bottom of the primary sidebar (left-side navigation)
+- If the `.md` file it points to is empty, the footer will not be visible
+- If not configured, falls back to the default "Made with MyST" footer

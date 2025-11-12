@@ -28,8 +28,8 @@ export function NotebookBlock({ node, className }: { node: GenericParent; classN
             </div>
           </div>
           {/* Use opacity-0 instead of hidden to keep buttons in DOM layout.*/}
-          <div className="sticky top-[80px] z-10 opacity-0 group-hover/block:opacity-100 group-hover/block:flex">
-            <div className="absolute top-0 -right-[28px] flex md:flex-col">
+          <div className="sticky top-[115px] z-10 opacity-90 group-hover/block:opacity-100 group-hover/block:flex">
+            <div className="absolute -top-[12px] right-0 flex flex-row rounded bg-white dark:bg-slate-800">
               <NotebookRunCell id={`run-${node.key}`} />
               <NotebookClearCell id={`clear-${node.key}`} />
             </div>

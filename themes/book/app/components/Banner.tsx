@@ -40,8 +40,7 @@ export function Banner({
 
   // Should be styled similarly to the footer
   return (
-    <div
-      role="region"
+    <header
       aria-label="Announcement banner"
       className={classNames(
         'myst-banner w-full bg-blue-50 dark:bg-blue-900/30 border-b border-blue-200 dark:border-blue-800',
@@ -69,6 +68,6 @@ export function Banner({
           />
         </button>
       </div>
-    </div>
+    </header>
   );
 }

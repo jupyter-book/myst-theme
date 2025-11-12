@@ -22,6 +22,9 @@ options:
   - type: boolean
     id: hide_outline
     description: Hide the document outline on all pages
+  - type: boolean
+    id: hide_authors
+    description: Hide the authors list on all pages
   - type: number
     id: outline_maxdepth
     description: The maximum depth to show on the document outline, for example, `2` would show only two depths of headings (e.g. `<H1>` and `<H2>`)
@@ -43,6 +46,9 @@ options:
   - type: string
     id: logo_text
     description: Short text to display next to logo at the top of all pages
+  - type: string
+    id: logo_url
+    description: If specified, link logo to this URL. Otherwise, point to root page.
   - type: string
     id: analytics_google
     description: Google analytics key

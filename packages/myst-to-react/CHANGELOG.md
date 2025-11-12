@@ -1,5 +1,31 @@
 # myst-to-react
 
+## 0.17.1
+
+### Patch Changes
+
+- @myst-theme/providers@0.17.1
+
+## 0.17.0
+
+### Patch Changes
+
+- e345bfc: Fix code block cell background color stops for long lines and copy icon positioning
+- 5310f76: Fix missing classname for image
+- 2049d12: Upgrade to mystmd 1.5.1
+- Updated dependencies [2049d12]
+  - @myst-theme/providers@0.17.0
+
+## 0.16.0
+
+### Patch Changes
+
+- 208c87e: Fix primary sidebar & header not showing navigation buttons correctly when ToC is hidden
+- 05945ec: Fix jupyter cell buttons layout issues, myst-theme #593 and mystmd #2066, #2068
+- e2fa549: Upgrade to scienceicons 0.0.13
+- Updated dependencies [8fba231]
+  - @myst-theme/providers@0.16.0
+
 ## 0.15.2
 
 ### Patch Changes

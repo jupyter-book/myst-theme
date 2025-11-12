@@ -1,5 +1,38 @@
 # @myst-theme/jupyter
 
+## 0.17.1
+
+### Patch Changes
+
+- @myst-theme/providers@0.17.1
+- myst-to-react@0.17.1
+
+## 0.17.0
+
+### Patch Changes
+
+- 2049d12: Upgrade to mystmd 1.5.1
+- eb484d9: Fix missing IDs for notebook blocks
+- Updated dependencies [e345bfc]
+- Updated dependencies [5310f76]
+- Updated dependencies [2049d12]
+  - myst-to-react@0.17.0
+  - @myst-theme/providers@0.17.0
+
+## 0.16.0
+
+### Patch Changes
+
+- 208c87e: Fix primary sidebar & header not showing navigation buttons correctly when ToC is hidden
+- 05945ec: Fix jupyter cell buttons layout issues, myst-theme #593 and mystmd #2066, #2068
+- e2fa549: Upgrade to scienceicons 0.0.13
+- Updated dependencies [8fba231]
+- Updated dependencies [208c87e]
+- Updated dependencies [05945ec]
+- Updated dependencies [e2fa549]
+  - @myst-theme/providers@0.16.0
+  - myst-to-react@0.16.0
+
 ## 0.15.2
 
 ### Patch Changes

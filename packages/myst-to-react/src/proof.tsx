@@ -134,7 +134,7 @@ export function Proof({
       id={identifier}
       dropdown={dropdown}
       className={classNames(
-        'my-5 shadow dark:bg-stone-800 overflow-hidden',
+        'myst-proof my-5 shadow dark:bg-stone-800 overflow-hidden',
         'dark:border-l-4 border-slate-400',
         {
           'dark:border-gray-500/60': !color || color === 'gray',
@@ -151,7 +151,7 @@ export function Proof({
       <HeaderElement
         dropdown={dropdown}
         className={classNames(
-          'm-0 font-medium py-2 flex min-w-0',
+          'myst-proof-header m-0 font-medium py-2 flex min-w-0',
           'text-md',
           'border-y dark:border-y-0',
           {
@@ -169,7 +169,7 @@ export function Proof({
       >
         <div
           className={classNames(
-            'text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
+            'myst-proof-title text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
             'ml-4', // No icon!
           )}
         >
@@ -188,7 +188,9 @@ export function Proof({
           </div>
         )}
       </HeaderElement>
-      <div className={classNames('px-4', { 'details-body': dropdown })}>{children}</div>
+      <div className={classNames('myst-proof-body px-4', { 'details-body': dropdown })}>
+        {children}
+      </div>
     </WrapperElement>
   );
 }

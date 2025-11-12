@@ -121,7 +121,7 @@ npm run theme:book
 Open the port that is printed in the terminal for your theme server (usually, `https://localhost/3000`). The theme server will start serving the AST from the content as a website at that port.
 
 > **Note**: in the future, this repository will likely have it's own content to test out with the themes.
-> You can currently look to the mystjs/docs folder, or an [article](https://github.com/simpeg/tle-finitevolume) or a [thesis](https://github.com/rowanc1/phd-thesis).
+> You can currently look to the docs folder in `jupyter-book/mystmd`, or an [article](https://github.com/simpeg/tle-finitevolume) or a [thesis](https://github.com/rowanc1/phd-thesis).
 
 By default, the theme server will use the same port as the content server for changes to the AST. If you'd like to use a custom port, you can do so like this:
 
@@ -158,3 +158,18 @@ This updates the git repository, and sometimes is a large diff and can cause git
 ```bash
 git config --global http.postBuffer 157286400
 ```
+
+# Documentation
+
+The docs/ folder serves as the reference documentation of this package for intended behavior and value.
+It is intentionally minimal, and we use mystmd and jupyter-book docs for more complete user-facing documentation.
+
+When you add a new feature, try to include a minimal docs contribution that answers:
+
+- A brief overview of the feature
+- Its value and when to use it
+- How to use it and intended behavior
+
+Bullet points are fine!
+
+**Note**: This is a work-in-progress, there is still a lot documented in the mystmd docs that isn't here. We're doing our best to ensure this repository has all the functionality documented but it will take time.

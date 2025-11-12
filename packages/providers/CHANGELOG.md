@@ -1,5 +1,30 @@
 # @myst-theme/providers
 
+## 0.17.1
+
+### Patch Changes
+
+- @myst-theme/common@0.17.1
+
+## 0.17.0
+
+### Patch Changes
+
+- 2049d12: Upgrade to mystmd 1.5.1
+- Updated dependencies [2049d12]
+  - @myst-theme/common@0.17.0
+
+## 0.16.0
+
+### Minor Changes
+
+- 8fba231: Render external URLs in table of contents
+
+### Patch Changes
+
+- Updated dependencies [8fba231]
+  - @myst-theme/common@0.16.0
+
 ## 0.15.2
 
 ### Patch Changes

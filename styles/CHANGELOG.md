@@ -1,5 +1,16 @@
 # @myst-theme/styles
 
+## 0.17.1
+
+## 0.17.0
+
+## 0.16.0
+
+### Patch Changes
+
+- 208c87e: Fix primary sidebar & header not showing navigation buttons correctly when ToC is hidden
+- 05945ec: Fix jupyter cell buttons layout issues, myst-theme #593 and mystmd #2066, #2068
+
 ## 0.15.2
 
 ## 0.15.1

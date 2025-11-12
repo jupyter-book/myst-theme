@@ -38,14 +38,28 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
   const error = !!serverError; // TODO broader build & session errors
   let title = 'Connect to a compute server';
   if (error) {
-    title = 'Error connecting to compute server';
+    title = 'Error connecting to a compute server';
   } else if (building) {
-    title = status;
+    if (status == 'pending') {
+      title = 'Pending...';
+    } else if (status == 'fetching') {
+      title = 'Fetching...';
+    } else if (status == 'build-notebooks') {
+      title = 'Building notebooks...';
+    } else if (status == 'wait-for-server') {
+      title = 'Waiting for server...';
+    } else if (status == 'start-session') {
+      title = 'Starting session...';
+    } else if (status == 'error') {
+      title = 'Error';
+    } else {
+      title = 'Unknown';
+    }
   }
 
   if (computable)
     return (
-      <div className="sticky top-[60px] flex justify-end w-full z-20 pointer-events-none">
+      <div className="sticky top-[60px] pb-[14px] flex justify-end w-full z-20 pointer-events-none">
         <div className="flex p-1 m-1 space-x-1 border rounded-full shadow pointer-events-auto border-stone-300 bg-white/80 dark:bg-stone-900/80 backdrop-blur">
           {!ready && (
             <div className="rounded">
@@ -60,7 +74,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
                 disabled={building}
                 aria-label="start compute environment"
               >
-                <PowerIcon className="inline-block w-6 h-6 align-top" title="enable compute" />
+                <PowerIcon className="inline-block w-6 h-6 align-top" title="Launch kernel" />
               </button>
               {(connecting || building) && !error && (
                 <span

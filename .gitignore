@@ -39,3 +39,6 @@ _build
 # yalc
 .yalc
 yalc.lock
+
+# agent workspace
+.agents

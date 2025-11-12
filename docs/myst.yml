@@ -1,0 +1,27 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: b19ac145-d09e-4dcc-bd37-28fbba0f9e8e
+  title: MyST Theme Documentation
+
+  # description:
+  # keywords: []
+  # authors: []
+  github: https://github.com/jupyter-book/myst-theme
+  parts:
+    banner: _site/banner.md
+    footer: _site/footer.md
+  toc:
+    - file: index.md
+    - file: examples.md
+    - file: ui.md
+    - file: developer.md
+site:
+  # NOTE: You must run `make deploy-book` to generate the local version of this theme.
+  template: ../.deploy/book
+  
+  nav:
+    - title: Developer page
+      url: /developer
+  options:
+    site_title: MyST Theme Documentation

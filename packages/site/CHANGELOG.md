@@ -1,5 +1,65 @@
 # @myst-theme/site
 
+## 0.17.1
+
+### Patch Changes
+
+- b61c5ec: On static builds, fix sidebar menu not expanding for current page (closes [#635](https://github.com/jupyter-book/mystmd/issues/2288)).
+- 630812f: Add `aria-label` for `DocumentOutline.tsx` dropdown button
+- 4ee2d3f: Changes to DOM ordering to ensure that `main` encloses `article` and that there is only one `main` on a page in both themes.
+- 8981edd: Fix top navigation links not following the BASE_URL environment variable
+  - @myst-theme/providers@0.17.1
+  - @myst-theme/frontmatter@0.17.1
+  - @myst-theme/diagrams@0.17.1
+  - @myst-theme/common@0.17.1
+  - @myst-theme/search@0.17.1
+  - myst-to-react@0.17.1
+  - myst-demo@0.17.1
+
+## 0.17.0
+
+### Minor Changes
+
+- e6921c2: Allow overriding URL that navigation bar logo links to.
+
+### Patch Changes
+
+- 2049d12: Upgrade to mystmd 1.5.1
+- Updated dependencies [e345bfc]
+- Updated dependencies [5310f76]
+- Updated dependencies [2049d12]
+  - myst-to-react@0.17.0
+  - myst-demo@0.17.0
+  - @myst-theme/providers@0.17.0
+  - @myst-theme/common@0.17.0
+  - @myst-theme/frontmatter@0.17.0
+  - @myst-theme/diagrams@0.17.0
+  - @myst-theme/search@0.17.0
+
+## 0.16.0
+
+### Minor Changes
+
+- 8fba231: Render external URLs in table of contents
+
+### Patch Changes
+
+- 208c87e: Fix primary sidebar & header not showing navigation buttons correctly when ToC is hidden
+- d2415a1: Make Jupyter tables readable in dark theme
+- Updated dependencies [8fba231]
+- Updated dependencies [e2fa549]
+- Updated dependencies [968ad68]
+- Updated dependencies [208c87e]
+- Updated dependencies [05945ec]
+- Updated dependencies [e2fa549]
+  - @myst-theme/providers@0.16.0
+  - @myst-theme/common@0.16.0
+  - @myst-theme/frontmatter@0.16.0
+  - myst-to-react@0.16.0
+  - @myst-theme/diagrams@0.16.0
+  - @myst-theme/search@0.16.0
+  - myst-demo@0.16.0
+
 ## 0.15.2
 
 ### Patch Changes

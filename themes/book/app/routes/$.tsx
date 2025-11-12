@@ -26,10 +26,11 @@ import {
   useThemeTop,
   ProjectProvider,
 } from '@myst-theme/providers';
-import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
+import { MadeWithMyst } from '@myst-theme/icons';
 import { ArticlePage } from '../components/ArticlePage.js';
 import { Footer } from '../components/Footer.js';
+import { Banner } from '../components/Banner.js';
 import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 import { MyST } from 'myst-to-react';
@@ -91,9 +92,13 @@ function ArticlePageAndNavigationInternal({
 }) {
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
-  const projectParts = useSiteManifest()?.parts;
+  const siteManifest = useSiteManifest() as any;
+  const projectParts = siteManifest?.projects?.[0]?.parts;
   return (
     <>
+      <TabStateProvider>
+      {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
+      </TabStateProvider>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
       <PrimaryNavigation
         sidebarRef={toc}
@@ -102,14 +107,14 @@ function ArticlePageAndNavigationInternal({
         projectSlug={projectSlug}
       />
       <TabStateProvider>
-        <article
+        <main
           ref={container}
-          className="article content article-grid grid-gap"
+          className="article-grid grid-gap"
           // article does not need to get top as it is in the page flow (z-0)
           // style={{ marginTop: top }}
         >
           {children}
-        </article>
+        </main>
       </TabStateProvider>
 
       <TabStateProvider>
@@ -168,9 +173,12 @@ export default function Page() {
           features={{ notebookCompute: true, figureCompute: true, launchBinder: false }}
         >
           <ThebeLoaderAndServer baseurl={baseurl}>
-            <main ref={container} className="article-grid subgrid-gap col-screen">
+            <article
+              ref={container}
+              className="article-grid subgrid-gap col-screen article content"
+            >
               <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
-            </main>
+            </article>
           </ThebeLoaderAndServer>
         </ComputeOptionsProvider>
       </ProjectProvider>
@@ -182,13 +190,13 @@ export function ErrorBoundary() {
   const error = useRouteError();
   return (
     <ArticlePageAndNavigation>
-      <main className="article">
+      <article className="article">
         {isRouteErrorResponse(error) ? (
           <ErrorDocumentNotFound />
         ) : (
           <ErrorUnhandled error={error as any} />
         )}
-      </main>
+      </article>
     </ArticlePageAndNavigation>
   );
 }

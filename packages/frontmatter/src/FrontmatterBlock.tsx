@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import type { ExpandedThebeFrontmatter, PageFrontmatter } from 'myst-frontmatter';
 import { SourceFileKind } from 'myst-spec-ext';
-import { JupyterIcon, OpenAccessIcon, GithubIcon, TwitterIcon } from '@scienceicons/react/24/solid';
+import { OpenAccessIcon, GithubIcon, XIcon } from '@scienceicons/react/24/solid';
 import { LicenseBadges } from './licenses.js';
 import { DownloadsDropdown } from './downloads.js';
 import { AuthorAndAffiliations, AuthorsList } from './Authors.js';
@@ -96,16 +96,16 @@ export function DateString({
 
 export function TwitterLink({ twitter: possibleLink }: { twitter?: string }) {
   if (!possibleLink) return null;
-  const twitter = possibleLink.replace(/^(https?:\/\/)?twitter\.com\//, '');
+  const twitter = possibleLink.replace(/^(https?:\/\/)?(?:twitter|x)\.com\//, '');
   return (
     <a
-      href={`https://twitter.com/${twitter}`}
-      title={`Twitter: ${twitter}`}
+      href={`https://x.com/${twitter}`}
+      title={`X Account: ${twitter}`}
       target="_blank"
       rel="noopener noreferrer"
       className="text-inherit hover:text-inherit"
     >
-      <TwitterIcon
+      <XIcon
         width="1.25rem"
         height="1.25rem"
         className="inline-block mr-1 opacity-60 hover:opacity-100"
@@ -215,6 +215,7 @@ export function FrontmatterBlock({
   authorStyle = 'block',
   hideBadges,
   hideExports,
+  hideAuthors,
   className,
   thebe,
   location,
@@ -224,6 +225,7 @@ export function FrontmatterBlock({
   authorStyle?: 'block' | 'list';
   hideBadges?: boolean;
   hideExports?: boolean;
+  hideAuthors?: boolean;
   className?: string;
   thebe?: ExpandedThebeFrontmatter;
   location?: string;
@@ -267,11 +269,11 @@ export function FrontmatterBlock({
       className={classNames(className)}
     >
       {showHeaderBlock && (
-        <div className="flex items-center h-6 mb-5 text-sm font-light">
+        <div className="flex items-center mb-5 h-6 text-sm font-light">
           {subject && (
             <div
               className={classNames('flex-none pr-2 smallcaps', {
-                'border-r mr-2': venue,
+                'mr-2 border-r': venue,
               })}
             >
               {subject}
@@ -284,16 +286,6 @@ export function FrontmatterBlock({
               <LicenseBadges license={license} />
               <OpenAccessBadge open_access={open_access} />
               <GitHubLink github={github} />
-              {isJupyter && (
-                <div className="inline-block mr-1">
-                  <JupyterIcon
-                    width="1.25rem"
-                    height="1.25rem"
-                    className="inline-block"
-                    title="Jupyter Notebook"
-                  />
-                </div>
-              )}
             </>
           )}
           <EditLink editUrl={edit_url ?? undefined} />
@@ -308,10 +300,10 @@ export function FrontmatterBlock({
         </h1>
       )}
       {subtitle && <p className="mt-2 mb-0 lead text-zinc-600 dark:text-zinc-400">{subtitle}</p>}
-      {hasAuthors && authorStyle === 'list' && (
+      {!hideAuthors && hasAuthors && authorStyle === 'list' && (
         <AuthorsList authors={frontmatter.authors} affiliations={frontmatter.affiliations} />
       )}
-      {hasAuthors && authorStyle === 'block' && (
+      {!hideAuthors && hasAuthors && authorStyle === 'block' && (
         <AuthorAndAffiliations
           authors={frontmatter.authors}
           affiliations={frontmatter.affiliations}

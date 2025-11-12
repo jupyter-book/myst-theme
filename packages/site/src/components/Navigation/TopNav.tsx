@@ -5,7 +5,13 @@ import { ChevronDownIcon, Bars3Icon as MenuIcon } from '@heroicons/react/24/soli
 import type { SiteManifest, SiteNavItem } from 'myst-config';
 import { ThemeButton } from './ThemeButton.js';
 import { Search } from './Search.js';
-import { useNavLinkProvider, useNavOpen, useSiteManifest } from '@myst-theme/providers';
+import {
+  useBaseurl,
+  useNavLinkProvider,
+  useNavOpen,
+  useSiteManifest,
+  withBaseurl,
+} from '@myst-theme/providers';
 import { LoadingBar } from './Loading.js';
 import { HomeLink } from './HomeLink.js';
 import { ActionMenu } from './ActionMenu.js';
@@ -15,12 +21,13 @@ export const DEFAULT_NAV_HEIGHT = 60;
 
 export function NavItem({ item }: { item: SiteNavItem }) {
   const NavLink = useNavLinkProvider();
+  const baseurl = useBaseurl();
   if (!('children' in item)) {
     return (
       <div className="relative inline-block mx-2 grow-0">
         <ExternalOrInternalLink
           nav
-          to={item.url ?? ''}
+          to={withBaseurl(item.url, baseurl) ?? ''}
           className={({ isActive }) =>
             classNames(
               'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
@@ -107,13 +114,18 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
   const { title, nav, actions } = config ?? {};
-  const { logo, logo_dark, logo_text } = config?.options ?? {};
+  const { logo, logo_dark, logo_text, logo_url } = config?.options ?? {};
   return (
     <div className="bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 sticky w-screen top-0 z-30 h-[60px]">
       <nav className="flex items-center justify-between flex-nowrap max-w-[1440px] mx-auto">
         <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center shrink-0">
-          {!hideToc && (
-            <div className="block xl:hidden">
+          {
+            <div
+              className={classNames('block', {
+                'lg:hidden': nav && hideToc,
+                'xl:hidden': !(nav && hideToc),
+              })}
+            >
               <button
                 className="flex items-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100"
                 onClick={() => {
@@ -124,8 +136,14 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
                 <span className="sr-only">Open Menu</span>
               </button>
             </div>
-          )}
-          <HomeLink name={title} logo={logo} logoDark={logo_dark} logoText={logo_text} />
+          }
+          <HomeLink
+            name={title}
+            logo={logo}
+            logoDark={logo_dark}
+            logoText={logo_text}
+            url={logo_url}
+          />
         </div>
         <div className="flex items-center flex-grow w-auto">
           <NavItems nav={nav} />

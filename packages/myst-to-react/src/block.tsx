@@ -12,9 +12,10 @@ export function Block({ node, className }: { node: GenericParent; className?: st
   // Only wrap this in a block if the block has a class name or an identifier
   // Otherwise pass through the contents as is.
   // This allows children (e.g. margin) access to the grid-system
+  const identifier = node.html_id ?? node.identifier;
   const block =
-    cn || node.identifier ? (
-      <div id={node.identifier} className={cn}>
+    cn || identifier ? (
+      <div id={identifier} className={cn}>
         <MyST ast={node.children} />
       </div>
     ) : (

@@ -20,7 +20,7 @@
     },
     "rootDirs": [".", "./.react-router/types"],
 
-    // Vite takes care of building everything in `remix build`.
+    // Vite takes care of building everything in `react-router build`.
     "noEmit": true
   }
 }

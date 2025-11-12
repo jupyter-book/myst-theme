@@ -8,7 +8,7 @@ export function SidebarFooter({ content }: { content?: GenericParent }) {
   }
 
   return (
-    <div className="text-sm text-slate-900 dark:text-white [&>*]:m-0 [&_a]:underline [&_a]:font-semibold">
+    <div className="myst-primary-sidebar-footer text-sm text-slate-900 dark:text-white [&>*]:m-0 [&_a]:underline [&_a]:font-semibold">
       <MyST ast={content} />
     </div>
   );

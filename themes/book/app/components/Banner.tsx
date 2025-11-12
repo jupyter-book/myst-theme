@@ -45,7 +45,7 @@ export function Banner({
       className={classNames(
         'myst-banner w-full bg-blue-50 dark:bg-blue-900/30 border-b border-blue-200 dark:border-blue-800',
         'px-4 py-3 sm:px-6 lg:px-8',
-        'relative z-40',
+        'sticky top-0 z-40',
         className,
       )}
     >

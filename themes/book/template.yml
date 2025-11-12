@@ -74,6 +74,9 @@ parts:
   - id: footer
     description: The site wide footer
     required: false
+  - id: primary_sidebar_footer
+    description: The primary sidebar footer, to replace Made with MyST
+    required: false
 build:
   install: npm install
   start: npm run start

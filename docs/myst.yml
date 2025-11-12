@@ -11,6 +11,7 @@ project:
   parts:
     banner: _site/banner.md
     footer: _site/footer.md
+    primary_sidebar_footer: _site/primary_sidebar_footer.md
   toc:
     - file: index.md
     - file: examples.md

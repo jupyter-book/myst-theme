@@ -93,7 +93,7 @@ function ArticlePageAndNavigationInternal({
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
   const siteManifest = useSiteManifest() as any;
-  const projectParts = siteManifest?.projects?.[0]?.parts;
+  const projectParts = {...siteManifest?.projects?.[0]?.parts, ...siteManifest?.parts};
   return (
     <>
       <TabStateProvider>

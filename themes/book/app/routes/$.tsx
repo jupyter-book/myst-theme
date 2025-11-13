@@ -25,6 +25,8 @@ import {
   useSiteManifest,
   useThemeTop,
   ProjectProvider,
+  BannerStateProvider,
+  useBannerState
 } from '@myst-theme/providers';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { MadeWithMyst } from '@myst-theme/icons';
@@ -91,13 +93,14 @@ function ArticlePageAndNavigationInternal({
   inset?: number;
 }) {
   const top = useThemeTop();
-  const { container, toc } = useSidebarHeight(top, inset);
+  const bannerState = useBannerState();
+  const { container, toc } = useSidebarHeight(top + bannerState.height, inset);
   const siteManifest = useSiteManifest() as any;
   const projectParts = siteManifest?.projects?.[0]?.parts;
   return (
     <>
       <TabStateProvider>
-      {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
+        {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
       </TabStateProvider>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
       <PrimaryNavigation
@@ -139,13 +142,15 @@ export function ArticlePageAndNavigation({
 }) {
   return (
     <UiStateProvider>
-      <ArticlePageAndNavigationInternal
-        children={children}
-        hide_toc={hide_toc}
-        hideSearch={hideSearch}
-        projectSlug={projectSlug}
-        inset={inset}
-      />
+      <BannerStateProvider>
+        <ArticlePageAndNavigationInternal
+          children={children}
+          hide_toc={hide_toc}
+          hideSearch={hideSearch}
+          projectSlug={projectSlug}
+          inset={inset}
+        />
+      </BannerStateProvider>
     </UiStateProvider>
   );
 }

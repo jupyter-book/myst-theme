@@ -158,12 +158,12 @@ export function LicenseBadges({
         <SingleLicenseBadge
           license={license.content}
           preamble="Content License: "
-          className={classNames("myst-fm-license-content", className,)}
+          className={classNames('myst-fm-license-content', className)}
         />
         <SingleLicenseBadge
           license={license.code}
           preamble="Code License: "
-          className={classNames("myst-fm-license-code", className)}
+          className={classNames('myst-fm-license-code', className)}
         />
       </>
     );

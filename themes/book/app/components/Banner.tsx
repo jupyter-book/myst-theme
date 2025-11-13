@@ -9,13 +9,7 @@ import { useBannerState } from '@myst-theme/providers';
 /**
  * A dismissible banner component at the top that shows content passed as a MyST AST.
  */
-export function Banner({
-  content,
-  className,
-}: {
-  content: GenericParent;
-  className?: string;
-}) {
+export function Banner({ content, className }: { content: GenericParent; className?: string }) {
   // Generate banner ID from content for storing dismissal state
   const contentString = JSON.stringify(content);
   const bannerId = hashString(contentString);
@@ -37,15 +31,15 @@ export function Banner({
 
     setBannerState({
       visible: !dismissed,
-      height: dismissed ? 0 : el.getBoundingClientRect().height
-    })
+      height: dismissed ? 0 : el.getBoundingClientRect().height,
+    });
   }, [bannerId]);
 
   const handleDismiss = () => {
     localStorage.setItem(`myst--dismissed-banner-${bannerId}`, 'true');
     setBannerState({
       visible: false,
-      height: 0
+      height: 0,
     });
   };
 
@@ -77,10 +71,7 @@ export function Banner({
           aria-label="Dismiss announcement"
           type="button"
         >
-          <XMarkIcon
-            className="w-5 h-5 text-blue-800 dark:text-blue-200"
-            aria-hidden="true"
-          />
+          <XMarkIcon className="w-5 h-5 text-blue-800 dark:text-blue-200" aria-hidden="true" />
         </button>
       </div>
     </header>

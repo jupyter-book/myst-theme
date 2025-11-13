@@ -9,7 +9,7 @@ import {
   useIsWide,
   useBaseurl,
   withBaseurl,
-  useBannerState
+  useBannerState,
 } from '@myst-theme/providers';
 import type { Heading } from '@myst-theme/common';
 import { Toc } from './TableOfContentsItems.js';

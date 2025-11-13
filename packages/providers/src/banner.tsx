@@ -11,14 +11,14 @@ import React, {
 } from 'react';
 
 type BannerState = {
-  visible: boolean,
-  height: number
+  visible: boolean;
+  height: number;
 };
 
 type BannerContextValue = {
-  bannerState: BannerState,
-  setBannerState: Dispatch<SetStateAction<BannerState>>
-}
+  bannerState: BannerState;
+  setBannerState: Dispatch<SetStateAction<BannerState>>;
+};
 
 const BannerStateContext = createContext<BannerContextValue | undefined>(undefined);
 
@@ -27,17 +27,13 @@ export function BannerStateProvider({ children }: { children: React.ReactNode })
 
   const value = useMemo(() => ({ bannerState, setBannerState }), [bannerState]);
 
-  return (
-    <BannerStateContext.Provider value={value}>
-      {children}
-    </BannerStateContext.Provider>
-  );
+  return <BannerStateContext.Provider value={value}>{children}</BannerStateContext.Provider>;
 }
 
 export function useBannerState() {
   const ctx = useContext(BannerStateContext);
   if (!ctx) {
-    throw new Error("useBannerState must be used from within BannerStateProvider");
+    throw new Error('useBannerState must be used from within BannerStateProvider');
   }
   return ctx;
 }

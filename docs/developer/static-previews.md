@@ -11,7 +11,7 @@ make build-docs
 
 Below is a deeper explanation of what it does.
 
-To build static HTML files with the latest theme changes, you must first _build the theme assets_, and then serve the site using the theme. The MyST site at `docs/` is already configured to use this _local_ theme build (in the `.deploy` folder), so to use it, run the following commands:
+To build static HTML files with the latest theme changes, you must first _build the theme assets_, and then serve the site using the theme. The MyST site at `docs/` is already configured to use this _local_ theme build in the `.deploy` folder.
 
 **Install the dependencies to build the documentation**
 

@@ -39,7 +39,7 @@ $ npm run theme:book
 
 ## Preview your changes
 
-Open the port that is printed in the terminal for your theme server (usually, `https://localhost/3000`). The theme server will start serving the AST from the content as a website at that port.
+Open the port that is printed in the terminal for your theme server (usually, `https://localhost:3000`). The theme server will start serving the AST from the content as a website at that port.
 
 ## Use a custom port
 
@@ -63,7 +63,7 @@ We have a lightweight [storybook](https://storybook.js.org/) configuration, whic
 
 This is the same tool that powers [the MyST Theme components documentation](https://jupyter-book.github.io/myst-theme/?path=/docs/components-introduction--docs).
 
-To use Storybook, run these commands:
+To use Storybook:
 
 First, run storybook:
 

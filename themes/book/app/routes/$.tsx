@@ -26,10 +26,12 @@ import {
   useThemeTop,
   ProjectProvider,
 } from '@myst-theme/providers';
-import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
+import { MadeWithMyst } from '@myst-theme/icons';
 import { ArticlePage } from '../components/ArticlePage.js';
 import { Footer } from '../components/Footer.js';
+import { Banner } from '../components/Banner.js';
+import { SidebarFooter } from '../components/SidebarFooter.js';
 import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 type ManifestProject = Required<SiteManifest>['projects'][0];
@@ -90,14 +92,18 @@ function ArticlePageAndNavigationInternal({
 }) {
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
-  const projectParts = useSiteManifest()?.parts;
+  const siteManifest = useSiteManifest() as any;
+  const projectParts = {...siteManifest?.projects?.[0]?.parts, ...siteManifest?.parts};
   return (
     <>
+      <TabStateProvider>
+      {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
+      </TabStateProvider>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
-        footer={<MadeWithMyst />}
+        footer={<SidebarFooter content={projectParts?.primary_sidebar_footer?.mdast} />}
         projectSlug={projectSlug}
       />
       <TabStateProvider>

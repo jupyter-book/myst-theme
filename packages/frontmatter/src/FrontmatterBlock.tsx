@@ -221,6 +221,7 @@ export function FrontmatterBlock({
   authorStyle = 'block',
   hideBadges,
   hideExports,
+  hideAuthors,
   className,
   thebe,
   location,
@@ -230,6 +231,7 @@ export function FrontmatterBlock({
   authorStyle?: 'block' | 'list';
   hideBadges?: boolean;
   hideExports?: boolean;
+  hideAuthors?: boolean;
   className?: string;
   thebe?: ExpandedThebeFrontmatter;
   location?: string;
@@ -310,10 +312,10 @@ export function FrontmatterBlock({
           {subtitle}
         </p>
       )}
-      {hasAuthors && authorStyle === 'list' && (
+      {!hideAuthors && hasAuthors && authorStyle === 'list' && (
         <AuthorsList authors={frontmatter.authors} affiliations={frontmatter.affiliations} />
       )}
-      {hasAuthors && authorStyle === 'block' && (
+      {!hideAuthors && hasAuthors && authorStyle === 'block' && (
         <AuthorAndAffiliations
           authors={frontmatter.authors}
           affiliations={frontmatter.affiliations}

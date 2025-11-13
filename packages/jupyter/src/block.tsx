@@ -27,8 +27,8 @@ export function NotebookBlock({ node, className }: { node: GenericParent; classN
               <NotebookRunCellSpinnerOnly id={`spinner-${node.key}`} />
             </div>
           </div>
-          <div className="myst-jp-nb-block hidden sticky top-[80px] z-10 opacity-70 group-hover/block:opacity-100 group-hover/block:flex">
-            <div className="absolute top-0 -right-[28px] flex md:flex-col">
+          <div className="myst-jp-nb-block sticky top-[115px] z-10 opacity-90 group-hover/block:opacity-100 group-hover/block:flex">
+            <div className="absolute -top-[12px] right-0 flex flex-row rounded bg-white dark:bg-slate-800">
               <NotebookRunCell id={`run-${node.key}`} />
               <NotebookClearCell id={`clear-${node.key}`} />
             </div>

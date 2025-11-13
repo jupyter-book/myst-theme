@@ -154,18 +154,18 @@ export function LicenseBadges({
   if (!license) return null;
   if (typeof license !== 'string' && ('code' in license || 'content' in license)) {
     return (
-      <span className="myst-fm-licenses">
+      <>
         <SingleLicenseBadge
           license={license.content}
           preamble="Content License: "
-          className={className}
+          className={classNames("myst-fm-license-content", className,)}
         />
         <SingleLicenseBadge
           license={license.code}
           preamble="Code License: "
-          className={className}
+          className={classNames("myst-fm-license-code", className)}
         />
-      </span>
+      </>
     );
   }
   return <SingleLicenseBadge license={license as License} className={className} />;

@@ -93,7 +93,7 @@ function ArticlePageAndNavigationInternal({
   inset?: number;
 }) {
   const top = useThemeTop();
-  const bannerState = useBannerState();
+  const { bannerState } = useBannerState();
   const { container, toc } = useSidebarHeight(top + bannerState.height, inset);
   const siteManifest = useSiteManifest() as any;
   const projectParts = siteManifest?.projects?.[0]?.parts;

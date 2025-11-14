@@ -15,7 +15,7 @@ project:
   toc:
     - file: index.md
     - file: syntax-reference.md
-    - file: examples.md
+    - file: computation.md
     - file: ui.md
     - file: developer.md
 site:

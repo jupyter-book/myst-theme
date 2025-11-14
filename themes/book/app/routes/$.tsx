@@ -93,11 +93,11 @@ function ArticlePageAndNavigationInternal({
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
   const siteManifest = useSiteManifest() as any;
-  const projectParts = {...siteManifest?.projects?.[0]?.parts, ...siteManifest?.parts};
+  const projectParts = { ...siteManifest?.projects?.[0]?.parts, ...siteManifest?.parts };
   return (
     <>
       <TabStateProvider>
-      {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
+        {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
       </TabStateProvider>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
       <PrimaryNavigation

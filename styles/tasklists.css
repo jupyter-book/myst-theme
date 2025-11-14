@@ -5,4 +5,7 @@
   .task-list-item-checkbox {
     @apply -ml-[29px] mr-[14px] translate-y-px w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:border-blue-500 dark:focus:border-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600;
   }
+  .prose .task-list-item > p {
+    @apply mt-0 mb-0 inline;
+  }
 }

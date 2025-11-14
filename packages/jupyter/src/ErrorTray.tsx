@@ -6,11 +6,15 @@ import { useBusyErrors } from './execute/busy.js';
 
 function ErrorDecoration({ children, idx }: React.PropsWithChildren<{ idx?: number }>) {
   return (
-    <div className="relative py-3 mx-2 my-8 border rounded">
-      <div className="absolute z-10 flex items-center bg-white -top-3 -left-2">
-        {idx && <div className="ml-1 text-sm text-gray-500">cell #: {idx + 1}</div>}
+    <div className="myst-jp-error-tray-decoration relative py-3 mx-2 my-8 border rounded">
+      <div className="myst-jp-error-tray-cell absolute z-10 flex items-center bg-white -top-3 -left-2">
+        {idx && (
+          <div className="myst-jp-error-tray-cell-number ml-1 text-sm text-gray-500">
+            cell #: {idx + 1}
+          </div>
+        )}
       </div>
-      <div className="mx-3">{children}</div>
+      <div className="myst-jp-error-tray-content mx-3">{children}</div>
     </div>
   );
 }
@@ -39,7 +43,7 @@ function ErrorTrayMessage({ errors }: { errors: IThebeNotebookError[] }) {
   return (
     <div>
       {errors.map((error, idx) => (
-        <div key={`error-${error.id}`} className="not-prose min-w-[400px]">
+        <div key={`error-${error.id}`} className="myst-jp-error-tray-item not-prose min-w-[400px]">
           <ErrorDecoration idx={error.index}>
             <div className="z-100" key={error.id} ref={refs[idx]}></div>
           </ErrorDecoration>
@@ -54,7 +58,7 @@ export function ErrorTray({ pageSlug, index }: { pageSlug: string; index?: strin
   if (!items || items.length === 0) return null;
   if (index && index) return null;
   return (
-    <div className="relative px-4 pt-3 my-8 text-sm text-red-600 border border-red-400 rounded border-1">
+    <div className="myst-jp-error-tray relative px-4 pt-3 my-8 text-sm text-red-600 border border-red-400 rounded border-1">
       {items.map(({ notebookSlug, errors }, i) => {
         return (
           <div key={`${notebookSlug}-${i}`}>

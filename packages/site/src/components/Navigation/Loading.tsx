@@ -48,9 +48,9 @@ export function LoadingBar() {
   return (
     <div
       className={classNames(
-        'w-screen h-[2px] bg-blue-500 absolute left-0 bottom-0 transition-transform',
+        'myst-loading-bar w-screen h-[2px] bg-blue-500 absolute left-0 bottom-0 transition-transform',
         {
-          'animate-load scale-x-40': isLoading,
+          'myst-loading-bar-progress animate-load scale-x-40': isLoading,
           'scale-x-100': !isLoading,
         },
       )}

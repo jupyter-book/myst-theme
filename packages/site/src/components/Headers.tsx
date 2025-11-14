@@ -34,12 +34,12 @@ export function ArticleHeader({
     'col-page-left': grid === 'article-grid',
   };
   return (
-    <header className="relative col-screen">
+    <header className="myst-article-header relative col-screen">
       {frontmatter?.banner && (
         // This is the banner contained in a full-bleed div
         <div
           className={classNames(
-            'absolute',
+            'myst-article-header-background absolute',
             grid,
             'subgrid-gap col-screen bg-no-repeat bg-cover bg-top w-full h-full -z-10 pointer-events-none',
           )}
@@ -50,7 +50,7 @@ export function ArticleHeader({
       )}
       <div
         className={classNames(
-          'w-full relative col-screen article',
+          'myst-article-header-content w-full relative col-screen article',
           grid,
           'subgrid-gap',
           {
@@ -61,7 +61,7 @@ export function ArticleHeader({
         )}
       >
         <div
-          className={classNames(positionBackground, {
+          className={classNames('myst-article-header-banner', positionBackground, {
             'shadow-2xl bg-white/80 dark:bg-black/80 backdrop-blur': frontmatter?.banner,
           })}
         >
@@ -85,13 +85,15 @@ export function ArticleHeader({
               <OpenAccessBadge open_access={frontmatter?.open_access} />
               <GitHubLink github={frontmatter?.github} />
             </div>
-            {toggleTheme && <ThemeButton className="inline-block w-5 h-5 mt-0.5 ml-1" />}
+            {toggleTheme && (
+              <ThemeButton className="myst-article-header-theme-button inline-block w-5 h-5 mt-0.5 ml-1" />
+            )}
           </div>
           <div className="flex flex-col mb-10 md:flex-row">
             <FrontmatterBlock
               frontmatter={rest}
               authorStyle="list"
-              className={classNames('flex-grow', {
+              className={classNames('myst-article-header-fm flex-grow', {
                 'pt-6 px-6': frontmatter?.banner,
                 ...positionFrontmatter,
               })}

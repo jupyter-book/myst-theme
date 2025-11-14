@@ -10,7 +10,7 @@ export default function Error({ output }: { output: MinifiedErrorOutput }) {
       path={output.path}
       render={(content?: string) => {
         return (
-          <pre className="text-sm font-thin font-system jupyter-error">
+          <pre className="myst-jp-error-output text-sm font-thin font-system jupyter-error">
             <Ansi>{content ?? ''}</Ansi>
           </pre>
         );

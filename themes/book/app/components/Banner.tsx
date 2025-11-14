@@ -20,12 +20,12 @@ export function Banner({ content, className }: { content: GenericParent; classNa
   // Check dismissal state on client side only
   // If the banner content changes, the ID will be different and it'll show again
   useEffect(() => {
-    const dismissed = localStorage.getItem(`myst--dismissed-banner-${bannerId}`) === 'true';
+    const dismissed = localStorage.getItem(`myst-dismissed-banner-${bannerId}`) === 'true';
     setIsVisible(!dismissed);
   }, [bannerId]);
 
   const handleDismiss = () => {
-    localStorage.setItem(`myst--dismissed-banner-${bannerId}`, 'true');
+    localStorage.setItem(`myst-dismissed-banner-${bannerId}`, 'true');
     setIsVisible(false);
   };
 

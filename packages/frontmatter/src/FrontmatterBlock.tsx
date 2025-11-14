@@ -34,7 +34,10 @@ export function DoiText({ doi: possibleLink, className }: { doi?: string; classN
   const url = `https://doi.org/${doi}`;
   return (
     <a
-      className={classNames('no-underline text-inherit hover:text-inherit', className)}
+      className={classNames(
+        'myst-fm-doi-text no-underline text-inherit hover:text-inherit',
+        className,
+      )}
       target="_blank"
       rel="noopener noreferrer"
       href={url}
@@ -50,9 +53,12 @@ export function DoiBadge({ doi: possibleLink, className }: { doi?: string; class
   const doi = possibleLink.replace(/^(https?:\/\/)?(dx\.)?doi\.org\//, '');
   const url = `https://doi.org/${doi}`;
   return (
-    <div className={classNames('flex-none', className)} title="DOI (Digital Object Identifier)">
+    <div
+      className={classNames('myst-fm-doi-badge flex-none', className)}
+      title="DOI (Digital Object Identifier)"
+    >
       <a
-        className="font-light no-underline hover:font-light hover:underline text-inherit hover:text-inherit"
+        className="myst-fm-doi-link font-light no-underline hover:font-light hover:underline text-inherit hover:text-inherit"
         target="_blank"
         rel="noopener noreferrer"
         href={url}
@@ -88,7 +94,7 @@ export function DateString({
   // Then format as human-readable in the local timezone.
   const dateString = localDate.toLocaleDateString('en-US', format);
   return (
-    <time dateTime={date} className={classNames({ 'text-spacer': spacer })}>
+    <time dateTime={date} className={classNames('myst-fm-date-string', { 'text-spacer': spacer })}>
       {dateString}
     </time>
   );
@@ -103,12 +109,12 @@ export function TwitterLink({ twitter: possibleLink }: { twitter?: string }) {
       title={`X Account: ${twitter}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-inherit hover:text-inherit"
+      className="myst-fm-twitter-link text-inherit hover:text-inherit"
     >
       <XIcon
         width="1.25rem"
         height="1.25rem"
-        className="inline-block mr-1 opacity-60 hover:opacity-100"
+        className="myst-fm-twitter-icon inline-block mr-1 opacity-60 hover:opacity-100"
       />
     </a>
   );
@@ -123,12 +129,12 @@ export function GitHubLink({ github: possibleLink }: { github?: string }) {
       title={`GitHub Repository: ${github}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-inherit hover:text-inherit"
+      className="myst-fm-github-link text-inherit hover:text-inherit"
     >
       <GithubIcon
         width="1.25rem"
         height="1.25rem"
-        className="inline-block mr-1 opacity-60 hover:opacity-100"
+        className="myst-fm-github-icon inline-block mr-1 opacity-60 hover:opacity-100"
       />
     </a>
   );
@@ -142,12 +148,12 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
       target="_blank"
       rel="noopener noreferrer"
       title="Open Access"
-      className="text-inherit hover:text-inherit"
+      className="myst-fm-open-access-badge text-inherit hover:text-inherit"
     >
       <OpenAccessIcon
         width="1.25rem"
         height="1.25rem"
-        className="mr-1 inline-block opacity-60 hover:opacity-100 hover:text-[#E18435]"
+        className="myst-fm-block-open-access-icon mr-1 inline-block opacity-60 hover:opacity-100 hover:text-[#E18435]"
       />
     </a>
   );
@@ -161,12 +167,12 @@ export function EditLink({ editUrl }: { editUrl?: string }) {
       title="Edit This Page"
       target="_blank"
       rel="noopener noreferrer"
-      className="text-inherit hover:text-inherit"
+      className="myst-fm-edit-link text-inherit hover:text-inherit"
     >
       <PencilSquareIcon
         width="1.25rem"
         height="1.25rem"
-        className="inline-block mr-1 opacity-60 hover:opacity-100"
+        className="myst-fm-edit-icon inline-block mr-1 opacity-60 hover:opacity-100"
       />
     </a>
   );
@@ -187,20 +193,20 @@ export function Journal({
   const { title, url } = typeof venue === 'string' ? { title: venue, url: null } : venue;
   if (!title) return null;
   return (
-    <div className={classNames('flex-none mr-2', className)}>
+    <div className={classNames('myst-fm-journal flex-none mr-2', className)}>
       {url ? (
         <ExternalOrInternalLink
-          className="font-semibold no-underline smallcaps"
+          className="myst-fm-journal-link font-semibold no-underline smallcaps"
           to={url}
           title={title}
         >
           {title}
         </ExternalOrInternalLink>
       ) : (
-        <span className="font-semibold smallcaps">{title}</span>
+        <span className="myst-fm-journal-title font-semibold smallcaps">{title}</span>
       )}
       {volume != null && (
-        <span className="pl-2 ml-2 border-l">
+        <span className="myst-fm-journal-volume pl-2 ml-2 border-l">
           Volume {volume.title}
           {issue != null && <>, Issue {issue.title}</>}
         </span>
@@ -266,13 +272,13 @@ export function FrontmatterBlock({
     <div
       id="skip-to-frontmatter"
       aria-label="article frontmatter"
-      className={classNames(className)}
+      className={classNames('myst-fm-block', className)}
     >
       {showHeaderBlock && (
-        <div className="flex items-center mb-5 h-6 text-sm font-light">
+        <div className="myst-fm-block-header flex items-center mb-5 h-6 text-sm font-light">
           {subject && (
             <div
-              className={classNames('flex-none pr-2 smallcaps', {
+              className={classNames('myst-fm-block-subject flex-none pr-2 smallcaps', {
                 'mr-2 border-r': venue,
               })}
             >
@@ -282,11 +288,11 @@ export function FrontmatterBlock({
           <Journal venue={venue} volume={volume} issue={issue} />
           <div className="flex-grow"></div>
           {!hideBadges && (
-            <>
+            <div className="myst-fm-block-badges">
               <LicenseBadges license={license} />
               <OpenAccessBadge open_access={open_access} />
               <GitHubLink github={github} />
-            </>
+            </div>
           )}
           <EditLink editUrl={edit_url ?? undefined} />
           {!hideExports && <DownloadsDropdown exports={(downloads ?? exports) as any} />}
@@ -294,12 +300,18 @@ export function FrontmatterBlock({
         </div>
       )}
       {title && (
-        <h1 className="mb-0">
-          {enumerator && <span className="mr-3 select-none">{enumerator}</span>}
+        <h1 className="myst-fm-block-title mb-0">
+          {enumerator && (
+            <span className="myst-fm-block-enumerator mr-3 select-none"> {enumerator} </span>
+          )}
           {title}
         </h1>
       )}
-      {subtitle && <p className="mt-2 mb-0 lead text-zinc-600 dark:text-zinc-400">{subtitle}</p>}
+      {subtitle && (
+        <p className="myst-fm-block-subtitle mt-2 mb-0 lead text-zinc-600 dark:text-zinc-400">
+          {subtitle}
+        </p>
+      )}
       {!hideAuthors && hasAuthors && authorStyle === 'list' && (
         <AuthorsList authors={frontmatter.authors} affiliations={frontmatter.affiliations} />
       )}
@@ -310,7 +322,7 @@ export function FrontmatterBlock({
         />
       )}
       {hasDateOrDoi && (
-        <div className="flex mt-2 text-sm font-light">
+        <div className="myst-fm-block-date-doi flex mt-2 text-sm font-light">
           <DateString date={date} spacer={!!doi} />
           <DoiBadge doi={doi} />
         </div>

@@ -20,29 +20,33 @@ export function Footnotes({
   return (
     <section
       id="footnotes"
-      className={classNames(grid, 'subgrid-gap col-screen', containerClassName)}
+      className={classNames('myst-footnotes', grid, 'subgrid-gap col-screen', containerClassName)}
     >
       <div className={innerClassName}>
-        <header className="text-lg font-semibold text-stone-900 dark:text-white group">
+        <header className="myst-footnotes-header text-lg font-semibold text-stone-900 dark:text-white group">
           Footnotes
           <HashLink id="footnotes" title="Link to Footnotes" hover className="ml-2" />
         </header>
       </div>
       <div
         className={classNames(
-          'pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300',
+          'myst-footnotes-list pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300',
           innerClassName,
         )}
       >
         <ol>
           {defs.map((fn) => {
             return (
-              <li key={(fn as GenericNode).key} id={`fn-${fn.identifier}`} className="group">
+              <li
+                key={(fn as GenericNode).key}
+                id={`fn-${fn.identifier}`}
+                className="myst-footnotes-item group"
+              >
                 <div className="flex flex-row">
-                  <div className="break-words grow">
+                  <div className="myst-footnote-content break-words grow">
                     <MyST ast={fn.children} />
                   </div>
-                  <div className="flex flex-col grow-0">
+                  <div className="myst-footnote-backlinks flex flex-col grow-0">
                     {refs
                       .filter((ref) => ref.identifier === fn.identifier)
                       .map((ref) => (

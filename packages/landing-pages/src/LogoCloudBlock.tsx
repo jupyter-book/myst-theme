@@ -36,13 +36,13 @@ export function LogoCloudBlock(props: Omit<LandingBlockProps, 'children'>) {
 
   return (
     <LandingBlock {...props}>
-      <div className="py-20 text-center sm:py-28">
-        <div className="font-semibold">
+      <div className="myst-landing-logo-cloud py-20 text-center sm:py-28">
+        <div className="myst-landing-logo-cloud-body font-semibold">
           <MyST ast={body} />
         </div>
         {grid && <MyST ast={grid} />}
         {links && (
-          <div className="flex flex-row flex-wrap items-center justify-center gap-4 mt-8">
+          <div className="myst-landing-logo-cloud-links flex flex-row flex-wrap items-center justify-center gap-4 mt-8">
             <MyST ast={links} />
           </div>
         )}

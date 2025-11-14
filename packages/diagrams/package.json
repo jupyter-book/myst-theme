@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@myst-theme/providers": "^0.17.1",
-    "mermaid": "^9.3.0",
+    "mermaid": "^11.0.0",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {

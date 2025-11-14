@@ -3,8 +3,6 @@ import { useEffect, useId, useState } from 'react';
 import classNames from 'classnames';
 import type { Mermaid } from 'mermaid';
 
-// Follow previous flow of importing mermaid dynamically.
-// This is just a refactor, it might not be necessary.
 let _mermaid: Mermaid | undefined = undefined;
 async function loadMermaid(): Promise<Mermaid> {
   if (_mermaid === undefined) {

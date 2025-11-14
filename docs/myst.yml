@@ -9,12 +9,14 @@ project:
   # authors: []
   github: https://github.com/jupyter-book/myst-theme
   parts:
-    banner: _site/banner.md
+    banner: |
+      📢 **Announcement:** This is a test banner for the MyST Theme! [Learn more about MyST](./computation.md).
     footer: _site/footer.md
     primary_sidebar_footer: _site/primary_sidebar_footer.md
   toc:
     - file: index.md
-    - file: examples.md
+    - file: syntax-reference.md
+    - file: computation.md
     - file: ui.md
     - file: developer.md
 site:

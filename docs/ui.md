@@ -16,6 +16,14 @@ site:
     banner: _site/banner.md
 ```
 
+or directly as text:
+
+```yaml
+site:
+  parts:
+    banner: My banner [content](https://mystmd.org)!
+```
+
 ### Behavior
 
 - Appears at the top of every page, above the navigation

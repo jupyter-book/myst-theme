@@ -9,6 +9,7 @@ import {
   useIsWide,
   useBaseurl,
   withBaseurl,
+  useBannerState,
 } from '@myst-theme/providers';
 import type { Heading } from '@myst-theme/common';
 import { Toc } from './TableOfContentsItems.js';
@@ -100,15 +101,18 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
   const toc = useRef<HTMLDivElement>(null);
   const transitionState = useNavigation().state;
   const wide = useIsWide();
+  const { bannerState } = useBannerState();
+  const totalTop = top + bannerState.height;
+
   const setHeight = () => {
     if (!container.current || !toc.current) return;
     const height = container.current.offsetHeight - window.scrollY;
     const div = toc.current.firstChild as HTMLDivElement;
     if (div)
       div.style.height = wide
-        ? `min(calc(100vh - ${top}px), ${height + inset}px)`
-        : `calc(100vh - ${top}px)`;
-    if (div) div.style.height = `min(calc(100vh - ${top}px), ${height + inset}px)`;
+        ? `min(calc(100vh - ${totalTop}px), ${height + inset}px)`
+        : `calc(100vh - ${totalTop}px)`;
+    if (div) div.style.height = `min(calc(100vh - ${totalTop}px), ${height + inset}px)`;
     const nav = toc.current.querySelector('nav');
     if (nav) nav.style.opacity = height > 150 ? '1' : '0';
   };
@@ -120,7 +124,7 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [container, toc, transitionState, wide]);
+  }, [container, toc, transitionState, wide, totalTop]);
   return { container, toc };
 }
 
@@ -140,6 +144,7 @@ export const PrimarySidebar = ({
   mobileOnly?: boolean;
 }) => {
   const top = useThemeTop();
+  const { bannerState } = useBannerState();
   const grid = useGridSystemProvider();
   const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
@@ -164,7 +169,7 @@ export const PrimarySidebar = ({
         { 'lg:hidden': nav && hide_toc },
         { hidden: !open, 'z-30': open, 'z-10': !open },
       )}
-      style={{ top }}
+      style={{ top: top + bannerState.height }}
     >
       <div
         className={classNames(

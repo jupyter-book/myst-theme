@@ -59,13 +59,13 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
 
   if (computable)
     return (
-      <div className="sticky top-[60px] pb-[14px] flex justify-end w-full z-20 pointer-events-none">
-        <div className="flex p-1 m-1 space-x-1 border rounded-full shadow pointer-events-auto border-stone-300 bg-white/80 dark:bg-stone-900/80 backdrop-blur">
+      <div className="myst-jp-nb-toolbar sticky top-[60px] pb-[14px] flex justify-end w-full z-20 pointer-events-none">
+        <div className="myst-jp-nb-toolbar-inner flex p-1 m-1 space-x-1 border rounded-full shadow pointer-events-auto border-stone-300 bg-white/80 dark:bg-stone-900/80 backdrop-blur">
           {!ready && (
-            <div className="rounded">
+            <div className="myst-jp-nb-toolbar-power rounded">
               <button
                 className={classNames(
-                  'flex text-center rounded-full cursor-pointer text-stone-800 dark:text-white hover:opacity-100 opacity-60',
+                  'myst-jp-nb-toolbar-power-btn flex text-center rounded-full cursor-pointer text-stone-800 dark:text-white hover:opacity-100 opacity-60',
                   {
                     'opacity-10 text-stone-100 dark:text-stone-700': connecting || building,
                   },
@@ -78,7 +78,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
               </button>
               {(connecting || building) && !error && (
                 <span
-                  className="absolute top-1 left-1 z-10 w-[22px] h-[22px] opacity-100"
+                  className="myst-jp-nb-toolbar-spinner absolute top-1 left-1 z-10 w-[22px] h-[22px] opacity-100"
                   title={title}
                 >
                   <Spinner size={24} />

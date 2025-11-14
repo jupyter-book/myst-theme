@@ -12,10 +12,12 @@ export const MaybeLongContent = ({
 }) => {
   const { error, data } = useLongContent(content, path);
   if (error) {
-    return <div className="text-red-500">Error loading content: {error.message}</div>;
+    return (
+      <div className="myst-jp-long-error text-red-500">Error loading content: {error.message}</div>
+    );
   }
   if (!data) {
-    return <div>Fetching long content....</div>;
+    return <div className="myst-jp-long-loading">Fetching long content....</div>;
   }
   return <div>{render(data.content)}</div>;
 };

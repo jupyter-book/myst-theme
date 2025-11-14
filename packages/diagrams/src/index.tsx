@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import type { Mermaid } from 'mermaid';
 
 let _mermaid: Mermaid | undefined = undefined;
+
 async function loadMermaid(): Promise<Mermaid> {
   if (_mermaid === undefined) {
     const module = await import('mermaid');

@@ -73,7 +73,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
             key={action.url}
             to={withBaseurl(action.url, baseurl) || ''}
             className={classNames(
-              "myst-primary-sidebar-item-link",
+              'myst-primary-sidebar-item-link',
               'p-2 my-1 rounded-lg',
               'hover:bg-slate-300/30',
               'block break-words focus:outline outline-blue-200 outline-2 rounded',
@@ -172,7 +172,7 @@ export const PrimarySidebar = ({
     >
       <div
         className={classNames(
-          "myst-primary-sidebar-pointer",
+          'myst-primary-sidebar-pointer',
           'pointer-events-auto',
           'xl:col-margin-left flex-col',
           'overflow-hidden',

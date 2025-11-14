@@ -578,7 +578,7 @@ const SearchPlaceholderButton = forwardRef<
     >
       <MagnifyingGlassIcon className="p-2.5 h-10 w-10 aspect-square" />
       <span className="myst-search-text-placeholder hidden sm:block grow">Search</span>
-      <SearchShortcut/>
+      <SearchShortcut />
     </button>
   );
 });

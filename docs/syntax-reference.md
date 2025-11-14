@@ -17,12 +17,13 @@ Inline `code` formatting and [external links](https://mystmd.org) work too.
 
 ## Headings
 
-# Heading 1
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+MyST supports heading levels 1-6:
+
+- `# Heading 1`
+- `## Heading 2`
+- `### Heading 3`
+- `#### Heading 4`
+- `##### Heading 5`
 
 ## Lists
 
@@ -313,7 +314,7 @@ You can reference [this section](my-target) from anywhere.
 
 ## Containers and Panels
 
-```{div} custom-class
+```{div}
 This is a div container with a custom class.
 ```
 
@@ -349,11 +350,10 @@ This is a topic block for special content that deserves highlighting.
 
 ```{glossary}
 Term One
-  Definition of term one.
+: Definition of term one.
 
 Term Two
-  Definition of term two with more detail.
-  It can span multiple lines.
+: Definition of term two with more detail.
 ```
 
 ## Buttons

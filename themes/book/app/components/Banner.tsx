@@ -16,24 +16,21 @@ export function Banner({ content, className }: { content: GenericParent; classNa
 
   // // Start hidden, only show after checking localStorage on client
   // // This avoids flickering on initial load
-
   const { bannerState, setBannerState } = useBannerState();
 
-  const ref = useRef<HTMLElement | null>(null);
+  const ref = useRef<HTMLElement | null>(null)
 
-  // Check dismissal state on client side only
+  // Check dismissal state on client side
   // If the banner content changes, the ID will be different and it'll show again
   useEffect(() => {
-    if (!ref.current) return;
-
     const el = ref.current;
-    const dismissed = localStorage.getItem(`myst--dismissed-banner-${bannerId}`) === 'true';
 
+    const dismissed = localStorage.getItem(`myst--dismissed-banner-${bannerId}`) === 'true';
     setBannerState({
       visible: !dismissed,
-      height: dismissed ? 0 : el.getBoundingClientRect().height,
+      height: el ? el.getBoundingClientRect().height : 0
     });
-  }, [bannerId]);
+  }, [bannerId, bannerState.visible]);
 
   const handleDismiss = () => {
     localStorage.setItem(`myst--dismissed-banner-${bannerId}`, 'true');

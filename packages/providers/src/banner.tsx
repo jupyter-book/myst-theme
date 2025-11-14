@@ -11,7 +11,7 @@ import React, {
 } from 'react';
 
 type BannerState = {
-  visible: boolean;
+  visible?: boolean;
   height: number;
 };
 
@@ -23,7 +23,7 @@ type BannerContextValue = {
 const BannerStateContext = createContext<BannerContextValue | undefined>(undefined);
 
 export function BannerStateProvider({ children }: { children: React.ReactNode }) {
-  const [bannerState, setBannerState] = useState<BannerState>({ visible: true, height: 0 });
+  const [bannerState, setBannerState] = useState<BannerState>({ visible: undefined, height: 0 });
 
   const value = useMemo(() => ({ bannerState, setBannerState }), [bannerState]);
 

@@ -14,6 +14,7 @@ project:
     primary_sidebar_footer: _site/primary_sidebar_footer.md
   toc:
     - file: index.md
+    - file: syntax-reference.md
     - file: examples.md
     - file: ui.md
     - file: developer.md

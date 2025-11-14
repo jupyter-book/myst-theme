@@ -1,3 +1,4 @@
+# MOVE THIS TO THE `workflows` FOLDER TO RE-ENABLE STORYBOOK
 name: docs
 on:
   push:

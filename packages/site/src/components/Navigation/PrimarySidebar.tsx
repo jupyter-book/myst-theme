@@ -102,6 +102,7 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
   const transitionState = useNavigation().state;
   const wide = useIsWide();
   const { bannerState } = useBannerState();
+  const totalTop = top + bannerState.height;
 
   const setHeight = () => {
     if (!container.current || !toc.current) return;
@@ -109,9 +110,9 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
     const div = toc.current.firstChild as HTMLDivElement;
     if (div)
       div.style.height = wide
-        ? `min(calc(100vh - ${top + bannerState.height}px), ${height + inset}px)`
-        : `calc(100vh - ${top}px)`;
-    if (div) div.style.height = `min(calc(100vh - ${top}px), ${height + inset}px)`;
+        ? `min(calc(100vh - ${totalTop}px), ${height + inset}px)`
+        : `calc(100vh - ${totalTop}px)`;
+    if (div) div.style.height = `min(calc(100vh - ${totalTop}px), ${height + inset}px)`;
     const nav = toc.current.querySelector('nav');
     if (nav) nav.style.opacity = height > 150 ? '1' : '0';
   };
@@ -123,7 +124,7 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [container, toc, transitionState, wide]);
+  }, [container, toc, transitionState, wide, totalTop]);
   return { container, toc };
 }
 

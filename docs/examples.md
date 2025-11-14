@@ -5,6 +5,7 @@ jupyter:
     language: python
     name: python3
 ---
+
 # Example content
 
 This page contains example content for previewing or demonstrating theme functionality.
@@ -110,7 +111,6 @@ Here's a test note!
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ````
-
 
 ```{note} Test note!
 Here's a test note!

@@ -103,14 +103,14 @@ function ArticlePageAndNavigationInternal({
         {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
       </TabStateProvider>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
-      { (bannerState.visible != undefined) &&
+      {bannerState.visible != undefined && (
         <PrimaryNavigation
           sidebarRef={toc}
           hide_toc={hide_toc}
           footer={<SidebarFooter content={projectParts?.primary_sidebar_footer?.mdast} />}
           projectSlug={projectSlug}
         />
-      }
+      )}
       <TabStateProvider>
         <main
           ref={container}

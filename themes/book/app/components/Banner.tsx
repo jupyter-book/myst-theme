@@ -18,7 +18,7 @@ export function Banner({ content, className }: { content: GenericParent; classNa
   // // This avoids flickering on initial load
   const { bannerState, setBannerState } = useBannerState();
 
-  const ref = useRef<HTMLElement | null>(null)
+  const ref = useRef<HTMLElement | null>(null);
 
   // Check dismissal state on client side
   // If the banner content changes, the ID will be different and it'll show again
@@ -28,7 +28,7 @@ export function Banner({ content, className }: { content: GenericParent; classNa
     const dismissed = localStorage.getItem(`myst--dismissed-banner-${bannerId}`) === 'true';
     setBannerState({
       visible: !dismissed,
-      height: el ? el.getBoundingClientRect().height : 0
+      height: el ? el.getBoundingClientRect().height : 0,
     });
   }, [bannerId, bannerState.visible]);
 

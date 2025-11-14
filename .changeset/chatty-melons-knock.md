@@ -8,4 +8,4 @@
 '@myst-theme/site': minor
 ---
 
-Adding human-readable CSS classes to myst components
+Add human-readable CSS classes to myst components

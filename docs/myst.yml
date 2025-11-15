@@ -17,10 +17,16 @@ project:
   toc:
     - file: index.md
     - file: ui.md
+    - title: Developer guide
+      children:
+      - file: developer/local.md
+      - file: developer/tips.md
+      - file: architecture.md
+      - file: developer/documentation.md
+      - file: developer/static-previews.md
     - title: Visual Reference
       children:
       - pattern: reference/*.md
-    - file: developer.md
 site:
   # NOTE: You must run `make deploy-book` to generate the local version of this theme.
   template: ../.deploy/book

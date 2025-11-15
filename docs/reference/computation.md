@@ -5,9 +5,9 @@ jupyter:
     language: python
     name: python3
 ---
-# Computational examples
+# Computation and notebooks
 
-This page contains example content for previewing or demonstrating computational content and notebooks.
+This page contains example content for previewing or demonstrating computational content and notebooks, as well as Thebe integration.
 
 :::{seealso} See the example outputs repository examples generating outputs
 The [Example Outputs Site](https://jupyter-book.github.io/example-outputs/) has more comprehensive examples to show off MyST generating outputs with computation.

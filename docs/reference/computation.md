@@ -5,23 +5,15 @@ jupyter:
     language: python
     name: python3
 ---
-# Example content
+# Computation and notebooks
 
-This page contains example content for previewing or demonstrating theme functionality.
+This page contains example content for previewing or demonstrating computational content and notebooks, as well as Thebe integration.
 
 :::{seealso} See the example outputs repository examples generating outputs
 The [Example Outputs Site](https://jupyter-book.github.io/example-outputs/) has more comprehensive examples to show off MyST generating outputs with computation.
 :::
 
-## Admonitions
-
-```{note} A sample admonition.
-Here's an admonition body.
-```
-
-## Code cells
-
-### Pandas
+## Pandas
 
 ```{code-cell}
 import pandas as pd
@@ -31,7 +23,7 @@ df = pd.DataFrame(np.random.randn(10, 4), columns=['A', 'B', 'C', 'D'])
 df
 ```
 
-### Matplotlib
+## Matplotlib
 
 ```{code-cell}
 import matplotlib.pyplot as plt
@@ -45,7 +37,7 @@ plt.grid(True, alpha=0.3)
 plt.show()
 ```
 
-### Plotly
+## Plotly
 
 ```{code-cell}
 import plotly.express as px
@@ -59,7 +51,7 @@ fig.update_layout(
 fig.show()
 ```
 
-### Altair
+## Altair
 
 ```{code-cell}
 import altair as alt
@@ -77,7 +69,7 @@ chart = alt.Chart(df.reset_index()).mark_circle().encode(
 chart
 ```
 
-### Bokeh
+## Bokeh
 
 ```{code-cell}
 from bokeh.plotting import figure, show
@@ -97,23 +89,3 @@ p.grid.grid_line_alpha = 0.3
 
 show(p)
 ```
-
-## Sidebars
-
-````{sidebar}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-```{note} Test note!
-Here's a test note!
-```
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-````
-
-
-```{note} Test note!
-Here's a test note!
-```
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

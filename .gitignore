@@ -39,3 +39,7 @@ _build
 # yalc
 .yalc
 yalc.lock
+
+# backup
+*#
+*~

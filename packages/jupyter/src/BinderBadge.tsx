@@ -60,7 +60,7 @@ function BinderBadgeLogo() {
 export function BinderBadge({ binder }: { binder?: string }) {
   if (!binder) return null;
   return (
-    <div className="inline-block m-1 opacity-80 hover:opacity-100">
+    <div className="myst-jp-binder-badge inline-block m-1 opacity-80 hover:opacity-100">
       <a
         href={binder}
         title={`Launch Jupyter Session: ${binder}`}

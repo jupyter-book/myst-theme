@@ -8,13 +8,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 /**
  * A dismissible banner component at the top that shows content passed as a MyST AST.
  */
-export function Banner({
-  content,
-  className,
-}: {
-  content: GenericParent;
-  className?: string;
-}) {
+export function Banner({ content, className }: { content: GenericParent; className?: string }) {
   // Generate banner ID from content for storing dismissal state
   const contentString = JSON.stringify(content);
   const bannerId = hashString(contentString);
@@ -26,12 +20,12 @@ export function Banner({
   // Check dismissal state on client side only
   // If the banner content changes, the ID will be different and it'll show again
   useEffect(() => {
-    const dismissed = localStorage.getItem(`myst--dismissed-banner-${bannerId}`) === 'true';
+    const dismissed = localStorage.getItem(`myst-dismissed-banner-${bannerId}`) === 'true';
     setIsVisible(!dismissed);
   }, [bannerId]);
 
   const handleDismiss = () => {
-    localStorage.setItem(`myst--dismissed-banner-${bannerId}`, 'true');
+    localStorage.setItem(`myst-dismissed-banner-${bannerId}`, 'true');
     setIsVisible(false);
   };
 
@@ -62,10 +56,7 @@ export function Banner({
           aria-label="Dismiss announcement"
           type="button"
         >
-          <XMarkIcon
-            className="w-5 h-5 text-blue-800 dark:text-blue-200"
-            aria-hidden="true"
-          />
+          <XMarkIcon className="w-5 h-5 text-blue-800 dark:text-blue-200" aria-hidden="true" />
         </button>
       </div>
     </header>

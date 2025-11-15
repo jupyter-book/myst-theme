@@ -8,6 +8,7 @@ project:
   # keywords: []
   # authors: []
   github: https://github.com/jupyter-book/myst-theme
+  jupyter: true
   parts:
     banner: |
       📢 **Announcement:** This is a test banner for the MyST Theme! [Learn more about MyST](./computation.md).
@@ -15,9 +16,10 @@ project:
     primary_sidebar_footer: _site/primary_sidebar_footer.md
   toc:
     - file: index.md
-    - file: syntax-reference.md
-    - file: computation.md
     - file: ui.md
+    - title: Visual Reference
+      children:
+      - pattern: reference/*.md
     - file: developer.md
 site:
   # NOTE: You must run `make deploy-book` to generate the local version of this theme.

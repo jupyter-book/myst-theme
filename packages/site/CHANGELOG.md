@@ -1,5 +1,30 @@
 # @myst-theme/site
 
+## 0.18.0
+
+### Minor Changes
+
+- dee582b: Add human-readable CSS classes to myst components
+
+### Patch Changes
+
+- c6699ff: Add hide_authors handling
+- b5a3495: Add project.parts.primary_sidebar_footer option
+- 7190e6c: Add baseurl to the sidebar links
+- Updated dependencies [10a7355]
+- Updated dependencies [dee582b]
+- Updated dependencies [ba1e034]
+- Updated dependencies [c6699ff]
+- Updated dependencies [9f20d99]
+- Updated dependencies [17b3b1b]
+  - @myst-theme/frontmatter@0.18.0
+  - @myst-theme/common@0.18.0
+  - @myst-theme/search@0.18.0
+  - @myst-theme/diagrams@0.18.0
+  - @myst-theme/providers@0.18.0
+  - myst-to-react@0.18.0
+  - myst-demo@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes

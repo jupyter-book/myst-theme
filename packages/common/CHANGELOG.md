@@ -1,5 +1,15 @@
 # @myst-theme/common
 
+## 0.18.0
+
+### Minor Changes
+
+- dee582b: Add human-readable CSS classes to myst components
+
+### Patch Changes
+
+- c6699ff: Add hide_authors handling
+
 ## 0.17.1
 
 ## 0.17.0

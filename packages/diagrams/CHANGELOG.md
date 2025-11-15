@@ -1,5 +1,15 @@
 # @myst-theme/diagrams
 
+## 0.18.0
+
+### Minor Changes
+
+- 17b3b1b: Upgrade mermaidjs to ^11
+
+### Patch Changes
+
+- @myst-theme/providers@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes

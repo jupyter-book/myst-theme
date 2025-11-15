@@ -37,6 +37,8 @@ The core themes are also included in this repository to aid in development.
 
 `myst-theme` uses [changesets](https://github.com/changesets/changesets) to document changes to this monorepo, call `npm run changeset` and follow the prompts. Later, `npm run version` will be called and then `npm run publish`.
 
+published versions of the `article` and `book` themes can be found [![as GH releases](https://img.shields.io/badge/as%20GH%20releases-blue?logo=github&style=flat-square)](https://github.com/jupyter-book/myst-theme/releases)
+
 ### Utilities
 
 `myst-theme` is built and developed using:

@@ -1,5 +1,29 @@
 # @myst-theme/book
 
+## 0.18.0
+
+### Minor Changes
+
+- 762ab04: Add banner component
+
+### Patch Changes
+
+- c6699ff: Add hide_authors handling
+- b5a3495: Add project.parts.primary_sidebar_footer option
+- c2480db: Pull footer and banner parts from site as well as project
+- Updated dependencies [dee582b]
+- Updated dependencies [c6699ff]
+- Updated dependencies [b5a3495]
+- Updated dependencies [ef1b152]
+- Updated dependencies [7190e6c]
+  - @myst-theme/landing-pages@0.18.0
+  - @myst-theme/jupyter@0.18.0
+  - @myst-theme/common@0.18.0
+  - @myst-theme/icons@0.18.0
+  - @myst-theme/site@0.18.0
+  - @myst-theme/providers@0.18.0
+  - @myst-theme/styles@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes

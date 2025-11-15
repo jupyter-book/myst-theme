@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 0.18.0
+
+### Patch Changes
+
+- Updated dependencies [dee582b]
+- Updated dependencies [c6699ff]
+  - @myst-theme/common@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes

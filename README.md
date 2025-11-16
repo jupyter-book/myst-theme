@@ -3,9 +3,16 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jupyter-book/myst-theme/blob/main/LICENSE)
 [![CI](https://github.com/jupyter-book/myst-theme/workflows/CI/badge.svg)](https://github.com/jupyter-book/myst-theme/actions)
 
-Packages for creating MyST websites themes using React and Remix.
+This repository contains two things:
 
-[The MyST Theme components documentation](https://jupyter-book.github.io/myst-theme/?path=/docs/components-introduction--docs) is the best way to visualize the style and structure of components.
+- A **react renderer** for MyST AST and content, so you can render MyST node types as React components.
+- A **book theme and an article theme** that use this renderer along with Remix to create two different website experiences using the react components.
+
+It also serves as the reference documentation for these themes at the URL below:
+
+https://myst-theme.netlify.app/
+
+You can also find a [storybook site for the MyST Theme components](https://jupyter-book.github.io/myst-theme/?path=/docs/components-introduction--docs) to see the style and structure of components.
 
 # Development
 

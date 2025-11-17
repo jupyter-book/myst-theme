@@ -83,11 +83,11 @@ function createSearch(index: MystSearchIndex): ISearch {
   return createMiniSearch(index.records, options);
 }
 
-function NoCSSWarning(props: {}) {
+function NoCSSWarning() {
   const CLIENT_THEME_SOURCE = `
     (() => {
-            const node = document.querySelector("#myst-no-css");
-            const hasCSS = window.getComputedStyle(node).getPropertyValue("has-styling");
+            const node = document.currentScript.parentNode;
+            const hasCSS = window.getComputedStyle(node).getPropertyValue("--has-styling");
             if (hasCSS === ""){
                     node.showModal();
             }
@@ -95,33 +95,33 @@ function NoCSSWarning(props: {}) {
     })()
 `;
   return (
-          <>
-    <dialog
-      id="myst-no-css"
-      // Use inline styles to ensure styling without stylesheets
-      style={{
-        position: 'fixed',
-        left: '0px',
-        top: '0px',
-        width: '100vw',
-        height: '100vh',
-        fontSize: '4rem',
-        padding: '1rem',
-        color: 'black',
-        background: 'white',
-      }}
-      // Opening the modal sets an open attrib
-      suppressHydrationWarning
-    >
-      <strong>Site not loading correctly?</strong>
-      <p>
-        This may be due to an incorrect <code>BASE_URL</code> configuration. See{' '}
-        <a href="https://mystmd.org/guide/deployment#deploy-base-url">the MyST Documentation</a> for
-        reference.
-      </p>
-    </dialog>
-   <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />;
-  </>
+    <>
+      <dialog
+        id="myst-no-css"
+        // Use inline styles to ensure styling without stylesheets
+        style={{
+          position: 'fixed',
+          left: '0px',
+          top: '0px',
+          width: '100vw',
+          height: '100vh',
+          fontSize: '4rem',
+          padding: '1rem',
+          color: 'black',
+          background: 'white',
+        }}
+        // Opening the modal sets an open attrib
+        suppressHydrationWarning
+      >
+        <strong>Site not loading correctly?</strong>
+        <p>
+          This may be due to an incorrect <code>BASE_URL</code> configuration. See{' '}
+          <a href="https://mystmd.org/guide/deployment#deploy-base-url">the MyST Documentation</a>{' '}
+          for reference.
+        </p>
+        <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />;
+      </dialog>
+    </>
   );
 }
 

@@ -119,7 +119,7 @@ function NoCSSWarning() {
           <a href="https://mystmd.org/guide/deployment#deploy-base-url">the MyST Documentation</a>{' '}
           for reference.
         </p>
-        <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />;
+        <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />
       </dialog>
     </>
   );

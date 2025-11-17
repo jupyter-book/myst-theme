@@ -84,8 +84,19 @@ function createSearch(index: MystSearchIndex): ISearch {
 }
 
 function NoCSSWarning(props: {}) {
+  const CLIENT_THEME_SOURCE = `
+    (() => {
+            const node = document.querySelector("#myst-no-css");
+            const hasCSS = window.getComputedStyle(node).getPropertyValue("has-styling");
+            if (hasCSS === ""){
+                    node.showModal();
+            }
+
+    })()
+`;
   return (
-    <div
+          <>
+    <dialog
       id="myst-no-css"
       // Use inline styles to ensure styling without stylesheets
       style={{
@@ -98,11 +109,9 @@ function NoCSSWarning(props: {}) {
         padding: '1rem',
         color: 'black',
         background: 'white',
-        zIndex: 99
       }}
-    >
-    <div
- 
+      // Opening the modal sets an open attrib
+      suppressHydrationWarning
     >
       <strong>Site not loading correctly?</strong>
       <p>
@@ -110,8 +119,9 @@ function NoCSSWarning(props: {}) {
         <a href="https://mystmd.org/guide/deployment#deploy-base-url">the MyST Documentation</a> for
         reference.
       </p>
-    </div>
-    </div>
+    </dialog>
+   <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />;
+  </>
   );
 }
 

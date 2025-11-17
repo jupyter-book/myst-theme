@@ -2,5 +2,5 @@
 @import './grid-system.css';
 
 #myst-no-css {
-  display: none;
+  --has-styling: 1;
 }

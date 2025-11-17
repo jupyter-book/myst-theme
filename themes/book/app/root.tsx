@@ -83,6 +83,38 @@ function createSearch(index: MystSearchIndex): ISearch {
   return createMiniSearch(index.records, options);
 }
 
+function NoCSSWarning(props: {}) {
+  return (
+    <div
+      id="myst-no-css"
+      // Use inline styles to ensure styling without stylesheets
+      style={{
+        position: 'fixed',
+        left: '0px',
+        top: '0px',
+        width: '100vw',
+        height: '100vh',
+        fontSize: '4rem',
+        padding: '1rem',
+        color: 'black',
+        background: 'white',
+        zIndex: 99
+      }}
+    >
+    <div
+ 
+    >
+      <strong>Site not loading correctly?</strong>
+      <p>
+        This may be due to an incorrect <code>BASE_URL</code> configuration. See{' '}
+        <a href="https://mystmd.org/guide/deployment#deploy-base-url">the MyST Documentation</a> for
+        reference.
+      </p>
+    </div>
+    </div>
+  );
+}
+
 export default function AppWithReload() {
   const { theme, config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
@@ -110,6 +142,7 @@ export default function AppWithReload() {
             { id: 'skip-to-article', title: 'Skip to article content' },
           ]}
         />
+        <NoCSSWarning />
         <Outlet />
       </Document>
     </SearchFactoryProvider>

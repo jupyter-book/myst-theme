@@ -36,12 +36,14 @@ export function Article({
   hideKeywords,
   hideOutline,
   hideTitle,
+  hideAuthors,
   outlineMaxDepth,
 }: {
   article: PageLoader;
   hideKeywords?: boolean;
   hideOutline?: boolean;
   hideTitle?: boolean;
+  hideAuthors?: boolean;
   outlineMaxDepth?: number;
 }) {
   const manifest = useProjectManifest();
@@ -66,6 +68,7 @@ export function Article({
           {!hideTitle && (
             <FrontmatterBlock
               frontmatter={{ title, subtitle }}
+              hideAuthors={hideAuthors}
               thebe={thebe}
               location={location}
               className="mb-5"

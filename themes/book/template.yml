@@ -26,6 +26,9 @@ options:
     id: hide_title_block
     description: Hide the document title on all pages
   - type: boolean
+    id: hide_authors
+    description: Hide the authors list on all pages
+  - type: boolean
     id: hide_search
     description: Disable the search
   - type: number
@@ -70,6 +73,9 @@ options:
 parts:
   - id: footer
     description: The site wide footer
+    required: false
+  - id: primary_sidebar_footer
+    description: The primary sidebar footer, to replace Made with MyST
     required: false
 build:
   install: npm install

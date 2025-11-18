@@ -102,6 +102,7 @@ myst start --headless
 The content server will parse MyST content into AST and send it to the theme server. By using `--headless`, we tell the content server **not** to start its own theme server, which allows the one we've started above to render the content.
 
 Next, start the dev server and the theme application, which will take AST from the content server and allow you to preview changes:
+
 ```bash
 # Open a second terminal in the theme repository
 # First install the latest dependencies for the theme
@@ -158,3 +159,18 @@ This updates the git repository, and sometimes is a large diff and can cause git
 ```bash
 git config --global http.postBuffer 157286400
 ```
+
+# Documentation
+
+The docs/ folder serves as the reference documentation of this package for intended behavior and value.
+It is intentionally minimal, and we use mystmd and jupyter-book docs for more complete user-facing documentation.
+
+When you add a new feature, try to include a minimal docs contribution that answers:
+
+- A brief overview of the feature
+- Its value and when to use it
+- How to use it and intended behavior
+
+Bullet points are fine!
+
+**Note**: This is a work-in-progress, there is still a lot documented in the mystmd docs that isn't here. We're doing our best to ensure this repository has all the functionality documented but it will take time.

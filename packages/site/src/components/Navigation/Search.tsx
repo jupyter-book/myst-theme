@@ -174,7 +174,7 @@ function SearchShortcut() {
   return (
     <div
       aria-hidden
-      className="items-center hidden mx-1 font-mono text-sm text-gray-400 sm:flex gap-x-1"
+      className="myst-search-shortcut items-center hidden mx-1 font-mono text-sm text-gray-600 sm:flex gap-x-1"
     >
       <kbd
         className={classNames(
@@ -224,7 +224,7 @@ function SearchResultItem({
 
   // Render the icon
   const iconProps = useMemo(() => {
-    return { className: 'inline-block w-6 mx-2 shrink-0' };
+    return { className: 'myst-search-result-icon inline-block w-6 mx-2 shrink-0' };
   }, []);
   const iconRenderer = createElement(
     type === 'lvl1' ? DocumentIcon : type === 'content' ? Bars3BottomLeftIcon : HashtagIcon,
@@ -241,7 +241,7 @@ function SearchResultItem({
       text={title}
       matches={matches}
       limit={type === 'content' ? charLimit : undefined}
-      className="text-sm"
+      className="myst-search-result-highlight text-sm"
     />
   );
 
@@ -338,7 +338,7 @@ function SearchResults({
     [onHoverSelect],
   );
   return (
-    <div className="mt-4 overflow-y-scroll">
+    <div className="myst-search-results mt-4 overflow-y-scroll">
       {searchResults.length ? (
         <ul
           // Accessiblity:
@@ -363,7 +363,7 @@ function SearchResults({
               //   Indicate whether this is selected
               aria-selected={selectedIndex === index}
               // Allow for nested-highlighting
-              className="group"
+              className="myst-search-result-item group"
               // Trigger selection on movement, so that scrolling doesn't trigger handler
               onMouseMove={handleMouseMove}
             >
@@ -372,7 +372,7 @@ function SearchResults({
           ))}
         </ul>
       ) : (
-        <span>No results found.</span>
+        <span className="myst-search-no-results">No results found.</span>
       )}
     </div>
   );
@@ -506,8 +506,9 @@ function SearchForm({
     <>
       <form onSubmit={onSubmit}>
         <div className="relative flex w-full h-10 flow-row gap-x-1 ">
-          <label id={searchListID} htmlFor={searchInputID}>
-            <MagnifyingGlassIcon className="absolute text-gray-400 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
+          <label id={searchLabelID} htmlFor={searchInputID}>
+            <MagnifyingGlassIcon className="absolute text-gray-600 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
+            <span className="hidden">Search query</span>
           </label>
           <input
             autoComplete="off"
@@ -515,7 +516,7 @@ function SearchForm({
             disabled={!enabled}
             autoCapitalize="false"
             className={classNames(
-              'block flex-grow p-2 ps-10 placeholder-gray-400',
+              'myst-search-input block flex-grow p-2 ps-10 placeholder-gray-400',
               'border border-gray-300 dark:border-gray-600',
               'rounded-lg bg-gray-50 dark:bg-gray-700',
               'focus:ring-blue-500 dark:focus:ring-blue-500',
@@ -540,7 +541,7 @@ function SearchForm({
         </div>
       </form>
       {!enabled && (
-        <div className="mx-2 mt-4 text-sm text-gray-500">
+        <div className="myst-search-no-results mx-2 mt-4 text-sm text-gray-500">
           Search is not enabled for this site. :(
         </div>
       )}
@@ -560,12 +561,13 @@ const SearchPlaceholderButton = forwardRef<
     <button
       {...props}
       className={classNames(
+        'myst-search-bar',
         className,
-        'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-400',
+        'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-600',
         'border border-gray-300 dark:border-gray-600',
         'rounded-lg bg-gray-50 dark:bg-gray-700',
         {
-          'hover:ring-blue-500': !disabled,
+          'myst-search-bar-disabled hover:ring-blue-500': !disabled,
           'dark:hover:ring-blue-500': !disabled,
           'hover:border-blue-500': !disabled,
           'dark:hover:border-blue-500': !disabled,
@@ -575,7 +577,7 @@ const SearchPlaceholderButton = forwardRef<
       ref={ref}
     >
       <MagnifyingGlassIcon className="p-2.5 h-10 w-10 aspect-square" />
-      <span className="hidden sm:block grow">Search</span>
+      <span className="myst-search-text-placeholder hidden sm:block grow">Search</span>
       <SearchShortcut />
     </button>
   );
@@ -630,7 +632,7 @@ export function Search({ debounceTime = 500, charLimit = 64 }: SearchProps) {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-[#656c85cc] z-[1000]" />
         <Dialog.Content
-          className="fixed flex flex-col top-0 bg-white dark:bg-stone-900 z-[1001] h-screen w-screen sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4 text-gray-900 dark:text-white"
+          className="myst-search-dialog fixed flex flex-col top-0 bg-white dark:bg-stone-900 z-[1001] h-screen w-screen sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4 text-gray-900 dark:text-white"
           // Store state as CSS variables so that we can set the style with tailwind variants
           style={
             {

@@ -73,7 +73,11 @@ function CopyButton(props: CopyButtonProps) {
   return (
     <button
       type="button"
-      className={classNames(className, 'flex flex-row items-center gap-1')}
+      className={classNames(
+        'myst-fm-launch-copy-button',
+        className,
+        'flex flex-row items-center gap-1',
+      )}
       onClick={copyLink}
     >
       {message} <ClipboardCopyIcon className="inline-block" />
@@ -421,9 +425,9 @@ function DetectLaunchContent(props: ModalLaunchProps) {
 
   return (
     <Form.Root onSubmit={handleSubmit} ref={formRef}>
-      <Form.Field className="mb-2.5 grid" name="url">
+      <Form.Field className="myst-fm-launch-form mb-2.5 grid" name="url">
         <div className="flex flex-col items-baseline justify-between">
-          <Form.Label className="text-[15px] font-medium leading-[35px]">
+          <Form.Label className="myst-fm-launch-label text-[15px] font-medium leading-[35px]">
             Enter a JupyterHub or BinderHub URL, e.g.{' '}
             <a
               href="https://mybinder.org"
@@ -439,23 +443,23 @@ function DetectLaunchContent(props: ModalLaunchProps) {
         <div className="relative flex">
           <span className="flex absolute h-full" aria-hidden>
             {(detectedProviderType === 'binderhub' && (
-              <BinderIcon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
+              <BinderIcon className="myst-fm-launch-status-ready w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
             )) ||
               (detectedProviderType === 'jupyterhub' && (
-                <JupyterIcon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
+                <JupyterIcon className="myst-fm-launch-status-ready w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
               )) ||
               (detectedProviderType === 'error' && (
-                <QuestionMarkCircledIcon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
+                <QuestionMarkCircledIcon className="myst-fm-launch-status-error w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
               )) ||
               (isInterrogating && (
-                <UpdateIcon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none motion-safe:animate-spin" />
+                <UpdateIcon className="myst-fm-launch-status-building w-[24px] h-[24px] mx-[4px] self-center pointer-events-none motion-safe:animate-spin" />
               )) || (
-                <Link2Icon className="w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
+                <Link2Icon className="myst-fm-launch-status w-[24px] h-[24px] mx-[4px] self-center pointer-events-none" />
               )}
           </span>
           <Form.Control asChild>
             <input
-              className="ps-[32px] box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
+              className="myst-fm-launch-input ps-[32px] box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
               type="url"
               placeholder={defaultBinderBaseURL}
               required
@@ -468,7 +472,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
 
       <details
         className={classNames(
-          'rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
+          'myst-fm-launch-modal-body rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
           'bg-gray-50 dark:bg-stone-800',
           { hidden: !(detectedProviderType === 'jupyterhub' || detectedProviderType === 'error') },
         )}
@@ -476,7 +480,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
       >
         <summary
           className={classNames(
-            'm-0 text-lg font-medium py-1 min-h-[2em] pl-3',
+            'myst-fm-launch-modal-header m-0 text-lg font-medium py-1 min-h-[2em] pl-3',
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]',
             'bg-gray-100 dark:bg-slate-900',
           )}
@@ -516,7 +520,9 @@ function DetectLaunchContent(props: ModalLaunchProps) {
 
       <fieldset
         disabled={detectedProviderType !== 'error'}
-        className={classNames('mt-6', { hidden: detectedProviderType !== 'error' })}
+        className={classNames('myst-fm-launch-option mt-6', {
+          hidden: detectedProviderType !== 'error',
+        })}
       >
         <legend className="mb-3">
           The provider type could not be detected automatically. what kind of provider have you
@@ -544,14 +550,14 @@ function DetectLaunchContent(props: ModalLaunchProps) {
       </fieldset>
 
       <fieldset
-        className={classNames('flex flex-row justify-between mt-6', {
+        className={classNames('myst-fm-launch-modal-footer flex flex-row justify-between mt-6', {
           hidden: detectedProviderType === undefined,
         })}
         disabled={detectedProviderType === undefined}
       >
         <Form.Submit asChild>
-          <button className="inline-flex flex-row gap-1 h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
-            <span>Launch</span> <ExternalLinkIcon className="inline-block" />
+          <button className="myst-fm-launch-button inline-flex flex-row gap-1 h-[35px] items-center justify-center rounded px-[15px] font-medium leading-none bg-orange-500 hover:bg-orange-600 outline-none text-white focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
+            <span>Launch</span> <ExternalLinkIcon className="myst-fm-launch-icon inline-block" />
           </button>
         </Form.Submit>
 
@@ -575,16 +581,16 @@ export function LaunchButton(props: LaunchProps) {
     <Popover.Root>
       <Popover.Trigger asChild>
         <button
-          className="inline-flex size-[24px] hover:text-[#E18435] items-center justify-center"
+          className="myst-fm-launch-button inline-flex size-[24px] hover:text-[#E18435] items-center justify-center"
           aria-label="Launch in external computing interface"
           title="Launch in external computing interface"
         >
-          <RocketIcon />
+          <RocketIcon className="myst-fm-launch-icon" />
         </button>
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
-          className="z-30 text-gray-700 dark:text-white bg-white dark:bg-stone-800 p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] max-w-[400px]"
+          className="myst-fm-launch-modal myst-fm-launch-modal-content z-30 text-gray-700 dark:text-white bg-white dark:bg-stone-800 p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] max-w-[400px]"
           sideOffset={5}
         >
           <DetectLaunchContent {...props} onLaunch={closePopover} />

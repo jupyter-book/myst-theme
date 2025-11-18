@@ -39,9 +39,30 @@ make build-docs
 We use Netlify to build the latest version of this theme from Pull Requests, and provide a preview.
 Ask one of the team members if you need access to its configuration.
 
-:::{note} We may move more theme documentation here
-Currently most of our theme documentation is in [the MyST Guide](https://mystmd.org/guide). We are considering moving all of that documentation to the `myst-theme` repository so they are in one place. Follow this issue for details:
+## Theme development best practices
+
+### Using Providers for MyST content
+
+When using components that render MyST content (using `<MyST ast={content} />`), they must be wrapped wrap them in various providers e.g. `TabStateProvider` to ensure proper React context is available.
+These providers facilitate an alternative to prop drilling, the name used to describe passing props down through several React components. They are also used to isolate state between different subtrees, e.g. `TabStateProvider` defines a synchronised tab context.
+
+See [`themes/book/app/routes/$.tsx#L98-L121`](https://github.com/jupyter-book/myst-theme/blob/f758f671a883bbdc2e9950ed2da9c0b99fb96720/themes/book/app/routes/$.tsx#L98-L121) for examples of how the Banner and Footer components are wrapped in `TabStateProvider`.
+
+## Add documentation
+
+We have a small demo documentation site in `docs/` to provide guidance for how to use and develop the MyST react themes.
+As you add new features, document some basic information for others to use them.
+
+Add a new section (or a page, if it's a big change) with at least:
+
+- One sentence describing of the feature.
+- One sentence describing its value and when to use it.
+- A few bullet points describing how to use it and expected behavior.
+
+### Documenting vs. in mystmd.org
+
+Currently much of the documentation for the myst-theme is in the [mystmd guide](https://mystmd.org/guide/website-templates).
+
+We are considering moving all of that documentation to the `myst-theme` repository so they are in one place. Follow this issue for details:
 
 https://github.com/jupyter-book/myst-theme/issues/391
-
-:::

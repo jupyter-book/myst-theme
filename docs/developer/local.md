@@ -53,8 +53,8 @@ CONTENT_CDN_PORT=3111 npm run theme:book
 To connect to a remote content server, set the `CONTENT_CDN` environment variable:
 
 ```bash
-CONTENT_CDN=https://remote.example.com npm run theme:book
-CONTENT_CDN=https://remote.example.com npm run theme:article
+CONTENT_CDN=https://remote.example.com CONTENT_CDN_PORT=3111 npm run theme:book
+CONTENT_CDN=https://remote.example.com CONTENT_CDN_PORT=3111 npm run theme:article
 ```
 
 ## Preview components and UI with storybook

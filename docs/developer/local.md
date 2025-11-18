@@ -43,7 +43,7 @@ Open the port that is printed in the terminal for your theme server (usually, `h
 
 ## Use a custom port
 
-By default, the theme server will use the same port as the content server for changes to the AST. If you'd like to use a custom port, you can do so like this:
+By default, the theme server will watch the default port for the content server (`:3100`) for changes to the AST. If you'd like to use a custom port, you can do so like this:
 
 ```bash
 myst start --headless --server-port 3111

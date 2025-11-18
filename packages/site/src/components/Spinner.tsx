@@ -1,9 +1,9 @@
 export function Spinner({ size }: { size: number }) {
   return (
-    <div role="status">
+    <div role="status" className="myst-spinner">
       <svg
         aria-hidden="true"
-        className={`w-[${size}px] h-[${size}px] mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-600`}
+        className={`myst-spinner-icon w-[${size}px] h-[${size}px] mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-600`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

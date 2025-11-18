@@ -102,6 +102,7 @@ myst start --headless
 The content server will parse MyST content into AST and send it to the theme server. By using `--headless`, we tell the content server **not** to start its own theme server, which allows the one we've started above to render the content.
 
 Next, start the dev server and the theme application, which will take AST from the content server and allow you to preview changes:
+
 ```bash
 # Open a second terminal in the theme repository
 # First install the latest dependencies for the theme

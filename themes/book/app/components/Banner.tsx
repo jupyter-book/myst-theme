@@ -25,15 +25,18 @@ export function Banner({ content, className }: { content: GenericParent; classNa
   useEffect(() => {
     const el = ref.current;
 
-    const dismissed = localStorage.getItem(`myst--dismissed-banner-${bannerId}`) === 'true';
+    const dismissed = localStorage.getItem(`myst-dismissed-banner-${bannerId}`) === 'true';
     setBannerState({
       visible: !dismissed,
       height: el ? el.getBoundingClientRect().height : 0,
     });
   }, [bannerId, bannerState.visible]);
+    const dismissed = localStorage.getItem(`myst-dismissed-banner-${bannerId}`) === 'true';
+    setIsVisible(!dismissed);
+  }, [bannerId]);
 
   const handleDismiss = () => {
-    localStorage.setItem(`myst--dismissed-banner-${bannerId}`, 'true');
+    localStorage.setItem(`myst-dismissed-banner-${bannerId}`, 'true');
     setBannerState({
       visible: false,
       height: 0,

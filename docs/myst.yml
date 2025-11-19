@@ -11,7 +11,7 @@ project:
   jupyter: true
   parts:
     banner: |
-      📢 **Announcement:** This is a test banner for the MyST Theme! [Learn more about MyST](./computation.md).
+      📢 **Announcement:** This is a test banner for the MyST Theme! [Learn more about MyST](./reference).
     footer: _site/footer.md
     primary_sidebar_footer: _site/primary_sidebar_footer.md
   toc:

@@ -43,18 +43,25 @@ Open the port that is printed in the terminal for your theme server (usually, `h
 
 ## Use a custom port
 
-By default, the theme server will watch the default port for the content server (`:3100`) for changes to the AST. If you'd like to use a custom port, you can do so like this:
+By default, these ports are used:
+
+- `myst start --headless` binds the **content server** to port `3100` (or the next open port in that range)
+- `npm run theme:book` starts the Remix **theme server** on port `3000`.
+
+The theme server talks to the content server via the `CONTENT_CDN_PORT` environment variable, which defaults to `3100`. (the default shown above)
+
+If you need to override the content server port, keep the two commands in sync like this:
 
 ```bash
 myst start --headless --server-port 3111
 CONTENT_CDN_PORT=3111 npm run theme:book
 ```
 
-To connect to a remote content server, set the `CONTENT_CDN` environment variable:
+To connect to a remote content server, provide both the CDN URL and the matching port:
 
 ```bash
-CONTENT_CDN=https://remote.example.com CONTENT_CDN_PORT=3111 npm run theme:book
-CONTENT_CDN=https://remote.example.com CONTENT_CDN_PORT=3111 npm run theme:article
+CONTENT_CDN="https://remote.example.com" CONTENT_CDN_PORT=3111 npm run theme:book
+CONTENT_CDN="https://remote.example.com" CONTENT_CDN_PORT=3111 npm run theme:article
 ```
 
 ## Preview components and UI with storybook

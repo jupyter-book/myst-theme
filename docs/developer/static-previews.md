@@ -3,31 +3,30 @@
 We use Netlify to build the latest version of this theme from Pull Requests, and provide a preview.
 Ask one of the team members if you need access to its configuration.
 
-To build a static version of the documentation in `docs/` (e.g., for Netlify builds), use this command:
+## Quick command
+
+To build a static version of the documentation in `docs/` (e.g., for Netlify builds), run:
 
 ```bash
 make build-docs
 ```
 
-Below is a deeper explanation of what it does.
+## What `make build-docs` does
 
-To build static HTML files with the latest theme changes, you must first _build the theme assets_, and then serve the site using the theme. The MyST site at `docs/` is already configured to use this _local_ theme build in the `.deploy` folder.
+The command is a shorthand for three steps:
 
-**Install the dependencies to build the documentation**
+1. **Install dependencies** – grabs the Python requirements for doc execution plus the JS packages used by the theme.
+2. **Build the local theme bundle** – runs `make build-book`, which writes the theme assets into `.deploy/book`. This is configured in `docs/myst.yml` in the `template:` key.
+3. **Render the docs** – executes `myst build --execute --html` so the docs in `docs/` are rendered using the freshly built theme bundle.
 
-This includes both the latest version of MyST, as well as the Python dependencies to run documentation examples. Run the following command to do so:
+Running those steps manually looks like this:
 
-```shell
-$ pip install -r docs/requirements.txt
-$ npm install
+```bash
+pip install -r docs/requirements.txt
+npm install
+make build-book
+cd docs
+myst build --execute --html
 ```
 
-Then, build the latest version of the theme and preview the local documentation with it
-
-```shell
-$ make build-book
-$ cd docs
-$ myst build --execute --html
-```
-
-This will output HTML files for the documentation in `docs/_build/html` that you can re-use elsewhere.
+The rendered HTML is written to `docs/_build/html`, ready for Netlify to serve (or for you to preview locally).

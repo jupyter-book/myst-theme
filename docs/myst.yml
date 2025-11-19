@@ -17,9 +17,9 @@ project:
   toc:
     - file: index.md
     - file: ui.md
-    - title: Visual Reference
+    - file: reference/index.md
       children:
-      - pattern: reference/*.md
+      - pattern: 'reference/!(index)*.md'
     - file: developer.md
 site:
   # NOTE: You must run `make deploy-book` to generate the local version of this theme.
@@ -30,5 +30,6 @@ site:
       url: /developer
   options:
     site_title: myst-theme documentation
+    folders: true
     logo: _static/myst-logo-light.svg
     logo_dark: _static/myst-logo-dark.svg

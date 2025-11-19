@@ -109,5 +109,5 @@ graph LR
 ```{iframe} https://mystmd.org
 :title: This is a test title
 
-Here's an iframe title
+Here's an iframe with a title
 ```

@@ -83,9 +83,15 @@ function createSearch(index: MystSearchIndex): ISearch {
   return createMiniSearch(index.records, options);
 }
 
+/*
+ * Component that shows a "no CSS loaded" warning when a page 
+ * loads without the built-in MyST stylesheet. This can happen on static builds
+ * when the BASE_URL doesn't match the deployment base URL.
+ */
 function NoCSSWarning() {
   const CLIENT_THEME_SOURCE = `
     (() => {
+            // Test for has-styling variable set by the MyST stylesheet
             const node = document.currentScript.parentNode;
             const hasCSS = window.getComputedStyle(node).getPropertyValue("--has-styling");
             if (hasCSS === ""){
@@ -110,7 +116,7 @@ function NoCSSWarning() {
           color: 'black',
           background: 'white',
         }}
-        // Opening the modal sets an open attrib
+        // Opening the modal sets an open attribute, so we need to disable the warning
         suppressHydrationWarning
       >
         <strong>Site not loading correctly?</strong>

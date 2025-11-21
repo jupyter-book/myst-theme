@@ -20,7 +20,10 @@ project:
     - file: reference/index.md
       children:
       - pattern: 'reference/!(index)*.md'
-    - file: developer.md
+    - file: developer/index.md
+      children:
+      - pattern: 'developer/!(index)*.md'
+
 site:
   # NOTE: You must run `make deploy-book` to generate the local version of this theme.
   template: ../.deploy/book

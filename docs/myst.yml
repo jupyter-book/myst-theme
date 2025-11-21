@@ -21,7 +21,7 @@ project:
       children:
       - file: developer/local.md
       - file: developer/tips.md
-      - file: architecture.md
+      - file: developer/architecture.md
       - file: developer/documentation.md
       - file: developer/static-previews.md
     - title: Visual Reference

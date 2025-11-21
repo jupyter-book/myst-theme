@@ -11,22 +11,23 @@ project:
   jupyter: true
   parts:
     banner: |
-      📢 **Announcement:** This is a test banner for the MyST Theme! [Learn more about MyST](./computation.md).
+      📢 **Announcement:** This is a test banner for the MyST Theme! [Learn more about MyST](/reference).
     footer: _site/footer.md
     primary_sidebar_footer: _site/primary_sidebar_footer.md
   toc:
     - file: index.md
     - file: ui.md
-    - title: Developer guide
+    - file: reference/index.md
       children:
-      - file: developer/local.md
-      - file: developer/tips.md
-      - file: developer/architecture.md
-      - file: developer/documentation.md
-      - file: developer/static-previews.md
-    - title: Visual Reference
+      - pattern: 'reference/!(index)*.md'
+    - file: developer/index.md
       children:
-      - pattern: reference/*.md
+       - file: developer/local.md
+       - file: developer/tips.md
+       - file: developer/architecture.md
+       - file: developer/documentation.md
+       - file: developer/static-previews.md
+
 site:
   # NOTE: You must run `make deploy-book` to generate the local version of this theme.
   template: ../.deploy/book
@@ -36,5 +37,6 @@ site:
       url: /developer
   options:
     site_title: myst-theme documentation
+    folders: true
     logo: _static/myst-logo-light.svg
     logo_dark: _static/myst-logo-dark.svg

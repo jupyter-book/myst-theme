@@ -17,6 +17,7 @@ project:
   toc:
     - file: index.md
     - file: ui.md
+    - file: permalinks.md
     - file: reference/index.md
       children:
       - pattern: 'reference/!(index)*.md'

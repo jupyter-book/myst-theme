@@ -70,3 +70,79 @@ site:
 - Appears at the bottom of the primary sidebar (left-side navigation)
 - If the `.md` file it points to is empty, the footer will not be visible
 - If not configured, falls back to the default "Made with MyST" footer
+
+## Hiding Elements
+
+Control the visibility of various page elements. All options can be set site-wide or per-page.
+
+### Hide Authors
+
+Hide the author and affiliations list from the frontmatter block.
+
+```yaml
+site:
+  options:
+    hide_authors: true
+```
+
+### Hide Table of Contents
+
+Hide the left sidebar table of contents.
+
+```yaml
+site:
+  options:
+    hide_toc: true
+```
+
+### Hide Outline
+
+Hide the right sidebar document outline.
+
+```yaml
+site:
+  options:
+    hide_outline: true
+```
+
+### Hide Title Block
+
+Hide the entire frontmatter block (title, authors, date, etc.).
+
+```yaml
+site:
+  options:
+    hide_title_block: true
+```
+
+### Hide Footer Links
+
+Hide the previous/next navigation links at the bottom of each page.
+
+```yaml
+site:
+  options:
+    hide_footer_links: true
+```
+
+### Hide Search
+
+Disable the search functionality.
+
+```yaml
+site:
+  options:
+    hide_search: true
+```
+
+### Page-level Overrides
+
+Any of these options can be set on individual pages to override site-wide settings:
+
+```yaml
+---
+site:
+  hide_authors: true
+  hide_outline: true
+---
+```

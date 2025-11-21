@@ -12,6 +12,9 @@ It also serves as the reference documentation for these themes at the URL below:
 
 https://myst-theme.netlify.app/
 
+> **Note**: This builds against the [`main` branch of `mystmd`](https://github.com/jupyter-book/mystmd).
+> This allows us to test out new theme features against the latest version of the MyST Engine.
+
 You can also find a [storybook site for the MyST Theme components](https://jupyter-book.github.io/myst-theme/?path=/docs/components-introduction--docs) to see the style and structure of components.
 
 # Development

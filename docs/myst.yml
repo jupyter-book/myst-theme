@@ -18,8 +18,7 @@ project:
     - file: index.md
     - file: ui.md
     - file: permalinks.md
-    - title: Visual Reference
-      file: reference/index.md
+    - file: reference/index.md
       children:
       - pattern: 'reference/!(index)*.md'
     - file: developer/index.md

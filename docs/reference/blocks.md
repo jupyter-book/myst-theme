@@ -103,3 +103,11 @@ graph LR
     B -->|Yes| C[Action]
     B -->|No| D[End]
 ```
+
+## IFrame
+
+```{iframe} https://mystmd.org
+:title: This is a test title
+
+Here's an iframe with a title
+```

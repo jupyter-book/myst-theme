@@ -25,7 +25,7 @@ import {
   useSiteManifest,
   useThemeTop,
   ProjectProvider,
-  BannerStateProvider
+  BannerStateProvider,
 } from '@myst-theme/providers';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { MadeWithMyst } from '@myst-theme/icons';

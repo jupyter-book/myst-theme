@@ -1,5 +1,11 @@
 # @myst-theme/icons
 
+## 0.18.0
+
+### Minor Changes
+
+- dee582b: Add human-readable CSS classes to myst components
+
 ## 0.17.1
 
 ## 0.17.0

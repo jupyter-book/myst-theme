@@ -1,5 +1,18 @@
 # @myst-theme/landing-pages
 
+## 0.18.0
+
+### Minor Changes
+
+- dee582b: Add human-readable CSS classes to myst components
+
+### Patch Changes
+
+- Updated dependencies [60cca10]
+- Updated dependencies [49fc460]
+  - @myst-theme/providers@0.18.0
+  - myst-to-react@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes

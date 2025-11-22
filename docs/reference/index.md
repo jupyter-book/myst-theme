@@ -1,8 +1,7 @@
 ---
 title: Visual Reference
-description: Quick visual reference for myst-theme UI elements
 ---
 
-# Visual Reference
+This section provides a gallery of the components commonly used to construct a MyST document.
 
-This section provides a comprehensive visual reference showing how common document elements render in myst-theme. Use these pages to quickly see what any element looks like.
+You can try these components for yourself in the [sandbox](https://mystmd.org/sandbox).

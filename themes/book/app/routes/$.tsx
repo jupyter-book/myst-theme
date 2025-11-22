@@ -25,6 +25,7 @@ import {
   useSiteManifest,
   useThemeTop,
   ProjectProvider,
+  BannerStateProvider,
 } from '@myst-theme/providers';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { MadeWithMyst } from '@myst-theme/icons';
@@ -139,13 +140,15 @@ export function ArticlePageAndNavigation({
 }) {
   return (
     <UiStateProvider>
-      <ArticlePageAndNavigationInternal
-        children={children}
-        hide_toc={hide_toc}
-        hideSearch={hideSearch}
-        projectSlug={projectSlug}
-        inset={inset}
-      />
+      <BannerStateProvider>
+        <ArticlePageAndNavigationInternal
+          children={children}
+          hide_toc={hide_toc}
+          hideSearch={hideSearch}
+          projectSlug={projectSlug}
+          inset={inset}
+        />
+      </BannerStateProvider>
     </UiStateProvider>
   );
 }

@@ -14,8 +14,8 @@ export function Banner({ content, className }: { content: GenericParent; classNa
   const contentString = JSON.stringify(content);
   const bannerId = hashString(contentString);
 
-  // // Start hidden, only show after checking localStorage on client
-  // // This avoids flickering on initial load
+  // Start hidden, only show after checking localStorage on client.
+  // This avoids flickering on initial load.
   const { bannerState, setBannerState } = useBannerState();
 
   const ref = useRef<HTMLElement | null>(null);
@@ -31,9 +31,6 @@ export function Banner({ content, className }: { content: GenericParent; classNa
       height: el ? el.getBoundingClientRect().height : 0,
     });
   }, [bannerId, bannerState.visible]);
-    const dismissed = localStorage.getItem(`myst-dismissed-banner-${bannerId}`) === 'true';
-    setIsVisible(!dismissed);
-  }, [bannerId]);
 
   const handleDismiss = () => {
     localStorage.setItem(`myst-dismissed-banner-${bannerId}`, 'true');

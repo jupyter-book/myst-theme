@@ -25,8 +25,7 @@ import {
   useSiteManifest,
   useThemeTop,
   ProjectProvider,
-  BannerStateProvider,
-  useBannerState,
+  BannerStateProvider
 } from '@myst-theme/providers';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { MadeWithMyst } from '@myst-theme/icons';
@@ -96,21 +95,18 @@ function ArticlePageAndNavigationInternal({
   const { container, toc } = useSidebarHeight(top, inset);
   const siteManifest = useSiteManifest() as any;
   const projectParts = { ...siteManifest?.projects?.[0]?.parts, ...siteManifest?.parts };
-  const { bannerState } = useBannerState();
   return (
     <>
       <TabStateProvider>
         {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
       </TabStateProvider>
       <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
-      {bannerState.visible != undefined && (
-        <PrimaryNavigation
-          sidebarRef={toc}
-          hide_toc={hide_toc}
-          footer={<SidebarFooter content={projectParts?.primary_sidebar_footer?.mdast} />}
-          projectSlug={projectSlug}
-        />
-      )}
+      <PrimaryNavigation
+        sidebarRef={toc}
+        hide_toc={hide_toc}
+        footer={<SidebarFooter content={projectParts?.primary_sidebar_footer?.mdast} />}
+        projectSlug={projectSlug}
+      />
       <TabStateProvider>
         <main
           ref={container}

@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { MyST } from 'myst-to-react';
 import classNames from 'classnames';
 import type { GenericParent } from 'myst-common';
 import { hashString } from '~/utils/hash';
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import { useBannerState } from '@myst-theme/providers';
 
 /**
  * A dismissible banner component at the top that shows content passed as a MyST AST.
@@ -13,24 +14,34 @@ export function Banner({ content, className }: { content: GenericParent; classNa
   const contentString = JSON.stringify(content);
   const bannerId = hashString(contentString);
 
-  // Start hidden, only show after checking localStorage on client
-  // This avoids flickering on initial load
-  const [isVisible, setIsVisible] = useState(false);
+  // Start hidden, only show after checking localStorage on client.
+  // This avoids flickering on initial load.
+  const { bannerState, setBannerState } = useBannerState();
 
-  // Check dismissal state on client side only
+  const ref = useRef<HTMLElement | null>(null);
+
+  // Check dismissal state on client side
   // If the banner content changes, the ID will be different and it'll show again
   useEffect(() => {
+    const el = ref.current;
+
     const dismissed = localStorage.getItem(`myst-dismissed-banner-${bannerId}`) === 'true';
-    setIsVisible(!dismissed);
-  }, [bannerId]);
+    setBannerState({
+      visible: !dismissed,
+      height: el ? el.getBoundingClientRect().height : 0,
+    });
+  }, [bannerId, bannerState.visible]);
 
   const handleDismiss = () => {
     localStorage.setItem(`myst-dismissed-banner-${bannerId}`, 'true');
-    setIsVisible(false);
+    setBannerState({
+      visible: false,
+      height: 0,
+    });
   };
 
   // Don't render if not visible
-  if (!isVisible) return null;
+  if (!bannerState.visible) return null;
 
   // Should be styled similarly to the footer
   return (
@@ -42,6 +53,7 @@ export function Banner({ content, className }: { content: GenericParent; classNa
         'relative z-40',
         className,
       )}
+      ref={ref}
     >
       <div className="max-w-screen-lg mx-auto flex items-center gap-4">
         {/* Banner content */}

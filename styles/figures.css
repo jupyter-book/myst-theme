@@ -14,6 +14,7 @@ figure.fig-quote figcaption > p:before {
 figure.fig-quote.pull-quote > blockquote {
   font-size: 1.4rem;
 }
+/* fig-code are captions on code blocks */
 figure.fig-code > div {
   margin: 0;
 }

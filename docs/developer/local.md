@@ -6,17 +6,6 @@ To interact with the themes in development mode (e.g. with live-reload of compon
 2. Theme: A dev server that watches for changes to this theme and re-builds it automatically.
 3. Theme: The theme server / renderer application.
 
-## First build a local version of the book theme
-
-Run this to build a local version of the book theme:
-
-```shell
-$ make build-book
-```
-
-This is a requirement of the way our static site is generated.
-It expects to find a built theme locally, and the `myst start --headless` command below will error if it isn't done at least once.
-
 ## Start a content server
 
 First, start [a content server application](https://mystmd.org/guide/developer#content-server) in another MyST site. For example, with our docs:

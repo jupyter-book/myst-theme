@@ -5,8 +5,12 @@ figure.fig-quote figcaption > p:before {
   content: '—';
   padding-right: 0.5em;
 }
-figure.fig-quote.pull-quote > blockquote { 
+figure.fig-quote.pull-quote > blockquote {
   font-size: 1.4rem;
+}
+/* Center captions for standard figures to match centered images */
+figure:not(.fig-quote) figcaption {
+  text-align: center;
 }
 figure.fig-code > div {
   margin: 0;

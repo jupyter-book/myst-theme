@@ -41,3 +41,4 @@ site:
     folders: true
     logo: _static/myst-logo-light.svg
     logo_dark: _static/myst-logo-dark.svg
+    style: styles/custom.scss

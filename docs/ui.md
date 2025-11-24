@@ -71,6 +71,19 @@ site:
 - If the `.md` file it points to is empty, the footer will not be visible
 - If not configured, falls back to the default "Made with MyST" footer
 
+## Custom Styling
+
+You can provide a custom stylesheet to override or extend the theme's styles.
+This supports standard CSS as well as SCSS/SASS.
+
+```yaml
+site:
+  options:
+    style: styles/custom.scss
+```
+
+The theme will automatically compile SCSS/SASS files on the fly.
+
 ## Hiding Elements
 
 Control the visibility of various page elements. All options can be set site-wide or per-page.

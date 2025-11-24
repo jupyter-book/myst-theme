@@ -1,0 +1,8 @@
+$primary-color: #ff0000;
+
+h1 {
+  color: $primary-color !important;
+  &:hover {
+    text-decoration: underline;
+  }
+}

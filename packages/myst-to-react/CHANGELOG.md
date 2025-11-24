@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 0.18.0
+
+### Patch Changes
+
+- 49fc460: Consume title in iframe renderer
+- Updated dependencies [60cca10]
+  - @myst-theme/providers@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes

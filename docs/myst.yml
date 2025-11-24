@@ -21,7 +21,7 @@ project:
     - file: reference/index.md
       children:
       - pattern: 'reference/!(index)*.md'
-    - title: Developer documentation
+    - file: developer/index.md
       children:
        - file: developer/local.md
        - file: developer/tips.md

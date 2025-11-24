@@ -2,6 +2,7 @@ import { createCookieSessionStorage, json } from '@remix-run/node';
 import { isTheme } from '@myst-theme/providers';
 import type { Theme } from '@myst-theme/providers';
 import type { ActionFunction } from '@remix-run/node';
+import * as sass from 'sass';
 
 export const themeStorage = createCookieSessionStorage({
   cookie: {
@@ -46,3 +47,23 @@ export const setThemeAPI: ActionFunction = async ({ request }) => {
     },
   );
 };
+
+/**
+ * Render SCSS/SASS to CSS if applicable
+ * 
+ * @param url The location of the file we're trying to render (to determine if it's SCSS)
+ * @param css The contents of that file
+ * @returns Rendered CSS if SCSS/SASS was found
+ */
+export function renderStyle(url: string | undefined, css: string): string {
+  if (!url) return css;
+  if (url.endsWith('.scss') || url.endsWith('.sass')) {
+    try {
+      return sass.compileString(css).css;
+    } catch (e: any) {
+      console.error(`Error compiling ${url}`, e);
+      return css + `\n/* Error compiling ${url}: ${e.message} */`;
+    }
+  }
+  return css;
+}

@@ -8,7 +8,12 @@ import {
   updateSiteManifestStaticLinksInplace,
 } from '@myst-theme/common';
 import { redirect } from '@remix-run/node';
-import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
+import {
+  responseNoArticle,
+  responseNoSite,
+  getDomainFromRequest,
+  renderStyle,
+} from '@myst-theme/site';
 import type { MystSearchIndex } from '@myst-theme/search';
 import { slugToUrl } from 'myst-common';
 
@@ -130,5 +135,5 @@ export async function getCustomStyleSheet(): Promise<string | undefined> {
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return;
   const css = await response.text();
-  return css;
+  return renderStyle(url, css);
 }

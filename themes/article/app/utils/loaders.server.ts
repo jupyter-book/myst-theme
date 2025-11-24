@@ -9,7 +9,12 @@ import {
   updatePageStaticLinksInplace,
   updateSiteManifestStaticLinksInplace,
 } from '@myst-theme/common';
-import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
+import {
+  responseNoArticle,
+  responseNoSite,
+  getDomainFromRequest,
+  renderStyle,
+} from '@myst-theme/site';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`;
@@ -130,5 +135,5 @@ export async function getCustomStyleSheet(): Promise<string | undefined> {
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return;
   const css = await response.text();
-  return css;
+  return renderStyle(url, css);
 }

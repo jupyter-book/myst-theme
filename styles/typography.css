@@ -45,6 +45,7 @@
     margin: 0;
     display: inline-block;
     max-height: 1.2em;
+    vertical-align: text-bottom;
   }
   article.content {
     min-height: calc(100vh);

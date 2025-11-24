@@ -1,3 +1,9 @@
+/* Center captions for standard figures to match centered images */
+figure.fig-figure figcaption {
+  width: fit-content;
+  margin: auto;
+}
+/* .fig-quote is for pull-quotes attribution */
 figure.fig-quote figcaption {
   text-align: right;
 }
@@ -7,10 +13,6 @@ figure.fig-quote figcaption > p:before {
 }
 figure.fig-quote.pull-quote > blockquote {
   font-size: 1.4rem;
-}
-/* Center captions for standard figures to match centered images */
-figure:not(.fig-quote) figcaption {
-  text-align: center;
 }
 figure.fig-code > div {
   margin: 0;

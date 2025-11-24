@@ -12,7 +12,7 @@
     "postinstall": "patch-package --patch-dir patches",
     "compile": "turbo run compile",
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel --filter='./packages/*' --filter=@myst-theme/styles",
+    "dev": "turbo run dev --parallel --filter='./packages/*'",
     "theme:book": "turbo run dev --parallel --filter='./themes/book'",
     "theme:article": "turbo run dev --parallel --filter='./themes/article'",
     "test": "turbo run test",

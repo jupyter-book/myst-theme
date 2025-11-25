@@ -1,8 +1,14 @@
-$primary-color: #ff0000;
+$red: red;
+$blue: blue;
+.fun-text {
+  transition: text-shadow 0.15s ease-in-out;
+  font-size: 2em;
+  font-weight: 900;
 
-h1 {
-  color: $primary-color !important;
   &:hover {
-    text-decoration: underline;
+    text-shadow: 
+      4px 0 0 $red,
+      -4px 0 0 $blue;
+    cursor: crosshair;
   }
 }

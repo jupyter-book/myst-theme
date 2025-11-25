@@ -84,6 +84,22 @@ site:
 
 The theme will automatically compile SCSS/SASS files on the fly.
 
+For example, the text below:
+
+```
+Hover here 👉 {span .fun-text}`fancy hover text area!`
+```
+
+And the following SCSS file:
+
+```{literalinclude} styles/custom.scss
+```
+
+Now hover your mouse over the following text box:
+
+Hover here 👉 {span .fun-text}`fancy hover text area!`
+
+
 ## Hiding Elements
 
 Control the visibility of various page elements. All options can be set site-wide or per-page.

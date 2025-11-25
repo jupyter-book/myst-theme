@@ -1,6 +1,6 @@
 ---
-"@myst-theme/styles": patch
-"@myst-theme/docs": patch
+'myst-to-react': patch
+'@myst-theme/styles': patch
 ---
 
 Fix inline images and centered figure captions

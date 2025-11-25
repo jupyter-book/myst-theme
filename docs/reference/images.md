@@ -4,9 +4,32 @@ title: Images & Figures
 
 # Images & Figures
 
+
 ## Basic Image
 
+Here's an image in block form:
+
 ![MyST Logo](../_static/myst-logo-light.svg)
+
+## Inline Images
+
+Text before ![MyST Logo](../_static/myst-logo-light.svg) text after. This image should appear inline with the text, without line breaks before or after it.
+
+### Inline in lists
+
+- Text before ![MyST Logo](../_static/myst-logo-light.svg) text after within a list item.
+- Second item without an image for comparison.
+
+### Inline in tables
+
+| Description | Inline image |
+| ----------- | ------------ |
+| Text before ![MyST Logo](../_static/myst-logo-light.svg) text after | Works inside table cells too |
+
+### Inline in definition lists
+
+Term with logo
+: Text before ![MyST Logo](../_static/myst-logo-light.svg) text after inside a definition description.
 
 ## Figure with Caption
 

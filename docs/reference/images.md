@@ -55,5 +55,5 @@ Dark theme
 
 ![MyST logo dark theme](../_static/myst-logo-dark.svg)
 
-Example of two sub-figures stacked vertically. The subfigures are automatically numbered as {numref}`fig-stacked-example` {subEnumerator}`fig-stacked-example-a` and {subEnumerator}`fig-stacked-example-b`. Reference the parent figure with {numref}`fig-stacked-example`, or individual subfigures: {numref}`fig-stacked-example-a` and {numref}`fig-stacked-example-b`.
+Example of two sub-figures stacked vertically. Reference the parent figure with {numref}`fig-stacked-example`, or individual subfigures: {numref}`fig-stacked-example-a` and {numref}`fig-stacked-example-b`.
 :::

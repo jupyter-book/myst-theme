@@ -32,7 +32,7 @@ function alignToMargin(align: string) {
     case 'right':
       return { marginLeft: 'auto' };
     case 'center':
-      return { margin: '0 auto' };
+      return { marginLeft: 'auto', marginRight: 'auto' };
     default:
       return {};
   }

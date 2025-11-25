@@ -37,7 +37,7 @@ Term with logo
 :name: fig-example
 :width: 300px
 
-Figure with caption and reference label. Here's some more text so that we can see what a really long caption looks like. Figure with caption and reference label. Here's some more text so that we can see what a really long caption looks like.
+Figure with caption and reference label.
 :::
 
 Reference: {numref}`fig-example`
@@ -58,13 +58,13 @@ Centered figure.
 :::{figure} ../_static/myst-logo-light.svg
 :width: 100%
 
-Light theme. Here's some more text so that we can see what a really long caption looks like. Figure with caption and reference label. Here's some more text so that we can see what a really long caption looks like.
+Light theme
 :::
 
 :::{figure} ../_static/myst-logo-dark.svg
 :width: 100%
 
-Dark theme. Here's some more text so that we can see what a really long caption looks like. Figure with caption and reference label. Here's some more text so that we can see what a really long caption looks like.
+Dark theme
 :::
 
 ::::

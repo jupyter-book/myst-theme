@@ -50,7 +50,7 @@ export const setThemeAPI: ActionFunction = async ({ request }) => {
 
 /**
  * Render SCSS/SASS to CSS if applicable
- * 
+ *
  * @param url The location of the file we're trying to render (to determine if it's SCSS)
  * @param css The contents of that file
  * @returns Rendered CSS if SCSS/SASS was found

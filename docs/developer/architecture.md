@@ -33,3 +33,9 @@
 - [Prettier](https://prettier.io) for code formatting
 - [Tailwind](https://tailwindcss.com/) for styling
 - [Storybook](https://storybook.js.org/) for documenting components
+
+### Tailwind CSS bundle and class list
+
+Tailwind scans all of the MyST packages listed in `styles/tailwind.config.js` (and the theme-level configs in `themes/book` and `themes/article`) and pulls those classes into the generated bundle packaged with the MyST Theme.
+
+When you build a MyST site with the theme, the final bundled CSS lands at a location like `_build/html/build/_assets/app-[HASH].css`. That file contains the complete set of Tailwind classes available in the published theme.

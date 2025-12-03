@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 1.0.0
+
+### Patch Changes
+
+- bd19488: Fix inline images and centered figure captions
+
 ## 0.18.0
 
 ## 0.17.1
@@ -199,7 +205,6 @@
 ### Minor Changes
 
 - 0536fa7: Rename styles to allow for additional grid systems:
-
   - `article-grid-gap` to `grid-gap`
   - `article-subgrid-gap` to `subgrid-gap`
 

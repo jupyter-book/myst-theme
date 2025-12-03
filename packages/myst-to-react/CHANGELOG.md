@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 1.0.0
+
+### Patch Changes
+
+- bd19488: Fix inline images and centered figure captions
+  - @myst-theme/providers@1.0.0
+
 ## 0.18.0
 
 ### Patch Changes

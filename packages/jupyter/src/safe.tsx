@@ -45,21 +45,37 @@ function OutputImage({ image, text }: { image: MinifiedMimePayload; text?: Minif
   return <img src={image?.path} alt={text?.content ?? 'Image produced in Jupyter'} />;
 }
 
-function SafeOutput({ output }: { output: MinifiedOutput }) {
+export function SafeOutput({ output }: { output: MinifiedOutput }) {
   switch (output.output_type) {
     case 'stream':
-      return <Stream output={output} />;
+      return (
+        <div data-name="safe-output-stream">
+          <Stream output={output} />
+        </div>
+      );
     case 'error':
-      return <Error output={output} />;
+      return (
+        <div data-name="safe-output-error">
+          <Error output={output} />
+        </div>
+      );
     case 'display_data':
     case 'execute_result':
     case 'update_display_data': {
       const { image, text } = findSafeMimeOutputs(output);
       if (!image && !text) return null;
-      if (image) return <OutputImage image={image} text={text} />;
+      if (image)
+        return (
+          <div data-name="safe-output-image">
+            <OutputImage image={image} text={text} />
+          </div>
+        );
       if (text)
         return (
-          <div className="myst-jp-safe-output-text font-mono text-sm whitespace-pre-wrap">
+          <div
+            data-name="safe-output-text"
+            className="font-mono text-sm whitespace-pre-wrap myst-jp-safe-output-text"
+          >
             <Ansi>{text.content}</Ansi>
           </div>
         );
@@ -69,13 +85,4 @@ function SafeOutput({ output }: { output: MinifiedOutput }) {
       console.warn(`Unknown output_type ${output['output_type']}`);
       return null;
   }
-}
-
-export function SafeOutputs({ keyStub, outputs }: { keyStub: string; outputs: MinifiedOutput[] }) {
-  if (!outputs) return null;
-  // TODO better key - add keys during content creation?
-  const components = outputs.map((output, idx) => (
-    <SafeOutput key={`${keyStub}-${idx}`} output={output} />
-  ));
-  return <>{components}</>;
 }

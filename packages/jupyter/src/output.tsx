@@ -21,32 +21,42 @@ export const DIRECT_MIME_TYPES = new Set([
   KnownCellOutputMimeTypes.ImageBmp,
 ]) as Set<string>;
 
+export function isOutputSafe(
+  output: MinifiedOutput,
+  directOutputTypes: Set<string>,
+  directMimeTypes: Set<string>,
+) {
+  if (directOutputTypes.has(output.output_type)) return true;
+  const data = (output as MinifiedMimeOutput).data;
+  const mimetypes = data ? Object.keys(data) : [];
+  return (
+    'data' in output &&
+    Boolean(output.data) &&
+    mimetypes.every((mimetype) => directMimeTypes.has(mimetype))
+  );
+}
+
 export function allOutputsAreSafe(
   outputs: MinifiedOutput[],
   directOutputTypes: Set<string>,
   directMimeTypes: Set<string>,
 ) {
   if (!outputs || outputs.length === 0) return true;
-  return outputs.reduce((flag, output) => {
-    if (directOutputTypes.has(output.output_type)) return flag && true;
-    const data = (output as MinifiedMimeOutput).data;
-    const mimetypes = data ? Object.keys(data) : [];
-    const safe =
-      'data' in output &&
-      Boolean(output.data) &&
-      mimetypes.every((mimetype) => directMimeTypes.has(mimetype));
-    return flag && safe;
-  }, true);
+  return outputs.reduce(
+    (flag, output) => flag && isOutputSafe(output, directOutputTypes, directMimeTypes),
+    true,
+  );
 }
 
 export function Output({ node }: { node: GenericNode }) {
-  const { outputsId, allSafe } = useOutputsContext();
+  const { outputsId } = useOutputsContext();
   const { ready } = useCellExecution(outputsId);
-  const outputs = useMemo(() => [node.jupyter_data], [node]);
-  return allSafe && !ready ? (
-    <SafeOutputs keyStub={outputsId} outputs={outputs} />
+  const jupyterLikeOutput = useMemo(() => [node.jupyter_data], [node]);
+  const isSafe = isOutputSafe(jupyterLikeOutput[0], DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES);
+  return isSafe && !ready ? (
+    <SafeOutputs keyStub={outputsId} outputs={jupyterLikeOutput} />
   ) : (
-    <JupyterOutputs id={outputsId} outputs={outputs} />
+    <JupyterOutputs id={outputsId} outputs={jupyterLikeOutput} />
   );
 }
 
@@ -61,6 +71,8 @@ export function Outputs({ node }: { node: GenericNode }) {
     () => selectAll('output', node).map((child) => (child as any).jupyter_data),
     [children],
   );
+
+  // top level all safe only used for placeholder behaviour
   const allSafe = useMemo(
     () => allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES),
     [outputs],
@@ -86,7 +98,7 @@ export function Outputs({ node }: { node: GenericNode }) {
         className,
       )}
     >
-      <OutputsContextProvider outputsId={outputsId} allSafe={allSafe}>
+      <OutputsContextProvider outputsId={outputsId}>
         <MyST ast={children} />
       </OutputsContextProvider>
     </div>

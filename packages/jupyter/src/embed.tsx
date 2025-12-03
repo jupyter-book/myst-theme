@@ -20,7 +20,7 @@ export function Embed({ node }: { node: GenericNode }) {
         url={node.source?.url}
         remoteBaseUrl={node.source?.remoteBaseUrl}
       >
-        <OutputsContextProvider allSafe={false} outputsId={outputs.id ?? outputs.key}>
+        <OutputsContextProvider outputsId={outputs.id ?? outputs.key}>
           <MyST ast={node.children} />
         </OutputsContextProvider>
       </OutputDecoration>

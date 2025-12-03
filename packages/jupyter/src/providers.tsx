@@ -110,7 +110,6 @@ export function ThebeLoaderAndServer({
 }
 
 type OutputsContextType = {
-  allSafe: boolean;
   outputsId: IdOrKey;
 };
 const OutputsContext = React.createContext<OutputsContextType | null>(null);
@@ -123,15 +122,11 @@ export function useOutputsContext() {
   return context;
 }
 export function OutputsContextProvider({
-  allSafe,
   outputsId,
   children,
 }: {
   children: React.ReactNode;
-  allSafe: boolean;
   outputsId: IdOrKey;
 }) {
-  return (
-    <OutputsContext.Provider value={{ allSafe, outputsId }}>{children}</OutputsContext.Provider>
-  );
+  return <OutputsContext.Provider value={{ outputsId }}>{children}</OutputsContext.Provider>;
 }

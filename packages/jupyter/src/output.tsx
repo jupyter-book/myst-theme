@@ -61,9 +61,7 @@ export function JupyterOutput({
   let component;
   if (allSafe && !ready) {
     if (placeholder && (!outputs || outputs.length === 0)) {
-      if (placeholder) {
-        return <MyST ast={placeholder} />;
-      }
+      return <MyST ast={placeholder} />;
     }
     component = <SafeOutputs keyStub={outputId} outputs={outputs} />;
   } else {

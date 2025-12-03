@@ -8,7 +8,13 @@ import {
   ArticleStatusBadge,
 } from './controls/ArticleCellControls.js';
 import { JupyterIcon } from '@scienceicons/react/24/solid';
-import { useLinkProvider, useBaseurl, withBaseurl, useThemeTop } from '@myst-theme/providers';
+import {
+  useLinkProvider,
+  useBaseurl,
+  withBaseurl,
+  useThemeTop,
+  useXRefState,
+} from '@myst-theme/providers';
 import { useComputeOptions } from './providers.js';
 
 const PlaceholderContext = React.createContext<{ placeholder?: GenericNode }>({});
@@ -46,11 +52,13 @@ export function OutputDecoration({
   const Link = useLinkProvider();
   const top = useThemeTop();
   const baseurl = useBaseurl();
+  const { inCrossRef } = useXRefState();
   const showComputeControls =
     compute?.enabled &&
     compute?.features.figureCompute &&
     kind === SourceFileKind.Article &&
-    !remoteBaseUrl;
+    !remoteBaseUrl &&
+    !inCrossRef;
 
   if (showComputeControls) {
     return (

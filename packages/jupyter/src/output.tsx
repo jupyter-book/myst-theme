@@ -79,7 +79,7 @@ export function Outputs({ node }: { node: GenericNode }) {
   );
   const placeholder = usePlaceholder();
 
-  if (allSafe && !ready && placeholder && (!outputs || outputs.length === 0)) {
+  if (!ready && placeholder) {
     return <MyST ast={placeholder} />;
   }
 

@@ -61,7 +61,7 @@ function ActiveOutputRenderer({
         data-thebe-active-ref="true"
         className={classNames('relative', { 'invisible h-0': !executed && placeholder })}
       />
-      {placeholder && !executed && <MyST ast={placeholder} />}
+      {exec.ready && placeholder && !executed && <MyST ast={placeholder} />}
     </div>
   );
 }
@@ -130,10 +130,6 @@ export const JupyterOutputs = React.memo(
           )}
         </div>
       );
-    }
-
-    if (placeholder) {
-      return <MyST ast={placeholder} />;
     }
 
     return (

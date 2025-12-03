@@ -4,12 +4,12 @@ import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
 import { SafeOutputs } from './safe.js';
 import { JupyterOutputs } from './jupyter.js';
-import { useMemo, createContext, useContext } from 'react';
+import { useMemo } from 'react';
 import { useCellExecution } from './execute/index.js';
-import type { IdOrKey } from './execute/types.js';
 import { usePlaceholder } from './decoration.js';
 import { Details, MyST } from 'myst-to-react';
 import { selectAll } from 'unist-util-select';
+import { useOutputsContext, OutputsContextProvider } from './providers.js';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -39,18 +39,8 @@ export function allOutputsAreSafe(
   }, true);
 }
 
-type OutputsContextType = {
-  allSafe: boolean;
-  outputsId: IdOrKey;
-};
-const OutputsContext = createContext<OutputsContextType | null>(null);
-
 export function Output({ node }: { node: GenericNode }) {
-  const context = useContext(OutputsContext);
-  if (!context) {
-    return <> </>;
-  }
-  const { outputsId, allSafe } = context;
+  const { outputsId, allSafe } = useOutputsContext();
   const { ready } = useCellExecution(outputsId);
   const outputs = [node.jupyter_data];
   return allSafe && !ready ? (
@@ -96,9 +86,9 @@ export function Outputs({ node }: { node: GenericNode }) {
         className,
       )}
     >
-      <OutputsContext.Provider value={{ outputsId, allSafe }}>
+      <OutputsContextProvider outputsId={outputsId} allSafe={allSafe}>
         <MyST ast={children} />
-      </OutputsContext.Provider>
+      </OutputsContextProvider>
     </div>
   );
 

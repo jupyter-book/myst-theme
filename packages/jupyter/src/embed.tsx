@@ -27,12 +27,9 @@ export function Embed({ node }: { node: GenericNode }) {
     );
   } else if (output) {
     return (
-      <div className="border border-red-500 p-1">
-        <details className="cursor-pointer">
-          <summary>Legacy Output Embedded</summary>
-          <pre>{JSON.stringify(output, null, 2)}</pre>
-        </details>
-      </div>
+      <OutputsContextProvider outputsId={output.key}>
+        <MyST ast={node.children} />
+      </OutputsContextProvider>
     );
   }
 

@@ -37,19 +37,12 @@ export function allOutputsAreSafe(
   }, true);
 }
 
-export function JupyterOutput({
-  outputId,
-  identifier,
-  data,
-  align,
-  className,
-}: {
-  outputId: string;
-  identifier?: string;
-  data: MinifiedOutput[];
-  align?: 'left' | 'center' | 'right';
-  className?: string;
-}) {
+export function Output({ node }: { node: GenericNode }) {
+  const className = classNames({ hidden: node.visibility === 'remove' });
+  const outputId = node.id;
+  const identifier = node.identifier;
+  const align = node.align;
+  const data = node.data;
   const { ready } = useCellExecution(outputId);
   const outputs: MinifiedOutput[] = data;
   const allSafe = useMemo(
@@ -69,7 +62,7 @@ export function JupyterOutput({
     component = <JupyterOutputs id={outputId} outputs={outputs} />;
   }
 
-  return (
+  const output = (
     <div
       id={identifier || undefined}
       data-mdast-node-id={outputId}
@@ -87,18 +80,7 @@ export function JupyterOutput({
       {component}
     </div>
   );
-}
 
-export function Output({ node }: { node: GenericNode }) {
-  const output = (
-    <JupyterOutput
-      className={classNames({ hidden: node.visibility === 'remove' })}
-      outputId={node.id}
-      identifier={node.identifier}
-      align={node.align}
-      data={node.data}
-    />
-  );
   if (node.visibility === 'hide') {
     return <Details title="Output">{output}</Details>;
   }

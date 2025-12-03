@@ -1,12 +1,12 @@
 import { Embed } from './embed.js';
-import { Output } from './output.js';
+import { Outputs } from './output.js';
 import { Figure } from './figure.js';
 import { mergeRenderers } from '@myst-theme/providers';
 import { NOTEBOOK_BLOCK_RENDERERS } from './block.js';
 
 export { NOTEBOOK_BLOCK_RENDERERS } from './block.js';
 export const OUTPUT_RENDERERS = {
-  output: Output,
+  outputs: Outputs,
   embed: Embed,
   container: Figure,
 };

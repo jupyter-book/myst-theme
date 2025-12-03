@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
 import { Details, MyST } from 'myst-to-react';
+import { selectAll } from 'unist-util-select';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -37,14 +38,16 @@ export function allOutputsAreSafe(
   }, true);
 }
 
-export function Output({ node }: { node: GenericNode }) {
+export function Outputs({ node }: { node: GenericNode }) {
   const className = classNames({ hidden: node.visibility === 'remove' });
+  const { children, identifier, align } = node;
   const outputId = node.id;
-  const identifier = node.identifier;
-  const align = node.align;
-  const data = node.data;
   const { ready } = useCellExecution(outputId);
-  const outputs: MinifiedOutput[] = data;
+
+  const outputs: MinifiedOutput[] = useMemo(
+    () => selectAll('output', node).map((child) => (child as any).jupyter_data),
+    [children],
+  );
   const allSafe = useMemo(
     () => allOutputsAreSafe(outputs, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES),
     [outputs],

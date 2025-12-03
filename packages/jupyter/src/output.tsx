@@ -63,7 +63,7 @@ export function Output({ node }: { node: GenericNode }) {
 export function Outputs({ node }: { node: GenericNode }) {
   const className = classNames({ hidden: node.visibility === 'remove' });
   const { children, identifier, align } = node;
-  const outputsId = node.id;
+  const outputsId = node.id ?? node.key;
   const cellExecutionContext = useCellExecution(outputsId);
   const { ready } = cellExecutionContext;
 

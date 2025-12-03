@@ -8,7 +8,7 @@ export function Embed({ node }: { node: GenericNode }) {
   return (
     <OutputDecoration
       key={node.key}
-      outputId={output.id}
+      outputId={output.id ?? output.key}
       title={node.source?.title}
       url={node.source?.url}
       remoteBaseUrl={node.source?.remoteBaseUrl}

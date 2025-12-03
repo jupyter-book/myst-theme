@@ -42,7 +42,7 @@ export function allOutputsAreSafe(
 export function Output({ node }: { node: GenericNode }) {
   const { outputsId, allSafe } = useOutputsContext();
   const { ready } = useCellExecution(outputsId);
-  const outputs = [node.jupyter_data];
+  const outputs = useMemo(() => [node.jupyter_data], [node]);
   return allSafe && !ready ? (
     <SafeOutputs keyStub={outputsId} outputs={outputs} />
   ) : (

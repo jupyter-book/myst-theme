@@ -3,6 +3,7 @@ import { type GenericNode } from 'myst-common';
 import { DEFAULT_RENDERERS, MyST } from 'myst-to-react';
 import classNames from 'classnames';
 import { OutputDecoration } from './decoration.js';
+import { OutputsContextProvider } from './providers.js';
 
 type NodeWithId = GenericNode & { id: string };
 
@@ -36,7 +37,9 @@ export function Figure({ node }: { node: GenericNode }) {
             url={node.source?.url}
             remoteBaseUrl={node.source?.remoteBaseUrl}
           >
-            <MyST ast={others} />
+            <OutputsContextProvider outputsId={outputs.id ?? outputs.key}>
+              <MyST ast={others} />
+            </OutputsContextProvider>
           </OutputDecoration>
         </figure>
       );

@@ -4,8 +4,9 @@ import type { MinifiedMimeOutput, MinifiedOutput } from 'nbtx';
 import classNames from 'classnames';
 import { SafeOutputs } from './safe.js';
 import { JupyterOutputs } from './jupyter.js';
-import { useMemo } from 'react';
+import { useMemo, createContext, useContext } from 'react';
 import { useCellExecution } from './execute/index.js';
+import type { IdOrKey } from './execute/types.js';
 import { usePlaceholder } from './decoration.js';
 import { Details, MyST } from 'myst-to-react';
 import { selectAll } from 'unist-util-select';
@@ -38,11 +39,33 @@ export function allOutputsAreSafe(
   }, true);
 }
 
+type OutputsContextType = {
+  allSafe: boolean;
+  outputsId: IdOrKey;
+};
+const OutputsContext = createContext<OutputsContextType | null>(null);
+
+export function Output({ node }: { node: GenericNode }) {
+  const context = useContext(OutputsContext);
+  if (!context) {
+    return <> </>;
+  }
+  const { outputsId, allSafe } = context;
+  const { ready } = useCellExecution(outputsId);
+  const outputs = [node.jupyter_data];
+  return allSafe && !ready ? (
+    <SafeOutputs keyStub={outputsId} outputs={outputs} />
+  ) : (
+    <JupyterOutputs id={outputsId} outputs={outputs} />
+  );
+}
+
 export function Outputs({ node }: { node: GenericNode }) {
   const className = classNames({ hidden: node.visibility === 'remove' });
   const { children, identifier, align } = node;
-  const outputId = node.id;
-  const { ready } = useCellExecution(outputId);
+  const outputsId = node.id;
+  const cellExecutionContext = useCellExecution(outputsId);
+  const { ready } = cellExecutionContext;
 
   const outputs: MinifiedOutput[] = useMemo(
     () => selectAll('output', node).map((child) => (child as any).jupyter_data),
@@ -58,17 +81,10 @@ export function Outputs({ node }: { node: GenericNode }) {
     return <MyST ast={placeholder} />;
   }
 
-  let component;
-  if (allSafe && !ready) {
-    component = <SafeOutputs keyStub={outputId} outputs={outputs} />;
-  } else {
-    component = <JupyterOutputs id={outputId} outputs={outputs} />;
-  }
-
   const output = (
     <div
       id={identifier || undefined}
-      data-mdast-node-id={outputId}
+      data-mdast-node-id={outputsId}
       className={classNames(
         'myst-jp-output max-w-full overflow-y-visible overflow-x-auto m-0 group not-prose relative',
         {
@@ -80,7 +96,9 @@ export function Outputs({ node }: { node: GenericNode }) {
         className,
       )}
     >
-      {component}
+      <OutputsContext.Provider value={{ outputsId, allSafe }}>
+        <MyST ast={children} />
+      </OutputsContext.Provider>
     </div>
   );
 

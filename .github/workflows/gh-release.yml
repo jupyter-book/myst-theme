@@ -67,8 +67,8 @@ jobs:
       - name: zip artifacts
         run: |
           mkdir dist_zip
-          zip -r dist_zip/book.zip dist-book/
-          zip -r dist_zip/article.zip dist-article/
+          zip -r dist_zip/book-theme.zip dist-book/
+          zip -r dist_zip/article-theme.zip dist-article/
 
       # Determine version/tag for naming
       # if this is a tagged build, use the tag
@@ -89,7 +89,7 @@ jobs:
           name: "Build ${{ steps.vars.outputs.name }}"
           tag_name: "${{ steps.vars.outputs.name }}"
           files: |
-            dist_zip/book.zip
-            dist_zip/article.zip
+            dist_zip/book-theme.zip
+            dist_zip/article-theme.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

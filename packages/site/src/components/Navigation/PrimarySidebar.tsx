@@ -7,6 +7,9 @@ import {
   useGridSystemProvider,
   useThemeTop,
   useIsWide,
+  useBaseurl,
+  withBaseurl,
+  useBannerState,
 } from '@myst-theme/providers';
 import type { Heading } from '@myst-theme/common';
 import { Toc } from './TableOfContentsItems.js';
@@ -16,12 +19,14 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 
 export function SidebarNavItem({ item }: { item: SiteNavItem }) {
+  const baseurl = useBaseurl();
   if (!item.children?.length) {
     return (
       <ExternalOrInternalLink
         nav
-        to={item.url ?? ''}
+        to={withBaseurl(item.url, baseurl) ?? ''}
         className={classNames(
+          'myst-primary-sidebar-item-short',
           'p-2 my-1 rounded-lg',
           'hover:bg-slate-300/30',
           'block break-words focus:outline outline-blue-200 outline-2 rounded',
@@ -36,38 +41,40 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
     <Collapsible.Root className="w-full" open={open} onOpenChange={setOpen}>
       <div
         className={classNames(
+          'myst-primary-sidebar-item',
           'flex flex-row w-full gap-2 px-2 my-1 text-left rounded-lg outline-none',
           'hover:bg-slate-300/30',
         )}
       >
         <ExternalOrInternalLink
           nav
-          to={item.url ?? ''}
-          className={classNames('py-2 grow', {})}
+          to={withBaseurl(item.url, baseurl) ?? ''}
+          className={classNames('myst-primary-sidebar-item-title py-2 grow', {})}
           onClick={() => setOpen(!open)}
         >
           {item.title}
         </ExternalOrInternalLink>
         <Collapsible.Trigger asChild>
           <button
-            className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+            className="myst-primary-sidebar-item-child self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
             aria-label="Open Folder"
           >
             <ChevronRightIcon
-              className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+              className="myst-primary-sidebar-item-icon transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
               height="1.5rem"
               width="1.5rem"
             />
           </button>
         </Collapsible.Trigger>
       </div>
-      <Collapsible.Content className="pl-3 pr-[2px] collapsible-content">
+      <Collapsible.Content className="myst-primary-sidebar-item-content pl-3 pr-[2px] collapsible-content">
         {item.children.map((action) => (
           <ExternalOrInternalLink
             nav
             key={action.url}
-            to={action.url || ''}
+            to={withBaseurl(action.url, baseurl) || ''}
             className={classNames(
+              'myst-primary-sidebar-item-link',
               'p-2 my-1 rounded-lg',
               'hover:bg-slate-300/30',
               'block break-words focus:outline outline-blue-200 outline-2 rounded',
@@ -97,15 +104,18 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
   const toc = useRef<HTMLDivElement>(null);
   const transitionState = useNavigation().state;
   const wide = useIsWide();
+  const { bannerState } = useBannerState();
+  const totalTop = top + bannerState.height;
+
   const setHeight = () => {
     if (!container.current || !toc.current) return;
     const height = container.current.offsetHeight - window.scrollY;
     const div = toc.current.firstChild as HTMLDivElement;
     if (div)
       div.style.height = wide
-        ? `min(calc(100vh - ${top}px), ${height + inset}px)`
-        : `calc(100vh - ${top}px)`;
-    if (div) div.style.height = `min(calc(100vh - ${top}px), ${height + inset}px)`;
+        ? `min(calc(100vh - ${totalTop}px), ${height + inset}px)`
+        : `calc(100vh - ${totalTop}px)`;
+    if (div) div.style.height = `min(calc(100vh - ${totalTop}px), ${height + inset}px)`;
     const nav = toc.current.querySelector('nav');
     if (nav) nav.style.opacity = height > 150 ? '1' : '0';
   };
@@ -117,7 +127,7 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [container, toc, transitionState, wide]);
+  }, [container, toc, transitionState, wide, totalTop]);
   return { container, toc };
 }
 
@@ -137,6 +147,7 @@ export const PrimarySidebar = ({
   mobileOnly?: boolean;
 }) => {
   const top = useThemeTop();
+  const { bannerState } = useBannerState();
   const grid = useGridSystemProvider();
   const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
@@ -155,16 +166,18 @@ export const PrimarySidebar = ({
     <div
       ref={sidebarRef as any}
       className={classNames(
+        'myst-primary-sidebar',
         'fixed',
         `xl:${grid}`, // for example, xl:article-grid
         'grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
         { 'lg:hidden': nav && hide_toc },
         { hidden: !open, 'z-30': open, 'z-10': !open },
       )}
-      style={{ top }}
+      style={{ top: top + bannerState.height }}
     >
       <div
         className={classNames(
+          'myst-primary-sidebar-pointer',
           'pointer-events-auto',
           'xl:col-margin-left flex-col',
           'overflow-hidden',
@@ -177,11 +190,11 @@ export const PrimarySidebar = ({
           },
         )}
       >
-        <div className="flex-grow py-6 overflow-y-auto primary-scrollbar">
+        <div className="myst-primary-sidebar-nav flex-grow py-6 overflow-y-auto primary-scrollbar">
           {nav && (
             <nav
               aria-label="Navigation"
-              className="overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden"
+              className="myst-primary-sidebar-topnav overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden"
             >
               <SidebarNav nav={nav} />
             </nav>
@@ -190,7 +203,7 @@ export const PrimarySidebar = ({
           {headings && (
             <nav
               aria-label="Table of Contents"
-              className="flex-grow overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px]"
+              className="myst-primary-sidebar-toc flex-grow overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px]"
             >
               <Toc headings={headings} />
             </nav>
@@ -198,7 +211,7 @@ export const PrimarySidebar = ({
         </div>
         {footer && (
           <div
-            className="flex-none py-6 transition-all duration-700 translate-y-6 opacity-0"
+            className="myst-primary-sidebar-footer flex-none py-6 transition-all duration-700 translate-y-6 opacity-0"
             ref={footerRef}
           >
             {footer}

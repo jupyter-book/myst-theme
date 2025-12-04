@@ -1,5 +1,20 @@
 # myst-to-react
 
+## 1.0.0
+
+### Patch Changes
+
+- bd19488: Fix inline images and centered figure captions
+  - @myst-theme/providers@1.0.0
+
+## 0.18.0
+
+### Patch Changes
+
+- 49fc460: Consume title in iframe renderer
+- Updated dependencies [60cca10]
+  - @myst-theme/providers@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes

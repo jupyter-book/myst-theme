@@ -1,5 +1,51 @@
 # @myst-theme/site
 
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [16a3bc8]
+- Updated dependencies [bd19488]
+  - @myst-theme/common@1.0.0
+  - myst-to-react@1.0.0
+  - @myst-theme/providers@1.0.0
+  - @myst-theme/frontmatter@1.0.0
+  - @myst-theme/diagrams@1.0.0
+  - @myst-theme/search@1.0.0
+  - myst-demo@1.0.0
+
+## 0.18.0
+
+### Minor Changes
+
+- dee582b: Add human-readable CSS classes to myst components
+
+### Patch Changes
+
+- 3a334e5: Reduce height of document outline in right panel to avoid overflowing the screen height
+- c6699ff: Add hide_authors handling
+- b5a3495: Add project.parts.primary_sidebar_footer option
+- 60cca10: Adjust the primary sidebar height and positioning when banner is displayed.
+
+  Also expose the banner state for other components to use.
+
+- 7190e6c: Add baseurl to the sidebar links
+- Updated dependencies [10a7355]
+- Updated dependencies [dee582b]
+- Updated dependencies [ba1e034]
+- Updated dependencies [c6699ff]
+- Updated dependencies [9f20d99]
+- Updated dependencies [17b3b1b]
+- Updated dependencies [60cca10]
+- Updated dependencies [49fc460]
+  - @myst-theme/frontmatter@0.18.0
+  - @myst-theme/common@0.18.0
+  - @myst-theme/search@0.18.0
+  - @myst-theme/diagrams@0.18.0
+  - @myst-theme/providers@0.18.0
+  - myst-to-react@0.18.0
+  - myst-demo@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes
@@ -1018,7 +1064,6 @@
 ### Patch Changes
 
 - 0536fa7: Rename styles to allow for additional grid systems:
-
   - `article-grid-gap` to `grid-gap`
   - `article-subgrid-gap` to `subgrid-gap`
 

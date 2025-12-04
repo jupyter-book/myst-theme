@@ -13,7 +13,7 @@ export function BackmatterParts({
   innerClassName?: string;
 }) {
   return (
-    <div className={containerClassName}>
+    <div className={classNames('myst-backmatter-parts', containerClassName)}>
       <Backmatter
         className={innerClassName}
         title="Acknowledgments"
@@ -43,15 +43,20 @@ export function Backmatter({
 }) {
   if (!content) return null;
   return (
-    <div className={classNames('flex flex-col w-full md:flex-row group/backmatter', className)}>
+    <div
+      className={classNames(
+        'myst-backmatter flex flex-col w-full md:flex-row group/backmatter',
+        className,
+      )}
+    >
       <h2
         id={id}
-        className="mt-5 text-base font-semibold group md:w-[200px] self-start md:flex-none opacity-90 group-hover/backmatter:opacity-100"
+        className="myst-backmatter-title mt-5 text-base font-semibold group md:w-[200px] self-start md:flex-none opacity-90 group-hover/backmatter:opacity-100"
       >
         {title}
         <HashLink id={id} title={`Link to ${title}`} hover className="ml-2" />
       </h2>
-      <div className="grow opacity-90 group-hover/backmatter:opacity-100 col-screen">
+      <div className="myst-backmatter-content grow opacity-90 group-hover/backmatter:opacity-100 col-screen">
         <MyST ast={getChildren(content)} />
       </div>
     </div>

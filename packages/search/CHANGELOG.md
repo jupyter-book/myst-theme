@@ -1,5 +1,17 @@
 # @myst-theme/search
 
+## 1.0.0
+
+## 0.18.0
+
+### Minor Changes
+
+- 9f20d99: Replace text-gray-400 with text-gray-600 for sufficient search bar contrast
+
+### Patch Changes
+
+- ba1e034: Fix accessibility bugs in search form dialog
+
 ## 0.17.1
 
 ## 0.17.0

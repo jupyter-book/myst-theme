@@ -72,3 +72,21 @@ export type PageLoader = {
   // This may not be defined
   dependencies?: Dependency[];
 };
+
+export type CommonTemplateOptions = {
+  favicon?: string;
+  logo?: string;
+  logo_dark?: string;
+  logo_text?: string;
+  logo_url?: string;
+  analytics_google?: string;
+  analytics_plausible?: string;
+  numbered_references?: boolean;
+  folders?: boolean;
+  style?: string;
+  hide_authors?: boolean;
+  hide_footer_links?: boolean;
+  hide_toc?: boolean;
+  hide_outline?: boolean;
+  outline_maxdepth?: number;
+};

@@ -1,5 +1,21 @@
 # @myst-theme/common
 
+## 1.0.0
+
+### Major Changes
+
+- 16a3bc8: Updates the theme to accept a new AST structure for notebook output. These changes are not backwards compatible, and after this change, only the new AST structure is supported. Meaning, content upgrades are required to use the new themes. See https://github.com/jupyter-book/mystmd/pull/1903 for related AST changes.
+
+## 0.18.0
+
+### Minor Changes
+
+- dee582b: Add human-readable CSS classes to myst components
+
+### Patch Changes
+
+- c6699ff: Add hide_authors handling
+
 ## 0.17.1
 
 ## 0.17.0

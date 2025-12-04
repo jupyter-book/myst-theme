@@ -1,5 +1,54 @@
 # @myst-theme/book
 
+## 1.0.0
+
+### Major Changes
+
+- 16a3bc8: Updates the theme to accept a new AST structure for notebook output. These changes are not backwards compatible, and after this change, only the new AST structure is supported. Meaning, content upgrades are required to use the new themes. See https://github.com/jupyter-book/mystmd/pull/1903 for related AST changes.
+
+### Patch Changes
+
+- Updated dependencies [16a3bc8]
+- Updated dependencies [bd19488]
+  - @myst-theme/jupyter@1.0.0
+  - @myst-theme/common@1.0.0
+  - @myst-theme/styles@1.0.0
+  - @myst-theme/providers@1.0.0
+  - @myst-theme/site@1.0.0
+  - @myst-theme/icons@1.0.0
+  - @myst-theme/landing-pages@1.0.0
+
+## 0.18.0
+
+### Minor Changes
+
+- 762ab04: Add banner component
+
+### Patch Changes
+
+- 7c3dafa: Add visual warning when no CSS is present
+- c6699ff: Add hide_authors handling
+- b5a3495: Add project.parts.primary_sidebar_footer option
+- c2480db: Pull footer and banner parts from site as well as project
+- 60cca10: Adjust the primary sidebar height and positioning when banner is displayed.
+
+  Also expose the banner state for other components to use.
+
+- Updated dependencies [dee582b]
+- Updated dependencies [3a334e5]
+- Updated dependencies [c6699ff]
+- Updated dependencies [b5a3495]
+- Updated dependencies [ef1b152]
+- Updated dependencies [60cca10]
+- Updated dependencies [7190e6c]
+  - @myst-theme/landing-pages@0.18.0
+  - @myst-theme/jupyter@0.18.0
+  - @myst-theme/common@0.18.0
+  - @myst-theme/icons@0.18.0
+  - @myst-theme/site@0.18.0
+  - @myst-theme/providers@0.18.0
+  - @myst-theme/styles@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes
@@ -917,7 +966,6 @@
 ### Patch Changes
 
 - 0536fa7: Rename styles to allow for additional grid systems:
-
   - `article-grid-gap` to `grid-gap`
   - `article-subgrid-gap` to `subgrid-gap`
 

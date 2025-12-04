@@ -1,5 +1,19 @@
 # @myst-theme/search-minisearch
 
+## 1.0.0
+
+### Patch Changes
+
+- @myst-theme/search@1.0.0
+
+## 0.18.0
+
+### Patch Changes
+
+- Updated dependencies [ba1e034]
+- Updated dependencies [9f20d99]
+  - @myst-theme/search@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes

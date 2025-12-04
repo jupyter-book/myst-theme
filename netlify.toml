@@ -1,0 +1,18 @@
+[build]
+  environment = { PYTHON_VERSION = "3.12" }
+  publish = "docs/_build/html"
+  command = """
+    # Clone and build mystmd from main branch
+    git clone --depth 1 https://github.com/jupyter-book/mystmd.git /tmp/mystmd && \
+    cd /tmp/mystmd && \
+    npm install && \
+    npm run build && \
+    npm run link && \
+    cd - && \
+    # Build myst-theme
+    npm install && \
+    npm run build && \
+    # Install Python requirements and build docs
+    pip install -r docs/requirements.txt && \
+    make build-docs
+  """

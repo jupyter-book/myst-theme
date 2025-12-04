@@ -1,5 +1,24 @@
 # @myst-theme/providers
 
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [16a3bc8]
+  - @myst-theme/common@1.0.0
+
+## 0.18.0
+
+### Patch Changes
+
+- 60cca10: Adjust the primary sidebar height and positioning when banner is displayed.
+
+  Also expose the banner state for other components to use.
+
+- Updated dependencies [dee582b]
+- Updated dependencies [c6699ff]
+  - @myst-theme/common@0.18.0
+
 ## 0.17.1
 
 ### Patch Changes

@@ -6,6 +6,7 @@ import { JupyterOutput } from './jupyter.js';
 import { useMemo } from 'react';
 import { useCellExecution } from './execute/index.js';
 import { useOutputsContext } from './providers.js';
+import { ASTError } from 'myst-to-react';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -18,10 +19,14 @@ export const DIRECT_MIME_TYPES = new Set([
 ]) as Set<string>;
 
 export function isOutputSafe(
-  output: MinifiedOutput,
+  output: MinifiedOutput | undefined,
   directOutputTypes: Set<string>,
   directMimeTypes: Set<string>,
 ) {
+  // Handle missing or invalid output data
+  if (!output || typeof output !== 'object') return false;
+  if (!output.output_type) return false;
+
   if (directOutputTypes.has(output.output_type)) return true;
   const data = (output as MinifiedMimeOutput).data;
   const mimetypes = data ? Object.keys(data) : [];
@@ -32,9 +37,34 @@ export function isOutputSafe(
   );
 }
 
+function validate(node: GenericNode): React.ReactNode | undefined {
+  if (!node.jupyter_data) {
+    const debugHints = [
+      'This output node is missing jupyter_data, indicating the output failed to process.',
+      'Verify that the current AST version is supported by the renderer.',
+      'This may be caused by unresolved external content.',
+    ];
+
+    return (
+      <ASTError
+        node={node}
+        title="Output Data Missing"
+        message="This output could not be rendered because its jupyter_data is missing or invalid."
+        debugHints={debugHints}
+      />
+    );
+  }
+  return undefined;
+}
+
 export function Output({ node }: { node: GenericNode }) {
   const { outputsId } = useOutputsContext();
   const { ready } = useCellExecution(outputsId);
+
+  // Check for missing jupyter data
+  const invalid = validate(node);
+  if (invalid) return invalid;
+
   // FUTURE: we'll be rendering AST outputs directly in future
   const maybeSafeOutput = useMemo(() => node.jupyter_data, [node]);
   const isSafe = isOutputSafe(maybeSafeOutput, DIRECT_OUTPUT_TYPES, DIRECT_MIME_TYPES);

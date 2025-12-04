@@ -1,11 +1,9 @@
 # Contributing to the MyST Theme
 
-See the [developer documentation](./docs/developer/) for information about developing this theme locally.
+We welcome contributions from anyone! Here are some helpful links to learn more:
 
-See the [MyST Contribution Guide](https://mystmd.org/guide/contributing) and the [MyST Developer Guide](https://mystmd.org/guide/developer) for more documentation about developing and contributing to this theme.
-
-See the [Jupyter Book Team Compass](https://compass.jupyterbook.org) for team information, practices, and policies around the Jupyter Book subproject.
-
-## Start a local development server
-
-See [the live server docs](./docs/developer/live-server.md).
+- **Local development**: [Developer documentation](./docs/developer/)
+- **Start a local dev server**: [live server docs](./docs/developer/live-server.md).
+- **General contribution guidelines**: [MyST Contribution Guide](https://mystmd.org/guide/contributing)
+- **Developer documentation for mystmd**: [MyST Developer Guide](https://mystmd.org/guide/developer)
+- **Organization and team practices**: [Jupyter Book Team Compass](https://compass.jupyterbook.org)

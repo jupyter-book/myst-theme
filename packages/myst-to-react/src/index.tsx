@@ -28,6 +28,13 @@ export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components/index.js
 export { CodeBlock } from './code.js';
 export { HashLink, scrollToElement } from './hashLink.js';
 export { Admonition, AdmonitionKind } from './admonitions.js';
+export { ASTError } from './astError.js';
+export {
+  validateASTNode,
+  validateASTArray,
+  getASTDebugInfo,
+  generateDebuggingHints,
+} from './astValidation.js';
 export { Details } from './dropdown.js';
 export { TabSet, TabItem } from './tabs.js';
 export { useFetchMdast } from './crossReference.js';

@@ -46,6 +46,12 @@ function OutputImage({ image, text }: { image: MinifiedMimePayload; text?: Minif
 }
 
 export function SafeOutput({ output }: { output: MinifiedOutput }) {
+  // Additional safety check
+  if (!output || !output.output_type) {
+    console.warn('SafeOutput received invalid output:', output);
+    return null;
+  }
+
   switch (output.output_type) {
     case 'stream':
       return (

@@ -20,7 +20,7 @@ export function useBaseurl() {
 }
 
 export function withBaseurl(url?: string, baseurl?: string) {
-  const isExternal = (url?.startsWith('http:') || url?.startsWith('https:') || url?.startsWith('mailto:'));
+  const isExternal = /^(https?|mailto):/.test(url || '');
   if (!baseurl || isExternal) {
     return url as string;
   };

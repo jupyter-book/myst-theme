@@ -23,6 +23,6 @@ export function withBaseurl(url?: string, baseurl?: string) {
   const isExternal = /^(https?|mailto):/.test(url || '');
   if (!baseurl || isExternal) {
     return url as string;
-  };
+  }
   return baseurl + url;
 }

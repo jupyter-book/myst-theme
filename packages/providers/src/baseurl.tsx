@@ -20,6 +20,9 @@ export function useBaseurl() {
 }
 
 export function withBaseurl(url?: string, baseurl?: string) {
-  if (baseurl) return baseurl + url;
-  return url as string;
+  const isExternal = /^(https?|mailto):/.test(url || '');
+  if (!baseurl || isExternal) {
+    return url as string;
+  }
+  return baseurl + url;
 }

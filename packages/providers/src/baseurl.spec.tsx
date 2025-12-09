@@ -17,12 +17,4 @@ describe('withBaseurl', () => {
     expect(withBaseurl('/about')).toBe('/about');
     expect(withBaseurl('https://example.com')).toBe('https://example.com');
   });
-
-  it('should normalize baseurl without leading slash', () => {
-    expect(withBaseurl('/page', 'myst_test')).toBe('/myst_test/page');
-  });
-
-  it('should normalize baseurl with trailing slash', () => {
-    expect(withBaseurl('/page', '/myst_test/')).toBe('/myst_test/page');
-  });
 });

@@ -24,13 +24,5 @@ export function withBaseurl(url?: string, baseurl?: string) {
   if (!baseurl || isExternal) {
     return url as string;
   }
-
-  // Normalize baseurl: add leading slash, remove trailing slash
-  let normalized = baseurl.trim();
-  if (!normalized.startsWith('/')) normalized = '/' + normalized;
-  if (normalized.endsWith('/') && normalized.length > 1) {
-    normalized = normalized.slice(0, -1);
-  }
-
-  return normalized + url;
+  return baseurl + url;
 }

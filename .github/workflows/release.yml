@@ -11,9 +11,11 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js 18.x
         uses: actions/setup-node@v3
@@ -22,6 +24,7 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run test
+      # Changesets action will set published=true if it does publish
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
@@ -48,3 +51,26 @@ jobs:
       - name: Deploy Article
         if: steps.changesets.outputs.published == 'true'
         run: make deploy-article
+
+  # Grab the tag from package.json so we know how to tag the github release
+  get-tag:
+    name: Get Tag Name
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.get_tag.outputs.tag_name }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+
+  # Trigger a github release workflow only if we've published
+  release-github:
+    name: Publish GitHub Release
+    needs:
+      - release
+      - get-tag
+    if: ${{ needs.release.outputs.published == 'true' }}
+    uses: ./.github/workflows/publish-github-release.yml
+    with:
+      tag_name: ${{ needs.get-tag.outputs.tag_name }}
+    secrets: inherit

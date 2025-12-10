@@ -113,7 +113,7 @@ export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node, className
 };
 
 export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) => {
-  const internal = node.internal ?? false;
+  const internal = node.internal ?? isInternalUrl(node.url);
   if (internal) {
     return (
       <InternalLink url={node.url} className={classNames(node.class, className)}>
@@ -132,6 +132,10 @@ export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) =
     </a>
   );
 };
+
+function isInternalUrl(value: string) {
+  return !!value.match('^(/[a-zA-Z0-9._-]+)+$');
+}
 
 export const linkBlock: NodeRenderer<TransformedLink> = ({ node, className }) => {
   const iconClass = 'self-center transition-transform flex-none ml-3';

@@ -1,6 +1,8 @@
 a.button,
+button.button,
+span.button,
 cite.button a {
-  @apply px-4 py-2 font-bold rounded no-underline;
+  @apply px-4 py-2 font-bold rounded no-underline cursor-pointer;
   @apply text-white bg-blue-500 whitespace-nowrap;
   &:hover {
     @apply bg-blue-700;

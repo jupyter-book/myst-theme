@@ -64,6 +64,17 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      - name: Determine tag from myst-to-react package.json
+        id: get_tag
+        run: |
+          VERSION=$(jq -r '.version' packages/myst-to-react/package.json)
+          if [ -z "$VERSION" ]; then
+            echo "Unable to read version from packages/myst-to-react/package.json" >&2
+            exit 1
+          fi
+          TAG="myst-to-react@$VERSION"
+          echo "tag_name=$TAG" >> "$GITHUB_OUTPUT"
+
   # Trigger a github release workflow only if we've published
   release-github:
     name: Publish GitHub Release

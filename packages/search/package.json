@@ -8,6 +8,10 @@
     "dist"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
   "sideEffects": false,
   "scripts": {
     "clean": "rimraf dist",

@@ -82,8 +82,12 @@ export function Output({ node, className }: { node: GenericNode; className?: str
         Icon={ExclamationTriangleIcon as any}
         className={className}
       >
-        <div className="py-2">Output data package is not compatible with the current renderer.</div>
-        {validation.reason && <pre className="text-sm">{validation.reason}</pre>}
+        <div className="py-2 space-y-1">
+          <div>Output data package is not compatible with the current renderer.</div>
+          {validation.reason && (
+            <div className="font-mono text-sm">Reason: {validation.reason}</div>
+          )}
+        </div>
       </Callout>
     );
   }

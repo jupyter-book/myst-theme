@@ -1,5 +1,22 @@
 # @myst-theme/book
 
+## 1.0.1
+
+### Patch Changes
+
+- c3c9e19: Use of `migrate()` updates to ensure full pass-through of the `PageLoader` data. At the moment `myst-migrate` only deals with `mdast` but in will likely deal with the entire page, this change enables that.
+- Updated dependencies [92adc7d]
+- Updated dependencies [796a556]
+- Updated dependencies [c863568]
+- Updated dependencies [796a556]
+  - @myst-theme/jupyter@1.0.1
+  - @myst-theme/providers@1.0.1
+  - @myst-theme/site@1.0.1
+  - @myst-theme/common@1.0.1
+  - @myst-theme/styles@1.0.1
+  - @myst-theme/icons@1.0.1
+  - @myst-theme/landing-pages@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

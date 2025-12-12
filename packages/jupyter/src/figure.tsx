@@ -1,9 +1,10 @@
 import { SourceFileKind } from 'myst-spec-ext';
 import { type GenericNode } from 'myst-common';
-import { DEFAULT_RENDERERS, MyST } from 'myst-to-react';
+import { Callout, DEFAULT_RENDERERS, MyST } from 'myst-to-react';
 import classNames from 'classnames';
 import { OutputDecoration } from './decoration.js';
 import { OutputsContextProvider } from './providers.js';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 type NodeWithId = GenericNode & { id: string };
 
@@ -45,12 +46,17 @@ export function Figure({ node }: { node: GenericNode }) {
       );
     } else if (output) {
       return (
-        <div className="border border-gred-500">
-          <details>
-            <summary>Legacy Output Embedded</summary>
-            <pre>{JSON.stringify(output, null, 2)}</pre>
-          </details>
-        </div>
+        <Callout
+          title={<div>Cannot render embedded output node</div>}
+          color={'red'}
+          dropdown
+          Icon={ExclamationTriangleIcon as any}
+          className={output.className}
+        >
+          <div className="py-2">
+            Output data package is not compatible with the current renderer.
+          </div>
+        </Callout>
       );
     }
   }

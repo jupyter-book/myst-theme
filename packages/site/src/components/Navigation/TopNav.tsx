@@ -64,35 +64,38 @@ export function NavItem({ item }: { item: SiteNavItem }) {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="myst-top-nav-dropdown-items absolute w-48 py-1 mt-2 origin-top-left bg-white rounded-sm shadow-lg left-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
-          {item.children?.map((action) => (
-            <Menu.Item key={action.url}>
-              {/* This is really ugly, BUT, the action needs to be defined HERE or the click away doesn't work for some reason */}
-              {action.url?.startsWith('http') ? (
-                <a
-                  href={action.url || ''}
-                  className="myst-top-nav-dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {action.title}
-                </a>
-              ) : (
-                <NavLink
-                  to={action.url || ''}
-                  className={({ isActive }) =>
-                    classNames(
-                      'myst-top-nav-dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black',
-                      {
-                        'text-black font-bold': isActive,
-                      },
-                    )
-                  }
-                >
-                  {action.title}
-                </NavLink>
-              )}
-            </Menu.Item>
-          ))}
+          {item.children?.map((action) => {
+            const url = withBaseurl(action.url, baseurl) || '';
+            return (
+              <Menu.Item key={action.url}>
+                {/* This is really ugly, BUT, the action needs to be defined HERE or the click away doesn't work for some reason */}
+                {action.url?.startsWith('http') ? (
+                  <a
+                    href={url}
+                    className="myst-top-nav-dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {action.title}
+                  </a>
+                ) : (
+                  <NavLink
+                    to={url}
+                    className={({ isActive }) =>
+                      classNames(
+                        'myst-top-nav-dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black',
+                        {
+                          'text-black font-bold': isActive,
+                        },
+                      )
+                    }
+                  >
+                    {action.title}
+                  </NavLink>
+                )}
+              </Menu.Item>
+            );
+          })}
         </Menu.Items>
       </Transition>
     </Menu>
@@ -127,12 +130,12 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
               })}
             >
               <button
-                className="myst-top-nav-menu-button flex items-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100"
+                className="myst-top-nav-menu-button flex items-center justify-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100 w-10 h-10"
                 onClick={() => {
                   setOpen(!open);
                 }}
               >
-                <MenuIcon width="2rem" height="2rem" className="m-1" />
+                <MenuIcon width="1.5rem" height="1.5rem" />
                 <span className="sr-only">Open Menu</span>
               </button>
             </div>

@@ -1,6 +1,6 @@
 {
   "name": "myst-demo",
-  "version": "0.18.0",
+  "version": "1.0.1",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,6 +11,10 @@
     "node": ">=16"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",
@@ -38,7 +42,7 @@
     "myst-to-docx": "^1.0.14",
     "myst-to-html": "^1.5.15",
     "myst-to-jats": "^1.0.34",
-    "myst-to-react": "^0.18.0",
+    "myst-to-react": "^1.0.1",
     "myst-to-tex": "^1.0.41",
     "myst-to-typst": "^0.0.33",
     "myst-transforms": "^1.3.37",

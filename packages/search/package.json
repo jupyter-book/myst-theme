@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/search",
-  "version": "0.18.0",
+  "version": "1.0.1",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -8,6 +8,10 @@
     "dist"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
   "sideEffects": false,
   "scripts": {
     "clean": "rimraf dist",

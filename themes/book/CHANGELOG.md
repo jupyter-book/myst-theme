@@ -1,5 +1,40 @@
 # @myst-theme/book
 
+## 1.0.1
+
+### Patch Changes
+
+- c3c9e19: Use of `migrate()` updates to ensure full pass-through of the `PageLoader` data. At the moment `myst-migrate` only deals with `mdast` but in will likely deal with the entire page, this change enables that.
+- Updated dependencies [92adc7d]
+- Updated dependencies [796a556]
+- Updated dependencies [c863568]
+- Updated dependencies [796a556]
+  - @myst-theme/jupyter@1.0.1
+  - @myst-theme/providers@1.0.1
+  - @myst-theme/site@1.0.1
+  - @myst-theme/common@1.0.1
+  - @myst-theme/styles@1.0.1
+  - @myst-theme/icons@1.0.1
+  - @myst-theme/landing-pages@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- 16a3bc8: Updates the theme to accept a new AST structure for notebook output. These changes are not backwards compatible, and after this change, only the new AST structure is supported. Meaning, content upgrades are required to use the new themes. See https://github.com/jupyter-book/mystmd/pull/1903 for related AST changes.
+
+### Patch Changes
+
+- Updated dependencies [16a3bc8]
+- Updated dependencies [bd19488]
+  - @myst-theme/jupyter@1.0.0
+  - @myst-theme/common@1.0.0
+  - @myst-theme/styles@1.0.0
+  - @myst-theme/providers@1.0.0
+  - @myst-theme/site@1.0.0
+  - @myst-theme/icons@1.0.0
+  - @myst-theme/landing-pages@1.0.0
+
 ## 0.18.0
 
 ### Minor Changes
@@ -948,7 +983,6 @@
 ### Patch Changes
 
 - 0536fa7: Rename styles to allow for additional grid systems:
-
   - `article-grid-gap` to `grid-gap`
   - `article-subgrid-gap` to `subgrid-gap`
 

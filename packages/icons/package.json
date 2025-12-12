@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/icons",
-  "version": "0.18.0",
+  "version": "1.0.1",
   "sideEffects": false,
   "type": "module",
   "exports": "./dist/index.js",
@@ -12,6 +12,10 @@
     "node": ">=16"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint src/**/**.ts*",

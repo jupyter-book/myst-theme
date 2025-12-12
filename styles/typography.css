@@ -35,9 +35,17 @@
   .prose dd {
     @apply ml-8;
   }
-  .prose p img {
+  /* Keep inline images inside text flow from forcing line breaks */
+  .article p img,
+  .article table img,
+  .article dd img,
+  .prose p img,
+  .prose table img,
+  .prose dd img {
     margin: 0;
     display: inline-block;
+    max-height: 1.2em;
+    vertical-align: text-bottom;
   }
   article.content {
     min-height: calc(100vh);

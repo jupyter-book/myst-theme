@@ -1,5 +1,23 @@
 # myst-to-react
 
+## 1.0.1
+
+### Patch Changes
+
+- 92adc7d: Export `Callout` for direct reuse
+- 796a556: Modify cross reference lookup for remote content (external references) to apply migration to the current AST version. Re-exporting the current AST version.
+- 92adc7d: Aligned fallback component for `output` in `figure` `NodeRenderer` with how it is presented elsewhere
+- c3c9e19: Use of `migrate()` updates to ensure full pass-through of the `PageLoader` data. At the moment `myst-migrate` only deals with `mdast` but in will likely deal with the entire page, this change enables that.
+- Updated dependencies [c863568]
+  - @myst-theme/providers@1.0.1
+
+## 1.0.0
+
+### Patch Changes
+
+- bd19488: Fix inline images and centered figure captions
+  - @myst-theme/providers@1.0.0
+
 ## 0.18.0
 
 ### Patch Changes

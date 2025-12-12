@@ -1,5 +1,13 @@
 # @myst-theme/frontmatter
 
+## 1.0.1
+
+### Patch Changes
+
+- eabac28: Remove starting slash from URLParams for launch buttons
+
+## 1.0.0
+
 ## 0.18.0
 
 ### Minor Changes

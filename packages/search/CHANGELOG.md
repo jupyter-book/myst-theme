@@ -1,5 +1,9 @@
 # @myst-theme/search
 
+## 1.0.1
+
+## 1.0.0
+
 ## 0.18.0
 
 ### Minor Changes

@@ -1,5 +1,39 @@
 # @myst-theme/site
 
+## 1.0.1
+
+### Patch Changes
+
+- c863568: Fix base URL behavior in top nav
+- Updated dependencies [eabac28]
+- Updated dependencies [c863568]
+- Updated dependencies [92adc7d]
+- Updated dependencies [796a556]
+- Updated dependencies [92adc7d]
+- Updated dependencies [796a556]
+- Updated dependencies [c3c9e19]
+  - @myst-theme/frontmatter@1.0.1
+  - @myst-theme/providers@1.0.1
+  - myst-to-react@1.0.1
+  - @myst-theme/common@1.0.1
+  - @myst-theme/diagrams@1.0.1
+  - @myst-theme/search@1.0.1
+  - myst-demo@1.0.1
+
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [16a3bc8]
+- Updated dependencies [bd19488]
+  - @myst-theme/common@1.0.0
+  - myst-to-react@1.0.0
+  - @myst-theme/providers@1.0.0
+  - @myst-theme/frontmatter@1.0.0
+  - @myst-theme/diagrams@1.0.0
+  - @myst-theme/search@1.0.0
+  - myst-demo@1.0.0
+
 ## 0.18.0
 
 ### Minor Changes
@@ -1050,7 +1084,6 @@
 ### Patch Changes
 
 - 0536fa7: Rename styles to allow for additional grid systems:
-
   - `article-grid-gap` to `grid-gap`
   - `article-subgrid-gap` to `subgrid-gap`
 

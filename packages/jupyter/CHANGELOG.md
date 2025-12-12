@@ -1,5 +1,31 @@
 # @myst-theme/jupyter
 
+## 1.0.1
+
+### Patch Changes
+
+- 92adc7d: Added validation and fallback rendering in the `output` node and softened handling of missing `OutputContext`; both changes avoid pageload errors on unexpected AST content for outputs
+- 796a556: Re-exporting the MyST AST version
+- Updated dependencies [c863568]
+- Updated dependencies [92adc7d]
+- Updated dependencies [796a556]
+- Updated dependencies [92adc7d]
+- Updated dependencies [c3c9e19]
+  - @myst-theme/providers@1.0.1
+  - myst-to-react@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- 16a3bc8: Updates the theme to accept a new AST structure for notebook output. These changes are not backwards compatible, and after this change, only the new AST structure is supported. Meaning, content upgrades are required to use the new themes. See https://github.com/jupyter-book/mystmd/pull/1903 for related AST changes.
+
+### Patch Changes
+
+- Updated dependencies [bd19488]
+  - myst-to-react@1.0.0
+  - @myst-theme/providers@1.0.0
+
 ## 0.18.0
 
 ### Minor Changes

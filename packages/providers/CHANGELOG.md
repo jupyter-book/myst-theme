@@ -1,5 +1,20 @@
 # @myst-theme/providers
 
+## 1.0.1
+
+### Patch Changes
+
+- c863568: Fix base URL behavior in top nav
+- Updated dependencies [796a556]
+  - @myst-theme/common@1.0.1
+
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [16a3bc8]
+  - @myst-theme/common@1.0.0
+
 ## 0.18.0
 
 ### Patch Changes

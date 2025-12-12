@@ -14,6 +14,13 @@ def hello_world():
     return True
 ```
 
+```{code-block} python
+:caption: This is a caption for my code block!
+def hello_world():
+    print("Hello, World!")
+    return True
+```
+
 ### Code Block with Line Numbers
 
 ```{code-block} python

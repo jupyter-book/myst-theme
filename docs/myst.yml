@@ -26,6 +26,7 @@ project:
        - file: developer/local.md
        - file: developer/tips.md
        - file: developer/architecture.md
+       - file: developer/testing.md
        - file: developer/documentation.md
        - file: developer/static-previews.md
 

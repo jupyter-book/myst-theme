@@ -7,6 +7,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 permissions:
   contents: write
   pull-requests: write
+  id-token: write # Required for OIDC trusted publishing
 jobs:
   release:
     name: Release
@@ -17,10 +18,12 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 18.x
+      - name: Setup Node.js 24.x
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 24.x
+      - name: Ensure npm 11.5.1+ for trusted publishing
+        run: npm install -g npm@latest
       - run: npm install
       - run: npm run build
       - run: npm run test
@@ -35,7 +38,6 @@ jobs:
           createGithubReleases: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Notification if a publish happens
         if: steps.changesets.outputs.published == 'true'
         run: echo "A new version of ${GITHUB_REPOSITORY} was published!"
@@ -61,7 +63,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-
 
   # Trigger a github release workflow only if we've published
   release-github:

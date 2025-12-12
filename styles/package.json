@@ -9,6 +9,10 @@
   },
   "author": "Rowan Cockett <rowan@curvenote.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
   "bugs": {
     "url": "https://github.com/jupyter-book/myst-theme/issues"
   },

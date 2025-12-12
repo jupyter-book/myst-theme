@@ -11,6 +11,10 @@
     "node": ">=16"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "test": "vitest run",

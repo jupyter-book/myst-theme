@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import type { SiteManifest } from 'myst-config';
 import {
+  MYST_SPEC_VERSION,
   type PageLoader,
   getFooterLinks,
   getProject,
@@ -11,6 +12,7 @@ import { redirect } from '@remix-run/node';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
 import type { MystSearchIndex } from '@myst-theme/search';
 import { slugToUrl } from 'myst-common';
+import { migrate } from 'myst-migrate';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`;
@@ -50,7 +52,16 @@ async function getStaticContent(project?: string, slug?: string): Promise<PageLo
   const url = `${CONTENT_CDN}/content/${projectSlug}${slug}.json`;
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
-  const data = (await response.json()) as PageLoader;
+  let data = (await response.json()) as PageLoader & { version?: number };
+  try {
+    const { mdast, version } = await migrate(
+      { version: data.version ?? 0, ...data },
+      { to: MYST_SPEC_VERSION },
+    );
+    data = { ...data, mdast, version } as PageLoader;
+  } catch (error) {
+    console.error(`Error migrating content for ${project}/${slug} (aborted):`, error);
+  }
   return updatePageStaticLinksInplace(data, updateLink);
 }
 

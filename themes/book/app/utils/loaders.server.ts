@@ -54,11 +54,10 @@ async function getStaticContent(project?: string, slug?: string): Promise<PageLo
   if (!response || response.status === 404) return null;
   let data = (await response.json()) as PageLoader & { version?: number };
   try {
-    const { mdast, version } = await migrate(
+    data = (await migrate(
       { version: data.version ?? 0, ...data },
       { to: MYST_SPEC_VERSION },
-    );
-    data = { ...data, mdast, version } as PageLoader;
+    )) as PageLoader & { version: number };
   } catch (error) {
     console.error(`Error migrating content for ${project}/${slug} (aborted):`, error);
   }

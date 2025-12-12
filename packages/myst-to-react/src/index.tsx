@@ -31,6 +31,7 @@ export { Admonition, AdmonitionKind } from './admonitions.js';
 export { Details } from './dropdown.js';
 export { TabSet, TabItem } from './tabs.js';
 export { useFetchMdast } from './crossReference.js';
+export { MYST_SPEC_VERSION } from '@myst-theme/common';
 
 export const DEFAULT_RENDERERS = mergeRenderers(
   [

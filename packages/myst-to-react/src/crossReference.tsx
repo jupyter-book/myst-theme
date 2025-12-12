@@ -1,4 +1,6 @@
 import type { CrossReference } from 'myst-spec';
+import type { PageLoader } from '@myst-theme/common';
+import { MYST_SPEC_VERSION } from '@myst-theme/common';
 import {
   useLinkProvider,
   useReferences,
@@ -13,14 +15,27 @@ import { InlineError } from './inlineError.js';
 import { default as useSWR } from 'swr';
 import { HoverPopover } from './components/index.js';
 import { MyST } from './MyST.js';
-import type { GenericNode, GenericParent } from 'myst-common';
+import type { GenericNode } from 'myst-common';
 import { selectMdastNodes } from 'myst-common';
 import { scrollToElement } from './hashLink.js';
 import classNames from 'classnames';
+import { migrate } from 'myst-migrate';
 
-const fetcher = (...args: Parameters<typeof fetch>) =>
-  fetch(...args).then((res) => {
-    if (res.status === 200) return res.json();
+const fetcher = (...args: Parameters<typeof fetch>): Promise<PageLoader> =>
+  fetch(...args).then(async (res) => {
+    if (res.status === 200) {
+      let data = (await res.json()) as PageLoader & { version?: number };
+      try {
+        const { mdast, version } = await migrate(
+          { version: data.version ?? 0, ...data },
+          { to: MYST_SPEC_VERSION },
+        );
+        data = { ...data, mdast, version } as PageLoader;
+      } catch (error) {
+        console.error(`Error migrating content for ${args[0]} (aborted):`, error);
+      }
+      return data;
+    }
     throw new Error(`Content returned with status ${res.status}.`);
   });
 
@@ -107,8 +122,8 @@ function useSelectNodes({ load, identifier }: { load?: boolean; identifier: stri
   const { remote, url, remoteBaseUrl, dataUrl } = useXRefState();
   if (!load) return;
   const { data, error } = useFetchMdast({ remote, url, remoteBaseUrl, dataUrl });
-  const mdast = data ? (data.mdast as GenericParent) : references?.article;
-  const parts = data ? (data.frontmatter?.parts as { mdast: GenericParent }) : frontmatter?.parts;
+  const mdast = data ? data.mdast : references?.article;
+  const parts = data ? data.frontmatter?.parts : frontmatter?.parts;
   let nodes: GenericNode[] = [];
   let htmlId: string | undefined;
   [{ mdast }, ...Object.values(parts ?? {})].forEach(({ mdast: tree }) => {
@@ -160,7 +175,7 @@ export function CrossReferenceHover({
         <XRefProvider remote={remote} remoteBaseUrl={remoteBaseUrl} url={url} dataUrl={dataUrl}>
           <div className="hover-document article w-[500px] sm:max-w-[500px] overflow-auto">
             {remoteBaseUrl && (
-              <div className="w-full px-3 py-1 text-xs border-b bg-gray-50">
+              <div className="px-3 py-1 w-full text-xs bg-gray-50 border-b">
                 <strong className="text-gray-700">Source: </strong>
                 <a
                   className={classNames('text-gray-700', className)}

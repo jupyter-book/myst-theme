@@ -87,14 +87,10 @@ export async function getPage(
     throw redirect(projectName ? `/${projectName}/${newSlug}` : `/${newSlug}`);
   }
   let slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
-  let loader = await getStaticContent(projectName, slug, {
-    migrateToMystSpecVersion: MYST_SPEC_VERSION,
-  }).catch(() => null);
+  let loader = await getStaticContent(projectName, slug).catch(() => null);
   if (!loader) {
     slug = `${slug}.index`;
-    loader = await getStaticContent(projectName, slug, {
-      migrateToMystSpecVersion: MYST_SPEC_VERSION,
-    }).catch(() => null);
+    loader = await getStaticContent(projectName, slug).catch(() => null);
     if (!loader) throw responseNoArticle();
   }
   const footer = getFooterLinks(config, projectName, slug);

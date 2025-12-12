@@ -24,9 +24,17 @@ import { migrate } from 'myst-migrate';
 const fetcher = (...args: Parameters<typeof fetch>): Promise<PageLoader> =>
   fetch(...args).then(async (res) => {
     if (res.status === 200) {
-      const data = (await res.json()) as PageLoader;
-      const migrated = await migrate({ version: 0, mdast: data.mdast }, { to: MYST_SPEC_VERSION });
-      return { ...data, mdast: migrated.mdast } as PageLoader;
+      let data = (await res.json()) as PageLoader;
+      try {
+        const migrated = await migrate(
+          { version: 0, mdast: data.mdast },
+          { to: MYST_SPEC_VERSION },
+        );
+        data = { ...data, mdast: migrated.mdast } as PageLoader;
+      } catch (error) {
+        console.error(`Error migrating content for ${args[0]} (aborted):`, error);
+      }
+      return data;
     }
     throw new Error(`Content returned with status ${res.status}.`);
   });

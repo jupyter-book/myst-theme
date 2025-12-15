@@ -11,9 +11,16 @@ Here's an image in block form:
 
 ![MyST Logo](../_static/myst-logo-light.svg)
 
+
 ## Inline Images
 
 Text before ![MyST Logo](../_static/myst-logo-light.svg) text after. This image should appear inline with the text, without line breaks before or after it.
+
+## Linked image
+
+[![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
+
+Linked inline: [![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
 
 ### Inline in lists
 

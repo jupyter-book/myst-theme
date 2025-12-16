@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 1.0.2
+
+### Patch Changes
+
+- 75475f8: fix inline images that are linked as blocks
+  - @myst-theme/providers@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes

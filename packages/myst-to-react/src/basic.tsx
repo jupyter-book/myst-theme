@@ -183,13 +183,14 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     );
   },
   paragraph({ node, className }) {
+    const isSingleImage = node.children?.length === 1 && node.children[0].type === 'image';
     const isSingleLinkedImage =
       node.children?.length === 1 &&
       node.children[0].type === 'link' &&
       node.children[0].children?.length === 1 &&
       node.children[0].children[0]?.type === 'image';
-    // If it's a single linked image, we don't want to wrap in <p> so we display as block.
-    if (!isSingleLinkedImage) {
+    // Only wrap in <p> if it's not a single image or linked image
+    if (!isSingleImage && !isSingleLinkedImage) {
       return (
         <p id={node.html_id} className={className}>
           <MyST ast={node.children} />

@@ -65,7 +65,7 @@ options:
     id: style
     description: Local path to a CSS file
 build:
-  install: npm install
+  install: npm ci --ignore-scripts
   start: npm run start
 files:
   - server.js

@@ -22,21 +22,38 @@ Text before ![MyST Logo](../_static/myst-logo-light.svg) text after. This image 
 
 Linked inline: [![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
 
-### Inline in lists
+## Inline in lists
 
 - Text before ![MyST Logo](../_static/myst-logo-light.svg) text after within a list item.
 - Second item without an image for comparison.
 
-### Inline in tables
+## Inline in tables
 
 | Description | Inline image |
 | ----------- | ------------ |
 | Text before ![MyST Logo](../_static/myst-logo-light.svg) text after | Works inside table cells too |
 
-### Inline in definition lists
+## Inline in definition lists
 
 Term with logo
 : Text before ![MyST Logo](../_static/myst-logo-light.svg) text after inside a definition description.
+
+## Images in grids
+
+::::{grid} 3
+:::{grid-item}
+```{image} ../_static/myst-logo-light.svg
+```
+:::
+:::{grid-item}
+```{image} ../_static/myst-logo-light.svg
+```
+:::
+:::{grid-item}
+```{image} ../_static/myst-logo-light.svg
+```
+:::
+::::
 
 ## Figure with Caption
 

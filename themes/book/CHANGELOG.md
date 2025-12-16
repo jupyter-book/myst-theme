@@ -1,5 +1,18 @@
 # @myst-theme/book
 
+## 1.0.2
+
+### Patch Changes
+
+- 9538e88: Use `npm ci` instead of `npm install` for themes
+  - @myst-theme/providers@1.0.2
+  - @myst-theme/jupyter@1.0.2
+  - @myst-theme/site@1.0.2
+  - @myst-theme/styles@1.0.2
+  - @myst-theme/common@1.0.2
+  - @myst-theme/icons@1.0.2
+  - @myst-theme/landing-pages@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes

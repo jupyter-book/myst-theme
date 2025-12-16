@@ -6,7 +6,7 @@ import { JupyterOutput } from './jupyter.js';
 import { useMemo } from 'react';
 import { useCellExecution } from './execute/index.js';
 import { useOutputsContext } from './providers.js';
-import { Callout } from 'myst-to-react';
+import { Callout, MyST } from 'myst-to-react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
@@ -17,6 +17,8 @@ export const DIRECT_MIME_TYPES = new Set([
   KnownCellOutputMimeTypes.ImageGif,
   KnownCellOutputMimeTypes.ImageJpeg,
   KnownCellOutputMimeTypes.ImageBmp,
+  // TODO: handle variants here
+  'text/markdown',
 ]) as Set<string>;
 
 export function isOutputSafe(
@@ -93,6 +95,9 @@ export function Output({ node, className }: { node: GenericNode; className?: str
   }
 
   if (isSafe && !ready) {
+    if (node.children?.length) {
+      return <MyST ast={node.children} />;
+    }
     return <SafeOutput output={maybeSafeOutput} />;
   }
 

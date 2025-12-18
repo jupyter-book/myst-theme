@@ -17,7 +17,7 @@ export const DIRECT_MIME_TYPES = new Set([
   KnownCellOutputMimeTypes.ImageGif,
   KnownCellOutputMimeTypes.ImageJpeg,
   KnownCellOutputMimeTypes.ImageBmp,
-]) as Set<string | RegExp>;
+]) as Set<string>;
 export function isOutputSafe(
   output: MinifiedOutput | null | undefined,
   directOutputTypes: Set<string>,

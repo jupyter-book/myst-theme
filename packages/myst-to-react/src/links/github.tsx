@@ -181,12 +181,12 @@ function GithubIssuePreview({
     );
   }
   const issueData = data as unknown as Record<string, any>;
+  const isPullRequest = Boolean(issueData.pull_request);
   const issueState = issueData.state as string;
   const isOpen = issueState === 'open';
+  const isMerged = Boolean(issueData.pull_request?.merged_at);
   const isCompletedIssue = issueData.state_reason === 'completed';
   const isNotPlannedIssue = !isPullRequest && issueState === 'closed' && !isCompletedIssue;
-  const isPullRequest = Boolean(issueData.pull_request);
-  const isMerged = Boolean(issueData.pull_request?.merged_at);
   const dateString = new Date(issueData.created_at).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',

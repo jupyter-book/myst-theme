@@ -182,22 +182,22 @@ function GithubIssuePreview({
   }
   const issueData = data as unknown as Record<string, any>;
   const issueState = issueData.state as string;
+  const isOpen = issueState === 'open';
+  const isCompletedIssue = issueData.state_reason === 'completed';
+  const isNotPlannedIssue = !isPullRequest && issueState === 'closed' && !isCompletedIssue;
   const isPullRequest = Boolean(issueData.pull_request);
   const isMerged = Boolean(issueData.pull_request?.merged_at);
-  const isIssueOpen = issueState === 'open';
   const dateString = new Date(issueData.created_at).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
-  const isCompletedIssue = issueData.state_reason === 'completed';
-  const isNotPlannedIssue = !isPullRequest && issueState === 'closed' && !isCompletedIssue;
   const iconClassName = 'inline-block mr-2 -translate-y-px h-6 w-6';
   // Define the icon element we'll render based on the issue's state
   let stateIcon: JSX.Element | null = null;
   if (isPullRequest) {
     // If it's a PR we choose between open, merged, not merged
-    if (isIssueOpen) {
+    if (isOpen) {
       stateIcon = (
         // PR still open
         <DocumentPlusIcon
@@ -215,7 +215,7 @@ function GithubIssuePreview({
         <XCircleIcon className={classNames(iconClassName, 'text-red-700 dark:text-red-500')} />
       );
     }
-  } else if (isIssueOpen) {
+  } else if (isOpen) {
     // If it's an issue, we choose between open, completed, and "closed not completed"
     stateIcon = (
       // Issue still open

@@ -216,19 +216,15 @@ function GithubIssuePreview({
       );
     }
   } else if (isIssueOpen) {
-    // If it' an issue, we choose between open, completed, and "closed not completed"
+    // If it's an issue, we choose between open, completed, and "closed not completed"
     stateIcon = (
       // Issue still open
-      <PlusCircleIcon
-        className={classNames(iconClassName, 'text-green-700 dark:text-green-500')}
-      />
+      <PlusCircleIcon className={classNames(iconClassName, 'text-green-700 dark:text-green-500')} />
     );
   } else {
     stateIcon = isNotPlannedIssue ? (
       // Issue closed as not planned
-      <NoSymbolIcon
-        className={classNames(iconClassName, 'text-slate-500 dark:text-slate-400')}
-      />
+      <NoSymbolIcon className={classNames(iconClassName, 'text-slate-500 dark:text-slate-400')} />
     ) : (
       // Issue completed
       <CheckCircleIcon

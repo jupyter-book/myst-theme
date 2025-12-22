@@ -385,7 +385,10 @@ export function MySTRenderer({
   );
 
   const mdastStage = astStage === 'pre' ? mdastPre : mdastPost;
-  const { downloads, exports, parts, ...reducedFrontmatter } = frontmatter;
+  const reducedFrontmatter = { ...frontmatter };
+  delete reducedFrontmatter.downloads;
+  delete reducedFrontmatter.exports;
+  delete reducedFrontmatter.parts;
 
   return (
     <figure

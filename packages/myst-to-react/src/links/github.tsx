@@ -180,7 +180,7 @@ function GithubIssuePreview({
       </div>
     );
   }
-  const issueData = data as Record<string, any>;
+  const issueData = data as unknown as Record<string, any>;
   const issueState = issueData.state as string;
   const isPullRequest = Boolean(issueData.pull_request);
   const isMerged = Boolean(issueData.pull_request?.merged_at);

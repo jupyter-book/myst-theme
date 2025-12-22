@@ -10,4 +10,3 @@ Hover each link below to preview the GitHub hover card and verify the state icon
 | Open PR | [jupyter-book/myst-theme#742](https://github.com/jupyter-book/myst-theme/pull/742) |
 | Merged PR | [jupyter-book/myst-theme#740](https://github.com/jupyter-book/myst-theme/pull/740) |
 | Closed PR (not merged) | [jupyter-book/myst-theme#714](https://github.com/jupyter-book/myst-theme/pull/714) |
-| Incorrect issue/PR link | [jupyter-book/myst-theme#999999](https://github.com/jupyter-book/myst-theme/pull/999999) |

@@ -39,3 +39,4 @@
 Tailwind scans all of the MyST packages listed in `styles/tailwind.config.js` (and the theme-level configs in `themes/book` and `themes/article`) and pulls those classes into the generated bundle packaged with the MyST Theme.
 
 When you build a MyST site with the theme, the final bundled CSS lands at a location like `_build/html/build/_assets/app-[HASH].css`. That file contains the complete set of Tailwind classes available in the published theme.
+You can use this as a rough reference for the classes you can use, but note that this is _not_ an official feature and might change any time. See https://github.com/jupyter-book/mystmd/issues/1617 for a longer-term fix for this.

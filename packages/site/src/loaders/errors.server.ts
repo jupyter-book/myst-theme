@@ -15,3 +15,10 @@ export function responseNoArticle() {
     statusText: ErrorStatus.noArticle,
   });
 }
+
+export function responseNoAsset() {
+  return new Response(ErrorStatus.noAsset, {
+    status: 404,
+    statusText: ErrorStatus.noAsset,
+  });
+}

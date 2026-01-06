@@ -24,13 +24,13 @@ export function NotebookBlock({ node, className }: { node: GenericParent; classN
         <>
           <div className="myst-jp-nb-block-spinner flex sticky top-[115px] z-10 opacity-90 group-hover/block:opacity-100 group-hover/block:hidden">
             <div className="flex absolute top-0 right-0">
-              <NotebookRunCellSpinnerOnly id={`spinner-${node.key}`} />
+              <NotebookRunCellSpinnerOnly id={node.key} />
             </div>
           </div>
           <div className="myst-jp-nb-block sticky top-[115px] z-10 opacity-90 group-hover/block:opacity-100 group-hover/block:flex">
             <div className="absolute -top-[12px] right-0 flex flex-row rounded bg-white dark:bg-slate-800">
-              <NotebookRunCell id={`run-${node.key}`} />
-              <NotebookClearCell id={`clear-${node.key}`} />
+              <NotebookRunCell id={node.key} />
+              <NotebookClearCell id={node.key} />
             </div>
           </div>
         </>

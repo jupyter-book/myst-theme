@@ -7,3 +7,4 @@ export * from './controls/index.js';
 export * from './utils.js';
 export { useLaunchBinder } from './hooks.js';
 export { JUPYTER_RENDERERS, NOTEBOOK_BLOCK_RENDERERS, OUTPUT_RENDERERS } from './renderers.js';
+export { MYST_SPEC_VERSION } from '@myst-theme/common';

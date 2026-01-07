@@ -110,15 +110,13 @@ export function ThebeLoaderAndServer({
 }
 
 type OutputsContextType = {
-  outputsId: IdOrKey;
+  outputsId: IdOrKey | undefined;
 };
 const OutputsContext = React.createContext<OutputsContextType | null>(null);
 
 export function useOutputsContext() {
   const context = useContext(OutputsContext);
-  if (context === null) {
-    throw new Error('useOutputsContext must be used within a OutputsContextProvider');
-  }
+  if (context === null) return { outputsId: undefined };
   return context;
 }
 export function OutputsContextProvider({

@@ -183,11 +183,21 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     );
   },
   paragraph({ node, className }) {
-    return (
-      <p id={node.html_id} className={className}>
-        <MyST ast={node.children} />
-      </p>
-    );
+    const isSingleImage = node.children?.length === 1 && node.children[0].type === 'image';
+    const isSingleLinkedImage =
+      node.children?.length === 1 &&
+      node.children[0].type === 'link' &&
+      node.children[0].children?.length === 1 &&
+      node.children[0].children[0]?.type === 'image';
+    // Only wrap in <p> if it's not a single image or linked image
+    if (!isSingleImage && !isSingleLinkedImage) {
+      return (
+        <p id={node.html_id} className={className}>
+          <MyST ast={node.children} />
+        </p>
+      );
+    }
+    return <MyST ast={node.children} />;
   },
   algorithmLine({ node, className }) {
     // Used in algorithms

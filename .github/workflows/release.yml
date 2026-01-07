@@ -7,21 +7,27 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 permissions:
   contents: write
   pull-requests: write
+  id-token: write # Required for OIDC trusted publishing
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js 18.x
+      - name: Setup Node.js 24.x
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 24.x
+      - name: Ensure npm 11.5.1+ for trusted publishing
+        run: npm install -g npm@latest
       - run: npm install
       - run: npm run build
       - run: npm run test
+      # Changesets action will set published=true if it does publish
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
@@ -32,7 +38,6 @@ jobs:
           createGithubReleases: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Notification if a publish happens
         if: steps.changesets.outputs.published == 'true'
         run: echo "A new version of ${GITHUB_REPOSITORY} was published!"
@@ -48,3 +53,36 @@ jobs:
       - name: Deploy Article
         if: steps.changesets.outputs.published == 'true'
         run: make deploy-article
+
+  # Grab the tag from package.json so we know how to tag the github release
+  get-tag:
+    name: Get Tag Name
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.get_tag.outputs.tag_name }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Determine tag from myst-to-react package.json
+        id: get_tag
+        run: |
+          VERSION=$(jq -r '.version' packages/myst-to-react/package.json)
+          if [ -z "$VERSION" ]; then
+            echo "Unable to read version from packages/myst-to-react/package.json" >&2
+            exit 1
+          fi
+          TAG="myst-theme@$VERSION"
+          echo "tag_name=$TAG" >> "$GITHUB_OUTPUT"
+
+  # Trigger a github release workflow only if we've published
+  release-github:
+    name: Publish GitHub Release
+    needs:
+      - release
+      - get-tag
+    if: ${{ needs.release.outputs.published == 'true' }}
+    uses: ./.github/workflows/publish-github-release.yml
+    with:
+      tag_name: ${{ needs.get-tag.outputs.tag_name }}
+    secrets: inherit

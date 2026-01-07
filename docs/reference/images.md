@@ -11,25 +11,59 @@ Here's an image in block form:
 
 ![MyST Logo](../_static/myst-logo-light.svg)
 
+
 ## Inline Images
 
 Text before ![MyST Logo](../_static/myst-logo-light.svg) text after. This image should appear inline with the text, without line breaks before or after it.
 
-### Inline in lists
+## Linked image
+
+[![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
+
+Linked inline: [![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
+
+Linked in a card:
+
+:::{note} Here's a linked image
+% Should display as block
+[![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
+
+% Should display as inline
+Inline: [![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
+:::
+
+## Inline in lists
 
 - Text before ![MyST Logo](../_static/myst-logo-light.svg) text after within a list item.
 - Second item without an image for comparison.
 
-### Inline in tables
+## Inline in tables
 
 | Description | Inline image |
 | ----------- | ------------ |
 | Text before ![MyST Logo](../_static/myst-logo-light.svg) text after | Works inside table cells too |
 
-### Inline in definition lists
+## Inline in definition lists
 
 Term with logo
 : Text before ![MyST Logo](../_static/myst-logo-light.svg) text after inside a definition description.
+
+## Images in grids
+
+::::{grid} 3
+:::{grid-item}
+```{image} ../_static/myst-logo-light.svg
+```
+:::
+:::{grid-item}
+```{image} ../_static/myst-logo-light.svg
+```
+:::
+:::{grid-item}
+```{image} ../_static/myst-logo-light.svg
+```
+:::
+::::
 
 ## Figure with Caption
 

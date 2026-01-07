@@ -130,12 +130,12 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
               })}
             >
               <button
-                className="myst-top-nav-menu-button flex items-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100"
+                className="myst-top-nav-menu-button flex items-center justify-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100 w-10 h-10"
                 onClick={() => {
                   setOpen(!open);
                 }}
               >
-                <MenuIcon width="2rem" height="2rem" className="m-1" />
+                <MenuIcon width="1.5rem" height="1.5rem" />
                 <span className="sr-only">Open Menu</span>
               </button>
             </div>

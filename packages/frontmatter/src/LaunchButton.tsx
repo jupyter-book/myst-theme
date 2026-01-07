@@ -254,7 +254,7 @@ function makeNbgitpullerURL(options: BinderHubOptions, location: string): string
     repo,
     // Need a valid branch name, not a rev
     // branch: ref,
-    urlpath: `/lab/tree/${cloneName}${location}`,
+    urlpath: `lab/tree/${cloneName}${location}`,
   });
 
   return `git-pull?${query}`;

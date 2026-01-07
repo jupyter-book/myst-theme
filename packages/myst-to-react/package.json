@@ -22,10 +22,12 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@myst-theme/providers": "^1.0.0",
-    "@scienceicons/react": "^0.0.13",
     "@radix-ui/react-hover-card": "^1.0.6",
+    "@scienceicons/myst": "^1.0.4",
+    "@scienceicons/react": "^0.0.13",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
+    "lucide-react": "^0.562.0",
     "myst-common": "^1.8.1",
     "myst-config": "^1.8.1",
     "myst-spec": "^0.0.5",

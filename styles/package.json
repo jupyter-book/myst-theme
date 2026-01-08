@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/styles",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "style": "app.css",
   "scripts": {
@@ -9,6 +9,10 @@
   },
   "author": "Rowan Cockett <rowan@curvenote.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
   "bugs": {
     "url": "https://github.com/jupyter-book/myst-theme/issues"
   },

@@ -1,6 +1,6 @@
 {
   "name": "myst-to-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,6 +11,10 @@
     "node": ">=16"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",
@@ -21,13 +25,14 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
-    "@myst-theme/providers": "^1.0.0",
-    "@scienceicons/react": "^0.0.13",
+    "@myst-theme/providers": "^1.0.1",
     "@radix-ui/react-hover-card": "^1.0.6",
+    "@scienceicons/react": "^0.0.13",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
     "myst-common": "^1.8.1",
     "myst-config": "^1.8.1",
+    "myst-migrate": "^1.7.0",
     "myst-spec": "^0.0.5",
     "nanoid": "^4.0.2",
     "react-syntax-highlighter": "15.5.0",

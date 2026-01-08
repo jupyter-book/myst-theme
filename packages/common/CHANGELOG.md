@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 1.0.1
+
+### Patch Changes
+
+- 796a556: Added a constant to reflect the current MyST AST version supported by the `@myst-theme/*` packages.
+
 ## 1.0.0
 
 ### Major Changes

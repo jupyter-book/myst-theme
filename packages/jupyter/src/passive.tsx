@@ -38,5 +38,5 @@ export function PassiveOutputRenderer({
     cell.current.render(core?.stripWidgets([data]) ?? data);
   }, [ref, loaded]);
 
-  return <div ref={ref} data-thebe-passive-ref="true" data-output-id={id} />;
+  return <div ref={ref} className="not-prose" data-thebe-passive-ref="true" data-output-id={id} />;
 }

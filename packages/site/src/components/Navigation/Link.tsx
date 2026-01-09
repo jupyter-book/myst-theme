@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLinkProvider, useNavLinkProvider } from '@myst-theme/providers';
+import { isExternalUrl, useLinkProvider, useNavLinkProvider } from '@myst-theme/providers';
 
 export function ExternalOrInternalLink({
   to,
@@ -19,7 +19,7 @@ export function ExternalOrInternalLink({
   const Link = useLinkProvider();
   const NavLink = useNavLinkProvider();
   const staticClass = typeof className === 'function' ? className({ isActive: false }) : className;
-  if (to.startsWith('http') || to.startsWith('mailto:')) {
+  if (isExternalUrl(to)) {
     return (
       <a
         href={to}

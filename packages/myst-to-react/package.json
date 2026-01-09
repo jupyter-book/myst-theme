@@ -17,6 +17,8 @@
   },
   "scripts": {
     "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "dev": "npm-run-all --parallel \"build:* -- --watch\"",

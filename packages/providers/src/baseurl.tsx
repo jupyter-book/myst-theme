@@ -19,9 +19,13 @@ export function useBaseurl() {
   return data?.baseurl;
 }
 
+export function isExternalUrl(url?: string) {
+  // External if it has a URL scheme (e.g., https:, mailto:) or is protocol-relative (//host).
+  return /^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/\/)/.test(url || '');
+}
+
 export function withBaseurl(url?: string, baseurl?: string) {
-  const isExternal = /^(https?|mailto):/.test(url || '');
-  if (!baseurl || isExternal) {
+  if (!baseurl || isExternalUrl(url)) {
     return url as string;
   }
   return baseurl + url;

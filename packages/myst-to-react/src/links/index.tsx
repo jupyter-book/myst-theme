@@ -3,7 +3,13 @@ import {
   ArrowTopRightOnSquareIcon as ExternalLinkIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline';
-import { useLinkProvider, useSiteManifest, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import {
+  isExternalUrl,
+  useLinkProvider,
+  useSiteManifest,
+  useBaseurl,
+  withBaseurl,
+} from '@myst-theme/providers';
 import type { SiteManifest } from 'myst-config';
 import type { NodeRenderer, NodeRenderers } from '@myst-theme/providers';
 import { HoverPopover, LinkCard } from '../components/index.js';
@@ -113,7 +119,7 @@ export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node, className
 };
 
 export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) => {
-  const internal = node.internal ?? false;
+  const internal = node.internal ?? !isExternalUrl(node.url);
   if (internal) {
     return (
       <InternalLink url={node.url} className={classNames(node.class, className)}>

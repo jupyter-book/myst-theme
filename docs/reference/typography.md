@@ -1,5 +1,7 @@
 ---
 title: Typography
+abbreviations:
+  HOVER: Wow a hoverable abbreviation
 ---
 
 # Heading Level 1
@@ -62,40 +64,37 @@ The {smallcaps}`HTML` specification defines web standards.
 
 ### External Links
 
-Visit [MyST Markdown](https://mystmd.org) for documentation.
+External links open in a new tab and display a small icon to indicate they leave the current site.
 
-Check out [Jupyter](https://jupyter.org) for notebooks.
+See [MyST Markdown](https://mystmd.org) for documentation.
+
+If they use a role or link that supports hover previews, they'll have a dotted line:
+
+[](https://doi.org/10.25080/hwcj9957)
 
 ### Internal Links
 
-Link to [another section](#math) on this page.
+Internal links:
 
-### Reference-Style Links
+Have a solid underline if they don't have hover previews:
 
-This is a [reference link][ref1] and another [reference link][ref2].
+Link to [](tables.md).
 
-[ref1]: https://mystmd.org
-[ref2]: https://jupyter.org
+Have a dotted underline if they have hover previews (e.g. for a label reference):
 
-### Auto-Links
+Link to [](#math).
 
-<https://mystmd.org>
+### Hover-only links
 
-<user@example.com>
+Hover-only links are black with a dotted line, for example:
+
+The HOVER will be black.
 
 ## Buttons
 
 ### Basic Button
 
 {button}`Click Me! <https://mystmd.org>`
-
-### Button Link
-
-{button-link} https://mystmd.org
-:color: primary
-
-Visit MyST
-{button-link}
 
 (math)=
 ## Math

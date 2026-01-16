@@ -36,6 +36,10 @@
   @apply text-sm bg-white border rounded shadow-xl dark:bg-slate-800 border-gray-50;
 }
 
-.hover-link {
-  @apply font-normal text-blue-700 underline-offset-2 decoration-slate-200 dark:decoration-slate-600 dark:text-blue-100 hover:text-blue-500;
+/* Hoverable links: dashed underline */
+.hover-link { @apply decoration-dashed; }
+
+/* Non-link hover elements (e.g., abbreviations): gray dashed underline */
+.hover-text {
+  @apply underline decoration-dashed decoration-[1.5px] underline-offset-2 decoration-gray-400 dark:decoration-gray-500 cursor-help;
 }

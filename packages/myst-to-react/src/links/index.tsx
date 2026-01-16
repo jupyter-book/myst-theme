@@ -46,7 +46,7 @@ function InternalLink({
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={className}>
+      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={classNames('link', className)}>
         {children}
       </Link>
     );
@@ -63,7 +63,7 @@ function InternalLink({
         />
       }
     >
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={className}>
+      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={classNames('hover-link', className)}>
         {children}
       </Link>
     </HoverPopover>
@@ -132,9 +132,10 @@ export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) =
       target="_blank"
       rel="noreferrer"
       href={node.url}
-      className={classNames(node.class, className)}
+      className={classNames('link', node.class, className)}
     >
       <MyST ast={node.children} />
+      <ExternalLinkIcon className="external-link-icon" />
     </a>
   );
 };

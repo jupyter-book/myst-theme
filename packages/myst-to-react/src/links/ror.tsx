@@ -1,8 +1,10 @@
 import { default as useSWR } from 'swr';
+import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
 import { HoverPopover } from '../components/index.js';
 import { MyST } from '../MyST.js';
 import type { GenericNode } from 'myst-common';
 import { RorIcon } from '@scienceicons/react/24/solid';
+import classNames from 'classnames';
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => {
@@ -97,9 +99,10 @@ export function RORLink({
         href={`https://ror.org/${ror}`}
         target="_blank"
         rel="noopener noreferrer"
-        className={className}
+        className={classNames('hover-link', className)}
       >
         <MyST ast={node.children} />
+        <ExternalLinkIcon className="external-link-icon" />
       </a>
     </HoverPopover>
   );

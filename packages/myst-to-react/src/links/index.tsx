@@ -46,7 +46,11 @@ function InternalLink({
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={classNames('link', className)}>
+      <Link
+        to={withBaseurl(url, baseurl)}
+        prefetch="intent"
+        className={classNames('link', className)}
+      >
         {children}
       </Link>
     );
@@ -63,7 +67,11 @@ function InternalLink({
         />
       }
     >
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={classNames('hover-link', className)}>
+      <Link
+        to={withBaseurl(url, baseurl)}
+        prefetch="intent"
+        className={classNames('hover-link', className)}
+      >
         {children}
       </Link>
     </HoverPopover>

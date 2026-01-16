@@ -25,8 +25,8 @@ This is a second paragraph, separated from the first by a blank line. Paragraph 
 ### Bold and Italic
 
 - **This text is bold**
-- *This text is italic*
-- ***This text is bold and italic***
+- _This text is italic_
+- **_This text is bold and italic_**
 
 ### Underline and Strikethrough
 
@@ -97,6 +97,7 @@ The HOVER will be black.
 {button}`Click Me! <https://mystmd.org>`
 
 (math)=
+
 ## Math
 
 ### Inline Math
@@ -149,7 +150,7 @@ Content below the horizontal rule.
 
 ## Mixed Inline Elements
 
-This paragraph demonstrates **bold**, *italic*, ***bold italic***, `code`, [links](https://mystmd.org), math $x^2$, {kbd}`Ctrl+S`, H{sub}`2`O, x{sup}`2`, and {abbr}`API (Application Programming Interface)` all in one place.
+This paragraph demonstrates **bold**, _italic_, **_bold italic_**, `code`, [links](https://mystmd.org), math $x^2$, {kbd}`Ctrl+S`, H{sub}`2`O, x{sup}`2`, and {abbr}`API (Application Programming Interface)` all in one place.
 
 ## Long Words and Wrapping
 
@@ -171,10 +172,10 @@ Default paragraph with standard left alignment and natural text flow.
 
 ## Emphasis Combinations
 
-- *Italic with `code`*
+- _Italic with `code`_
 - **Bold with `code`**
-- ***Bold italic with `code`***
-- *Italic with [link](https://mystmd.org)*
+- **_Bold italic with `code`_**
+- _Italic with [link](https://mystmd.org)_
 - **Bold with [link](https://mystmd.org)**
 
 ## Numbers and Units
@@ -204,7 +205,7 @@ Regular paragraph continues here.
 
 ## Nested Formatting
 
-This paragraph has **bold text with *italic inside* it** and *italic with **bold inside** it*.
+This paragraph has **bold text with _italic inside_ it** and _italic with **bold inside** it_.
 
 ## Combined Elements in One Line
 

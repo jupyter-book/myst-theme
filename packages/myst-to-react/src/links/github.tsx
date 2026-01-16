@@ -325,7 +325,12 @@ export function GithubLink({
         }
       }}
     >
-      <a href={url} className={classNames('hover-link', className)} target="_blank" rel="noreferrer">
+      <a
+        href={url}
+        className={classNames('hover-link', className)}
+        target="_blank"
+        rel="noreferrer"
+      >
         {children}
         <ExternalLinkIcon className="external-link-icon" />
       </a>

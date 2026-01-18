@@ -41,5 +41,5 @@
 
 /* Non-link hover elements (e.g., abbreviations): gray dotted underline */
 .hover-text {
-  @apply underline decoration-dotted decoration-[0.15em] underline-offset-[0.15em] decoration-gray-500 dark:decoration-gray-400 cursor-help;
+  @apply underline decoration-dotted decoration-[0.1em] underline-offset-[0.15em] decoration-gray-500 dark:decoration-gray-400 cursor-help;
 }

@@ -36,10 +36,10 @@
   @apply text-sm bg-white border rounded shadow-xl dark:bg-slate-800 border-gray-50;
 }
 
-/* Hoverable links: dashed underline */
-.hover-link { @apply decoration-dashed; }
+/* Hoverable links: dotted underline */
+.hover-link { @apply decoration-dotted; }
 
-/* Non-link hover elements (e.g., abbreviations): gray dashed underline */
+/* Non-link hover elements (e.g., abbreviations): gray dotted underline */
 .hover-text {
-  @apply underline decoration-dashed decoration-[1.5px] underline-offset-2 decoration-gray-400 dark:decoration-gray-500 cursor-help;
+  @apply underline decoration-dotted decoration-[0.15em] underline-offset-[0.15em] decoration-gray-500 dark:decoration-gray-400 cursor-help;
 }

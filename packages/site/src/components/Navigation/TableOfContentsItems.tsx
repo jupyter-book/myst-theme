@@ -172,7 +172,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
     <Collapsible.Root className="w-full" open={open} onOpenChange={setOpen}>
       <div
         className={classNames(
-          'myst-toc-item flex flex-row w-full gap-2 px-2 my-1 text-left rounded-lg outline-none',
+          'myst-toc-item flex flex-row w-full gap-2 pl-2 my-1 text-left rounded-lg outline-none',
           {
             'myst-toc-item-exact bg-blue-300/30': exact,
             'hover:bg-slate-300/30': !exact,
@@ -189,7 +189,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
         />
         <Collapsible.Trigger asChild>
           <button
-            className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+            className="self-stretch flex items-center flex-none px-1 rounded-l-md group hover:bg-slate-300/30 focus-visible:outline outline-blue-200 outline-2"
             aria-label="Open Folder"
           >
             <ChevronRightIcon

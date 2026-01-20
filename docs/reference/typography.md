@@ -74,8 +74,6 @@ If they use a role or link that supports hover previews, they'll have a dotted l
 
 ### Internal Links
 
-Internal links:
-
 Have a solid underline if they don't have hover previews:
 
 Link to [](tables.md).

@@ -332,7 +332,6 @@ export function GithubLink({
         rel="noreferrer"
       >
         {children}
-        <ExternalLinkIcon className="external-link-icon" />
       </a>
     </HoverPopover>
   );

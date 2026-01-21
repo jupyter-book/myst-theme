@@ -1,5 +1,4 @@
 import { default as useSWR } from 'swr';
-import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
 import { HoverPopover } from '../components/index.js';
 import classNames from 'classnames';
 
@@ -80,7 +79,6 @@ export function RRIDLink({ rrid, className }: { rrid: string; className?: string
         className={classNames('hover-link', className)}
       >
         RRID: <cite className="italic">{rrid}</cite>
-        <ExternalLinkIcon className="external-link-icon" />
       </a>
     </HoverPopover>
   );

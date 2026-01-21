@@ -1,5 +1,4 @@
 import { default as useSWR } from 'swr';
-import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
 import { HoverPopover } from '../components/index.js';
 import { MyST } from '../MyST.js';
 import type { GenericNode } from 'myst-common';
@@ -102,7 +101,6 @@ export function RORLink({
         className={classNames('hover-link', className)}
       >
         <MyST ast={node.children} />
-        <ExternalLinkIcon className="external-link-icon" />
       </a>
     </HoverPopover>
   );

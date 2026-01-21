@@ -1,3 +1,4 @@
+/* TODO: Separate out theme styling from component styling more effectively https://github.com/jupyter-book/myst-theme/issues/763 */
 @layer components {
   a.button,
   button.button,

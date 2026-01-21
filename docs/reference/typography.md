@@ -60,37 +60,15 @@ Press {kbd}`Ctrl+C` to copy, {kbd}`Ctrl+V` to paste, or {kbd}`Ctrl+Alt+Delete` f
 
 The {smallcaps}`HTML` specification defines web standards.
 
-## Links
+## Links and terms
 
-### External Links
-
-External links open in a new tab and display a small icon to indicate they leave the current site.
-
-See [MyST Markdown](https://mystmd.org) for documentation.
-
-If they use a role or link that supports hover previews, they'll have a dotted line:
-
-[](https://doi.org/10.25080/hwcj9957)
-
-### Internal Links
-
-Have a solid underline if they don't have hover previews:
-
-Link to [](tables.md).
-
-Have a dotted underline if they have hover previews (e.g. for a label reference):
-
-Link to [](#math).
-
-### Hover-only links
-
-Hover-only links are black with a dotted line, for example:
-
-The HOVER will be black.
+- External link: [MyST Markdown](https://mystmd.org)
+- External link with hover: [](https://doi.org/10.25080/hwcj9957)
+- Internal link: [](tables.md)
+- Internal link with hover: [](#math)
+- Hover-only text: HOVER
 
 ## Buttons
-
-### Basic Button
 
 {button}`Click Me! <https://mystmd.org>`
 

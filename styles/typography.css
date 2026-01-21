@@ -35,13 +35,15 @@
   .prose dd {
     @apply ml-8;
   }
-  /* Keep inline images inside text flow from forcing line breaks */
-  .article p img,
-  .article table img,
-  .article dd img,
-  .prose p img,
-  .prose table img,
-  .prose dd img {
+  /* Inline images (direct children of paragraphs, with or without links) */
+  .article p > img,
+  .article p > a > img,
+  .article dd > img,
+  .article dd > a > img,
+  .prose p > img,
+  .prose p > a > img,
+  .prose dd > img,
+  .prose dd > a > img {
     margin: 0;
     display: inline-block;
     max-height: 1.2em;

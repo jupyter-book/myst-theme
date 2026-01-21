@@ -6,20 +6,31 @@ To interact with the themes in development mode (e.g. with live-reload of compon
 2. Theme: A dev server that watches for changes to this theme and re-builds it automatically.
 3. Theme: The theme server / renderer application.
 
-## First build a local version of the book theme
+## Initial setup
 
-Run this to build a local version of the book theme:
+First, install dependencies and build the packages:
 
 ```shell
-$ make build-book
+npm install
+npm run build
+```
+
+The build step compiles TypeScript for all packages in `packages/`. This is required before running the dev server or building themes.
+
+Then build a local version of the book theme:
+
+```shell
+make build-book
 ```
 
 This is a requirement of the way our static site is generated.
 It expects to find a built theme locally, and the `myst start --headless` command below will error if it isn't done at least once.
 
-## Start a content server
+## Preview changes locally
 
-First, start [a content server application](https://mystmd.org/guide/developer#content-server) in another MyST site. For example, with our docs:
+### Start a content server
+
+Start [a content server application](https://mystmd.org/guide/developer#content-server) in another MyST site. For example, with our docs:
 
 ```bash
 # Terminal 1
@@ -29,26 +40,25 @@ myst start --headless
 
 The content server parses MyST content into AST. By using `--headless`, we tell the content server **not** to start its own theme server.
 
-## Start a development server
+### Start a development server
 
-Next, start the dev server which will look for local changes and ensure they're being used in previews.
+Start the dev server which watches for local changes to packages:
 
 ```bash
 # Terminal 2
-npm install
 npm run dev
 ```
 
-## Start a theme server
+### Start a theme server
 
-Finally, start the theme server application, which will take the AST from the content server in Terminal 1 and render it for you to preview:
+Start the theme server application, which will take the AST from the content server and render it for you to preview:
 
 ```shell
 # Terminal 3
-$ npm run theme:book
+npm run theme:book
 ```
 
-## Preview your changes
+### Preview your changes
 
 Open the port that is printed in the terminal for your theme server (usually, `https://localhost:3000`). The theme server will start serving the AST from the content as a website at that port.
 
@@ -81,18 +91,12 @@ We have a lightweight [storybook](https://storybook.js.org/) configuration, whic
 
 This is the same tool that powers [the MyST Theme components documentation](https://jupyter-book.github.io/myst-theme/?path=/docs/components-introduction--docs).
 
-To use Storybook:
-
-First, run storybook:
+To use Storybook, first complete the [initial setup](#initial-setup), then run:
 
 ```shell
 # Terminal 1
 npm run storybook
-```
 
-Then, run a development server:
-
-```shell
-# Terminal2
-$ npm run dev
+# Terminal 2
+npm run dev
 ```

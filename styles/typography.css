@@ -13,10 +13,6 @@
   .prose table th {
     @apply p-1 align-top sm:p-2;
   }
-  .prose table td.text-center,
-  .prose table th.text-center {
-    @apply text-center;
-  }
   .prose table td.text-right,
   .prose table th.text-right {
     @apply text-right;

@@ -359,7 +359,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   abbreviation({ node, className }) {
     return (
       <Tooltip title={node.title} className={classNames(className)}>
-        <abbr aria-label={node.title} className="border-b border-dotted cursor-help">
+        <abbr aria-label={node.title} className="hover-text">
           <MyST ast={node.children} />
         </abbr>
       </Tooltip>

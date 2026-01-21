@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 1.1.0
+
+### Patch Changes
+
+- fd4708d: Export myst-search type dependence of providers
+  - @myst-theme/common@1.1.0
+  - @myst-theme/search@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

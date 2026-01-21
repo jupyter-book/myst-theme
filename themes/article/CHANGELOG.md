@@ -1,5 +1,24 @@
 # @myst-theme/article
 
+## 1.1.0
+
+### Patch Changes
+
+- 9538e88: Use `npm ci` instead of `npm install` for themes
+- Updated dependencies [e213587]
+- Updated dependencies [37fa906]
+- Updated dependencies [9d1a6d3]
+- Updated dependencies [fd4708d]
+- Updated dependencies [cbe05f1]
+- Updated dependencies [c519f9b]
+- Updated dependencies [20e0e66]
+  - @myst-theme/site@1.1.0
+  - @myst-theme/styles@1.1.0
+  - @myst-theme/providers@1.1.0
+  - @myst-theme/jupyter@1.1.0
+  - @myst-theme/common@1.1.0
+  - @myst-theme/icons@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

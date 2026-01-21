@@ -1,5 +1,23 @@
 # @myst-theme/site
 
+## 1.1.0
+
+### Patch Changes
+
+- e213587: On static builds, fix sidebar menu not expanding for current page (closes [#635](https://github.com/jupyter-book/mystmd/issues/2288)).
+- 37fa906: Improve UX of ToC expand widget
+- Updated dependencies [fd4708d]
+- Updated dependencies [75475f8]
+- Updated dependencies [c519f9b]
+- Updated dependencies [9bfb08e]
+  - @myst-theme/providers@1.1.0
+  - myst-to-react@1.1.0
+  - @myst-theme/frontmatter@1.1.0
+  - @myst-theme/diagrams@1.1.0
+  - @myst-theme/common@1.1.0
+  - @myst-theme/search@1.1.0
+  - myst-demo@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

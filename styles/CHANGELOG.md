@@ -1,5 +1,13 @@
 # @myst-theme/styles
 
+## 1.1.0
+
+### Patch Changes
+
+- 9d1a6d3: Fix inline image styling that was incorrectly applied to images in figures and tables
+- cbe05f1: Make table cells match table headers
+- c519f9b: Standardize link styles
+
 ## 1.0.1
 
 ## 1.0.0

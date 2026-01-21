@@ -39,9 +39,22 @@ Inline: [![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
 
 ## Inline in tables
 
+:::{note}
+Images in tables are currently rendered at full size, even when inline with text.
+See [#761](https://github.com/jupyter-book/myst-theme/issues/761) for tracking.
+:::
+
 | Description | Inline image |
 | ----------- | ------------ |
 | Text before ![MyST Logo](../_static/myst-logo-light.svg) text after | Works inside table cells too |
+
+## Standalone images in tables
+
+Images alone in table cells (like contributor cards) should display at their natural size:
+
+| Logo 1 | Logo 2 | Logo 3 |
+| :----: | :----: | :----: |
+| ![MyST](../_static/myst-logo-light.svg) | ![MyST](../_static/myst-logo-dark.svg) | ![MyST](../_static/myst-logo-light.svg) |
 
 ## Inline in definition lists
 

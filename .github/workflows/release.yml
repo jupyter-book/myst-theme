@@ -72,7 +72,7 @@ jobs:
             echo "Unable to read version from packages/myst-to-react/package.json" >&2
             exit 1
           fi
-          TAG="myst-theme@$VERSION"
+          TAG="myst-to-react@$VERSION"
           echo "tag_name=$TAG" >> "$GITHUB_OUTPUT"
 
   # Trigger a github release workflow only if we've published

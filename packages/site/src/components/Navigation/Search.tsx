@@ -507,7 +507,7 @@ function SearchForm({
       <form onSubmit={onSubmit}>
         <div className="relative flex w-full h-10 flow-row gap-x-1 ">
           <label id={searchLabelID} htmlFor={searchInputID}>
-            <MagnifyingGlassIcon className="absolute text-gray-600 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
+            <MagnifyingGlassIcon className="absolute text-gray-600 dark:text-gray-300 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
             <span className="hidden">Search query</span>
           </label>
           <input

@@ -26,7 +26,11 @@ type TransformedLink = Link & { internal?: boolean; protocol?: string; static?: 
 export type LinkType = 'static' | 'internal' | 'external';
 
 /** Classify a link node as static (downloads), internal (pages), or external */
-export function classifyLinkNode(node: { url: string; internal?: boolean; static?: boolean }): LinkType {
+export function classifyLinkNode(node: {
+  url: string;
+  internal?: boolean;
+  static?: boolean;
+}): LinkType {
   if (node.static) return 'static';
   if (node.internal ?? !isExternalUrl(node.url)) return 'internal';
   return 'external';

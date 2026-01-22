@@ -48,6 +48,10 @@ Press {kbd}`Ctrl+C` to copy, {kbd}`Ctrl+V` to paste, or {kbd}`Ctrl+Alt+Delete` f
 - Chemical: CO{sub}`2`
 - Exponent: 2{sup}`n`
 
+### Download links
+
+- {download}`tables.md`
+
 ### Abbreviations
 
 {abbr}`HTML (HyperText Markup Language)` is used for web structure.

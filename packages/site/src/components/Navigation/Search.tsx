@@ -174,7 +174,7 @@ function SearchShortcut() {
   return (
     <div
       aria-hidden
-      className="myst-search-shortcut items-center hidden mx-1 font-mono text-sm text-gray-600 sm:flex gap-x-1"
+      className="myst-search-shortcut items-center hidden mx-1 font-mono text-sm text-gray-600 dark:text-gray-300 sm:flex gap-x-1"
     >
       <kbd
         className={classNames(
@@ -563,7 +563,7 @@ const SearchPlaceholderButton = forwardRef<
       className={classNames(
         'myst-search-bar',
         className,
-        'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-600',
+        'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-600 dark:text-gray-300',
         'border border-gray-300 dark:border-gray-600',
         'rounded-lg bg-gray-50 dark:bg-gray-700',
         {

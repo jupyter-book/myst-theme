@@ -1,19 +1,24 @@
 import { describe, it, expect } from 'vitest';
-import { isExternalUrl } from '@myst-theme/providers';
+import { classifyLinkNode } from './index.js';
 
-describe('isExternalUrl', () => {
-  it('treats internal reference and static asset paths as internal', () => {
-    expect(isExternalUrl('intro.md')).toBe(false);
-    expect(isExternalUrl('./intro.md')).toBe(false);
-    expect(isExternalUrl('/intro.md')).toBe(false);
-    expect(isExternalUrl('./assets/logo.svg')).toBe(false);
-    expect(isExternalUrl('/docs/page/')).toBe(false);
+describe('classifyLinkNode', () => {
+  it('classifies static links correctly', () => {
+    expect(classifyLinkNode({ url: '/build/file.pdf', static: true })).toBe('static');
+    expect(classifyLinkNode({ url: 'https://example.com/file.pdf', static: true })).toBe('static');
   });
 
-  it('treats external urls as external', () => {
-    expect(isExternalUrl('https://example.com')).toBe(true);
-    expect(isExternalUrl('http://example.com')).toBe(true);
-    expect(isExternalUrl('ftp://example.com/file.txt')).toBe(true);
-    expect(isExternalUrl('mailto:foo@example.com')).toBe(true);
+  it('classifies internal links correctly', () => {
+    expect(classifyLinkNode({ url: '/page' })).toBe('internal');
+    expect(classifyLinkNode({ url: '/page', internal: true })).toBe('internal');
+    expect(classifyLinkNode({ url: 'intro.md' })).toBe('internal');
+    expect(classifyLinkNode({ url: './intro.md' })).toBe('internal');
+    expect(classifyLinkNode({ url: './assets/logo.svg' })).toBe('internal');
+  });
+
+  it('classifies external links correctly', () => {
+    expect(classifyLinkNode({ url: 'https://example.com' })).toBe('external');
+    expect(classifyLinkNode({ url: 'http://example.com' })).toBe('external');
+    expect(classifyLinkNode({ url: 'mailto:foo@example.com' })).toBe('external');
+    expect(classifyLinkNode({ url: '/page', internal: false })).toBe('external');
   });
 });

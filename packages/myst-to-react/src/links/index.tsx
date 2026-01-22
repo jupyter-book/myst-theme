@@ -20,7 +20,17 @@ import { GithubLink } from './github.js';
 import { MyST } from '../MyST.js';
 import classNames from 'classnames';
 
-type TransformedLink = Link & { internal?: boolean; protocol?: string };
+// Allow for a few link properties added by mystmd but not part of the myst-spec
+type TransformedLink = Link & { internal?: boolean; protocol?: string; static?: boolean };
+
+export type LinkType = 'static' | 'internal' | 'external';
+
+/** Classify a link node as static (downloads), internal (pages), or external */
+export function classifyLinkNode(node: { url: string; internal?: boolean; static?: boolean }): LinkType {
+  if (node.static) return 'static';
+  if (node.internal ?? !isExternalUrl(node.url)) return 'internal';
+  return 'external';
+}
 
 function getPageInfo(site: SiteManifest | undefined, path: string) {
   if (!site) return undefined;
@@ -127,14 +137,24 @@ export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node, className
 };
 
 export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) => {
-  const internal = node.internal ?? !isExternalUrl(node.url);
-  if (internal) {
+  const linkType = classifyLinkNode(node);
+  if (linkType === 'static') {
+    // Static links (e.g., downloads) already include the baseurl so we render them directly
+    return (
+      <a href={node.url} className={classNames('link', node.class, className)}>
+        <MyST ast={node.children} />
+      </a>
+    );
+  }
+  if (linkType === 'internal') {
+    // Internal links use the Link provider for navigation
     return (
       <InternalLink url={node.url} className={classNames(node.class, className)}>
         <MyST ast={node.children} />
       </InternalLink>
     );
   }
+  // External links open in a new tab w/ an icon
   return (
     <a
       target="_blank"

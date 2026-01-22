@@ -2,6 +2,7 @@ import type { Link } from 'myst-spec';
 import {
   ArrowTopRightOnSquareIcon as ExternalLinkIcon,
   LinkIcon,
+  DocumentArrowDownIcon,
 } from '@heroicons/react/24/outline';
 import {
   isExternalUrl,
@@ -146,7 +147,8 @@ export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) =
       className={classNames('link', node.class, className)}
     >
       <MyST ast={node.children} />
-      <ExternalLinkIcon className="external-link-icon" />
+      {isStatic && <DocumentArrowDownIcon className="external-link-icon" />}
+      {!isStatic && <ExternalLinkIcon className="external-link-icon" />}
     </a>
   );
 };

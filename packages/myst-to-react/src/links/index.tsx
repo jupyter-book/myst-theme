@@ -20,7 +20,7 @@ import { GithubLink } from './github.js';
 import { MyST } from '../MyST.js';
 import classNames from 'classnames';
 
-type TransformedLink = Link & { internal?: boolean; protocol?: string };
+type TransformedLink = Link & { internal?: boolean; protocol?: string; static?: boolean };
 
 function getPageInfo(site: SiteManifest | undefined, path: string) {
   if (!site) return undefined;
@@ -127,8 +127,11 @@ export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node, className
 };
 
 export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) => {
+  // Internal links will need to be modified by a baseURL (e.g. in static sites).
   const internal = node.internal ?? !isExternalUrl(node.url);
-  if (internal) {
+  // If the link is static (a link to a document/asset), we can just use the regular link.
+  const isStatic = node.static ?? false;
+  if (internal && !isStatic) {
     return (
       <InternalLink url={node.url} className={classNames(node.class, className)}>
         <MyST ast={node.children} />

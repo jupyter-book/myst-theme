@@ -21,6 +21,7 @@ import { GithubLink } from './github.js';
 import { MyST } from '../MyST.js';
 import classNames from 'classnames';
 
+// Allow for a few link properties added by mystmd but not part of the myst-spec
 type TransformedLink = Link & { internal?: boolean; protocol?: string; static?: boolean };
 
 function getPageInfo(site: SiteManifest | undefined, path: string) {

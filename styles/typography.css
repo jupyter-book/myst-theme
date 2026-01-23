@@ -16,7 +16,7 @@
   }
 
   /* Styles the icon that comes with External and Download links */
-  .link-with-icon {
+  .link-icon {
     @apply inline-block w-[0.85em] h-[0.85em] ml-0.5 align-baseline opacity-80;
   }
 }

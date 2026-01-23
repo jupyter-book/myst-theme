@@ -148,8 +148,8 @@ export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) =
       className={classNames('link', node.class, className)}
     >
       <MyST ast={node.children} />
-      {isStatic && <ArrowDownTrayIcon className="link-with-icon" />}
-      {!isStatic && <ExternalLinkIcon className="link-with-icon" />}
+      {isStatic && <ArrowDownTrayIcon className="link-icon" />}
+      {!isStatic && <ExternalLinkIcon className="link-icon" />}
     </a>
   );
 };

@@ -11,7 +11,7 @@
       @apply bg-blue-700;
     }
     /* Hide external link icon on buttons */
-    .external-link-icon {
+    &.link-with-icon {
       @apply hidden;
     }
   }

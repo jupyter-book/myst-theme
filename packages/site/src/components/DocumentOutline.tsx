@@ -205,24 +205,26 @@ export function useHeaders(selector: string, maxdepth: number) {
   // Trigger initial update
   useEffect(onMutation, []);
 
-  // Watch intersections with headings
-  const { intersecting } = useIntersectionObserver(elements);
+  // Track active heading based on scroll position w/ a throttled scroll callback
   const [activeId, setActiveId] = useState<string>();
-
   useEffect(() => {
-    const highlighted = intersecting!.reduce(
-      (a, b) => {
-        if (a) return a;
-        if (b.classList.contains('highlight')) return b.id;
-        return null;
-      },
-      null as string | null,
-    );
-    const active = [...(intersecting as HTMLElement[])].sort(
-      (a, b) => a.offsetTop - b.offsetTop,
-    )[0];
-    if (highlighted || active) setActiveId(highlighted || active.id);
-  }, [intersecting]);
+    const N_PER_SECOND = 5
+    const updateActive = throttle(() => {
+      // Find the last heading that has scrolled past the reading position
+      let active: HTMLHeadingElement | undefined;
+      for (const el of elements) {
+        const PIX_FROM_TOP = 100;
+        if (el.getBoundingClientRect().top <= PIX_FROM_TOP) {
+          active = el;
+        }
+      }
+      // If nothing was marked active, use the first header
+      setActiveId((active ?? elements[0])?.id);
+    }, 1000 / N_PER_SECOND);
+    updateActive();
+    window.addEventListener('scroll', updateActive, { passive: true });
+    return () => window.removeEventListener('scroll', updateActive);
+  }, [elements]);
 
   const [headings, setHeadings] = useState<Heading[]>([]);
   useEffect(() => {

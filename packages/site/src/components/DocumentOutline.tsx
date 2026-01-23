@@ -208,7 +208,7 @@ export function useHeaders(selector: string, maxdepth: number) {
   // Track active heading based on scroll position w/ a throttled scroll callback
   const [activeId, setActiveId] = useState<string>();
   useEffect(() => {
-    const N_PER_SECOND = 5;
+    const N_PER_SECOND = 20; // 20 seems like the smallest number that "feels" smooth
     const updateActive = throttle(() => {
       // Find the last heading that has scrolled past the reading position
       let active: HTMLHeadingElement | undefined;

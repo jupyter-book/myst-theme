@@ -22,40 +22,6 @@ Deeper nesting for detailed topic breakdown.
 
 Fourth level headings for fine-grained organization.
 
-## Margins
-
-```{margin} Margin Note
-This is a margin note. It appears in the page margin next to the main content.
-```
-
-Main content flows here while the margin note appears to the side.
-
-```{margin}
-Margin notes can contain **formatted text**, `code`, and [links](https://mystmd.org).
-```
-
-Multiple margin notes can appear at different points in the content.
-
-## Sidebars
-
-```{sidebar} Sidebar Title
-This is a sidebar. It contains supplementary information that complements the main content.
-
-Sidebars can include:
-- Lists
-- **Formatting**
-- `Code`
-- And more
-```
-
-Main content continues here with the sidebar displayed alongside (or above/below on mobile).
-
-```{sidebar} Another Sidebar
-Sidebars can appear multiple times throughout the document.
-```
-
-More main content with another sidebar present.
-
 ## Topics
 
 ```{topic} Special Topic
@@ -78,8 +44,18 @@ print("Code blocks too!")
 
 ## Containers
 
+You can add classes to a div using inline syntax:
+
 :::{div .custom-class}
-This is a generic div container. It can be styled with custom classes.
+This is a div with an inline class.
+:::
+
+Or using the `:class:` option:
+
+:::{div}
+:class: another-class
+
+This is a div with a class specified via option.
 :::
 
 ## Sections with Targets
@@ -92,55 +68,35 @@ This section has a target label and can be referenced from elsewhere.
 (target-section-two)=
 ### Section Two
 
-Another section with a target. Reference it using `[link text](target-section-two)`.
-
 Reference to [Section One](#target-section-one) and [Section Two](#target-section-two).
 
 ## Table of Contents
 
-### Inline TOC
+The `{contents}` directive generates a table of contents from headings that follow it on the page. The `:depth:` option controls how many heading levels to include.
 
-```{contents}
-:depth: 2
-```
-
-The above directive would generate an inline table of contents.
-
-### Local TOC
+With `:depth: 1`, only top-level headings are shown:
 
 ```{contents}
 :depth: 1
 ```
 
-A local TOC shows only sections within the current page.
+With `:depth: 2`, subheadings are also included:
+
+```{contents}
+:depth: 2
+```
 
 ## Glossary
 
 ```{glossary}
 Term One
-: Definition of the first term in the glossary.
+    Definition of the first term in the glossary.
 
 Term Two
-: Definition of the second term with more detail.
+    Definition of the second term with more detail.
 
 Term Three
-: Another term with its definition.
-```
-
-## Index Entries
-
-```{index} single: MyST Markdown
-```
-
-```{index} pair: Theme; Documentation
-```
-
-Index entries for building a document index.
-
-## Bibliography
-
-```{bibliography}
-:filter: docname in docnames
+    Another term with its definition.
 ```
 
 ## Centered Content
@@ -169,7 +125,7 @@ This content spans the full width of the page, not constrained by normal content
 
 ## Nested Structure
 
-:::{div}
+::::{div}
 :class: outer-container
 
 This is outer container content.
@@ -182,7 +138,7 @@ This is nested inside the outer container.
 
 Back to outer container.
 
-:::
+::::
 
 ## Multiple Columns
 
@@ -208,13 +164,65 @@ Content in the right column with separate structure.
 
 ::::
 
-## Panels
+## Margins and Sidebars
 
-:::{panel}
-This is panel content. Panels group related content together visually.
-:::
+Margins and sidebars display content alongside the main text, in the page margin on larger screens.
 
-## Sidebar with Complex Content
+### Margins
+
+```{margin} Margin Note
+This is a margin note. It appears in the page margin next to the main content.
+```
+
+Main content flows here while the margin note appears to the side. Margins are useful for supplementary information, citations, or brief asides that complement the main text without interrupting the reading flow. On smaller screens, margin content appears inline with the main content.
+
+Use the `{margin}` directive to create margin notes. You can optionally include a title as an argument to the directive. Margins can contain rich content including **formatted text**, `code`, and [links](https://mystmd.org).
+
+Here's an example with more complex content in the margin:
+
+```{margin}
+**Complex Margin**
+
+Margins can have:
+- Rich content
+- `Code`
+- [Links](https://mystmd.org)
+```
+
+The main content continues to flow naturally while margin content appears alongside. Margins are best suited for brief notes, citations, or small pieces of supplementary information.
+
+### Sidebars
+
+Sidebars are similar to margins but typically used for more substantial supplementary content.
+
+```{sidebar} Sidebar Title
+This is a sidebar. It contains supplementary information that complements the main content.
+
+Sidebars can include:
+- Lists
+- **Formatting**
+- `Code`
+```
+
+Main content continues here with the sidebar displayed alongside (or above/below on mobile). Use the `{sidebar}` directive to create sidebars. Like margins, you can include a title as an argument.
+
+### Known issue: overlapping content
+
+When multiple margin or sidebar blocks appear close together without enough main content between them, they may overlap visually. This is a [known bug](https://github.com/jupyter-book/myst-theme/issues/776). Here's an example:
+
+```{margin}
+First margin block.
+```
+
+```{margin}
+Second margin block.
+```
+
+To avoid this, group related margin content into a single block rather than using multiple consecutive blocks, or ensure there is enough main content between margin blocks.
+
+### Complex sidebar example
+
+Sidebars can contain more complex nested content including headings, code blocks, and other directives:
 
 ````{sidebar} Complex Sidebar
 ### Sidebar Heading
@@ -229,24 +237,9 @@ Sidebars can contain:
    ```
 
 3. **Formatted** *text*
-
-And more!
 ````
 
-Main content flows alongside this complex sidebar.
-
-## Margin with Complex Content
-
-```{margin}
-**Margin Title**
-
-Even margins can have:
-- Rich content
-- `Code`
-- [Links](https://mystmd.org)
-```
-
-Main content continues here.
+Main content flows alongside this complex sidebar. You can use sidebars for extended notes, related information, or supplementary material that complements the main narrative.
 
 ## Admonition as Structural Element
 
@@ -265,7 +258,7 @@ Using different admonition types creates visual variety in the document structur
 :::{div}
 :class: complex-section
 
-# Section Title
+**Section Title**
 
 Regular paragraph content.
 

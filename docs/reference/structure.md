@@ -72,17 +72,17 @@ Reference to [Section One](#target-section-one) and [Section Two](#target-sectio
 
 ## Table of Contents
 
-The `{contents}` directive generates a table of contents from headings that follow it on the page. The `:depth:` option controls how many heading levels to include.
+The `{toc}` directive generates a table of contents from headings that follow it on the page. The `:depth:` option controls how many heading levels to include.
 
 With `:depth: 1`, only top-level headings are shown:
 
-```{contents}
+```{toc}
 :depth: 1
 ```
 
 With `:depth: 2`, subheadings are also included:
 
-```{contents}
+```{toc}
 :depth: 2
 ```
 

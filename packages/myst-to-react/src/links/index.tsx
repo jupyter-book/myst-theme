@@ -72,13 +72,15 @@ function InternalLink({
         />
       )}
     >
-      <Link
-        to={withBaseurl(url, baseurl)}
-        prefetch="intent"
-        className={classNames('hover-link', className)}
-      >
-        {children}
-      </Link>
+      <span>
+        <Link
+          to={withBaseurl(url, baseurl)}
+          prefetch="intent"
+          className={classNames('hover-link', className)}
+        >
+          {children}
+        </Link>
+      </span>
     </HoverPopover>
   );
 }

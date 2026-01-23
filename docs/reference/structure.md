@@ -1,5 +1,6 @@
 ---
 title: Structure
+description: This has a description so we can test document hover cards.
 ---
 
 # Page Structure

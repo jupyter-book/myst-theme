@@ -7,7 +7,7 @@ import {
 import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import { DocumentChartBarIcon } from '@heroicons/react/24/outline';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
@@ -148,13 +148,23 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
 
   if (!onClient) return { observer };
   useEffect(() => {
+    // IntersectionObserver delivers incremental updates (entries) rather than a full snapshot
+    // of all targets. Maintain our own set of currently-intersecting elements by applying
+    // add/remove updates to the previous value.
     const cb: IntersectionObserverCallback = (entries) => {
-      setIntersecting(entries.filter((e) => e.isIntersecting).map((e) => e.target));
+      setIntersecting((prev) => {
+        const next = new Set(prev);
+        entries.forEach((e) => {
+          if (e.isIntersecting) next.add(e.target);
+          else next.delete(e.target);
+        });
+        return Array.from(next);
+      });
     };
     const o = new IntersectionObserver(cb, options ?? {});
     setObserver(o);
     return () => o.disconnect();
-  }, []);
+  }, [options]);
 
   // Changes to the DOM mean we need to update our intersection observer
   useEffect(() => {
@@ -163,12 +173,18 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
     }
     // Observe all heading elements
     const toWatch = elements;
-    toWatch.map((e) => observer.observe(e));
+    toWatch.forEach((e) => {
+      observer.observe(e);
+    });
     // Cleanup afterwards
     return () => {
-      toWatch.map((e) => observer.unobserve(e));
+      toWatch.forEach((e) => {
+        observer.unobserve(e);
+      });
+      // Ensure we don't keep stale references when elements are removed/unobserved.
+      setIntersecting((prev) => prev.filter((e) => !toWatch.includes(e)));
     };
-  }, [elements]);
+  }, [elements, observer]);
 
   return { observer, intersecting };
 };
@@ -192,7 +208,8 @@ export function useHeaders(selector: string, maxdepth: number) {
         setElements(getHeaders(selector));
       },
       500,
-      { trailing: false },
+      // Trailing updates help ensure we eventually process the last DOM mutation burst.
+      { trailing: true },
     ),
     [selector],
   );
@@ -205,26 +222,24 @@ export function useHeaders(selector: string, maxdepth: number) {
   // Trigger initial update
   useEffect(onMutation, []);
 
-  // Track active heading based on scroll position w/ a throttled scroll callback
+  // Watch intersections with headings
+  const { intersecting } = useIntersectionObserver(elements);
   const [activeId, setActiveId] = useState<string>();
+
   useEffect(() => {
-    const N_PER_SECOND = 20; // 20 seems like the smallest number that "feels" smooth
-    const updateActive = throttle(() => {
-      // Find the last heading that has scrolled past the reading position
-      let active: HTMLHeadingElement | undefined;
-      for (const el of elements) {
-        const PIX_FROM_TOP = 100;
-        if (el.getBoundingClientRect().top <= PIX_FROM_TOP) {
-          active = el;
-        }
-      }
-      // If nothing was marked active, use the first header
-      setActiveId((active ?? elements[0])?.id);
-    }, 1000 / N_PER_SECOND);
-    updateActive();
-    window.addEventListener('scroll', updateActive, { passive: true });
-    return () => window.removeEventListener('scroll', updateActive);
-  }, [elements]);
+    const highlighted = intersecting!.reduce(
+      (a, b) => {
+        if (a) return a;
+        if (b.classList.contains('highlight')) return b.id;
+        return null;
+      },
+      null as string | null,
+    );
+    const active = [...(intersecting as HTMLElement[])].sort(
+      (a, b) => a.offsetTop - b.offsetTop,
+    )[0];
+    if (highlighted || active) setActiveId(highlighted || active.id);
+  }, [intersecting]);
 
   const [headings, setHeadings] = useState<Heading[]>([]);
   useEffect(() => {
@@ -294,6 +309,8 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>(
 function useMarginOccluder() {
   const [occluded, setOccluded] = useState(false);
   const [elements, setElements] = useState<Element[]>([]);
+  // Memoize options so `useIntersectionObserver(..., options)` doesn't recreate the observer each render.
+  const intersectionOptions = useMemo(() => ({ rootMargin: '0px 0px -33% 0px' }), []);
 
   // Keep track of main manually for now
   const mainElementRef = useRef<HTMLElement | null>(null);
@@ -332,7 +349,8 @@ function useMarginOccluder() {
         setElements(Array.from(marginElements));
       },
       500,
-      { trailing: false },
+      // Trailing updates help ensure we eventually process the last DOM mutation burst.
+      { trailing: true },
     ),
     [],
   );
@@ -345,7 +363,7 @@ function useMarginOccluder() {
   // Trigger initial update
   useEffect(onMutation, []);
   // Keep tabs of margin elements on screen
-  const { intersecting } = useIntersectionObserver(elements, { rootMargin: '0px 0px -33% 0px' });
+  const { intersecting } = useIntersectionObserver(elements, intersectionOptions);
   useEffect(() => {
     setOccluded(intersecting!.length > 0);
   }, [intersecting]);

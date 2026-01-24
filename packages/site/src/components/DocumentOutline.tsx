@@ -261,7 +261,7 @@ export function useHeaders(selector: string, maxdepth: number) {
     }
     // If nothing is below the navbar line, keep the current active heading.
     const active = bestInActiveHeaderWindow?.el;
-    if (highlighted || active) setActiveId(highlighted || active.id);
+    if (highlighted || active) setActiveId(highlighted || active?.id);
   }, [intersecting, topOffset]);
 
   const [headings, setHeadings] = useState<Heading[]>([]);

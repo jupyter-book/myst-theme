@@ -2,6 +2,7 @@ import {
   useBaseurl,
   useNavLinkProvider,
   useSiteManifest,
+  useThemeTop,
   withBaseurl,
 } from '@myst-theme/providers';
 import { useNavigation } from '@remix-run/react';
@@ -148,12 +149,13 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
 
   if (!onClient) return { observer };
   useEffect(() => {
-    // IntersectionObserver delivers incremental updates (entries) rather than a full snapshot
-    // of all targets. Maintain our own set of currently-intersecting elements by applying
-    // add/remove updates to the previous value.
+    // We want a list of all header elements on screen to loop through, but:
+    // IntersectionObserver returns elements that have *changed state*, not the full list of elements on screen.
+    // So we maintain a set of on-screen elements and add/remove as new intersection events happen.
     const cb: IntersectionObserverCallback = (entries) => {
       setIntersecting((prev) => {
         const next = new Set(prev);
+        // Add or remove from our set based on intersection state
         entries.forEach((e) => {
           if (e.isIntersecting) next.add(e.target);
           else next.delete(e.target);
@@ -193,6 +195,7 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
  * Keep track of which headers are visible, and which header is active
  */
 export function useHeaders(selector: string, maxdepth: number) {
+  const topOffset = useThemeTop();
   if (!onClient) return { activeId: '', headings: [] };
   // Keep track of main manually for now
   const mainElementRef = useRef<HTMLElement | null>(null);
@@ -227,6 +230,9 @@ export function useHeaders(selector: string, maxdepth: number) {
   const [activeId, setActiveId] = useState<string>();
 
   useEffect(() => {
+    // Use the theme's top offset (navbar height) + a bit of padding for filtering active headings to avoid over-shooting the header.
+    const OFFSET_PX = topOffset - 10;
+    // Prefer a heading marked as highlighted (e.g. focus/anchor) if one is currently intersecting.
     const highlighted = intersecting!.reduce(
       (a, b) => {
         if (a) return a;
@@ -235,11 +241,17 @@ export function useHeaders(selector: string, maxdepth: number) {
       },
       null as string | null,
     );
-    const active = [...(intersecting as HTMLElement[])].sort(
-      (a, b) => a.offsetTop - b.offsetTop,
-    )[0];
+    // Filter out headings that are still hidden under the navbar.
+    const intersectingElements = intersecting as HTMLElement[];
+    const belowNavbar = intersectingElements.filter(
+      (el) => el.getBoundingClientRect().top >= OFFSET_PX,
+    );
+    // If nothing is below the navbar line, fall back to the full intersecting set.
+    const candidates = belowNavbar.length ? belowNavbar : intersectingElements;
+    // Choose the top-most candidate as the active heading.
+    const active = [...candidates].sort((a, b) => a.offsetTop - b.offsetTop)[0];
     if (highlighted || active) setActiveId(highlighted || active.id);
-  }, [intersecting]);
+  }, [intersecting, topOffset]);
 
   const [headings, setHeadings] = useState<Heading[]>([]);
   useEffect(() => {

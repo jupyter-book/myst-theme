@@ -243,6 +243,7 @@ export function useHeaders(selector: string, maxdepth: number) {
     );
     const intersectingElements = intersecting as HTMLElement[];
     // Choose the heading closest to the navbar offset line within a viewport window under it.
+    // Using a window avoids a case where the active header is off screen the next header is way at the bottom of the screen.
     let bestInActiveHeaderWindow: { el: HTMLElement; distance: number } | undefined;
     const ACTIVE_WINDOW_PX = window.innerHeight * 0.33;
     for (const el of intersectingElements) {

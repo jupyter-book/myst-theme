@@ -241,15 +241,17 @@ export function useHeaders(selector: string, maxdepth: number) {
       },
       null as string | null,
     );
-    // Filter out headings that are still hidden under the navbar.
     const intersectingElements = intersecting as HTMLElement[];
-    const belowNavbar = intersectingElements.filter(
-      (el) => el.getBoundingClientRect().top >= OFFSET_PX,
-    );
-    // If nothing is below the navbar line, fall back to the full intersecting set.
-    const candidates = belowNavbar.length ? belowNavbar : intersectingElements;
-    // Choose the top-most candidate as the active heading.
-    const active = [...candidates].sort((a, b) => a.offsetTop - b.offsetTop)[0];
+    // Choose the heading closest to the navbar offset line and *under* it
+    let bestBelowNavbarLine: { el: HTMLElement; distance: number } | undefined;
+    for (const el of intersectingElements) {
+      const distance = el.getBoundingClientRect().top - OFFSET_PX;
+      if (distance >= 0 && (!bestBelowNavbarLine || distance < bestBelowNavbarLine.distance)) {
+        bestBelowNavbarLine = { el, distance };
+      }
+    }
+    // If nothing is below the navbar line, keep the current active heading.
+    const active = bestBelowNavbarLine?.el;
     if (highlighted || active) setActiveId(highlighted || active.id);
   }, [intersecting, topOffset]);
 

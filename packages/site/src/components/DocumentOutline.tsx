@@ -242,16 +242,24 @@ export function useHeaders(selector: string, maxdepth: number) {
       null as string | null,
     );
     const intersectingElements = intersecting as HTMLElement[];
-    // Choose the heading closest to the navbar offset line and *under* it
-    let bestBelowNavbarLine: { el: HTMLElement; distance: number } | undefined;
+    // Choose the heading closest to the navbar offset line within a viewport window under it.
+    let bestInActiveHeaderWindow: { el: HTMLElement; distance: number } | undefined;
+    const ACTIVE_WINDOW_PX = window.innerHeight * 0.33;
     for (const el of intersectingElements) {
       const distance = el.getBoundingClientRect().top - OFFSET_PX;
-      if (distance >= 0 && (!bestBelowNavbarLine || distance < bestBelowNavbarLine.distance)) {
-        bestBelowNavbarLine = { el, distance };
+      if (
+        // Only keep things under the navbar line
+        distance >= 0 &&
+        // Only keep things over the active window size
+        distance <= ACTIVE_WINDOW_PX &&
+        // Now if it's closer to the navbar line than the active element, update active
+        (!bestInActiveHeaderWindow || distance < bestInActiveHeaderWindow.distance)
+      ) {
+        bestInActiveHeaderWindow = { el, distance };
       }
     }
     // If nothing is below the navbar line, keep the current active heading.
-    const active = bestBelowNavbarLine?.el;
+    const active = bestInActiveHeaderWindow?.el;
     if (highlighted || active) setActiveId(highlighted || active.id);
   }, [intersecting, topOffset]);
 

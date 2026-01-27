@@ -18,22 +18,24 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 24.x
-        uses: actions/setup-node@v3
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
         with:
-          node-version: 24.x
-      - name: Ensure npm 11.5.1+ for trusted publishing
-        run: npm install -g npm@latest
-      - run: npm install
-      - run: npm run build
-      - run: npm run test
+          node-version: 20.x
+          cache: 'pnpm'
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+      - run: pnpm install
+      - run: pnpm run build
+      - run: pnpm run test
       # Changesets action will set published=true if it does publish
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          version: npm run version
-          publish: npm run publish:ci
+          version: pnpm run version
+          publish: pnpm run publish:ci
           commit: 🚀 Release
           createGithubReleases: false
         env:

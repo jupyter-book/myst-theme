@@ -10,14 +10,14 @@ Run all tests across packages:
 
 ```bash
 # From repository root
-npm run test
+pnpm run test
 ```
 
 Run tests in a specific package:
 
 ```bash
 cd packages/<package-name>
-npm run test
+pnpm run test
 ```
 
 ## Test File Locations
@@ -34,7 +34,7 @@ Tests are located in one of two places, depending on the package:
 
 ## Add a test
 
-The root `npm run test` uses `turbo` to run tests.
+The root `pnpm run test` uses `turbo` to run tests.
 It will run tests in one of the repository packages if you define a `test` script in its `package.json`.
 
 For example, see the `myst-to-react` configuration:

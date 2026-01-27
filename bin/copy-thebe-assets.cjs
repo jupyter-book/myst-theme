@@ -19,14 +19,14 @@ console.log('Copying thebe assets...');
 try {
   require.resolve('thebe-core');
 } catch (err) {
-  console.error('thebe-core not found, please run `npm install` in the theme directory.');
+  console.error('thebe-core not found, please run `pnpm install` in the theme directory.');
   process.exit(1);
 }
 
 try {
   require.resolve('thebe-lite');
 } catch (err) {
-  console.error('thebe-lite not found, please run `npm install` in the theme directory.');
+  console.error('thebe-lite not found, please run `pnpm install` in the theme directory.');
   process.exit(1);
 }
 

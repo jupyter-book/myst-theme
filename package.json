@@ -2,12 +2,7 @@
   "name": "myst-theme",
   "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "themes/*",
-    "styles",
-    "docs"
-  ],
+  "packageManager": "pnpm@9.15.4",
   "scripts": {
     "postinstall": "patch-package --patch-dir patches",
     "compile": "turbo run compile",
@@ -16,20 +11,20 @@
     "theme:book": "turbo run dev --parallel --filter='./themes/book'",
     "theme:article": "turbo run dev --parallel --filter='./themes/article'",
     "test": "turbo run test",
-    "storybook": "cd docs && npm run storybook",
-    "build-storybook": "npm run build && cd docs && storybook build",
+    "storybook": "cd docs && pnpm run storybook",
+    "build-storybook": "pnpm run build && cd docs && storybook build",
     "clean": "turbo run clean --parallel && find . -name '.turbo' -type d -prune -exec rm -rf '{}' +",
     "lint": "turbo run lint",
     "lint:format": "turbo run lint:format",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "pnpm run build",
     "changeset": "changeset",
-    "version": "changeset version && npm install",
-    "publish": "npm run clean && npm run build -- --force && changeset publish && git push --follow-tags",
-    "publish:ci": "npm run clean && npm run build && changeset publish && git push --follow-tags",
-    "bump:myst:packages": "npx npm-upgrade-monorepo -w 'packages/*' 'myst-* @myst-theme/* thebe*'",
-    "bump:myst:themes": "npx npm-upgrade-monorepo -w 'themes/*' 'myst-* @myst-theme/* thebe*'",
-    "bump:myst": "npm run bump:myst:packages && npm run bump:myst:themes",
+    "version": "changeset version && pnpm install",
+    "publish": "pnpm run clean && pnpm run build -- --force && changeset publish && git push --follow-tags",
+    "publish:ci": "pnpm run clean && pnpm run build && changeset publish && git push --follow-tags",
+    "bump:myst:packages": "pnpm exec npm-upgrade-monorepo -w 'packages/*' 'myst-* @myst-theme/* thebe*'",
+    "bump:myst:themes": "pnpm exec npm-upgrade-monorepo -w 'themes/*' 'myst-* @myst-theme/* thebe*'",
+    "bump:myst": "pnpm run bump:myst:packages && pnpm run bump:myst:themes",
     "install-pre-commit": "husky"
   },
   "devDependencies": {
@@ -37,8 +32,10 @@
     "@remix-run/node": "~1.17.0",
     "@remix-run/react": "~1.17.0",
     "@tailwindcss/typography": "^0.5.9",
+    "@types/node": "^18.17.0",
     "@types/react": "^18.2.24",
     "@types/react-dom": "^18.2.8",
+    "@types/minimatch": "^5.1.2",
     "concurrently": "^8.2.0",
     "eslint-config-curvenote": "^0.0.4",
     "husky": "^9.1.7",
@@ -54,12 +51,29 @@
     "vitest": "^0.32.0"
   },
   "engines": {
-    "npm": ">=7.0.0",
     "node": ">=14.0.0"
   },
-  "packageManager": "npm@8.10.0",
   "lint-staged": {
     "*.ts": "eslint --config ./.eslintrc.cjs --fix",
     "*.{js,jsx,ts,tsx,md,html,css,json}": "prettier --write"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/node": "^18.17.0"
+    },
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "crypto",
+        "webpack",
+        "mapbox-gl",
+        "thebe-lite",
+        "@types/node"
+      ],
+      "allowedVersions": {
+        "vite": "5",
+        "@remix-run/node": "1",
+        "@remix-run/react": "1"
+      }
+    }
   }
 }

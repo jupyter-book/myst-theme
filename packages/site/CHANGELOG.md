@@ -1,5 +1,19 @@
 # @myst-theme/site
 
+## 1.1.1
+
+### Patch Changes
+
+- f722531: Increase contrast of search bar on dark mode
+- Updated dependencies [ae018ba]
+  - myst-to-react@1.1.1
+  - @myst-theme/providers@1.1.1
+  - @myst-theme/frontmatter@1.1.1
+  - @myst-theme/diagrams@1.1.1
+  - @myst-theme/common@1.1.1
+  - @myst-theme/search@1.1.1
+  - myst-demo@1.1.1
+
 ## 1.1.0
 
 ### Patch Changes

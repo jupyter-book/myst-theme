@@ -6,13 +6,23 @@ abbreviations:
 
 # Heading Level 1
 
+Some text.
+
 ## Heading Level 2
+
+Some text.
 
 ### Heading Level 3
 
+Some text.
+
 #### Heading Level 4
 
+Some text.
+
 ##### Heading Level 5
+
+Some text.
 
 ## Paragraphs
 

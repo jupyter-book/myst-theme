@@ -118,3 +118,75 @@ graph LR
 
 Here's an iframe with a title
 ```
+
+
+## Topics
+
+```{topic} Special Topic
+This is a topic block. It's used to highlight special content or create a visually distinct section.
+```
+
+Regular content continues after the topic block.
+
+````{topic} Another Topic
+Topics can contain rich content:
+
+- Lists
+- **Bold text**
+- `Code snippets`
+
+```python
+print("Code blocks too!")
+```
+````
+
+## Containers
+
+You can add classes to a div using inline syntax:
+
+:::{div .border-l-4 .shadow}
+This is a div with an inline class.
+:::
+
+Or using the `:class:` option:
+
+:::{div}
+:class: border-l-4 shadow
+
+This is a div with a class specified via option.
+:::
+
+## Table of Contents
+
+The `{toc}` directive generates a table of contents from headings that follow it on the page. The `:depth:` option controls how many heading levels to include.
+
+With `:depth: 1`, only top-level headings are shown:
+
+```{toc}
+:depth: 1
+```
+
+With `:depth: 2`, subheadings are also included:
+
+```{toc}
+:depth: 2
+```
+
+With `:context: section`, only the section is included:
+
+```{toc}
+:context: section
+```
+
+## Glossary
+
+```{glossary}
+Term One
+: Definition of the first term in the glossary.
+
+Term Two
+: Definition of the second term with more detail.
+
+Term Three
+: Another term with its definition.
+```

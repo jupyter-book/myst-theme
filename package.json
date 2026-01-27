@@ -16,20 +16,20 @@
     "theme:book": "turbo run dev --parallel --filter='./themes/book'",
     "theme:article": "turbo run dev --parallel --filter='./themes/article'",
     "test": "turbo run test",
-    "storybook": "cd docs && npm run storybook",
-    "build-storybook": "npm run build && cd docs && storybook build",
+    "storybook": "cd docs && bun run storybook",
+    "build-storybook": "bun run build && cd docs && storybook build",
     "clean": "turbo run clean --parallel && find . -name '.turbo' -type d -prune -exec rm -rf '{}' +",
     "lint": "turbo run lint",
     "lint:format": "turbo run lint:format",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "bun run build",
     "changeset": "changeset",
-    "version": "changeset version && npm install",
-    "publish": "npm run clean && npm run build -- --force && changeset publish && git push --follow-tags",
-    "publish:ci": "npm run clean && npm run build && changeset publish && git push --follow-tags",
-    "bump:myst:packages": "npx npm-upgrade-monorepo -w 'packages/*' 'myst-* @myst-theme/* thebe*'",
-    "bump:myst:themes": "npx npm-upgrade-monorepo -w 'themes/*' 'myst-* @myst-theme/* thebe*'",
-    "bump:myst": "npm run bump:myst:packages && npm run bump:myst:themes",
+    "version": "changeset version && bun install",
+    "publish": "bun run clean && bun run build -- --force && changeset publish && git push --follow-tags",
+    "publish:ci": "bun run clean && bun run build && changeset publish && git push --follow-tags",
+    "bump:myst:packages": "bunx npm-upgrade-monorepo -w 'packages/*' 'myst-* @myst-theme/* thebe*'",
+    "bump:myst:themes": "bunx npm-upgrade-monorepo -w 'themes/*' 'myst-* @myst-theme/* thebe*'",
+    "bump:myst": "bun run bump:myst:packages && bun run bump:myst:themes",
     "install-pre-commit": "husky"
   },
   "devDependencies": {
@@ -43,6 +43,7 @@
     "eslint-config-curvenote": "^0.0.4",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
+    "myst-spec-ext": "^1.8.1",
     "npm-run-all": "^4.1.5",
     "patch-package": "^6.5.1",
     "prettier": "latest",
@@ -54,10 +55,9 @@
     "vitest": "^0.32.0"
   },
   "engines": {
-    "npm": ">=7.0.0",
-    "node": ">=14.0.0"
+    "node": ">=20.0.0"
   },
-  "packageManager": "npm@8.10.0",
+  "packageManager": "bun@1.2.2",
   "lint-staged": {
     "*.ts": "eslint --config ./.eslintrc.cjs --fix",
     "*.{js,jsx,ts,tsx,md,html,css,json}": "prettier --write"

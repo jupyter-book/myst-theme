@@ -39,8 +39,8 @@ See [the documentation guide](./docs/developer/documentation.md).
 To update the theme components on NPM:
 
 ```bash
-npm run version
-npm run publish
+bun run version
+bun run publish
 ```
 
 To update the themes for use with the MyST CLI:

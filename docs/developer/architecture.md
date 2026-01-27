@@ -21,12 +21,13 @@
 
 ### Versioning & Publishing
 
-`myst-theme` uses [changesets](https://github.com/changesets/changesets) to document changes to this monorepo, call `npm run changeset` and follow the prompts. Later, `npm run version` will be called and then `npm run publish`.
+`myst-theme` uses [changesets](https://github.com/changesets/changesets) to document changes to this monorepo, call `bun run changeset` and follow the prompts. Later, `bun run version` will be called and then `bun run publish`.
 
 ### Utilities
 
 `myst-theme` is built and developed using:
 
+- [Bun](https://bun.sh) for package management and script execution
 - [React](https://reactjs.org/) for component rendering
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting

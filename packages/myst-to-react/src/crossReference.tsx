@@ -125,7 +125,8 @@ function useSelectNodes({ load, identifier }: { load?: boolean; identifier: stri
   const parts = data ? data.frontmatter?.parts : frontmatter?.parts;
   let nodes: GenericNode[] = [];
   let htmlId: string | undefined;
-  [{ mdast }, ...Object.values(parts ?? {})].forEach(({ mdast: tree }) => {
+  const mdastParts = Object.values(parts ?? {}) as { mdast: any }[];
+  [{ mdast }, ...mdastParts].forEach(({ mdast: tree }) => {
     if (!tree || nodes.length > 0) return;
     const selected = selectMdastNodes(tree, identifier, 3);
     nodes = selected.nodes;

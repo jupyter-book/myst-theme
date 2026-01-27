@@ -16,7 +16,7 @@
     "url": "git+https://github.com/jupyter-book/myst-theme.git"
   },
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rm -rf dist",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "dev": "npm-run-all --parallel \"build:* -- --watch\"",
@@ -32,7 +32,8 @@
     "@scienceicons/react": "^0.0.13",
     "classnames": "^2.3.2",
     "myst-common": "*",
-    "myst-frontmatter": "*"
+    "myst-frontmatter": "*",
+    "myst-spec-ext": "^1.8.1"
   },
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",

@@ -18,10 +18,10 @@ description: myst-to-react is library for converting MyST documents to React.
 
 ## Installation
 
-Install the package into your virtual environment using npm:
+Install the package using bun:
 
 ```bash
-npm install myst-to-react
+bun add myst-to-react
 ```
 
 ## Simple example

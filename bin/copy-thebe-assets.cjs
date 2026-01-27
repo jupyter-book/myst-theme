@@ -3,7 +3,7 @@ const path = require('path');
 const glob = require('glob');
 
 if (process.argv.length < 3) {
-  console.error('Usage: node copyThebeAssets.cjs <output_dir>');
+  console.error('Usage: bun run copyThebeAssets.cjs <output_dir>');
   process.exit(1);
 }
 
@@ -19,14 +19,14 @@ console.log('Copying thebe assets...');
 try {
   require.resolve('thebe-core');
 } catch (err) {
-  console.error('thebe-core not found, please run `npm install` in the theme directory.');
+  console.error('thebe-core not found, please run `bun install` in the theme directory.');
   process.exit(1);
 }
 
 try {
   require.resolve('thebe-lite');
 } catch (err) {
-  console.error('thebe-lite not found, please run `npm install` in the theme directory.');
+  console.error('thebe-lite not found, please run `bun install` in the theme directory.');
   process.exit(1);
 }
 

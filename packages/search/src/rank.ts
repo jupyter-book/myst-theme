@@ -123,7 +123,7 @@ function queryPairProximity(
  * @param bound - upper bound on final proximity
  */
 function wordsProximity(result: SearchResult, bound: number) {
-  const { queries } = result;
+  const queries: Query[] = result.queries;
   let proximity = 0;
   for (let i = 0; i < queries.length - 1; i++) {
     const left = queries[i];
@@ -146,9 +146,9 @@ function matchedAttributePosition(result: SearchResult): {
   // Build mapping from fields to terms matching that field
   // i.e. invert and flatten `result.queries[...].matches`
   const fieldToTerms = new Map<string, string[]>();
-  result.queries.forEach((query) => {
+  result.queries.forEach((query: Query) => {
     Object.entries(query.matches).forEach(([term, fields]) => {
-      fields.forEach((field) => {
+      (fields as string[]).forEach((field: string) => {
         let terms = fieldToTerms.get(field);
         if (!terms) {
           terms = [];
@@ -194,17 +194,17 @@ function matchedAttributePosition(result: SearchResult): {
  * @param result - search result
  */
 function matchedExactWords(result: SearchResult) {
-  const allMatches = result.queries.flatMap(
+  const queries: Query[] = result.queries;
+  const allMatches = queries.flatMap(
     // For each query (foo bar baz -> foo, then bar, then baz)
-    (query) =>
-      Object.entries(query.matches)
-        .flatMap(
-          // For each (match, matched fields) pair in the query matches
-          ([match, fields]) => {
-            const pattern = buildRegExpToken(match);
-            return fields.flatMap(
-              // For each matched field
-              (field) => {
+    (query: Query) =>
+      Object.entries(query.matches).flatMap(
+        // For each (match, matched fields) pair in the query matches
+        ([match, fields]) => {
+          const pattern = buildRegExpToken(match);
+          return (fields as string[]).flatMap(
+            // For each matched field
+            (field: string) => {
                 // Retrieve corpus and test for pattern
                 const value = extractField(result, field);
                 return Array.from(value.matchAll(pattern)).map((m) => (m ? query.term : undefined));
@@ -224,12 +224,13 @@ function matchedExactWords(result: SearchResult) {
  * @param result - search result
  */
 function numberOfTypos(result: SearchResult): number {
-  return result.queries
-    .map((query) => {
+  const queries: Query[] = result.queries;
+  return queries
+    .map((query: Query) => {
       const typoTerms = Object.keys(query.matches).filter((match) => match !== query.term);
       return typoTerms.length;
     })
-    .reduce((sum, value) => sum + value);
+    .reduce((sum: number, value: number) => sum + value, 0);
 }
 
 /**

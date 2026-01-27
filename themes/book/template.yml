@@ -78,11 +78,11 @@ parts:
     description: The primary sidebar footer, to replace Made with MyST
     required: false
 build:
-  install: npm ci --ignore-scripts
-  start: npm run start
+  install: bun install
+  start: bun run start
 files:
   - server.js
   - package.json
-  - package-lock.json
+  - bun.lock
   - public/**/*
   - build/**/*

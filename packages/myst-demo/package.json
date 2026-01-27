@@ -16,7 +16,7 @@
     "url": "git+https://github.com/jupyter-book/myst-theme.git"
   },
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rm -rf dist",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "dev": "npm-run-all --parallel \"build:* -- --watch\"",
@@ -25,10 +25,11 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@myst-theme/providers": "^1.1.0",
     "classnames": "^2.3.2",
     "js-yaml": "^4.1.0",
     "myst-common": "^1.8.1",
-    "myst-config": "^1.7.8",
+    "myst-config": "^1.8.1",
     "myst-directives": "^1.5.15",
     "myst-ext-button": "^0.0.1",
     "myst-ext-card": "^1.0.9",
@@ -39,6 +40,7 @@
     "myst-frontmatter": "^1.8.1",
     "myst-parser": "^1.5.15",
     "myst-spec": "^0.0.5",
+    "myst-spec-ext": "^1.8.1",
     "myst-to-docx": "^1.0.14",
     "myst-to-html": "^1.5.15",
     "myst-to-jats": "^1.0.34",

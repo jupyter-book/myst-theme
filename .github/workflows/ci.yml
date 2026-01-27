@@ -14,13 +14,13 @@ jobs:
         with:
           fetch-depth: 2
           submodules: recursive
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18.x
-      - run: npm install
-      - run: npm run lint:format
-      - run: npm run lint
+          bun-version: latest
+      - run: bun install
+      - run: bun run lint:format
+      - run: bun run lint
   test:
     runs-on: ubuntu-latest
     steps:
@@ -28,11 +28,11 @@ jobs:
         with:
           fetch-depth: 2
           submodules: recursive
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18.x
-      - run: npm install
-      - run: npm run build
-      - run: npm run compile # check the types of the site and themes
-      - run: npm run test
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+      - run: bun run compile # check the types of the site and themes
+      - run: bun run test

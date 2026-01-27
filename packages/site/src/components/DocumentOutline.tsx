@@ -401,6 +401,7 @@ export const DocumentOutline = ({
         className={classNames(
           'myst-outline not-prose overflow-y-auto',
           'transition-opacity duration-700', // Animation on load
+          'bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm rounded-lg p-2 -m-2', // Solid background to avoid overlap with margin content
           className,
         )}
         style={{

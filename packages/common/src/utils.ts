@@ -131,6 +131,9 @@ export function updateSiteManifestStaticLinksInplace(
     if (!action.static) return;
     action.url = updateUrl(action.url);
   });
+  data.static?.forEach((asset) => {
+    asset.url = updateUrl(asset.url);
+  });
   // TODO: this needs to be based on the template.yml in the future
   // We have moved logo/logo_dark to options in v1.1.28
   data.options ??= {};

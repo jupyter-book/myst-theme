@@ -21,7 +21,7 @@
 
 ### Versioning & Publishing
 
-`myst-theme` uses [changesets](https://github.com/changesets/changesets) to document changes to this monorepo, call `npm run changeset` and follow the prompts. Later, `npm run version` will be called and then `npm run publish`.
+`myst-theme` uses [changesets](https://github.com/changesets/changesets) to document changes to this monorepo, call `pnpm run changeset` and follow the prompts. Later, `pnpm run version` will be called and then `pnpm run publish`.
 
 ### Utilities
 

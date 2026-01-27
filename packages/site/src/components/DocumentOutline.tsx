@@ -2,12 +2,13 @@ import {
   useBaseurl,
   useNavLinkProvider,
   useSiteManifest,
+  useThemeTop,
   withBaseurl,
 } from '@myst-theme/providers';
 import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import { DocumentChartBarIcon } from '@heroicons/react/24/outline';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
@@ -148,13 +149,24 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
 
   if (!onClient) return { observer };
   useEffect(() => {
+    // We want a list of all header elements on screen to loop through, but:
+    // IntersectionObserver returns elements that have *changed state*, not the full list of elements on screen.
+    // So we maintain a set of on-screen elements and add/remove as new intersection events happen.
     const cb: IntersectionObserverCallback = (entries) => {
-      setIntersecting(entries.filter((e) => e.isIntersecting).map((e) => e.target));
+      setIntersecting((prev) => {
+        const next = new Set(prev);
+        // Add or remove from our set based on intersection state
+        entries.forEach((e) => {
+          if (e.isIntersecting) next.add(e.target);
+          else next.delete(e.target);
+        });
+        return Array.from(next);
+      });
     };
     const o = new IntersectionObserver(cb, options ?? {});
     setObserver(o);
     return () => o.disconnect();
-  }, []);
+  }, [options]);
 
   // Changes to the DOM mean we need to update our intersection observer
   useEffect(() => {
@@ -163,12 +175,18 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
     }
     // Observe all heading elements
     const toWatch = elements;
-    toWatch.map((e) => observer.observe(e));
+    toWatch.forEach((e) => {
+      observer.observe(e);
+    });
     // Cleanup afterwards
     return () => {
-      toWatch.map((e) => observer.unobserve(e));
+      toWatch.forEach((e) => {
+        observer.unobserve(e);
+      });
+      // Ensure we don't keep stale references when elements are removed/unobserved.
+      setIntersecting((prev) => prev.filter((e) => !toWatch.includes(e)));
     };
-  }, [elements]);
+  }, [elements, observer]);
 
   return { observer, intersecting };
 };
@@ -177,6 +195,7 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
  * Keep track of which headers are visible, and which header is active
  */
 export function useHeaders(selector: string, maxdepth: number) {
+  const topOffset = useThemeTop();
   if (!onClient) return { activeId: '', headings: [] };
   // Keep track of main manually for now
   const mainElementRef = useRef<HTMLElement | null>(null);
@@ -192,7 +211,8 @@ export function useHeaders(selector: string, maxdepth: number) {
         setElements(getHeaders(selector));
       },
       500,
-      { trailing: false },
+      // Trailing updates help ensure we eventually process the last DOM mutation burst.
+      { trailing: true },
     ),
     [selector],
   );
@@ -210,6 +230,9 @@ export function useHeaders(selector: string, maxdepth: number) {
   const [activeId, setActiveId] = useState<string>();
 
   useEffect(() => {
+    // Use the theme's top offset (navbar height) + a bit of padding for filtering active headings to avoid over-shooting the header.
+    const OFFSET_PX = topOffset - 10;
+    // Prefer a heading marked as highlighted (e.g. focus/anchor) if one is currently intersecting.
     const highlighted = intersecting!.reduce(
       (a, b) => {
         if (a) return a;
@@ -218,11 +241,28 @@ export function useHeaders(selector: string, maxdepth: number) {
       },
       null as string | null,
     );
-    const active = [...(intersecting as HTMLElement[])].sort(
-      (a, b) => a.offsetTop - b.offsetTop,
-    )[0];
-    if (highlighted || active) setActiveId(highlighted || active.id);
-  }, [intersecting]);
+    const intersectingElements = intersecting as HTMLElement[];
+    // Choose the heading closest to the navbar offset line within a viewport window under it.
+    // Using a window avoids a case where the active header is off screen the next header is way at the bottom of the screen.
+    let bestInActiveHeaderWindow: { el: HTMLElement; distance: number } | undefined;
+    const ACTIVE_WINDOW_PX = window.innerHeight * 0.33;
+    for (const el of intersectingElements) {
+      const distance = el.getBoundingClientRect().top - OFFSET_PX;
+      if (
+        // Only keep things under the navbar line
+        distance >= 0 &&
+        // Only keep things over the active window size
+        distance <= ACTIVE_WINDOW_PX &&
+        // Now if it's closer to the navbar line than the active element, update active
+        (!bestInActiveHeaderWindow || distance < bestInActiveHeaderWindow.distance)
+      ) {
+        bestInActiveHeaderWindow = { el, distance };
+      }
+    }
+    // If nothing is below the navbar line, keep the current active heading.
+    const active = bestInActiveHeaderWindow?.el;
+    if (highlighted || active) setActiveId(highlighted || active?.id);
+  }, [intersecting, topOffset]);
 
   const [headings, setHeadings] = useState<Heading[]>([]);
   useEffect(() => {
@@ -292,6 +332,8 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>(
 function useMarginOccluder() {
   const [occluded, setOccluded] = useState(false);
   const [elements, setElements] = useState<Element[]>([]);
+  // Memoize options so `useIntersectionObserver(..., options)` doesn't recreate the observer each render.
+  const intersectionOptions = useMemo(() => ({ rootMargin: '0px 0px -33% 0px' }), []);
 
   // Keep track of main manually for now
   const mainElementRef = useRef<HTMLElement | null>(null);
@@ -330,7 +372,8 @@ function useMarginOccluder() {
         setElements(Array.from(marginElements));
       },
       500,
-      { trailing: false },
+      // Trailing updates help ensure we eventually process the last DOM mutation burst.
+      { trailing: true },
     ),
     [],
   );
@@ -343,7 +386,7 @@ function useMarginOccluder() {
   // Trigger initial update
   useEffect(onMutation, []);
   // Keep tabs of margin elements on screen
-  const { intersecting } = useIntersectionObserver(elements, { rootMargin: '0px 0px -33% 0px' });
+  const { intersecting } = useIntersectionObserver(elements, intersectionOptions);
   useEffect(() => {
     setOccluded(intersecting!.length > 0);
   }, [intersecting]);

@@ -166,6 +166,8 @@ export function updateSiteManifestStaticLinksInplace(
   if (data.options.logo_dark) data.options.logo_dark = updateUrl(data.options.logo_dark);
   if (data.options.favicon) data.options.favicon = updateUrl(data.options.favicon);
   if (data.options.style) data.options.style = updateUrl(data.options.style);
+  if (data.options.sidebar_mount_js)
+    data.options.sidebar_mount_js = updateUrl(data.options.sidebar_mount_js);
   if (data.parts) {
     Object.values(data.parts).forEach(({ mdast }) => {
       updateMdastStaticLinksInplace(mdast, updateUrl);

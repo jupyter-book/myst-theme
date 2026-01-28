@@ -84,6 +84,7 @@ export type CommonTemplateOptions = {
   numbered_references?: boolean;
   folders?: boolean;
   style?: string;
+  sidebar_mount_js?: string;
   hide_authors?: boolean;
   hide_footer_links?: boolean;
   hide_toc?: boolean;

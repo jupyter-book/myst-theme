@@ -70,6 +70,9 @@ options:
   - type: file
     id: style
     description: Local path to a CSS file
+  - type: file
+    id: sidebar_mount_js
+    description: Local path to a Javascript file to render within the sidebar mount area
 parts:
   - id: footer
     description: The site wide footer

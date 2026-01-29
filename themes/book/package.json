@@ -10,10 +10,10 @@
     "prod:copy": "cp remix.config.prod.js remix.config.js",
     "clean": "rimraf public/build build api",
     "build:thebe": "node ../../bin/copy-thebe-assets.cjs ./public",
-    "prod:build": "npm run prod:copy && npm run build:thebe && npm run build:css && remix build",
+    "prod:build": "pnpm run prod:copy && pnpm run build:thebe && pnpm run build:css && remix build",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
-    "dev": "npm run dev:copy && npm run build:thebe && concurrently \"npm run dev:css\" \"remix dev\"",
-    "start": "npm run build:css && remix dev"
+    "dev": "pnpm run dev:copy && pnpm run build:thebe && concurrently \"pnpm run dev:css\" \"remix dev\"",
+    "start": "pnpm run build:css && remix dev"
   },
   "dependencies": {
     "@myst-theme/common": "^1.1.0",
@@ -45,6 +45,5 @@
   },
   "engines": {
     "node": ">=14"
-  },
-  "packageManager": "npm@8.10.0"
+  }
 }

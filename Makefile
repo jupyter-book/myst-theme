@@ -10,21 +10,21 @@ check:
 	@which jq > /dev/null || (echo "Error: the jq linux command is not available. Please install it first (brew install jq | apt-get install jq)." && exit 1)
 
 build-theme:
-	npm install
+	pnpm install
 	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
 	git clone --depth 1 https://github.com/myst-templates/$(THEME)-theme .deploy/$(THEME)
 	rm -rf .deploy/$(THEME)/public .deploy/$(THEME)/build .deploy/$(THEME)/package.json .deploy/$(THEME)/package-lock.json .deploy/$(THEME)/template.yml .deploy/$(THEME)/server.js
 	find template -type f  -exec cp {} .deploy/$(THEME) \;
 	rm -rf themes/$(THEME)/{public,build}
-	cd themes/$(THEME) && npm run prod:build
+	cd themes/$(THEME) && pnpm run prod:build
 	cp -r themes/$(THEME)/public .deploy/$(THEME)/public
 	cp -r themes/$(THEME)/build .deploy/$(THEME)/build
 	cp -r themes/$(THEME)/template.yml .deploy/$(THEME)/template.yml
 	sed -i.bak "s/template/$(THEME)/g" .deploy/$(THEME)/package.json
 	sed -i.bak "s/VERSION/$(VERSION)/g" .deploy/$(THEME)/package.json
 	rm .deploy/$(THEME)/package.json.bak
-	cd .deploy/$(THEME) && npm install
+	cd .deploy/$(THEME) && pnpm install
 
 build-article:
 	make THEME=article build-theme

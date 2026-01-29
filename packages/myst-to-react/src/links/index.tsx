@@ -59,7 +59,10 @@ function InternalLink({
   }
   return (
     <HoverPopover
-      card={
+      // Use a () function rather than directly loading the component.
+      // This avoids hydration errors in static builds so that card display works
+      // See: https://github.com/jupyter-book/myst-theme/issues/771
+      card={() => (
         <LinkCard
           internal
           url={url}
@@ -67,15 +70,17 @@ function InternalLink({
           description={page.description}
           thumbnail={page.thumbnailOptimized || page.thumbnail}
         />
-      }
+      )}
     >
-      <Link
-        to={withBaseurl(url, baseurl)}
-        prefetch="intent"
-        className={classNames('hover-link', className)}
-      >
-        {children}
-      </Link>
+      <span>
+        <Link
+          to={withBaseurl(url, baseurl)}
+          prefetch="intent"
+          className={classNames('hover-link', className)}
+        >
+          {children}
+        </Link>
+      </span>
     </HoverPopover>
   );
 }
@@ -148,8 +153,8 @@ export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) =
       className={classNames('link', node.class, className)}
     >
       <MyST ast={node.children} />
-      {isStatic && <ArrowDownTrayIcon className="link-with-icon" />}
-      {!isStatic && <ExternalLinkIcon className="link-with-icon" />}
+      {isStatic && <ArrowDownTrayIcon className="link-icon" />}
+      {!isStatic && <ExternalLinkIcon className="link-icon" />}
     </a>
   );
 };

@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 1.1.1
+
+### Patch Changes
+
+- ae018ba: Static links should not change the base URL
+  - @myst-theme/providers@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes

@@ -78,8 +78,9 @@ The {smallcaps}`HTML` specification defines web standards.
 
 - External link: [MyST Markdown](https://mystmd.org)
 - External link with hover: [](https://doi.org/10.25080/hwcj9957)
-- Internal link: [](tables.md)
-- Internal link with hover: [](#math)
+- Internal link to file: [](tables.md)
+- Internal link to file w/ metadata for hover: [](../permalinks.md)
+- Internal link to label with hover: [](#math)
 - Hover-only text: HOVER
 
 ## Buttons

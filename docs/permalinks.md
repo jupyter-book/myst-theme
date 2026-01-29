@@ -1,3 +1,7 @@
+---
+description: Test for hover cards
+thumbnail: _static/myst-logo-light.svg
+---
 # Permalinks and URLs
 
 Configuration options for controlling site navigation and URL structure.

@@ -109,7 +109,7 @@ function NoCSSWarning() {
           position: 'fixed',
           left: '0px',
           top: '0px',
-          width: '100vw',
+          width: '100%',
           height: '100vh',
           fontSize: '4rem',
           padding: '1rem',

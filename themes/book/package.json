@@ -8,12 +8,12 @@
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
     "dev:copy": "cp remix.config.dev.js remix.config.js",
     "prod:copy": "cp remix.config.prod.js remix.config.js",
-    "clean": "rimraf public/build build api",
-    "build:thebe": "node ../../bin/copy-thebe-assets.cjs ./public",
-    "prod:build": "npm run prod:copy && npm run build:thebe && npm run build:css && remix build",
+    "clean": "rm -rf public/build build api",
+    "build:thebe": "bun ../../bin/copy-thebe-assets.cjs ./public",
+    "prod:build": "bun run prod:copy && bun run build:thebe && bun run build:css && remix build",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
-    "dev": "npm run dev:copy && npm run build:thebe && concurrently \"npm run dev:css\" \"remix dev\"",
-    "start": "npm run build:css && remix dev"
+    "dev": "bun run dev:copy && bun run build:thebe && concurrently \"bun run dev:css\" \"remix dev\"",
+    "start": "bun run build:css && remix dev"
   },
   "dependencies": {
     "@myst-theme/common": "^1.1.0",
@@ -29,6 +29,7 @@
     "myst-common": "^1.8.1",
     "myst-config": "^1.8.1",
     "myst-migrate": "^1.7.1",
+    "myst-spec-ext": "^1.8.1",
     "node-fetch": "^2.6.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -46,5 +47,5 @@
   "engines": {
     "node": ">=14"
   },
-  "packageManager": "npm@8.10.0"
+  "packageManager": "bun@1.2.2"
 }

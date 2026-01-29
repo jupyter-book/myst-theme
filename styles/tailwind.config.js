@@ -1,4 +1,4 @@
-const mystTheme = require('@myst-theme/styles');
+const mystTheme = require('./index.js');
 
 module.exports = {
   darkMode: 'class',

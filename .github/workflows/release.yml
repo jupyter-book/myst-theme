@@ -18,22 +18,20 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 24.x
-        uses: actions/setup-node@v3
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 24.x
-      - name: Ensure npm 11.5.1+ for trusted publishing
-        run: npm install -g npm@latest
-      - run: npm install
-      - run: npm run build
-      - run: npm run test
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+      - run: bun run test
       # Changesets action will set published=true if it does publish
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          version: npm run version
-          publish: npm run publish:ci
+          version: bun run version
+          publish: bun run publish:ci
           commit: 🚀 Release
           createGithubReleases: false
         env:

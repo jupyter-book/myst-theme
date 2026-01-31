@@ -8,6 +8,7 @@ import { useCellExecution } from './execute/index.js';
 import { useOutputsContext } from './providers.js';
 import { Callout, MyST } from 'myst-to-react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { select } from 'unist-util-select';
 
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
@@ -65,14 +66,14 @@ export function validateOutput(output: unknown): {
 const ORDERED_MIME_PATTERNS = [
   /^application\/vnd\.mystmd\.ast\+json\b/,
   /^text\/markdown\b/,
+  // If we encounter HTML, we want to render whatever the author intended (parsed or raw)
   /^text\/html$/,
   /^text\/latex\b/,
   /^image\//,
-  // Prefer Jupyter data for this mime
-  //  /^text\/plain$/,
+  /^text\/plain$/,
 ];
 
-function getPreferredChild(children: GenericNode[]): GenericNode | undefined {
+function getPreferredMIMEChild(children: GenericNode[]): GenericNode | undefined {
   return (
     Array.from(children)
       // Keep only things with MIME types
@@ -100,6 +101,7 @@ export function Output({ node, className }: { node: GenericNode; className?: str
   const { ready } = useCellExecution(outputsId ?? '');
 
   // Legacy direct React-only rendering path logic
+  // Used for external legacy content
   const maybeJupyterData = useMemo(() => node.jupyter_data, [node]);
   const jupyterDataValidation = validateOutput(maybeJupyterData);
   const jupyterDataIsDirect = isOutputSafe(
@@ -107,11 +109,12 @@ export function Output({ node, className }: { node: GenericNode; className?: str
     DIRECT_OUTPUT_TYPES,
     DIRECT_MIME_TYPES,
   );
+
   const hasChildren = !!node.children?.length;
-  const canRenderDirectly = hasChildren || (maybeJupyterData && jupyterDataValidation.isValid);
+  const hasValidData = maybeJupyterData && jupyterDataValidation.isValid;
 
   // Do we need to error?
-  if (!outputsId || !canRenderDirectly) {
+  if (!outputsId || (!hasChildren && !hasValidData)) {
     if (jupyterDataValidation.reason) {
       console.error(jupyterDataValidation.reason);
     }
@@ -135,11 +138,26 @@ export function Output({ node, className }: { node: GenericNode; className?: str
   // New AST rendering path, always preferred unless there's a kernel involved
   // TODO: perhaps an opt-out of the ready check here for cells that we want
   //       to be sticky?
-  const preferredChild = getPreferredChild(node.children as any[]);
+  const preferredChild = useMemo(() => getPreferredMIMEChild(node.children as any[]), [node]);
+  // FIXME: check whether the HTML mime type has been processed
+  const preferredChildHasHTML = useMemo(
+    () => preferredChild?.data?.mimeType === 'text/html' && select('html', preferredChild),
+    [preferredChild],
+  );
   if (!ready && preferredChild) {
-    return <MyST ast={preferredChild} />;
-  }
-  // Legacy direct rendering path, for not-ready cases
+    // FIXME: we don't nicely handle ANSI code blocks (that are the render result of streams),
+    //        so let's special case here ...'
+    if (preferredChild.data?.outputType !== undefined) {
+      return <SafeOutput output={maybeJupyterData} />;
+    }
+    // FIXME: HTML rendering, for example, is currently not nicely handled via <MyST> for plots
+    //        This special case
+    else if (preferredChildHasHTML) {
+      return <JupyterOutput outputsId={outputsId} output={maybeJupyterData} />;
+    } else {
+      return <MyST ast={preferredChild} />;
+    }
+  } // Legacy direct rendering path, for not-ready cases
   else if (!ready && jupyterDataIsDirect) {
     return <SafeOutput output={maybeJupyterData} />;
   }

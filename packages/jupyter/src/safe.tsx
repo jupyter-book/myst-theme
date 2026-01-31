@@ -49,13 +49,13 @@ export function SafeOutput({ output }: { output: MinifiedOutput }) {
   switch (output.output_type) {
     case 'stream':
       return (
-        <div data-name="safe-output-stream">
+        <div data-name="safe-output-stream not-prose">
           <Stream output={output} />
         </div>
       );
     case 'error':
       return (
-        <div data-name="safe-output-error">
+        <div data-name="safe-output-error not-prose">
           <Error output={output} />
         </div>
       );
@@ -66,14 +66,14 @@ export function SafeOutput({ output }: { output: MinifiedOutput }) {
       if (!image && !text) return null;
       if (image)
         return (
-          <div data-name="safe-output-image">
+          <div data-name="safe-output-image not-prose">
             <OutputImage image={image} text={text} />
           </div>
         );
       if (text)
         return (
           <div
-            data-name="safe-output-text"
+            data-name="safe-output-text not-prose"
             className="font-mono text-sm whitespace-pre-wrap myst-jp-safe-output-text"
           >
             <Ansi>{text.content}</Ansi>

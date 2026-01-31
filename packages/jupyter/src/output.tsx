@@ -61,6 +61,40 @@ export function validateOutput(output: unknown): {
   return { isValid: true };
 }
 
+// const MIME_PAT_TYPST = /^mime:text\/vnd\.typst$/;
+const ORDERED_MIME_PATTERNS = [
+  /^application\/vnd\.mystmd\.ast\+json\b/,
+  /^text\/markdown\b/,
+  /^text\/html$/,
+  /^text\/latex\b/,
+  /^image\//,
+  // Prefer Jupyter data for this mime
+  //  /^text\/plain$/,
+];
+
+function getPreferredChild(children: GenericNode[]): GenericNode | undefined {
+  return (
+    Array.from(children)
+      // Keep only things with MIME types
+      .filter((node) =>
+        ORDERED_MIME_PATTERNS.some((mime) => ((node as any).data?.mimeType ?? '').match(mime)),
+      )
+      // Sort by preferred MIME types
+      .sort((left, right) => {
+        const ld = (left as any).data?.mimeType;
+        const rd = (right as any).data?.mimeType;
+        let leftWins: boolean;
+
+        for (const pat of ORDERED_MIME_PATTERNS) {
+          if ((leftWins = ld.match(pat)) || rd.match(pat)) {
+            return leftWins ? -1 : +1;
+          }
+        }
+        return 0;
+      })[0]
+  );
+}
+
 export function Output({ node, className }: { node: GenericNode; className?: string }) {
   const { outputsId } = useOutputsContext();
   const { ready } = useCellExecution(outputsId ?? '');
@@ -73,9 +107,10 @@ export function Output({ node, className }: { node: GenericNode; className?: str
     DIRECT_OUTPUT_TYPES,
     DIRECT_MIME_TYPES,
   );
-  // Do we need to abort?
-  const canRenderDirectly =
-    (node.children?.length ?? 0) > 1 || (maybeJupyterData && jupyterDataValidation.isValid);
+  const hasChildren = !!node.children?.length;
+  const canRenderDirectly = hasChildren || (maybeJupyterData && jupyterDataValidation.isValid);
+
+  // Do we need to error?
   if (!outputsId || !canRenderDirectly) {
     if (jupyterDataValidation.reason) {
       console.error(jupyterDataValidation.reason);
@@ -100,14 +135,12 @@ export function Output({ node, className }: { node: GenericNode; className?: str
   // New AST rendering path, always preferred unless there's a kernel involved
   // TODO: perhaps an opt-out of the ready check here for cells that we want
   //       to be sticky?
-  if (!ready && node.children?.length) {
-    return <MyST ast={node.children} />;
+  const preferredChild = getPreferredChild(node.children as any[]);
+  if (!ready && preferredChild) {
+    return <MyST ast={preferredChild} />;
   }
   // Legacy direct rendering path, for not-ready cases
-  else if (jupyterDataIsDirect && !ready) {
-    if (node.children?.length) {
-      return <MyST ast={node.children} />;
-    }
+  else if (!ready && jupyterDataIsDirect) {
     return <SafeOutput output={maybeJupyterData} />;
   }
   // Kernel and/or widget backed rendering

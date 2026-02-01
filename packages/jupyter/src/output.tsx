@@ -68,18 +68,16 @@ const ORDERED_MIME_PATTERNS = [
   /^text\/markdown\b/,
   // If we encounter HTML, we want to render whatever the author intended (parsed or raw)
   /^text\/html$/,
-  /^text\/latex\b/,
   /^image\//,
+  /^text\/latex\b/,
   /^text\/plain$/,
 ];
 
-function getPreferredMIMEChild(children: GenericNode[]): GenericNode | undefined {
+function getPreferredOutputChild(children: GenericNode[]): GenericNode | undefined {
   return (
     Array.from(children)
       // Keep only things with MIME types
-      .filter((node) =>
-        ORDERED_MIME_PATTERNS.some((mime) => ((node as any).data?.mimeType ?? '').match(mime)),
-      )
+      .filter((node) => (node as any).data?.mimeType !== undefined)
       // Sort by preferred MIME types
       .sort((left, right) => {
         const ld = (left as any).data?.mimeType;
@@ -138,7 +136,7 @@ export function Output({ node, className }: { node: GenericNode; className?: str
   // New AST rendering path, always preferred unless there's a kernel involved
   // TODO: perhaps an opt-out of the ready check here for cells that we want
   //       to be sticky?
-  const preferredChild = useMemo(() => getPreferredMIMEChild(node.children as any[]), [node]);
+  const preferredChild = useMemo(() => getPreferredOutputChild(node.children as any[]), [node]);
   // FIXME: check whether the HTML mime type has been processed
   const preferredChildHasHTML = useMemo(
     () => preferredChild?.data?.mimeType === 'text/html' && select('html', preferredChild),

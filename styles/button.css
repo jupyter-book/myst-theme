@@ -10,9 +10,5 @@
     &:hover {
       @apply bg-blue-700;
     }
-    /* Hide external link icon on buttons */
-    & .link-icon {
-      @apply hidden;
-    }
   }
 }

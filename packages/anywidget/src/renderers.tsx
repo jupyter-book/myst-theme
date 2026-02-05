@@ -113,7 +113,7 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidgetDirective }) {
     return (
       <details className="p-3 bg-gray-100 rounded border border-gray-300 cursor-pointer">
         <summary className="text-sm text-gray-600 select-none">
-          Failed to load <code className="text-xs">any:widget</code> module.
+          Failed to load <code className="text-xs">anywidget</code> module.
         </summary>
         <div className="pt-2 mt-2 space-y-1 text-xs border-t border-gray-200">
           <div className="text-gray-500">
@@ -134,7 +134,7 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidgetDirective }) {
     return (
       <div className="p-3 space-y-2 rounded-md border border-red-500">
         <div>
-          Invalid <code>any:bundle</code> directive.
+          Invalid <code>anywidget</code> directive.
         </div>
         {!isESMModuleUrlValid && (
           <div className="px-1">

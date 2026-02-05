@@ -5,7 +5,5 @@ export * from './models.js';
 export * from './types.js';
 
 export const ANY_RENDERERS: NodeRenderers = {
-  block: {
-    anywidget: AnyWidgetRenderer,
-  },
+  anywidget: AnyWidgetRenderer,
 };

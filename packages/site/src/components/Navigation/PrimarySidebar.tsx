@@ -169,7 +169,7 @@ export const PrimarySidebar = ({
         'myst-primary-sidebar',
         'fixed',
         `xl:${grid}`, // for example, xl:article-grid
-        'grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
+        'grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:w-[75vw] max-xl:max-w-[350px]',
         { 'lg:hidden': nav && hide_toc },
         { hidden: !open, 'z-30': open, 'z-10': !open },
       )}

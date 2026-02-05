@@ -1,12 +1,13 @@
 /**
- * Forked from https://github.com/manzt/anymyst/commit/d0b2c105397f5b1a0344b4b467c3790c498a84c6
+ * Upstreamed from https://github.com/curvenote/curvenote/tree/main/packages/any-widget
+ * Orginally forked from https://github.com/manzt/anymyst/commit/d0b2c105397f5b1a0344b4b467c3790c498a84c6
  *
  * A custom renderer for Myst to support anywidget front-end modules
  * @module
  *
  * @example
  * ```
- * <Document renderers={{ ...renderers, any:  AnyMystRenderer }}></Document>
+ * <Document renderers={{ ...renderers, anywidget:  AnyMystRenderer }}></Document>
  * ```
  */
 import * as React from 'react';
@@ -15,12 +16,12 @@ import { MystAnyModel } from './models.js';
 
 export function AnyWidgetRenderer({ node }: { node: AnyWidgetDirective }) {
   // basic validation
-  const esmModuleUrl = node.data.esm;
+  const esmModuleUrl = node.esm;
   const isESMModuleUrlValid =
     esmModuleUrl &&
     typeof esmModuleUrl === 'string' &&
     (esmModuleUrl.startsWith('https://') || esmModuleUrl.startsWith('http://'));
-  const validJson = node.data.json && typeof node.data.json === 'object';
+  const validJson = node.json && typeof node.json === 'object';
 
   const ref = React.useRef<HTMLDivElement>(null);
   const [error, setError] = React.useState<Error | null>(null);
@@ -53,15 +54,15 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidgetDirective }) {
         console.debug('AnyRenderer imported', mod);
         const widget = mod.default;
         // TODO: validate the widget
-        const model = new MystAnyModel(node.data.json);
+        const model = new MystAnyModel(node.json);
         maybeCleanupInitialize = await widget.initialize?.({ model });
 
         // clear current contents
         ref.current?.replaceChildren();
 
         // apply container classes
-        if (node.data.class && node.data.class?.trim().length > 0) {
-          node.data.class
+        if (node.class && node.class?.trim().length > 0) {
+          node.class
             ?.trim()
             .split(' ')
             .forEach((c) => {
@@ -73,7 +74,7 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidgetDirective }) {
         let rootEl = ref.current;
 
         const shadow = true;
-        const css = node.data.css;
+        const css = node.css;
         if (css) {
           if (shadow) {
             const shadowRoot = rootEl.shadowRoot ?? rootEl.attachShadow({ mode: 'open' });
@@ -139,13 +140,13 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidgetDirective }) {
         {!isESMModuleUrlValid && (
           <div className="px-1">
             <div>Invalid import URL</div>
-            <div className="text-sm text-gray-500">{node.data.esm}</div>
+            <div className="text-sm text-gray-500">{node.esm}</div>
           </div>
         )}
         {!validJson && (
           <div className="px-1">
             <div>Invalid JSON data</div>
-            <div className="text-sm text-gray-500">{(node.data.json as any)?.toString()}</div>
+            <div className="text-sm text-gray-500">{(node.json as any)?.toString()}</div>
           </div>
         )}
       </div>

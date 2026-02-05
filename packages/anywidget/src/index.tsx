@@ -6,7 +6,6 @@ export * from './types.js';
 
 export const ANY_RENDERERS: NodeRenderers = {
   block: {
-    'block[kind=any:widget]': AnyWidgetRenderer,
-    'block[kind=any:bundle]': AnyWidgetRenderer,
+    anywidget: AnyWidgetRenderer,
   },
 };

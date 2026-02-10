@@ -6,3 +6,4 @@ export { InlineTableOfContents } from './InlineTableOfContents.js';
 export { LoadingBar } from './Loading.js';
 export { ActionMenu } from './ActionMenu.js';
 export { HomeLink } from './HomeLink.js';
+export { NavbarIcons, NavbarIconLink } from './NavbarIcons.js';

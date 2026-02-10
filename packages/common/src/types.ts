@@ -73,6 +73,12 @@ export type PageLoader = {
   dependencies?: Dependency[];
 };
 
+export type NavbarIcon = {
+  icon: string;
+  url: string;
+  title?: string;
+};
+
 export type CommonTemplateOptions = {
   favicon?: string;
   logo?: string;
@@ -89,4 +95,5 @@ export type CommonTemplateOptions = {
   hide_toc?: boolean;
   hide_outline?: boolean;
   outline_maxdepth?: number;
+  navbar_icons?: NavbarIcon[];
 };

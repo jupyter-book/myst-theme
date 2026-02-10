@@ -71,6 +71,48 @@ site:
 - If the `.md` file it points to is empty, the footer will not be visible
 - If not configured, falls back to the default "Made with MyST" footer
 
+## Navbar Icons
+
+Display icon links in the navigation bar for social media, GitHub, and other external resources.
+
+### Configuration
+
+Add icons to your site's navbar through `site.options.navbar_icons`:
+
+```yaml
+site:
+  options:
+    navbar_icons:
+      - icon: github
+        url: https://github.com/your-org/your-repo
+      - icon: discord
+        url: https://discord.gg/your-server
+      - icon: bluesky
+        url: https://bsky.app/profile/your-profile
+```
+
+Each icon requires:
+
+- `icon`: The icon name (see supported icons below)
+- `url`: The external URL to link to
+- `title` (optional): Custom tooltip text
+
+### Supported Icons
+
+| Icon name | Description |
+|-----------|-------------|
+| `github` | GitHub |
+| `twitter` or `x` | X (Twitter) |
+| `bluesky` | Bluesky |
+| `discord` | Discord |
+| `mastodon` | Mastodon |
+| `linkedin` | LinkedIn |
+| `youtube` | YouTube |
+| `slack` | Slack |
+| `email` | Email |
+| `rss` | RSS Feed |
+| `link` or `website` | Generic external link |
+
 ## Hiding Elements
 
 Control the visibility of various page elements. All options can be set site-wide or per-page.

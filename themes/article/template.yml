@@ -64,6 +64,9 @@ options:
   - type: file
     id: style
     description: Local path to a CSS file
+  - type: array
+    id: navbar_icons
+    description: Array of icon links for the navbar (e.g., github, discord, bluesky)
 build:
   install: npm ci --ignore-scripts
   start: npm run start

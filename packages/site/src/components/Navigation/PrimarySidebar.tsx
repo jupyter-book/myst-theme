@@ -17,6 +17,7 @@ import { ExternalOrInternalLink } from './Link.js';
 import type { SiteManifest, SiteNavItem } from 'myst-config';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import { NavbarIcons } from './NavbarIcons.js';
 
 export function SidebarNavItem({ item }: { item: SiteNavItem }) {
   const baseurl = useBaseurl();
@@ -152,6 +153,7 @@ export const PrimarySidebar = ({
   const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
   const config = useSiteManifest();
+  const { navbar_icons } = config?.options ?? {};
 
   useEffect(() => {
     setTimeout(() => {
@@ -191,6 +193,7 @@ export const PrimarySidebar = ({
         )}
       >
         <div className="myst-primary-sidebar-nav flex-grow py-6 overflow-y-auto primary-scrollbar">
+          {/* Site navigation links (mobile only) */}
           {nav && (
             <nav
               aria-label="Navigation"
@@ -199,7 +202,17 @@ export const PrimarySidebar = ({
               <SidebarNav nav={nav} />
             </nav>
           )}
-          {nav && headings && <div className="my-3 border-b-2 lg:hidden" />}
+          {/* Social/external icon links (mobile only) */}
+          {navbar_icons && navbar_icons.length > 0 && (
+            <div className="myst-primary-sidebar-icons ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden py-2">
+              <NavbarIcons icons={navbar_icons} />
+            </div>
+          )}
+          {/* Divider between nav/icons and table of contents */}
+          {(nav || (navbar_icons && navbar_icons.length > 0)) && headings && (
+            <div className="my-3 border-b-2 lg:hidden" />
+          )}
+          {/* Page table of contents */}
           {headings && (
             <nav
               aria-label="Table of Contents"

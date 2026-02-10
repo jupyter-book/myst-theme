@@ -42,3 +42,8 @@ site:
     folders: true
     logo: _static/myst-logo-light.svg
     logo_dark: _static/myst-logo-dark.svg
+    navbar_icons:
+      - icon: github
+        url: https://github.com/jupyter-book/myst-theme
+      - icon: discord
+        url: https://discord.gg/QTnAx2yq

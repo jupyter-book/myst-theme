@@ -152,6 +152,8 @@ export const PrimarySidebar = ({
   const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
   const config = useSiteManifest();
+  // Applies layout and whitespacing to a few sidebar sections
+  const sidebarSectionInsetClass = 'ml-3 xl:ml-0 mr-3 max-w-[350px]';
 
   useEffect(() => {
     setTimeout(() => {
@@ -169,7 +171,7 @@ export const PrimarySidebar = ({
         'myst-primary-sidebar',
         'fixed',
         `xl:${grid}`, // for example, xl:article-grid
-        'grid-gap xl:w-screen xl:pointer-events-none overflow-auto max-xl:min-w-[300px]',
+        'grid-gap xl:w-full xl:pointer-events-none overflow-auto max-xl:w-[75vw] max-xl:max-w-[350px]',
         { 'lg:hidden': nav && hide_toc },
         { hidden: !open, 'z-30': open, 'z-10': !open },
       )}
@@ -194,7 +196,10 @@ export const PrimarySidebar = ({
           {nav && (
             <nav
               aria-label="Navigation"
-              className="myst-primary-sidebar-topnav overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px] lg:hidden"
+              className={classNames(
+                'myst-primary-sidebar-topnav overflow-y-hidden transition-opacity lg:hidden',
+                sidebarSectionInsetClass,
+              )}
             >
               <SidebarNav nav={nav} />
             </nav>
@@ -203,7 +208,10 @@ export const PrimarySidebar = ({
           {headings && (
             <nav
               aria-label="Table of Contents"
-              className="myst-primary-sidebar-toc flex-grow overflow-y-hidden transition-opacity ml-3 xl:ml-0 mr-3 max-w-[350px]"
+              className={classNames(
+                'myst-primary-sidebar-toc flex-grow overflow-y-hidden transition-opacity',
+                sidebarSectionInsetClass,
+              )}
             >
               <Toc headings={headings} />
             </nav>
@@ -211,7 +219,10 @@ export const PrimarySidebar = ({
         </div>
         {footer && (
           <div
-            className="myst-primary-sidebar-footer flex-none py-6 transition-all duration-700 translate-y-6 opacity-0"
+            className={classNames(
+              'myst-primary-sidebar-footer flex-none py-6 transition-all duration-700 translate-y-6 opacity-0',
+              sidebarSectionInsetClass,
+            )}
             ref={footerRef}
           >
             {footer}

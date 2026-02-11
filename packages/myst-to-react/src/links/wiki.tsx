@@ -1,5 +1,5 @@
 import { default as useSWR } from 'swr';
-import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { HoverPopover, LinkCard } from '../components/index.js';
 import React from 'react';
 import classNames from 'classnames';
@@ -85,7 +85,7 @@ function WikiChild({ page, wiki, load }: { page: string; wiki: string; load: boo
           target="_blank"
           rel="noreferrer"
         >
-          <ExternalLinkIcon width="1rem" height="1rem" className="float-right" />
+          <ArrowTopRightOnSquareIcon width="1rem" height="1rem" className="float-right" />
           <WikiTextMark />
         </a>
         <div className="mt-2">Error loading "{page}" from wikipedia.</div>
@@ -118,7 +118,12 @@ export function WikiLink({
 }) {
   return (
     <HoverPopover card={({ load }) => <WikiChild wiki={wiki} page={page} load={load} />}>
-      <a href={url} className={classNames('italic', className)} target="_blank" rel="noreferrer">
+      <a
+        href={url}
+        className={classNames('hover-link', className)}
+        target="_blank"
+        rel="noreferrer"
+      >
         {children}
       </a>
     </HoverPopover>

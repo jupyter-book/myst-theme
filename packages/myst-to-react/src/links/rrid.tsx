@@ -1,5 +1,6 @@
 import { default as useSWR } from 'swr';
 import { HoverPopover } from '../components/index.js';
+import classNames from 'classnames';
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => {
@@ -75,7 +76,7 @@ export function RRIDLink({ rrid, className }: { rrid: string; className?: string
         href={`https://scicrunch.org/resolver/${rrid}`}
         target="_blank"
         rel="noopener noreferrer"
-        className={className}
+        className={classNames('hover-link', className)}
       >
         RRID: <cite className="italic">{rrid}</cite>
       </a>

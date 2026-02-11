@@ -13,6 +13,7 @@
     npm install && \
     npm run build && \
     # Install Python requirements and build docs
-    pip install -r docs/requirements.txt && \
+    pip install uv && \
+    python -m uv pip install -r docs/requirements.txt --system && \
     make build-docs
   """

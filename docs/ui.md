@@ -1,6 +1,29 @@
 # User Interface Components
 
-This page documents site-level UI components that appear on every page. Both components use the same configuration pattern through `site.parts` or `project.parts` in `myst.yml`.
+This page documents site-level UI components that appear on every page.  use the same configuration pattern through `site.parts` or `project.parts` in `myst.yml`.
+
+## Configuration via `parts`
+
+Many of the UI areas below allow users to insert custom content or interface elements using **parts**.
+These are documented below, and in each case they use the same configuration pattern through `site.parts` or `project.parts` in `myst.yml`.
+
+## Navigation bar
+
+### Site logo
+
+Control the logo with the following configuration:
+
+```{code-block} yaml
+:filename: myst.yml
+
+site:
+  options:
+    logo: path-to-logo.png
+    logo_dark: path-to-dark-theme-logo.pnd
+    logo_text: text to display just after the logo
+    logo_url: clicking the logo will take users here
+    logo_alt: alternative text for the site logo
+```
 
 ## Banner
 

@@ -56,6 +56,9 @@ options:
     id: logo_url
     description: If specified, link logo to this URL. Otherwise, point to root page.
   - type: string
+    id: logo_alt
+    description: Alt text to attach to the logo
+  - type: string
     id: analytics_google
     description: Google analytics key
   - type: string

@@ -79,6 +79,7 @@ export type CommonTemplateOptions = {
   logo_dark?: string;
   logo_text?: string;
   logo_url?: string;
+  logo_alt?: string;
   analytics_google?: string;
   analytics_plausible?: string;
   numbered_references?: boolean;

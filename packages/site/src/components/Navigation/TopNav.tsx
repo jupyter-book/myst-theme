@@ -117,7 +117,7 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
   const { title, nav, actions } = config ?? {};
-  const { logo, logo_dark, logo_text, logo_url } = config?.options ?? {};
+  const { logo, logo_dark, logo_text, logo_url, logo_alt } = config?.options ?? {};
   return (
     <div className="myst-top-nav bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 sticky w-full top-0 z-30 h-[60px]">
       <nav className="myst-top-nav-bar flex items-center justify-between flex-nowrap max-w-[1440px] mx-auto">
@@ -145,6 +145,7 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
             logo={logo}
             logoDark={logo_dark}
             logoText={logo_text}
+            logoAlt={logo_alt}
             url={logo_url}
           />
         </div>

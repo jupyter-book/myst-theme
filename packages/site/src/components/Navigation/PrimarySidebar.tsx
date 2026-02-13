@@ -99,24 +99,38 @@ export function SidebarNav({ nav }: { nav?: SiteManifest['nav'] }) {
   );
 }
 
+/**
+ * Manages the sidebar's position and height on scroll.
+ *
+ * On wide screen, the sidebar is position:fixed and needs JS to
+ *  grow/shrink/move based on other elements as we scroll
+ *
+ * On non-wide, the sidebar is a full-screen overlay — CSS handles everything.
+ */
 export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, inset = 0) {
   const container = useRef<T>(null);
   const toc = useRef<HTMLDivElement>(null);
   const transitionState = useNavigation().state;
   const wide = useIsWide();
   const { bannerState } = useBannerState();
-  const totalTop = top + bannerState.height;
-
   const setHeight = () => {
     if (!container.current || !toc.current) return;
-    const height = container.current.offsetHeight - window.scrollY;
     const div = toc.current.firstChild as HTMLDivElement;
-    if (div)
-      div.style.height = wide
-        ? `min(calc(100vh - ${totalTop}px), ${height + inset}px)`
-        : `calc(100vh - ${totalTop}px)`;
-    if (div) div.style.height = `min(calc(100vh - ${totalTop}px), ${height + inset}px)`;
     const nav = toc.current.querySelector('nav');
+    if (!wide) {
+      // On mobile, clear any stale inline styles so CSS can handle sizing.
+      if (div) div.style.height = '';
+      if (nav) nav.style.opacity = '';
+      return;
+    }
+    // As the banner scrolls out of view, slide the sidebar up to stay
+    // just below the sticky TopNav.
+    const effectiveBannerHeight = Math.max(0, bannerState.height - window.scrollY);
+    const effectiveTop = top + effectiveBannerHeight;
+    toc.current.style.top = `${effectiveTop}px`;
+    // Sidebar height: fill the viewport but don't extend past the article.
+    const height = Math.max(0, container.current.offsetHeight - window.scrollY);
+    if (div) div.style.height = `min(calc(100vh - ${effectiveTop}px), ${height + inset}px)`;
     if (nav) nav.style.opacity = height > 150 ? '1' : '0';
   };
   useEffect(() => {
@@ -127,7 +141,7 @@ export function useSidebarHeight<T extends HTMLElement = HTMLElement>(top = 0, i
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [container, toc, transitionState, wide, totalTop]);
+  }, [container, toc, transitionState, wide, top, bannerState.height]);
   return { container, toc };
 }
 
@@ -171,9 +185,13 @@ export const PrimarySidebar = ({
         'myst-primary-sidebar',
         'fixed',
         `xl:${grid}`, // for example, xl:article-grid
-        'grid-gap xl:w-full xl:pointer-events-none overflow-auto max-xl:w-[75vw] max-xl:max-w-[350px]',
+        // Base sidebar layout and scrolling behavior
+        'grid-gap xl:w-full xl:pointer-events-none overflow-auto',
+        // Mobile modal behavior: cap width, pin to top, and fill viewport height
+        'max-xl:w-[75vw] max-xl:max-w-[350px] max-xl:!top-0 max-xl:h-screen',
         { 'lg:hidden': nav && hide_toc },
-        { hidden: !open, 'z-30': open, 'z-10': !open },
+        // raise sidebar above content when open
+        { hidden: !open, 'max-xl:z-40 xl:z-30': open, 'z-10': !open },
       )}
       style={{ top: top + bannerState.height }}
     >
@@ -182,7 +200,7 @@ export const PrimarySidebar = ({
           'myst-primary-sidebar-pointer',
           'pointer-events-auto',
           'xl:col-margin-left flex-col',
-          'overflow-hidden',
+          'overflow-hidden max-xl:h-full',
           {
             flex: open,
             'bg-white dark:bg-stone-900': open, // just apply when open, so that theme can transition

@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [c3c427d]
+  - @myst-theme/common@1.1.2
+  - @myst-theme/search@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

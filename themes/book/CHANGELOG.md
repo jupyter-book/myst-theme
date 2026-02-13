@@ -1,5 +1,23 @@
 # @myst-theme/book
 
+## 1.1.2
+
+### Patch Changes
+
+- 192a1b0: Use parent width instead of screen size for page components to fix overflow
+- c3c427d: Add alt text for logo
+- Updated dependencies [a569399]
+- Updated dependencies [2208b1e]
+- Updated dependencies [192a1b0]
+- Updated dependencies [c3c427d]
+  - @myst-theme/site@1.1.2
+  - @myst-theme/common@1.1.2
+  - @myst-theme/providers@1.1.2
+  - @myst-theme/jupyter@1.1.2
+  - @myst-theme/styles@1.1.2
+  - @myst-theme/icons@1.1.2
+  - @myst-theme/landing-pages@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

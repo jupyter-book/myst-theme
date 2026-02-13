@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 1.1.2
+
+### Patch Changes
+
+- 7d92ceb: Make link icons stay on the same line as link
+  - @myst-theme/providers@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

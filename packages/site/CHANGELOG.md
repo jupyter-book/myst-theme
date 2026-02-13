@@ -1,5 +1,23 @@
 # @myst-theme/site
 
+## 1.1.2
+
+### Patch Changes
+
+- a569399: Make sidebar modal take up full height
+- 2208b1e: Re-use classes for sidebar whitespace
+- 192a1b0: Use parent width instead of screen size for page components to fix overflow
+- c3c427d: Add alt text for logo
+- Updated dependencies [7d92ceb]
+- Updated dependencies [c3c427d]
+  - myst-to-react@1.1.2
+  - @myst-theme/common@1.1.2
+  - @myst-theme/providers@1.1.2
+  - @myst-theme/frontmatter@1.1.2
+  - @myst-theme/diagrams@1.1.2
+  - @myst-theme/search@1.1.2
+  - myst-demo@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

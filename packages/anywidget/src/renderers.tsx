@@ -11,17 +11,17 @@
  * ```
  */
 import * as React from 'react';
-import type { AnyWidgetDirective } from './types.js';
+import type { AnyWidget } from './types.js';
 import { MystAnyModel } from './models.js';
 
-export function AnyWidgetRenderer({ node }: { node: AnyWidgetDirective }) {
+export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
   // basic validation
   const esmModuleUrl = node.esm;
   const isESMModuleUrlValid =
     esmModuleUrl &&
     typeof esmModuleUrl === 'string' &&
     (esmModuleUrl.startsWith('https://') || esmModuleUrl.startsWith('http://'));
-  const validJson = node.json && typeof node.json === 'object';
+  const validModel = node.model && typeof node.model === 'object';
 
   const ref = React.useRef<HTMLDivElement>(null);
   const [error, setError] = React.useState<Error | null>(null);
@@ -54,7 +54,7 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidgetDirective }) {
         console.debug('AnyRenderer imported', mod);
         const widget = mod.default;
         // TODO: validate the widget
-        const model = new MystAnyModel(node.json);
+        const model = new MystAnyModel(node.model);
         maybeCleanupInitialize = await widget.initialize?.({ model });
 
         // clear current contents
@@ -131,7 +131,7 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidgetDirective }) {
     );
   }
 
-  if (!isESMModuleUrlValid || !validJson) {
+  if (!isESMModuleUrlValid || !validModel) {
     return (
       <div className="p-3 space-y-2 rounded-md border border-red-500">
         <div>
@@ -143,10 +143,10 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidgetDirective }) {
             <div className="text-sm text-gray-500">{node.esm}</div>
           </div>
         )}
-        {!validJson && (
+        {!validModel && (
           <div className="px-1">
             <div>Invalid JSON data</div>
-            <div className="text-sm text-gray-500">{(node.json as any)?.toString()}</div>
+            <div className="text-sm text-gray-500">{(node.model as any)?.toString()}</div>
           </div>
         )}
       </div>

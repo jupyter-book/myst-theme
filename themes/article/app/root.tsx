@@ -17,8 +17,13 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 import type { NodeRenderers } from '@myst-theme/providers';
 import { mergeRenderers } from '@myst-theme/providers';
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
+import { ANY_RENDERERS } from '@myst-theme/anywidget';
 
-const RENDERERS: NodeRenderers = mergeRenderers([defaultRenderers, JUPYTER_RENDERERS]);
+const RENDERERS: NodeRenderers = mergeRenderers([
+  defaultRenderers,
+  JUPYTER_RENDERERS,
+  ANY_RENDERERS,
+]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({

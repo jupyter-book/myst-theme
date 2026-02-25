@@ -22,12 +22,14 @@ import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
+import { ANY_RENDERERS } from '@myst-theme/anywidget';
 import { useCallback } from 'react';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
   JUPYTER_RENDERERS,
   LANDING_PAGE_RENDERERS,
+  ANY_RENDERERS,
 ]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {

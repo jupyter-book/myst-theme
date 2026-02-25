@@ -1,0 +1,6 @@
+/* Additional styles loaded via :css: to enhance the widget */
+.counter-button {
+  border-color: #6366f1;
+  color: #4338ca;
+  font-weight: bold;
+}

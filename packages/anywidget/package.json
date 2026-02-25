@@ -1,6 +1,7 @@
 {
-  "name": "@myst-theme/landing-pages",
-  "version": "1.1.2",
+  "name": "@myst-theme/anywidget",
+  "version": "1.1.1",
+  "description": "NodeRenderers for `anywidget` directives",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -17,6 +18,8 @@
   },
   "scripts": {
     "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "dev": "npm-run-all --parallel \"build:* -- --watch\"",
@@ -24,21 +27,18 @@
     "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
-    "@myst-theme/providers": "^1.1.2",
-    "classnames": "^2.5.1",
+    "@myst-theme/providers": "^1.1.1",
+    "classnames": "^2.3.2",
     "myst-common": "^1.8.1",
-    "myst-config": "^1.7.9",
-    "myst-frontmatter": "^1.8.1",
-    "myst-spec": "^0.0.5",
-    "myst-spec-ext": "^1.8.1",
-    "myst-to-react": "^1.1.2",
-    "unist-util-select": "^4.0.3",
-    "unist-util-filter": "^4.0.0"
+    "unist-builder": "^4.0.0"
   },
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",
     "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
     "react": "^16.8 || ^17.0 || ^18.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

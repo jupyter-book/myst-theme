@@ -53,22 +53,16 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
         if (!ref.current) return;
         console.debug('AnyRenderer imported', mod);
         const widget = mod.default;
+
         // TODO: validate the widget
         const model = new MystAnyModel(node.model);
         maybeCleanupInitialize = await widget.initialize?.({ model });
 
         // clear current contents
-        ref.current?.replaceChildren();
+        ref.current.replaceChildren();
 
         // apply container classes
-        if (node.class && node.class?.trim().length > 0) {
-          node.class
-            ?.trim()
-            .split(' ')
-            .forEach((c) => {
-              ref.current?.classList.add(c);
-            });
-        }
+        ref.current.className = node.class ?? '';
 
         // apply styles
         let rootEl = ref.current;

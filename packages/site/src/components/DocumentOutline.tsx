@@ -19,6 +19,21 @@ const SELECTOR = [1, 2, 3, 4].map((n) => `main h${n}`).join(', ');
 
 const onClient = typeof document !== 'undefined';
 
+/**
+ * Returns `next` if it differs from `prev`, otherwise returns `prev` unchanged.
+ * This prevents unnecessary React state updates (and re-renders) when the
+ * array contents haven't actually changed - important for breaking feedback
+ * loops with IntersectionObserver and MutationObserver.
+ */
+function arrayIfChanged<T>(prev: T[], next: T[]): T[] {
+  if (prev === next) return prev;
+  if (prev.length !== next.length) return next;
+  for (let i = 0; i < prev.length; i++) {
+    if (prev[i] !== next[i]) return next;
+  }
+  return prev;
+}
+
 export type Heading = {
   element: HTMLHeadingElement;
   id: string;
@@ -160,7 +175,7 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
           if (e.isIntersecting) next.add(e.target);
           else next.delete(e.target);
         });
-        return Array.from(next);
+        return arrayIfChanged(prev, Array.from(next));
       });
     };
     const o = new IntersectionObserver(cb, options ?? {});
@@ -208,7 +223,7 @@ export function useHeaders(selector: string, maxdepth: number) {
   const onMutation = useCallback(
     throttle(
       () => {
-        setElements(getHeaders(selector));
+        setElements((prev) => arrayIfChanged(prev, getHeaders(selector)));
       },
       500,
       // Trailing updates help ensure we eventually process the last DOM mutation burst.
@@ -369,7 +384,7 @@ function useMarginOccluder() {
           .flat()
           .join(', ');
         const marginElements = mainElementRef.current.querySelectorAll(selector);
-        setElements(Array.from(marginElements));
+        setElements((prev) => arrayIfChanged(prev, Array.from(marginElements)));
       },
       500,
       // Trailing updates help ensure we eventually process the last DOM mutation burst.

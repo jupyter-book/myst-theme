@@ -43,3 +43,4 @@ site:
     folders: true
     logo: _static/myst-logo-light.svg
     logo_dark: _static/myst-logo-dark.svg
+    logo_alt: The logo for the MyST Markdown Project

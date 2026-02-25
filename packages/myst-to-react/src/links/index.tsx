@@ -146,13 +146,18 @@ export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) =
     );
   }
   return (
+    // External or download links get a little icon.
+    // We wrap the link text in an extra span so that we can control its whitespace handling
+    // We want the text in the link to wrap, but the icon *not* to wrap so it stays on the same line
     <a
       target="_blank"
       rel="noreferrer"
       href={node.url}
-      className={classNames('link', node.class, className)}
+      className={classNames('link whitespace-nowrap', node.class, className)}
     >
-      <MyST ast={node.children} />
+      <span className="link-text whitespace-normal">
+        <MyST ast={node.children} />
+      </span>
       {isStatic && <ArrowDownTrayIcon className="link-icon" />}
       {!isStatic && <ExternalLinkIcon className="link-icon" />}
     </a>

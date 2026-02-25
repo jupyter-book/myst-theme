@@ -50,7 +50,8 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
     console.debug('AnyRenderer importing:', esmModuleUrl);
     import(esmModuleUrl)
       .then(async (mod) => {
-        if (!ref.current) return;
+        const rootEl = ref.current;
+        if (!rootEl) return;
         console.debug('AnyRenderer imported', mod);
         const widget = mod.default;
 
@@ -58,41 +59,26 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
         const model = new MystAnyModel(node.model);
         maybeCleanupInitialize = await widget.initialize?.({ model });
 
-        // clear current contents
-        ref.current.replaceChildren();
-
         // apply container classes
-        ref.current.className = node.class ?? '';
+        rootEl.className = node.class ?? '';
+
+        const shadowRoot = rootEl.shadowRoot ?? rootEl.attachShadow({ mode: 'open' });
+
+        const shadowEl = document.createElement('div');
+        const children: HTMLElement[] = [shadowEl];
 
         // apply styles
-        let rootEl = ref.current;
-
-        const shadow = true;
-        const css = node.css;
-        if (css) {
-          if (shadow) {
-            const shadowRoot = rootEl.shadowRoot ?? rootEl.attachShadow({ mode: 'open' });
-            shadowRoot.replaceChildren();
-            const shadowEl = document.createElement('div');
-            shadowRoot.appendChild(shadowEl);
-
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = css;
-            shadowRoot.appendChild(link);
-
-            rootEl = shadowEl;
-          } else {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = css;
-            rootEl.appendChild(link);
-          }
+        if (node.css) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = node.css;
+          children.push(link);
         }
+        shadowRoot.replaceChildren(...children);
 
         maybeCleanupRender = await widget.render?.({
           model,
-          el: rootEl,
+          el: shadowEl,
         });
       })
       .catch((err) => {

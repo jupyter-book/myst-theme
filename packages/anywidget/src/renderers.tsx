@@ -11,6 +11,7 @@
  * ```
  */
 import * as React from 'react';
+import classNames from 'classnames';
 import type { AnyWidget } from './types.js';
 import { MystAnyModel } from './models.js';
 
@@ -32,7 +33,7 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
     // @see https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal#implementing_an_abortable_api
     const controller = new AbortController();
 
-    // if already aborted just ignore
+    // If already aborted just ignore
     if (controller.signal.aborted) {
       return;
     }
@@ -45,8 +46,9 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
       await maybeCleanupInitialize?.();
     });
 
-    // TODO: validation for import & styles URLs
+    const useShadowDom = true;
 
+    // TODO: validation for import & styles URLs
     console.debug('AnyRenderer importing:', esmModuleUrl);
     import(esmModuleUrl)
       .then(async (mod) => {
@@ -59,26 +61,30 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
         const model = new MystAnyModel(node.model);
         maybeCleanupInitialize = await widget.initialize?.({ model });
 
-        // apply container classes
-        rootEl.className = node.class ?? '';
+        // Apply container classes
+        rootEl.className = classNames('myst-anywidget', node.class);
 
-        const shadowRoot = rootEl.shadowRoot ?? rootEl.attachShadow({ mode: 'open' });
-
-        const shadowEl = document.createElement('div');
-        const children: HTMLElement[] = [shadowEl];
-
-        // apply styles
+        // Either use the DOM or shadow DOM for the root
+        let widgetRoot: HTMLDivElement;
+        if (useShadowDom) {
+          const shadowRoot = rootEl.shadowRoot ?? rootEl.attachShadow({ mode: 'open' });
+          // Create node to render the widget
+          widgetRoot = document.createElement('div');
+          shadowRoot.replaceChildren(widgetRoot);
+        } else {
+          widgetRoot = rootEl;
+        }
+        // Always apply styles as child of widget root
         if (node.css) {
           const link = document.createElement('link');
           link.rel = 'stylesheet';
           link.href = node.css;
-          children.push(link);
+          widgetRoot.appendChild(link);
         }
-        shadowRoot.replaceChildren(...children);
 
         maybeCleanupRender = await widget.render?.({
           model,
-          el: shadowEl,
+          el: widgetRoot,
         });
       })
       .catch((err) => {

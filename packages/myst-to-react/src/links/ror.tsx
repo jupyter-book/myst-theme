@@ -4,15 +4,40 @@ import { MyST } from '../MyST.js';
 import type { GenericNode } from 'myst-common';
 import { RorIcon } from '@scienceicons/react/24/solid';
 import classNames from 'classnames';
+import { useMemo } from 'react';
 
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => {
     if (res.status === 200) return res.json();
     throw new Error(`Content returned with status ${res.status}.`);
-  });
+  }) as Promise<RORRecord>;
+
+type RORRecord = {
+  id: string;
+  names: { lang: string | null; types: string[]; value: string }[];
+  locations: {
+    geonames_id: number;
+    geonames_details: { country_code: string; country_name: string };
+  }[];
+  links: {
+    type: string;
+    value: string;
+  }[];
+};
 
 function RORChild({ ror }: { ror: string }) {
-  const { data, error } = useSWR(`https://api.ror.org/organizations/${ror}`, fetcher);
+  const { data, error } = useSWR(`https://api.ror.org/v2/organizations/${ror}`, fetcher);
+  const name = useMemo(
+    () => data?.names.find((n) => n.types.includes('ror_display'))?.value,
+    [data],
+  );
+  const countryName = useMemo(() => data?.locations[0]?.geonames_details.country_name, [data]);
+  const links = useMemo(() => data?.links ?? [], [data]);
+  const labels = useMemo(() => data?.names.filter((n) => n.types.includes('label')) ?? [], [data]);
+  const acronyms = useMemo(
+    () => data?.names.filter((n) => n.types.includes('acronym')) ?? [],
+    [data],
+  );
   if (!data && !error) {
     return (
       <div className="hover-document article w-[500px] sm:max-w-[500px] animate-pulse">
@@ -25,13 +50,6 @@ function RORChild({ ror }: { ror: string }) {
       <div className="hover-document article w-[500px] sm:max-w-[500px]">Error loading {ror}.</div>
     );
   }
-  const country_name = data?.country?.country_name;
-  const basicLinks =
-    (data?.links.map((url: string) => ({ url })) as { url: string; text?: string }[]) ?? [];
-  const wikiLink = data.wikipedia_url
-    ? [{ text: 'Wikipedia', url: data.wikipedia_url as string }]
-    : [];
-  const links = [...basicLinks, ...wikiLink];
   return (
     <div className="hover-document article w-[500px] sm:max-w-[500px] p-3">
       <p className="flex items-stretch gap-2 text-sm font-light">
@@ -45,35 +63,39 @@ function RORChild({ ror }: { ror: string }) {
           <code>{ror}</code>
         </a>
       </p>
-      <div className="mb-4 text-xl font-bold">{data.name}</div>
+      <div className="mb-4 text-xl font-bold">{name}</div>
       <dl className="mb-4 text-sm">
-        <dt>Country</dt>
-        <dd>{country_name}</dd>
+        {countryName && (
+          <>
+            <dt>Country</dt>
+            <dd>{countryName}</dd>
+          </>
+        )}
         {links.length > 0 && (
           <>
             <dt>Links</dt>
-            {links.map(({ url, text }) => (
+            {links.map(({ type, value }) => (
               <dd>
-                <a href={url}>{text || url}</a>
+                <a href={value}>{type === 'wikipedia' ? 'Wikipedia' : value}</a>
               </dd>
             ))}
           </>
         )}
-        {data.acronyms?.length > 0 && (
+        {acronyms?.length > 0 && (
           <>
             <dt>Acronyms</dt>
-            {data.acronyms.map((text: string) => (
-              <dd>{text}</dd>
+            {acronyms.map(({ value }) => (
+              <dd>{value}</dd>
             ))}
           </>
         )}
-        {data.labels?.length > 0 && (
+        {labels?.length > 0 && (
           <>
             <dt>Labels</dt>
-            {data.labels.map(({ label, iso639 }: { label: string; iso639?: string }) => (
+            {labels.map(({ value, lang }) => (
               <dd>
-                {label}
-                {iso639 ? ` (${iso639})` : null}
+                {value}
+                {lang ? ` (${lang})` : null}
               </dd>
             ))}
           </>

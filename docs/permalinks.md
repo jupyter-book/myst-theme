@@ -47,16 +47,18 @@ renders at URL
 
 ## External and Internal URLs
 
-The following config makes any external URL behave as if it were an internal URL if it matches the patterns:
+The following config makes any external URL behave as if it were an internal URL if it matches the pattern:
 
 ```yaml
 site:
   options:
-    internal_domains: "mystmd.org *.mystmd.org"
+    internal_domains: "mystmd.org"
 ```
 
 For example:
 
-- <https://mystmd.org> - external URL but treated internal
-- <https://spec.mystmd.org> - external URL but treated internal
-- <https://jupyterbook.org> - external URL treated external
+- <https://mystmd.org> - treated as *internal* URL because the domain matches
+- <https://docs.mystmd.org> - treated as external URL because of the `docs.` subdomain
+- <https://jupyterbook.org> - treated as external URL because it doesn't match at all
+
+You can match an exact domain (e.g. `mystmd.org`) or use a wildcard to match a single subdomain level. Matches will only be for that subdomain level, not deeper ones (e.g. `*.mystmd.org` matches `docs.mystmd.org` but not `a.b.mystmd.org`).

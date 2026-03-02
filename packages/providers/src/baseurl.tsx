@@ -20,22 +20,14 @@ export function useBaseurl() {
 }
 
 /**
- * Check if a URL is external. Optionally pass internal domain patterns
- * (space-separated, e.g. "example.com *.example.com") to treat matching URLs as internal.
- * Wildcard `*` matches a single subdomain level (e.g. `*.example.com` matches
- * `docs.example.com` but not `a.b.example.com`).
+ * Check if a URL is external. Optionally pass an internal domain pattern
+ * (e.g. "example.com") to treat matching URLs as internal.
  */
-export function isExternalUrl(url: string, internalDomains?: string) {
-  if (!/^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/\/)/.test(url)) return false;
-  if (internalDomains) {
-    const matched = internalDomains
-      .trim()
-      .split(/\s+/)
-      .some((pattern) => {
-        const escaped = pattern.replace(/\./g, '\\.').replace(/\*/g, '[^/]+');
-        return new RegExp(`^https?://${escaped}([:/?#]|$)`, 'i').test(url);
-      });
-    if (matched) return false;
+export function isExternalUrl(url?: string, internalDomain?: string) {
+  if (!/^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/\/)/.test(url || '')) return false;
+  if (internalDomain) {
+    const escaped = internalDomain.trim().replace(/\./g, '\\.').replace(/\*/g, '[^/]+');
+    if (new RegExp(`^https?://${escaped}([:/?#]|$)`, 'i').test(url || '')) return false;
   }
   return true;
 }

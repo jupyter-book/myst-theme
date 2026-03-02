@@ -46,14 +46,6 @@ describe('isExternalUrl', () => {
     expect(isExternalUrl('https://example.com', '*.example.com')).toBe(true);
   });
 
-  it('supports multiple space-separated patterns', () => {
-    const domains = 'example.com *.example.com other.org';
-    expect(isExternalUrl('https://example.com/page', domains)).toBe(false);
-    expect(isExternalUrl('https://docs.example.com', domains)).toBe(false);
-    expect(isExternalUrl('https://other.org/page', domains)).toBe(false);
-    expect(isExternalUrl('https://nope.com', domains)).toBe(true);
-  });
-
   it('matches internal domains with port numbers', () => {
     expect(isExternalUrl('https://example.com:8080/page', 'example.com')).toBe(false);
     expect(isExternalUrl('http://example.com:3000', 'example.com')).toBe(false);

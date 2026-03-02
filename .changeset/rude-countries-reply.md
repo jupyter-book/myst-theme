@@ -7,4 +7,4 @@
 "@myst-theme/docs": patch
 ---
 
-Support list of domains to treat as internal URLs
+Support a domain to treat as internal URLs

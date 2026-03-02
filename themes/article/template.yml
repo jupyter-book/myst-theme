@@ -67,8 +67,8 @@ options:
   - type: string
     id: internal_domains
     description: >-
-      Space-separated list of domains to treat as internal links (no external icon, opens in same tab).
-      Supports wildcard subdomains with *. Example: "jupyter.org *.jupyter.org"
+      A domain to treat as internal links (no external icon, opens in same tab).
+      Supports wildcard subdomains with *. Example: "jupyter.org" or "*.jupyter.org"
   - type: file
     id: style
     description: Local path to a CSS file

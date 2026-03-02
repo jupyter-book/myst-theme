@@ -57,8 +57,8 @@ site:
 
 For example:
 
-- <https://mystmd.org> - treated as *internal* URL because the domain matches
-- <https://docs.mystmd.org> - treated as external URL because of the `docs.` subdomain
-- <https://jupyterbook.org> - treated as external URL because it doesn't match at all
+- `<https://mystmd.org>` - treated as *internal* URL because the domain matches
+- `<https://docs.mystmd.org>` - treated as external URL because of the `docs.` subdomain
+- `<https://jupyterbook.org>` - treated as external URL because it doesn't match at all
 
 You can match an exact domain (e.g. `mystmd.org`) or use a wildcard to match a single subdomain level. Matches will only be for that subdomain level, not deeper ones (e.g. `*.mystmd.org` matches `docs.mystmd.org` but not `a.b.mystmd.org`).

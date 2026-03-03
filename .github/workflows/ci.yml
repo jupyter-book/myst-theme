@@ -21,6 +21,8 @@ jobs:
       - run: npm install
       - run: npm run lint:format
       - run: npm run lint
+      # Check the version change set is correct (e.g. doesn't have private packages)
+      - run: npm run version
   test:
     runs-on: ubuntu-latest
     steps:

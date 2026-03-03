@@ -1,5 +1,14 @@
 # myst-to-react
 
+## 1.1.3
+
+### Patch Changes
+
+- a8b0c87: Support a domain to treat as internal URLs
+- a96413c: Fix ROR rendererwq
+- Updated dependencies [a8b0c87]
+  - @myst-theme/providers@1.1.3
+
 ## 1.1.2
 
 ### Patch Changes

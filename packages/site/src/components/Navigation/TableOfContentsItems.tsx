@@ -3,10 +3,12 @@ import classNames from 'classnames';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import type { Heading } from '@myst-theme/common';
 import {
+  isExternalUrl,
   useBaseurl,
   useLinkProvider,
   useNavLinkProvider,
   useNavOpen,
+  useSiteManifest,
   withBaseurl,
 } from '@myst-theme/providers';
 import { useLocation, useNavigation } from '@remix-run/react';
@@ -87,8 +89,11 @@ function LinkItem({
   const baseurl = useBaseurl();
   const [, setOpen] = useNavOpen();
   // Render external URL
+  const config = useSiteManifest();
+  // In case the URL part of our "treat as internal" domain list
+  const treatAsInternal = !isExternalUrl(heading.url, config?.options?.internal_domains);
   if (heading.url) {
-    const target = heading.open_in_same_tab ? '_self' : '_blank';
+    const target = heading.open_in_same_tab || treatAsInternal ? '_self' : '_blank';
     return (
       <Link
         title={`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
@@ -106,7 +111,9 @@ function LinkItem({
         <span className="inline align-middle">
           {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
         </span>
-        <ArrowTopRightOnSquareIcon className="inline h-4 w-4 align-middle ml-[0.2rem]" />
+        {!treatAsInternal && (
+          <ArrowTopRightOnSquareIcon className="inline h-4 w-4 align-middle ml-[0.2rem]" />
+        )}
       </Link>
     );
   }

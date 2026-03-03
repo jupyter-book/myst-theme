@@ -1,5 +1,10 @@
 import React from 'react';
-import { isExternalUrl, useLinkProvider, useNavLinkProvider } from '@myst-theme/providers';
+import {
+  isExternalUrl,
+  useLinkProvider,
+  useNavLinkProvider,
+  useSiteManifest,
+} from '@myst-theme/providers';
 
 export function ExternalOrInternalLink({
   to,
@@ -18,8 +23,9 @@ export function ExternalOrInternalLink({
 }) {
   const Link = useLinkProvider();
   const NavLink = useNavLinkProvider();
+  const config = useSiteManifest();
   const staticClass = typeof className === 'function' ? className({ isActive: false }) : className;
-  if (isExternalUrl(to)) {
+  if (isExternalUrl(to, config?.options?.internal_domains)) {
     return (
       <a
         href={to}

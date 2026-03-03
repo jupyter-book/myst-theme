@@ -1,5 +1,14 @@
 # @myst-theme/providers
 
+## 1.1.3
+
+### Patch Changes
+
+- a8b0c87: Support a domain to treat as internal URLs
+- Updated dependencies [be43281]
+  - @myst-theme/common@1.1.3
+  - @myst-theme/search@1.1.3
+
 ## 1.1.2
 
 ### Patch Changes

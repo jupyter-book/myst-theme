@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/anywidget",
-  "version": "1.1.1",
+  "version": "1.1.3",
   "description": "NodeRenderers for `anywidget` directives",
   "type": "module",
   "exports": "./dist/index.js",
@@ -27,7 +27,7 @@
     "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
-    "@myst-theme/providers": "^1.1.1",
+    "@myst-theme/providers": "^1.1.3",
     "classnames": "^2.3.2",
     "myst-common": "^1.8.1",
     "unist-builder": "^4.0.0"

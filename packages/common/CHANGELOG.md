@@ -1,5 +1,11 @@
 # @myst-theme/common
 
+## 1.1.3
+
+### Patch Changes
+
+- be43281: Fix bug with trailing slash in URLs
+
 ## 1.1.2
 
 ### Patch Changes

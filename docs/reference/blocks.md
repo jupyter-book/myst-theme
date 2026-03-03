@@ -58,6 +58,14 @@ Second card.
 
 ::::
 
+:::{card} Linked card with image
+:link: https://mystmd.org
+
+![MyST Logo](../_static/myst-logo-light.svg)
+
+Card content below the image.
+:::
+
 ## Grids
 
 ::::{grid} 3

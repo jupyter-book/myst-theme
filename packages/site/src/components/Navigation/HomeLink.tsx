@@ -5,18 +5,21 @@ export function HomeLink({
   logo,
   logoDark,
   logoText,
+  logoAlt,
   name,
   url,
 }: {
   logo?: string;
   logoDark?: string;
   logoText?: string;
+  logoAlt?: string;
   name?: string;
   url?: string;
 }) {
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
   const nothingSet = !logo && !logoText;
+  const altText = logoAlt ?? logoText ?? name;
   return (
     <Link
       className="myst-home-link flex items-center ml-3 dark:text-white w-fit md:ml-5 xl:ml-7"
@@ -32,14 +35,14 @@ export function HomeLink({
           <img
             src={logo}
             className={classNames('h-9', { 'dark:hidden': !!logoDark })}
-            alt={logoText || name}
+            alt={altText}
             height="2.25rem"
           ></img>
           {logoDark && (
             <img
               src={logoDark}
               className="hidden h-9 dark:block"
-              alt={logoText || name}
+              alt={altText}
               height="2.25rem"
             ></img>
           )}

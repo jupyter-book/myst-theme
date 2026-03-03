@@ -174,7 +174,7 @@ function SearchShortcut() {
   return (
     <div
       aria-hidden
-      className="myst-search-shortcut items-center hidden mx-1 font-mono text-sm text-gray-600 sm:flex gap-x-1"
+      className="myst-search-shortcut items-center hidden mx-1 font-mono text-sm text-gray-600 dark:text-gray-300 sm:flex gap-x-1"
     >
       <kbd
         className={classNames(
@@ -507,7 +507,7 @@ function SearchForm({
       <form onSubmit={onSubmit}>
         <div className="relative flex w-full h-10 flow-row gap-x-1 ">
           <label id={searchLabelID} htmlFor={searchInputID}>
-            <MagnifyingGlassIcon className="absolute text-gray-600 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
+            <MagnifyingGlassIcon className="absolute text-gray-600 dark:text-gray-300 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
             <span className="hidden">Search query</span>
           </label>
           <input
@@ -563,7 +563,7 @@ const SearchPlaceholderButton = forwardRef<
       className={classNames(
         'myst-search-bar',
         className,
-        'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-600',
+        'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-600 dark:text-gray-300',
         'border border-gray-300 dark:border-gray-600',
         'rounded-lg bg-gray-50 dark:bg-gray-700',
         {
@@ -632,7 +632,7 @@ export function Search({ debounceTime = 500, charLimit = 64 }: SearchProps) {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-[#656c85cc] z-[1000]" />
         <Dialog.Content
-          className="myst-search-dialog fixed flex flex-col top-0 bg-white dark:bg-stone-900 z-[1001] h-screen w-screen sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4 text-gray-900 dark:text-white"
+          className="myst-search-dialog fixed flex flex-col top-0 bg-white dark:bg-stone-900 z-[1001] h-screen w-full sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4 text-gray-900 dark:text-white"
           // Store state as CSS variables so that we can set the style with tailwind variants
           style={
             {

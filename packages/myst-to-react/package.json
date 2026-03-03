@@ -1,6 +1,6 @@
 {
   "name": "myst-to-react",
-  "version": "1.0.1",
+  "version": "1.1.2",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -8,7 +8,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "license": "MIT",
   "repository": {
@@ -17,6 +17,8 @@
   },
   "scripts": {
     "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "dev": "npm-run-all --parallel \"build:* -- --watch\"",
@@ -25,7 +27,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
-    "@myst-theme/providers": "^1.0.1",
+    "@myst-theme/providers": "^1.1.2",
     "@radix-ui/react-hover-card": "^1.0.6",
     "@scienceicons/react": "^0.0.13",
     "buffer": "^6.0.3",

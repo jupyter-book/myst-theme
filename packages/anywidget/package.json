@@ -1,0 +1,44 @@
+{
+  "name": "@myst-theme/anywidget",
+  "version": "1.1.1",
+  "description": "NodeRenderers for `anywidget` directives",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "dev": "npm-run-all --parallel \"build:* -- --watch\"",
+    "build:esm": "tsc",
+    "build": "npm-run-all -l clean -p build:esm"
+  },
+  "dependencies": {
+    "@myst-theme/providers": "^1.1.1",
+    "classnames": "^2.3.2",
+    "myst-common": "^1.8.1",
+    "unist-builder": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@types/react": "^16.8 || ^17.0 || ^18.0",
+    "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
+    "react": "^16.8 || ^17.0 || ^18.0",
+    "react-dom": "^16.8 || ^17.0 || ^18.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -22,12 +22,14 @@ import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
+import { ANY_RENDERERS } from '@myst-theme/anywidget';
 import { useCallback } from 'react';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
   JUPYTER_RENDERERS,
   LANDING_PAGE_RENDERERS,
+  ANY_RENDERERS,
 ]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
@@ -84,7 +86,7 @@ function createSearch(index: MystSearchIndex): ISearch {
 }
 
 /*
- * Component that shows a "no CSS loaded" warning when a page 
+ * Component that shows a "no CSS loaded" warning when a page
  * loads without the built-in MyST stylesheet. This can happen on static builds
  * when the BASE_URL doesn't match the deployment base URL.
  */
@@ -109,7 +111,7 @@ function NoCSSWarning() {
           position: 'fixed',
           left: '0px',
           top: '0px',
-          width: '100vw',
+          width: '100%',
           height: '100vh',
           fontSize: '4rem',
           padding: '1rem',

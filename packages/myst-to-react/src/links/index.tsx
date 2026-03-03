@@ -2,8 +2,15 @@ import type { Link } from 'myst-spec';
 import {
   ArrowTopRightOnSquareIcon as ExternalLinkIcon,
   LinkIcon,
+  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
-import { useLinkProvider, useSiteManifest, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import {
+  isExternalUrl,
+  useLinkProvider,
+  useSiteManifest,
+  useBaseurl,
+  withBaseurl,
+} from '@myst-theme/providers';
 import type { SiteManifest } from 'myst-config';
 import type { NodeRenderer, NodeRenderers } from '@myst-theme/providers';
 import { HoverPopover, LinkCard } from '../components/index.js';
@@ -14,7 +21,8 @@ import { GithubLink } from './github.js';
 import { MyST } from '../MyST.js';
 import classNames from 'classnames';
 
-type TransformedLink = Link & { internal?: boolean; protocol?: string };
+// Allow for a few link properties added by mystmd but not part of the myst-spec
+type TransformedLink = Link & { internal?: boolean; protocol?: string; static?: boolean };
 
 function getPageInfo(site: SiteManifest | undefined, path: string) {
   if (!site) return undefined;
@@ -40,14 +48,21 @@ function InternalLink({
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={className}>
+      <Link
+        to={withBaseurl(url, baseurl)}
+        prefetch="intent"
+        className={classNames('link', className)}
+      >
         {children}
       </Link>
     );
   }
   return (
     <HoverPopover
-      card={
+      // Use a () function rather than directly loading the component.
+      // This avoids hydration errors in static builds so that card display works
+      // See: https://github.com/jupyter-book/myst-theme/issues/771
+      card={() => (
         <LinkCard
           internal
           url={url}
@@ -55,11 +70,17 @@ function InternalLink({
           description={page.description}
           thumbnail={page.thumbnailOptimized || page.thumbnail}
         />
-      }
+      )}
     >
-      <Link to={withBaseurl(url, baseurl)} prefetch="intent" className={className}>
-        {children}
-      </Link>
+      <span>
+        <Link
+          to={withBaseurl(url, baseurl)}
+          prefetch="intent"
+          className={classNames('hover-link', className)}
+        >
+          {children}
+        </Link>
+      </span>
     </HoverPopover>
   );
 }
@@ -113,8 +134,11 @@ export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node, className
 };
 
 export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) => {
-  const internal = node.internal ?? false;
-  if (internal) {
+  // Internal links will need to be modified by a baseURL (e.g. in static sites).
+  const internal = node.internal ?? !isExternalUrl(node.url);
+  // If the link is static (a link to a document/asset), we can just use the regular link.
+  const isStatic = node.static ?? false;
+  if (internal && !isStatic) {
     return (
       <InternalLink url={node.url} className={classNames(node.class, className)}>
         <MyST ast={node.children} />
@@ -122,13 +146,20 @@ export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) =
     );
   }
   return (
+    // External or download links get a little icon.
+    // We wrap the link text in an extra span so that we can control its whitespace handling
+    // We want the text in the link to wrap, but the icon *not* to wrap so it stays on the same line
     <a
       target="_blank"
       rel="noreferrer"
       href={node.url}
-      className={classNames(node.class, className)}
+      className={classNames('link whitespace-nowrap', node.class, className)}
     >
-      <MyST ast={node.children} />
+      <span className="link-text whitespace-normal">
+        <MyST ast={node.children} />
+      </span>
+      {isStatic && <ArrowDownTrayIcon className="link-icon" />}
+      {!isStatic && <ExternalLinkIcon className="link-icon" />}
     </a>
   );
 };

@@ -1,5 +1,15 @@
 # @myst-theme/common
 
+## 1.1.2
+
+### Patch Changes
+
+- c3c427d: Add alt text for logo
+
+## 1.1.1
+
+## 1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

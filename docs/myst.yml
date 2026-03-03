@@ -17,6 +17,7 @@ project:
   toc:
     - file: index.md
     - file: ui.md
+    - file: anywidgets.md
     - file: permalinks.md
     - file: reference/index.md
       children:
@@ -42,3 +43,4 @@ site:
     folders: true
     logo: _static/myst-logo-light.svg
     logo_dark: _static/myst-logo-dark.svg
+    logo_alt: The logo for the MyST Markdown Project

@@ -63,4 +63,3 @@ For example:
 
 You can match an exact domain (e.g. `mystmd.org`) or use a wildcard to match a single subdomain level. Matches will only be for that subdomain level, not deeper ones, and will not match the root domain (e.g. `*.mystmd.org` matches `docs.mystmd.org` but not `a.b.mystmd.org` or `mystmd.org`).
 
-To match both a root domain and its subdomains, use brace expansion: `{,*.}mystmd.org` matches both `mystmd.org` and `docs.mystmd.org`.

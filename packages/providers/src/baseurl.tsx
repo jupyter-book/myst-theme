@@ -33,7 +33,7 @@ export function isExternalUrl(url?: string, internalDomain?: string) {
   }
 
   if (!internalDomain) {
-    return false;
+    return true;
   }
 
   // Build array of domain parts, where the leading

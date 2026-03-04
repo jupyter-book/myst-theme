@@ -18,10 +18,7 @@ import { MystAnyModel } from './models.js';
 export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
   // basic validation
   const esmModuleUrl = node.esm;
-  const isESMModuleUrlValid =
-    esmModuleUrl &&
-    typeof esmModuleUrl === 'string' &&
-    (esmModuleUrl.startsWith('https://') || esmModuleUrl.startsWith('http://'));
+  const isESMModuleUrlValid = esmModuleUrl && typeof esmModuleUrl === 'string';
   const validModel = node.model && typeof node.model === 'object';
 
   const ref = React.useRef<HTMLDivElement>(null);

@@ -1,3 +1,6 @@
+[[plugins]]
+  package = "./.netlify/build-cache"
+
 [build]
   environment = { PYTHON_VERSION = "3.12" }
   publish = "docs/_build/html"

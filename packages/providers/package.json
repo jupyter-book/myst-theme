@@ -27,7 +27,8 @@
   },
   "dependencies": {
     "@myst-theme/common": "^1.1.4",
-    "@myst-theme/search": "^1.1.4"
+    "@myst-theme/search": "^1.1.4",
+    "regexp.escape": "^2.0.1"
   },
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",
@@ -37,6 +38,5 @@
     "myst-frontmatter": "^1.8.1",
     "react": "^16.8 || ^17.0 || ^18.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0"
-  },
-  "devDependencies": {}
+  }
 }

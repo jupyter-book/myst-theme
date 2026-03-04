@@ -1,5 +1,7 @@
 # @myst-theme/common
 
+## 1.1.4
+
 ## 1.1.3
 
 ### Patch Changes

@@ -12,6 +12,7 @@ export const FooterLink = ({
 }: NavigationLink & { right?: boolean }) => {
   const baseurl = useBaseurl();
   const Link = useLinkProvider();
+  const linkText = short_title || title;
   return (
     <Link
       prefetch="intent"
@@ -20,6 +21,7 @@ export const FooterLink = ({
         { 'myst-footer-link-prev': right, 'myst-footer-link-next': !right },
       )}
       to={withBaseurl(url, baseurl)}
+      aria-label={`${right ? 'Previous: ' : 'Next: '}${linkText}`}
     >
       <div className="flex h-full align-middle">
         {right && (
@@ -33,7 +35,7 @@ export const FooterLink = ({
           <div className="myst-footer-link-group text-xs text-gray-500 dark:text-gray-400">
             {group || ' '}
           </div>
-          {short_title || title}
+          {linkText}
         </div>
         {!right && (
           <ArrowRightIcon

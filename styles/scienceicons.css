@@ -1,0 +1,15 @@
+@layer components {
+  /* Scienceicon output wrapper */
+  a.link > .scienceicon {
+    @apply align-middle;
+  }
+
+  .scienceicon > span.inline-flex {
+    @apply align-middle;
+  }
+
+  /* Hide appended external/download link icon when link content is a scienceicon */
+  a.link > .scienceicon + .link-icon {
+    display: none !important;
+  }
+}

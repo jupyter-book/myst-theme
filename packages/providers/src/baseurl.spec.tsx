@@ -64,5 +64,4 @@ describe('isExternalUrl', () => {
   it('does not allow cheeky regexes', () => {
     expect(isExternalUrl('https://docs.example.com/page', '[^@]+')).toBe(true);
   });
-
 });

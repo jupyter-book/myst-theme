@@ -46,6 +46,11 @@ describe('isExternalUrl', () => {
     expect(isExternalUrl('https://example.com', '*.example.com')).toBe(true);
   });
 
+  it('does not support trailing wildcard subdomain patterns', () => {
+    expect(isExternalUrl('https://docs.example.com/page', 'example.*')).toBe(true);
+    expect(isExternalUrl('https://example.com', 'example.*')).toBe(true);
+  });
+
   it('matches internal domains with port numbers', () => {
     expect(isExternalUrl('https://example.com:8080/page', 'example.com')).toBe(false);
     expect(isExternalUrl('http://example.com:3000', 'example.com')).toBe(false);
@@ -54,5 +59,9 @@ describe('isExternalUrl', () => {
   it('returns false for undefined or empty url', () => {
     expect(isExternalUrl(undefined)).toBe(false);
     expect(isExternalUrl('')).toBe(false);
+  });
+
+  it('does not allow cheeky regexes', () => {
+    expect(isExternalUrl('https://docs.example.com/page', '[^@]+')).toBe(true);
   });
 });

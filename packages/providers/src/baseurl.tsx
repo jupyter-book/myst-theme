@@ -21,14 +21,15 @@ export function useBaseurl() {
   return data?.baseurl;
 }
 
-const URL_LIKE_REGEX = /^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/\/)/;
+// An "external-like" URL if it has a URL scheme (e.g., https:, mailto:) or is protocol-relative (//host).
+const EXTERNAL_URL_LIKE_REGEX = /^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/\/)/;
 
 /**
  * Check if a URL is external. Optionally pass an internal domain pattern
  * (e.g. "example.com") to treat matching URLs as internal.
  */
 export function isExternalUrl(url?: string, internalDomain?: string) {
-  if (!URL_LIKE_REGEX.test(url || '')) {
+  if (!EXTERNAL_URL_LIKE_REGEX.test(url || '')) {
     return false;
   }
 

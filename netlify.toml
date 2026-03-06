@@ -11,12 +11,12 @@
     bun install && \
     bun run build && \
     bun link && \
+    ln -sf $HOME/.bun/bin/myst /usr/local/bin/myst && \
     cd - && \
     # Build myst-theme
     bun install && \
     bun run build && \
     # Install Python requirements and build docs
-    export PATH="$HOME/.bun/bin:$PATH" && \
     pip install uv && \
     python -m uv pip install -r docs/requirements.txt --system && \
     make build-docs

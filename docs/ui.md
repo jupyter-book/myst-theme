@@ -1,6 +1,6 @@
 # User Interface Components
 
-This page documents site-level UI components that appear on every page.  use the same configuration pattern through `site.parts` or `project.parts` in `myst.yml`.
+This page documents site-level UI components that appear on every page. use the same configuration pattern through `site.parts` or `project.parts` in `myst.yml`.
 
 ## Configuration via `parts`
 

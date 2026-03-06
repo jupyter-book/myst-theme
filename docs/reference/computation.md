@@ -5,6 +5,7 @@ jupyter:
     language: python
     name: python3
 ---
+
 # Computation and notebooks
 
 This page contains example content for previewing or demonstrating computational content and notebooks, as well as Thebe integration.

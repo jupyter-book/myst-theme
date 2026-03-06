@@ -4,7 +4,6 @@ title: Structure
 
 # Page Structure
 
-
 ## Centered Content
 
 :::{div}
@@ -13,28 +12,29 @@ title: Structure
 This content is centered using a div with text-center class.
 :::
 
-
 ## Multiple Columns
 
 ::::{grid} 2
 
 :::{grid-item}
+
 ### Left Column
 
 Content in the left column with its own heading and structure.
 
 - Point 1
 - Point 2
-:::
+  :::
 
 :::{grid-item}
+
 ### Right Column
 
 Content in the right column with separate structure.
 
 - Point A
 - Point B
-:::
+  :::
 
 ::::
 

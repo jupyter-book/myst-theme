@@ -4,13 +4,11 @@ title: Images & Figures
 
 # Images & Figures
 
-
 ## Basic Image
 
 Here's an image in block form:
 
 ![MyST Logo](../_static/myst-logo-light.svg)
-
 
 ## Inline Images
 
@@ -46,16 +44,16 @@ Images in tables are currently rendered at full size, even when inline with text
 See [#761](https://github.com/jupyter-book/myst-theme/issues/761) for tracking.
 :::
 
-| Description | Inline image |
-| ----------- | ------------ |
+| Description                                                         | Inline image                 |
+| ------------------------------------------------------------------- | ---------------------------- |
 | Text before ![MyST Logo](../_static/myst-logo-light.svg) text after | Works inside table cells too |
 
 ## Standalone images in tables
 
 Images alone in table cells (like contributor cards) should display at their natural size:
 
-| Logo 1 | Logo 2 | Logo 3 |
-| :----: | :----: | :----: |
+|                 Logo 1                  |                 Logo 2                 |                 Logo 3                  |
+| :-------------------------------------: | :------------------------------------: | :-------------------------------------: |
 | ![MyST](../_static/myst-logo-light.svg) | ![MyST](../_static/myst-logo-dark.svg) | ![MyST](../_static/myst-logo-light.svg) |
 
 ## Inline in definition lists
@@ -67,22 +65,31 @@ Term with logo
 
 ::::{grid} 3
 :::{grid-item}
+
 ```{image} ../_static/myst-logo-light.svg
+
 ```
+
 :::
 :::{grid-item}
+
 ```{image} ../_static/myst-logo-light.svg
+
 ```
+
 :::
 :::{grid-item}
+
 ```{image} ../_static/myst-logo-light.svg
+
 ```
+
 :::
 ::::
 
 ## Figure with Caption
 
-:::{figure} ../_static/myst-logo-light.svg
+:::{figure} ../\_static/myst-logo-light.svg
 :name: fig-example
 :width: 300px
 
@@ -93,7 +100,7 @@ Reference: {numref}`fig-example`
 
 ## Figure Alignment
 
-:::{figure} ../_static/myst-logo-light.svg
+:::{figure} ../\_static/myst-logo-light.svg
 :width: 200px
 :align: center
 
@@ -104,13 +111,13 @@ Centered figure.
 
 ::::{grid} 2
 
-:::{figure} ../_static/myst-logo-light.svg
+:::{figure} ../\_static/myst-logo-light.svg
 :width: 100%
 
 Light theme
 :::
 
-:::{figure} ../_static/myst-logo-dark.svg
+:::{figure} ../\_static/myst-logo-dark.svg
 :width: 100%
 
 Dark theme

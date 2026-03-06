@@ -1,4 +1,3 @@
-
 # Add documentation
 
 We have a small demo documentation site in `docs/` to provide guidance for how to use and develop the MyST react themes.

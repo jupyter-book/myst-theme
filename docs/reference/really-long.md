@@ -51,7 +51,7 @@ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatib
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
 
 | Column 1 | Column 2 | Column 3 |
-|----------|----------|----------|
+| -------- | -------- | -------- |
 | Data A   | Data B   | Data C   |
 | Data D   | Data E   | Data F   |
 | Data G   | Data H   | Data I   |
@@ -105,7 +105,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor i
 ```javascript
 function longDocumentExample() {
   // Testing code highlighting in extended content
-  const message = "Hello from a long document!";
+  const message = 'Hello from a long document!';
   console.log(message);
   return message;
 }

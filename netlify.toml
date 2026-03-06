@@ -8,9 +8,9 @@
     # Clone and build mystmd from main branch
     git clone --depth 1 https://github.com/jupyter-book/mystmd.git /tmp/mystmd && \
     cd /tmp/mystmd && \
-    bun install && \
-    bun run build && \
-    bun run link && \
+    npm install && \
+    npm run build && \
+    npm run link && \
     cd - && \
     # Build myst-theme
     bun install && \

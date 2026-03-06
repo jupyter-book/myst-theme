@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
-    "@myst-theme/providers": "*",
+    "@myst-theme/providers": "^1.1.4",
     "classnames": "^2.3.2",
     "js-yaml": "^4.1.0",
     "myst-common": "^1.8.1",

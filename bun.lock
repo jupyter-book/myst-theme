@@ -420,6 +420,7 @@
         "@myst-theme/jupyter": "^1.1.4",
         "@myst-theme/landing-pages": "^1.1.4",
         "@myst-theme/providers": "^1.1.4",
+        "@myst-theme/search": "^1.1.4",
         "@myst-theme/search-minisearch": "^1.1.4",
         "@myst-theme/site": "^1.1.4",
         "@myst-theme/styles": "^1.1.4",

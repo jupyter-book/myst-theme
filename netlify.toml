@@ -2,7 +2,7 @@
   package = "./.netlify/build-cache"
 
 [build]
-  environment = { PYTHON_VERSION = "3.12", BUN_VERSION = "latest" }
+  environment = { PYTHON_VERSION = "3.12", BUN_VERSION = "latest", BUN_INSTALL_CACHE_DIR = "/opt/build/.bun/install/cache" }
   publish = "docs/_build/html"
   command = """
     # Clone and build mystmd from main branch

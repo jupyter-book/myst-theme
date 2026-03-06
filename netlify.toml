@@ -2,7 +2,7 @@
   package = "./.netlify/build-cache"
 
 [build]
-  environment = { PYTHON_VERSION = "3.12" }
+  environment = { PYTHON_VERSION = "3.12", BUN_VERSION = "latest", BUN_INSTALL_CACHE_DIR = "/opt/build/.bun/install/cache" }
   publish = "docs/_build/html"
   command = """
     # Clone and build mystmd from main branch
@@ -13,8 +13,8 @@
     npm run link && \
     cd - && \
     # Build myst-theme
-    npm install && \
-    npm run build && \
+    bun install && \
+    bun run build && \
     # Install Python requirements and build docs
     pip install uv && \
     python -m uv pip install -r docs/requirements.txt --system && \

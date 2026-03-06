@@ -1,9 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob');
 
 if (process.argv.length < 3) {
-  console.error('Usage: node copyThebeAssets.cjs <output_dir>');
+  console.error('Usage: bun run copyThebeAssets.cjs <output_dir>');
   process.exit(1);
 }
 
@@ -16,29 +15,38 @@ if (!fs.existsSync(outputDir)) {
 
 console.log('Copying thebe assets...');
 
+// Resolve thebe-core and thebe-lite via @myst-theme/jupyter, where they are
+// direct dependencies. This avoids pinning transitive dep versions in themes.
+let jupyterDir;
 try {
-  require.resolve('thebe-core');
+  jupyterDir = path.dirname(require.resolve('@myst-theme/jupyter/package.json', { paths: [process.cwd()] }));
 } catch (err) {
-  console.error('thebe-core not found, please run `npm install` in the theme directory.');
+  console.error('@myst-theme/jupyter not found, please run `bun install` in the theme directory.');
   process.exit(1);
 }
 
-try {
-  require.resolve('thebe-lite');
-} catch (err) {
-  console.error('thebe-lite not found, please run `npm install` in the theme directory.');
-  process.exit(1);
-}
+const resolveFromJupyter = (pkg) => {
+  try {
+    return require.resolve(pkg, { paths: [jupyterDir] });
+  } catch (err) {
+    console.error(`${pkg} not found, please run \`bun install\` in the theme directory.`);
+    process.exit(1);
+  }
+};
 
 const pathToThebeCoreLibFolder = path.resolve(
-  path.dirname(require.resolve('thebe-core')),
+  path.dirname(resolveFromJupyter('thebe-core')),
   '..',
   'lib',
 );
-const thebeCoreFiles = glob.sync(path.join(pathToThebeCoreLibFolder, '*.js'));
+const thebeCoreFiles = fs.readdirSync(pathToThebeCoreLibFolder)
+  .filter((f) => f.endsWith('.js'))
+  .map((f) => path.join(pathToThebeCoreLibFolder, f));
 
-const pathToThebeLite = path.dirname(require.resolve('thebe-lite'));
-const thebeLiteFiles = glob.sync(path.join(pathToThebeLite, '*.js'));
+const pathToThebeLite = path.dirname(resolveFromJupyter('thebe-lite'));
+const thebeLiteFiles = fs.readdirSync(pathToThebeLite)
+  .filter((f) => f.endsWith('.js'))
+  .map((f) => path.join(pathToThebeLite, f));
 
 const assets = [
   ...thebeCoreFiles,

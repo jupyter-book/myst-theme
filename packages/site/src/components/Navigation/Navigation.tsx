@@ -91,13 +91,18 @@ export const ConfigurablePrimaryNavigation = ({
   return (
     <>
       {open && !mobileOnly && headings && (
+        // Darkened backdrop behind the open sidebar on mobile.
         <div
-          className="myst-navigation-overlay fixed inset-0 z-30 bg-black opacity-50"
+          // It follows the same top-offset rules as the sidebar: header offset on desktop,
+          // full-screen from top on mobile.
+          className="myst-navigation-overlay fixed inset-0 max-xl:z-40 xl:z-30 bg-black opacity-50 max-xl:!mt-0"
           style={{ marginTop: top }}
+          // Clicking the backdrop is the primary escape path for closing the sidebar.
           onClick={() => setOpen(false)}
         ></div>
       )}
       <PrimarySidebar
+        // The actual sidebar panel is here; the overlay backdrop is above.
         sidebarRef={sidebarRef}
         nav={nav}
         headings={headings}

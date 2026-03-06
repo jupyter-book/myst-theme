@@ -20,7 +20,9 @@ Text before ![MyST Logo](../_static/myst-logo-light.svg) text after. This image 
 
 [![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
 
-Linked inline: [![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
+Linked inline images with a few kinds of whitespace:
+
+[![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)[![MyST Logo](../_static/myst-logo-light.svg)](https://google.com) [![MyST Logo](../_static/myst-logo-light.svg)](https://google.com) | [![MyST Logo](../_static/myst-logo-light.svg)](https://google.com)
 
 Linked in a card:
 

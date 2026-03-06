@@ -19,9 +19,17 @@ export function useBaseurl() {
   return data?.baseurl;
 }
 
-export function isExternalUrl(url?: string) {
-  // External if it has a URL scheme (e.g., https:, mailto:) or is protocol-relative (//host).
-  return /^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/\/)/.test(url || '');
+/**
+ * Check if a URL is external. Optionally pass an internal domain pattern
+ * (e.g. "example.com") to treat matching URLs as internal.
+ */
+export function isExternalUrl(url?: string, internalDomain?: string) {
+  if (!/^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/\/)/.test(url || '')) return false;
+  if (internalDomain) {
+    const escaped = internalDomain.trim().replace(/\./g, '\\.').replace(/\*/g, '[^/]+');
+    if (new RegExp(`^https?://${escaped}([:/?#]|$)`, 'i').test(url || '')) return false;
+  }
+  return true;
 }
 
 export function withBaseurl(url?: string, baseurl?: string) {

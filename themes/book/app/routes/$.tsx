@@ -4,7 +4,7 @@ import {
   type LinksFunction,
   type LoaderFunction,
 } from '@remix-run/node';
-import { getProject, isFlatSite, type PageLoader } from '@myst-theme/common';
+import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
   useOutlineHeight,
@@ -63,7 +63,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }
 export const links: LinksFunction = () => [KatexCSS];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const [first, ...rest] = new URL(request.url).pathname.slice(1).split('/');
+  const [first, ...rest] = parsePathname(new URL(request.url).pathname);
   const config = await getConfig();
   const project = getProject(config, first);
   const projectName = project?.slug === first ? first : undefined;

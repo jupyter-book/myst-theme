@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/providers",
-  "version": "1.1.0",
+  "version": "1.1.3",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -8,7 +8,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "license": "MIT",
   "repository": {
@@ -26,8 +26,8 @@
     "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
-    "@myst-theme/common": "^1.1.0",
-    "@myst-theme/search": "^1.1.0",
+    "@myst-theme/common": "^1.1.3",
+    "@myst-theme/search": "^1.1.3",
     "myst-spec-ext": "^1.8.1"
   },
   "peerDependencies": {

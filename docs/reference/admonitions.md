@@ -60,7 +60,6 @@ Admonitions can contain:
 def example():
     return "Hello!"
 ```
-
 :::
 
 ## Dropdowns

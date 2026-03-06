@@ -18,8 +18,8 @@ They are similar to Jupyter widgets, and many Jupyter widgets can leverage the M
 The following local widget shows off the main API that widgets use within MyST:
 
 ```{literalinclude} src/anywidget-counter.mjs
-
 ```
+
 
 ## Local widget via path
 
@@ -45,7 +45,6 @@ You can also provide an additional CSS stylesheet via `:css:` to override or enh
 The following loads a widget from the [`example-js-anywidget` repository](https://github.com/jupyter-book/example-js-anywidget):
 
 ```{anywidget} https://github.com/jupyter-book/example-js-anywidget/releases/latest/download/widget.mjs
-
 ```
 
 ## Security and best practices

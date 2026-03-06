@@ -56,6 +56,6 @@ Term 3
 
 ## With Formatting
 
-- Item with **bold** and _italic_
+- Item with **bold** and *italic*
 - Item with `code`
 - Item with [link](https://mystmd.org)

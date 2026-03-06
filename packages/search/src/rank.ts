@@ -198,14 +198,13 @@ function matchedExactWords(result: SearchResult) {
   const allMatches = queries.flatMap(
     // For each query (foo bar baz -> foo, then bar, then baz)
     (query: Query) =>
-      Object.entries(query.matches)
-        .flatMap(
-          // For each (match, matched fields) pair in the query matches
-          ([match, fields]) => {
-            const pattern = buildRegExpToken(match);
-            return (fields as string[]).flatMap(
-              // For each matched field
-              (field: string) => {
+      Object.entries(query.matches).flatMap(
+        // For each (match, matched fields) pair in the query matches
+        ([match, fields]) => {
+          const pattern = buildRegExpToken(match);
+          return (fields as string[]).flatMap(
+            // For each matched field
+            (field: string) => {
                 // Retrieve corpus and test for pattern
                 const value = extractField(result, field);
                 return Array.from(value.matchAll(pattern)).map((m) => (m ? query.term : undefined));

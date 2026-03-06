@@ -121,19 +121,13 @@ export async function getMystSearchJson(): Promise<MystSearchIndex | null> {
   return await response.json();
 }
 
-export async function getFavicon(): Promise<{
-  contentType: string | null;
-  buffer: ArrayBuffer;
-} | null> {
+export async function getFavicon(): Promise<{ contentType: string | null; buffer: ArrayBuffer } | null> {
   // We are always fetching this at run time, so we don't want the rewritten links
   const config = await getConfig({ rewriteStaticFolder: false });
   const url = config.options?.favicon || 'https://mystmd.org/favicon.ico';
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
-  return {
-    contentType: response.headers.get('Content-Type'),
-    buffer: await response.arrayBuffer(),
-  };
+  return { contentType: response.headers.get('Content-Type'), buffer: await response.arrayBuffer() };
 }
 
 export async function getCustomStyleSheet(): Promise<string | undefined> {

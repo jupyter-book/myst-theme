@@ -21,6 +21,8 @@ jobs:
       - run: bun install
       - run: bun run lint:format
       - run: bun run lint
+      - name: Ensure changeset version is correct (does not include private packages, etc.)
+        run: bun run version
   test:
     runs-on: ubuntu-latest
     steps:

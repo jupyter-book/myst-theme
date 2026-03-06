@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob');
 
 if (process.argv.length < 3) {
   console.error('Usage: bun run copyThebeAssets.cjs <output_dir>');
@@ -35,10 +34,14 @@ const pathToThebeCoreLibFolder = path.resolve(
   '..',
   'lib',
 );
-const thebeCoreFiles = glob.sync(path.join(pathToThebeCoreLibFolder, '*.js'));
+const thebeCoreFiles = fs.readdirSync(pathToThebeCoreLibFolder)
+  .filter((f) => f.endsWith('.js'))
+  .map((f) => path.join(pathToThebeCoreLibFolder, f));
 
 const pathToThebeLite = path.dirname(require.resolve('thebe-lite'));
-const thebeLiteFiles = glob.sync(path.join(pathToThebeLite, '*.js'));
+const thebeLiteFiles = fs.readdirSync(pathToThebeLite)
+  .filter((f) => f.endsWith('.js'))
+  .map((f) => path.join(pathToThebeLite, f));
 
 const assets = [
   ...thebeCoreFiles,

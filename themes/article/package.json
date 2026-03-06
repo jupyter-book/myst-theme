@@ -35,6 +35,7 @@
     "myst-migrate": "^1.7.1",
     "myst-spec-ext": "^1.8.1",
     "node-fetch": "^2.6.11",
+    "thebe-core": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

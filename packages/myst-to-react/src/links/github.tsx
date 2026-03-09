@@ -251,12 +251,9 @@ function GithubIssuePreview({
           {issueData.labels?.map((label: any) => (
             <span
               key={label.id}
-              className={classNames(
-                'text-xs inline-flex items-center px-2 py-0.5 rounded-full',
-                {
-                  'text-white': useWhiteTextColor(label.color),
-                },
-              )}
+              className={classNames('text-xs inline-flex items-center px-2 py-0.5 rounded-full', {
+                'text-white': useWhiteTextColor(label.color),
+              })}
               style={{ backgroundColor: `#${label.color}` }}
             >
               {label.name}

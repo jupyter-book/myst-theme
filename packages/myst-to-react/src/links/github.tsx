@@ -247,12 +247,12 @@ function GithubIssuePreview({
       </div>
       <p className="text-md max-h-[4rem] overflow-hidden">{issueData.body}</p>
       {issueData.labels?.length > 0 && (
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap gap-1">
           {issueData.labels?.map((label: any) => (
             <span
               key={label.id}
               className={classNames(
-                'mr-1 text-xs inline-flex items-center px-2 py-0.5 rounded-full',
+                'text-xs inline-flex items-center px-2 py-0.5 rounded-full',
                 {
                   'text-white': useWhiteTextColor(label.color),
                 },

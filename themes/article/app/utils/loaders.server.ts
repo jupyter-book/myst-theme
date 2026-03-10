@@ -28,7 +28,7 @@ export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest
   return updateSiteManifestStaticLinksInplace(data, (url) => updateLink(url, opts));
 }
 
-function updateLink(
+export function updateLink(
   url: string,
   { rewriteStaticFolder = process.env.MODE === 'static' }: LinkRewriteOptions = {},
 ) {
@@ -44,6 +44,7 @@ function updateLink(
   }
   return `${CONTENT_CDN}${url}`;
 }
+
 async function getStaticContent(project?: string, slug?: string): Promise<PageLoader | null> {
   if (!slug) return null;
   const projectSlug = project ? `${project}/` : '';

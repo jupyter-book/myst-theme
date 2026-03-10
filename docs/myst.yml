@@ -8,6 +8,10 @@ project:
   # keywords: []
   # authors: []
   github: https://github.com/jupyter-book/myst-theme
+  error_rules:
+    - rule: link-resolves
+      keys:
+        - 'https://github.com/**'
   jupyter: true
   parts:
     banner: |

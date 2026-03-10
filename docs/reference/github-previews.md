@@ -2,6 +2,8 @@
 
 Hover each link below to preview the GitHub hover card and verify the state icon and color.
 
+## Issue statuses
+
 | State | Example |
 | --- | --- |
 | Open issue | https://github.com/jupyter-book/test-repo/issues/1 |
@@ -10,3 +12,7 @@ Hover each link below to preview the GitHub hover card and verify the state icon
 | Open PR | https://github.com/jupyter-book/test-repo/pull/4 |
 | Merged PR | https://github.com/jupyter-book/test-repo/pull/5 |
 | Closed PR (not merged) | https://github.com/jupyter-book/test-repo/pull/6 |
+
+## Many badges
+
+This issue has many badges: https://github.com/cncf/toc/issues/1538

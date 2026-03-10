@@ -14,6 +14,7 @@ import {
 import type { Heading } from '@myst-theme/common';
 import { Toc } from './TableOfContentsItems.js';
 import { ExternalOrInternalLink } from './Link.js';
+import { SidebarWidget } from './SidebarWidget.js';
 import type { SiteManifest, SiteNavItem } from 'myst-config';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
@@ -163,6 +164,7 @@ export const PrimarySidebar = ({
   const top = useThemeTop();
   const { bannerState } = useBannerState();
   const grid = useGridSystemProvider();
+  const baseurl = useBaseurl();
   const footerRef = useRef<HTMLDivElement>(null);
   const [open] = useNavOpen();
   const config = useSiteManifest();
@@ -211,6 +213,9 @@ export const PrimarySidebar = ({
         )}
       >
         <div className="myst-primary-sidebar-nav flex-grow py-6 overflow-y-auto primary-scrollbar">
+          {config.options?.sidebar_mount_js && (
+            <SidebarWidget scriptUrl={config.options.sidebar_mount_js} baseurl={baseurl} />
+          )}
           {nav && (
             <nav
               aria-label="Navigation"

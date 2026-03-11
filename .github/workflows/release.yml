@@ -24,7 +24,7 @@ jobs:
           node-version: 24.x
       - name: Ensure npm 11.5.1+ for trusted publishing
         run: npm install -g npm@latest
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - run: npm run test
       # Changesets action will set published=true if it does publish

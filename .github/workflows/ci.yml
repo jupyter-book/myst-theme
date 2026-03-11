@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20.x
-      - run: npm install
+      - run: npm ci
       - run: npm run lint:format
       - run: npm run lint
       - name: Ensure changeset version is correct (does not include private packages, etc.)
@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20.x
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - run: npm run compile # check the types of the site and themes
       - run: npm run test

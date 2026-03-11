@@ -1,5 +1,20 @@
 # @myst-theme/site
 
+## 1.1.5
+
+### Patch Changes
+
+- f5e7528: Add accessible labels to footer links
+- Updated dependencies [f908854]
+- Updated dependencies [f8ef1ef]
+  - @myst-theme/providers@1.1.5
+  - myst-to-react@1.1.5
+  - @myst-theme/frontmatter@1.1.5
+  - @myst-theme/diagrams@1.1.5
+  - @myst-theme/common@1.1.5
+  - @myst-theme/search@1.1.5
+  - myst-demo@1.1.5
+
 ## 1.1.4
 
 ### Patch Changes

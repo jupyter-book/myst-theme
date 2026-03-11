@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 1.1.5
+
+### Patch Changes
+
+- f8ef1ef: Add both vert and horiz gap for badges
+- Updated dependencies [f908854]
+  - @myst-theme/providers@1.1.5
+
 ## 1.1.4
 
 ### Patch Changes

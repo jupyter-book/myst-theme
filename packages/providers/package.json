@@ -16,7 +16,7 @@
     "url": "git+https://github.com/jupyter-book/myst-theme.git"
   },
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rm -rf dist",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "lint": "eslint \"src/**/!(*.spec).ts\" -c ./.eslintrc.cjs",
@@ -28,6 +28,7 @@
   "dependencies": {
     "@myst-theme/common": "^1.1.4",
     "@myst-theme/search": "^1.1.4",
+    "myst-spec-ext": "^1.8.1",
     "regexp.escape": "^2.0.1"
   },
   "peerDependencies": {

@@ -39,7 +39,7 @@ This package provides two main entry points for different use cases:
 ### Installation
 
 ```bash
-npm install @myst-theme/anywidget
+bun add @myst-theme/anywidget
 ```
 
 ### Adding Renderers to a Theme

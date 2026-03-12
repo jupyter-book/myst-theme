@@ -1,0 +1,3 @@
+# MyST markdown uses directives and syntax prettier doesn't understand,
+# causing it to escape underscores in paths and reformat tables incorrectly.
+docs/**/*.md

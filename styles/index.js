@@ -19,6 +19,30 @@ const content = [
 ];
 
 const themeExtensions = {
+  colors: {
+    'myst-link': 'var(--myst-color-link, #1d4ed8)',
+    'myst-link-hover': 'var(--myst-color-link-hover, #3b82f6)',
+    'myst-link-dark': 'var(--myst-color-link-dark, #60a5fa)',
+    'myst-link-hover-dark': 'var(--myst-color-link-hover-dark, #93c5fd)',
+    'myst-active': 'var(--myst-color-active, #2563eb)',
+    'myst-active-bg': 'var(--myst-color-active-bg, rgba(147, 197, 253, 0.3))',
+    'myst-active-surface': 'var(--myst-color-active-surface, #eff6ff)',
+    'myst-active-dark': 'var(--myst-color-active-dark, #bfdbfe)',
+    'myst-primary': 'var(--myst-color-primary, #3b82f6)',
+    'myst-primary-hover': 'var(--myst-color-primary-hover, #1d4ed8)',
+    'myst-focus-ring': 'var(--myst-color-focus-ring, #3b82f6)',
+    'myst-focus-outline': 'var(--myst-color-focus-outline, #bfdbfe)',
+    'myst-heading': 'var(--myst-color-heading, #1e3a8a)',
+    'myst-heading-dark': 'var(--myst-color-heading-dark, #dbeafe)',
+    'myst-surface': 'var(--myst-color-surface, #eff6ff)',
+    'myst-surface-border': 'var(--myst-color-surface-border, #bfdbfe)',
+    'myst-surface-border-dark': 'var(--myst-color-surface-border-dark, #1e40af)',
+    'myst-surface-text': 'var(--myst-color-surface-text, #1e3a8a)',
+    'myst-surface-dark': 'var(--myst-color-surface-dark, #1e3a8a)',
+    'myst-banner-bg': 'var(--myst-color-banner-bg, #eff6ff)',
+    'myst-banner-bg-dark': 'var(--myst-color-banner-bg-dark, #1e3a8a4d)',
+    'myst-surface-text-dark': 'var(--myst-color-surface-text-dark, #eff6ff)',
+  },
   gridTemplateColumns: {
     'article-sm':
       '[screen-start screen-inset-start] 0.5rem [page-start page-inset-start body-outset-start body-start gutter-left-start body-inset-start middle-start] 1fr 1fr [gutter-left-end] 1fr 1fr [gutter-right-start] 1fr 1fr [middle-end body-inset-end body-end gutter-right-end body-outset-end page-inset-end page-end] 0.5rem [screen-inset-end screen-end]',
@@ -121,6 +145,14 @@ const themeExtensions = {
         'h5, h6': {
           color: 'var(--tw-prose-headings)',
           fontWeight: '500',
+        },
+        a: {
+          color: 'var(--myst-color-link, #1d4ed8)',
+          textDecorationColor: 'var(--myst-color-link-dark, #60a5fa)',
+          '&:hover': {
+            color: 'var(--myst-color-link-hover, #3b82f6)',
+            textDecorationColor: 'var(--myst-color-link-hover, #3b82f6)',
+          },
         },
       },
     },

@@ -24,7 +24,7 @@ build-theme:
 	sed -i.bak "s/template/$(THEME)/g" .deploy/$(THEME)/package.json
 	sed -i.bak "s/VERSION/$(VERSION)/g" .deploy/$(THEME)/package.json
 	rm .deploy/$(THEME)/package.json.bak
-	cd .deploy/$(THEME) && bun install
+	cd .deploy/$(THEME) && npm install
 
 build-article:
 	make THEME=article build-theme

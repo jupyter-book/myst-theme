@@ -73,11 +73,11 @@ options:
     id: style
     description: Local path to a CSS file
 build:
-  install: bun install
-  start: bun run start
+  install: npm ci --ignore-scripts
+  start: npm run start
 files:
   - server.js
   - package.json
-  - bun.lock
+  - package-lock.json
   - public/**/*
   - build/**/*

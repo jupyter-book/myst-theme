@@ -1,15 +1,15 @@
 diff --git a/css/widgets-base.css b/css/widgets-base.css
-index 6a16589..ba9d1bf 100644
+index 6a16589ddc20efe671ac608d5869e6d5d1dff1dd..ba9d1bfb5960e07202bd99e33336769509e47f0e 100644
 --- a/css/widgets-base.css
 +++ b/css/widgets-base.css
 @@ -8,8 +8,8 @@
   * have been defined.
   */
-
+ 
 -@import './lumino.css';
 -@import './nouislider.css';
 +/* @import './lumino.css'; */
 +/* @import './nouislider.css'; */
-
+ 
  :root {
    --jp-widgets-color: var(--jp-content-font-color1);

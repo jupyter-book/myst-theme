@@ -61,6 +61,7 @@
     "*.{js,jsx,ts,tsx,md,html,css,json}": "prettier --write"
   },
   "patchedDependencies": {
-    "@jupyter-widgets/controls@5.0.12": "patches/@jupyter-widgets%2Fcontrols@5.0.12.patch"
+    "@jupyter-widgets/controls@5.0.12": "patches/@jupyter-widgets%2Fcontrols@5.0.12.patch",
+    "@remix-run/dev@1.17.1": "patches/@remix-run%2Fdev@1.17.1.patch"
   }
 }

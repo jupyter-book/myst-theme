@@ -29,8 +29,6 @@
     "@curvenote/ansi-to-react": "^7.0.0",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
-    "@jupyterlab/nbformat": "^4.0.0",
-    "@jupyterlab/rendermime": "^4.0.0",
     "@myst-theme/common": "^1.1.0",
     "@myst-theme/providers": "^1.1.4",
     "@scienceicons/react": "^0.0.13",
@@ -53,6 +51,8 @@
     "unist-util-select": "^4.0.3"
   },
   "devDependencies": {
+    "@jupyterlab/nbformat": "^4.0.0",
+    "@jupyterlab/rendermime": "^4.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "vitest": "^1.0.0"

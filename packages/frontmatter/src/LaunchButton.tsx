@@ -431,7 +431,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
             Enter a JupyterHub or BinderHub URL, e.g.{' '}
             <a
               href="https://mybinder.org"
-              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              className="font-medium text-myst-active hover:underline"
             >
               https://mybinder.org
             </a>

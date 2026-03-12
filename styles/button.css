@@ -6,9 +6,9 @@
   cite.button a {
     @apply px-4 py-2 font-bold rounded no-underline cursor-pointer;
     @apply text-white dark:text-white hover:text-white dark:hover:text-white;
-    @apply bg-blue-500 whitespace-nowrap;
+    @apply bg-myst-primary whitespace-nowrap;
     &:hover {
-      @apply bg-blue-700;
+      @apply bg-myst-primary-hover;
     }
   }
 }

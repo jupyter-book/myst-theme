@@ -55,11 +55,11 @@ const Headings = ({ headings, activeId }: Props) => (
     {headings.map((heading) => (
       <li
         key={heading.id}
-        className={classNames('myst-outline-item border-l-2 hover:border-l-blue-500', {
-          'text-blue-600': heading.id === activeId,
+        className={classNames('myst-outline-item border-l-2 hover:border-l-myst-active', {
+          'text-myst-active': heading.id === activeId,
           'border-l-gray-300 dark:border-l-gray-50': heading.id !== activeId,
-          'border-l-blue-500': heading.id === activeId,
-          'bg-blue-50 dark:bg-slate-800': heading.id === activeId,
+          'border-l-myst-active': heading.id === activeId,
+          'bg-myst-active-surface dark:bg-slate-800': heading.id === activeId,
           'myst-outline-item-active': heading.id === activeId,
         })}
       >
@@ -67,7 +67,7 @@ const Headings = ({ headings, activeId }: Props) => (
           className={classNames('block p-1', {
             'text-slate-900 dark:text-slate-50': heading.level < 2 && heading.id !== activeId,
             'text-slate-500 dark:text-slate-300': heading.level >= 2 && heading.id !== activeId,
-            'text-blue-600 dark:text-white font-bold': heading.id === activeId,
+            'text-myst-active dark:text-white font-bold': heading.id === activeId,
             'pr-2': heading.id !== activeId, // Allows for bold to change length
             'pl-2': heading.level === 1,
             'pl-4': heading.level === 2,
@@ -471,7 +471,7 @@ export const DocumentOutline = ({
           {title}
           <Collapsible.Trigger asChild>
             <button
-              className="myst-outline-collapsible self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+              className="myst-outline-collapsible self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-myst-focus-outline outline-2"
               aria-label="Open Contents"
             >
               <ChevronRightIcon
@@ -512,8 +512,8 @@ export function SupportingDocuments() {
                   to={withBaseurl(`/${slugToUrl(p.slug)}#main`, baseurl)}
                   prefetch="intent"
                   className={({ isActive }) =>
-                    classNames('no-underline flex self-center hover:text-blue-700', {
-                      'text-blue-600': isActive,
+                    classNames('no-underline flex self-center hover:text-myst-link', {
+                      'text-myst-active': isActive,
                     })
                   }
                 >

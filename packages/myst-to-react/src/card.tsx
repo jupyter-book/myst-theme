@@ -119,7 +119,7 @@ export const CardRenderer: NodeRenderer<CardSpec> = ({ node, className }) => {
           sharedStyle,
           'text-inherit hover:text-inherit',
           'block font-normal no-underline hover:no-underline cursor-pointer group',
-          'hover:border-blue-500 dark:hover:border-blue-400',
+          'hover:border-myst-active dark:hover:border-myst-active-dark',
           className,
         )}
       >

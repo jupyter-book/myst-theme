@@ -50,14 +50,14 @@ export function Tooltip({
       card={
         <div
           className={classNames(
-            'p-1 text-xs text-white bg-blue-900 dark:bg-white dark:text-black',
+            'p-1 text-xs text-white bg-myst-surface-dark dark:bg-white dark:text-black',
             className,
           )}
         >
           {title}
         </div>
       }
-      arrowClass="fill-blue-900 dark:fill-white"
+      arrowClass="fill-myst-surface-dark dark:fill-white"
     >
       {children}
     </HoverPopover>

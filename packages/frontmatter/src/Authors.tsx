@@ -55,7 +55,7 @@ export function Author({
           href={`mailto:${author.email}`}
           title={`${author.name} <${author.email}>`}
           icon={EmailIcon}
-          className="myst-fm-author-icon-email hover:text-blue-400"
+          className="myst-fm-author-icon-email hover:text-myst-link-dark"
         />
       )}
       {author.orcid && (

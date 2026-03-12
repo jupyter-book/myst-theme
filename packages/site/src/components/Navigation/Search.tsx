@@ -82,7 +82,7 @@ function MarkedText({
   const renderToken = (token: string) =>
     pattern.test(token) ? (
       <>
-        <mark className="text-blue-600 bg-inherit dark:text-blue-400 group-aria-selected:text-white group-aria-selected:underline">
+        <mark className="text-myst-active bg-inherit dark:text-myst-active-dark group-aria-selected:text-white group-aria-selected:underline">
           {token}
         </mark>
       </>
@@ -260,7 +260,7 @@ function SearchResultItem({
 
   return (
     <Link
-      className="block px-1 py-2 text-gray-700 rounded shadow-md dark:text-white group-aria-selected:bg-blue-600 group-aria-selected:text-white dark:shadow-none dark:bg-stone-800"
+      className="block px-1 py-2 text-gray-700 rounded shadow-md dark:text-white group-aria-selected:bg-myst-active group-aria-selected:text-white dark:shadow-none dark:bg-stone-800"
       to={withBaseurl(url, baseurl)}
       // Close the main search on click
       onClick={closeSearch}
@@ -519,8 +519,8 @@ function SearchForm({
               'myst-search-input block flex-grow p-2 ps-10 placeholder-gray-400',
               'border border-gray-300 dark:border-gray-600',
               'rounded-lg bg-gray-50 dark:bg-gray-700',
-              'focus:ring-blue-500 dark:focus:ring-blue-500',
-              'focus:border-blue-500 dark:focus:border-blue-500',
+              'focus:ring-myst-focus-ring dark:focus:ring-myst-focus-ring',
+              'focus:border-myst-focus-ring dark:focus:border-myst-focus-ring',
               'dark:placeholder-gray-400',
               { 'border-red-500': !enabled },
             )}
@@ -567,10 +567,10 @@ const SearchPlaceholderButton = forwardRef<
         'border border-gray-300 dark:border-gray-600',
         'rounded-lg bg-gray-50 dark:bg-gray-700',
         {
-          'myst-search-bar-disabled hover:ring-blue-500': !disabled,
-          'dark:hover:ring-blue-500': !disabled,
-          'hover:border-blue-500': !disabled,
-          'dark:hover:border-blue-500': !disabled,
+          'myst-search-bar-disabled hover:ring-myst-focus-ring': !disabled,
+          'dark:hover:ring-myst-focus-ring': !disabled,
+          'hover:border-myst-focus-ring': !disabled,
+          'dark:hover:border-myst-focus-ring': !disabled,
         },
       )}
       disabled={!!disabled}

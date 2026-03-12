@@ -33,7 +33,7 @@ export function Bibliography({
         {!!hideLongBibliography && filtered.length > hideLongBibliography && (
           <button
             onClick={() => setHidden(!hidden)}
-            className="myst-bibliography-toggle float-right p-1 px-2 text-xs border rounded hover:border-blue-500 dark:hover:border-blue-400"
+            className="myst-bibliography-toggle float-right p-1 px-2 text-xs border rounded hover:border-myst-active dark:hover:border-myst-active-dark"
           >
             {hidden ? 'Show All' : 'Collapse'}
           </button>
@@ -65,7 +65,7 @@ export function Bibliography({
             <li className="text-center list-none">
               <button
                 onClick={() => setHidden(!hidden)}
-                className="myst-bibliography-toggle p-2 border rounded hover:border-blue-500 dark:hover:border-blue-400"
+                className="myst-bibliography-toggle p-2 border rounded hover:border-myst-active dark:hover:border-myst-active-dark"
               >
                 {hidden ? `Show all ${filtered.length} references` : 'Collapse references'}
               </button>

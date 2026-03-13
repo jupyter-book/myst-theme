@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, Bars3Icon as MenuIcon } from '@heroicons/react/24/solid';
 import type { SiteManifest, SiteNavItem } from 'myst-config';
+import type { GenericParent } from 'myst-common';
+import { MyST } from 'myst-to-react';
 import { ThemeButton } from './ThemeButton.js';
 import { Search } from './Search.js';
 import {
@@ -113,7 +115,15 @@ export function NavItems({ nav }: { nav?: SiteManifest['nav'] }) {
   );
 }
 
-export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?: boolean }) {
+export function TopNav({
+  hideToc,
+  hideSearch,
+  navbarEnd,
+}: {
+  hideToc?: boolean;
+  hideSearch?: boolean;
+  navbarEnd?: GenericParent;
+}) {
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
   const { title, nav, actions } = config ?? {};
@@ -152,8 +162,17 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
         <div className="flex items-center flex-grow w-auto">
           <NavItems nav={nav} />
           <div className="flex-grow block"></div>
+          {/* Search bar */}
           {!hideSearch && <Search />}
-          <ThemeButton />
+          {/* Light/Dark theme button */}
+          <ThemeButton className="w-10 h-10 ml-3" />
+          {/* Custom part at end of navbar */}
+          {navbarEnd && (
+            <div className="article myst-navbar-end hidden xl:flex items-center ml-3 [&>*]:m-0">
+              <MyST ast={navbarEnd} />
+            </div>
+          )}
+          {/* Mobile pop-up for page actions */}
           <div className="block sm:hidden">
             <ActionMenu actions={actions} />
           </div>

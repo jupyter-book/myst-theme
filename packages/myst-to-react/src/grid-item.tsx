@@ -25,7 +25,14 @@ const colSpanClassNames = [
 
 export const GridItemRenderer: NodeRenderer<GridItemSpec> = ({ node, className }) => {
   return (
-    <div className={classNames('myst-grid-item', colSpanClassNames[node.columns - 1], className, node.class)}>
+    <div
+      className={classNames(
+        'myst-grid-item',
+        colSpanClassNames[node.columns - 1],
+        className,
+        node.class,
+      )}
+    >
       <MyST ast={node.children} />
     </div>
   );

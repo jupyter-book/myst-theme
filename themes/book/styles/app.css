@@ -1,41 +1,6 @@
 @import '@myst-theme/styles';
 @import './grid-system.css';
 
-/* Hints for ease of override/future docs.
- * Default values (tailwind blue) are fallbacks for tailwind props,
- * so leaving these unset produces the "stock" look.
- *
- * :root {
- *   --myst-color-link:              #1d4ed8;
- *   --myst-color-link-hover:        #3b82f6;
- *   --myst-color-link-dark:         #60a5fa;
- *   --myst-color-link-hover-dark:   #93c5fd;
- *
- *   --myst-color-active:            #2563eb;
- *   --myst-color-active-bg:         rgba(147, 197, 253, 0.3);
- *   --myst-color-active-surface:    #eff6ff;
- *   --myst-color-active-dark:       #bfdbfe;
- *
- *   --myst-color-primary:           #3b82f6;
- *   --myst-color-primary-hover:     #1d4ed8;
- *
- *   --myst-color-focus-ring:        #3b82f6;
- *   --myst-color-focus-outline:     #bfdbfe;
- *
- *   --myst-color-heading:           #1e3a8a;
- *   --myst-color-heading-dark:      #dbeafe;
- *
- *   --myst-color-surface:           #eff6ff;
- *   --myst-color-surface-border:      #bfdbfe;
- *   --myst-color-surface-border-dark: #1e40af;
- *   --myst-color-surface-text:      #1e3a8a;
- *   --myst-color-surface-dark:      #1e3a8a;
- *   --myst-color-surface-text-dark: #eff6ff;
- *
- *   --myst-color-banner-bg:         #eff6ff;
- *   --myst-color-banner-bg-dark:    #1e3a8a4d;
- * }
- */
 
 #myst-no-css {
   --has-styling: 1;

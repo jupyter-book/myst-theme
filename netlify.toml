@@ -5,10 +5,15 @@
   environment = { PYTHON_VERSION = "3.12" }
   publish = "docs/_build/html"
   command = """
-    # Determine which mystmd branch to build against.
+    # Determine which mystmd branch to build against. By default, use `main`.
+    # You specify a different branch in the left-hand column of the PR:
+    # under Projects, expand the fields and fill out `mystmd-branch`.
+    #
     # For PR deploy previews, REVIEW_ID is set by Netlify to the PR number.
     # GITHUB_TOKEN must be set in Netlify env vars (read-only PAT, read:project scope)
-    # to query the project board. Falls back to "main" if unset or not a PR build.
+    # to query the project board (https://github.com/orgs/jupyter-book/projects/4).
+    #
+    # Falls back to `main` if unset or not a PR build.
     mystmd_branch=main
     if [ -n "$REVIEW_ID" ] && [ -n "$GITHUB_TOKEN" ]; then
       query='
@@ -28,6 +33,7 @@
           }
         }
       '
+      # Below, `argjson` (vs `arg`) is used because REVIEW_ID is a numerical value
       mystmd_branch=$(curl -sf \
         -H "Authorization: Bearer $GITHUB_TOKEN" \
         -H "Content-Type: application/json" \

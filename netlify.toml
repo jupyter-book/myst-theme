@@ -5,8 +5,49 @@
   environment = { PYTHON_VERSION = "3.12" }
   publish = "docs/_build/html"
   command = """
-    # Clone and build mystmd from main branch
-    git clone --depth 1 https://github.com/jupyter-book/mystmd.git /tmp/mystmd && \
+    # Determine which mystmd branch to build against.
+    # For PR deploy previews, REVIEW_ID is set by Netlify to the PR number.
+    # GITHUB_TOKEN must be set in Netlify env vars (read-only PAT, read:project scope)
+    # to query the project board. Falls back to "main" if unset or not a PR build.
+    mystmd_branch=main
+    if [ -n "$REVIEW_ID" ] && [ -n "$GITHUB_TOKEN" ]; then
+      query='
+        query($owner: String!, $repo: String!, $pr: Int!) {
+          repository(owner: $owner, name: $repo) {
+            pullRequest(number: $pr) {
+              projectItems(first: 10) {
+                nodes {
+                  project { number }
+                  fieldValueByName(name: "mystmd-branch") {
+                    ... on ProjectV2ItemFieldTextValue        { text }
+                    ... on ProjectV2ItemFieldSingleSelectValue { name }
+                  }
+                }
+              }
+            }
+          }
+        }
+      '
+      mystmd_branch=$(curl -sf \
+        -H "Authorization: Bearer $GITHUB_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "$(jq -cn \
+          --arg  owner "jupyter-book" \
+          --arg  repo  "myst-theme" \
+          --argjson pr  "$REVIEW_ID" \
+          --arg  query "$query" \
+          '{query: $query, variables: {owner: $owner, repo: $repo, pr: $pr}}')" \
+        https://api.github.com/graphql \
+        | jq -r '
+            .data.repository.pullRequest.projectItems.nodes[]
+            | select(.project.number == 4)
+            | .fieldValueByName
+            | .text // .name
+          ' | head -1) || true
+      mystmd_branch="${mystmd_branch:-main}"
+    fi &&
+    # Clone and build mystmd from the resolved branch
+    git clone --depth 1 --branch "$mystmd_branch" https://github.com/jupyter-book/mystmd.git /tmp/mystmd && \
     cd /tmp/mystmd && \
     npm install && \
     npm run build && \

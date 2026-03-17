@@ -14,7 +14,6 @@
     # to query the project board (https://github.com/orgs/jupyter-book/projects/4).
     #
     # Falls back to `main` if unset or not a PR build.
-    mystmd_branch=main
     if [ -n "$REVIEW_ID" ] && [ -n "$GITHUB_TOKEN" ]; then
       query='
         query($owner: String!, $repo: String!, $pr: Int!) {
@@ -48,10 +47,11 @@
             .data.repository.pullRequest.projectItems.nodes[]
             | select(.project.number == 4)
             | .fieldValueByName
-            | .text // .name
+            | .text // .name // empty
           ' | head -1) || true
       mystmd_branch="${mystmd_branch:-main}"
     fi &&
+    echo "Building with mystmd from branch: $mystmd_branch" &&
     # Clone and build mystmd from the resolved branch
     git clone --depth 1 --branch "$mystmd_branch" https://github.com/jupyter-book/mystmd.git /tmp/mystmd && \
     cd /tmp/mystmd && \

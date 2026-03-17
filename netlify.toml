@@ -49,6 +49,17 @@
             | .fieldValueByName
             | .text // .name // empty
           ' | head -1) || true
+      echo $(curl -sf \
+        -H "Authorization: Bearer $GITHUB_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "$(jq -cn \
+          --arg  owner "jupyter-book" \
+          --arg  repo  "myst-theme" \
+          --argjson pr  "$REVIEW_ID" \
+          --arg  query "$query" \
+          '{query: $query, variables: {owner: $owner, repo: $repo, pr: $pr}}')" \
+        https://api.github.com/graphql)
+      echo $mystbd_branch
       mystmd_branch="${mystmd_branch:-main}"
     fi &&
     echo "Building with mystmd from branch: $mystmd_branch" &&

@@ -33,7 +33,7 @@
         }
       '
       # Below, `argjson` (vs `arg`) is used because REVIEW_ID is a numerical value
-      mystmd_branch=$(curl -sf \
+      response=$(curl -sf \
         -H "Authorization: Bearer $GITHUB_TOKEN" \
         -H "Content-Type: application/json" \
         -d "$(jq -cn \
@@ -42,24 +42,18 @@
           --argjson pr  "$REVIEW_ID" \
           --arg  query "$query" \
           '{query: $query, variables: {owner: $owner, repo: $repo, pr: $pr}}')" \
-        https://api.github.com/graphql \
-        | jq -r '
+        https://api.github.com/graphql) || true
+      if errors=$(echo "$response" | jq -r '.errors[]?.message // empty') && [ -n "$errors" ]; then
+        echo "Warning: GitHub API error querying mystmd-branch: $errors"
+        exit 1
+      else
+        mystmd_branch=$(echo "$response" | jq -r '
             .data.repository.pullRequest.projectItems.nodes[]
             | select(.project.number == 4)
             | .fieldValueByName
             | .text // .name // empty
-          ' | head -1) || true
-      echo $(curl -sf \
-        -H "Authorization: Bearer $GITHUB_TOKEN" \
-        -H "Content-Type: application/json" \
-        -d "$(jq -cn \
-          --arg  owner "jupyter-book" \
-          --arg  repo  "myst-theme" \
-          --argjson pr  "$REVIEW_ID" \
-          --arg  query "$query" \
-          '{query: $query, variables: {owner: $owner, repo: $repo, pr: $pr}}')" \
-        https://api.github.com/graphql)
-      echo $mystbd_branch
+          ' | head -1)
+      fi
       mystmd_branch="${mystmd_branch:-main}"
     fi &&
     echo "Building with mystmd from branch: $mystmd_branch" &&

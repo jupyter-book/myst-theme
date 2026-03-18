@@ -41,12 +41,33 @@ Content in the right column with separate structure.
 ::::
 
 ### Uneven columns
-::::{grid} 1 1 12 12
+:::::{grid} 1 1 12 12
 
-:::{grid-item}
+::::{grid-item}
 :columns: 4
-```{note}
+:::{note}
 On the left!
+:::
+::::
+::::{grid-item}
+:columns: 8
+:::{note}
+On the right!
+:::
+::::
+::::{grid-item}
+:columns: 8
+:::{note}
+On the left!
+:::
+::::
+::::{grid-item}
+:columns: 4
+:::{note}
+On the right!
+:::
+::::
+:::::
 ## Margins and Sidebars
 
 ### Margins

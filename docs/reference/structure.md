@@ -41,7 +41,7 @@ Content in the right column with separate structure.
 ::::
 
 ### Uneven columns
-::::{grid}
+::::{grid} 1 1 12 12
 
 :::{grid-item}
 :columns: 4

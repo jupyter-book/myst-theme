@@ -4,6 +4,9 @@ Query the `mystmd-branch` field from the `Attach mystmd build
 branch to myst-theme PRs` GitHub project board, and print the git repo
 URL and branch to clone.
 
+Project board: https://github.com/orgs/jupyter-book/projects/4
+
+
 Reads REVIEW_ID (PR number provided by Netlify) and GITHUB_TOKEN from
 the environment.
 

@@ -45,27 +45,8 @@ Content in the right column with separate structure.
 
 :::{grid-item}
 :columns: 4
+```{note}
 On the left!
-:::
-:::{grid-item}
-:columns: 8
-On the right!
-:::
-::::
-::::{grid} 1 1 12 12
-
-Flipped left/right widths:
-
-:::{grid-item}
-:columns: 8
-On the left!
-:::
-:::{grid-item}
-:columns: 4
-On the right!
-:::
-::::
-
 ## Margins and Sidebars
 
 ### Margins

@@ -6,7 +6,7 @@
   publish = "docs/_build/html"
   command = """
     # Determine which mystmd branch to build against. By default, use `main`.
-    # You specify a different branch in the left-hand column of the PR:
+    # You specify a different branch in the right-hand column of the PR UI:
     # under Projects, expand the fields and fill out `mystmd-branch`.
     #
     # For PR deploy previews, REVIEW_ID is set by Netlify to the PR number.

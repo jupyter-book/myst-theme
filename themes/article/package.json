@@ -16,12 +16,18 @@
     "start": "bun run build:css && remix dev"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
+    "@myst-theme/anywidget": "^1.1.4",
     "@myst-theme/common": "^1.1.4",
+    "@myst-theme/frontmatter": "^1.1.4",
     "@myst-theme/icons": "^1.1.4",
     "@myst-theme/jupyter": "^1.1.4",
     "@myst-theme/providers": "^1.1.4",
     "@myst-theme/site": "^1.1.4",
     "@myst-theme/styles": "^1.1.4",
+    "classnames": "^2.3.2",
+    "myst-spec-ext": "^1.8.1",
+    "myst-to-react": "^1.1.4",
     "@remix-run/node": "~1.17.0",
     "@remix-run/react": "~1.17.0",
     "@remix-run/vercel": "~1.17.0",

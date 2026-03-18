@@ -52,7 +52,7 @@ On the left!
 On the right!
 :::
 ::::
-::::{grid}
+::::{grid} 1 1 12 12
 
 Flipped left/right widths:
 

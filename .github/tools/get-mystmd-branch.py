@@ -6,7 +6,6 @@ URL and branch to clone.
 
 Project board: https://github.com/orgs/jupyter-book/projects/4
 
-
 Reads REVIEW_ID (PR number provided by Netlify) and GITHUB_TOKEN from
 the environment.
 

@@ -8,6 +8,10 @@ project:
   # keywords: []
   # authors: []
   github: https://github.com/jupyter-book/myst-theme
+  error_rules:
+    - rule: link-resolves
+      keys:
+        - 'https://github.com/**'
   jupyter: true
   parts:
     banner: |
@@ -18,6 +22,7 @@ project:
   toc:
     - file: index.md
     - file: ui.md
+    - file: anywidgets.md
     - file: permalinks.md
     - file: reference/index.md
       children:
@@ -44,3 +49,4 @@ site:
     logo: _static/myst-logo-light.svg
     logo_dark: _static/myst-logo-dark.svg
     logo_alt: The logo for the MyST Markdown Project
+    internal_domains: "mystmd.org"

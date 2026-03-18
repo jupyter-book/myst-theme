@@ -56,15 +56,15 @@
   .prose dd {
     @apply ml-8;
   }
-  /* Inline images (direct children of paragraphs, with or without links) */
+  /* Inline images (children of paragraphs, with or without links) */
   .article p > img,
-  .article p > a > img,
+  .article p > a img,
   .article dd > img,
-  .article dd > a > img,
+  .article dd > a img,
   .prose p > img,
-  .prose p > a > img,
+  .prose p > a img,
   .prose dd > img,
-  .prose dd > a > img {
+  .prose dd > a img {
     margin: 0;
     display: inline-block;
     max-height: 1.2em;

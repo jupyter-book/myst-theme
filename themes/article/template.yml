@@ -64,6 +64,11 @@ options:
   - type: boolean
     id: folders
     description: Respect nested folder structure in URL paths
+  - type: string
+    id: internal_domains
+    description: >-
+      A domain to treat as internal links (no external icon, opens in same tab).
+      Supports wildcard subdomains with *. Example: "jupyter.org" or "*.jupyter.org"
   - type: file
     id: style
     description: Local path to a CSS file

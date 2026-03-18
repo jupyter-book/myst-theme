@@ -1,5 +1,27 @@
 # myst-to-react
 
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- a8b0c87: Support a domain to treat as internal URLs
+- a96413c: Fix ROR rendererwq
+- Updated dependencies [a8b0c87]
+  - @myst-theme/providers@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- 7d92ceb: Make link icons stay on the same line as link
+  - @myst-theme/providers@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

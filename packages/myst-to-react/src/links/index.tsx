@@ -135,7 +135,8 @@ export const RORLinkRenderer: NodeRenderer<TransformedLink> = ({ node, className
 
 export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) => {
   // Internal links will need to be modified by a baseURL (e.g. in static sites).
-  const internal = node.internal ?? !isExternalUrl(node.url);
+  const config = useSiteManifest();
+  const internal = node.internal ?? !isExternalUrl(node.url, config?.options?.internal_domains);
   // If the link is static (a link to a document/asset), we can just use the regular link.
   const isStatic = node.static ?? false;
   if (internal && !isStatic) {
@@ -146,13 +147,18 @@ export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) =
     );
   }
   return (
+    // External or download links get a little icon.
+    // We wrap the link text in an extra span so that we can control its whitespace handling
+    // We want the text in the link to wrap, but the icon *not* to wrap so it stays on the same line
     <a
       target="_blank"
       rel="noreferrer"
       href={node.url}
-      className={classNames('link', node.class, className)}
+      className={classNames('link whitespace-nowrap', node.class, className)}
     >
-      <MyST ast={node.children} />
+      <span className="link-text whitespace-normal">
+        <MyST ast={node.children} />
+      </span>
       {isStatic && <ArrowDownTrayIcon className="link-icon" />}
       {!isStatic && <ExternalLinkIcon className="link-icon" />}
     </a>
@@ -163,7 +169,8 @@ export const linkBlock: NodeRenderer<TransformedLink> = ({ node, className }) =>
   const iconClass = 'self-center transition-transform flex-none ml-3';
   const containerClass =
     'flex-1 p-4 my-5 block border font-normal hover:border-blue-500 dark:hover:border-blue-400 no-underline hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-100 border-gray-200 dark:border-gray-500 rounded shadow-sm hover:shadow-lg dark:shadow-neutral-700';
-  const internal = node.internal ?? false;
+  const config = useSiteManifest();
+  const internal = node.internal ?? !isExternalUrl(node.url, config?.options?.internal_domains);
   const nested = (
     <div className="flex h-full align-middle">
       <div className="flex-grow">

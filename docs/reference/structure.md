@@ -14,12 +14,14 @@ This content is centered using a div with text-center class.
 :::
 
 
-## Multiple Columns
+## Grids and Columns
+
+### Basic grid
 
 ::::{grid} 2
 
 :::{grid-item}
-### Left Column
+#### Left Column
 
 Content in the left column with its own heading and structure.
 
@@ -28,7 +30,7 @@ Content in the left column with its own heading and structure.
 :::
 
 :::{grid-item}
-### Right Column
+#### Right Column
 
 Content in the right column with separate structure.
 
@@ -36,6 +38,32 @@ Content in the right column with separate structure.
 - Point B
 :::
 
+::::
+
+### Uneven columns
+::::{grid}
+
+:::{grid-item}
+:columns: 4
+On the left!
+:::
+:::{grid-item}
+:columns: 8
+On the right!
+:::
+::::
+::::{grid}
+
+Flipped left/right widths:
+
+:::{grid-item}
+:columns: 8
+On the left!
+:::
+:::{grid-item}
+:columns: 4
+On the right!
+:::
 ::::
 
 ## Margins and Sidebars

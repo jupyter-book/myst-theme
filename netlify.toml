@@ -14,56 +14,13 @@
     # to query the project board (https://github.com/orgs/jupyter-book/projects/4).
     #
     # Falls back to `main` if unset or not a PR build.
-    if [ -n "$REVIEW_ID" ] && [ -n "$GITHUB_TOKEN" ]; then
-      query='
-        query($owner: String!, $repo: String!, $pr: Int!) {
-          repository(owner: $owner, name: $repo) {
-            pullRequest(number: $pr) {
-              projectItems(first: 10) {
-                nodes {
-                  project { number }
-                  fieldValueByName(name: "mystmd-branch") {
-                    ... on ProjectV2ItemFieldTextValue        { text }
-                    ... on ProjectV2ItemFieldSingleSelectValue { name }
-                  }
-                }
-              }
-            }
-          }
-        }
-      '
-      # Below, `argjson` (vs `arg`) is used because REVIEW_ID is a numerical value
-      response=$(curl -sf \
-        -H "Authorization: Bearer $GITHUB_TOKEN" \
-        -H "Content-Type: application/json" \
-        -d "$(jq -cn \
-          --arg  owner "jupyter-book" \
-          --arg  repo  "myst-theme" \
-          --argjson pr  "$REVIEW_ID" \
-          --arg  query "$query" \
-          '{query: $query, variables: {owner: $owner, repo: $repo, pr: $pr}}')" \
-        https://api.github.com/graphql) || true
-      if errors=$(echo "$response" | jq -r '.errors[]?.message // empty') && [ -n "$errors" ]; then
-        echo "Warning: GitHub API error querying mystmd-branch: $errors"
-        exit 1
-      else
-        mystmd_branch=$(echo "$response" | jq -r '
-            .data.repository.pullRequest.projectItems.nodes[]
-            | select(.project.number == 4)
-            | .fieldValueByName
-            | .text // .name // empty
-          ' | head -1)
-      fi
-      mystmd_branch="${mystmd_branch:-main}"
-    fi &&
-    echo "Building with mystmd from branch: $mystmd_branch" &&
-    # Clone and build mystmd from the resolved branch
-    git clone --depth 1 --branch "$mystmd_branch" https://github.com/jupyter-book/mystmd.git /tmp/mystmd && \
+    read -r mystmd_url mystmd_ref < <(python .github/tools/get-mystmd-branch.py) &&
+    echo "Building with mystmd: $mystmd_url@$mystmd_ref" &&
+    (git clone --depth 1 --branch "$mystmd_ref" "$mystmd_url" /tmp/mystmd && \
     cd /tmp/mystmd && \
     npm install && \
     npm run build && \
-    npm run link && \
-    cd - && \
+    npm run link) && \
     # Build myst-theme
     npm install && \
     npm run build && \

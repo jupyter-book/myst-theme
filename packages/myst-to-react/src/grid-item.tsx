@@ -8,6 +8,7 @@ type GridItemSpec = {
   columns: number;
 };
 
+// See styles/index.js for the list of col classes that we import
 const colSpanClassNames = [
   'col-span-1',
   'col-span-2',

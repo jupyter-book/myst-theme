@@ -5,6 +5,7 @@ import DROPDOWN_RENDERERS from './dropdown.js';
 import BLOCK_RENDERERS from './block.js';
 import CARD_RENDERERS from './card.js';
 import GRID_RENDERERS from './grid.js';
+import GRID_ITEM_RENDERERS from './grid-item.js';
 import CITE_RENDERERS from './cite.js';
 import FOOTNOTE_RENDERERS from './footnotes.js';
 import CODE_RENDERERS from './code.js';
@@ -54,6 +55,7 @@ export const DEFAULT_RENDERERS = mergeRenderers(
     DROPDOWN_RENDERERS,
     CARD_RENDERERS,
     GRID_RENDERERS,
+    GRID_ITEM_RENDERERS,
     INLINE_EXPRESSION_RENDERERS,
     EXT_RENDERERS,
     PROOF_RENDERERS,

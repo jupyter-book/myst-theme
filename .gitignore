@@ -43,3 +43,6 @@ yalc.lock
 # backup
 *#
 *~
+
+# vim swap files
+*.swp

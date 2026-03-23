@@ -1,51 +1,51 @@
 @layer base {
   :root {
     /* Links */
-    --myst-color-link: #1d4ed8;          /* blue-700 */
-    --myst-color-link-hover: #3b82f6;    /* blue-500 */
-    --myst-color-link-underline: #60a5fa;/* blue-400 — decoration, subtle accent */
+    --myst-color-link: #1d4ed8; /* blue-700 */
+    --myst-color-link-hover: #3b82f6; /* blue-500 */
+    --myst-color-link-underline: #60a5fa; /* blue-400 — decoration, subtle accent */
 
     /* Interactive / selected state */
-    --myst-color-active: #2563eb;        /* blue-600 */
+    --myst-color-active: #2563eb; /* blue-600 */
     --myst-color-active-bg: rgba(147, 197, 253, 0.3); /* blue-300/30 */
-    --myst-color-active-surface: #eff6ff;/* blue-50 */
+    --myst-color-active-surface: #eff6ff; /* blue-50 */
 
     /* Buttons / primary actions */
-    --myst-color-primary: #3b82f6;       /* blue-500 */
+    --myst-color-primary: #3b82f6; /* blue-500 */
     --myst-color-primary-hover: #1d4ed8; /* blue-700 */
 
     /* Focus indicators */
-    --myst-color-focus-ring: #3b82f6;    /* blue-500 */
+    --myst-color-focus-ring: #3b82f6; /* blue-500 */
     --myst-color-focus-outline: #bfdbfe; /* blue-200 */
 
     /* Headings that use accent color */
-    --myst-color-heading: #1e3a8a;       /* blue-900 */
+    --myst-color-heading: #1e3a8a; /* blue-900 */
 
     /* Accent surfaces (banners, callout backgrounds) */
-    --myst-color-accent-surface: #eff6ff;        /* blue-50 */
+    --myst-color-accent-surface: #eff6ff; /* blue-50 */
     --myst-color-accent-surface-border: #bfdbfe; /* blue-200 */
-    --myst-color-accent-surface-text: #1e3a8a;   /* blue-900 */
+    --myst-color-accent-surface-text: #1e3a8a; /* blue-900 */
   }
 
   .dark {
-    --myst-color-link: #60a5fa;           /* blue-400 */
-    --myst-color-link-hover: #93c5fd;     /* blue-300 */
+    --myst-color-link: #60a5fa; /* blue-400 */
+    --myst-color-link-hover: #93c5fd; /* blue-300 */
     --myst-color-link-underline: #3b82f6; /* blue-500 */
 
-    --myst-color-active: #60a5fa;         /* blue-400 */
+    --myst-color-active: #60a5fa; /* blue-400 */
     --myst-color-active-bg: rgba(59, 130, 246, 0.2);
     --myst-color-active-surface: #1e293b; /* slate-800 */
 
-    --myst-color-primary: #3b82f6;        /* blue-500 */
-    --myst-color-primary-hover: #60a5fa;  /* blue-400 */
+    --myst-color-primary: #3b82f6; /* blue-500 */
+    --myst-color-primary-hover: #60a5fa; /* blue-400 */
 
-    --myst-color-focus-ring: #60a5fa;     /* blue-400 */
-    --myst-color-focus-outline: #1e40af;  /* blue-800 */
+    --myst-color-focus-ring: #60a5fa; /* blue-400 */
+    --myst-color-focus-outline: #1e40af; /* blue-800 */
 
-    --myst-color-heading: #dbeafe;        /* blue-100 */
+    --myst-color-heading: #dbeafe; /* blue-100 */
 
-    --myst-color-accent-surface: #1e3a8a4d;     /* blue-900/30 */
+    --myst-color-accent-surface: #1e3a8a4d; /* blue-900/30 */
     --myst-color-accent-surface-border: #1e40af; /* blue-800 */
-    --myst-color-accent-surface-text: #eff6ff;   /* blue-50 */
+    --myst-color-accent-surface-text: #eff6ff; /* blue-50 */
   }
 }

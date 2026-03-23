@@ -429,10 +429,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
         <div className="flex flex-col items-baseline justify-between">
           <Form.Label className="myst-fm-launch-label text-[15px] font-medium leading-[35px]">
             Enter a JupyterHub or BinderHub URL, e.g.{' '}
-            <a
-              href="https://mybinder.org"
-              className="font-medium text-myst-active hover:underline"
-            >
+            <a href="https://mybinder.org" className="font-medium text-myst-active hover:underline">
               https://mybinder.org
             </a>
           </Form.Label>

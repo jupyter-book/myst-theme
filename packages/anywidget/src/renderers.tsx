@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import type { AnyWidget } from './types.js';
 import { MystAnyModel } from './models.js';
 import { MyST } from 'myst-to-react';
+import type { GenericNode } from 'myst-common';
 
 export const MYST_PROP_CHILDREN = 'myst#children';
 
@@ -26,7 +27,7 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
 
   const ref = React.useRef<HTMLDivElement>(null);
   const [error, setError] = React.useState<Error | null>(null);
-  const [children, setChildren] = React.useState<any[] | null>((node as any).children);
+  const [children, setChildren] = React.useState<GenericNode[] | null>((node as any).children);
   React.useEffect(() => {
     // Reset error state on node change
     setError(null);
@@ -59,7 +60,8 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
         const widget = mod.default;
 
         // TODO: validate the widget
-        const model = new MystAnyModel({ [MYST_PROP_CHILDREN]: children, ...node.model });
+        const mystInterfaceState = { [MYST_PROP_CHILDREN]: children };
+        const model = new MystAnyModel({ ...mystInterfaceState, ...node.model });
 
         // Allow model to set children
         model.on(`change:${MYST_PROP_CHILDREN}`, () => {

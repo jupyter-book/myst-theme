@@ -82,7 +82,7 @@ function MarkedText({
   const renderToken = (token: string) =>
     pattern.test(token) ? (
       <>
-        <mark className="text-myst-active bg-inherit dark:text-myst-active-dark group-aria-selected:text-white group-aria-selected:underline">
+        <mark className="text-myst-active bg-inherit group-aria-selected:text-white group-aria-selected:underline">
           {token}
         </mark>
       </>

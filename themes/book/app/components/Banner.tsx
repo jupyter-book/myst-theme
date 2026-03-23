@@ -48,7 +48,7 @@ export function Banner({ content, className }: { content: GenericParent; classNa
     <header
       aria-label="Announcement banner"
       className={classNames(
-        'myst-banner w-full bg-myst-banner-bg dark:bg-myst-banner-bg-dark border-b border-myst-surface-border dark:border-myst-surface-border-dark',
+        'myst-banner w-full bg-myst-accent-surface border-b border-myst-accent-surface-border',
         'px-4 py-3 sm:px-6 lg:px-8',
         'relative z-40',
         className,
@@ -57,18 +57,18 @@ export function Banner({ content, className }: { content: GenericParent; classNa
     >
       <div className="max-w-screen-lg mx-auto flex items-center gap-4">
         {/* Banner content */}
-        <div className="flex-1 text-sm text-center text-myst-surface-text dark:text-myst-surface-text-dark [&>*]:m-0 [&_a]:underline [&_a]:font-semibold">
+        <div className="flex-1 text-sm text-center text-myst-accent-surface-text [&>*]:m-0 [&_a]:underline [&_a]:font-semibold">
           <MyST ast={content} />
         </div>
 
         {/* Close button */}
         <button
           onClick={handleDismiss}
-          className="flex-shrink-0 p-1 rounded hover:bg-myst-surface dark:hover:bg-myst-surface-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-myst-focus-ring focus-visible:ring-offset-2 transition-colors"
+          className="flex-shrink-0 p-1 rounded hover:bg-myst-accent-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-myst-focus-ring focus-visible:ring-offset-2 transition-colors"
           aria-label="Dismiss announcement"
           type="button"
         >
-          <XMarkIcon className="w-5 h-5 text-myst-surface-text dark:text-myst-active-dark" aria-hidden="true" />
+          <XMarkIcon className="w-5 h-5 text-myst-accent-surface-text" aria-hidden="true" />
         </button>
       </div>
     </header>

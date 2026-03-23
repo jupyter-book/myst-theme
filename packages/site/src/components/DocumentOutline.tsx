@@ -59,7 +59,7 @@ const Headings = ({ headings, activeId }: Props) => (
           'text-myst-active': heading.id === activeId,
           'border-l-gray-300 dark:border-l-gray-50': heading.id !== activeId,
           'border-l-myst-active': heading.id === activeId,
-          'bg-myst-active-surface dark:bg-slate-800': heading.id === activeId,
+          'bg-myst-active-surface': heading.id === activeId,
           'myst-outline-item-active': heading.id === activeId,
         })}
       >

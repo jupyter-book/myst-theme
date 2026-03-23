@@ -12,7 +12,7 @@
   /* Links: blue with underline */
   .link,
   .hover-link {
-    @apply text-myst-link dark:text-myst-link-dark underline decoration-[0.1em] underline-offset-[0.15em] decoration-myst-link-dark dark:decoration-myst-link-hover hover:text-myst-link-hover dark:hover:text-myst-link-hover-dark hover:decoration-myst-link-hover dark:hover:decoration-myst-link-hover-dark;
+    @apply text-myst-link underline decoration-[0.1em] underline-offset-[0.15em] decoration-myst-link-underline hover:text-myst-link-hover hover:decoration-myst-link-hover;
   }
 
   /* External/download link icons: hidden by default, shown only for plain text links in prose */
@@ -51,7 +51,7 @@
     margin: 0;
   }
   .prose dt > strong {
-    @apply font-bold text-myst-heading dark:text-myst-heading-dark;
+    @apply font-bold text-myst-heading;
   }
   .prose dd {
     @apply ml-8;

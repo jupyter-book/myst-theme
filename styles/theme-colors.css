@@ -36,8 +36,8 @@
     --myst-color-active-bg: rgba(59, 130, 246, 0.2);
     --myst-color-active-surface: #1e293b; /* slate-800 */
 
-    --myst-color-primary: #60a5fa;        /* blue-400 */
-    --myst-color-primary-hover: #93c5fd;  /* blue-300 */
+    --myst-color-primary: #3b82f6;        /* blue-500 */
+    --myst-color-primary-hover: #60a5fa;  /* blue-400 */
 
     --myst-color-focus-ring: #60a5fa;     /* blue-400 */
     --myst-color-focus-outline: #1e40af;  /* blue-800 */

@@ -99,11 +99,11 @@ def main():
     branch = DEFAULT_BRANCH
 
     if review_id is None:
-        print("No REVIEW_ID set by Netlify; exiting.")
-        sys.exit(1)
+        print(f"https://github.com/{repo_owner}/mystmd.git {branch}")
+        sys.exit(0)
 
     if github_token is None:
-        print("No GITHUB_TOKEN set; exiting.")
+        print("No GITHUB_TOKEN set; exiting.", file=sys.stderr)
         sys.exit(1)
 
     try:

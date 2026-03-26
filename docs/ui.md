@@ -7,6 +7,10 @@ This page documents site-level UI components that appear on every page.  use the
 Many of the UI areas below allow users to insert custom content or interface elements using **parts**.
 These are documented below, and in each case they use the same configuration pattern through `site.parts` or `project.parts` in `myst.yml`.
 
+:::{note}
+Parts are only supported in the **book** theme. The article theme does not yet support parts configuration.
+:::
+
 ## Navigation bar
 
 ### Site logo
@@ -93,6 +97,28 @@ site:
 - Appears at the bottom of the primary sidebar (left-side navigation)
 - If the `.md` file it points to is empty, the footer will not be visible
 - If not configured, falls back to the default "Made with MyST" footer
+
+## Navbar End
+
+Display custom content at the end of the top navigation bar, after the theme toggle button.
+This is useful for adding icon links, badges, or call-to-action buttons to your navbar.
+
+### Configuration
+
+Create a markdown file with your navbar content and add it to `myst.yml`:
+
+```yaml
+site:
+  parts:
+    navbar_end: _site/navbar_end.md
+```
+
+### Behavior
+
+- Renders inline at the end of the navbar (after the theme toggle and action buttons)
+- Supports any MyST markdown content (links, images, formatting, etc.)
+- Content is rendered inline, so keep it short - a few links or icons work best
+- On narrow screens, the content moves into the primary sidebar menu
 
 ## Hiding Elements
 

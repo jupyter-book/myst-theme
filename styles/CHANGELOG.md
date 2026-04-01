@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 1.2.0
+
+### Minor Changes
+
+- 9ecc788: Add grid-item renderer
+
 ## 1.1.4
 
 ## 1.1.3

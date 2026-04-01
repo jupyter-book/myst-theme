@@ -1,5 +1,7 @@
 # See docs at: https://mystmd.org/guide/frontmatter
 version: 1
+extends:
+  - ./authors.yml
 project:
   id: b19ac145-d09e-4dcc-bd37-28fbba0f9e8e
   title: myst-theme documentation
@@ -22,6 +24,7 @@ project:
   toc:
     - file: index.md
     - file: ui.md
+    - file: authorship.md
     - file: anywidgets.md
     - file: permalinks.md
     - file: reference/index.md

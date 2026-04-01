@@ -1,5 +1,22 @@
 # @myst-theme/site
 
+## 1.2.0
+
+### Patch Changes
+
+- f5e7528: Add accessible labels to footer links
+- ee2d127: ✨ Add navbar_end part in navbar UI
+- Updated dependencies [9ecc788]
+- Updated dependencies [f908854]
+- Updated dependencies [f8ef1ef]
+  - myst-to-react@1.2.0
+  - myst-demo@1.2.0
+  - @myst-theme/providers@1.2.0
+  - @myst-theme/frontmatter@1.2.0
+  - @myst-theme/diagrams@1.2.0
+  - @myst-theme/common@1.2.0
+  - @myst-theme/search@1.2.0
+
 ## 1.1.4
 
 ### Patch Changes

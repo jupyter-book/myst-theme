@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 1.2.0
+
+### Patch Changes
+
+- f908854: Fix up the pattern/logic for internal_domains
+  - @myst-theme/common@1.2.0
+  - @myst-theme/search@1.2.0
+
 ## 1.1.4
 
 ### Patch Changes

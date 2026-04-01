@@ -11,8 +11,8 @@ To interact with the themes in development mode (e.g. with live-reload of compon
 First, install dependencies and build the packages:
 
 ```shell
-npm install
-npm run build
+bun install
+bun run build
 ```
 
 The build step compiles TypeScript for all packages in `packages/`. This is required before running the dev server or building themes.
@@ -46,7 +46,7 @@ Start the dev server which watches for local changes to packages:
 
 ```bash
 # Terminal 2
-npm run dev
+bun run dev
 ```
 
 ### Start a theme server
@@ -55,7 +55,7 @@ Start the theme server application, which will take the AST from the content ser
 
 ```shell
 # Terminal 3
-npm run theme:book
+bun run theme:book
 ```
 
 ### Preview your changes
@@ -67,7 +67,7 @@ Open the port that is printed in the terminal for your theme server (usually, `h
 By default, these ports are used:
 
 - `myst start --headless` binds the **content server** to port `3100` (or the next open port in that range)
-- `npm run theme:book` starts the Remix **theme server** on port `3000`.
+- `bun run theme:book` starts the Remix **theme server** on port `3000`.
 
 The theme server talks to the content server via the `CONTENT_CDN_PORT` environment variable, which defaults to `3100`. (the default shown above)
 
@@ -75,14 +75,14 @@ If you need to override the content server port, keep the two commands in sync l
 
 ```bash
 myst start --headless --server-port 3111
-CONTENT_CDN_PORT=3111 npm run theme:book
+CONTENT_CDN_PORT=3111 bun run theme:book
 ```
 
 To connect to a remote content server, provide both the CDN URL and the matching port:
 
 ```bash
-CONTENT_CDN="https://remote.example.com" CONTENT_CDN_PORT=3111 npm run theme:book
-CONTENT_CDN="https://remote.example.com" CONTENT_CDN_PORT=3111 npm run theme:article
+CONTENT_CDN="https://remote.example.com" CONTENT_CDN_PORT=3111 bun run theme:book
+CONTENT_CDN="https://remote.example.com" CONTENT_CDN_PORT=3111 bun run theme:article
 ```
 
 ## Preview components and UI with storybook
@@ -95,8 +95,8 @@ To use Storybook, first complete the [initial setup](#initial-setup), then run:
 
 ```shell
 # Terminal 1
-npm run storybook
+bun run storybook
 
 # Terminal 2
-npm run dev
+bun run dev
 ```

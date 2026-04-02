@@ -1,5 +1,5 @@
 import type { Admonition as AdmonitionSpec } from 'myst-spec';
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
@@ -73,25 +73,17 @@ function getColor({ kind }: { kind?: ProofKind | string; classes?: string[] }): 
 
 const WrapperElement = ({
   id,
-  dropdown,
   className,
   children,
 }: {
   id?: string;
   className?: string;
   children: React.ReactNode;
-  dropdown?: boolean;
 }) => {
-  if (dropdown)
-    return (
-      <details id={id} className={className}>
-        {children}
-      </details>
-    );
   return (
-    <aside id={id} className={className}>
+    <section id={id} className={className}>
       {children}
-    </aside>
+    </section>
   );
 };
 
@@ -99,12 +91,20 @@ const HeaderElement = ({
   dropdown,
   className,
   children,
+  onClick,
 }: {
   className?: string;
   children: React.ReactNode;
   dropdown?: boolean;
+  onClick?: () => void;
 }) => {
-  if (dropdown) return <summary className={className}>{children}</summary>;
+  if (dropdown)
+    return (
+      <div className={className} role="button" tabIndex={0} onClick={onClick}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.(); } }}>
+        {children}
+      </div>
+    );
   return <div className={className}>{children}</div>;
 };
 
@@ -129,10 +129,12 @@ export function Proof({
   enumerator?: string;
   className?: string;
 }) {
+  const [isOpen, setIsOpen] = useState(!dropdown);
+  const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
+
   return (
     <WrapperElement
       id={identifier}
-      dropdown={dropdown}
       className={classNames(
         'myst-proof my-5 shadow dark:bg-stone-800 overflow-hidden',
         'dark:border-l-4 border-slate-400',
@@ -150,6 +152,7 @@ export function Proof({
     >
       <HeaderElement
         dropdown={dropdown}
+        onClick={toggle}
         className={classNames(
           'myst-proof-header m-0 font-medium py-2 flex min-w-0',
           'text-md',
@@ -165,6 +168,7 @@ export function Proof({
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           },
+          { 'mb-2.5': isOpen && dropdown },
         )}
       >
         <div
@@ -183,12 +187,21 @@ export function Proof({
             <ChevronRightIcon
               width="1.5rem"
               height="1.5rem"
-              className={classNames(iconClass, 'transition-transform details-toggle')}
+              className={classNames(iconClass, 'transition-transform', {
+                'rotate-90 -translate-x-[5px] -translate-y-[5px]': isOpen,
+              })}
             />
           </div>
         )}
       </HeaderElement>
-      <div className={classNames('myst-proof-body px-4', { 'details-body': dropdown })}>
+      <div
+        className={classNames('myst-proof-body px-4', {
+          'proof-dropdown-body': dropdown,
+          'proof-dropdown-open': dropdown && isOpen,
+          'proof-dropdown-closed': dropdown && !isOpen,
+        })}
+        aria-hidden={false}
+      >
         {children}
       </div>
     </WrapperElement>

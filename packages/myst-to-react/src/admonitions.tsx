@@ -2,7 +2,7 @@ import type {
   Admonition as AdmonitionSpec,
   AdmonitionTitle as AdmonitionTitleSpec,
 } from 'myst-spec';
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import {
   InformationCircleIcon,
@@ -117,35 +117,33 @@ export const AdmonitionTitle: NodeRenderer<AdmonitionTitleSpec> = ({ node, class
 };
 
 const WrapperElement = ({
-  dropdown,
   className,
   children,
-  open,
 }: {
   className?: string;
   children: React.ReactNode;
-  dropdown?: boolean;
-  open?: boolean;
 }) => {
-  if (dropdown)
-    return (
-      <details className={className} open={open}>
-        {children}
-      </details>
-    );
-  return <aside className={className}>{children}</aside>;
+  return <section className={className}>{children}</section>;
 };
 
 const HeaderElement = ({
   dropdown,
   className,
   children,
+  onClick,
 }: {
   className?: string;
   children: React.ReactNode;
   dropdown?: boolean;
+  onClick?: () => void;
 }) => {
-  if (dropdown) return <summary className={className}>{children}</summary>;
+  if (dropdown)
+    return (
+      <div className={className} role="button" tabIndex={0} onClick={onClick}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.(); } }}>
+        {children}
+      </div>
+    );
   return <div className={className}>{children}</div>;
 };
 
@@ -170,10 +168,11 @@ export function Admonition({
   className?: string;
   open?: boolean;
 }) {
+  const [isOpen, setIsOpen] = useState(dropdown ? !!open : true);
+  const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
+
   return (
     <WrapperElement
-      dropdown={dropdown}
-      open={open}
       className={classNames(
         `myst-admonition myst-admonition-${kind} my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900`,
         'bg-gray-50/10 dark:bg-stone-800',
@@ -192,6 +191,7 @@ export function Admonition({
       {title && (
         <HeaderElement
           dropdown={dropdown}
+          onClick={toggle}
           className={classNames('myst-admonition-header m-0 font-medium py-1 flex min-w-0', {
             'text-lg': !simple,
             'text-md': simple,
@@ -229,7 +229,9 @@ export function Admonition({
               <ChevronRightIcon
                 width="2rem"
                 height="2rem"
-                className={classNames(iconClass, 'transition-transform details-toggle')}
+                className={classNames(iconClass, 'transition-transform', {
+                  'rotate-90 -translate-x-[5px] -translate-y-[5px]': isOpen,
+                })}
               />
             </div>
           )}
@@ -238,8 +240,11 @@ export function Admonition({
       <div
         className={classNames('myst-admonition-body px-4', {
           'py-1': !simple,
-          'details-body': dropdown,
+          'admonition-dropdown-body': dropdown,
+          'admonition-dropdown-open': dropdown && isOpen,
+          'admonition-dropdown-closed': dropdown && !isOpen,
         })}
+        aria-hidden={false}
       >
         {children}
       </div>

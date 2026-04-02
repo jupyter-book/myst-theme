@@ -14,3 +14,25 @@ p.line {
   position: relative;
   margin: 0;
 }
+
+/* Dropdown accordion: content stays in DOM for reader mode / screen readers */
+.proof-dropdown-body,
+.admonition-dropdown-body,
+.dropdown-body {
+  overflow: hidden;
+  transition: max-height 200ms ease-out, opacity 200ms ease-out;
+}
+
+.proof-dropdown-open,
+.admonition-dropdown-open,
+.dropdown-open {
+  max-height: 5000px;
+  opacity: 1;
+}
+
+.proof-dropdown-closed,
+.admonition-dropdown-closed,
+.dropdown-closed {
+  max-height: 0;
+  opacity: 0;
+}

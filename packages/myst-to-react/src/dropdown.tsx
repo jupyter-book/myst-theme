@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
@@ -29,16 +29,22 @@ export function Details({
   open?: boolean;
   className?: string;
 }) {
+  const [isOpen, setIsOpen] = useState(!!open);
+  const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
+
   return (
-    <details
+    <section
       className={classNames(
         'myst-dropdown rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
         'bg-gray-50 dark:bg-stone-800',
         className,
       )}
-      open={open}
     >
-      <summary
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={toggle}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } }}
         className={classNames(
           'myst-dropdown-header m-0 text-lg font-medium py-1 min-h-[2em] pl-3',
           'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]',
@@ -50,14 +56,25 @@ export function Details({
             <ChevronRightIcon
               width="1.5rem"
               height="1.5rem"
-              className={classNames(iconClass, 'details-toggle', 'transition-transform')}
+              className={classNames(iconClass, 'transition-transform', {
+                'rotate-90 -translate-x-[5px] -translate-y-[5px]': isOpen,
+              })}
             />
           </span>
           {title}
         </span>
-      </summary>
-      <div className="myst-dropdown-body px-4 py-1 details-body">{children}</div>
-    </details>
+      </div>
+      <div
+        className={classNames('myst-dropdown-body px-4 py-1', {
+          'dropdown-body': true,
+          'dropdown-open': isOpen,
+          'dropdown-closed': !isOpen,
+        })}
+        aria-hidden={false}
+      >
+        {children}
+      </div>
+    </section>
   );
 }
 

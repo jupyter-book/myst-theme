@@ -8,7 +8,6 @@ import React, { useMemo, useState, useRef, useEffect } from 'react';
 import type { ComponentProps } from 'react';
 import { Details } from './dropdown.js';
 
-
 type Props = {
   value: string;
   identifier?: string;

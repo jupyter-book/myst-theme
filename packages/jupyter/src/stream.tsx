@@ -25,7 +25,7 @@ export default function Stream({ output }: { output: MinifiedStreamOutput }) {
       content={ensureString(output.text)}
       path={output.path}
       render={(content?: string) => (
-        <pre 
+        <pre
           ref={preRef} // 2. Attach the ref here
           tabIndex={isScrollable ? 0 : undefined} // 3. Add accessibility
           role={isScrollable ? 'region' : undefined}

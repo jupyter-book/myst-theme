@@ -26,7 +26,7 @@ export default function Error({ output }: { output: MinifiedErrorOutput }) {
       content={ensureString(output.traceback)}
       path={output.path}
       render={(content?: string) => (
-        <pre 
+        <pre
           ref={preRef}
           tabIndex={isScrollable ? 0 : undefined}
           role={isScrollable ? 'region' : undefined}

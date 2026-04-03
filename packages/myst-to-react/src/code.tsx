@@ -4,9 +4,10 @@ import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { CopyIcon } from './components/index.js';
 import { MyST } from './MyST.js';
-import { useMemo } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import type { ComponentProps } from 'react';
 import { Details } from './dropdown.js';
+
 
 type Props = {
   value: string;
@@ -49,6 +50,22 @@ export function CodeBlock(props: Props) {
     background,
     border,
   } = props;
+  const highlighterRef = useRef<HTMLDivElement>(null);
+  const [isScrollable, setIsScrollable] = useState(false);
+
+  useEffect(() => {
+    const el = highlighterRef.current;
+    if (!el) return;
+
+    // Check for overflow dynamically
+    const observer = new ResizeObserver(() => {
+      const horizontalOverflow = el.scrollWidth > el.clientWidth;
+      setIsScrollable(horizontalOverflow);
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
   const highlighterProps: Omit<HighlightPropsType, 'children'> = useMemo(() => {
     const highlightLines = new Set(emphasizeLines);
     return {
@@ -104,12 +121,24 @@ export function CodeBlock(props: Props) {
           </div>
         </div>
       )}
-      <SyntaxHighlighter
-        {...highlighterProps}
+
+      {/* scrollable region */}
+      <div
+        ref={highlighterRef}
+        tabIndex={isScrollable ? 0 : undefined}
+        role={isScrollable ? 'region' : undefined}
+        aria-label={isScrollable ? 'code snippet' : undefined}
         className="block overflow-auto p-3 myst-code-body hljs"
       >
-        {value}
-      </SyntaxHighlighter>
+        <SyntaxHighlighter
+          {...highlighterProps}
+          className="bg-transparent"
+          customStyle={{ padding: 0, margin: 0, backgroundColor: 'transparent' }}
+        >
+          {value}
+        </SyntaxHighlighter>
+      </div>
+
       {showCopy && (
         <CopyIcon
           text={value}

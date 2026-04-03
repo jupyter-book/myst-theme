@@ -6,6 +6,31 @@
   @apply bg-red-100;
 }
 
+.jupyter-error span[style*="rgb(0, 187, 0)"] {
+  color: #1D7500;
+}
+
+.jupyter-error span[style*="rgb(0, 187, 187)"] {
+  color: #0C6EA6;
+}
+
+/* Dark mode override */
+html.dark .jupyter-error {
+  @apply bg-red-900/30; 
+}
+
+html.dark .jupyter-error span[style*="rgb(187, 0, 0)"] {
+  color: #FF9494;
+}
+
+html.dark .jupyter-error span[style*="rgb(0, 187, 0)"] {
+  color: #00EB00;
+}
+
+html.dark .jupyter-error span[style*="rgb(0, 187, 187)"] {
+  color: #00FAFA;
+}
+
 /* Hide the output prompts from jupyter by default */
 .jp-OutputPrompt {
   @apply hidden;

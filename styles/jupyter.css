@@ -7,11 +7,11 @@
 }
 
 .jupyter-error span[style*="rgb(0, 187, 0)"] {
-  color: #1D7500;
+  color: #1D7500 !important;
 }
 
 .jupyter-error span[style*="rgb(0, 187, 187)"] {
-  color: #0C6EA6;
+  color: #0C6EA6 !important;
 }
 
 /* Dark mode override */
@@ -20,15 +20,15 @@ html.dark .jupyter-error {
 }
 
 html.dark .jupyter-error span[style*="rgb(187, 0, 0)"] {
-  color: #FF9494;
+  color: #FF9494 !important;
 }
 
 html.dark .jupyter-error span[style*="rgb(0, 187, 0)"] {
-  color: #00EB00;
+  color: #00EB00 !important;
 }
 
 html.dark .jupyter-error span[style*="rgb(0, 187, 187)"] {
-  color: #00FAFA;
+  color: #00FAFA !important;
 }
 
 /* Hide the output prompts from jupyter by default */

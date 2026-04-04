@@ -11,7 +11,7 @@ export default function Error({ output }: { output: MinifiedErrorOutput }) {
       render={(content?: string) => {
         return (
           <pre className="myst-jp-error-output text-sm font-thin font-system jupyter-error">
-            <Ansi>{content ?? ''}</Ansi>
+            <Ansi useClasses>{content ?? ''}</Ansi>
           </pre>
         );
       }}

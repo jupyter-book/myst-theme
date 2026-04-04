@@ -4,31 +4,24 @@
 
 .jupyter-error {
   @apply bg-red-100;
+  /* Override ANSI colors for accessible contrast. Classes come from <Ansi useClasses> */
+  .ansi-red-fg { color: #B91C1C; }
+  .ansi-green-fg { color: #1D7500; }
+  .ansi-yellow-fg { color: #854D0E; }
+  .ansi-blue-fg { color: #1E40AF; }
+  .ansi-magenta-fg { color: #86198F; }
+  .ansi-cyan-fg { color: #0C6EA6; }
 }
 
-.jupyter-error span[style*="rgb(0, 187, 0)"] {
-  color: #1D7500 !important;
-}
-
-.jupyter-error span[style*="rgb(0, 187, 187)"] {
-  color: #0C6EA6 !important;
-}
-
-/* Dark mode override */
+/* Dark mode */
 html.dark .jupyter-error {
-  @apply bg-red-900/30; 
-}
-
-html.dark .jupyter-error span[style*="rgb(187, 0, 0)"] {
-  color: #FF9494 !important;
-}
-
-html.dark .jupyter-error span[style*="rgb(0, 187, 0)"] {
-  color: #00EB00 !important;
-}
-
-html.dark .jupyter-error span[style*="rgb(0, 187, 187)"] {
-  color: #00FAFA !important;
+  @apply bg-red-900/30;
+  .ansi-red-fg { color: #FF9494; }
+  .ansi-green-fg { color: #00EB00; }
+  .ansi-yellow-fg { color: #FACC15; }
+  .ansi-blue-fg { color: #93C5FD; }
+  .ansi-magenta-fg { color: #F0ABFC; }
+  .ansi-cyan-fg { color: #00FAFA; }
 }
 
 /* Hide the output prompts from jupyter by default */

@@ -90,14 +90,27 @@ p.grid.grid_line_alpha = 0.3
 show(p)
 ```
 
+## Text outputs
+
+A simple cell with printed text output for comparison with error outputs below:
+
+```{code-cell} python
+print("Hello, world!")
+print("Result:", 2 + 3)
+```
+
 ## Error outputs
 
 You can use the `raises-exception` cell tag to indicate that a code cell is expected to error.
 This will display the error output but continue executing the rest of the notebook.
 
+We use a function with a traceback error to test out all the various types of error classes and make sure they show up properly:
+
 ```{code-cell} python
 :tags: [raises-exception]
 
-print("This code will error!")
-print("Hello" + 1)
+def add_one(text):
+    return text + 1
+
+add_one("hello")
 ```

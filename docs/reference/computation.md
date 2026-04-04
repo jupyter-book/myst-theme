@@ -89,3 +89,15 @@ p.grid.grid_line_alpha = 0.3
 
 show(p)
 ```
+
+## Error outputs
+
+You can use the `raises-exception` cell tag to indicate that a code cell is expected to error.
+This will display the error output but continue executing the rest of the notebook.
+
+```{code-cell} python
+:tags: [raises-exception]
+
+print("This code will error!")
+print("Hello" + 1)
+```

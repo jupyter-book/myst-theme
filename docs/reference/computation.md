@@ -20,6 +20,7 @@ These cells produce wide outputs to test that scrollable regions are keyboard-ac
 ```{code-cell} python
 def print_a_really_long_string():
     print("MyST is really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really neat!")
+print_a_really_long_string()
 ```
 
 ## Pandas

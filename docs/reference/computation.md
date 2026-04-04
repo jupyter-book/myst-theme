@@ -13,16 +13,6 @@ This page contains example content for previewing or demonstrating computational
 The [Example Outputs Site](https://jupyter-book.github.io/example-outputs/) has more comprehensive examples to show off MyST generating outputs with computation.
 :::
 
-## Wide cell inputs and outputs
-
-These cells produce wide outputs to test that scrollable regions are keyboard-accessible (tab to focus, arrow keys to scroll).
-
-```{code-cell} python
-def print_a_really_long_string():
-    print("MyST is really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really neat!")
-print_a_really_long_string()
-```
-
 ## Pandas
 
 ```{code-cell}
@@ -98,4 +88,14 @@ p.yaxis.axis_label = 'Column B'
 p.grid.grid_line_alpha = 0.3
 
 show(p)
+```
+
+## Wide cell inputs and outputs
+
+These cells produce wide outputs to test that scrollable regions are keyboard-accessible (tab to focus, arrow keys to scroll).
+
+```{code-cell} python
+def print_a_really_long_string():
+    print("MyST is really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really neat!")
+print_a_really_long_string()
 ```

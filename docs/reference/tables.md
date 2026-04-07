@@ -26,13 +26,6 @@ title: Tables
 | `Code` | ✓ | Also works |
 | [Links](https://mystmd.org) | ✓ | External links |
 
-## Wide Table
-
-| Col 1 | Col 2 | Col 3 | Col 4 | Col 5 | Col 6 |
-|-------|-------|-------|-------|-------|-------|
-| A1    | A2    | A3    | A4    | A5    | A6    |
-| B1    | B2    | B3    | B4    | B5    | B6    |
-
 ## With Numbers
 
 | Metric | Q1 | Q2 | Q3 |

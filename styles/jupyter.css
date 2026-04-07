@@ -2,26 +2,54 @@
   font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 }
 
+/*
+ * Accessible ANSI color overrides for error outputs since pygments emits non-a11y-friendly colors.
+ * There are a bunch of classes we *could* over-ride, so here we restrict this to the
+ * colors that IPython uses, since it (via pygments) seems to use more colors than most kernels.
+ *
+ * Here's the reference for the classes we chose to over-ride:
+ *   https://github.com/ipython/ipython/blob/f96610cf00cd/IPython/utils/PyColorize.py
+ *
+ * The colors are inspired by the Accessible Pygments library (originally developed for the PyData Sphinx Theme):
+ *   https://github.com/Quansight-Labs/accessible-pygments
+ */
 .jupyter-error {
-  @apply bg-red-100;
-  /* Override ANSI colors for accessible contrast. Classes come from <Ansi useClasses> */
-  .ansi-red-fg { color: #B91C1C; }
-  .ansi-green-fg { color: #1D7500; }
-  .ansi-yellow-fg { color: #854D0E; }
-  .ansi-blue-fg { color: #1E40AF; }
-  .ansi-magenta-fg { color: #86198F; }
-  .ansi-cyan-fg { color: #0C6EA6; }
+  /* Pygments light theme assume a white background, so we keep this light to avoid a11y clashes */
+  @apply bg-red-50;
+
+  /* Not all of the "brights" are used by ipython but we add one for each color just in case */
+  /* We're keeping bright colors the same as normal colors since the background is light just to keep things simple */
+  .ansi-red-fg, .ansi-bright-red-fg { color: #B91C1C; }
+  .ansi-green-fg, .ansi-bright-green-fg { color: #1D7500; }
+  .ansi-yellow-fg, .ansi-bright-yellow-fg { color: #854D0E; }
+  .ansi-blue-fg, .ansi-bright-blue-fg { color: #1E40AF; }
+  .ansi-magenta-fg, .ansi-bright-magenta-fg { color: #86198F; }
+  .ansi-cyan-fg, .ansi-bright-cyan-fg { color: #0C6EA6; }
+
+  /* These are extended palette colors from Pygments that IPython emits */
+  /* There are other ones coded in IPython but they seem very rare...we can extend if users hit those */
+  .ansi-palette-28-fg { color: #8045e5; }
+  .ansi-palette-66-fg { color: #515151; }
+  .ansi-palette-129-fg { color: #7f4707; }
+  .ansi-palette-132-fg { color: #d71835; }
+  .ansi-palette-167-fg { color: #8045e5; }
 }
 
-/* Dark mode */
 html.dark .jupyter-error {
   @apply bg-red-900/30;
-  .ansi-red-fg { color: #FF9494; }
-  .ansi-green-fg { color: #00EB00; }
-  .ansi-yellow-fg { color: #FACC15; }
-  .ansi-blue-fg { color: #93C5FD; }
-  .ansi-magenta-fg { color: #F0ABFC; }
-  .ansi-cyan-fg { color: #00FAFA; }
+
+  .ansi-red-fg, .ansi-bright-red-fg { color: #FF9494; }
+  .ansi-green-fg, .ansi-bright-green-fg { color: #00EB00; }
+  .ansi-yellow-fg, .ansi-bright-yellow-fg { color: #FACC15; }
+  .ansi-blue-fg, .ansi-bright-blue-fg { color: #93C5FD; }
+  .ansi-magenta-fg, .ansi-bright-magenta-fg { color: #F0ABFC; }
+  .ansi-cyan-fg, .ansi-bright-cyan-fg { color: #00FAFA; }
+
+  .ansi-palette-28-fg { color: #dcc6e0; }
+  .ansi-palette-66-fg { color: #d4d0ab; }
+  .ansi-palette-129-fg { color: #f5ab35; }
+  .ansi-palette-132-fg { color: #ffa07a; }
+  .ansi-palette-167-fg { color: #dcc6e0; }
 }
 
 /* Hide the output prompts from jupyter by default */

@@ -104,15 +104,23 @@ print("Result:", 2 + 3)
 You can use the `raises-exception` cell tag to indicate that a code cell is expected to error.
 This will display the error output but continue executing the rest of the notebook.
 
-We use a function with a traceback error to test out all the various types of error classes and make sure they show up properly:
+We use a semi-complex function with a traceback error to test out all the various types of error classes and make sure they show up properly:
 
 ```{code-cell} python
 :tags: [raises-exception]
 
-def add_one(text):
-    return text + 1
+from pathlib import Path
 
-add_one("hello")
+class DataLoader:
+    """Loads data from a file path."""
+
+    # A comment about this function!
+    @staticmethod
+    def load(path: str, limit: int = 10) -> list:
+        data = Path(path).read_text()
+        return data.split("\n")[:limit]
+
+DataLoader.load(42)
 ```
 
 ## Wide cell inputs and outputs

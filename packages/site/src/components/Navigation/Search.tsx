@@ -208,18 +208,24 @@ function SearchShortcut() {
 
 /**
  * Build a screen-reader-friendly label for a search result: page name first, then match context.
- * Visually we truncate the text but for screen readers we're providing it all.
- * TODO: Validate the assumption that it's better to just provide all the text for screen readers!
  */
 function getResultAriaLabel(result: RankedSearchResult): string {
   const pageName = result.hierarchy.lvl1 ?? '';
   // For top-level page matches, the page name itself is the match — no extra context needed
   if (result.type === 'lvl1') return pageName;
   // For sub-page matches, include the matched heading or content snippet after the page name
-  const matchText =
+  let matchText =
     result.type === 'content' ? result.content : result.hierarchy[result.type as HeadingLevel];
-  // It's not clear if matchText will *always* exist but adding this conditional just in case
-  return matchText ? `${pageName} - ${matchText}` : pageName;
+  // Collapse whitespace and truncate long content so screen readers don't read entire paragraphs
+  if (matchText) {
+    matchText = matchText.replace(/\s+/g, ' ').trim();
+    if (matchText.length > 120) {
+      matchText = matchText.slice(0, 120) + '…';
+    };
+    return`${pageName} - ${matchText}`;
+  } else {
+    return pageName;
+  }
 }
 
 /**

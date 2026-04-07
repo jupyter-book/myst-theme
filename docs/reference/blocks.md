@@ -32,6 +32,15 @@ def calculate_sum(a, b):
     return result
 ```
 
+### Wide Code Block
+
+This code block has long lines and should be horizontally scrollable. Keyboard users should be able to tab to it and scroll with arrow keys.
+
+```python
+def print_a_really_long_string():
+    print("MyST is really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really neat!")
+```
+
 ## Blockquotes
 
 > Basic blockquote for quoted text.

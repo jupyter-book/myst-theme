@@ -88,18 +88,18 @@ export function CodeBlock(props: Props) {
       className={classNames('relative myst-code group not-prose', className, {
         'my-5 text-sm shadow hover:shadow-md dark:shadow-2xl dark:shadow-neutral-900': shadow,
         'bg-stone-200/10': background,
-        'border border-l-4 border-gray-200 border-l-myst-link-underline dark:border-gray-800':
+        'border border-l-4 border-myst-border border-l-myst-link-underline':
           border,
       })}
     >
       {filename && (
-        <div className="flex flex-row pl-2 bg-white border-b dark:bg-slate-600 dark:border-slate-300">
+        <div className="flex flex-row pl-2 bg-myst-bg border-b dark:bg-slate-600 dark:border-slate-300">
           <DocumentIcon
             width="16px"
             height="16px"
-            className="inline-block flex-none self-center text-gray-500 myst-code-filename-icon dark:text-gray-100"
+            className="inline-block flex-none self-center text-myst-text-tertiary myst-code-filename-icon"
           />
-          <div className="self-center p-2 text-sm leading-3 myst-code-filename-title prose text-slate-600 dark:text-white">
+          <div className="self-center p-2 text-sm leading-3 myst-code-filename-title prose text-myst-text-secondary">
             {filename}
           </div>
         </div>
@@ -162,7 +162,7 @@ const inlineCode: NodeRenderer = ({ node, className }) => {
     return (
       <code
         className={classNames(
-          'px-1 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-100',
+          'px-1 rounded bg-myst-code-bg text-myst-text-secondary',
           className,
         )}
       >

@@ -334,9 +334,9 @@ export function MySTRenderer({
           <button
             key={show}
             className={classnames('px-2 py-1', {
-              'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
+              'bg-myst-bg hover:bg-myst-surface-hover dark:bg-slate-500 dark:hover:bg-slate-700':
                 previewType !== show,
-              'bg-blue-800 text-white': previewType === show,
+              'bg-myst-primary text-white': previewType === show,
             })}
             title={`Show the ${show}`}
             aria-label={`Show the ${show}`}
@@ -353,9 +353,9 @@ export function MySTRenderer({
             <button
               key={show}
               className={classnames('px-2 py-1', {
-                'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
+                'bg-myst-bg hover:bg-myst-surface-hover dark:bg-slate-500 dark:hover:bg-slate-700':
                   astLang !== show,
-                'bg-blue-800 text-white': astLang === show,
+                'bg-myst-primary text-white': astLang === show,
               })}
               title={`Show the AST as ${show.toUpperCase()}`}
               aria-pressed={astLang === show ? 'true' : 'false'}
@@ -368,9 +368,9 @@ export function MySTRenderer({
             <button
               key={show}
               className={classnames('px-2 py-1', {
-                'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
+                'bg-myst-bg hover:bg-myst-surface-hover dark:bg-slate-500 dark:hover:bg-slate-700':
                   astStage !== show,
-                'bg-blue-800 text-white': astStage === show,
+                'bg-myst-primary text-white': astStage === show,
               })}
               title={`Show the AST Stage ${show.toUpperCase()}`}
               aria-pressed={astStage === show ? 'true' : 'false'}
@@ -414,7 +414,7 @@ export function MySTRenderer({
             ref={area}
             value={text}
             className={classnames(
-              'block p-6 w-full font-mono shadow-inner outline-none resize-none bg-slate-50/50 dark:bg-slate-800/50',
+              'block p-6 w-full font-mono shadow-inner outline-none resize-none bg-myst-bg-alt/50 dark:bg-slate-800/50',
               { 'text-sm': !column },
               { 'h-full': column },
             )}
@@ -424,7 +424,7 @@ export function MySTRenderer({
       </div>
       {/* The `exclude-from-outline` class is excluded from the document outline */}
       <div
-        className={classnames('relative exclude-from-outline min-h-1 dark:bg-slate-900', {
+        className={classnames('relative exclude-from-outline min-h-1 dark:bg-myst-surface', {
           'overflow-auto': column,
         })}
       >

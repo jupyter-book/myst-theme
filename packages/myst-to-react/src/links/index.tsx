@@ -168,14 +168,14 @@ export const SimpleLink: NodeRenderer<TransformedLink> = ({ node, className }) =
 export const linkBlock: NodeRenderer<TransformedLink> = ({ node, className }) => {
   const iconClass = 'self-center transition-transform flex-none ml-3';
   const containerClass =
-    'flex-1 p-4 my-5 block border font-normal hover:border-myst-active no-underline hover:text-myst-active text-gray-600 dark:text-gray-100 border-gray-200 dark:border-gray-500 rounded shadow-sm hover:shadow-lg dark:shadow-neutral-700';
+    'flex-1 p-4 my-5 block border font-normal hover:border-myst-active no-underline hover:text-myst-active text-myst-text-secondary border-myst-border rounded shadow-sm hover:shadow-lg dark:shadow-neutral-700';
   const config = useSiteManifest();
   const internal = node.internal ?? !isExternalUrl(node.url, config?.options?.internal_domains);
   const nested = (
     <div className="flex h-full align-middle">
       <div className="flex-grow">
         {node.title}
-        <div className="text-xs text-gray-500 dark:text-gray-400">
+        <div className="text-xs text-myst-text-tertiary">
           <MyST ast={node.children} />
         </div>
       </div>

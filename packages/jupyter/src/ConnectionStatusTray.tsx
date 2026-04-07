@@ -47,7 +47,7 @@ export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: bo
   // TODO radix ui toast!
   if (show && error) {
     return (
-      <div className="myst-jp-connect-status-tray fixed p-3 z-[11] text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
+      <div className="myst-jp-connect-status-tray fixed p-3 z-[11] text-sm text-myst-text-secondary bg-myst-bg border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
         <div className="myst-jp-connect-status-header mb-2 font-semibold text-center">
           ⛔️ Error connecting to {host} ⛔️
         </div>
@@ -69,7 +69,7 @@ export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: bo
 
   if (show && options?.thebe?.useJupyterLite) {
     return (
-      <div className="myst-jp-connect-status-tray fixed p-3 z-[11] text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
+      <div className="myst-jp-connect-status-tray fixed p-3 z-[11] text-sm text-myst-text-secondary bg-myst-bg border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
         <div className="myst-jp-connect-status-header mb-1 font-semibold text-center">
           ⚡️ Connecting to {host} ⚡️
         </div>
@@ -89,7 +89,7 @@ export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: bo
 
   if (show) {
     return (
-      <div className="myst-jp-connect-status-tray fixed p-3 z-[11] text-sm text-gray-700 bg-white border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
+      <div className="myst-jp-connect-status-tray fixed p-3 z-[11] text-sm text-myst-text-secondary bg-myst-bg border rounded shadow-lg bottom-2 sm:right-2 max-w-[90%] md:max-w-[300px] min-w-0">
         <div className="myst-jp-connect-status-header mb-1 font-semibold text-center">
           ⚡️ Connecting to {host} ⚡️
         </div>

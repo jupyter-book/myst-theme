@@ -28,7 +28,7 @@ function AuthorIconLink({
         width="1rem"
         height="1rem"
         className={classNames(
-          'myst-fm-author-icon inline-block text-gray-400 -translate-y-[0.1em]',
+          'myst-fm-author-icon inline-block text-myst-text-tertiary -translate-y-[0.1em]',
           className,
         )}
       />

@@ -176,15 +176,15 @@ export function Admonition({
       open={open}
       className={classNames(
         `myst-admonition myst-admonition-${kind} my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900`,
-        'bg-gray-50/10 dark:bg-stone-800',
+        'bg-myst-bg-alt/10 dark:bg-myst-bg-alt',
         'overflow-hidden',
         {
           'myst-admonition-default rounded border-l-4': !simple,
           'myst-admonition-simple border-l-2': simple,
-          'border-blue-500': !color || color === 'blue',
-          'border-green-600': color === 'green',
-          'border-amber-600': color === 'yellow',
-          'border-red-600': color === 'red',
+          'border-myst-info': !color || color === 'blue',
+          'border-myst-success': color === 'green',
+          'border-myst-warning': color === 'yellow',
+          'border-myst-danger': color === 'red',
         },
         className,
       )}
@@ -195,11 +195,11 @@ export function Admonition({
           className={classNames('myst-admonition-header m-0 font-medium py-1 flex min-w-0', {
             'text-lg': !simple,
             'text-md': simple,
-            'bg-gray-100 dark:bg-stone-700': simple,
-            'text-blue-600 bg-blue-50 dark:bg-slate-900': !simple && (!color || color === 'blue'),
-            'text-green-600 bg-green-50 dark:bg-slate-900': !simple && color === 'green',
-            'text-amber-600 bg-amber-50 dark:bg-slate-900': !simple && color === 'yellow',
-            'text-red-600 bg-red-50 dark:bg-slate-900': !simple && color === 'red',
+            'bg-myst-surface dark:bg-myst-surface-hover': simple,
+            'text-myst-info-text bg-myst-info-bg': !simple && (!color || color === 'blue'),
+            'text-myst-success-text bg-myst-success-bg': !simple && color === 'green',
+            'text-myst-warning-text bg-myst-warning-bg': !simple && color === 'yellow',
+            'text-myst-danger-text bg-myst-danger-bg': !simple && color === 'red',
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           })}
@@ -209,23 +209,23 @@ export function Admonition({
               kind={kind ?? AdmonitionKind.note}
               className={classNames({
                 // Needed for simple!
-                'text-blue-600': !color || color === 'blue',
-                'text-green-600': color === 'green',
-                'text-amber-600': color === 'yellow',
-                'text-red-600': color === 'red',
+                'text-myst-info-text': !color || color === 'blue',
+                'text-myst-success-text': color === 'green',
+                'text-myst-warning-text': color === 'yellow',
+                'text-myst-danger-text': color === 'red',
               })}
             />
           )}
           <div
             className={classNames(
-              'myst-admonition-header-text text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
+              'myst-admonition-header-text text-myst-text grow self-center overflow-hidden break-words',
               { 'ml-4': hideIcon },
             )}
           >
             {title}
           </div>
           {dropdown && (
-            <div className="self-center flex-none text-sm font-thin text-neutral-700 dark:text-neutral-200">
+            <div className="self-center flex-none text-sm font-thin text-myst-text-secondary">
               <ChevronRightIcon
                 width="2rem"
                 height="2rem"

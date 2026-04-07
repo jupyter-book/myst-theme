@@ -37,7 +37,7 @@ export function MystLogo({
 export function MadeWithMyst({ url = 'https://mystmd.org/made-with-myst' }: { url?: string }) {
   return (
     <a
-      className="myst-made-with-myst flex mx-auto text-gray-700 w-fit hover:text-myst-link dark:text-gray-200"
+      className="myst-made-with-myst flex mx-auto text-myst-text-secondary w-fit hover:text-myst-link"
       href={url}
       target="_blank"
       rel="noreferrer"

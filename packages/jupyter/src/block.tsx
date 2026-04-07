@@ -28,7 +28,7 @@ export function NotebookBlock({ node, className }: { node: GenericParent; classN
             </div>
           </div>
           <div className="myst-jp-nb-block sticky top-[115px] z-10 opacity-90 group-hover/block:opacity-100 group-hover/block:flex">
-            <div className="absolute -top-[12px] right-0 flex flex-row rounded bg-white dark:bg-slate-800">
+            <div className="absolute -top-[12px] right-0 flex flex-row rounded bg-myst-bg dark:bg-myst-surface">
               <NotebookRunCell id={node.key} />
               <NotebookClearCell id={node.key} />
             </div>

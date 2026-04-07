@@ -200,7 +200,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
             aria-label="Open Folder"
           >
             <ChevronRightIcon
-              className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+              className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-myst-text-secondary"
               height="1.5rem"
               width="1.5rem"
             />

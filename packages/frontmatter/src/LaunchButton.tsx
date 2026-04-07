@@ -470,7 +470,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
       <details
         className={classNames(
           'myst-fm-launch-modal-body rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
-          'bg-gray-50 dark:bg-stone-800',
+          'bg-myst-bg-alt',
           { hidden: !(detectedProviderType === 'jupyterhub' || detectedProviderType === 'error') },
         )}
         open={false}
@@ -479,11 +479,11 @@ function DetectLaunchContent(props: ModalLaunchProps) {
           className={classNames(
             'myst-fm-launch-modal-header m-0 text-lg font-medium py-1 min-h-[2em] pl-3',
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]',
-            'bg-gray-100 dark:bg-slate-900',
+            'bg-myst-surface',
           )}
         >
-          <span className="text-neutral-900 dark:text-white">
-            <span className="block float-right text-sm font-thin text-neutral-700 dark:text-neutral-200">
+          <span className="text-myst-text">
+            <span className="block float-right text-sm font-thin text-myst-text-secondary">
               <ChevronRightIcon
                 width="1.5rem"
                 height="1.5rem"
@@ -587,7 +587,7 @@ export function LaunchButton(props: LaunchProps) {
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
-          className="myst-fm-launch-modal myst-fm-launch-modal-content z-30 text-gray-700 dark:text-white bg-white dark:bg-stone-800 p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] max-w-[400px]"
+          className="myst-fm-launch-modal myst-fm-launch-modal-content z-30 text-myst-text-secondary bg-myst-bg p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] max-w-[400px]"
           sideOffset={5}
         >
           <DetectLaunchContent {...props} onLaunch={closePopover} />

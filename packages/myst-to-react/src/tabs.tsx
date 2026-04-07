@@ -52,7 +52,7 @@ export function TabSet({
   return (
     <TabSetStateProvider active={active}>
       <div className={classNames('myst-tab-set my-5', className)}>
-        <div className="myst-tab-set-row flex flex-row flex-wrap overflow-x-auto border-b border-b-gray-100">
+        <div className="myst-tab-set-row flex flex-row flex-wrap overflow-x-auto border-b border-b-myst-border">
           {tabs.map((tab) => {
             return (
               <div
@@ -62,7 +62,7 @@ export function TabSet({
                   {
                     'myst-tab-item-header-active text-myst-active border-b-2 border-b-myst-active dark:border-b-white dark:text-white':
                       active === tab.id,
-                    'myst-tab-item-header-inactive text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100':
+                    'myst-tab-item-header-inactive text-myst-text-tertiary hover:text-myst-text-secondary':
                       active !== tab.id,
                   },
                 )}

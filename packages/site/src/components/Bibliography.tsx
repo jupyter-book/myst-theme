@@ -38,14 +38,14 @@ export function Bibliography({
             {hidden ? 'Show All' : 'Collapse'}
           </button>
         )}
-        <header className="myst-bibliography-header text-lg font-semibold text-stone-900 dark:text-white group">
+        <header className="myst-bibliography-header text-lg font-semibold text-myst-text group">
           References
           <HashLink id="references" title="Link to References" hover className="ml-2" />
         </header>
       </div>
       <div
         className={classNames(
-          'myst-bibliography-list pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300',
+          'myst-bibliography-list pl-3 mb-8 text-xs text-myst-text-tertiary',
           innerClassName,
         )}
       >

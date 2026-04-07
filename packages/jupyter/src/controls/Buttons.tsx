@@ -64,7 +64,7 @@ export function LaunchBinder({ type, location }: { type: 'link' | 'button'; loca
     useLaunchBinder();
 
   let btnStyles =
-    'flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent';
+    'flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-myst-surface-hover border-myst-border-strong hover:bg-slate-800 hover:text-white hover:border-transparent';
   let icon = (
     <ArrowTopRightOnSquareIcon
       width="1rem"
@@ -75,7 +75,7 @@ export function LaunchBinder({ type, location }: { type: 'link' | 'button'; loca
   if (type === 'link') {
     icon = <ArrowTopRightOnSquareIcon width="1.5rem" height="1.5rem" className="inline h-5 pr-2" />;
     btnStyles =
-      'inline-flex items-center mr-2 font-medium no-underline text-gray-900 lg:mr-0 lg:flex';
+      'inline-flex items-center mr-2 font-medium no-underline text-myst-text lg:mr-0 lg:flex';
   }
 
   if (ready) {
@@ -151,7 +151,7 @@ export function SpinnerStatusButton({
     <div className="myst-jp-btn-spinner-status relative flex text-sm">
       <button
         className={classNames(
-          'cursor-pointer text-gray-700 dark:text-white active:text-green-700 hover:opacity-100',
+          'cursor-pointer text-myst-text-secondary active:text-green-700 hover:opacity-100',
           {
             'opacity-10': busy,
             'opacity-70': !busy,
@@ -191,7 +191,7 @@ function SpinnerButton({
   return (
     <div className="myst-jp-btn-spinner relative flex text-sm">
       <button
-        className={classNames(' text-gray-700 dark:text-white active:text-green-700 ', {
+        className={classNames(' text-myst-text-secondary active:text-green-700 ', {
           'opacity-10 hover:opacity-10': busy,
           'opacity-70': !busy && !disabled,
           'cursor-pointer hover:opacity-100': !disabled,
@@ -350,7 +350,7 @@ export function Clear({
 }) {
   return (
     <button
-      className={classNames('myst-jp-btn-clear flex text-gray-700 dark:text-white', {
+      className={classNames('myst-jp-btn-clear flex text-myst-text-secondary', {
         'cursor-not-allowed opacity-10': disabled || !ready,
         'active:text-green-700 opacity-70 hover:opacity-100 cursor-pointer': !disabled,
       })}
@@ -377,7 +377,7 @@ export function Launch({
 }) {
   return (
     <button
-      className="myst-jp-btn-launch flex items-center text-gray-700 cursor-pointer dark:text-white active:text-green-700 opacity-70 hover:opacity-100"
+      className="myst-jp-btn-launch flex items-center text-myst-text-secondary cursor-pointer active:text-green-700 opacity-70 hover:opacity-100"
       disabled={disabled || !ready}
       onClick={() => onClick()}
       title={title ?? 'launch in jupyter'}

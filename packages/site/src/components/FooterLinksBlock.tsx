@@ -17,7 +17,7 @@ export const FooterLink = ({
     <Link
       prefetch="intent"
       className={classNames(
-        'myst-footer-link flex-1 block p-4 font-normal text-gray-600 no-underline border border-gray-200 rounded shadow-sm group hover:border-myst-active hover:text-myst-active dark:text-gray-100 dark:border-gray-500 hover:shadow-lg dark:shadow-neutral-700',
+        'myst-footer-link flex-1 block p-4 font-normal text-myst-text-secondary no-underline border border-myst-border rounded shadow-sm group hover:border-myst-active hover:text-myst-active hover:shadow-lg dark:shadow-neutral-700',
         { 'myst-footer-link-prev': right, 'myst-footer-link-next': !right },
       )}
       to={withBaseurl(url, baseurl)}
@@ -32,7 +32,7 @@ export const FooterLink = ({
           />
         )}
         <div className={classNames('flex-grow', { 'text-right': right })}>
-          <div className="myst-footer-link-group text-xs text-gray-500 dark:text-gray-400">
+          <div className="myst-footer-link-group text-xs text-myst-text-tertiary">
             {group || ' '}
           </div>
           {linkText}

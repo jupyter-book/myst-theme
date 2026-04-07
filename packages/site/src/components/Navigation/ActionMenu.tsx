@@ -25,7 +25,7 @@ export function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="myst-action-menu-dropdown absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="myst-action-menu-dropdown absolute right-0 w-48 py-1 mt-2 origin-top-right bg-myst-bg rounded-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           {actions?.map((action) => (
             <Menu.Item key={action.url}>
               {({ active }) => (
@@ -33,8 +33,8 @@ export function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
                   href={action.url}
                   className={classNames(
                     'myst-action-menu-item',
-                    active ? 'bg-gray-100' : '',
-                    'block px-4 py-2 text-sm text-gray-700',
+                    active ? 'bg-myst-surface' : '',
+                    'block px-4 py-2 text-sm text-myst-text-secondary',
                   )}
                 >
                   {action.title}

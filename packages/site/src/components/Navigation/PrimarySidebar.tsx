@@ -62,7 +62,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
             aria-label="Open Folder"
           >
             <ChevronRightIcon
-              className="myst-primary-sidebar-item-icon transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+              className="myst-primary-sidebar-item-icon transition-transform duration-300 group-data-[state=open]:rotate-90 text-myst-text-secondary"
               height="1.5rem"
               width="1.5rem"
             />
@@ -207,7 +207,7 @@ export const PrimarySidebar = ({
           'overflow-hidden max-xl:h-full',
           {
             flex: open,
-            'bg-white dark:bg-stone-900': open, // just apply when open, so that theme can transition
+            'bg-myst-bg': open, // just apply when open, so that theme can transition
             'hidden xl:flex': !open && !mobileOnly,
             hidden: !open && mobileOnly,
             'lg:hidden': mobileOnly && !headings,

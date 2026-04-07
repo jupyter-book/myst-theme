@@ -7,9 +7,9 @@ import { useBusyErrors } from './execute/busy.js';
 function ErrorDecoration({ children, idx }: React.PropsWithChildren<{ idx?: number }>) {
   return (
     <div className="myst-jp-error-tray-decoration relative py-3 mx-2 my-8 border rounded">
-      <div className="myst-jp-error-tray-cell absolute z-10 flex items-center bg-white -top-3 -left-2">
+      <div className="myst-jp-error-tray-cell absolute z-10 flex items-center bg-myst-bg -top-3 -left-2">
         {idx && (
-          <div className="myst-jp-error-tray-cell-number ml-1 text-sm text-gray-500">
+          <div className="myst-jp-error-tray-cell-number ml-1 text-sm text-myst-text-tertiary">
             cell #: {idx + 1}
           </div>
         )}

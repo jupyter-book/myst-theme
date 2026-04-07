@@ -1,8 +1,7 @@
 import React from 'react';
 import type * as spec from 'myst-spec';
 import { HashLink } from './hashLink.js';
-import type { NodeRenderer } from '@myst-theme/providers';
-import { useIsScrollable } from '@myst-theme/providers';
+import { type NodeRenderer, useIsScrollable } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { Tooltip } from './components/index.js';
 import { MyST } from './MyST.js';

@@ -211,7 +211,7 @@ function SearchShortcut() {
  */
 function getResultAriaLabel(result: RankedSearchResult): string {
   const pageName = result.hierarchy.lvl1 ?? '';
-  // For top-level page matches, the page name itself is the match — no extra context needed
+  // For top-level page matches, the page name itself is the match and there isn't extra content
   if (result.type === 'lvl1') return pageName;
   // For sub-page matches, include the matched heading or content snippet after the page name
   let matchText =

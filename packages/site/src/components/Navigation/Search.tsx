@@ -565,7 +565,7 @@ const SearchPlaceholderButton = forwardRef<
   return (
     <button
       {...restProps}
-      aria-controls={restProps['aria-expanded'] === 'true' ? ariaControls : undefined}
+      aria-controls={restProps['aria-expanded'] ? ariaControls : undefined}
       className={classNames(
         'myst-search-bar',
         className,

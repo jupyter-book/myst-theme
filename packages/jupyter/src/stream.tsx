@@ -23,7 +23,7 @@ export default function Stream({ output }: { output: MinifiedStreamOutput }) {
             'jupyter-error': output.name === 'stderr',
           })}
         >
-          <Ansi>{content ?? ''}</Ansi>
+          <Ansi useClasses>{content ?? ''}</Ansi>
         </pre>
       )}
     />

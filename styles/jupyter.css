@@ -1,3 +1,5 @@
+@import './ansi.css';
+
 .font-system {
   font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 }

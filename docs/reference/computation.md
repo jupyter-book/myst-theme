@@ -5,6 +5,7 @@ jupyter:
     language: python
     name: python3
 ---
+
 # Computation and notebooks
 
 This page contains example content for previewing or demonstrating computational content and notebooks, as well as Thebe integration.
@@ -97,6 +98,20 @@ A simple cell with printed text output for comparison with error outputs below:
 ```{code-cell} python
 print("Hello, world!")
 print("Result:", 2 + 3)
+```
+
+A simple cell with ANSI codes:
+
+```{code-cell} python
+print(f"\033[93mEveryone with telekinetic powers, raise my hand.\033[0m")
+```
+
+Also with the stderr stream:
+
+```{code-cell} python
+import sys
+
+print(f"\033[93mEveryone with telekinetic powers, raise my hand.\033[0m", file=sys.stderr)
 ```
 
 ## Error outputs

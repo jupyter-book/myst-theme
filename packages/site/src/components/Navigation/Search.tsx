@@ -221,8 +221,8 @@ function getResultAriaLabel(result: RankedSearchResult): string {
     matchText = matchText.replace(/\s+/g, ' ').trim();
     if (matchText.length > 120) {
       matchText = matchText.slice(0, 120) + '…';
-    };
-    return`${pageName} - ${matchText}`;
+    }
+    return `${pageName} - ${matchText}`;
   } else {
     return pageName;
   }

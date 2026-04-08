@@ -103,7 +103,12 @@ print("Result:", 2 + 3)
 A simple cell with ANSI codes:
 
 ```{code-cell} python
-print(f"\033[93mEveryone with telekinetic powers, raise my hand.\033[0m")
+colour_palette = (
+    f"\033[38;5;140mEveryone with telekinetic powers, raise my hand.\033[0m"
+)
+colours_named = "\n".join((f"\033[38;5;{i}mMeep\033[0m" for i in range(16)))
+print(colour_palette)
+print(colours_named)
 ```
 
 Also with the stderr stream:
@@ -111,7 +116,8 @@ Also with the stderr stream:
 ```{code-cell} python
 import sys
 
-print(f"\033[93mEveryone with telekinetic powers, raise my hand.\033[0m", file=sys.stderr)
+print(colour_palette, file=sys.stderr)
+print(colours_named, file=sys.stderr)
 ```
 
 ## Error outputs

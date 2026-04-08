@@ -21,37 +21,93 @@
 
   /* Not all of the "brights" are used by ipython but we add one for each color just in case */
   /* We're keeping bright colors the same as normal colors since the background is light just to keep things simple */
-  .ansi-red-fg, .ansi-bright-red-fg { color: #B91C1C; }
-  .ansi-green-fg, .ansi-bright-green-fg { color: #1D7500; }
-  .ansi-yellow-fg, .ansi-bright-yellow-fg { color: #854D0E; }
-  .ansi-blue-fg, .ansi-bright-blue-fg { color: #1E40AF; }
-  .ansi-magenta-fg, .ansi-bright-magenta-fg { color: #86198F; }
-  .ansi-cyan-fg, .ansi-bright-cyan-fg { color: #0C6EA6; }
+  & .ansi-red-fg,
+  & .ansi-bright-red-fg {
+    color: #b91c1c;
+  }
+  & .ansi-green-fg,
+  & .ansi-bright-green-fg {
+    color: #1d7500;
+  }
+  & .ansi-yellow-fg,
+  & .ansi-bright-yellow-fg {
+    color: #854d0e;
+  }
+  & .ansi-blue-fg,
+  & .ansi-bright-blue-fg {
+    color: #1e40af;
+  }
+  & .ansi-magenta-fg,
+  & .ansi-bright-magenta-fg {
+    color: #86198f;
+  }
+  & .ansi-cyan-fg,
+  & .ansi-bright-cyan-fg {
+    color: #0c6ea6;
+  }
 
   /* These are extended palette colors from Pygments that IPython emits */
   /* There are other ones coded in IPython but they seem very rare...we can extend if users hit those */
-  .ansi-palette-28-fg { color: #8045e5; }
-  .ansi-palette-66-fg { color: #515151; }
-  .ansi-palette-129-fg { color: #7f4707; }
-  .ansi-palette-132-fg { color: #d71835; }
-  .ansi-palette-167-fg { color: #8045e5; }
+  & .ansi-palette-28-fg {
+    color: #8045e5;
+  }
+  & .ansi-palette-66-fg {
+    color: #515151;
+  }
+  & .ansi-palette-129-fg {
+    color: #7f4707;
+  }
+  & .ansi-palette-132-fg {
+    color: #d71835;
+  }
+  & .ansi-palette-167-fg {
+    color: #8045e5;
+  }
 }
 
 html.dark .jupyter-error {
   @apply bg-red-900/30;
 
-  .ansi-red-fg, .ansi-bright-red-fg { color: #FF9494; }
-  .ansi-green-fg, .ansi-bright-green-fg { color: #00EB00; }
-  .ansi-yellow-fg, .ansi-bright-yellow-fg { color: #FACC15; }
-  .ansi-blue-fg, .ansi-bright-blue-fg { color: #93C5FD; }
-  .ansi-magenta-fg, .ansi-bright-magenta-fg { color: #F0ABFC; }
-  .ansi-cyan-fg, .ansi-bright-cyan-fg { color: #00FAFA; }
+  & .ansi-red-fg,
+  & .ansi-bright-red-fg {
+    color: #ff9494;
+  }
+  & .ansi-green-fg,
+  & .ansi-bright-green-fg {
+    color: #00eb00;
+  }
+  & .ansi-yellow-fg,
+  & .ansi-bright-yellow-fg {
+    color: #facc15;
+  }
+  & .ansi-blue-fg,
+  & .ansi-bright-blue-fg {
+    color: #93c5fd;
+  }
+  & .ansi-magenta-fg,
+  & .ansi-bright-magenta-fg {
+    color: #f0abfc;
+  }
+  & .ansi-cyan-fg,
+  & .ansi-bright-cyan-fg {
+    color: #00fafa;
+  }
 
-  .ansi-palette-28-fg { color: #F472B6; }
-  .ansi-palette-66-fg { color: #d4d0ab; }
-  .ansi-palette-129-fg { color: #f5ab35; }
-  .ansi-palette-132-fg { color: #ffa07a; }
-  .ansi-palette-167-fg { color: #dcc6e0; }
+  & .ansi-palette-28-fg {
+    color: #f472b6;
+  }
+  & .ansi-palette-66-fg {
+    color: #d4d0ab;
+  }
+  & .ansi-palette-129-fg {
+    color: #f5ab35;
+  }
+  & .ansi-palette-132-fg {
+    color: #ffa07a;
+  }
+  & .ansi-palette-167-fg {
+    color: #dcc6e0;
+  }
 }
 
 /* Hide the output prompts from jupyter by default */

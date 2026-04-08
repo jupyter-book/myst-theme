@@ -19,6 +19,20 @@
           devShells.default = mkShell {
             buildInputs = [
               pkgs.nodejs_22
+              (pkgs.python3.withPackages (ps:
+                with ps; [
+                  jupyter-server
+                  ipykernel
+                  # Computation modules
+                  jupytext
+                  jupyterlab
+                  altair
+                  matplotlib
+                  plotly
+                  bokeh
+                  vega-datasets
+                  numpy
+                ]))
             ];
           };
         }

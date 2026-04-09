@@ -1,0 +1,72 @@
+.myst-color-picker {
+  font-family: inherit;
+  border: 1px solid var(--myst-color-border, #e5e7eb);
+  border-radius: 6px;
+  padding: 1rem;
+  background: var(--myst-color-bg-alt, #f9fafb);
+}
+
+.myst-color-picker .cp-header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.myst-color-picker .cp-btn {
+  font-size: 0.85rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--myst-color-border-strong, #d1d5db);
+  border-radius: 4px;
+  background: var(--myst-color-surface, #f3f4f6);
+  color: var(--myst-color-text, #111827);
+  cursor: pointer;
+}
+
+.myst-color-picker .cp-btn:hover {
+  background: var(--myst-color-surface-hover, #e5e7eb);
+}
+
+.myst-color-picker section {
+  margin-bottom: 1rem;
+}
+
+.myst-color-picker h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--myst-color-text-secondary, #4b5563);
+}
+
+.myst-color-picker .cp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.4rem 1rem;
+}
+
+.myst-color-picker .cp-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.myst-color-picker .cp-row input[type='color'] {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--myst-color-border, #e5e7eb);
+  border-radius: 4px;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  flex: none;
+}
+
+.myst-color-picker .cp-name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--myst-color-text-secondary, #4b5563);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

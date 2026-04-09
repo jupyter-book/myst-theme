@@ -26,6 +26,7 @@ project:
     - file: ui.md
     - file: authorship.md
     - file: anywidgets.md
+    - file: theming.md
     - file: permalinks.md
     - file: reference/index.md
       children:

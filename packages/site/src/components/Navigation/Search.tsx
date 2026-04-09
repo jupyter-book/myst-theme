@@ -585,9 +585,15 @@ const SearchPlaceholderButton = forwardRef<
   HTMLButtonElement,
   SearchPlaceholderButtonProps & Dialog.DialogTriggerProps
 >(({ className, disabled, ...props }, ref) => {
+  // Here we remove aria-controls from props so we can *decide* whether to insert it later
+  // This is because radix has a bug where it'll try pointing to a non-existent element
+  // if the dialog isn't open, so that's the logic we test below.
+  // ref: https://github.com/radix-ui/primitives/issues/3560
+  const { 'aria-controls': ariaControls, ...restProps } = props;
   return (
     <button
-      {...props}
+      {...restProps}
+      aria-controls={restProps['aria-expanded'] ? ariaControls : undefined}
       className={classNames(
         'myst-search-bar',
         className,

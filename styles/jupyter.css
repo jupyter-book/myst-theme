@@ -19,117 +19,93 @@
   /* Pygments light theme assume a white background, so we keep this light to avoid a11y clashes */
   @apply bg-red-50;
 
-  /* Not all of the "brights" are used by ipython but we add one for each color just in case */
-  /* We're keeping bright colors the same as normal colors since the background is light just to keep things simple */
-  & .ansi-red-fg,
-  & .ansi-bright-red-fg {
-    color: #b91c1c;
-  }
-  & .ansi-green-fg,
-  & .ansi-bright-green-fg {
-    color: #1d7500;
-  }
+  /* Different fg vs bg styling */
   & .ansi-yellow-fg,
   & .ansi-bright-yellow-fg {
     color: #854d0e;
   }
-  & .ansi-yellow-bg {
+
+  & .ansi-yellow-bg,
+  & .ansi-bright-yellow-bg {
     color: #707000;
   }
-  & .ansi-blue-fg,
-  & .ansi-bright-blue-fg {
-    color: #1e40af;
-  }
-  & .ansi-magenta-fg,
-  & .ansi-bright-magenta-fg {
-    color: #86198f;
-  }
-  & .ansi-cyan-fg,
-  & .ansi-bright-cyan-fg {
-    color: #0c6ea6;
-  }
-  & .ansi-white-fg,
-  & .ansi-bright-white-fg {
-    color: #575757 !important;
-  }
+
+  /* Not all of the "brights" are used by ipython but we add one for each color just in case */
+  /* We're keeping bright colors the same as normal colors since the background is light just to keep things simple */
+  --ansi-red: #b91c1c;
+  --ansi-bright-red: var(--ansi-red);
+
+  --ansi-green: #1d7500;
+  --ansi-bright-green: var(--ansi-green);
+
+  --ansi-blue: #1e40af;
+  --ansi-bright-blue: var(--ansi-blue);
+
+  --ansi-magenta: #86198f;
+  --ansi-bright-magenta: var(--ansi-magenta);
+
+  --ansi-cyan: #0c6ea6;
+  --ansi-bright-cyan: var(--ansi-cyan);
+
+  --ansi-white: #575757;
+  --ansi-bright-white: var(--ansi-white);
 
   /* These are extended palette colors from Pygments that IPython emits */
   /* There are other ones coded in IPython but they seem very rare...we can extend if users hit those */
-  & .ansi-palette-28-fg {
-    color: #8045e5;
-  }
-  & .ansi-palette-66-fg {
-    color: #515151;
-  }
-  & .ansi-palette-129-fg {
-    color: #7f4707;
-  }
-  & .ansi-palette-132-fg {
-    color: #d71835;
-  }
-  & .ansi-palette-140-fg {
-    color: #8A4FC4;
-  }
-  & .ansi-palette-167-fg {
-    color: #8045e5;
-  }
+  --ansi-palette-28: #8045e5;
+  --ansi-palette-66: #515151;
+  --ansi-palette-129: #7f4707;
+  --ansi-palette-132: #d71835;
+  --ansi-palette-140: #8a4fc4;
+  --ansi-palette-167: #8045e5;
 }
 
 html.dark .jupyter-error {
   @apply bg-red-900/30;
 
-  & .ansi-red-fg,
-  & .ansi-bright-red-fg {
-    color: #ff9494;
-  }
-  & .ansi-green-fg,
-  & .ansi-bright-green-fg {
-    color: #00eb00;
-  }
+  /* Different fg vs bg styling */
   & .ansi-yellow-fg,
   & .ansi-bright-yellow-fg {
     color: #facc15;
   }
-  & .ansi-yellow-bg {
-    color: #CCCC00;
-  }
-  & .ansi-blue-fg,
-  & .ansi-bright-blue-fg {
-    color: #93c5fd;
-  }
-  & .ansi-magenta-fg,
-  & .ansi-bright-magenta-fg {
-    color: #f0abfc;
-  }
-  & .ansi-cyan-fg,
-  & .ansi-bright-cyan-fg {
-    color: #00fafa;
-  }
-  & .ansi-black-fg,
-  & .ansi-bright-black-fg,
-  & .ansi-white-fg,
-  & .ansi-bright-white-fg {
-    color: #B5B5B5 !important;
+
+  & .ansi-yellow-bg,
+  & .ansi-bright-yellow-bg {
+    color: #cccc00;
   }
 
-  & .ansi-palette-28-fg {
-    color: #f472b6;
-  }
-  & .ansi-palette-66-fg {
-    color: #d4d0ab;
-  }
-  & .ansi-palette-129-fg {
-    color: #f5ab35;
-  }
-  & .ansi-palette-132-fg {
-    color: #ffa07a;
-  }
-  & .ansi-palette-140-fg {
-    color: #AD85D6;
-  }
-  & .ansi-palette-167-fg {
-    color: #dcc6e0;
-  }
+  --ansi-yellow: #facc15;
+  --ansi-bright-yellow: var(--ansi-yellow);
+
+  --ansi-yellow: #cccc00;
+  --ansi-bright-yellow: var(--ansi-yellow);
+
+  --ansi-red: #ff9494;
+  --ansi-bright-red: var(--ansi-red);
+
+  --ansi-green: #00eb00;
+  --ansi-bright-green: var(--ansi-green);
+
+  --ansi-blue: #93c5fd;
+  --ansi-bright-blue: var(--ansi-blue);
+
+  --ansi-magenta: #f0abfc;
+  --ansi-bright-magenta: var(--ansi-magenta);
+
+  --ansi-cyan: #00fafa;
+  --ansi-bright-cyan: var(--ansi-cyan);
+
+  --ansi-black: #b5b5b5;
+  --ansi-bright-black: var(--ansi-black);
+  --ansi-white: var(--ansi-black);
+  --ansi-bright-white: var(--ansi-black);
+
+  --ansi-palette-28: #f472b6;
+  --ansi-palette-66: #d4d0ab;
+  --ansi-palette-129: #f5ab35;
+  --ansi-palette-132: #ffa07a;
+  --ansi-palette-140: #ad85d6;
+  --ansi-palette-167: #dcc6e0;
 }
 
 /* Hide the output prompts from jupyter by default */

@@ -33,6 +33,9 @@
   & .ansi-bright-yellow-fg {
     color: #854d0e;
   }
+  & .ansi-yellow-bg {
+    color: #707000;
+  }
   & .ansi-blue-fg,
   & .ansi-bright-blue-fg {
     color: #1e40af;
@@ -44,6 +47,10 @@
   & .ansi-cyan-fg,
   & .ansi-bright-cyan-fg {
     color: #0c6ea6;
+  }
+  & .ansi-white-fg,
+  & .ansi-bright-white-fg {
+    color: #575757 !important;
   }
 
   /* These are extended palette colors from Pygments that IPython emits */
@@ -59,6 +66,9 @@
   }
   & .ansi-palette-132-fg {
     color: #d71835;
+  }
+  & .ansi-palette-140-fg {
+    color: #8A4FC4;
   }
   & .ansi-palette-167-fg {
     color: #8045e5;
@@ -80,6 +90,9 @@ html.dark .jupyter-error {
   & .ansi-bright-yellow-fg {
     color: #facc15;
   }
+  & .ansi-yellow-bg {
+    color: #CCCC00;
+  }
   & .ansi-blue-fg,
   & .ansi-bright-blue-fg {
     color: #93c5fd;
@@ -91,6 +104,12 @@ html.dark .jupyter-error {
   & .ansi-cyan-fg,
   & .ansi-bright-cyan-fg {
     color: #00fafa;
+  }
+  & .ansi-black-fg,
+  & .ansi-bright-black-fg,
+  & .ansi-white-fg,
+  & .ansi-bright-white-fg {
+    color: #B5B5B5 !important;
   }
 
   & .ansi-palette-28-fg {
@@ -104,6 +123,9 @@ html.dark .jupyter-error {
   }
   & .ansi-palette-132-fg {
     color: #ffa07a;
+  }
+  & .ansi-palette-140-fg {
+    color: #AD85D6;
   }
   & .ansi-palette-167-fg {
     color: #dcc6e0;

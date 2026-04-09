@@ -1,0 +1,91 @@
+/*
+ * ANSI color overrides.
+ *
+ * ansi.css defines a raw ANSI spec palette that we've auto-calculated.
+ * This file provides overrides for theme-specific areas (for example, for visual a11y)
+ *
+ * Color choices are inspired by the Accessible Pygments library:
+ *   https://github.com/Quansight-Labs/accessible-pygments
+ */
+
+/* ======================================================================
+ * Page-background fixes
+ *
+ * These for "normal" ANSI usage on our typical backgrounds.
+ * E.g., "yellow" will never be visible on white, so over-ride it by default.
+ * ====================================================================== */
+:root {
+  --ansi-white: rgb(102, 102, 102);
+  --ansi-bright-white: rgb(102, 102, 102);
+  --ansi-yellow: rgb(128, 128, 0);
+  --ansi-bright-yellow: rgb(128, 128, 0);
+}
+
+html.dark {
+  --ansi-black: rgb(153, 153, 153);
+  --ansi-bright-black: rgb(128, 128, 128);
+  --ansi-blue: rgb(85, 85, 255);
+  --ansi-white: rgb(229, 229, 229);
+  --ansi-bright-white: rgb(229, 229, 229);
+}
+
+/* ======================================================================
+ * Jupyter error cells
+ * ====================================================================== */
+/* Light mode */
+.jupyter-error {
+  @apply bg-red-50;
+
+  --ansi-red: #b91c1c;
+  --ansi-bright-red: #b91c1c;
+  --ansi-green: #1d7500;
+  --ansi-bright-green: #1d7500;
+  --ansi-yellow: #854d0e;
+  --ansi-bright-yellow: #854d0e;
+  --ansi-blue: #1e40af;
+  --ansi-bright-blue: #1e40af;
+  --ansi-magenta: #86198f;
+  --ansi-bright-magenta: #86198f;
+  --ansi-cyan: #0c6ea6;
+  --ansi-bright-cyan: #0c6ea6;
+  --ansi-white: #575757;
+  --ansi-bright-white: #575757;
+
+  /* IPython palette indices seen in standard tracebacks */
+  --ansi-palette-28: #8045e5;
+  --ansi-palette-66: #515151;
+  --ansi-palette-129: #7f4707;
+  --ansi-palette-132: #d71835;
+  --ansi-palette-140: #8a4fc4;
+  --ansi-palette-167: #8045e5;
+}
+
+/* Dark mode */
+html.dark .jupyter-error {
+  @apply bg-red-900/30;
+
+  --ansi-black: #b5b5b5;
+  --ansi-bright-black: #b5b5b5;
+  --ansi-red: #ff9494;
+  --ansi-bright-red: #ff9494;
+  --ansi-green: #00eb00;
+  --ansi-bright-green: #00eb00;
+  --ansi-yellow: #facc15;
+  --ansi-bright-yellow: #facc15;
+  --ansi-blue: #93c5fd;
+  --ansi-bright-blue: #93c5fd;
+  --ansi-magenta: #f0abfc;
+  --ansi-bright-magenta: #f0abfc;
+  --ansi-cyan: #00fafa;
+  --ansi-bright-cyan: #00fafa;
+  --ansi-white: #b5b5b5;
+  --ansi-bright-white: #b5b5b5;
+
+  /* IPython palette indices seen in standard tracebacks */
+  --ansi-palette-28: #f472b6;
+  --ansi-palette-66: #d4d0ab;
+  --ansi-palette-129: #f5ab35;
+  --ansi-palette-132: #ffa07a;
+  --ansi-palette-140: #ad85d6;
+  --ansi-palette-167: #dcc6e0;
+}

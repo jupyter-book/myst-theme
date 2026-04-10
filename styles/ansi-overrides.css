@@ -317,3 +317,1027 @@ html.dark .myst-jp-nb-block:not(.full-ansi) .jupyter-error {
   --ansi-palette-254: var(--ansi-white);
   --ansi-palette-255: var(--ansi-white);
 }
+.myst-jp-nb-block:not(.full-ansi) .ansi-black-bg {
+  background-color: unset;
+  color: var(--ansi-black);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-red-bg {
+  background-color: unset;
+  color: var(--ansi-red);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-green-bg {
+  background-color: unset;
+  color: var(--ansi-green);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-yellow-bg {
+  background-color: unset;
+  color: var(--ansi-yellow);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-blue-bg {
+  background-color: unset;
+  color: var(--ansi-blue);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-magenta-bg {
+  background-color: unset;
+  color: var(--ansi-magenta);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-cyan-bg {
+  background-color: unset;
+  color: var(--ansi-cyan);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-white-bg {
+  background-color: unset;
+  color: var(--ansi-white);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-bright-black-bg {
+  background-color: unset;
+  color: var(--ansi-bright-black);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-bright-red-bg {
+  background-color: unset;
+  color: var(--ansi-bright-red);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-bright-green-bg {
+  background-color: unset;
+  color: var(--ansi-bright-green);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-bright-yellow-bg {
+  background-color: unset;
+  color: var(--ansi-bright-yellow);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-bright-blue-bg {
+  background-color: unset;
+  color: var(--ansi-bright-blue);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-bright-magenta-bg {
+  background-color: unset;
+  color: var(--ansi-bright-magenta);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-bright-cyan-bg {
+  background-color: unset;
+  color: var(--ansi-bright-cyan);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-bright-white-bg {
+  background-color: unset;
+  color: var(--ansi-bright-white);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-16-bg {
+  background-color: unset;
+  color: var(--ansi-palette-16);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-17-bg {
+  background-color: unset;
+  color: var(--ansi-palette-17);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-18-bg {
+  background-color: unset;
+  color: var(--ansi-palette-18);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-19-bg {
+  background-color: unset;
+  color: var(--ansi-palette-19);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-20-bg {
+  background-color: unset;
+  color: var(--ansi-palette-20);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-21-bg {
+  background-color: unset;
+  color: var(--ansi-palette-21);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-22-bg {
+  background-color: unset;
+  color: var(--ansi-palette-22);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-23-bg {
+  background-color: unset;
+  color: var(--ansi-palette-23);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-24-bg {
+  background-color: unset;
+  color: var(--ansi-palette-24);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-25-bg {
+  background-color: unset;
+  color: var(--ansi-palette-25);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-26-bg {
+  background-color: unset;
+  color: var(--ansi-palette-26);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-27-bg {
+  background-color: unset;
+  color: var(--ansi-palette-27);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-28-bg {
+  background-color: unset;
+  color: var(--ansi-palette-28);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-29-bg {
+  background-color: unset;
+  color: var(--ansi-palette-29);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-30-bg {
+  background-color: unset;
+  color: var(--ansi-palette-30);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-31-bg {
+  background-color: unset;
+  color: var(--ansi-palette-31);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-32-bg {
+  background-color: unset;
+  color: var(--ansi-palette-32);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-33-bg {
+  background-color: unset;
+  color: var(--ansi-palette-33);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-34-bg {
+  background-color: unset;
+  color: var(--ansi-palette-34);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-35-bg {
+  background-color: unset;
+  color: var(--ansi-palette-35);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-36-bg {
+  background-color: unset;
+  color: var(--ansi-palette-36);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-37-bg {
+  background-color: unset;
+  color: var(--ansi-palette-37);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-38-bg {
+  background-color: unset;
+  color: var(--ansi-palette-38);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-39-bg {
+  background-color: unset;
+  color: var(--ansi-palette-39);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-40-bg {
+  background-color: unset;
+  color: var(--ansi-palette-40);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-41-bg {
+  background-color: unset;
+  color: var(--ansi-palette-41);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-42-bg {
+  background-color: unset;
+  color: var(--ansi-palette-42);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-43-bg {
+  background-color: unset;
+  color: var(--ansi-palette-43);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-44-bg {
+  background-color: unset;
+  color: var(--ansi-palette-44);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-45-bg {
+  background-color: unset;
+  color: var(--ansi-palette-45);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-46-bg {
+  background-color: unset;
+  color: var(--ansi-palette-46);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-47-bg {
+  background-color: unset;
+  color: var(--ansi-palette-47);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-48-bg {
+  background-color: unset;
+  color: var(--ansi-palette-48);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-49-bg {
+  background-color: unset;
+  color: var(--ansi-palette-49);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-50-bg {
+  background-color: unset;
+  color: var(--ansi-palette-50);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-51-bg {
+  background-color: unset;
+  color: var(--ansi-palette-51);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-52-bg {
+  background-color: unset;
+  color: var(--ansi-palette-52);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-53-bg {
+  background-color: unset;
+  color: var(--ansi-palette-53);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-54-bg {
+  background-color: unset;
+  color: var(--ansi-palette-54);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-55-bg {
+  background-color: unset;
+  color: var(--ansi-palette-55);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-56-bg {
+  background-color: unset;
+  color: var(--ansi-palette-56);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-57-bg {
+  background-color: unset;
+  color: var(--ansi-palette-57);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-58-bg {
+  background-color: unset;
+  color: var(--ansi-palette-58);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-59-bg {
+  background-color: unset;
+  color: var(--ansi-palette-59);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-60-bg {
+  background-color: unset;
+  color: var(--ansi-palette-60);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-61-bg {
+  background-color: unset;
+  color: var(--ansi-palette-61);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-62-bg {
+  background-color: unset;
+  color: var(--ansi-palette-62);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-63-bg {
+  background-color: unset;
+  color: var(--ansi-palette-63);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-64-bg {
+  background-color: unset;
+  color: var(--ansi-palette-64);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-65-bg {
+  background-color: unset;
+  color: var(--ansi-palette-65);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-66-bg {
+  background-color: unset;
+  color: var(--ansi-palette-66);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-67-bg {
+  background-color: unset;
+  color: var(--ansi-palette-67);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-68-bg {
+  background-color: unset;
+  color: var(--ansi-palette-68);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-69-bg {
+  background-color: unset;
+  color: var(--ansi-palette-69);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-70-bg {
+  background-color: unset;
+  color: var(--ansi-palette-70);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-71-bg {
+  background-color: unset;
+  color: var(--ansi-palette-71);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-72-bg {
+  background-color: unset;
+  color: var(--ansi-palette-72);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-73-bg {
+  background-color: unset;
+  color: var(--ansi-palette-73);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-74-bg {
+  background-color: unset;
+  color: var(--ansi-palette-74);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-75-bg {
+  background-color: unset;
+  color: var(--ansi-palette-75);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-76-bg {
+  background-color: unset;
+  color: var(--ansi-palette-76);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-77-bg {
+  background-color: unset;
+  color: var(--ansi-palette-77);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-78-bg {
+  background-color: unset;
+  color: var(--ansi-palette-78);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-79-bg {
+  background-color: unset;
+  color: var(--ansi-palette-79);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-80-bg {
+  background-color: unset;
+  color: var(--ansi-palette-80);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-81-bg {
+  background-color: unset;
+  color: var(--ansi-palette-81);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-82-bg {
+  background-color: unset;
+  color: var(--ansi-palette-82);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-83-bg {
+  background-color: unset;
+  color: var(--ansi-palette-83);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-84-bg {
+  background-color: unset;
+  color: var(--ansi-palette-84);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-85-bg {
+  background-color: unset;
+  color: var(--ansi-palette-85);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-86-bg {
+  background-color: unset;
+  color: var(--ansi-palette-86);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-87-bg {
+  background-color: unset;
+  color: var(--ansi-palette-87);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-88-bg {
+  background-color: unset;
+  color: var(--ansi-palette-88);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-89-bg {
+  background-color: unset;
+  color: var(--ansi-palette-89);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-90-bg {
+  background-color: unset;
+  color: var(--ansi-palette-90);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-91-bg {
+  background-color: unset;
+  color: var(--ansi-palette-91);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-92-bg {
+  background-color: unset;
+  color: var(--ansi-palette-92);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-93-bg {
+  background-color: unset;
+  color: var(--ansi-palette-93);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-94-bg {
+  background-color: unset;
+  color: var(--ansi-palette-94);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-95-bg {
+  background-color: unset;
+  color: var(--ansi-palette-95);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-96-bg {
+  background-color: unset;
+  color: var(--ansi-palette-96);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-97-bg {
+  background-color: unset;
+  color: var(--ansi-palette-97);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-98-bg {
+  background-color: unset;
+  color: var(--ansi-palette-98);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-99-bg {
+  background-color: unset;
+  color: var(--ansi-palette-99);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-100-bg {
+  background-color: unset;
+  color: var(--ansi-palette-100);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-101-bg {
+  background-color: unset;
+  color: var(--ansi-palette-101);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-102-bg {
+  background-color: unset;
+  color: var(--ansi-palette-102);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-103-bg {
+  background-color: unset;
+  color: var(--ansi-palette-103);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-104-bg {
+  background-color: unset;
+  color: var(--ansi-palette-104);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-105-bg {
+  background-color: unset;
+  color: var(--ansi-palette-105);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-106-bg {
+  background-color: unset;
+  color: var(--ansi-palette-106);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-107-bg {
+  background-color: unset;
+  color: var(--ansi-palette-107);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-108-bg {
+  background-color: unset;
+  color: var(--ansi-palette-108);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-109-bg {
+  background-color: unset;
+  color: var(--ansi-palette-109);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-110-bg {
+  background-color: unset;
+  color: var(--ansi-palette-110);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-111-bg {
+  background-color: unset;
+  color: var(--ansi-palette-111);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-112-bg {
+  background-color: unset;
+  color: var(--ansi-palette-112);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-113-bg {
+  background-color: unset;
+  color: var(--ansi-palette-113);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-114-bg {
+  background-color: unset;
+  color: var(--ansi-palette-114);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-115-bg {
+  background-color: unset;
+  color: var(--ansi-palette-115);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-116-bg {
+  background-color: unset;
+  color: var(--ansi-palette-116);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-117-bg {
+  background-color: unset;
+  color: var(--ansi-palette-117);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-118-bg {
+  background-color: unset;
+  color: var(--ansi-palette-118);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-119-bg {
+  background-color: unset;
+  color: var(--ansi-palette-119);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-120-bg {
+  background-color: unset;
+  color: var(--ansi-palette-120);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-121-bg {
+  background-color: unset;
+  color: var(--ansi-palette-121);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-122-bg {
+  background-color: unset;
+  color: var(--ansi-palette-122);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-123-bg {
+  background-color: unset;
+  color: var(--ansi-palette-123);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-124-bg {
+  background-color: unset;
+  color: var(--ansi-palette-124);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-125-bg {
+  background-color: unset;
+  color: var(--ansi-palette-125);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-126-bg {
+  background-color: unset;
+  color: var(--ansi-palette-126);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-127-bg {
+  background-color: unset;
+  color: var(--ansi-palette-127);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-128-bg {
+  background-color: unset;
+  color: var(--ansi-palette-128);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-129-bg {
+  background-color: unset;
+  color: var(--ansi-palette-129);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-130-bg {
+  background-color: unset;
+  color: var(--ansi-palette-130);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-131-bg {
+  background-color: unset;
+  color: var(--ansi-palette-131);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-132-bg {
+  background-color: unset;
+  color: var(--ansi-palette-132);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-133-bg {
+  background-color: unset;
+  color: var(--ansi-palette-133);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-134-bg {
+  background-color: unset;
+  color: var(--ansi-palette-134);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-135-bg {
+  background-color: unset;
+  color: var(--ansi-palette-135);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-136-bg {
+  background-color: unset;
+  color: var(--ansi-palette-136);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-137-bg {
+  background-color: unset;
+  color: var(--ansi-palette-137);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-138-bg {
+  background-color: unset;
+  color: var(--ansi-palette-138);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-139-bg {
+  background-color: unset;
+  color: var(--ansi-palette-139);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-140-bg {
+  background-color: unset;
+  color: var(--ansi-palette-140);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-141-bg {
+  background-color: unset;
+  color: var(--ansi-palette-141);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-142-bg {
+  background-color: unset;
+  color: var(--ansi-palette-142);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-143-bg {
+  background-color: unset;
+  color: var(--ansi-palette-143);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-144-bg {
+  background-color: unset;
+  color: var(--ansi-palette-144);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-145-bg {
+  background-color: unset;
+  color: var(--ansi-palette-145);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-146-bg {
+  background-color: unset;
+  color: var(--ansi-palette-146);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-147-bg {
+  background-color: unset;
+  color: var(--ansi-palette-147);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-148-bg {
+  background-color: unset;
+  color: var(--ansi-palette-148);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-149-bg {
+  background-color: unset;
+  color: var(--ansi-palette-149);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-150-bg {
+  background-color: unset;
+  color: var(--ansi-palette-150);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-151-bg {
+  background-color: unset;
+  color: var(--ansi-palette-151);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-152-bg {
+  background-color: unset;
+  color: var(--ansi-palette-152);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-153-bg {
+  background-color: unset;
+  color: var(--ansi-palette-153);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-154-bg {
+  background-color: unset;
+  color: var(--ansi-palette-154);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-155-bg {
+  background-color: unset;
+  color: var(--ansi-palette-155);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-156-bg {
+  background-color: unset;
+  color: var(--ansi-palette-156);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-157-bg {
+  background-color: unset;
+  color: var(--ansi-palette-157);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-158-bg {
+  background-color: unset;
+  color: var(--ansi-palette-158);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-159-bg {
+  background-color: unset;
+  color: var(--ansi-palette-159);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-160-bg {
+  background-color: unset;
+  color: var(--ansi-palette-160);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-161-bg {
+  background-color: unset;
+  color: var(--ansi-palette-161);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-162-bg {
+  background-color: unset;
+  color: var(--ansi-palette-162);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-163-bg {
+  background-color: unset;
+  color: var(--ansi-palette-163);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-164-bg {
+  background-color: unset;
+  color: var(--ansi-palette-164);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-165-bg {
+  background-color: unset;
+  color: var(--ansi-palette-165);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-166-bg {
+  background-color: unset;
+  color: var(--ansi-palette-166);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-167-bg {
+  background-color: unset;
+  color: var(--ansi-palette-167);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-168-bg {
+  background-color: unset;
+  color: var(--ansi-palette-168);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-169-bg {
+  background-color: unset;
+  color: var(--ansi-palette-169);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-170-bg {
+  background-color: unset;
+  color: var(--ansi-palette-170);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-171-bg {
+  background-color: unset;
+  color: var(--ansi-palette-171);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-172-bg {
+  background-color: unset;
+  color: var(--ansi-palette-172);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-173-bg {
+  background-color: unset;
+  color: var(--ansi-palette-173);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-174-bg {
+  background-color: unset;
+  color: var(--ansi-palette-174);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-175-bg {
+  background-color: unset;
+  color: var(--ansi-palette-175);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-176-bg {
+  background-color: unset;
+  color: var(--ansi-palette-176);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-177-bg {
+  background-color: unset;
+  color: var(--ansi-palette-177);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-178-bg {
+  background-color: unset;
+  color: var(--ansi-palette-178);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-179-bg {
+  background-color: unset;
+  color: var(--ansi-palette-179);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-180-bg {
+  background-color: unset;
+  color: var(--ansi-palette-180);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-181-bg {
+  background-color: unset;
+  color: var(--ansi-palette-181);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-182-bg {
+  background-color: unset;
+  color: var(--ansi-palette-182);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-183-bg {
+  background-color: unset;
+  color: var(--ansi-palette-183);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-184-bg {
+  background-color: unset;
+  color: var(--ansi-palette-184);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-185-bg {
+  background-color: unset;
+  color: var(--ansi-palette-185);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-186-bg {
+  background-color: unset;
+  color: var(--ansi-palette-186);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-187-bg {
+  background-color: unset;
+  color: var(--ansi-palette-187);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-188-bg {
+  background-color: unset;
+  color: var(--ansi-palette-188);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-189-bg {
+  background-color: unset;
+  color: var(--ansi-palette-189);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-190-bg {
+  background-color: unset;
+  color: var(--ansi-palette-190);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-191-bg {
+  background-color: unset;
+  color: var(--ansi-palette-191);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-192-bg {
+  background-color: unset;
+  color: var(--ansi-palette-192);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-193-bg {
+  background-color: unset;
+  color: var(--ansi-palette-193);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-194-bg {
+  background-color: unset;
+  color: var(--ansi-palette-194);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-195-bg {
+  background-color: unset;
+  color: var(--ansi-palette-195);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-196-bg {
+  background-color: unset;
+  color: var(--ansi-palette-196);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-197-bg {
+  background-color: unset;
+  color: var(--ansi-palette-197);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-198-bg {
+  background-color: unset;
+  color: var(--ansi-palette-198);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-199-bg {
+  background-color: unset;
+  color: var(--ansi-palette-199);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-200-bg {
+  background-color: unset;
+  color: var(--ansi-palette-200);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-201-bg {
+  background-color: unset;
+  color: var(--ansi-palette-201);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-202-bg {
+  background-color: unset;
+  color: var(--ansi-palette-202);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-203-bg {
+  background-color: unset;
+  color: var(--ansi-palette-203);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-204-bg {
+  background-color: unset;
+  color: var(--ansi-palette-204);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-205-bg {
+  background-color: unset;
+  color: var(--ansi-palette-205);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-206-bg {
+  background-color: unset;
+  color: var(--ansi-palette-206);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-207-bg {
+  background-color: unset;
+  color: var(--ansi-palette-207);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-208-bg {
+  background-color: unset;
+  color: var(--ansi-palette-208);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-209-bg {
+  background-color: unset;
+  color: var(--ansi-palette-209);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-210-bg {
+  background-color: unset;
+  color: var(--ansi-palette-210);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-211-bg {
+  background-color: unset;
+  color: var(--ansi-palette-211);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-212-bg {
+  background-color: unset;
+  color: var(--ansi-palette-212);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-213-bg {
+  background-color: unset;
+  color: var(--ansi-palette-213);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-214-bg {
+  background-color: unset;
+  color: var(--ansi-palette-214);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-215-bg {
+  background-color: unset;
+  color: var(--ansi-palette-215);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-216-bg {
+  background-color: unset;
+  color: var(--ansi-palette-216);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-217-bg {
+  background-color: unset;
+  color: var(--ansi-palette-217);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-218-bg {
+  background-color: unset;
+  color: var(--ansi-palette-218);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-219-bg {
+  background-color: unset;
+  color: var(--ansi-palette-219);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-220-bg {
+  background-color: unset;
+  color: var(--ansi-palette-220);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-221-bg {
+  background-color: unset;
+  color: var(--ansi-palette-221);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-222-bg {
+  background-color: unset;
+  color: var(--ansi-palette-222);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-223-bg {
+  background-color: unset;
+  color: var(--ansi-palette-223);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-224-bg {
+  background-color: unset;
+  color: var(--ansi-palette-224);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-225-bg {
+  background-color: unset;
+  color: var(--ansi-palette-225);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-226-bg {
+  background-color: unset;
+  color: var(--ansi-palette-226);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-227-bg {
+  background-color: unset;
+  color: var(--ansi-palette-227);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-228-bg {
+  background-color: unset;
+  color: var(--ansi-palette-228);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-229-bg {
+  background-color: unset;
+  color: var(--ansi-palette-229);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-230-bg {
+  background-color: unset;
+  color: var(--ansi-palette-230);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-231-bg {
+  background-color: unset;
+  color: var(--ansi-palette-231);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-232-bg {
+  background-color: unset;
+  color: var(--ansi-palette-232);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-233-bg {
+  background-color: unset;
+  color: var(--ansi-palette-233);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-234-bg {
+  background-color: unset;
+  color: var(--ansi-palette-234);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-235-bg {
+  background-color: unset;
+  color: var(--ansi-palette-235);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-236-bg {
+  background-color: unset;
+  color: var(--ansi-palette-236);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-237-bg {
+  background-color: unset;
+  color: var(--ansi-palette-237);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-238-bg {
+  background-color: unset;
+  color: var(--ansi-palette-238);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-239-bg {
+  background-color: unset;
+  color: var(--ansi-palette-239);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-240-bg {
+  background-color: unset;
+  color: var(--ansi-palette-240);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-241-bg {
+  background-color: unset;
+  color: var(--ansi-palette-241);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-242-bg {
+  background-color: unset;
+  color: var(--ansi-palette-242);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-243-bg {
+  background-color: unset;
+  color: var(--ansi-palette-243);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-244-bg {
+  background-color: unset;
+  color: var(--ansi-palette-244);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-245-bg {
+  background-color: unset;
+  color: var(--ansi-palette-245);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-246-bg {
+  background-color: unset;
+  color: var(--ansi-palette-246);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-247-bg {
+  background-color: unset;
+  color: var(--ansi-palette-247);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-248-bg {
+  background-color: unset;
+  color: var(--ansi-palette-248);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-249-bg {
+  background-color: unset;
+  color: var(--ansi-palette-249);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-250-bg {
+  background-color: unset;
+  color: var(--ansi-palette-250);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-251-bg {
+  background-color: unset;
+  color: var(--ansi-palette-251);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-252-bg {
+  background-color: unset;
+  color: var(--ansi-palette-252);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-253-bg {
+  background-color: unset;
+  color: var(--ansi-palette-253);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-254-bg {
+  background-color: unset;
+  color: var(--ansi-palette-254);
+}
+.myst-jp-nb-block:not(.full-ansi) .ansi-palette-255-bg {
+  background-color: unset;
+  color: var(--ansi-palette-255);
+}

@@ -9,6 +9,7 @@ import classNames from 'classnames';
 export default function Stream({ output }: { output: MinifiedStreamOutput }) {
   const { ref, isScrollable } = useIsScrollable<HTMLPreElement>();
 
+  const isError = output.name === 'stderr';
   return (
     <MaybeLongContent
       content={ensureString(output.text)}
@@ -20,7 +21,8 @@ export default function Stream({ output }: { output: MinifiedStreamOutput }) {
           role={isScrollable ? 'region' : undefined}
           aria-label="cell output stream"
           className={classNames('myst-jp-stream-output text-sm font-thin font-system p-3', {
-            'jupyter-error': output.name === 'stderr',
+            'jupyter-error ansi-prose group-[.full-color-error]/block:ansi-full': isError,
+            'jupyter-output ansi-prose group-[.full-color-output]/block:ansi-full': !isError,
           })}
         >
           <Ansi useClasses>{content ?? ''}</Ansi>

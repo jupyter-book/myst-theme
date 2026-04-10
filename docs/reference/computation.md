@@ -144,10 +144,10 @@ class DataLoader:
 DataLoader.load(42)
 ```
 
-We can also set the `full-ansi` class to show raw colours:
+We can also set the `full-color-error` class to show raw colours:
 
 ```{code-cell} python
-:class: full-ansi
+:class: full-color-error
 :tags: [raises-exception]
 
 from pathlib import Path

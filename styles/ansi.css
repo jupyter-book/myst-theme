@@ -2,1801 +2,1813 @@
  * Raw ANSI colours computed from https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
  * Excludes the named colours.
  */
-:root {
-  --ansi-black: rgb(0, 0, 0);
-  --ansi-red: rgb(187, 0, 0);
-  --ansi-green: rgb(0, 187, 0);
-  --ansi-yellow: rgb(187, 187, 0);
-  --ansi-blue: rgb(0, 0, 187);
-  --ansi-magenta: rgb(187, 0, 187);
-  --ansi-cyan: rgb(0, 187, 187);
-  --ansi-white: rgb(255, 255, 255);
-  --ansi-bright-black: rgb(85, 85, 85);
-  --ansi-bright-red: rgb(255, 85, 85);
-  --ansi-bright-green: rgb(0, 255, 0);
-  --ansi-bright-yellow: rgb(255, 255, 85);
-  --ansi-bright-blue: rgb(85, 85, 255);
-  --ansi-bright-magenta: rgb(255, 85, 255);
-  --ansi-bright-cyan: rgb(85, 255, 255);
-  --ansi-bright-white: rgb(255, 255, 255);
-  --ansi-palette-16: rgb(0, 0, 0);
-  --ansi-palette-17: rgb(0, 0, 95);
-  --ansi-palette-18: rgb(0, 0, 135);
-  --ansi-palette-19: rgb(0, 0, 175);
-  --ansi-palette-20: rgb(0, 0, 215);
-  --ansi-palette-21: rgb(0, 0, 255);
-  --ansi-palette-22: rgb(0, 95, 0);
-  --ansi-palette-23: rgb(0, 95, 95);
-  --ansi-palette-24: rgb(0, 95, 135);
-  --ansi-palette-25: rgb(0, 95, 175);
-  --ansi-palette-26: rgb(0, 95, 215);
-  --ansi-palette-27: rgb(0, 95, 255);
-  --ansi-palette-28: rgb(0, 135, 0);
-  --ansi-palette-29: rgb(0, 135, 95);
-  --ansi-palette-30: rgb(0, 135, 135);
-  --ansi-palette-31: rgb(0, 135, 175);
-  --ansi-palette-32: rgb(0, 135, 215);
-  --ansi-palette-33: rgb(0, 135, 255);
-  --ansi-palette-34: rgb(0, 175, 0);
-  --ansi-palette-35: rgb(0, 175, 95);
-  --ansi-palette-36: rgb(0, 175, 135);
-  --ansi-palette-37: rgb(0, 175, 175);
-  --ansi-palette-38: rgb(0, 175, 215);
-  --ansi-palette-39: rgb(0, 175, 255);
-  --ansi-palette-40: rgb(0, 215, 0);
-  --ansi-palette-41: rgb(0, 215, 95);
-  --ansi-palette-42: rgb(0, 215, 135);
-  --ansi-palette-43: rgb(0, 215, 175);
-  --ansi-palette-44: rgb(0, 215, 215);
-  --ansi-palette-45: rgb(0, 215, 255);
-  --ansi-palette-46: rgb(0, 255, 0);
-  --ansi-palette-47: rgb(0, 255, 95);
-  --ansi-palette-48: rgb(0, 255, 135);
-  --ansi-palette-49: rgb(0, 255, 175);
-  --ansi-palette-50: rgb(0, 255, 215);
-  --ansi-palette-51: rgb(0, 255, 255);
-  --ansi-palette-52: rgb(95, 0, 0);
-  --ansi-palette-53: rgb(95, 0, 95);
-  --ansi-palette-54: rgb(95, 0, 135);
-  --ansi-palette-55: rgb(95, 0, 175);
-  --ansi-palette-56: rgb(95, 0, 215);
-  --ansi-palette-57: rgb(95, 0, 255);
-  --ansi-palette-58: rgb(95, 95, 0);
-  --ansi-palette-59: rgb(95, 95, 95);
-  --ansi-palette-60: rgb(95, 95, 135);
-  --ansi-palette-61: rgb(95, 95, 175);
-  --ansi-palette-62: rgb(95, 95, 215);
-  --ansi-palette-63: rgb(95, 95, 255);
-  --ansi-palette-64: rgb(95, 135, 0);
-  --ansi-palette-65: rgb(95, 135, 95);
-  --ansi-palette-66: rgb(95, 135, 135);
-  --ansi-palette-67: rgb(95, 135, 175);
-  --ansi-palette-68: rgb(95, 135, 215);
-  --ansi-palette-69: rgb(95, 135, 255);
-  --ansi-palette-70: rgb(95, 175, 0);
-  --ansi-palette-71: rgb(95, 175, 95);
-  --ansi-palette-72: rgb(95, 175, 135);
-  --ansi-palette-73: rgb(95, 175, 175);
-  --ansi-palette-74: rgb(95, 175, 215);
-  --ansi-palette-75: rgb(95, 175, 255);
-  --ansi-palette-76: rgb(95, 215, 0);
-  --ansi-palette-77: rgb(95, 215, 95);
-  --ansi-palette-78: rgb(95, 215, 135);
-  --ansi-palette-79: rgb(95, 215, 175);
-  --ansi-palette-80: rgb(95, 215, 215);
-  --ansi-palette-81: rgb(95, 215, 255);
-  --ansi-palette-82: rgb(95, 255, 0);
-  --ansi-palette-83: rgb(95, 255, 95);
-  --ansi-palette-84: rgb(95, 255, 135);
-  --ansi-palette-85: rgb(95, 255, 175);
-  --ansi-palette-86: rgb(95, 255, 215);
-  --ansi-palette-87: rgb(95, 255, 255);
-  --ansi-palette-88: rgb(135, 0, 0);
-  --ansi-palette-89: rgb(135, 0, 95);
-  --ansi-palette-90: rgb(135, 0, 135);
-  --ansi-palette-91: rgb(135, 0, 175);
-  --ansi-palette-92: rgb(135, 0, 215);
-  --ansi-palette-93: rgb(135, 0, 255);
-  --ansi-palette-94: rgb(135, 95, 0);
-  --ansi-palette-95: rgb(135, 95, 95);
-  --ansi-palette-96: rgb(135, 95, 135);
-  --ansi-palette-97: rgb(135, 95, 175);
-  --ansi-palette-98: rgb(135, 95, 215);
-  --ansi-palette-99: rgb(135, 95, 255);
-  --ansi-palette-100: rgb(135, 135, 0);
-  --ansi-palette-101: rgb(135, 135, 95);
-  --ansi-palette-102: rgb(135, 135, 135);
-  --ansi-palette-103: rgb(135, 135, 175);
-  --ansi-palette-104: rgb(135, 135, 215);
-  --ansi-palette-105: rgb(135, 135, 255);
-  --ansi-palette-106: rgb(135, 175, 0);
-  --ansi-palette-107: rgb(135, 175, 95);
-  --ansi-palette-108: rgb(135, 175, 135);
-  --ansi-palette-109: rgb(135, 175, 175);
-  --ansi-palette-110: rgb(135, 175, 215);
-  --ansi-palette-111: rgb(135, 175, 255);
-  --ansi-palette-112: rgb(135, 215, 0);
-  --ansi-palette-113: rgb(135, 215, 95);
-  --ansi-palette-114: rgb(135, 215, 135);
-  --ansi-palette-115: rgb(135, 215, 175);
-  --ansi-palette-116: rgb(135, 215, 215);
-  --ansi-palette-117: rgb(135, 215, 255);
-  --ansi-palette-118: rgb(135, 255, 0);
-  --ansi-palette-119: rgb(135, 255, 95);
-  --ansi-palette-120: rgb(135, 255, 135);
-  --ansi-palette-121: rgb(135, 255, 175);
-  --ansi-palette-122: rgb(135, 255, 215);
-  --ansi-palette-123: rgb(135, 255, 255);
-  --ansi-palette-124: rgb(175, 0, 0);
-  --ansi-palette-125: rgb(175, 0, 95);
-  --ansi-palette-126: rgb(175, 0, 135);
-  --ansi-palette-127: rgb(175, 0, 175);
-  --ansi-palette-128: rgb(175, 0, 215);
-  --ansi-palette-129: rgb(175, 0, 255);
-  --ansi-palette-130: rgb(175, 95, 0);
-  --ansi-palette-131: rgb(175, 95, 95);
-  --ansi-palette-132: rgb(175, 95, 135);
-  --ansi-palette-133: rgb(175, 95, 175);
-  --ansi-palette-134: rgb(175, 95, 215);
-  --ansi-palette-135: rgb(175, 95, 255);
-  --ansi-palette-136: rgb(175, 135, 0);
-  --ansi-palette-137: rgb(175, 135, 95);
-  --ansi-palette-138: rgb(175, 135, 135);
-  --ansi-palette-139: rgb(175, 135, 175);
-  --ansi-palette-140: rgb(175, 135, 215);
-  --ansi-palette-141: rgb(175, 135, 255);
-  --ansi-palette-142: rgb(175, 175, 0);
-  --ansi-palette-143: rgb(175, 175, 95);
-  --ansi-palette-144: rgb(175, 175, 135);
-  --ansi-palette-145: rgb(175, 175, 175);
-  --ansi-palette-146: rgb(175, 175, 215);
-  --ansi-palette-147: rgb(175, 175, 255);
-  --ansi-palette-148: rgb(175, 215, 0);
-  --ansi-palette-149: rgb(175, 215, 95);
-  --ansi-palette-150: rgb(175, 215, 135);
-  --ansi-palette-151: rgb(175, 215, 175);
-  --ansi-palette-152: rgb(175, 215, 215);
-  --ansi-palette-153: rgb(175, 215, 255);
-  --ansi-palette-154: rgb(175, 255, 0);
-  --ansi-palette-155: rgb(175, 255, 95);
-  --ansi-palette-156: rgb(175, 255, 135);
-  --ansi-palette-157: rgb(175, 255, 175);
-  --ansi-palette-158: rgb(175, 255, 215);
-  --ansi-palette-159: rgb(175, 255, 255);
-  --ansi-palette-160: rgb(215, 0, 0);
-  --ansi-palette-161: rgb(215, 0, 95);
-  --ansi-palette-162: rgb(215, 0, 135);
-  --ansi-palette-163: rgb(215, 0, 175);
-  --ansi-palette-164: rgb(215, 0, 215);
-  --ansi-palette-165: rgb(215, 0, 255);
-  --ansi-palette-166: rgb(215, 95, 0);
-  --ansi-palette-167: rgb(215, 95, 95);
-  --ansi-palette-168: rgb(215, 95, 135);
-  --ansi-palette-169: rgb(215, 95, 175);
-  --ansi-palette-170: rgb(215, 95, 215);
-  --ansi-palette-171: rgb(215, 95, 255);
-  --ansi-palette-172: rgb(215, 135, 0);
-  --ansi-palette-173: rgb(215, 135, 95);
-  --ansi-palette-174: rgb(215, 135, 135);
-  --ansi-palette-175: rgb(215, 135, 175);
-  --ansi-palette-176: rgb(215, 135, 215);
-  --ansi-palette-177: rgb(215, 135, 255);
-  --ansi-palette-178: rgb(215, 175, 0);
-  --ansi-palette-179: rgb(215, 175, 95);
-  --ansi-palette-180: rgb(215, 175, 135);
-  --ansi-palette-181: rgb(215, 175, 175);
-  --ansi-palette-182: rgb(215, 175, 215);
-  --ansi-palette-183: rgb(215, 175, 255);
-  --ansi-palette-184: rgb(215, 215, 0);
-  --ansi-palette-185: rgb(215, 215, 95);
-  --ansi-palette-186: rgb(215, 215, 135);
-  --ansi-palette-187: rgb(215, 215, 175);
-  --ansi-palette-188: rgb(215, 215, 215);
-  --ansi-palette-189: rgb(215, 215, 255);
-  --ansi-palette-190: rgb(215, 255, 0);
-  --ansi-palette-191: rgb(215, 255, 95);
-  --ansi-palette-192: rgb(215, 255, 135);
-  --ansi-palette-193: rgb(215, 255, 175);
-  --ansi-palette-194: rgb(215, 255, 215);
-  --ansi-palette-195: rgb(215, 255, 255);
-  --ansi-palette-196: rgb(255, 0, 0);
-  --ansi-palette-197: rgb(255, 0, 95);
-  --ansi-palette-198: rgb(255, 0, 135);
-  --ansi-palette-199: rgb(255, 0, 175);
-  --ansi-palette-200: rgb(255, 0, 215);
-  --ansi-palette-201: rgb(255, 0, 255);
-  --ansi-palette-202: rgb(255, 95, 0);
-  --ansi-palette-203: rgb(255, 95, 95);
-  --ansi-palette-204: rgb(255, 95, 135);
-  --ansi-palette-205: rgb(255, 95, 175);
-  --ansi-palette-206: rgb(255, 95, 215);
-  --ansi-palette-207: rgb(255, 95, 255);
-  --ansi-palette-208: rgb(255, 135, 0);
-  --ansi-palette-209: rgb(255, 135, 95);
-  --ansi-palette-210: rgb(255, 135, 135);
-  --ansi-palette-211: rgb(255, 135, 175);
-  --ansi-palette-212: rgb(255, 135, 215);
-  --ansi-palette-213: rgb(255, 135, 255);
-  --ansi-palette-214: rgb(255, 175, 0);
-  --ansi-palette-215: rgb(255, 175, 95);
-  --ansi-palette-216: rgb(255, 175, 135);
-  --ansi-palette-217: rgb(255, 175, 175);
-  --ansi-palette-218: rgb(255, 175, 215);
-  --ansi-palette-219: rgb(255, 175, 255);
-  --ansi-palette-220: rgb(255, 215, 0);
-  --ansi-palette-221: rgb(255, 215, 95);
-  --ansi-palette-222: rgb(255, 215, 135);
-  --ansi-palette-223: rgb(255, 215, 175);
-  --ansi-palette-224: rgb(255, 215, 215);
-  --ansi-palette-225: rgb(255, 215, 255);
-  --ansi-palette-226: rgb(255, 255, 0);
-  --ansi-palette-227: rgb(255, 255, 95);
-  --ansi-palette-228: rgb(255, 255, 135);
-  --ansi-palette-229: rgb(255, 255, 175);
-  --ansi-palette-230: rgb(255, 255, 215);
-  --ansi-palette-231: rgb(255, 255, 255);
-  --ansi-palette-232: rgb(8, 8, 8);
-  --ansi-palette-233: rgb(18, 18, 18);
-  --ansi-palette-234: rgb(28, 28, 28);
-  --ansi-palette-235: rgb(38, 38, 38);
-  --ansi-palette-236: rgb(48, 48, 48);
-  --ansi-palette-237: rgb(58, 58, 58);
-  --ansi-palette-238: rgb(68, 68, 68);
-  --ansi-palette-239: rgb(78, 78, 78);
-  --ansi-palette-240: rgb(88, 88, 88);
-  --ansi-palette-241: rgb(98, 98, 98);
-  --ansi-palette-242: rgb(108, 108, 108);
-  --ansi-palette-243: rgb(118, 118, 118);
-  --ansi-palette-244: rgb(128, 128, 128);
-  --ansi-palette-245: rgb(138, 138, 138);
-  --ansi-palette-246: rgb(148, 148, 148);
-  --ansi-palette-247: rgb(158, 158, 158);
-  --ansi-palette-248: rgb(168, 168, 168);
-  --ansi-palette-249: rgb(178, 178, 178);
-  --ansi-palette-250: rgb(188, 188, 188);
-  --ansi-palette-251: rgb(198, 198, 198);
-  --ansi-palette-252: rgb(208, 208, 208);
-  --ansi-palette-253: rgb(218, 218, 218);
-  --ansi-palette-254: rgb(228, 228, 228);
-  --ansi-palette-255: rgb(238, 238, 238);
-}
+@layer components {
+  /* Strict ANSI rendering with only eight named colours */
+  .ansi-prose {
+    @apply ansi-restricted ansi-text-only;
+  }
 
-/*
- * Set colours to classes
- */
-.ansi-black-fg {
-  color: var(--ansi-black);
-}
-.ansi-black-bg {
-  background-color: var(--ansi-black);
-}
-.ansi-red-fg {
-  color: var(--ansi-red);
-}
-.ansi-red-bg {
-  background-color: var(--ansi-red);
-}
-.ansi-green-fg {
-  color: var(--ansi-green);
-}
-.ansi-green-bg {
-  background-color: var(--ansi-green);
-}
-.ansi-yellow-fg {
-  color: var(--ansi-yellow);
-}
-.ansi-yellow-bg {
-  background-color: var(--ansi-yellow);
-}
-.ansi-blue-fg {
-  color: var(--ansi-blue);
-}
-.ansi-blue-bg {
-  background-color: var(--ansi-blue);
-}
-.ansi-magenta-fg {
-  color: var(--ansi-magenta);
-}
-.ansi-magenta-bg {
-  background-color: var(--ansi-magenta);
-}
-.ansi-cyan-fg {
-  color: var(--ansi-cyan);
-}
-.ansi-cyan-bg {
-  background-color: var(--ansi-cyan);
-}
-.ansi-white-fg {
-  color: var(--ansi-white);
-}
-.ansi-white-bg {
-  background-color: var(--ansi-white);
-}
-.ansi-bright-black-fg {
-  color: var(--ansi-bright-black);
-}
-.ansi-bright-black-bg {
-  background-color: var(--ansi-bright-black);
-}
-.ansi-bright-red-fg {
-  color: var(--ansi-bright-red);
-}
-.ansi-bright-red-bg {
-  background-color: var(--ansi-bright-red);
-}
-.ansi-bright-green-fg {
-  color: var(--ansi-bright-green);
-}
-.ansi-bright-green-bg {
-  background-color: var(--ansi-bright-green);
-}
-.ansi-bright-yellow-fg {
-  color: var(--ansi-bright-yellow);
-}
-.ansi-bright-yellow-bg {
-  background-color: var(--ansi-bright-yellow);
-}
-.ansi-bright-blue-fg {
-  color: var(--ansi-bright-blue);
-}
-.ansi-bright-blue-bg {
-  background-color: var(--ansi-bright-blue);
-}
-.ansi-bright-magenta-fg {
-  color: var(--ansi-bright-magenta);
-}
-.ansi-bright-magenta-bg {
-  background-color: var(--ansi-bright-magenta);
-}
-.ansi-bright-cyan-fg {
-  color: var(--ansi-bright-cyan);
-}
-.ansi-bright-cyan-bg {
-  background-color: var(--ansi-bright-cyan);
-}
-.ansi-bright-white-fg {
-  color: var(--ansi-bright-white);
-}
-.ansi-bright-white-bg {
-  background-color: var(--ansi-bright-white);
-}
-.ansi-palette-16-fg {
-  color: var(--ansi-palette-16);
-}
-.ansi-palette-16-bg {
-  background-color: var(--ansi-palette-16);
-}
-.ansi-palette-17-fg {
-  color: var(--ansi-palette-17);
-}
-.ansi-palette-17-bg {
-  background-color: var(--ansi-palette-17);
-}
-.ansi-palette-18-fg {
-  color: var(--ansi-palette-18);
-}
-.ansi-palette-18-bg {
-  background-color: var(--ansi-palette-18);
-}
-.ansi-palette-19-fg {
-  color: var(--ansi-palette-19);
-}
-.ansi-palette-19-bg {
-  background-color: var(--ansi-palette-19);
-}
-.ansi-palette-20-fg {
-  color: var(--ansi-palette-20);
-}
-.ansi-palette-20-bg {
-  background-color: var(--ansi-palette-20);
-}
-.ansi-palette-21-fg {
-  color: var(--ansi-palette-21);
-}
-.ansi-palette-21-bg {
-  background-color: var(--ansi-palette-21);
-}
-.ansi-palette-22-fg {
-  color: var(--ansi-palette-22);
-}
-.ansi-palette-22-bg {
-  background-color: var(--ansi-palette-22);
-}
-.ansi-palette-23-fg {
-  color: var(--ansi-palette-23);
-}
-.ansi-palette-23-bg {
-  background-color: var(--ansi-palette-23);
-}
-.ansi-palette-24-fg {
-  color: var(--ansi-palette-24);
-}
-.ansi-palette-24-bg {
-  background-color: var(--ansi-palette-24);
-}
-.ansi-palette-25-fg {
-  color: var(--ansi-palette-25);
-}
-.ansi-palette-25-bg {
-  background-color: var(--ansi-palette-25);
-}
-.ansi-palette-26-fg {
-  color: var(--ansi-palette-26);
-}
-.ansi-palette-26-bg {
-  background-color: var(--ansi-palette-26);
-}
-.ansi-palette-27-fg {
-  color: var(--ansi-palette-27);
-}
-.ansi-palette-27-bg {
-  background-color: var(--ansi-palette-27);
-}
-.ansi-palette-28-fg {
-  color: var(--ansi-palette-28);
-}
-.ansi-palette-28-bg {
-  background-color: var(--ansi-palette-28);
-}
-.ansi-palette-29-fg {
-  color: var(--ansi-palette-29);
-}
-.ansi-palette-29-bg {
-  background-color: var(--ansi-palette-29);
-}
-.ansi-palette-30-fg {
-  color: var(--ansi-palette-30);
-}
-.ansi-palette-30-bg {
-  background-color: var(--ansi-palette-30);
-}
-.ansi-palette-31-fg {
-  color: var(--ansi-palette-31);
-}
-.ansi-palette-31-bg {
-  background-color: var(--ansi-palette-31);
-}
-.ansi-palette-32-fg {
-  color: var(--ansi-palette-32);
-}
-.ansi-palette-32-bg {
-  background-color: var(--ansi-palette-32);
-}
-.ansi-palette-33-fg {
-  color: var(--ansi-palette-33);
-}
-.ansi-palette-33-bg {
-  background-color: var(--ansi-palette-33);
-}
-.ansi-palette-34-fg {
-  color: var(--ansi-palette-34);
-}
-.ansi-palette-34-bg {
-  background-color: var(--ansi-palette-34);
-}
-.ansi-palette-35-fg {
-  color: var(--ansi-palette-35);
-}
-.ansi-palette-35-bg {
-  background-color: var(--ansi-palette-35);
-}
-.ansi-palette-36-fg {
-  color: var(--ansi-palette-36);
-}
-.ansi-palette-36-bg {
-  background-color: var(--ansi-palette-36);
-}
-.ansi-palette-37-fg {
-  color: var(--ansi-palette-37);
-}
-.ansi-palette-37-bg {
-  background-color: var(--ansi-palette-37);
-}
-.ansi-palette-38-fg {
-  color: var(--ansi-palette-38);
-}
-.ansi-palette-38-bg {
-  background-color: var(--ansi-palette-38);
-}
-.ansi-palette-39-fg {
-  color: var(--ansi-palette-39);
-}
-.ansi-palette-39-bg {
-  background-color: var(--ansi-palette-39);
-}
-.ansi-palette-40-fg {
-  color: var(--ansi-palette-40);
-}
-.ansi-palette-40-bg {
-  background-color: var(--ansi-palette-40);
-}
-.ansi-palette-41-fg {
-  color: var(--ansi-palette-41);
-}
-.ansi-palette-41-bg {
-  background-color: var(--ansi-palette-41);
-}
-.ansi-palette-42-fg {
-  color: var(--ansi-palette-42);
-}
-.ansi-palette-42-bg {
-  background-color: var(--ansi-palette-42);
-}
-.ansi-palette-43-fg {
-  color: var(--ansi-palette-43);
-}
-.ansi-palette-43-bg {
-  background-color: var(--ansi-palette-43);
-}
-.ansi-palette-44-fg {
-  color: var(--ansi-palette-44);
-}
-.ansi-palette-44-bg {
-  background-color: var(--ansi-palette-44);
-}
-.ansi-palette-45-fg {
-  color: var(--ansi-palette-45);
-}
-.ansi-palette-45-bg {
-  background-color: var(--ansi-palette-45);
-}
-.ansi-palette-46-fg {
-  color: var(--ansi-palette-46);
-}
-.ansi-palette-46-bg {
-  background-color: var(--ansi-palette-46);
-}
-.ansi-palette-47-fg {
-  color: var(--ansi-palette-47);
-}
-.ansi-palette-47-bg {
-  background-color: var(--ansi-palette-47);
-}
-.ansi-palette-48-fg {
-  color: var(--ansi-palette-48);
-}
-.ansi-palette-48-bg {
-  background-color: var(--ansi-palette-48);
-}
-.ansi-palette-49-fg {
-  color: var(--ansi-palette-49);
-}
-.ansi-palette-49-bg {
-  background-color: var(--ansi-palette-49);
-}
-.ansi-palette-50-fg {
-  color: var(--ansi-palette-50);
-}
-.ansi-palette-50-bg {
-  background-color: var(--ansi-palette-50);
-}
-.ansi-palette-51-fg {
-  color: var(--ansi-palette-51);
-}
-.ansi-palette-51-bg {
-  background-color: var(--ansi-palette-51);
-}
-.ansi-palette-52-fg {
-  color: var(--ansi-palette-52);
-}
-.ansi-palette-52-bg {
-  background-color: var(--ansi-palette-52);
-}
-.ansi-palette-53-fg {
-  color: var(--ansi-palette-53);
-}
-.ansi-palette-53-bg {
-  background-color: var(--ansi-palette-53);
-}
-.ansi-palette-54-fg {
-  color: var(--ansi-palette-54);
-}
-.ansi-palette-54-bg {
-  background-color: var(--ansi-palette-54);
-}
-.ansi-palette-55-fg {
-  color: var(--ansi-palette-55);
-}
-.ansi-palette-55-bg {
-  background-color: var(--ansi-palette-55);
-}
-.ansi-palette-56-fg {
-  color: var(--ansi-palette-56);
-}
-.ansi-palette-56-bg {
-  background-color: var(--ansi-palette-56);
-}
-.ansi-palette-57-fg {
-  color: var(--ansi-palette-57);
-}
-.ansi-palette-57-bg {
-  background-color: var(--ansi-palette-57);
-}
-.ansi-palette-58-fg {
-  color: var(--ansi-palette-58);
-}
-.ansi-palette-58-bg {
-  background-color: var(--ansi-palette-58);
-}
-.ansi-palette-59-fg {
-  color: var(--ansi-palette-59);
-}
-.ansi-palette-59-bg {
-  background-color: var(--ansi-palette-59);
-}
-.ansi-palette-60-fg {
-  color: var(--ansi-palette-60);
-}
-.ansi-palette-60-bg {
-  background-color: var(--ansi-palette-60);
-}
-.ansi-palette-61-fg {
-  color: var(--ansi-palette-61);
-}
-.ansi-palette-61-bg {
-  background-color: var(--ansi-palette-61);
-}
-.ansi-palette-62-fg {
-  color: var(--ansi-palette-62);
-}
-.ansi-palette-62-bg {
-  background-color: var(--ansi-palette-62);
-}
-.ansi-palette-63-fg {
-  color: var(--ansi-palette-63);
-}
-.ansi-palette-63-bg {
-  background-color: var(--ansi-palette-63);
-}
-.ansi-palette-64-fg {
-  color: var(--ansi-palette-64);
-}
-.ansi-palette-64-bg {
-  background-color: var(--ansi-palette-64);
-}
-.ansi-palette-65-fg {
-  color: var(--ansi-palette-65);
-}
-.ansi-palette-65-bg {
-  background-color: var(--ansi-palette-65);
-}
-.ansi-palette-66-fg {
-  color: var(--ansi-palette-66);
-}
-.ansi-palette-66-bg {
-  background-color: var(--ansi-palette-66);
-}
-.ansi-palette-67-fg {
-  color: var(--ansi-palette-67);
-}
-.ansi-palette-67-bg {
-  background-color: var(--ansi-palette-67);
-}
-.ansi-palette-68-fg {
-  color: var(--ansi-palette-68);
-}
-.ansi-palette-68-bg {
-  background-color: var(--ansi-palette-68);
-}
-.ansi-palette-69-fg {
-  color: var(--ansi-palette-69);
-}
-.ansi-palette-69-bg {
-  background-color: var(--ansi-palette-69);
-}
-.ansi-palette-70-fg {
-  color: var(--ansi-palette-70);
-}
-.ansi-palette-70-bg {
-  background-color: var(--ansi-palette-70);
-}
-.ansi-palette-71-fg {
-  color: var(--ansi-palette-71);
-}
-.ansi-palette-71-bg {
-  background-color: var(--ansi-palette-71);
-}
-.ansi-palette-72-fg {
-  color: var(--ansi-palette-72);
-}
-.ansi-palette-72-bg {
-  background-color: var(--ansi-palette-72);
-}
-.ansi-palette-73-fg {
-  color: var(--ansi-palette-73);
-}
-.ansi-palette-73-bg {
-  background-color: var(--ansi-palette-73);
-}
-.ansi-palette-74-fg {
-  color: var(--ansi-palette-74);
-}
-.ansi-palette-74-bg {
-  background-color: var(--ansi-palette-74);
-}
-.ansi-palette-75-fg {
-  color: var(--ansi-palette-75);
-}
-.ansi-palette-75-bg {
-  background-color: var(--ansi-palette-75);
-}
-.ansi-palette-76-fg {
-  color: var(--ansi-palette-76);
-}
-.ansi-palette-76-bg {
-  background-color: var(--ansi-palette-76);
-}
-.ansi-palette-77-fg {
-  color: var(--ansi-palette-77);
-}
-.ansi-palette-77-bg {
-  background-color: var(--ansi-palette-77);
-}
-.ansi-palette-78-fg {
-  color: var(--ansi-palette-78);
-}
-.ansi-palette-78-bg {
-  background-color: var(--ansi-palette-78);
-}
-.ansi-palette-79-fg {
-  color: var(--ansi-palette-79);
-}
-.ansi-palette-79-bg {
-  background-color: var(--ansi-palette-79);
-}
-.ansi-palette-80-fg {
-  color: var(--ansi-palette-80);
-}
-.ansi-palette-80-bg {
-  background-color: var(--ansi-palette-80);
-}
-.ansi-palette-81-fg {
-  color: var(--ansi-palette-81);
-}
-.ansi-palette-81-bg {
-  background-color: var(--ansi-palette-81);
-}
-.ansi-palette-82-fg {
-  color: var(--ansi-palette-82);
-}
-.ansi-palette-82-bg {
-  background-color: var(--ansi-palette-82);
-}
-.ansi-palette-83-fg {
-  color: var(--ansi-palette-83);
-}
-.ansi-palette-83-bg {
-  background-color: var(--ansi-palette-83);
-}
-.ansi-palette-84-fg {
-  color: var(--ansi-palette-84);
-}
-.ansi-palette-84-bg {
-  background-color: var(--ansi-palette-84);
-}
-.ansi-palette-85-fg {
-  color: var(--ansi-palette-85);
-}
-.ansi-palette-85-bg {
-  background-color: var(--ansi-palette-85);
-}
-.ansi-palette-86-fg {
-  color: var(--ansi-palette-86);
-}
-.ansi-palette-86-bg {
-  background-color: var(--ansi-palette-86);
-}
-.ansi-palette-87-fg {
-  color: var(--ansi-palette-87);
-}
-.ansi-palette-87-bg {
-  background-color: var(--ansi-palette-87);
-}
-.ansi-palette-88-fg {
-  color: var(--ansi-palette-88);
-}
-.ansi-palette-88-bg {
-  background-color: var(--ansi-palette-88);
-}
-.ansi-palette-89-fg {
-  color: var(--ansi-palette-89);
-}
-.ansi-palette-89-bg {
-  background-color: var(--ansi-palette-89);
-}
-.ansi-palette-90-fg {
-  color: var(--ansi-palette-90);
-}
-.ansi-palette-90-bg {
-  background-color: var(--ansi-palette-90);
-}
-.ansi-palette-91-fg {
-  color: var(--ansi-palette-91);
-}
-.ansi-palette-91-bg {
-  background-color: var(--ansi-palette-91);
-}
-.ansi-palette-92-fg {
-  color: var(--ansi-palette-92);
-}
-.ansi-palette-92-bg {
-  background-color: var(--ansi-palette-92);
-}
-.ansi-palette-93-fg {
-  color: var(--ansi-palette-93);
-}
-.ansi-palette-93-bg {
-  background-color: var(--ansi-palette-93);
-}
-.ansi-palette-94-fg {
-  color: var(--ansi-palette-94);
-}
-.ansi-palette-94-bg {
-  background-color: var(--ansi-palette-94);
-}
-.ansi-palette-95-fg {
-  color: var(--ansi-palette-95);
-}
-.ansi-palette-95-bg {
-  background-color: var(--ansi-palette-95);
-}
-.ansi-palette-96-fg {
-  color: var(--ansi-palette-96);
-}
-.ansi-palette-96-bg {
-  background-color: var(--ansi-palette-96);
-}
-.ansi-palette-97-fg {
-  color: var(--ansi-palette-97);
-}
-.ansi-palette-97-bg {
-  background-color: var(--ansi-palette-97);
-}
-.ansi-palette-98-fg {
-  color: var(--ansi-palette-98);
-}
-.ansi-palette-98-bg {
-  background-color: var(--ansi-palette-98);
-}
-.ansi-palette-99-fg {
-  color: var(--ansi-palette-99);
-}
-.ansi-palette-99-bg {
-  background-color: var(--ansi-palette-99);
-}
-.ansi-palette-100-fg {
-  color: var(--ansi-palette-100);
-}
-.ansi-palette-100-bg {
-  background-color: var(--ansi-palette-100);
-}
-.ansi-palette-101-fg {
-  color: var(--ansi-palette-101);
-}
-.ansi-palette-101-bg {
-  background-color: var(--ansi-palette-101);
-}
-.ansi-palette-102-fg {
-  color: var(--ansi-palette-102);
-}
-.ansi-palette-102-bg {
-  background-color: var(--ansi-palette-102);
-}
-.ansi-palette-103-fg {
-  color: var(--ansi-palette-103);
-}
-.ansi-palette-103-bg {
-  background-color: var(--ansi-palette-103);
-}
-.ansi-palette-104-fg {
-  color: var(--ansi-palette-104);
-}
-.ansi-palette-104-bg {
-  background-color: var(--ansi-palette-104);
-}
-.ansi-palette-105-fg {
-  color: var(--ansi-palette-105);
-}
-.ansi-palette-105-bg {
-  background-color: var(--ansi-palette-105);
-}
-.ansi-palette-106-fg {
-  color: var(--ansi-palette-106);
-}
-.ansi-palette-106-bg {
-  background-color: var(--ansi-palette-106);
-}
-.ansi-palette-107-fg {
-  color: var(--ansi-palette-107);
-}
-.ansi-palette-107-bg {
-  background-color: var(--ansi-palette-107);
-}
-.ansi-palette-108-fg {
-  color: var(--ansi-palette-108);
-}
-.ansi-palette-108-bg {
-  background-color: var(--ansi-palette-108);
-}
-.ansi-palette-109-fg {
-  color: var(--ansi-palette-109);
-}
-.ansi-palette-109-bg {
-  background-color: var(--ansi-palette-109);
-}
-.ansi-palette-110-fg {
-  color: var(--ansi-palette-110);
-}
-.ansi-palette-110-bg {
-  background-color: var(--ansi-palette-110);
-}
-.ansi-palette-111-fg {
-  color: var(--ansi-palette-111);
-}
-.ansi-palette-111-bg {
-  background-color: var(--ansi-palette-111);
-}
-.ansi-palette-112-fg {
-  color: var(--ansi-palette-112);
-}
-.ansi-palette-112-bg {
-  background-color: var(--ansi-palette-112);
-}
-.ansi-palette-113-fg {
-  color: var(--ansi-palette-113);
-}
-.ansi-palette-113-bg {
-  background-color: var(--ansi-palette-113);
-}
-.ansi-palette-114-fg {
-  color: var(--ansi-palette-114);
-}
-.ansi-palette-114-bg {
-  background-color: var(--ansi-palette-114);
-}
-.ansi-palette-115-fg {
-  color: var(--ansi-palette-115);
-}
-.ansi-palette-115-bg {
-  background-color: var(--ansi-palette-115);
-}
-.ansi-palette-116-fg {
-  color: var(--ansi-palette-116);
-}
-.ansi-palette-116-bg {
-  background-color: var(--ansi-palette-116);
-}
-.ansi-palette-117-fg {
-  color: var(--ansi-palette-117);
-}
-.ansi-palette-117-bg {
-  background-color: var(--ansi-palette-117);
-}
-.ansi-palette-118-fg {
-  color: var(--ansi-palette-118);
-}
-.ansi-palette-118-bg {
-  background-color: var(--ansi-palette-118);
-}
-.ansi-palette-119-fg {
-  color: var(--ansi-palette-119);
-}
-.ansi-palette-119-bg {
-  background-color: var(--ansi-palette-119);
-}
-.ansi-palette-120-fg {
-  color: var(--ansi-palette-120);
-}
-.ansi-palette-120-bg {
-  background-color: var(--ansi-palette-120);
-}
-.ansi-palette-121-fg {
-  color: var(--ansi-palette-121);
-}
-.ansi-palette-121-bg {
-  background-color: var(--ansi-palette-121);
-}
-.ansi-palette-122-fg {
-  color: var(--ansi-palette-122);
-}
-.ansi-palette-122-bg {
-  background-color: var(--ansi-palette-122);
-}
-.ansi-palette-123-fg {
-  color: var(--ansi-palette-123);
-}
-.ansi-palette-123-bg {
-  background-color: var(--ansi-palette-123);
-}
-.ansi-palette-124-fg {
-  color: var(--ansi-palette-124);
-}
-.ansi-palette-124-bg {
-  background-color: var(--ansi-palette-124);
-}
-.ansi-palette-125-fg {
-  color: var(--ansi-palette-125);
-}
-.ansi-palette-125-bg {
-  background-color: var(--ansi-palette-125);
-}
-.ansi-palette-126-fg {
-  color: var(--ansi-palette-126);
-}
-.ansi-palette-126-bg {
-  background-color: var(--ansi-palette-126);
-}
-.ansi-palette-127-fg {
-  color: var(--ansi-palette-127);
-}
-.ansi-palette-127-bg {
-  background-color: var(--ansi-palette-127);
-}
-.ansi-palette-128-fg {
-  color: var(--ansi-palette-128);
-}
-.ansi-palette-128-bg {
-  background-color: var(--ansi-palette-128);
-}
-.ansi-palette-129-fg {
-  color: var(--ansi-palette-129);
-}
-.ansi-palette-129-bg {
-  background-color: var(--ansi-palette-129);
-}
-.ansi-palette-130-fg {
-  color: var(--ansi-palette-130);
-}
-.ansi-palette-130-bg {
-  background-color: var(--ansi-palette-130);
-}
-.ansi-palette-131-fg {
-  color: var(--ansi-palette-131);
-}
-.ansi-palette-131-bg {
-  background-color: var(--ansi-palette-131);
-}
-.ansi-palette-132-fg {
-  color: var(--ansi-palette-132);
-}
-.ansi-palette-132-bg {
-  background-color: var(--ansi-palette-132);
-}
-.ansi-palette-133-fg {
-  color: var(--ansi-palette-133);
-}
-.ansi-palette-133-bg {
-  background-color: var(--ansi-palette-133);
-}
-.ansi-palette-134-fg {
-  color: var(--ansi-palette-134);
-}
-.ansi-palette-134-bg {
-  background-color: var(--ansi-palette-134);
-}
-.ansi-palette-135-fg {
-  color: var(--ansi-palette-135);
-}
-.ansi-palette-135-bg {
-  background-color: var(--ansi-palette-135);
-}
-.ansi-palette-136-fg {
-  color: var(--ansi-palette-136);
-}
-.ansi-palette-136-bg {
-  background-color: var(--ansi-palette-136);
-}
-.ansi-palette-137-fg {
-  color: var(--ansi-palette-137);
-}
-.ansi-palette-137-bg {
-  background-color: var(--ansi-palette-137);
-}
-.ansi-palette-138-fg {
-  color: var(--ansi-palette-138);
-}
-.ansi-palette-138-bg {
-  background-color: var(--ansi-palette-138);
-}
-.ansi-palette-139-fg {
-  color: var(--ansi-palette-139);
-}
-.ansi-palette-139-bg {
-  background-color: var(--ansi-palette-139);
-}
-.ansi-palette-140-fg {
-  color: var(--ansi-palette-140);
-}
-.ansi-palette-140-bg {
-  background-color: var(--ansi-palette-140);
-}
-.ansi-palette-141-fg {
-  color: var(--ansi-palette-141);
-}
-.ansi-palette-141-bg {
-  background-color: var(--ansi-palette-141);
-}
-.ansi-palette-142-fg {
-  color: var(--ansi-palette-142);
-}
-.ansi-palette-142-bg {
-  background-color: var(--ansi-palette-142);
-}
-.ansi-palette-143-fg {
-  color: var(--ansi-palette-143);
-}
-.ansi-palette-143-bg {
-  background-color: var(--ansi-palette-143);
-}
-.ansi-palette-144-fg {
-  color: var(--ansi-palette-144);
-}
-.ansi-palette-144-bg {
-  background-color: var(--ansi-palette-144);
-}
-.ansi-palette-145-fg {
-  color: var(--ansi-palette-145);
-}
-.ansi-palette-145-bg {
-  background-color: var(--ansi-palette-145);
-}
-.ansi-palette-146-fg {
-  color: var(--ansi-palette-146);
-}
-.ansi-palette-146-bg {
-  background-color: var(--ansi-palette-146);
-}
-.ansi-palette-147-fg {
-  color: var(--ansi-palette-147);
-}
-.ansi-palette-147-bg {
-  background-color: var(--ansi-palette-147);
-}
-.ansi-palette-148-fg {
-  color: var(--ansi-palette-148);
-}
-.ansi-palette-148-bg {
-  background-color: var(--ansi-palette-148);
-}
-.ansi-palette-149-fg {
-  color: var(--ansi-palette-149);
-}
-.ansi-palette-149-bg {
-  background-color: var(--ansi-palette-149);
-}
-.ansi-palette-150-fg {
-  color: var(--ansi-palette-150);
-}
-.ansi-palette-150-bg {
-  background-color: var(--ansi-palette-150);
-}
-.ansi-palette-151-fg {
-  color: var(--ansi-palette-151);
-}
-.ansi-palette-151-bg {
-  background-color: var(--ansi-palette-151);
-}
-.ansi-palette-152-fg {
-  color: var(--ansi-palette-152);
-}
-.ansi-palette-152-bg {
-  background-color: var(--ansi-palette-152);
-}
-.ansi-palette-153-fg {
-  color: var(--ansi-palette-153);
-}
-.ansi-palette-153-bg {
-  background-color: var(--ansi-palette-153);
-}
-.ansi-palette-154-fg {
-  color: var(--ansi-palette-154);
-}
-.ansi-palette-154-bg {
-  background-color: var(--ansi-palette-154);
-}
-.ansi-palette-155-fg {
-  color: var(--ansi-palette-155);
-}
-.ansi-palette-155-bg {
-  background-color: var(--ansi-palette-155);
-}
-.ansi-palette-156-fg {
-  color: var(--ansi-palette-156);
-}
-.ansi-palette-156-bg {
-  background-color: var(--ansi-palette-156);
-}
-.ansi-palette-157-fg {
-  color: var(--ansi-palette-157);
-}
-.ansi-palette-157-bg {
-  background-color: var(--ansi-palette-157);
-}
-.ansi-palette-158-fg {
-  color: var(--ansi-palette-158);
-}
-.ansi-palette-158-bg {
-  background-color: var(--ansi-palette-158);
-}
-.ansi-palette-159-fg {
-  color: var(--ansi-palette-159);
-}
-.ansi-palette-159-bg {
-  background-color: var(--ansi-palette-159);
-}
-.ansi-palette-160-fg {
-  color: var(--ansi-palette-160);
-}
-.ansi-palette-160-bg {
-  background-color: var(--ansi-palette-160);
-}
-.ansi-palette-161-fg {
-  color: var(--ansi-palette-161);
-}
-.ansi-palette-161-bg {
-  background-color: var(--ansi-palette-161);
-}
-.ansi-palette-162-fg {
-  color: var(--ansi-palette-162);
-}
-.ansi-palette-162-bg {
-  background-color: var(--ansi-palette-162);
-}
-.ansi-palette-163-fg {
-  color: var(--ansi-palette-163);
-}
-.ansi-palette-163-bg {
-  background-color: var(--ansi-palette-163);
-}
-.ansi-palette-164-fg {
-  color: var(--ansi-palette-164);
-}
-.ansi-palette-164-bg {
-  background-color: var(--ansi-palette-164);
-}
-.ansi-palette-165-fg {
-  color: var(--ansi-palette-165);
-}
-.ansi-palette-165-bg {
-  background-color: var(--ansi-palette-165);
-}
-.ansi-palette-166-fg {
-  color: var(--ansi-palette-166);
-}
-.ansi-palette-166-bg {
-  background-color: var(--ansi-palette-166);
-}
-.ansi-palette-167-fg {
-  color: var(--ansi-palette-167);
-}
-.ansi-palette-167-bg {
-  background-color: var(--ansi-palette-167);
-}
-.ansi-palette-168-fg {
-  color: var(--ansi-palette-168);
-}
-.ansi-palette-168-bg {
-  background-color: var(--ansi-palette-168);
-}
-.ansi-palette-169-fg {
-  color: var(--ansi-palette-169);
-}
-.ansi-palette-169-bg {
-  background-color: var(--ansi-palette-169);
-}
-.ansi-palette-170-fg {
-  color: var(--ansi-palette-170);
-}
-.ansi-palette-170-bg {
-  background-color: var(--ansi-palette-170);
-}
-.ansi-palette-171-fg {
-  color: var(--ansi-palette-171);
-}
-.ansi-palette-171-bg {
-  background-color: var(--ansi-palette-171);
-}
-.ansi-palette-172-fg {
-  color: var(--ansi-palette-172);
-}
-.ansi-palette-172-bg {
-  background-color: var(--ansi-palette-172);
-}
-.ansi-palette-173-fg {
-  color: var(--ansi-palette-173);
-}
-.ansi-palette-173-bg {
-  background-color: var(--ansi-palette-173);
-}
-.ansi-palette-174-fg {
-  color: var(--ansi-palette-174);
-}
-.ansi-palette-174-bg {
-  background-color: var(--ansi-palette-174);
-}
-.ansi-palette-175-fg {
-  color: var(--ansi-palette-175);
-}
-.ansi-palette-175-bg {
-  background-color: var(--ansi-palette-175);
-}
-.ansi-palette-176-fg {
-  color: var(--ansi-palette-176);
-}
-.ansi-palette-176-bg {
-  background-color: var(--ansi-palette-176);
-}
-.ansi-palette-177-fg {
-  color: var(--ansi-palette-177);
-}
-.ansi-palette-177-bg {
-  background-color: var(--ansi-palette-177);
-}
-.ansi-palette-178-fg {
-  color: var(--ansi-palette-178);
-}
-.ansi-palette-178-bg {
-  background-color: var(--ansi-palette-178);
-}
-.ansi-palette-179-fg {
-  color: var(--ansi-palette-179);
-}
-.ansi-palette-179-bg {
-  background-color: var(--ansi-palette-179);
-}
-.ansi-palette-180-fg {
-  color: var(--ansi-palette-180);
-}
-.ansi-palette-180-bg {
-  background-color: var(--ansi-palette-180);
-}
-.ansi-palette-181-fg {
-  color: var(--ansi-palette-181);
-}
-.ansi-palette-181-bg {
-  background-color: var(--ansi-palette-181);
-}
-.ansi-palette-182-fg {
-  color: var(--ansi-palette-182);
-}
-.ansi-palette-182-bg {
-  background-color: var(--ansi-palette-182);
-}
-.ansi-palette-183-fg {
-  color: var(--ansi-palette-183);
-}
-.ansi-palette-183-bg {
-  background-color: var(--ansi-palette-183);
-}
-.ansi-palette-184-fg {
-  color: var(--ansi-palette-184);
-}
-.ansi-palette-184-bg {
-  background-color: var(--ansi-palette-184);
-}
-.ansi-palette-185-fg {
-  color: var(--ansi-palette-185);
-}
-.ansi-palette-185-bg {
-  background-color: var(--ansi-palette-185);
-}
-.ansi-palette-186-fg {
-  color: var(--ansi-palette-186);
-}
-.ansi-palette-186-bg {
-  background-color: var(--ansi-palette-186);
-}
-.ansi-palette-187-fg {
-  color: var(--ansi-palette-187);
-}
-.ansi-palette-187-bg {
-  background-color: var(--ansi-palette-187);
-}
-.ansi-palette-188-fg {
-  color: var(--ansi-palette-188);
-}
-.ansi-palette-188-bg {
-  background-color: var(--ansi-palette-188);
-}
-.ansi-palette-189-fg {
-  color: var(--ansi-palette-189);
-}
-.ansi-palette-189-bg {
-  background-color: var(--ansi-palette-189);
-}
-.ansi-palette-190-fg {
-  color: var(--ansi-palette-190);
-}
-.ansi-palette-190-bg {
-  background-color: var(--ansi-palette-190);
-}
-.ansi-palette-191-fg {
-  color: var(--ansi-palette-191);
-}
-.ansi-palette-191-bg {
-  background-color: var(--ansi-palette-191);
-}
-.ansi-palette-192-fg {
-  color: var(--ansi-palette-192);
-}
-.ansi-palette-192-bg {
-  background-color: var(--ansi-palette-192);
-}
-.ansi-palette-193-fg {
-  color: var(--ansi-palette-193);
-}
-.ansi-palette-193-bg {
-  background-color: var(--ansi-palette-193);
-}
-.ansi-palette-194-fg {
-  color: var(--ansi-palette-194);
-}
-.ansi-palette-194-bg {
-  background-color: var(--ansi-palette-194);
-}
-.ansi-palette-195-fg {
-  color: var(--ansi-palette-195);
-}
-.ansi-palette-195-bg {
-  background-color: var(--ansi-palette-195);
-}
-.ansi-palette-196-fg {
-  color: var(--ansi-palette-196);
-}
-.ansi-palette-196-bg {
-  background-color: var(--ansi-palette-196);
-}
-.ansi-palette-197-fg {
-  color: var(--ansi-palette-197);
-}
-.ansi-palette-197-bg {
-  background-color: var(--ansi-palette-197);
-}
-.ansi-palette-198-fg {
-  color: var(--ansi-palette-198);
-}
-.ansi-palette-198-bg {
-  background-color: var(--ansi-palette-198);
-}
-.ansi-palette-199-fg {
-  color: var(--ansi-palette-199);
-}
-.ansi-palette-199-bg {
-  background-color: var(--ansi-palette-199);
-}
-.ansi-palette-200-fg {
-  color: var(--ansi-palette-200);
-}
-.ansi-palette-200-bg {
-  background-color: var(--ansi-palette-200);
-}
-.ansi-palette-201-fg {
-  color: var(--ansi-palette-201);
-}
-.ansi-palette-201-bg {
-  background-color: var(--ansi-palette-201);
-}
-.ansi-palette-202-fg {
-  color: var(--ansi-palette-202);
-}
-.ansi-palette-202-bg {
-  background-color: var(--ansi-palette-202);
-}
-.ansi-palette-203-fg {
-  color: var(--ansi-palette-203);
-}
-.ansi-palette-203-bg {
-  background-color: var(--ansi-palette-203);
-}
-.ansi-palette-204-fg {
-  color: var(--ansi-palette-204);
-}
-.ansi-palette-204-bg {
-  background-color: var(--ansi-palette-204);
-}
-.ansi-palette-205-fg {
-  color: var(--ansi-palette-205);
-}
-.ansi-palette-205-bg {
-  background-color: var(--ansi-palette-205);
-}
-.ansi-palette-206-fg {
-  color: var(--ansi-palette-206);
-}
-.ansi-palette-206-bg {
-  background-color: var(--ansi-palette-206);
-}
-.ansi-palette-207-fg {
-  color: var(--ansi-palette-207);
-}
-.ansi-palette-207-bg {
-  background-color: var(--ansi-palette-207);
-}
-.ansi-palette-208-fg {
-  color: var(--ansi-palette-208);
-}
-.ansi-palette-208-bg {
-  background-color: var(--ansi-palette-208);
-}
-.ansi-palette-209-fg {
-  color: var(--ansi-palette-209);
-}
-.ansi-palette-209-bg {
-  background-color: var(--ansi-palette-209);
-}
-.ansi-palette-210-fg {
-  color: var(--ansi-palette-210);
-}
-.ansi-palette-210-bg {
-  background-color: var(--ansi-palette-210);
-}
-.ansi-palette-211-fg {
-  color: var(--ansi-palette-211);
-}
-.ansi-palette-211-bg {
-  background-color: var(--ansi-palette-211);
-}
-.ansi-palette-212-fg {
-  color: var(--ansi-palette-212);
-}
-.ansi-palette-212-bg {
-  background-color: var(--ansi-palette-212);
-}
-.ansi-palette-213-fg {
-  color: var(--ansi-palette-213);
-}
-.ansi-palette-213-bg {
-  background-color: var(--ansi-palette-213);
-}
-.ansi-palette-214-fg {
-  color: var(--ansi-palette-214);
-}
-.ansi-palette-214-bg {
-  background-color: var(--ansi-palette-214);
-}
-.ansi-palette-215-fg {
-  color: var(--ansi-palette-215);
-}
-.ansi-palette-215-bg {
-  background-color: var(--ansi-palette-215);
-}
-.ansi-palette-216-fg {
-  color: var(--ansi-palette-216);
-}
-.ansi-palette-216-bg {
-  background-color: var(--ansi-palette-216);
-}
-.ansi-palette-217-fg {
-  color: var(--ansi-palette-217);
-}
-.ansi-palette-217-bg {
-  background-color: var(--ansi-palette-217);
-}
-.ansi-palette-218-fg {
-  color: var(--ansi-palette-218);
-}
-.ansi-palette-218-bg {
-  background-color: var(--ansi-palette-218);
-}
-.ansi-palette-219-fg {
-  color: var(--ansi-palette-219);
-}
-.ansi-palette-219-bg {
-  background-color: var(--ansi-palette-219);
-}
-.ansi-palette-220-fg {
-  color: var(--ansi-palette-220);
-}
-.ansi-palette-220-bg {
-  background-color: var(--ansi-palette-220);
-}
-.ansi-palette-221-fg {
-  color: var(--ansi-palette-221);
-}
-.ansi-palette-221-bg {
-  background-color: var(--ansi-palette-221);
-}
-.ansi-palette-222-fg {
-  color: var(--ansi-palette-222);
-}
-.ansi-palette-222-bg {
-  background-color: var(--ansi-palette-222);
-}
-.ansi-palette-223-fg {
-  color: var(--ansi-palette-223);
-}
-.ansi-palette-223-bg {
-  background-color: var(--ansi-palette-223);
-}
-.ansi-palette-224-fg {
-  color: var(--ansi-palette-224);
-}
-.ansi-palette-224-bg {
-  background-color: var(--ansi-palette-224);
-}
-.ansi-palette-225-fg {
-  color: var(--ansi-palette-225);
-}
-.ansi-palette-225-bg {
-  background-color: var(--ansi-palette-225);
-}
-.ansi-palette-226-fg {
-  color: var(--ansi-palette-226);
-}
-.ansi-palette-226-bg {
-  background-color: var(--ansi-palette-226);
-}
-.ansi-palette-227-fg {
-  color: var(--ansi-palette-227);
-}
-.ansi-palette-227-bg {
-  background-color: var(--ansi-palette-227);
-}
-.ansi-palette-228-fg {
-  color: var(--ansi-palette-228);
-}
-.ansi-palette-228-bg {
-  background-color: var(--ansi-palette-228);
-}
-.ansi-palette-229-fg {
-  color: var(--ansi-palette-229);
-}
-.ansi-palette-229-bg {
-  background-color: var(--ansi-palette-229);
-}
-.ansi-palette-230-fg {
-  color: var(--ansi-palette-230);
-}
-.ansi-palette-230-bg {
-  background-color: var(--ansi-palette-230);
-}
-.ansi-palette-231-fg {
-  color: var(--ansi-palette-231);
-}
-.ansi-palette-231-bg {
-  background-color: var(--ansi-palette-231);
-}
-.ansi-palette-232-fg {
-  color: var(--ansi-palette-232);
-}
-.ansi-palette-232-bg {
-  background-color: var(--ansi-palette-232);
-}
-.ansi-palette-233-fg {
-  color: var(--ansi-palette-233);
-}
-.ansi-palette-233-bg {
-  background-color: var(--ansi-palette-233);
-}
-.ansi-palette-234-fg {
-  color: var(--ansi-palette-234);
-}
-.ansi-palette-234-bg {
-  background-color: var(--ansi-palette-234);
-}
-.ansi-palette-235-fg {
-  color: var(--ansi-palette-235);
-}
-.ansi-palette-235-bg {
-  background-color: var(--ansi-palette-235);
-}
-.ansi-palette-236-fg {
-  color: var(--ansi-palette-236);
-}
-.ansi-palette-236-bg {
-  background-color: var(--ansi-palette-236);
-}
-.ansi-palette-237-fg {
-  color: var(--ansi-palette-237);
-}
-.ansi-palette-237-bg {
-  background-color: var(--ansi-palette-237);
-}
-.ansi-palette-238-fg {
-  color: var(--ansi-palette-238);
-}
-.ansi-palette-238-bg {
-  background-color: var(--ansi-palette-238);
-}
-.ansi-palette-239-fg {
-  color: var(--ansi-palette-239);
-}
-.ansi-palette-239-bg {
-  background-color: var(--ansi-palette-239);
-}
-.ansi-palette-240-fg {
-  color: var(--ansi-palette-240);
-}
-.ansi-palette-240-bg {
-  background-color: var(--ansi-palette-240);
-}
-.ansi-palette-241-fg {
-  color: var(--ansi-palette-241);
-}
-.ansi-palette-241-bg {
-  background-color: var(--ansi-palette-241);
-}
-.ansi-palette-242-fg {
-  color: var(--ansi-palette-242);
-}
-.ansi-palette-242-bg {
-  background-color: var(--ansi-palette-242);
-}
-.ansi-palette-243-fg {
-  color: var(--ansi-palette-243);
-}
-.ansi-palette-243-bg {
-  background-color: var(--ansi-palette-243);
-}
-.ansi-palette-244-fg {
-  color: var(--ansi-palette-244);
-}
-.ansi-palette-244-bg {
-  background-color: var(--ansi-palette-244);
-}
-.ansi-palette-245-fg {
-  color: var(--ansi-palette-245);
-}
-.ansi-palette-245-bg {
-  background-color: var(--ansi-palette-245);
-}
-.ansi-palette-246-fg {
-  color: var(--ansi-palette-246);
-}
-.ansi-palette-246-bg {
-  background-color: var(--ansi-palette-246);
-}
-.ansi-palette-247-fg {
-  color: var(--ansi-palette-247);
-}
-.ansi-palette-247-bg {
-  background-color: var(--ansi-palette-247);
-}
-.ansi-palette-248-fg {
-  color: var(--ansi-palette-248);
-}
-.ansi-palette-248-bg {
-  background-color: var(--ansi-palette-248);
-}
-.ansi-palette-249-fg {
-  color: var(--ansi-palette-249);
-}
-.ansi-palette-249-bg {
-  background-color: var(--ansi-palette-249);
-}
-.ansi-palette-250-fg {
-  color: var(--ansi-palette-250);
-}
-.ansi-palette-250-bg {
-  background-color: var(--ansi-palette-250);
-}
-.ansi-palette-251-fg {
-  color: var(--ansi-palette-251);
-}
-.ansi-palette-251-bg {
-  background-color: var(--ansi-palette-251);
-}
-.ansi-palette-252-fg {
-  color: var(--ansi-palette-252);
-}
-.ansi-palette-252-bg {
-  background-color: var(--ansi-palette-252);
-}
-.ansi-palette-253-fg {
-  color: var(--ansi-palette-253);
-}
-.ansi-palette-253-bg {
-  background-color: var(--ansi-palette-253);
-}
-.ansi-palette-254-fg {
-  color: var(--ansi-palette-254);
-}
-.ansi-palette-254-bg {
-  background-color: var(--ansi-palette-254);
-}
-.ansi-palette-255-fg {
-  color: var(--ansi-palette-255);
-}
-.ansi-palette-255-bg {
-  background-color: var(--ansi-palette-255);
+  /*Full ANSI BG and FG rendering*/
+  .ansi-full {
+    @apply ansi-xterm ansi-text-bg;
+  }
+
+  .ansi-xterm {
+    --ansi-black: rgb(0 0 0);
+    --ansi-red: rgb(187 0 0);
+    --ansi-green: rgb(0 187 0);
+    --ansi-yellow: rgb(187 187 0);
+    --ansi-blue: rgb(0 0 187);
+    --ansi-magenta: rgb(187 0 187);
+    --ansi-cyan: rgb(0 187 187);
+    --ansi-white: rgb(255 255 255);
+    --ansi-bright-black: rgb(85 85 85);
+    --ansi-bright-red: rgb(255 85 85);
+    --ansi-bright-green: rgb(0 255 0);
+    --ansi-bright-yellow: rgb(255 255 85);
+    --ansi-bright-blue: rgb(85 85 255);
+    --ansi-bright-magenta: rgb(255 85 255);
+    --ansi-bright-cyan: rgb(85 255 255);
+    --ansi-bright-white: rgb(255 255 255);
+    --ansi-palette-16: rgb(0 0 0);
+    --ansi-palette-17: rgb(0 0 95);
+    --ansi-palette-18: rgb(0 0 135);
+    --ansi-palette-19: rgb(0 0 175);
+    --ansi-palette-20: rgb(0 0 215);
+    --ansi-palette-21: rgb(0 0 255);
+    --ansi-palette-22: rgb(0 95 0);
+    --ansi-palette-23: rgb(0 95 95);
+    --ansi-palette-24: rgb(0 95 135);
+    --ansi-palette-25: rgb(0 95 175);
+    --ansi-palette-26: rgb(0 95 215);
+    --ansi-palette-27: rgb(0 95 255);
+    --ansi-palette-28: rgb(0 135 0);
+    --ansi-palette-29: rgb(0 135 95);
+    --ansi-palette-30: rgb(0 135 135);
+    --ansi-palette-31: rgb(0 135 175);
+    --ansi-palette-32: rgb(0 135 215);
+    --ansi-palette-33: rgb(0 135 255);
+    --ansi-palette-34: rgb(0 175 0);
+    --ansi-palette-35: rgb(0 175 95);
+    --ansi-palette-36: rgb(0 175 135);
+    --ansi-palette-37: rgb(0 175 175);
+    --ansi-palette-38: rgb(0 175 215);
+    --ansi-palette-39: rgb(0 175 255);
+    --ansi-palette-40: rgb(0 215 0);
+    --ansi-palette-41: rgb(0 215 95);
+    --ansi-palette-42: rgb(0 215 135);
+    --ansi-palette-43: rgb(0 215 175);
+    --ansi-palette-44: rgb(0 215 215);
+    --ansi-palette-45: rgb(0 215 255);
+    --ansi-palette-46: rgb(0 255 0);
+    --ansi-palette-47: rgb(0 255 95);
+    --ansi-palette-48: rgb(0 255 135);
+    --ansi-palette-49: rgb(0 255 175);
+    --ansi-palette-50: rgb(0 255 215);
+    --ansi-palette-51: rgb(0 255 255);
+    --ansi-palette-52: rgb(95 0 0);
+    --ansi-palette-53: rgb(95 0 95);
+    --ansi-palette-54: rgb(95 0 135);
+    --ansi-palette-55: rgb(95 0 175);
+    --ansi-palette-56: rgb(95 0 215);
+    --ansi-palette-57: rgb(95 0 255);
+    --ansi-palette-58: rgb(95 95 0);
+    --ansi-palette-59: rgb(95 95 95);
+    --ansi-palette-60: rgb(95 95 135);
+    --ansi-palette-61: rgb(95 95 175);
+    --ansi-palette-62: rgb(95 95 215);
+    --ansi-palette-63: rgb(95 95 255);
+    --ansi-palette-64: rgb(95 135 0);
+    --ansi-palette-65: rgb(95 135 95);
+    --ansi-palette-66: rgb(95 135 135);
+    --ansi-palette-67: rgb(95 135 175);
+    --ansi-palette-68: rgb(95 135 215);
+    --ansi-palette-69: rgb(95 135 255);
+    --ansi-palette-70: rgb(95 175 0);
+    --ansi-palette-71: rgb(95 175 95);
+    --ansi-palette-72: rgb(95 175 135);
+    --ansi-palette-73: rgb(95 175 175);
+    --ansi-palette-74: rgb(95 175 215);
+    --ansi-palette-75: rgb(95 175 255);
+    --ansi-palette-76: rgb(95 215 0);
+    --ansi-palette-77: rgb(95 215 95);
+    --ansi-palette-78: rgb(95 215 135);
+    --ansi-palette-79: rgb(95 215 175);
+    --ansi-palette-80: rgb(95 215 215);
+    --ansi-palette-81: rgb(95 215 255);
+    --ansi-palette-82: rgb(95 255 0);
+    --ansi-palette-83: rgb(95 255 95);
+    --ansi-palette-84: rgb(95 255 135);
+    --ansi-palette-85: rgb(95 255 175);
+    --ansi-palette-86: rgb(95 255 215);
+    --ansi-palette-87: rgb(95 255 255);
+    --ansi-palette-88: rgb(135 0 0);
+    --ansi-palette-89: rgb(135 0 95);
+    --ansi-palette-90: rgb(135 0 135);
+    --ansi-palette-91: rgb(135 0 175);
+    --ansi-palette-92: rgb(135 0 215);
+    --ansi-palette-93: rgb(135 0 255);
+    --ansi-palette-94: rgb(135 95 0);
+    --ansi-palette-95: rgb(135 95 95);
+    --ansi-palette-96: rgb(135 95 135);
+    --ansi-palette-97: rgb(135 95 175);
+    --ansi-palette-98: rgb(135 95 215);
+    --ansi-palette-99: rgb(135 95 255);
+    --ansi-palette-100: rgb(135 135 0);
+    --ansi-palette-101: rgb(135 135 95);
+    --ansi-palette-102: rgb(135 135 135);
+    --ansi-palette-103: rgb(135 135 175);
+    --ansi-palette-104: rgb(135 135 215);
+    --ansi-palette-105: rgb(135 135 255);
+    --ansi-palette-106: rgb(135 175 0);
+    --ansi-palette-107: rgb(135 175 95);
+    --ansi-palette-108: rgb(135 175 135);
+    --ansi-palette-109: rgb(135 175 175);
+    --ansi-palette-110: rgb(135 175 215);
+    --ansi-palette-111: rgb(135 175 255);
+    --ansi-palette-112: rgb(135 215 0);
+    --ansi-palette-113: rgb(135 215 95);
+    --ansi-palette-114: rgb(135 215 135);
+    --ansi-palette-115: rgb(135 215 175);
+    --ansi-palette-116: rgb(135 215 215);
+    --ansi-palette-117: rgb(135 215 255);
+    --ansi-palette-118: rgb(135 255 0);
+    --ansi-palette-119: rgb(135 255 95);
+    --ansi-palette-120: rgb(135 255 135);
+    --ansi-palette-121: rgb(135 255 175);
+    --ansi-palette-122: rgb(135 255 215);
+    --ansi-palette-123: rgb(135 255 255);
+    --ansi-palette-124: rgb(175 0 0);
+    --ansi-palette-125: rgb(175 0 95);
+    --ansi-palette-126: rgb(175 0 135);
+    --ansi-palette-127: rgb(175 0 175);
+    --ansi-palette-128: rgb(175 0 215);
+    --ansi-palette-129: rgb(175 0 255);
+    --ansi-palette-130: rgb(175 95 0);
+    --ansi-palette-131: rgb(175 95 95);
+    --ansi-palette-132: rgb(175 95 135);
+    --ansi-palette-133: rgb(175 95 175);
+    --ansi-palette-134: rgb(175 95 215);
+    --ansi-palette-135: rgb(175 95 255);
+    --ansi-palette-136: rgb(175 135 0);
+    --ansi-palette-137: rgb(175 135 95);
+    --ansi-palette-138: rgb(175 135 135);
+    --ansi-palette-139: rgb(175 135 175);
+    --ansi-palette-140: rgb(175 135 215);
+    --ansi-palette-141: rgb(175 135 255);
+    --ansi-palette-142: rgb(175 175 0);
+    --ansi-palette-143: rgb(175 175 95);
+    --ansi-palette-144: rgb(175 175 135);
+    --ansi-palette-145: rgb(175 175 175);
+    --ansi-palette-146: rgb(175 175 215);
+    --ansi-palette-147: rgb(175 175 255);
+    --ansi-palette-148: rgb(175 215 0);
+    --ansi-palette-149: rgb(175 215 95);
+    --ansi-palette-150: rgb(175 215 135);
+    --ansi-palette-151: rgb(175 215 175);
+    --ansi-palette-152: rgb(175 215 215);
+    --ansi-palette-153: rgb(175 215 255);
+    --ansi-palette-154: rgb(175 255 0);
+    --ansi-palette-155: rgb(175 255 95);
+    --ansi-palette-156: rgb(175 255 135);
+    --ansi-palette-157: rgb(175 255 175);
+    --ansi-palette-158: rgb(175 255 215);
+    --ansi-palette-159: rgb(175 255 255);
+    --ansi-palette-160: rgb(215 0 0);
+    --ansi-palette-161: rgb(215 0 95);
+    --ansi-palette-162: rgb(215 0 135);
+    --ansi-palette-163: rgb(215 0 175);
+    --ansi-palette-164: rgb(215 0 215);
+    --ansi-palette-165: rgb(215 0 255);
+    --ansi-palette-166: rgb(215 95 0);
+    --ansi-palette-167: rgb(215 95 95);
+    --ansi-palette-168: rgb(215 95 135);
+    --ansi-palette-169: rgb(215 95 175);
+    --ansi-palette-170: rgb(215 95 215);
+    --ansi-palette-171: rgb(215 95 255);
+    --ansi-palette-172: rgb(215 135 0);
+    --ansi-palette-173: rgb(215 135 95);
+    --ansi-palette-174: rgb(215 135 135);
+    --ansi-palette-175: rgb(215 135 175);
+    --ansi-palette-176: rgb(215 135 215);
+    --ansi-palette-177: rgb(215 135 255);
+    --ansi-palette-178: rgb(215 175 0);
+    --ansi-palette-179: rgb(215 175 95);
+    --ansi-palette-180: rgb(215 175 135);
+    --ansi-palette-181: rgb(215 175 175);
+    --ansi-palette-182: rgb(215 175 215);
+    --ansi-palette-183: rgb(215 175 255);
+    --ansi-palette-184: rgb(215 215 0);
+    --ansi-palette-185: rgb(215 215 95);
+    --ansi-palette-186: rgb(215 215 135);
+    --ansi-palette-187: rgb(215 215 175);
+    --ansi-palette-188: rgb(215 215 215);
+    --ansi-palette-189: rgb(215 215 255);
+    --ansi-palette-190: rgb(215 255 0);
+    --ansi-palette-191: rgb(215 255 95);
+    --ansi-palette-192: rgb(215 255 135);
+    --ansi-palette-193: rgb(215 255 175);
+    --ansi-palette-194: rgb(215 255 215);
+    --ansi-palette-195: rgb(215 255 255);
+    --ansi-palette-196: rgb(255 0 0);
+    --ansi-palette-197: rgb(255 0 95);
+    --ansi-palette-198: rgb(255 0 135);
+    --ansi-palette-199: rgb(255 0 175);
+    --ansi-palette-200: rgb(255 0 215);
+    --ansi-palette-201: rgb(255 0 255);
+    --ansi-palette-202: rgb(255 95 0);
+    --ansi-palette-203: rgb(255 95 95);
+    --ansi-palette-204: rgb(255 95 135);
+    --ansi-palette-205: rgb(255 95 175);
+    --ansi-palette-206: rgb(255 95 215);
+    --ansi-palette-207: rgb(255 95 255);
+    --ansi-palette-208: rgb(255 135 0);
+    --ansi-palette-209: rgb(255 135 95);
+    --ansi-palette-210: rgb(255 135 135);
+    --ansi-palette-211: rgb(255 135 175);
+    --ansi-palette-212: rgb(255 135 215);
+    --ansi-palette-213: rgb(255 135 255);
+    --ansi-palette-214: rgb(255 175 0);
+    --ansi-palette-215: rgb(255 175 95);
+    --ansi-palette-216: rgb(255 175 135);
+    --ansi-palette-217: rgb(255 175 175);
+    --ansi-palette-218: rgb(255 175 215);
+    --ansi-palette-219: rgb(255 175 255);
+    --ansi-palette-220: rgb(255 215 0);
+    --ansi-palette-221: rgb(255 215 95);
+    --ansi-palette-222: rgb(255 215 135);
+    --ansi-palette-223: rgb(255 215 175);
+    --ansi-palette-224: rgb(255 215 215);
+    --ansi-palette-225: rgb(255 215 255);
+    --ansi-palette-226: rgb(255 255 0);
+    --ansi-palette-227: rgb(255 255 95);
+    --ansi-palette-228: rgb(255 255 135);
+    --ansi-palette-229: rgb(255 255 175);
+    --ansi-palette-230: rgb(255 255 215);
+    --ansi-palette-231: rgb(255 255 255);
+    --ansi-palette-232: rgb(8 8 8);
+    --ansi-palette-233: rgb(18 18 18);
+    --ansi-palette-234: rgb(28 28 28);
+    --ansi-palette-235: rgb(38 38 38);
+    --ansi-palette-236: rgb(48 48 48);
+    --ansi-palette-237: rgb(58 58 58);
+    --ansi-palette-238: rgb(68 68 68);
+    --ansi-palette-239: rgb(78 78 78);
+    --ansi-palette-240: rgb(88 88 88);
+    --ansi-palette-241: rgb(98 98 98);
+    --ansi-palette-242: rgb(108 108 108);
+    --ansi-palette-243: rgb(118 118 118);
+    --ansi-palette-244: rgb(128 128 128);
+    --ansi-palette-245: rgb(138 138 138);
+    --ansi-palette-246: rgb(148 148 148);
+    --ansi-palette-247: rgb(158 158 158);
+    --ansi-palette-248: rgb(168 168 168);
+    --ansi-palette-249: rgb(178 178 178);
+    --ansi-palette-250: rgb(188 188 188);
+    --ansi-palette-251: rgb(198 198 198);
+    --ansi-palette-252: rgb(208 208 208);
+    --ansi-palette-253: rgb(218 218 218);
+    --ansi-palette-254: rgb(228 228 228);
+    --ansi-palette-255: rgb(238 238 238);
+  }
+  /* Restricted xterm palette with only eight colours */
+  .ansi-restricted {
+    @apply ansi-xterm;
+    --ansi-bright-black: var(--ansi-black);
+    --ansi-bright-red: var(--ansi-red);
+    --ansi-bright-green: var(--ansi-green);
+    --ansi-bright-yellow: var(--ansi-yellow);
+    --ansi-bright-blue: var(--ansi-blue);
+    --ansi-bright-magenta: var(--ansi-magenta);
+    --ansi-bright-cyan: var(--ansi-cyan);
+    --ansi-bright-white: var(--ansi-white);
+    --ansi-palette-16: var(--ansi-black);
+    --ansi-palette-17: var(--ansi-black);
+    --ansi-palette-18: var(--ansi-blue);
+    --ansi-palette-19: var(--ansi-blue);
+    --ansi-palette-20: var(--ansi-blue);
+    --ansi-palette-21: var(--ansi-blue);
+    --ansi-palette-22: var(--ansi-black);
+    --ansi-palette-23: var(--ansi-black);
+    --ansi-palette-24: var(--ansi-cyan);
+    --ansi-palette-25: var(--ansi-blue);
+    --ansi-palette-26: var(--ansi-blue);
+    --ansi-palette-27: var(--ansi-blue);
+    --ansi-palette-28: var(--ansi-green);
+    --ansi-palette-29: var(--ansi-green);
+    --ansi-palette-30: var(--ansi-cyan);
+    --ansi-palette-31: var(--ansi-cyan);
+    --ansi-palette-32: var(--ansi-cyan);
+    --ansi-palette-33: var(--ansi-cyan);
+    --ansi-palette-34: var(--ansi-green);
+    --ansi-palette-35: var(--ansi-green);
+    --ansi-palette-36: var(--ansi-cyan);
+    --ansi-palette-37: var(--ansi-cyan);
+    --ansi-palette-38: var(--ansi-cyan);
+    --ansi-palette-39: var(--ansi-cyan);
+    --ansi-palette-40: var(--ansi-green);
+    --ansi-palette-41: var(--ansi-green);
+    --ansi-palette-42: var(--ansi-cyan);
+    --ansi-palette-43: var(--ansi-cyan);
+    --ansi-palette-44: var(--ansi-cyan);
+    --ansi-palette-45: var(--ansi-cyan);
+    --ansi-palette-46: var(--ansi-green);
+    --ansi-palette-47: var(--ansi-green);
+    --ansi-palette-48: var(--ansi-cyan);
+    --ansi-palette-49: var(--ansi-cyan);
+    --ansi-palette-50: var(--ansi-cyan);
+    --ansi-palette-51: var(--ansi-cyan);
+    --ansi-palette-52: var(--ansi-black);
+    --ansi-palette-53: var(--ansi-black);
+    --ansi-palette-54: var(--ansi-magenta);
+    --ansi-palette-55: var(--ansi-blue);
+    --ansi-palette-56: var(--ansi-blue);
+    --ansi-palette-57: var(--ansi-blue);
+    --ansi-palette-58: var(--ansi-black);
+    --ansi-palette-59: var(--ansi-black);
+    --ansi-palette-60: var(--ansi-magenta);
+    --ansi-palette-61: var(--ansi-blue);
+    --ansi-palette-62: var(--ansi-blue);
+    --ansi-palette-63: var(--ansi-blue);
+    --ansi-palette-64: var(--ansi-green);
+    --ansi-palette-65: var(--ansi-green);
+    --ansi-palette-66: var(--ansi-cyan);
+    --ansi-palette-67: var(--ansi-cyan);
+    --ansi-palette-68: var(--ansi-cyan);
+    --ansi-palette-69: var(--ansi-cyan);
+    --ansi-palette-70: var(--ansi-green);
+    --ansi-palette-71: var(--ansi-green);
+    --ansi-palette-72: var(--ansi-cyan);
+    --ansi-palette-73: var(--ansi-cyan);
+    --ansi-palette-74: var(--ansi-cyan);
+    --ansi-palette-75: var(--ansi-cyan);
+    --ansi-palette-76: var(--ansi-green);
+    --ansi-palette-77: var(--ansi-green);
+    --ansi-palette-78: var(--ansi-cyan);
+    --ansi-palette-79: var(--ansi-cyan);
+    --ansi-palette-80: var(--ansi-cyan);
+    --ansi-palette-81: var(--ansi-cyan);
+    --ansi-palette-82: var(--ansi-green);
+    --ansi-palette-83: var(--ansi-green);
+    --ansi-palette-84: var(--ansi-cyan);
+    --ansi-palette-85: var(--ansi-cyan);
+    --ansi-palette-86: var(--ansi-cyan);
+    --ansi-palette-87: var(--ansi-cyan);
+    --ansi-palette-88: var(--ansi-red);
+    --ansi-palette-89: var(--ansi-red);
+    --ansi-palette-90: var(--ansi-magenta);
+    --ansi-palette-91: var(--ansi-magenta);
+    --ansi-palette-92: var(--ansi-magenta);
+    --ansi-palette-93: var(--ansi-magenta);
+    --ansi-palette-94: var(--ansi-red);
+    --ansi-palette-95: var(--ansi-red);
+    --ansi-palette-96: var(--ansi-magenta);
+    --ansi-palette-97: var(--ansi-magenta);
+    --ansi-palette-98: var(--ansi-magenta);
+    --ansi-palette-99: var(--ansi-magenta);
+    --ansi-palette-100: var(--ansi-yellow);
+    --ansi-palette-101: var(--ansi-yellow);
+    --ansi-palette-102: var(--ansi-white);
+    --ansi-palette-103: var(--ansi-white);
+    --ansi-palette-104: var(--ansi-white);
+    --ansi-palette-105: var(--ansi-white);
+    --ansi-palette-106: var(--ansi-yellow);
+    --ansi-palette-107: var(--ansi-yellow);
+    --ansi-palette-108: var(--ansi-white);
+    --ansi-palette-109: var(--ansi-white);
+    --ansi-palette-110: var(--ansi-white);
+    --ansi-palette-111: var(--ansi-white);
+    --ansi-palette-112: var(--ansi-yellow);
+    --ansi-palette-113: var(--ansi-yellow);
+    --ansi-palette-114: var(--ansi-white);
+    --ansi-palette-115: var(--ansi-white);
+    --ansi-palette-116: var(--ansi-white);
+    --ansi-palette-117: var(--ansi-white);
+    --ansi-palette-118: var(--ansi-yellow);
+    --ansi-palette-119: var(--ansi-yellow);
+    --ansi-palette-120: var(--ansi-white);
+    --ansi-palette-121: var(--ansi-white);
+    --ansi-palette-122: var(--ansi-white);
+    --ansi-palette-123: var(--ansi-white);
+    --ansi-palette-124: var(--ansi-red);
+    --ansi-palette-125: var(--ansi-red);
+    --ansi-palette-126: var(--ansi-magenta);
+    --ansi-palette-127: var(--ansi-magenta);
+    --ansi-palette-128: var(--ansi-magenta);
+    --ansi-palette-129: var(--ansi-magenta);
+    --ansi-palette-130: var(--ansi-red);
+    --ansi-palette-131: var(--ansi-red);
+    --ansi-palette-132: var(--ansi-magenta);
+    --ansi-palette-133: var(--ansi-magenta);
+    --ansi-palette-134: var(--ansi-magenta);
+    --ansi-palette-135: var(--ansi-magenta);
+    --ansi-palette-136: var(--ansi-yellow);
+    --ansi-palette-137: var(--ansi-yellow);
+    --ansi-palette-138: var(--ansi-white);
+    --ansi-palette-139: var(--ansi-white);
+    --ansi-palette-140: var(--ansi-white);
+    --ansi-palette-141: var(--ansi-white);
+    --ansi-palette-142: var(--ansi-yellow);
+    --ansi-palette-143: var(--ansi-yellow);
+    --ansi-palette-144: var(--ansi-white);
+    --ansi-palette-145: var(--ansi-white);
+    --ansi-palette-146: var(--ansi-white);
+    --ansi-palette-147: var(--ansi-white);
+    --ansi-palette-148: var(--ansi-yellow);
+    --ansi-palette-149: var(--ansi-yellow);
+    --ansi-palette-150: var(--ansi-white);
+    --ansi-palette-151: var(--ansi-white);
+    --ansi-palette-152: var(--ansi-white);
+    --ansi-palette-153: var(--ansi-white);
+    --ansi-palette-154: var(--ansi-yellow);
+    --ansi-palette-155: var(--ansi-yellow);
+    --ansi-palette-156: var(--ansi-white);
+    --ansi-palette-157: var(--ansi-white);
+    --ansi-palette-158: var(--ansi-white);
+    --ansi-palette-159: var(--ansi-white);
+    --ansi-palette-160: var(--ansi-red);
+    --ansi-palette-161: var(--ansi-red);
+    --ansi-palette-162: var(--ansi-magenta);
+    --ansi-palette-163: var(--ansi-magenta);
+    --ansi-palette-164: var(--ansi-magenta);
+    --ansi-palette-165: var(--ansi-magenta);
+    --ansi-palette-166: var(--ansi-red);
+    --ansi-palette-167: var(--ansi-red);
+    --ansi-palette-168: var(--ansi-magenta);
+    --ansi-palette-169: var(--ansi-magenta);
+    --ansi-palette-170: var(--ansi-magenta);
+    --ansi-palette-171: var(--ansi-magenta);
+    --ansi-palette-172: var(--ansi-yellow);
+    --ansi-palette-173: var(--ansi-yellow);
+    --ansi-palette-174: var(--ansi-white);
+    --ansi-palette-175: var(--ansi-white);
+    --ansi-palette-176: var(--ansi-white);
+    --ansi-palette-177: var(--ansi-white);
+    --ansi-palette-178: var(--ansi-yellow);
+    --ansi-palette-179: var(--ansi-yellow);
+    --ansi-palette-180: var(--ansi-white);
+    --ansi-palette-181: var(--ansi-white);
+    --ansi-palette-182: var(--ansi-white);
+    --ansi-palette-183: var(--ansi-white);
+    --ansi-palette-184: var(--ansi-yellow);
+    --ansi-palette-185: var(--ansi-yellow);
+    --ansi-palette-186: var(--ansi-white);
+    --ansi-palette-187: var(--ansi-white);
+    --ansi-palette-188: var(--ansi-white);
+    --ansi-palette-189: var(--ansi-white);
+    --ansi-palette-190: var(--ansi-yellow);
+    --ansi-palette-191: var(--ansi-yellow);
+    --ansi-palette-192: var(--ansi-white);
+    --ansi-palette-193: var(--ansi-white);
+    --ansi-palette-194: var(--ansi-white);
+    --ansi-palette-195: var(--ansi-white);
+    --ansi-palette-196: var(--ansi-red);
+    --ansi-palette-197: var(--ansi-red);
+    --ansi-palette-198: var(--ansi-magenta);
+    --ansi-palette-199: var(--ansi-magenta);
+    --ansi-palette-200: var(--ansi-magenta);
+    --ansi-palette-201: var(--ansi-magenta);
+    --ansi-palette-202: var(--ansi-red);
+    --ansi-palette-203: var(--ansi-red);
+    --ansi-palette-204: var(--ansi-magenta);
+    --ansi-palette-205: var(--ansi-magenta);
+    --ansi-palette-206: var(--ansi-magenta);
+    --ansi-palette-207: var(--ansi-magenta);
+    --ansi-palette-208: var(--ansi-yellow);
+    --ansi-palette-209: var(--ansi-yellow);
+    --ansi-palette-210: var(--ansi-white);
+    --ansi-palette-211: var(--ansi-white);
+    --ansi-palette-212: var(--ansi-white);
+    --ansi-palette-213: var(--ansi-white);
+    --ansi-palette-214: var(--ansi-yellow);
+    --ansi-palette-215: var(--ansi-yellow);
+    --ansi-palette-216: var(--ansi-white);
+    --ansi-palette-217: var(--ansi-white);
+    --ansi-palette-218: var(--ansi-white);
+    --ansi-palette-219: var(--ansi-white);
+    --ansi-palette-220: var(--ansi-yellow);
+    --ansi-palette-221: var(--ansi-yellow);
+    --ansi-palette-222: var(--ansi-white);
+    --ansi-palette-223: var(--ansi-white);
+    --ansi-palette-224: var(--ansi-white);
+    --ansi-palette-225: var(--ansi-white);
+    --ansi-palette-226: var(--ansi-yellow);
+    --ansi-palette-227: var(--ansi-yellow);
+    --ansi-palette-228: var(--ansi-white);
+    --ansi-palette-229: var(--ansi-white);
+    --ansi-palette-230: var(--ansi-white);
+    --ansi-palette-231: var(--ansi-white);
+    --ansi-palette-232: var(--ansi-black);
+    --ansi-palette-233: var(--ansi-black);
+    --ansi-palette-234: var(--ansi-black);
+    --ansi-palette-235: var(--ansi-black);
+    --ansi-palette-236: var(--ansi-black);
+    --ansi-palette-237: var(--ansi-black);
+    --ansi-palette-238: var(--ansi-black);
+    --ansi-palette-239: var(--ansi-black);
+    --ansi-palette-240: var(--ansi-black);
+    --ansi-palette-241: var(--ansi-black);
+    --ansi-palette-242: var(--ansi-yellow);
+    --ansi-palette-243: var(--ansi-yellow);
+    --ansi-palette-244: var(--ansi-yellow);
+    --ansi-palette-245: var(--ansi-white);
+    --ansi-palette-246: var(--ansi-white);
+    --ansi-palette-247: var(--ansi-white);
+    --ansi-palette-248: var(--ansi-white);
+    --ansi-palette-249: var(--ansi-white);
+    --ansi-palette-250: var(--ansi-white);
+    --ansi-palette-251: var(--ansi-white);
+    --ansi-palette-252: var(--ansi-white);
+    --ansi-palette-253: var(--ansi-white);
+    --ansi-palette-254: var(--ansi-white);
+    --ansi-palette-255: var(--ansi-white);
+  }
+  .ansi-fg-text {
+    @apply [&_.ansi-black-fg]:text-[--ansi-black]
+     [&_.ansi-blue-fg]:text-[--ansi-blue]
+     [&_.ansi-bright-black-fg]:text-[--ansi-bright-black]
+     [&_.ansi-bright-blue-fg]:text-[--ansi-bright-blue]
+     [&_.ansi-bright-cyan-fg]:text-[--ansi-bright-cyan]
+     [&_.ansi-bright-green-fg]:text-[--ansi-bright-green]
+     [&_.ansi-bright-magenta-fg]:text-[--ansi-bright-magenta]
+     [&_.ansi-bright-red-fg]:text-[--ansi-bright-red]
+     [&_.ansi-bright-white-fg]:text-[--ansi-bright-white]
+     [&_.ansi-bright-yellow-fg]:text-[--ansi-bright-yellow]
+     [&_.ansi-cyan-fg]:text-[--ansi-cyan]
+     [&_.ansi-green-fg]:text-[--ansi-green]
+     [&_.ansi-magenta-fg]:text-[--ansi-magenta]
+     [&_.ansi-palette-100-fg]:text-[--ansi-palette-100]
+     [&_.ansi-palette-101-fg]:text-[--ansi-palette-101]
+     [&_.ansi-palette-102-fg]:text-[--ansi-palette-102]
+     [&_.ansi-palette-103-fg]:text-[--ansi-palette-103]
+     [&_.ansi-palette-104-fg]:text-[--ansi-palette-104]
+     [&_.ansi-palette-105-fg]:text-[--ansi-palette-105]
+     [&_.ansi-palette-106-fg]:text-[--ansi-palette-106]
+     [&_.ansi-palette-107-fg]:text-[--ansi-palette-107]
+     [&_.ansi-palette-108-fg]:text-[--ansi-palette-108]
+     [&_.ansi-palette-109-fg]:text-[--ansi-palette-109]
+     [&_.ansi-palette-110-fg]:text-[--ansi-palette-110]
+     [&_.ansi-palette-111-fg]:text-[--ansi-palette-111]
+     [&_.ansi-palette-112-fg]:text-[--ansi-palette-112]
+     [&_.ansi-palette-113-fg]:text-[--ansi-palette-113]
+     [&_.ansi-palette-114-fg]:text-[--ansi-palette-114]
+     [&_.ansi-palette-115-fg]:text-[--ansi-palette-115]
+     [&_.ansi-palette-116-fg]:text-[--ansi-palette-116]
+     [&_.ansi-palette-117-fg]:text-[--ansi-palette-117]
+     [&_.ansi-palette-118-fg]:text-[--ansi-palette-118]
+     [&_.ansi-palette-119-fg]:text-[--ansi-palette-119]
+     [&_.ansi-palette-120-fg]:text-[--ansi-palette-120]
+     [&_.ansi-palette-121-fg]:text-[--ansi-palette-121]
+     [&_.ansi-palette-122-fg]:text-[--ansi-palette-122]
+     [&_.ansi-palette-123-fg]:text-[--ansi-palette-123]
+     [&_.ansi-palette-124-fg]:text-[--ansi-palette-124]
+     [&_.ansi-palette-125-fg]:text-[--ansi-palette-125]
+     [&_.ansi-palette-126-fg]:text-[--ansi-palette-126]
+     [&_.ansi-palette-127-fg]:text-[--ansi-palette-127]
+     [&_.ansi-palette-128-fg]:text-[--ansi-palette-128]
+     [&_.ansi-palette-129-fg]:text-[--ansi-palette-129]
+     [&_.ansi-palette-130-fg]:text-[--ansi-palette-130]
+     [&_.ansi-palette-131-fg]:text-[--ansi-palette-131]
+     [&_.ansi-palette-132-fg]:text-[--ansi-palette-132]
+     [&_.ansi-palette-133-fg]:text-[--ansi-palette-133]
+     [&_.ansi-palette-134-fg]:text-[--ansi-palette-134]
+     [&_.ansi-palette-135-fg]:text-[--ansi-palette-135]
+     [&_.ansi-palette-136-fg]:text-[--ansi-palette-136]
+     [&_.ansi-palette-137-fg]:text-[--ansi-palette-137]
+     [&_.ansi-palette-138-fg]:text-[--ansi-palette-138]
+     [&_.ansi-palette-139-fg]:text-[--ansi-palette-139]
+     [&_.ansi-palette-140-fg]:text-[--ansi-palette-140]
+     [&_.ansi-palette-141-fg]:text-[--ansi-palette-141]
+     [&_.ansi-palette-142-fg]:text-[--ansi-palette-142]
+     [&_.ansi-palette-143-fg]:text-[--ansi-palette-143]
+     [&_.ansi-palette-144-fg]:text-[--ansi-palette-144]
+     [&_.ansi-palette-145-fg]:text-[--ansi-palette-145]
+     [&_.ansi-palette-146-fg]:text-[--ansi-palette-146]
+     [&_.ansi-palette-147-fg]:text-[--ansi-palette-147]
+     [&_.ansi-palette-148-fg]:text-[--ansi-palette-148]
+     [&_.ansi-palette-149-fg]:text-[--ansi-palette-149]
+     [&_.ansi-palette-150-fg]:text-[--ansi-palette-150]
+     [&_.ansi-palette-151-fg]:text-[--ansi-palette-151]
+     [&_.ansi-palette-152-fg]:text-[--ansi-palette-152]
+     [&_.ansi-palette-153-fg]:text-[--ansi-palette-153]
+     [&_.ansi-palette-154-fg]:text-[--ansi-palette-154]
+     [&_.ansi-palette-155-fg]:text-[--ansi-palette-155]
+     [&_.ansi-palette-156-fg]:text-[--ansi-palette-156]
+     [&_.ansi-palette-157-fg]:text-[--ansi-palette-157]
+     [&_.ansi-palette-158-fg]:text-[--ansi-palette-158]
+     [&_.ansi-palette-159-fg]:text-[--ansi-palette-159]
+     [&_.ansi-palette-16-fg]:text-[--ansi-palette-16]
+     [&_.ansi-palette-160-fg]:text-[--ansi-palette-160]
+     [&_.ansi-palette-161-fg]:text-[--ansi-palette-161]
+     [&_.ansi-palette-162-fg]:text-[--ansi-palette-162]
+     [&_.ansi-palette-163-fg]:text-[--ansi-palette-163]
+     [&_.ansi-palette-164-fg]:text-[--ansi-palette-164]
+     [&_.ansi-palette-165-fg]:text-[--ansi-palette-165]
+     [&_.ansi-palette-166-fg]:text-[--ansi-palette-166]
+     [&_.ansi-palette-167-fg]:text-[--ansi-palette-167]
+     [&_.ansi-palette-168-fg]:text-[--ansi-palette-168]
+     [&_.ansi-palette-169-fg]:text-[--ansi-palette-169]
+     [&_.ansi-palette-17-fg]:text-[--ansi-palette-17]
+     [&_.ansi-palette-170-fg]:text-[--ansi-palette-170]
+     [&_.ansi-palette-171-fg]:text-[--ansi-palette-171]
+     [&_.ansi-palette-172-fg]:text-[--ansi-palette-172]
+     [&_.ansi-palette-173-fg]:text-[--ansi-palette-173]
+     [&_.ansi-palette-174-fg]:text-[--ansi-palette-174]
+     [&_.ansi-palette-175-fg]:text-[--ansi-palette-175]
+     [&_.ansi-palette-176-fg]:text-[--ansi-palette-176]
+     [&_.ansi-palette-177-fg]:text-[--ansi-palette-177]
+     [&_.ansi-palette-178-fg]:text-[--ansi-palette-178]
+     [&_.ansi-palette-179-fg]:text-[--ansi-palette-179]
+     [&_.ansi-palette-18-fg]:text-[--ansi-palette-18]
+     [&_.ansi-palette-180-fg]:text-[--ansi-palette-180]
+     [&_.ansi-palette-181-fg]:text-[--ansi-palette-181]
+     [&_.ansi-palette-182-fg]:text-[--ansi-palette-182]
+     [&_.ansi-palette-183-fg]:text-[--ansi-palette-183]
+     [&_.ansi-palette-184-fg]:text-[--ansi-palette-184]
+     [&_.ansi-palette-185-fg]:text-[--ansi-palette-185]
+     [&_.ansi-palette-186-fg]:text-[--ansi-palette-186]
+     [&_.ansi-palette-187-fg]:text-[--ansi-palette-187]
+     [&_.ansi-palette-188-fg]:text-[--ansi-palette-188]
+     [&_.ansi-palette-189-fg]:text-[--ansi-palette-189]
+     [&_.ansi-palette-19-fg]:text-[--ansi-palette-19]
+     [&_.ansi-palette-190-fg]:text-[--ansi-palette-190]
+     [&_.ansi-palette-191-fg]:text-[--ansi-palette-191]
+     [&_.ansi-palette-192-fg]:text-[--ansi-palette-192]
+     [&_.ansi-palette-193-fg]:text-[--ansi-palette-193]
+     [&_.ansi-palette-194-fg]:text-[--ansi-palette-194]
+     [&_.ansi-palette-195-fg]:text-[--ansi-palette-195]
+     [&_.ansi-palette-196-fg]:text-[--ansi-palette-196]
+     [&_.ansi-palette-197-fg]:text-[--ansi-palette-197]
+     [&_.ansi-palette-198-fg]:text-[--ansi-palette-198]
+     [&_.ansi-palette-199-fg]:text-[--ansi-palette-199]
+     [&_.ansi-palette-20-fg]:text-[--ansi-palette-20]
+     [&_.ansi-palette-200-fg]:text-[--ansi-palette-200]
+     [&_.ansi-palette-201-fg]:text-[--ansi-palette-201]
+     [&_.ansi-palette-202-fg]:text-[--ansi-palette-202]
+     [&_.ansi-palette-203-fg]:text-[--ansi-palette-203]
+     [&_.ansi-palette-204-fg]:text-[--ansi-palette-204]
+     [&_.ansi-palette-205-fg]:text-[--ansi-palette-205]
+     [&_.ansi-palette-206-fg]:text-[--ansi-palette-206]
+     [&_.ansi-palette-207-fg]:text-[--ansi-palette-207]
+     [&_.ansi-palette-208-fg]:text-[--ansi-palette-208]
+     [&_.ansi-palette-209-fg]:text-[--ansi-palette-209]
+     [&_.ansi-palette-21-fg]:text-[--ansi-palette-21]
+     [&_.ansi-palette-210-fg]:text-[--ansi-palette-210]
+     [&_.ansi-palette-211-fg]:text-[--ansi-palette-211]
+     [&_.ansi-palette-212-fg]:text-[--ansi-palette-212]
+     [&_.ansi-palette-213-fg]:text-[--ansi-palette-213]
+     [&_.ansi-palette-214-fg]:text-[--ansi-palette-214]
+     [&_.ansi-palette-215-fg]:text-[--ansi-palette-215]
+     [&_.ansi-palette-216-fg]:text-[--ansi-palette-216]
+     [&_.ansi-palette-217-fg]:text-[--ansi-palette-217]
+     [&_.ansi-palette-218-fg]:text-[--ansi-palette-218]
+     [&_.ansi-palette-219-fg]:text-[--ansi-palette-219]
+     [&_.ansi-palette-22-fg]:text-[--ansi-palette-22]
+     [&_.ansi-palette-220-fg]:text-[--ansi-palette-220]
+     [&_.ansi-palette-221-fg]:text-[--ansi-palette-221]
+     [&_.ansi-palette-222-fg]:text-[--ansi-palette-222]
+     [&_.ansi-palette-223-fg]:text-[--ansi-palette-223]
+     [&_.ansi-palette-224-fg]:text-[--ansi-palette-224]
+     [&_.ansi-palette-225-fg]:text-[--ansi-palette-225]
+     [&_.ansi-palette-226-fg]:text-[--ansi-palette-226]
+     [&_.ansi-palette-227-fg]:text-[--ansi-palette-227]
+     [&_.ansi-palette-228-fg]:text-[--ansi-palette-228]
+     [&_.ansi-palette-229-fg]:text-[--ansi-palette-229]
+     [&_.ansi-palette-23-fg]:text-[--ansi-palette-23]
+     [&_.ansi-palette-230-fg]:text-[--ansi-palette-230]
+     [&_.ansi-palette-231-fg]:text-[--ansi-palette-231]
+     [&_.ansi-palette-232-fg]:text-[--ansi-palette-232]
+     [&_.ansi-palette-233-fg]:text-[--ansi-palette-233]
+     [&_.ansi-palette-234-fg]:text-[--ansi-palette-234]
+     [&_.ansi-palette-235-fg]:text-[--ansi-palette-235]
+     [&_.ansi-palette-236-fg]:text-[--ansi-palette-236]
+     [&_.ansi-palette-237-fg]:text-[--ansi-palette-237]
+     [&_.ansi-palette-238-fg]:text-[--ansi-palette-238]
+     [&_.ansi-palette-239-fg]:text-[--ansi-palette-239]
+     [&_.ansi-palette-24-fg]:text-[--ansi-palette-24]
+     [&_.ansi-palette-240-fg]:text-[--ansi-palette-240]
+     [&_.ansi-palette-241-fg]:text-[--ansi-palette-241]
+     [&_.ansi-palette-242-fg]:text-[--ansi-palette-242]
+     [&_.ansi-palette-243-fg]:text-[--ansi-palette-243]
+     [&_.ansi-palette-244-fg]:text-[--ansi-palette-244]
+     [&_.ansi-palette-245-fg]:text-[--ansi-palette-245]
+     [&_.ansi-palette-246-fg]:text-[--ansi-palette-246]
+     [&_.ansi-palette-247-fg]:text-[--ansi-palette-247]
+     [&_.ansi-palette-248-fg]:text-[--ansi-palette-248]
+     [&_.ansi-palette-249-fg]:text-[--ansi-palette-249]
+     [&_.ansi-palette-25-fg]:text-[--ansi-palette-25]
+     [&_.ansi-palette-250-fg]:text-[--ansi-palette-250]
+     [&_.ansi-palette-251-fg]:text-[--ansi-palette-251]
+     [&_.ansi-palette-252-fg]:text-[--ansi-palette-252]
+     [&_.ansi-palette-253-fg]:text-[--ansi-palette-253]
+     [&_.ansi-palette-254-fg]:text-[--ansi-palette-254]
+     [&_.ansi-palette-255-fg]:text-[--ansi-palette-255]
+     [&_.ansi-palette-26-fg]:text-[--ansi-palette-26]
+     [&_.ansi-palette-27-fg]:text-[--ansi-palette-27]
+     [&_.ansi-palette-28-fg]:text-[--ansi-palette-28]
+     [&_.ansi-palette-29-fg]:text-[--ansi-palette-29]
+     [&_.ansi-palette-30-fg]:text-[--ansi-palette-30]
+     [&_.ansi-palette-31-fg]:text-[--ansi-palette-31]
+     [&_.ansi-palette-32-fg]:text-[--ansi-palette-32]
+     [&_.ansi-palette-33-fg]:text-[--ansi-palette-33]
+     [&_.ansi-palette-34-fg]:text-[--ansi-palette-34]
+     [&_.ansi-palette-35-fg]:text-[--ansi-palette-35]
+     [&_.ansi-palette-36-fg]:text-[--ansi-palette-36]
+     [&_.ansi-palette-37-fg]:text-[--ansi-palette-37]
+     [&_.ansi-palette-38-fg]:text-[--ansi-palette-38]
+     [&_.ansi-palette-39-fg]:text-[--ansi-palette-39]
+     [&_.ansi-palette-40-fg]:text-[--ansi-palette-40]
+     [&_.ansi-palette-41-fg]:text-[--ansi-palette-41]
+     [&_.ansi-palette-42-fg]:text-[--ansi-palette-42]
+     [&_.ansi-palette-43-fg]:text-[--ansi-palette-43]
+     [&_.ansi-palette-44-fg]:text-[--ansi-palette-44]
+     [&_.ansi-palette-45-fg]:text-[--ansi-palette-45]
+     [&_.ansi-palette-46-fg]:text-[--ansi-palette-46]
+     [&_.ansi-palette-47-fg]:text-[--ansi-palette-47]
+     [&_.ansi-palette-48-fg]:text-[--ansi-palette-48]
+     [&_.ansi-palette-49-fg]:text-[--ansi-palette-49]
+     [&_.ansi-palette-50-fg]:text-[--ansi-palette-50]
+     [&_.ansi-palette-51-fg]:text-[--ansi-palette-51]
+     [&_.ansi-palette-52-fg]:text-[--ansi-palette-52]
+     [&_.ansi-palette-53-fg]:text-[--ansi-palette-53]
+     [&_.ansi-palette-54-fg]:text-[--ansi-palette-54]
+     [&_.ansi-palette-55-fg]:text-[--ansi-palette-55]
+     [&_.ansi-palette-56-fg]:text-[--ansi-palette-56]
+     [&_.ansi-palette-57-fg]:text-[--ansi-palette-57]
+     [&_.ansi-palette-58-fg]:text-[--ansi-palette-58]
+     [&_.ansi-palette-59-fg]:text-[--ansi-palette-59]
+     [&_.ansi-palette-60-fg]:text-[--ansi-palette-60]
+     [&_.ansi-palette-61-fg]:text-[--ansi-palette-61]
+     [&_.ansi-palette-62-fg]:text-[--ansi-palette-62]
+     [&_.ansi-palette-63-fg]:text-[--ansi-palette-63]
+     [&_.ansi-palette-64-fg]:text-[--ansi-palette-64]
+     [&_.ansi-palette-65-fg]:text-[--ansi-palette-65]
+     [&_.ansi-palette-66-fg]:text-[--ansi-palette-66]
+     [&_.ansi-palette-67-fg]:text-[--ansi-palette-67]
+     [&_.ansi-palette-68-fg]:text-[--ansi-palette-68]
+     [&_.ansi-palette-69-fg]:text-[--ansi-palette-69]
+     [&_.ansi-palette-70-fg]:text-[--ansi-palette-70]
+     [&_.ansi-palette-71-fg]:text-[--ansi-palette-71]
+     [&_.ansi-palette-72-fg]:text-[--ansi-palette-72]
+     [&_.ansi-palette-73-fg]:text-[--ansi-palette-73]
+     [&_.ansi-palette-74-fg]:text-[--ansi-palette-74]
+     [&_.ansi-palette-75-fg]:text-[--ansi-palette-75]
+     [&_.ansi-palette-76-fg]:text-[--ansi-palette-76]
+     [&_.ansi-palette-77-fg]:text-[--ansi-palette-77]
+     [&_.ansi-palette-78-fg]:text-[--ansi-palette-78]
+     [&_.ansi-palette-79-fg]:text-[--ansi-palette-79]
+     [&_.ansi-palette-80-fg]:text-[--ansi-palette-80]
+     [&_.ansi-palette-81-fg]:text-[--ansi-palette-81]
+     [&_.ansi-palette-82-fg]:text-[--ansi-palette-82]
+     [&_.ansi-palette-83-fg]:text-[--ansi-palette-83]
+     [&_.ansi-palette-84-fg]:text-[--ansi-palette-84]
+     [&_.ansi-palette-85-fg]:text-[--ansi-palette-85]
+     [&_.ansi-palette-86-fg]:text-[--ansi-palette-86]
+     [&_.ansi-palette-87-fg]:text-[--ansi-palette-87]
+     [&_.ansi-palette-88-fg]:text-[--ansi-palette-88]
+     [&_.ansi-palette-89-fg]:text-[--ansi-palette-89]
+     [&_.ansi-palette-90-fg]:text-[--ansi-palette-90]
+     [&_.ansi-palette-91-fg]:text-[--ansi-palette-91]
+     [&_.ansi-palette-92-fg]:text-[--ansi-palette-92]
+     [&_.ansi-palette-93-fg]:text-[--ansi-palette-93]
+     [&_.ansi-palette-94-fg]:text-[--ansi-palette-94]
+     [&_.ansi-palette-95-fg]:text-[--ansi-palette-95]
+     [&_.ansi-palette-96-fg]:text-[--ansi-palette-96]
+     [&_.ansi-palette-97-fg]:text-[--ansi-palette-97]
+     [&_.ansi-palette-98-fg]:text-[--ansi-palette-98]
+     [&_.ansi-palette-99-fg]:text-[--ansi-palette-99]
+     [&_.ansi-red-fg]:text-[--ansi-red]
+     [&_.ansi-white-fg]:text-[--ansi-white]
+     [&_.ansi-yellow-fg]:text-[--ansi-yellow];
+  }
+  .ansi-text-bg {
+    @apply ansi-fg-text
+     [&_.ansi-black-fg]:bg-[unset]
+     [&_.ansi-blue-fg]:bg-[unset]
+     [&_.ansi-bright-black-fg]:bg-[unset]
+     [&_.ansi-bright-blue-fg]:bg-[unset]
+     [&_.ansi-bright-cyan-fg]:bg-[unset]
+     [&_.ansi-bright-green-fg]:bg-[unset]
+     [&_.ansi-bright-magenta-fg]:bg-[unset]
+     [&_.ansi-bright-red-fg]:bg-[unset]
+     [&_.ansi-bright-white-fg]:bg-[unset]
+     [&_.ansi-bright-yellow-fg]:bg-[unset]
+     [&_.ansi-cyan-fg]:bg-[unset]
+     [&_.ansi-green-fg]:bg-[unset]
+     [&_.ansi-magenta-fg]:bg-[unset]
+     [&_.ansi-palette-100-fg]:bg-[unset]
+     [&_.ansi-palette-101-fg]:bg-[unset]
+     [&_.ansi-palette-102-fg]:bg-[unset]
+     [&_.ansi-palette-103-fg]:bg-[unset]
+     [&_.ansi-palette-104-fg]:bg-[unset]
+     [&_.ansi-palette-105-fg]:bg-[unset]
+     [&_.ansi-palette-106-fg]:bg-[unset]
+     [&_.ansi-palette-107-fg]:bg-[unset]
+     [&_.ansi-palette-108-fg]:bg-[unset]
+     [&_.ansi-palette-109-fg]:bg-[unset]
+     [&_.ansi-palette-110-fg]:bg-[unset]
+     [&_.ansi-palette-111-fg]:bg-[unset]
+     [&_.ansi-palette-112-fg]:bg-[unset]
+     [&_.ansi-palette-113-fg]:bg-[unset]
+     [&_.ansi-palette-114-fg]:bg-[unset]
+     [&_.ansi-palette-115-fg]:bg-[unset]
+     [&_.ansi-palette-116-fg]:bg-[unset]
+     [&_.ansi-palette-117-fg]:bg-[unset]
+     [&_.ansi-palette-118-fg]:bg-[unset]
+     [&_.ansi-palette-119-fg]:bg-[unset]
+     [&_.ansi-palette-120-fg]:bg-[unset]
+     [&_.ansi-palette-121-fg]:bg-[unset]
+     [&_.ansi-palette-122-fg]:bg-[unset]
+     [&_.ansi-palette-123-fg]:bg-[unset]
+     [&_.ansi-palette-124-fg]:bg-[unset]
+     [&_.ansi-palette-125-fg]:bg-[unset]
+     [&_.ansi-palette-126-fg]:bg-[unset]
+     [&_.ansi-palette-127-fg]:bg-[unset]
+     [&_.ansi-palette-128-fg]:bg-[unset]
+     [&_.ansi-palette-129-fg]:bg-[unset]
+     [&_.ansi-palette-130-fg]:bg-[unset]
+     [&_.ansi-palette-131-fg]:bg-[unset]
+     [&_.ansi-palette-132-fg]:bg-[unset]
+     [&_.ansi-palette-133-fg]:bg-[unset]
+     [&_.ansi-palette-134-fg]:bg-[unset]
+     [&_.ansi-palette-135-fg]:bg-[unset]
+     [&_.ansi-palette-136-fg]:bg-[unset]
+     [&_.ansi-palette-137-fg]:bg-[unset]
+     [&_.ansi-palette-138-fg]:bg-[unset]
+     [&_.ansi-palette-139-fg]:bg-[unset]
+     [&_.ansi-palette-140-fg]:bg-[unset]
+     [&_.ansi-palette-141-fg]:bg-[unset]
+     [&_.ansi-palette-142-fg]:bg-[unset]
+     [&_.ansi-palette-143-fg]:bg-[unset]
+     [&_.ansi-palette-144-fg]:bg-[unset]
+     [&_.ansi-palette-145-fg]:bg-[unset]
+     [&_.ansi-palette-146-fg]:bg-[unset]
+     [&_.ansi-palette-147-fg]:bg-[unset]
+     [&_.ansi-palette-148-fg]:bg-[unset]
+     [&_.ansi-palette-149-fg]:bg-[unset]
+     [&_.ansi-palette-150-fg]:bg-[unset]
+     [&_.ansi-palette-151-fg]:bg-[unset]
+     [&_.ansi-palette-152-fg]:bg-[unset]
+     [&_.ansi-palette-153-fg]:bg-[unset]
+     [&_.ansi-palette-154-fg]:bg-[unset]
+     [&_.ansi-palette-155-fg]:bg-[unset]
+     [&_.ansi-palette-156-fg]:bg-[unset]
+     [&_.ansi-palette-157-fg]:bg-[unset]
+     [&_.ansi-palette-158-fg]:bg-[unset]
+     [&_.ansi-palette-159-fg]:bg-[unset]
+     [&_.ansi-palette-16-fg]:bg-[unset]
+     [&_.ansi-palette-160-fg]:bg-[unset]
+     [&_.ansi-palette-161-fg]:bg-[unset]
+     [&_.ansi-palette-162-fg]:bg-[unset]
+     [&_.ansi-palette-163-fg]:bg-[unset]
+     [&_.ansi-palette-164-fg]:bg-[unset]
+     [&_.ansi-palette-165-fg]:bg-[unset]
+     [&_.ansi-palette-166-fg]:bg-[unset]
+     [&_.ansi-palette-167-fg]:bg-[unset]
+     [&_.ansi-palette-168-fg]:bg-[unset]
+     [&_.ansi-palette-169-fg]:bg-[unset]
+     [&_.ansi-palette-17-fg]:bg-[unset]
+     [&_.ansi-palette-170-fg]:bg-[unset]
+     [&_.ansi-palette-171-fg]:bg-[unset]
+     [&_.ansi-palette-172-fg]:bg-[unset]
+     [&_.ansi-palette-173-fg]:bg-[unset]
+     [&_.ansi-palette-174-fg]:bg-[unset]
+     [&_.ansi-palette-175-fg]:bg-[unset]
+     [&_.ansi-palette-176-fg]:bg-[unset]
+     [&_.ansi-palette-177-fg]:bg-[unset]
+     [&_.ansi-palette-178-fg]:bg-[unset]
+     [&_.ansi-palette-179-fg]:bg-[unset]
+     [&_.ansi-palette-18-fg]:bg-[unset]
+     [&_.ansi-palette-180-fg]:bg-[unset]
+     [&_.ansi-palette-181-fg]:bg-[unset]
+     [&_.ansi-palette-182-fg]:bg-[unset]
+     [&_.ansi-palette-183-fg]:bg-[unset]
+     [&_.ansi-palette-184-fg]:bg-[unset]
+     [&_.ansi-palette-185-fg]:bg-[unset]
+     [&_.ansi-palette-186-fg]:bg-[unset]
+     [&_.ansi-palette-187-fg]:bg-[unset]
+     [&_.ansi-palette-188-fg]:bg-[unset]
+     [&_.ansi-palette-189-fg]:bg-[unset]
+     [&_.ansi-palette-19-fg]:bg-[unset]
+     [&_.ansi-palette-190-fg]:bg-[unset]
+     [&_.ansi-palette-191-fg]:bg-[unset]
+     [&_.ansi-palette-192-fg]:bg-[unset]
+     [&_.ansi-palette-193-fg]:bg-[unset]
+     [&_.ansi-palette-194-fg]:bg-[unset]
+     [&_.ansi-palette-195-fg]:bg-[unset]
+     [&_.ansi-palette-196-fg]:bg-[unset]
+     [&_.ansi-palette-197-fg]:bg-[unset]
+     [&_.ansi-palette-198-fg]:bg-[unset]
+     [&_.ansi-palette-199-fg]:bg-[unset]
+     [&_.ansi-palette-20-fg]:bg-[unset]
+     [&_.ansi-palette-200-fg]:bg-[unset]
+     [&_.ansi-palette-201-fg]:bg-[unset]
+     [&_.ansi-palette-202-fg]:bg-[unset]
+     [&_.ansi-palette-203-fg]:bg-[unset]
+     [&_.ansi-palette-204-fg]:bg-[unset]
+     [&_.ansi-palette-205-fg]:bg-[unset]
+     [&_.ansi-palette-206-fg]:bg-[unset]
+     [&_.ansi-palette-207-fg]:bg-[unset]
+     [&_.ansi-palette-208-fg]:bg-[unset]
+     [&_.ansi-palette-209-fg]:bg-[unset]
+     [&_.ansi-palette-21-fg]:bg-[unset]
+     [&_.ansi-palette-210-fg]:bg-[unset]
+     [&_.ansi-palette-211-fg]:bg-[unset]
+     [&_.ansi-palette-212-fg]:bg-[unset]
+     [&_.ansi-palette-213-fg]:bg-[unset]
+     [&_.ansi-palette-214-fg]:bg-[unset]
+     [&_.ansi-palette-215-fg]:bg-[unset]
+     [&_.ansi-palette-216-fg]:bg-[unset]
+     [&_.ansi-palette-217-fg]:bg-[unset]
+     [&_.ansi-palette-218-fg]:bg-[unset]
+     [&_.ansi-palette-219-fg]:bg-[unset]
+     [&_.ansi-palette-22-fg]:bg-[unset]
+     [&_.ansi-palette-220-fg]:bg-[unset]
+     [&_.ansi-palette-221-fg]:bg-[unset]
+     [&_.ansi-palette-222-fg]:bg-[unset]
+     [&_.ansi-palette-223-fg]:bg-[unset]
+     [&_.ansi-palette-224-fg]:bg-[unset]
+     [&_.ansi-palette-225-fg]:bg-[unset]
+     [&_.ansi-palette-226-fg]:bg-[unset]
+     [&_.ansi-palette-227-fg]:bg-[unset]
+     [&_.ansi-palette-228-fg]:bg-[unset]
+     [&_.ansi-palette-229-fg]:bg-[unset]
+     [&_.ansi-palette-23-fg]:bg-[unset]
+     [&_.ansi-palette-230-fg]:bg-[unset]
+     [&_.ansi-palette-231-fg]:bg-[unset]
+     [&_.ansi-palette-232-fg]:bg-[unset]
+     [&_.ansi-palette-233-fg]:bg-[unset]
+     [&_.ansi-palette-234-fg]:bg-[unset]
+     [&_.ansi-palette-235-fg]:bg-[unset]
+     [&_.ansi-palette-236-fg]:bg-[unset]
+     [&_.ansi-palette-237-fg]:bg-[unset]
+     [&_.ansi-palette-238-fg]:bg-[unset]
+     [&_.ansi-palette-239-fg]:bg-[unset]
+     [&_.ansi-palette-24-fg]:bg-[unset]
+     [&_.ansi-palette-240-fg]:bg-[unset]
+     [&_.ansi-palette-241-fg]:bg-[unset]
+     [&_.ansi-palette-242-fg]:bg-[unset]
+     [&_.ansi-palette-243-fg]:bg-[unset]
+     [&_.ansi-palette-244-fg]:bg-[unset]
+     [&_.ansi-palette-245-fg]:bg-[unset]
+     [&_.ansi-palette-246-fg]:bg-[unset]
+     [&_.ansi-palette-247-fg]:bg-[unset]
+     [&_.ansi-palette-248-fg]:bg-[unset]
+     [&_.ansi-palette-249-fg]:bg-[unset]
+     [&_.ansi-palette-25-fg]:bg-[unset]
+     [&_.ansi-palette-250-fg]:bg-[unset]
+     [&_.ansi-palette-251-fg]:bg-[unset]
+     [&_.ansi-palette-252-fg]:bg-[unset]
+     [&_.ansi-palette-253-fg]:bg-[unset]
+     [&_.ansi-palette-254-fg]:bg-[unset]
+     [&_.ansi-palette-255-fg]:bg-[unset]
+     [&_.ansi-palette-26-fg]:bg-[unset]
+     [&_.ansi-palette-27-fg]:bg-[unset]
+     [&_.ansi-palette-28-fg]:bg-[unset]
+     [&_.ansi-palette-29-fg]:bg-[unset]
+     [&_.ansi-palette-30-fg]:bg-[unset]
+     [&_.ansi-palette-31-fg]:bg-[unset]
+     [&_.ansi-palette-32-fg]:bg-[unset]
+     [&_.ansi-palette-33-fg]:bg-[unset]
+     [&_.ansi-palette-34-fg]:bg-[unset]
+     [&_.ansi-palette-35-fg]:bg-[unset]
+     [&_.ansi-palette-36-fg]:bg-[unset]
+     [&_.ansi-palette-37-fg]:bg-[unset]
+     [&_.ansi-palette-38-fg]:bg-[unset]
+     [&_.ansi-palette-39-fg]:bg-[unset]
+     [&_.ansi-palette-40-fg]:bg-[unset]
+     [&_.ansi-palette-41-fg]:bg-[unset]
+     [&_.ansi-palette-42-fg]:bg-[unset]
+     [&_.ansi-palette-43-fg]:bg-[unset]
+     [&_.ansi-palette-44-fg]:bg-[unset]
+     [&_.ansi-palette-45-fg]:bg-[unset]
+     [&_.ansi-palette-46-fg]:bg-[unset]
+     [&_.ansi-palette-47-fg]:bg-[unset]
+     [&_.ansi-palette-48-fg]:bg-[unset]
+     [&_.ansi-palette-49-fg]:bg-[unset]
+     [&_.ansi-palette-50-fg]:bg-[unset]
+     [&_.ansi-palette-51-fg]:bg-[unset]
+     [&_.ansi-palette-52-fg]:bg-[unset]
+     [&_.ansi-palette-53-fg]:bg-[unset]
+     [&_.ansi-palette-54-fg]:bg-[unset]
+     [&_.ansi-palette-55-fg]:bg-[unset]
+     [&_.ansi-palette-56-fg]:bg-[unset]
+     [&_.ansi-palette-57-fg]:bg-[unset]
+     [&_.ansi-palette-58-fg]:bg-[unset]
+     [&_.ansi-palette-59-fg]:bg-[unset]
+     [&_.ansi-palette-60-fg]:bg-[unset]
+     [&_.ansi-palette-61-fg]:bg-[unset]
+     [&_.ansi-palette-62-fg]:bg-[unset]
+     [&_.ansi-palette-63-fg]:bg-[unset]
+     [&_.ansi-palette-64-fg]:bg-[unset]
+     [&_.ansi-palette-65-fg]:bg-[unset]
+     [&_.ansi-palette-66-fg]:bg-[unset]
+     [&_.ansi-palette-67-fg]:bg-[unset]
+     [&_.ansi-palette-68-fg]:bg-[unset]
+     [&_.ansi-palette-69-fg]:bg-[unset]
+     [&_.ansi-palette-70-fg]:bg-[unset]
+     [&_.ansi-palette-71-fg]:bg-[unset]
+     [&_.ansi-palette-72-fg]:bg-[unset]
+     [&_.ansi-palette-73-fg]:bg-[unset]
+     [&_.ansi-palette-74-fg]:bg-[unset]
+     [&_.ansi-palette-75-fg]:bg-[unset]
+     [&_.ansi-palette-76-fg]:bg-[unset]
+     [&_.ansi-palette-77-fg]:bg-[unset]
+     [&_.ansi-palette-78-fg]:bg-[unset]
+     [&_.ansi-palette-79-fg]:bg-[unset]
+     [&_.ansi-palette-80-fg]:bg-[unset]
+     [&_.ansi-palette-81-fg]:bg-[unset]
+     [&_.ansi-palette-82-fg]:bg-[unset]
+     [&_.ansi-palette-83-fg]:bg-[unset]
+     [&_.ansi-palette-84-fg]:bg-[unset]
+     [&_.ansi-palette-85-fg]:bg-[unset]
+     [&_.ansi-palette-86-fg]:bg-[unset]
+     [&_.ansi-palette-87-fg]:bg-[unset]
+     [&_.ansi-palette-88-fg]:bg-[unset]
+     [&_.ansi-palette-89-fg]:bg-[unset]
+     [&_.ansi-palette-90-fg]:bg-[unset]
+     [&_.ansi-palette-91-fg]:bg-[unset]
+     [&_.ansi-palette-92-fg]:bg-[unset]
+     [&_.ansi-palette-93-fg]:bg-[unset]
+     [&_.ansi-palette-94-fg]:bg-[unset]
+     [&_.ansi-palette-95-fg]:bg-[unset]
+     [&_.ansi-palette-96-fg]:bg-[unset]
+     [&_.ansi-palette-97-fg]:bg-[unset]
+     [&_.ansi-palette-98-fg]:bg-[unset]
+     [&_.ansi-palette-99-fg]:bg-[unset]
+     [&_.ansi-red-fg]:bg-[unset]
+     [&_.ansi-white-fg]:bg-[unset]
+     [&_.ansi-yellow-fg]:bg-[unset]
+     [&_.ansi-black-bg]:bg-[--ansi-black]
+     [&_.ansi-blue-bg]:bg-[--ansi-blue]
+     [&_.ansi-bright-black-bg]:bg-[--ansi-bright-black]
+     [&_.ansi-bright-blue-bg]:bg-[--ansi-bright-blue]
+     [&_.ansi-bright-cyan-bg]:bg-[--ansi-bright-cyan]
+     [&_.ansi-bright-green-bg]:bg-[--ansi-bright-green]
+     [&_.ansi-bright-magenta-bg]:bg-[--ansi-bright-magenta]
+     [&_.ansi-bright-red-bg]:bg-[--ansi-bright-red]
+     [&_.ansi-bright-white-bg]:bg-[--ansi-bright-white]
+     [&_.ansi-bright-yellow-bg]:bg-[--ansi-bright-yellow]
+     [&_.ansi-cyan-bg]:bg-[--ansi-cyan]
+     [&_.ansi-green-bg]:bg-[--ansi-green]
+     [&_.ansi-magenta-bg]:bg-[--ansi-magenta]
+     [&_.ansi-palette-100-bg]:bg-[--ansi-palette-100]
+     [&_.ansi-palette-101-bg]:bg-[--ansi-palette-101]
+     [&_.ansi-palette-102-bg]:bg-[--ansi-palette-102]
+     [&_.ansi-palette-103-bg]:bg-[--ansi-palette-103]
+     [&_.ansi-palette-104-bg]:bg-[--ansi-palette-104]
+     [&_.ansi-palette-105-bg]:bg-[--ansi-palette-105]
+     [&_.ansi-palette-106-bg]:bg-[--ansi-palette-106]
+     [&_.ansi-palette-107-bg]:bg-[--ansi-palette-107]
+     [&_.ansi-palette-108-bg]:bg-[--ansi-palette-108]
+     [&_.ansi-palette-109-bg]:bg-[--ansi-palette-109]
+     [&_.ansi-palette-110-bg]:bg-[--ansi-palette-110]
+     [&_.ansi-palette-111-bg]:bg-[--ansi-palette-111]
+     [&_.ansi-palette-112-bg]:bg-[--ansi-palette-112]
+     [&_.ansi-palette-113-bg]:bg-[--ansi-palette-113]
+     [&_.ansi-palette-114-bg]:bg-[--ansi-palette-114]
+     [&_.ansi-palette-115-bg]:bg-[--ansi-palette-115]
+     [&_.ansi-palette-116-bg]:bg-[--ansi-palette-116]
+     [&_.ansi-palette-117-bg]:bg-[--ansi-palette-117]
+     [&_.ansi-palette-118-bg]:bg-[--ansi-palette-118]
+     [&_.ansi-palette-119-bg]:bg-[--ansi-palette-119]
+     [&_.ansi-palette-120-bg]:bg-[--ansi-palette-120]
+     [&_.ansi-palette-121-bg]:bg-[--ansi-palette-121]
+     [&_.ansi-palette-122-bg]:bg-[--ansi-palette-122]
+     [&_.ansi-palette-123-bg]:bg-[--ansi-palette-123]
+     [&_.ansi-palette-124-bg]:bg-[--ansi-palette-124]
+     [&_.ansi-palette-125-bg]:bg-[--ansi-palette-125]
+     [&_.ansi-palette-126-bg]:bg-[--ansi-palette-126]
+     [&_.ansi-palette-127-bg]:bg-[--ansi-palette-127]
+     [&_.ansi-palette-128-bg]:bg-[--ansi-palette-128]
+     [&_.ansi-palette-129-bg]:bg-[--ansi-palette-129]
+     [&_.ansi-palette-130-bg]:bg-[--ansi-palette-130]
+     [&_.ansi-palette-131-bg]:bg-[--ansi-palette-131]
+     [&_.ansi-palette-132-bg]:bg-[--ansi-palette-132]
+     [&_.ansi-palette-133-bg]:bg-[--ansi-palette-133]
+     [&_.ansi-palette-134-bg]:bg-[--ansi-palette-134]
+     [&_.ansi-palette-135-bg]:bg-[--ansi-palette-135]
+     [&_.ansi-palette-136-bg]:bg-[--ansi-palette-136]
+     [&_.ansi-palette-137-bg]:bg-[--ansi-palette-137]
+     [&_.ansi-palette-138-bg]:bg-[--ansi-palette-138]
+     [&_.ansi-palette-139-bg]:bg-[--ansi-palette-139]
+     [&_.ansi-palette-140-bg]:bg-[--ansi-palette-140]
+     [&_.ansi-palette-141-bg]:bg-[--ansi-palette-141]
+     [&_.ansi-palette-142-bg]:bg-[--ansi-palette-142]
+     [&_.ansi-palette-143-bg]:bg-[--ansi-palette-143]
+     [&_.ansi-palette-144-bg]:bg-[--ansi-palette-144]
+     [&_.ansi-palette-145-bg]:bg-[--ansi-palette-145]
+     [&_.ansi-palette-146-bg]:bg-[--ansi-palette-146]
+     [&_.ansi-palette-147-bg]:bg-[--ansi-palette-147]
+     [&_.ansi-palette-148-bg]:bg-[--ansi-palette-148]
+     [&_.ansi-palette-149-bg]:bg-[--ansi-palette-149]
+     [&_.ansi-palette-150-bg]:bg-[--ansi-palette-150]
+     [&_.ansi-palette-151-bg]:bg-[--ansi-palette-151]
+     [&_.ansi-palette-152-bg]:bg-[--ansi-palette-152]
+     [&_.ansi-palette-153-bg]:bg-[--ansi-palette-153]
+     [&_.ansi-palette-154-bg]:bg-[--ansi-palette-154]
+     [&_.ansi-palette-155-bg]:bg-[--ansi-palette-155]
+     [&_.ansi-palette-156-bg]:bg-[--ansi-palette-156]
+     [&_.ansi-palette-157-bg]:bg-[--ansi-palette-157]
+     [&_.ansi-palette-158-bg]:bg-[--ansi-palette-158]
+     [&_.ansi-palette-159-bg]:bg-[--ansi-palette-159]
+     [&_.ansi-palette-16-bg]:bg-[--ansi-palette-16]
+     [&_.ansi-palette-160-bg]:bg-[--ansi-palette-160]
+     [&_.ansi-palette-161-bg]:bg-[--ansi-palette-161]
+     [&_.ansi-palette-162-bg]:bg-[--ansi-palette-162]
+     [&_.ansi-palette-163-bg]:bg-[--ansi-palette-163]
+     [&_.ansi-palette-164-bg]:bg-[--ansi-palette-164]
+     [&_.ansi-palette-165-bg]:bg-[--ansi-palette-165]
+     [&_.ansi-palette-166-bg]:bg-[--ansi-palette-166]
+     [&_.ansi-palette-167-bg]:bg-[--ansi-palette-167]
+     [&_.ansi-palette-168-bg]:bg-[--ansi-palette-168]
+     [&_.ansi-palette-169-bg]:bg-[--ansi-palette-169]
+     [&_.ansi-palette-17-bg]:bg-[--ansi-palette-17]
+     [&_.ansi-palette-170-bg]:bg-[--ansi-palette-170]
+     [&_.ansi-palette-171-bg]:bg-[--ansi-palette-171]
+     [&_.ansi-palette-172-bg]:bg-[--ansi-palette-172]
+     [&_.ansi-palette-173-bg]:bg-[--ansi-palette-173]
+     [&_.ansi-palette-174-bg]:bg-[--ansi-palette-174]
+     [&_.ansi-palette-175-bg]:bg-[--ansi-palette-175]
+     [&_.ansi-palette-176-bg]:bg-[--ansi-palette-176]
+     [&_.ansi-palette-177-bg]:bg-[--ansi-palette-177]
+     [&_.ansi-palette-178-bg]:bg-[--ansi-palette-178]
+     [&_.ansi-palette-179-bg]:bg-[--ansi-palette-179]
+     [&_.ansi-palette-18-bg]:bg-[--ansi-palette-18]
+     [&_.ansi-palette-180-bg]:bg-[--ansi-palette-180]
+     [&_.ansi-palette-181-bg]:bg-[--ansi-palette-181]
+     [&_.ansi-palette-182-bg]:bg-[--ansi-palette-182]
+     [&_.ansi-palette-183-bg]:bg-[--ansi-palette-183]
+     [&_.ansi-palette-184-bg]:bg-[--ansi-palette-184]
+     [&_.ansi-palette-185-bg]:bg-[--ansi-palette-185]
+     [&_.ansi-palette-186-bg]:bg-[--ansi-palette-186]
+     [&_.ansi-palette-187-bg]:bg-[--ansi-palette-187]
+     [&_.ansi-palette-188-bg]:bg-[--ansi-palette-188]
+     [&_.ansi-palette-189-bg]:bg-[--ansi-palette-189]
+     [&_.ansi-palette-19-bg]:bg-[--ansi-palette-19]
+     [&_.ansi-palette-190-bg]:bg-[--ansi-palette-190]
+     [&_.ansi-palette-191-bg]:bg-[--ansi-palette-191]
+     [&_.ansi-palette-192-bg]:bg-[--ansi-palette-192]
+     [&_.ansi-palette-193-bg]:bg-[--ansi-palette-193]
+     [&_.ansi-palette-194-bg]:bg-[--ansi-palette-194]
+     [&_.ansi-palette-195-bg]:bg-[--ansi-palette-195]
+     [&_.ansi-palette-196-bg]:bg-[--ansi-palette-196]
+     [&_.ansi-palette-197-bg]:bg-[--ansi-palette-197]
+     [&_.ansi-palette-198-bg]:bg-[--ansi-palette-198]
+     [&_.ansi-palette-199-bg]:bg-[--ansi-palette-199]
+     [&_.ansi-palette-20-bg]:bg-[--ansi-palette-20]
+     [&_.ansi-palette-200-bg]:bg-[--ansi-palette-200]
+     [&_.ansi-palette-201-bg]:bg-[--ansi-palette-201]
+     [&_.ansi-palette-202-bg]:bg-[--ansi-palette-202]
+     [&_.ansi-palette-203-bg]:bg-[--ansi-palette-203]
+     [&_.ansi-palette-204-bg]:bg-[--ansi-palette-204]
+     [&_.ansi-palette-205-bg]:bg-[--ansi-palette-205]
+     [&_.ansi-palette-206-bg]:bg-[--ansi-palette-206]
+     [&_.ansi-palette-207-bg]:bg-[--ansi-palette-207]
+     [&_.ansi-palette-208-bg]:bg-[--ansi-palette-208]
+     [&_.ansi-palette-209-bg]:bg-[--ansi-palette-209]
+     [&_.ansi-palette-21-bg]:bg-[--ansi-palette-21]
+     [&_.ansi-palette-210-bg]:bg-[--ansi-palette-210]
+     [&_.ansi-palette-211-bg]:bg-[--ansi-palette-211]
+     [&_.ansi-palette-212-bg]:bg-[--ansi-palette-212]
+     [&_.ansi-palette-213-bg]:bg-[--ansi-palette-213]
+     [&_.ansi-palette-214-bg]:bg-[--ansi-palette-214]
+     [&_.ansi-palette-215-bg]:bg-[--ansi-palette-215]
+     [&_.ansi-palette-216-bg]:bg-[--ansi-palette-216]
+     [&_.ansi-palette-217-bg]:bg-[--ansi-palette-217]
+     [&_.ansi-palette-218-bg]:bg-[--ansi-palette-218]
+     [&_.ansi-palette-219-bg]:bg-[--ansi-palette-219]
+     [&_.ansi-palette-22-bg]:bg-[--ansi-palette-22]
+     [&_.ansi-palette-220-bg]:bg-[--ansi-palette-220]
+     [&_.ansi-palette-221-bg]:bg-[--ansi-palette-221]
+     [&_.ansi-palette-222-bg]:bg-[--ansi-palette-222]
+     [&_.ansi-palette-223-bg]:bg-[--ansi-palette-223]
+     [&_.ansi-palette-224-bg]:bg-[--ansi-palette-224]
+     [&_.ansi-palette-225-bg]:bg-[--ansi-palette-225]
+     [&_.ansi-palette-226-bg]:bg-[--ansi-palette-226]
+     [&_.ansi-palette-227-bg]:bg-[--ansi-palette-227]
+     [&_.ansi-palette-228-bg]:bg-[--ansi-palette-228]
+     [&_.ansi-palette-229-bg]:bg-[--ansi-palette-229]
+     [&_.ansi-palette-23-bg]:bg-[--ansi-palette-23]
+     [&_.ansi-palette-230-bg]:bg-[--ansi-palette-230]
+     [&_.ansi-palette-231-bg]:bg-[--ansi-palette-231]
+     [&_.ansi-palette-232-bg]:bg-[--ansi-palette-232]
+     [&_.ansi-palette-233-bg]:bg-[--ansi-palette-233]
+     [&_.ansi-palette-234-bg]:bg-[--ansi-palette-234]
+     [&_.ansi-palette-235-bg]:bg-[--ansi-palette-235]
+     [&_.ansi-palette-236-bg]:bg-[--ansi-palette-236]
+     [&_.ansi-palette-237-bg]:bg-[--ansi-palette-237]
+     [&_.ansi-palette-238-bg]:bg-[--ansi-palette-238]
+     [&_.ansi-palette-239-bg]:bg-[--ansi-palette-239]
+     [&_.ansi-palette-24-bg]:bg-[--ansi-palette-24]
+     [&_.ansi-palette-240-bg]:bg-[--ansi-palette-240]
+     [&_.ansi-palette-241-bg]:bg-[--ansi-palette-241]
+     [&_.ansi-palette-242-bg]:bg-[--ansi-palette-242]
+     [&_.ansi-palette-243-bg]:bg-[--ansi-palette-243]
+     [&_.ansi-palette-244-bg]:bg-[--ansi-palette-244]
+     [&_.ansi-palette-245-bg]:bg-[--ansi-palette-245]
+     [&_.ansi-palette-246-bg]:bg-[--ansi-palette-246]
+     [&_.ansi-palette-247-bg]:bg-[--ansi-palette-247]
+     [&_.ansi-palette-248-bg]:bg-[--ansi-palette-248]
+     [&_.ansi-palette-249-bg]:bg-[--ansi-palette-249]
+     [&_.ansi-palette-25-bg]:bg-[--ansi-palette-25]
+     [&_.ansi-palette-250-bg]:bg-[--ansi-palette-250]
+     [&_.ansi-palette-251-bg]:bg-[--ansi-palette-251]
+     [&_.ansi-palette-252-bg]:bg-[--ansi-palette-252]
+     [&_.ansi-palette-253-bg]:bg-[--ansi-palette-253]
+     [&_.ansi-palette-254-bg]:bg-[--ansi-palette-254]
+     [&_.ansi-palette-255-bg]:bg-[--ansi-palette-255]
+     [&_.ansi-palette-26-bg]:bg-[--ansi-palette-26]
+     [&_.ansi-palette-27-bg]:bg-[--ansi-palette-27]
+     [&_.ansi-palette-28-bg]:bg-[--ansi-palette-28]
+     [&_.ansi-palette-29-bg]:bg-[--ansi-palette-29]
+     [&_.ansi-palette-30-bg]:bg-[--ansi-palette-30]
+     [&_.ansi-palette-31-bg]:bg-[--ansi-palette-31]
+     [&_.ansi-palette-32-bg]:bg-[--ansi-palette-32]
+     [&_.ansi-palette-33-bg]:bg-[--ansi-palette-33]
+     [&_.ansi-palette-34-bg]:bg-[--ansi-palette-34]
+     [&_.ansi-palette-35-bg]:bg-[--ansi-palette-35]
+     [&_.ansi-palette-36-bg]:bg-[--ansi-palette-36]
+     [&_.ansi-palette-37-bg]:bg-[--ansi-palette-37]
+     [&_.ansi-palette-38-bg]:bg-[--ansi-palette-38]
+     [&_.ansi-palette-39-bg]:bg-[--ansi-palette-39]
+     [&_.ansi-palette-40-bg]:bg-[--ansi-palette-40]
+     [&_.ansi-palette-41-bg]:bg-[--ansi-palette-41]
+     [&_.ansi-palette-42-bg]:bg-[--ansi-palette-42]
+     [&_.ansi-palette-43-bg]:bg-[--ansi-palette-43]
+     [&_.ansi-palette-44-bg]:bg-[--ansi-palette-44]
+     [&_.ansi-palette-45-bg]:bg-[--ansi-palette-45]
+     [&_.ansi-palette-46-bg]:bg-[--ansi-palette-46]
+     [&_.ansi-palette-47-bg]:bg-[--ansi-palette-47]
+     [&_.ansi-palette-48-bg]:bg-[--ansi-palette-48]
+     [&_.ansi-palette-49-bg]:bg-[--ansi-palette-49]
+     [&_.ansi-palette-50-bg]:bg-[--ansi-palette-50]
+     [&_.ansi-palette-51-bg]:bg-[--ansi-palette-51]
+     [&_.ansi-palette-52-bg]:bg-[--ansi-palette-52]
+     [&_.ansi-palette-53-bg]:bg-[--ansi-palette-53]
+     [&_.ansi-palette-54-bg]:bg-[--ansi-palette-54]
+     [&_.ansi-palette-55-bg]:bg-[--ansi-palette-55]
+     [&_.ansi-palette-56-bg]:bg-[--ansi-palette-56]
+     [&_.ansi-palette-57-bg]:bg-[--ansi-palette-57]
+     [&_.ansi-palette-58-bg]:bg-[--ansi-palette-58]
+     [&_.ansi-palette-59-bg]:bg-[--ansi-palette-59]
+     [&_.ansi-palette-60-bg]:bg-[--ansi-palette-60]
+     [&_.ansi-palette-61-bg]:bg-[--ansi-palette-61]
+     [&_.ansi-palette-62-bg]:bg-[--ansi-palette-62]
+     [&_.ansi-palette-63-bg]:bg-[--ansi-palette-63]
+     [&_.ansi-palette-64-bg]:bg-[--ansi-palette-64]
+     [&_.ansi-palette-65-bg]:bg-[--ansi-palette-65]
+     [&_.ansi-palette-66-bg]:bg-[--ansi-palette-66]
+     [&_.ansi-palette-67-bg]:bg-[--ansi-palette-67]
+     [&_.ansi-palette-68-bg]:bg-[--ansi-palette-68]
+     [&_.ansi-palette-69-bg]:bg-[--ansi-palette-69]
+     [&_.ansi-palette-70-bg]:bg-[--ansi-palette-70]
+     [&_.ansi-palette-71-bg]:bg-[--ansi-palette-71]
+     [&_.ansi-palette-72-bg]:bg-[--ansi-palette-72]
+     [&_.ansi-palette-73-bg]:bg-[--ansi-palette-73]
+     [&_.ansi-palette-74-bg]:bg-[--ansi-palette-74]
+     [&_.ansi-palette-75-bg]:bg-[--ansi-palette-75]
+     [&_.ansi-palette-76-bg]:bg-[--ansi-palette-76]
+     [&_.ansi-palette-77-bg]:bg-[--ansi-palette-77]
+     [&_.ansi-palette-78-bg]:bg-[--ansi-palette-78]
+     [&_.ansi-palette-79-bg]:bg-[--ansi-palette-79]
+     [&_.ansi-palette-80-bg]:bg-[--ansi-palette-80]
+     [&_.ansi-palette-81-bg]:bg-[--ansi-palette-81]
+     [&_.ansi-palette-82-bg]:bg-[--ansi-palette-82]
+     [&_.ansi-palette-83-bg]:bg-[--ansi-palette-83]
+     [&_.ansi-palette-84-bg]:bg-[--ansi-palette-84]
+     [&_.ansi-palette-85-bg]:bg-[--ansi-palette-85]
+     [&_.ansi-palette-86-bg]:bg-[--ansi-palette-86]
+     [&_.ansi-palette-87-bg]:bg-[--ansi-palette-87]
+     [&_.ansi-palette-88-bg]:bg-[--ansi-palette-88]
+     [&_.ansi-palette-89-bg]:bg-[--ansi-palette-89]
+     [&_.ansi-palette-90-bg]:bg-[--ansi-palette-90]
+     [&_.ansi-palette-91-bg]:bg-[--ansi-palette-91]
+     [&_.ansi-palette-92-bg]:bg-[--ansi-palette-92]
+     [&_.ansi-palette-93-bg]:bg-[--ansi-palette-93]
+     [&_.ansi-palette-94-bg]:bg-[--ansi-palette-94]
+     [&_.ansi-palette-95-bg]:bg-[--ansi-palette-95]
+     [&_.ansi-palette-96-bg]:bg-[--ansi-palette-96]
+     [&_.ansi-palette-97-bg]:bg-[--ansi-palette-97]
+     [&_.ansi-palette-98-bg]:bg-[--ansi-palette-98]
+     [&_.ansi-palette-99-bg]:bg-[--ansi-palette-99]
+     [&_.ansi-red-bg]:bg-[--ansi-red]
+     [&_.ansi-white-bg]:bg-[--ansi-white]
+     [&_.ansi-yellow-bg]:bg-[--ansi-yellow];
+  }
+  .ansi-text-only {
+    @apply ansi-fg-text 
+     [&_.ansi-black-bg]:text-[--ansi-black]
+     [&_.ansi-blue-bg]:text-[--ansi-blue]
+     [&_.ansi-bright-black-bg]:text-[--ansi-bright-black]
+     [&_.ansi-bright-blue-bg]:text-[--ansi-bright-blue]
+     [&_.ansi-bright-cyan-bg]:text-[--ansi-bright-cyan]
+     [&_.ansi-bright-green-bg]:text-[--ansi-bright-green]
+     [&_.ansi-bright-magenta-bg]:text-[--ansi-bright-magenta]
+     [&_.ansi-bright-red-bg]:text-[--ansi-bright-red]
+     [&_.ansi-bright-white-bg]:text-[--ansi-bright-white]
+     [&_.ansi-bright-yellow-bg]:text-[--ansi-bright-yellow]
+     [&_.ansi-cyan-bg]:text-[--ansi-cyan]
+     [&_.ansi-green-bg]:text-[--ansi-green]
+     [&_.ansi-magenta-bg]:text-[--ansi-magenta]
+     [&_.ansi-palette-100-bg]:text-[--ansi-palette-100]
+     [&_.ansi-palette-101-bg]:text-[--ansi-palette-101]
+     [&_.ansi-palette-102-bg]:text-[--ansi-palette-102]
+     [&_.ansi-palette-103-bg]:text-[--ansi-palette-103]
+     [&_.ansi-palette-104-bg]:text-[--ansi-palette-104]
+     [&_.ansi-palette-105-bg]:text-[--ansi-palette-105]
+     [&_.ansi-palette-106-bg]:text-[--ansi-palette-106]
+     [&_.ansi-palette-107-bg]:text-[--ansi-palette-107]
+     [&_.ansi-palette-108-bg]:text-[--ansi-palette-108]
+     [&_.ansi-palette-109-bg]:text-[--ansi-palette-109]
+     [&_.ansi-palette-110-bg]:text-[--ansi-palette-110]
+     [&_.ansi-palette-111-bg]:text-[--ansi-palette-111]
+     [&_.ansi-palette-112-bg]:text-[--ansi-palette-112]
+     [&_.ansi-palette-113-bg]:text-[--ansi-palette-113]
+     [&_.ansi-palette-114-bg]:text-[--ansi-palette-114]
+     [&_.ansi-palette-115-bg]:text-[--ansi-palette-115]
+     [&_.ansi-palette-116-bg]:text-[--ansi-palette-116]
+     [&_.ansi-palette-117-bg]:text-[--ansi-palette-117]
+     [&_.ansi-palette-118-bg]:text-[--ansi-palette-118]
+     [&_.ansi-palette-119-bg]:text-[--ansi-palette-119]
+     [&_.ansi-palette-120-bg]:text-[--ansi-palette-120]
+     [&_.ansi-palette-121-bg]:text-[--ansi-palette-121]
+     [&_.ansi-palette-122-bg]:text-[--ansi-palette-122]
+     [&_.ansi-palette-123-bg]:text-[--ansi-palette-123]
+     [&_.ansi-palette-124-bg]:text-[--ansi-palette-124]
+     [&_.ansi-palette-125-bg]:text-[--ansi-palette-125]
+     [&_.ansi-palette-126-bg]:text-[--ansi-palette-126]
+     [&_.ansi-palette-127-bg]:text-[--ansi-palette-127]
+     [&_.ansi-palette-128-bg]:text-[--ansi-palette-128]
+     [&_.ansi-palette-129-bg]:text-[--ansi-palette-129]
+     [&_.ansi-palette-130-bg]:text-[--ansi-palette-130]
+     [&_.ansi-palette-131-bg]:text-[--ansi-palette-131]
+     [&_.ansi-palette-132-bg]:text-[--ansi-palette-132]
+     [&_.ansi-palette-133-bg]:text-[--ansi-palette-133]
+     [&_.ansi-palette-134-bg]:text-[--ansi-palette-134]
+     [&_.ansi-palette-135-bg]:text-[--ansi-palette-135]
+     [&_.ansi-palette-136-bg]:text-[--ansi-palette-136]
+     [&_.ansi-palette-137-bg]:text-[--ansi-palette-137]
+     [&_.ansi-palette-138-bg]:text-[--ansi-palette-138]
+     [&_.ansi-palette-139-bg]:text-[--ansi-palette-139]
+     [&_.ansi-palette-140-bg]:text-[--ansi-palette-140]
+     [&_.ansi-palette-141-bg]:text-[--ansi-palette-141]
+     [&_.ansi-palette-142-bg]:text-[--ansi-palette-142]
+     [&_.ansi-palette-143-bg]:text-[--ansi-palette-143]
+     [&_.ansi-palette-144-bg]:text-[--ansi-palette-144]
+     [&_.ansi-palette-145-bg]:text-[--ansi-palette-145]
+     [&_.ansi-palette-146-bg]:text-[--ansi-palette-146]
+     [&_.ansi-palette-147-bg]:text-[--ansi-palette-147]
+     [&_.ansi-palette-148-bg]:text-[--ansi-palette-148]
+     [&_.ansi-palette-149-bg]:text-[--ansi-palette-149]
+     [&_.ansi-palette-150-bg]:text-[--ansi-palette-150]
+     [&_.ansi-palette-151-bg]:text-[--ansi-palette-151]
+     [&_.ansi-palette-152-bg]:text-[--ansi-palette-152]
+     [&_.ansi-palette-153-bg]:text-[--ansi-palette-153]
+     [&_.ansi-palette-154-bg]:text-[--ansi-palette-154]
+     [&_.ansi-palette-155-bg]:text-[--ansi-palette-155]
+     [&_.ansi-palette-156-bg]:text-[--ansi-palette-156]
+     [&_.ansi-palette-157-bg]:text-[--ansi-palette-157]
+     [&_.ansi-palette-158-bg]:text-[--ansi-palette-158]
+     [&_.ansi-palette-159-bg]:text-[--ansi-palette-159]
+     [&_.ansi-palette-16-bg]:text-[--ansi-palette-16]
+     [&_.ansi-palette-160-bg]:text-[--ansi-palette-160]
+     [&_.ansi-palette-161-bg]:text-[--ansi-palette-161]
+     [&_.ansi-palette-162-bg]:text-[--ansi-palette-162]
+     [&_.ansi-palette-163-bg]:text-[--ansi-palette-163]
+     [&_.ansi-palette-164-bg]:text-[--ansi-palette-164]
+     [&_.ansi-palette-165-bg]:text-[--ansi-palette-165]
+     [&_.ansi-palette-166-bg]:text-[--ansi-palette-166]
+     [&_.ansi-palette-167-bg]:text-[--ansi-palette-167]
+     [&_.ansi-palette-168-bg]:text-[--ansi-palette-168]
+     [&_.ansi-palette-169-bg]:text-[--ansi-palette-169]
+     [&_.ansi-palette-17-bg]:text-[--ansi-palette-17]
+     [&_.ansi-palette-170-bg]:text-[--ansi-palette-170]
+     [&_.ansi-palette-171-bg]:text-[--ansi-palette-171]
+     [&_.ansi-palette-172-bg]:text-[--ansi-palette-172]
+     [&_.ansi-palette-173-bg]:text-[--ansi-palette-173]
+     [&_.ansi-palette-174-bg]:text-[--ansi-palette-174]
+     [&_.ansi-palette-175-bg]:text-[--ansi-palette-175]
+     [&_.ansi-palette-176-bg]:text-[--ansi-palette-176]
+     [&_.ansi-palette-177-bg]:text-[--ansi-palette-177]
+     [&_.ansi-palette-178-bg]:text-[--ansi-palette-178]
+     [&_.ansi-palette-179-bg]:text-[--ansi-palette-179]
+     [&_.ansi-palette-18-bg]:text-[--ansi-palette-18]
+     [&_.ansi-palette-180-bg]:text-[--ansi-palette-180]
+     [&_.ansi-palette-181-bg]:text-[--ansi-palette-181]
+     [&_.ansi-palette-182-bg]:text-[--ansi-palette-182]
+     [&_.ansi-palette-183-bg]:text-[--ansi-palette-183]
+     [&_.ansi-palette-184-bg]:text-[--ansi-palette-184]
+     [&_.ansi-palette-185-bg]:text-[--ansi-palette-185]
+     [&_.ansi-palette-186-bg]:text-[--ansi-palette-186]
+     [&_.ansi-palette-187-bg]:text-[--ansi-palette-187]
+     [&_.ansi-palette-188-bg]:text-[--ansi-palette-188]
+     [&_.ansi-palette-189-bg]:text-[--ansi-palette-189]
+     [&_.ansi-palette-19-bg]:text-[--ansi-palette-19]
+     [&_.ansi-palette-190-bg]:text-[--ansi-palette-190]
+     [&_.ansi-palette-191-bg]:text-[--ansi-palette-191]
+     [&_.ansi-palette-192-bg]:text-[--ansi-palette-192]
+     [&_.ansi-palette-193-bg]:text-[--ansi-palette-193]
+     [&_.ansi-palette-194-bg]:text-[--ansi-palette-194]
+     [&_.ansi-palette-195-bg]:text-[--ansi-palette-195]
+     [&_.ansi-palette-196-bg]:text-[--ansi-palette-196]
+     [&_.ansi-palette-197-bg]:text-[--ansi-palette-197]
+     [&_.ansi-palette-198-bg]:text-[--ansi-palette-198]
+     [&_.ansi-palette-199-bg]:text-[--ansi-palette-199]
+     [&_.ansi-palette-20-bg]:text-[--ansi-palette-20]
+     [&_.ansi-palette-200-bg]:text-[--ansi-palette-200]
+     [&_.ansi-palette-201-bg]:text-[--ansi-palette-201]
+     [&_.ansi-palette-202-bg]:text-[--ansi-palette-202]
+     [&_.ansi-palette-203-bg]:text-[--ansi-palette-203]
+     [&_.ansi-palette-204-bg]:text-[--ansi-palette-204]
+     [&_.ansi-palette-205-bg]:text-[--ansi-palette-205]
+     [&_.ansi-palette-206-bg]:text-[--ansi-palette-206]
+     [&_.ansi-palette-207-bg]:text-[--ansi-palette-207]
+     [&_.ansi-palette-208-bg]:text-[--ansi-palette-208]
+     [&_.ansi-palette-209-bg]:text-[--ansi-palette-209]
+     [&_.ansi-palette-21-bg]:text-[--ansi-palette-21]
+     [&_.ansi-palette-210-bg]:text-[--ansi-palette-210]
+     [&_.ansi-palette-211-bg]:text-[--ansi-palette-211]
+     [&_.ansi-palette-212-bg]:text-[--ansi-palette-212]
+     [&_.ansi-palette-213-bg]:text-[--ansi-palette-213]
+     [&_.ansi-palette-214-bg]:text-[--ansi-palette-214]
+     [&_.ansi-palette-215-bg]:text-[--ansi-palette-215]
+     [&_.ansi-palette-216-bg]:text-[--ansi-palette-216]
+     [&_.ansi-palette-217-bg]:text-[--ansi-palette-217]
+     [&_.ansi-palette-218-bg]:text-[--ansi-palette-218]
+     [&_.ansi-palette-219-bg]:text-[--ansi-palette-219]
+     [&_.ansi-palette-22-bg]:text-[--ansi-palette-22]
+     [&_.ansi-palette-220-bg]:text-[--ansi-palette-220]
+     [&_.ansi-palette-221-bg]:text-[--ansi-palette-221]
+     [&_.ansi-palette-222-bg]:text-[--ansi-palette-222]
+     [&_.ansi-palette-223-bg]:text-[--ansi-palette-223]
+     [&_.ansi-palette-224-bg]:text-[--ansi-palette-224]
+     [&_.ansi-palette-225-bg]:text-[--ansi-palette-225]
+     [&_.ansi-palette-226-bg]:text-[--ansi-palette-226]
+     [&_.ansi-palette-227-bg]:text-[--ansi-palette-227]
+     [&_.ansi-palette-228-bg]:text-[--ansi-palette-228]
+     [&_.ansi-palette-229-bg]:text-[--ansi-palette-229]
+     [&_.ansi-palette-23-bg]:text-[--ansi-palette-23]
+     [&_.ansi-palette-230-bg]:text-[--ansi-palette-230]
+     [&_.ansi-palette-231-bg]:text-[--ansi-palette-231]
+     [&_.ansi-palette-232-bg]:text-[--ansi-palette-232]
+     [&_.ansi-palette-233-bg]:text-[--ansi-palette-233]
+     [&_.ansi-palette-234-bg]:text-[--ansi-palette-234]
+     [&_.ansi-palette-235-bg]:text-[--ansi-palette-235]
+     [&_.ansi-palette-236-bg]:text-[--ansi-palette-236]
+     [&_.ansi-palette-237-bg]:text-[--ansi-palette-237]
+     [&_.ansi-palette-238-bg]:text-[--ansi-palette-238]
+     [&_.ansi-palette-239-bg]:text-[--ansi-palette-239]
+     [&_.ansi-palette-24-bg]:text-[--ansi-palette-24]
+     [&_.ansi-palette-240-bg]:text-[--ansi-palette-240]
+     [&_.ansi-palette-241-bg]:text-[--ansi-palette-241]
+     [&_.ansi-palette-242-bg]:text-[--ansi-palette-242]
+     [&_.ansi-palette-243-bg]:text-[--ansi-palette-243]
+     [&_.ansi-palette-244-bg]:text-[--ansi-palette-244]
+     [&_.ansi-palette-245-bg]:text-[--ansi-palette-245]
+     [&_.ansi-palette-246-bg]:text-[--ansi-palette-246]
+     [&_.ansi-palette-247-bg]:text-[--ansi-palette-247]
+     [&_.ansi-palette-248-bg]:text-[--ansi-palette-248]
+     [&_.ansi-palette-249-bg]:text-[--ansi-palette-249]
+     [&_.ansi-palette-25-bg]:text-[--ansi-palette-25]
+     [&_.ansi-palette-250-bg]:text-[--ansi-palette-250]
+     [&_.ansi-palette-251-bg]:text-[--ansi-palette-251]
+     [&_.ansi-palette-252-bg]:text-[--ansi-palette-252]
+     [&_.ansi-palette-253-bg]:text-[--ansi-palette-253]
+     [&_.ansi-palette-254-bg]:text-[--ansi-palette-254]
+     [&_.ansi-palette-255-bg]:text-[--ansi-palette-255]
+     [&_.ansi-palette-26-bg]:text-[--ansi-palette-26]
+     [&_.ansi-palette-27-bg]:text-[--ansi-palette-27]
+     [&_.ansi-palette-28-bg]:text-[--ansi-palette-28]
+     [&_.ansi-palette-29-bg]:text-[--ansi-palette-29]
+     [&_.ansi-palette-30-bg]:text-[--ansi-palette-30]
+     [&_.ansi-palette-31-bg]:text-[--ansi-palette-31]
+     [&_.ansi-palette-32-bg]:text-[--ansi-palette-32]
+     [&_.ansi-palette-33-bg]:text-[--ansi-palette-33]
+     [&_.ansi-palette-34-bg]:text-[--ansi-palette-34]
+     [&_.ansi-palette-35-bg]:text-[--ansi-palette-35]
+     [&_.ansi-palette-36-bg]:text-[--ansi-palette-36]
+     [&_.ansi-palette-37-bg]:text-[--ansi-palette-37]
+     [&_.ansi-palette-38-bg]:text-[--ansi-palette-38]
+     [&_.ansi-palette-39-bg]:text-[--ansi-palette-39]
+     [&_.ansi-palette-40-bg]:text-[--ansi-palette-40]
+     [&_.ansi-palette-41-bg]:text-[--ansi-palette-41]
+     [&_.ansi-palette-42-bg]:text-[--ansi-palette-42]
+     [&_.ansi-palette-43-bg]:text-[--ansi-palette-43]
+     [&_.ansi-palette-44-bg]:text-[--ansi-palette-44]
+     [&_.ansi-palette-45-bg]:text-[--ansi-palette-45]
+     [&_.ansi-palette-46-bg]:text-[--ansi-palette-46]
+     [&_.ansi-palette-47-bg]:text-[--ansi-palette-47]
+     [&_.ansi-palette-48-bg]:text-[--ansi-palette-48]
+     [&_.ansi-palette-49-bg]:text-[--ansi-palette-49]
+     [&_.ansi-palette-50-bg]:text-[--ansi-palette-50]
+     [&_.ansi-palette-51-bg]:text-[--ansi-palette-51]
+     [&_.ansi-palette-52-bg]:text-[--ansi-palette-52]
+     [&_.ansi-palette-53-bg]:text-[--ansi-palette-53]
+     [&_.ansi-palette-54-bg]:text-[--ansi-palette-54]
+     [&_.ansi-palette-55-bg]:text-[--ansi-palette-55]
+     [&_.ansi-palette-56-bg]:text-[--ansi-palette-56]
+     [&_.ansi-palette-57-bg]:text-[--ansi-palette-57]
+     [&_.ansi-palette-58-bg]:text-[--ansi-palette-58]
+     [&_.ansi-palette-59-bg]:text-[--ansi-palette-59]
+     [&_.ansi-palette-60-bg]:text-[--ansi-palette-60]
+     [&_.ansi-palette-61-bg]:text-[--ansi-palette-61]
+     [&_.ansi-palette-62-bg]:text-[--ansi-palette-62]
+     [&_.ansi-palette-63-bg]:text-[--ansi-palette-63]
+     [&_.ansi-palette-64-bg]:text-[--ansi-palette-64]
+     [&_.ansi-palette-65-bg]:text-[--ansi-palette-65]
+     [&_.ansi-palette-66-bg]:text-[--ansi-palette-66]
+     [&_.ansi-palette-67-bg]:text-[--ansi-palette-67]
+     [&_.ansi-palette-68-bg]:text-[--ansi-palette-68]
+     [&_.ansi-palette-69-bg]:text-[--ansi-palette-69]
+     [&_.ansi-palette-70-bg]:text-[--ansi-palette-70]
+     [&_.ansi-palette-71-bg]:text-[--ansi-palette-71]
+     [&_.ansi-palette-72-bg]:text-[--ansi-palette-72]
+     [&_.ansi-palette-73-bg]:text-[--ansi-palette-73]
+     [&_.ansi-palette-74-bg]:text-[--ansi-palette-74]
+     [&_.ansi-palette-75-bg]:text-[--ansi-palette-75]
+     [&_.ansi-palette-76-bg]:text-[--ansi-palette-76]
+     [&_.ansi-palette-77-bg]:text-[--ansi-palette-77]
+     [&_.ansi-palette-78-bg]:text-[--ansi-palette-78]
+     [&_.ansi-palette-79-bg]:text-[--ansi-palette-79]
+     [&_.ansi-palette-80-bg]:text-[--ansi-palette-80]
+     [&_.ansi-palette-81-bg]:text-[--ansi-palette-81]
+     [&_.ansi-palette-82-bg]:text-[--ansi-palette-82]
+     [&_.ansi-palette-83-bg]:text-[--ansi-palette-83]
+     [&_.ansi-palette-84-bg]:text-[--ansi-palette-84]
+     [&_.ansi-palette-85-bg]:text-[--ansi-palette-85]
+     [&_.ansi-palette-86-bg]:text-[--ansi-palette-86]
+     [&_.ansi-palette-87-bg]:text-[--ansi-palette-87]
+     [&_.ansi-palette-88-bg]:text-[--ansi-palette-88]
+     [&_.ansi-palette-89-bg]:text-[--ansi-palette-89]
+     [&_.ansi-palette-90-bg]:text-[--ansi-palette-90]
+     [&_.ansi-palette-91-bg]:text-[--ansi-palette-91]
+     [&_.ansi-palette-92-bg]:text-[--ansi-palette-92]
+     [&_.ansi-palette-93-bg]:text-[--ansi-palette-93]
+     [&_.ansi-palette-94-bg]:text-[--ansi-palette-94]
+     [&_.ansi-palette-95-bg]:text-[--ansi-palette-95]
+     [&_.ansi-palette-96-bg]:text-[--ansi-palette-96]
+     [&_.ansi-palette-97-bg]:text-[--ansi-palette-97]
+     [&_.ansi-palette-98-bg]:text-[--ansi-palette-98]
+     [&_.ansi-palette-99-bg]:text-[--ansi-palette-99]
+     [&_.ansi-red-bg]:text-[--ansi-red]
+     [&_.ansi-white-bg]:text-[--ansi-white]
+     [&_.ansi-yellow-bg]:text-[--ansi-yellow]
+     [&_.ansi-black-bg]:text-[unset]
+     [&_.ansi-blue-bg]:text-[unset]
+     [&_.ansi-bright-black-bg]:text-[unset]
+     [&_.ansi-bright-blue-bg]:text-[unset]
+     [&_.ansi-bright-cyan-bg]:text-[unset]
+     [&_.ansi-bright-green-bg]:text-[unset]
+     [&_.ansi-bright-magenta-bg]:text-[unset]
+     [&_.ansi-bright-red-bg]:text-[unset]
+     [&_.ansi-bright-white-bg]:text-[unset]
+     [&_.ansi-bright-yellow-bg]:text-[unset]
+     [&_.ansi-cyan-bg]:text-[unset]
+     [&_.ansi-green-bg]:text-[unset]
+     [&_.ansi-magenta-bg]:text-[unset]
+     [&_.ansi-palette-100-bg]:text-[unset]
+     [&_.ansi-palette-101-bg]:text-[unset]
+     [&_.ansi-palette-102-bg]:text-[unset]
+     [&_.ansi-palette-103-bg]:text-[unset]
+     [&_.ansi-palette-104-bg]:text-[unset]
+     [&_.ansi-palette-105-bg]:text-[unset]
+     [&_.ansi-palette-106-bg]:text-[unset]
+     [&_.ansi-palette-107-bg]:text-[unset]
+     [&_.ansi-palette-108-bg]:text-[unset]
+     [&_.ansi-palette-109-bg]:text-[unset]
+     [&_.ansi-palette-110-bg]:text-[unset]
+     [&_.ansi-palette-111-bg]:text-[unset]
+     [&_.ansi-palette-112-bg]:text-[unset]
+     [&_.ansi-palette-113-bg]:text-[unset]
+     [&_.ansi-palette-114-bg]:text-[unset]
+     [&_.ansi-palette-115-bg]:text-[unset]
+     [&_.ansi-palette-116-bg]:text-[unset]
+     [&_.ansi-palette-117-bg]:text-[unset]
+     [&_.ansi-palette-118-bg]:text-[unset]
+     [&_.ansi-palette-119-bg]:text-[unset]
+     [&_.ansi-palette-120-bg]:text-[unset]
+     [&_.ansi-palette-121-bg]:text-[unset]
+     [&_.ansi-palette-122-bg]:text-[unset]
+     [&_.ansi-palette-123-bg]:text-[unset]
+     [&_.ansi-palette-124-bg]:text-[unset]
+     [&_.ansi-palette-125-bg]:text-[unset]
+     [&_.ansi-palette-126-bg]:text-[unset]
+     [&_.ansi-palette-127-bg]:text-[unset]
+     [&_.ansi-palette-128-bg]:text-[unset]
+     [&_.ansi-palette-129-bg]:text-[unset]
+     [&_.ansi-palette-130-bg]:text-[unset]
+     [&_.ansi-palette-131-bg]:text-[unset]
+     [&_.ansi-palette-132-bg]:text-[unset]
+     [&_.ansi-palette-133-bg]:text-[unset]
+     [&_.ansi-palette-134-bg]:text-[unset]
+     [&_.ansi-palette-135-bg]:text-[unset]
+     [&_.ansi-palette-136-bg]:text-[unset]
+     [&_.ansi-palette-137-bg]:text-[unset]
+     [&_.ansi-palette-138-bg]:text-[unset]
+     [&_.ansi-palette-139-bg]:text-[unset]
+     [&_.ansi-palette-140-bg]:text-[unset]
+     [&_.ansi-palette-141-bg]:text-[unset]
+     [&_.ansi-palette-142-bg]:text-[unset]
+     [&_.ansi-palette-143-bg]:text-[unset]
+     [&_.ansi-palette-144-bg]:text-[unset]
+     [&_.ansi-palette-145-bg]:text-[unset]
+     [&_.ansi-palette-146-bg]:text-[unset]
+     [&_.ansi-palette-147-bg]:text-[unset]
+     [&_.ansi-palette-148-bg]:text-[unset]
+     [&_.ansi-palette-149-bg]:text-[unset]
+     [&_.ansi-palette-150-bg]:text-[unset]
+     [&_.ansi-palette-151-bg]:text-[unset]
+     [&_.ansi-palette-152-bg]:text-[unset]
+     [&_.ansi-palette-153-bg]:text-[unset]
+     [&_.ansi-palette-154-bg]:text-[unset]
+     [&_.ansi-palette-155-bg]:text-[unset]
+     [&_.ansi-palette-156-bg]:text-[unset]
+     [&_.ansi-palette-157-bg]:text-[unset]
+     [&_.ansi-palette-158-bg]:text-[unset]
+     [&_.ansi-palette-159-bg]:text-[unset]
+     [&_.ansi-palette-16-bg]:text-[unset]
+     [&_.ansi-palette-160-bg]:text-[unset]
+     [&_.ansi-palette-161-bg]:text-[unset]
+     [&_.ansi-palette-162-bg]:text-[unset]
+     [&_.ansi-palette-163-bg]:text-[unset]
+     [&_.ansi-palette-164-bg]:text-[unset]
+     [&_.ansi-palette-165-bg]:text-[unset]
+     [&_.ansi-palette-166-bg]:text-[unset]
+     [&_.ansi-palette-167-bg]:text-[unset]
+     [&_.ansi-palette-168-bg]:text-[unset]
+     [&_.ansi-palette-169-bg]:text-[unset]
+     [&_.ansi-palette-17-bg]:text-[unset]
+     [&_.ansi-palette-170-bg]:text-[unset]
+     [&_.ansi-palette-171-bg]:text-[unset]
+     [&_.ansi-palette-172-bg]:text-[unset]
+     [&_.ansi-palette-173-bg]:text-[unset]
+     [&_.ansi-palette-174-bg]:text-[unset]
+     [&_.ansi-palette-175-bg]:text-[unset]
+     [&_.ansi-palette-176-bg]:text-[unset]
+     [&_.ansi-palette-177-bg]:text-[unset]
+     [&_.ansi-palette-178-bg]:text-[unset]
+     [&_.ansi-palette-179-bg]:text-[unset]
+     [&_.ansi-palette-18-bg]:text-[unset]
+     [&_.ansi-palette-180-bg]:text-[unset]
+     [&_.ansi-palette-181-bg]:text-[unset]
+     [&_.ansi-palette-182-bg]:text-[unset]
+     [&_.ansi-palette-183-bg]:text-[unset]
+     [&_.ansi-palette-184-bg]:text-[unset]
+     [&_.ansi-palette-185-bg]:text-[unset]
+     [&_.ansi-palette-186-bg]:text-[unset]
+     [&_.ansi-palette-187-bg]:text-[unset]
+     [&_.ansi-palette-188-bg]:text-[unset]
+     [&_.ansi-palette-189-bg]:text-[unset]
+     [&_.ansi-palette-19-bg]:text-[unset]
+     [&_.ansi-palette-190-bg]:text-[unset]
+     [&_.ansi-palette-191-bg]:text-[unset]
+     [&_.ansi-palette-192-bg]:text-[unset]
+     [&_.ansi-palette-193-bg]:text-[unset]
+     [&_.ansi-palette-194-bg]:text-[unset]
+     [&_.ansi-palette-195-bg]:text-[unset]
+     [&_.ansi-palette-196-bg]:text-[unset]
+     [&_.ansi-palette-197-bg]:text-[unset]
+     [&_.ansi-palette-198-bg]:text-[unset]
+     [&_.ansi-palette-199-bg]:text-[unset]
+     [&_.ansi-palette-20-bg]:text-[unset]
+     [&_.ansi-palette-200-bg]:text-[unset]
+     [&_.ansi-palette-201-bg]:text-[unset]
+     [&_.ansi-palette-202-bg]:text-[unset]
+     [&_.ansi-palette-203-bg]:text-[unset]
+     [&_.ansi-palette-204-bg]:text-[unset]
+     [&_.ansi-palette-205-bg]:text-[unset]
+     [&_.ansi-palette-206-bg]:text-[unset]
+     [&_.ansi-palette-207-bg]:text-[unset]
+     [&_.ansi-palette-208-bg]:text-[unset]
+     [&_.ansi-palette-209-bg]:text-[unset]
+     [&_.ansi-palette-21-bg]:text-[unset]
+     [&_.ansi-palette-210-bg]:text-[unset]
+     [&_.ansi-palette-211-bg]:text-[unset]
+     [&_.ansi-palette-212-bg]:text-[unset]
+     [&_.ansi-palette-213-bg]:text-[unset]
+     [&_.ansi-palette-214-bg]:text-[unset]
+     [&_.ansi-palette-215-bg]:text-[unset]
+     [&_.ansi-palette-216-bg]:text-[unset]
+     [&_.ansi-palette-217-bg]:text-[unset]
+     [&_.ansi-palette-218-bg]:text-[unset]
+     [&_.ansi-palette-219-bg]:text-[unset]
+     [&_.ansi-palette-22-bg]:text-[unset]
+     [&_.ansi-palette-220-bg]:text-[unset]
+     [&_.ansi-palette-221-bg]:text-[unset]
+     [&_.ansi-palette-222-bg]:text-[unset]
+     [&_.ansi-palette-223-bg]:text-[unset]
+     [&_.ansi-palette-224-bg]:text-[unset]
+     [&_.ansi-palette-225-bg]:text-[unset]
+     [&_.ansi-palette-226-bg]:text-[unset]
+     [&_.ansi-palette-227-bg]:text-[unset]
+     [&_.ansi-palette-228-bg]:text-[unset]
+     [&_.ansi-palette-229-bg]:text-[unset]
+     [&_.ansi-palette-23-bg]:text-[unset]
+     [&_.ansi-palette-230-bg]:text-[unset]
+     [&_.ansi-palette-231-bg]:text-[unset]
+     [&_.ansi-palette-232-bg]:text-[unset]
+     [&_.ansi-palette-233-bg]:text-[unset]
+     [&_.ansi-palette-234-bg]:text-[unset]
+     [&_.ansi-palette-235-bg]:text-[unset]
+     [&_.ansi-palette-236-bg]:text-[unset]
+     [&_.ansi-palette-237-bg]:text-[unset]
+     [&_.ansi-palette-238-bg]:text-[unset]
+     [&_.ansi-palette-239-bg]:text-[unset]
+     [&_.ansi-palette-24-bg]:text-[unset]
+     [&_.ansi-palette-240-bg]:text-[unset]
+     [&_.ansi-palette-241-bg]:text-[unset]
+     [&_.ansi-palette-242-bg]:text-[unset]
+     [&_.ansi-palette-243-bg]:text-[unset]
+     [&_.ansi-palette-244-bg]:text-[unset]
+     [&_.ansi-palette-245-bg]:text-[unset]
+     [&_.ansi-palette-246-bg]:text-[unset]
+     [&_.ansi-palette-247-bg]:text-[unset]
+     [&_.ansi-palette-248-bg]:text-[unset]
+     [&_.ansi-palette-249-bg]:text-[unset]
+     [&_.ansi-palette-25-bg]:text-[unset]
+     [&_.ansi-palette-250-bg]:text-[unset]
+     [&_.ansi-palette-251-bg]:text-[unset]
+     [&_.ansi-palette-252-bg]:text-[unset]
+     [&_.ansi-palette-253-bg]:text-[unset]
+     [&_.ansi-palette-254-bg]:text-[unset]
+     [&_.ansi-palette-255-bg]:text-[unset]
+     [&_.ansi-palette-26-bg]:text-[unset]
+     [&_.ansi-palette-27-bg]:text-[unset]
+     [&_.ansi-palette-28-bg]:text-[unset]
+     [&_.ansi-palette-29-bg]:text-[unset]
+     [&_.ansi-palette-30-bg]:text-[unset]
+     [&_.ansi-palette-31-bg]:text-[unset]
+     [&_.ansi-palette-32-bg]:text-[unset]
+     [&_.ansi-palette-33-bg]:text-[unset]
+     [&_.ansi-palette-34-bg]:text-[unset]
+     [&_.ansi-palette-35-bg]:text-[unset]
+     [&_.ansi-palette-36-bg]:text-[unset]
+     [&_.ansi-palette-37-bg]:text-[unset]
+     [&_.ansi-palette-38-bg]:text-[unset]
+     [&_.ansi-palette-39-bg]:text-[unset]
+     [&_.ansi-palette-40-bg]:text-[unset]
+     [&_.ansi-palette-41-bg]:text-[unset]
+     [&_.ansi-palette-42-bg]:text-[unset]
+     [&_.ansi-palette-43-bg]:text-[unset]
+     [&_.ansi-palette-44-bg]:text-[unset]
+     [&_.ansi-palette-45-bg]:text-[unset]
+     [&_.ansi-palette-46-bg]:text-[unset]
+     [&_.ansi-palette-47-bg]:text-[unset]
+     [&_.ansi-palette-48-bg]:text-[unset]
+     [&_.ansi-palette-49-bg]:text-[unset]
+     [&_.ansi-palette-50-bg]:text-[unset]
+     [&_.ansi-palette-51-bg]:text-[unset]
+     [&_.ansi-palette-52-bg]:text-[unset]
+     [&_.ansi-palette-53-bg]:text-[unset]
+     [&_.ansi-palette-54-bg]:text-[unset]
+     [&_.ansi-palette-55-bg]:text-[unset]
+     [&_.ansi-palette-56-bg]:text-[unset]
+     [&_.ansi-palette-57-bg]:text-[unset]
+     [&_.ansi-palette-58-bg]:text-[unset]
+     [&_.ansi-palette-59-bg]:text-[unset]
+     [&_.ansi-palette-60-bg]:text-[unset]
+     [&_.ansi-palette-61-bg]:text-[unset]
+     [&_.ansi-palette-62-bg]:text-[unset]
+     [&_.ansi-palette-63-bg]:text-[unset]
+     [&_.ansi-palette-64-bg]:text-[unset]
+     [&_.ansi-palette-65-bg]:text-[unset]
+     [&_.ansi-palette-66-bg]:text-[unset]
+     [&_.ansi-palette-67-bg]:text-[unset]
+     [&_.ansi-palette-68-bg]:text-[unset]
+     [&_.ansi-palette-69-bg]:text-[unset]
+     [&_.ansi-palette-70-bg]:text-[unset]
+     [&_.ansi-palette-71-bg]:text-[unset]
+     [&_.ansi-palette-72-bg]:text-[unset]
+     [&_.ansi-palette-73-bg]:text-[unset]
+     [&_.ansi-palette-74-bg]:text-[unset]
+     [&_.ansi-palette-75-bg]:text-[unset]
+     [&_.ansi-palette-76-bg]:text-[unset]
+     [&_.ansi-palette-77-bg]:text-[unset]
+     [&_.ansi-palette-78-bg]:text-[unset]
+     [&_.ansi-palette-79-bg]:text-[unset]
+     [&_.ansi-palette-80-bg]:text-[unset]
+     [&_.ansi-palette-81-bg]:text-[unset]
+     [&_.ansi-palette-82-bg]:text-[unset]
+     [&_.ansi-palette-83-bg]:text-[unset]
+     [&_.ansi-palette-84-bg]:text-[unset]
+     [&_.ansi-palette-85-bg]:text-[unset]
+     [&_.ansi-palette-86-bg]:text-[unset]
+     [&_.ansi-palette-87-bg]:text-[unset]
+     [&_.ansi-palette-88-bg]:text-[unset]
+     [&_.ansi-palette-89-bg]:text-[unset]
+     [&_.ansi-palette-90-bg]:text-[unset]
+     [&_.ansi-palette-91-bg]:text-[unset]
+     [&_.ansi-palette-92-bg]:text-[unset]
+     [&_.ansi-palette-93-bg]:text-[unset]
+     [&_.ansi-palette-94-bg]:text-[unset]
+     [&_.ansi-palette-95-bg]:text-[unset]
+     [&_.ansi-palette-96-bg]:text-[unset]
+     [&_.ansi-palette-97-bg]:text-[unset]
+     [&_.ansi-palette-98-bg]:text-[unset]
+     [&_.ansi-palette-99-bg]:text-[unset]
+     [&_.ansi-red-bg]:text-[unset]
+     [&_.ansi-white-bg]:text-[unset]
+     [&_.ansi-yellow-bg]:text-[unset];
+  }
 }

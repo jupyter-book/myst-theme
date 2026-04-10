@@ -17,7 +17,7 @@ export default function Error({ output }: { output: MinifiedErrorOutput }) {
           tabIndex={isScrollable ? 0 : undefined}
           role={isScrollable ? 'region' : undefined}
           aria-label="cell error output"
-          className="myst-jp-error-output text-sm font-thin font-system jupyter-error overflow-auto p-3"
+          className="myst-jp-error-output text-sm font-thin font-system jupyter-error overflow-auto p-3 ansi-prose group-[.full-color-error]/block:ansi-full"
         >
           <Ansi useClasses>{content ?? ''}</Ansi>
         </pre>

@@ -1,8 +1,3 @@
-/* Default pre-calculated ansi colors for our normal background */
-@import './ansi.css';
-/* Overrides for accessibility overall and in specific contexts (like errors) */
-@import './ansi-overrides.css';
-
 .font-system {
   font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 }
@@ -60,4 +55,60 @@ html.dark {
   --jp-layout-color2: var(--md-grey-800);
   --jp-layout-color3: var(--md-grey-700);
   --jp-layout-color4: var(--md-grey-600);
+}
+
+@layer components {
+  /* ======================================================================
+ * Regular stdout
+ * ====================================================================== */
+  /* Light mode */
+  .jupyter-output-light {
+    --ansi-white: rgb(102, 102, 102);
+    --ansi-yellow: rgb(128, 128, 0);
+  }
+
+  /* Dark mode */
+  .jupyter-output-dark {
+    --ansi-black: rgb(153, 153, 153);
+    --ansi-blue: rgb(85, 85, 255);
+
+    /* Nicer white */
+    --ansi-white: rgb(229, 229, 229);
+  }
+
+  .jupyter-output {
+    @apply jupyter-output-light dark:jupyter-output-dark;
+  }
+  /* ======================================================================
+ * Jupyter error cells
+ * ====================================================================== */
+  /* Light mode */
+  .jupyter-error-light {
+    @apply bg-red-50;
+
+    --ansi-red: #b91c1c;
+    --ansi-green: #1d7500;
+    --ansi-yellow: #854d0e;
+    --ansi-blue: #1e40af;
+    --ansi-magenta: #86198f;
+    --ansi-cyan: #0c6ea6;
+    --ansi-white: #575757;
+  }
+
+  /* Dark mode */
+  .jupyter-error-dark {
+    @apply bg-red-900/30;
+
+    --ansi-black: #b5b5b5;
+    --ansi-red: #ff9494;
+    --ansi-green: #00eb00;
+    --ansi-yellow: #facc15;
+    --ansi-blue: #93c5fd;
+    --ansi-magenta: #f0abfc;
+    --ansi-cyan: #00fafa;
+    --ansi-white: #b5b5b5;
+  }
+  .jupyter-error {
+    @apply jupyter-error-light dark:jupyter-error-dark;
+  }
 }

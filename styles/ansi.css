@@ -5,12 +5,12 @@
 @layer components {
   /* Strict ANSI rendering with only eight named colours */
   .ansi-prose {
-    @apply ansi-restricted ansi-text-only;
+    @apply ansi-restricted ansi-fg-text ansi-bg-text;
   }
 
   /*Full ANSI BG and FG rendering*/
   .ansi-full {
-    @apply ansi-xterm ansi-text-bg;
+    @apply ansi-xterm ansi-bg-bg;
   }
 
   .ansi-xterm {
@@ -781,9 +781,8 @@
      [&_.ansi-white-fg]:text-[--ansi-white]
      [&_.ansi-yellow-fg]:text-[--ansi-yellow];
   }
-  .ansi-text-bg {
-    @apply ansi-fg-text
-     [&_.ansi-black-fg]:bg-[unset]
+  .ansi-bg-bg {
+    @apply [&_.ansi-black-fg]:bg-[unset]
      [&_.ansi-blue-fg]:bg-[unset]
      [&_.ansi-bright-black-fg]:bg-[unset]
      [&_.ansi-bright-blue-fg]:bg-[unset]
@@ -1296,9 +1295,8 @@
      [&_.ansi-white-bg]:bg-[--ansi-white]
      [&_.ansi-yellow-bg]:bg-[--ansi-yellow];
   }
-  .ansi-text-only {
-    @apply ansi-fg-text 
-     [&_.ansi-black-bg]:text-[--ansi-black]
+  .ansi-bg-text {
+    @apply [&_.ansi-black-bg]:text-[--ansi-black]
      [&_.ansi-blue-bg]:text-[--ansi-blue]
      [&_.ansi-bright-black-bg]:text-[--ansi-bright-black]
      [&_.ansi-bright-blue-bg]:text-[--ansi-bright-blue]

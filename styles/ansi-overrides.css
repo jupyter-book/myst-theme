@@ -16,17 +16,17 @@
  * ====================================================================== */
 :root {
   --ansi-white: rgb(102, 102, 102);
-  --ansi-bright-white: rgb(102, 102, 102);
+  --ansi-bright-white: var(--ansi-white);
   --ansi-yellow: rgb(128, 128, 0);
-  --ansi-bright-yellow: rgb(128, 128, 0);
+  --ansi-bright-yellow: var(--ansi-yellow);
 }
 
 html.dark {
   --ansi-black: rgb(153, 153, 153);
-  --ansi-bright-black: rgb(128, 128, 128);
+  --ansi-bright-black: var(--ansi-black);
   --ansi-blue: rgb(85, 85, 255);
   --ansi-white: rgb(229, 229, 229);
-  --ansi-bright-white: rgb(229, 229, 229);
+  --ansi-bright-white: var(--ansi-white);
 }
 
 /* ======================================================================
@@ -37,19 +37,19 @@ html.dark {
   @apply bg-red-50;
 
   --ansi-red: #b91c1c;
-  --ansi-bright-red: #b91c1c;
+  --ansi-bright-red: var(--ansi-red);
   --ansi-green: #1d7500;
-  --ansi-bright-green: #1d7500;
+  --ansi-bright-green: var(--ansi-green);
   --ansi-yellow: #854d0e;
-  --ansi-bright-yellow: #854d0e;
+  --ansi-bright-yellow: var(--ansi-yellow);
   --ansi-blue: #1e40af;
-  --ansi-bright-blue: #1e40af;
+  --ansi-bright-blue: var(--ansi-blue);
   --ansi-magenta: #86198f;
-  --ansi-bright-magenta: #86198f;
+  --ansi-bright-magenta: var(--ansi-magenta);
   --ansi-cyan: #0c6ea6;
-  --ansi-bright-cyan: #0c6ea6;
+  --ansi-bright-cyan: var(--ansi-cyan);
   --ansi-white: #575757;
-  --ansi-bright-white: #575757;
+  --ansi-bright-white: var(--ansi-white);
 
   /* IPython palette indices seen in standard tracebacks */
   --ansi-palette-28: #8045e5;
@@ -65,21 +65,21 @@ html.dark .jupyter-error {
   @apply bg-red-900/30;
 
   --ansi-black: #b5b5b5;
-  --ansi-bright-black: #b5b5b5;
+  --ansi-bright-black: var(--ansi-black);
   --ansi-red: #ff9494;
-  --ansi-bright-red: #ff9494;
+  --ansi-bright-red: var(--ansi-red);
   --ansi-green: #00eb00;
-  --ansi-bright-green: #00eb00;
+  --ansi-bright-green: var(--ansi-green);
   --ansi-yellow: #facc15;
-  --ansi-bright-yellow: #facc15;
+  --ansi-bright-yellow: var(--ansi-yellow);
   --ansi-blue: #93c5fd;
-  --ansi-bright-blue: #93c5fd;
+  --ansi-bright-blue: var(--ansi-blue);
   --ansi-magenta: #f0abfc;
-  --ansi-bright-magenta: #f0abfc;
+  --ansi-bright-magenta: var(--ansi-magenta);
   --ansi-cyan: #00fafa;
-  --ansi-bright-cyan: #00fafa;
+  --ansi-bright-cyan: var(--ansi-cyan);
   --ansi-white: #b5b5b5;
-  --ansi-bright-white: #b5b5b5;
+  --ansi-bright-white: var(--ansi-white);
 
   /* IPython palette indices seen in standard tracebacks */
   --ansi-palette-28: #f472b6;

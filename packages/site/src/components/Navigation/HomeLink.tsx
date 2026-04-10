@@ -29,7 +29,7 @@ export function HomeLink({
       {logo && (
         <div
           className={classNames('myst-home-link-logo mr-3 flex items-center', {
-            'dark:bg-white dark:rounded px-1': !logoDark,
+            'bg-myst-bg dark:rounded px-1': !logoDark,
           })}
         >
           <img

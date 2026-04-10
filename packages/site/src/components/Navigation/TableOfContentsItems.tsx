@@ -67,7 +67,7 @@ function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: str
 export const Toc = ({ headings }: { headings: Heading[] }) => {
   const nested = nestToc(headings);
   return (
-    <div className="myst-toc w-full px-1 dark:text-white">
+    <div className="myst-toc w-full px-1 text-myst-text">
       {nested.map((item) => (
         <NestedToc heading={item} key={item.id} />
       ))}

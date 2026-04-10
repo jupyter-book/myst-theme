@@ -8,7 +8,7 @@ export function ThemeButton({ className = 'w-10 h-10 mx-3' }: { className?: stri
   return (
     <button
       className={classNames(
-        'myst-theme-button theme rounded-full aspect-square border border-stone-700 dark:border-white hover:bg-myst-surface border-solid overflow-hidden text-stone-700 dark:text-white hover:text-myst-text-tertiary',
+        'myst-theme-button theme rounded-full aspect-square border border-myst-border-strong hover:bg-myst-surface border-solid overflow-hidden text-myst-text-secondary',
         className,
       )}
       title={`Toggle theme between light and dark mode`}

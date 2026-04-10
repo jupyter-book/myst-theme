@@ -2,11 +2,6 @@
  * Raw ANSI colours computed from https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
  * Excludes the named colours.
  */
-
-/*
- * Raw ANSI colours computed from https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
- * Excludes the named colours.
- */
 :root {
   --ansi-black: rgb(0, 0, 0);
   --ansi-red: rgb(187, 0, 0);

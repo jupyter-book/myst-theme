@@ -9,53 +9,6 @@
  */
 
 /* ======================================================================
- * Regular stdout
- * ====================================================================== */
-/* Light mode */
-.myst-jp-nb-block:not(.full-ansi) {
-  --ansi-white: rgb(102, 102, 102);
-  --ansi-yellow: rgb(128, 128, 0);
-}
-
-/* Dark mode */
-html.dark .myst-jp-nb-block:not(.full-ansi) {
-  --ansi-black: rgb(153, 153, 153);
-  --ansi-blue: rgb(85, 85, 255);
-
-  /* Nicer white */
-  --ansi-white: rgb(229, 229, 229);
-}
-
-/* ======================================================================
- * Jupyter error cells
- * ====================================================================== */
-/* Light mode */
-.myst-jp-nb-block:not(.full-ansi) .jupyter-error {
-  @apply bg-red-50;
-
-  --ansi-red: #b91c1c;
-  --ansi-green: #1d7500;
-  --ansi-yellow: #854d0e;
-  --ansi-blue: #1e40af;
-  --ansi-magenta: #86198f;
-  --ansi-cyan: #0c6ea6;
-  --ansi-white: #575757;
-}
-
-/* Dark mode */
-html.dark .myst-jp-nb-block:not(.full-ansi) .jupyter-error {
-  @apply bg-red-900/30;
-
-  --ansi-black: #b5b5b5;
-  --ansi-red: #ff9494;
-  --ansi-green: #00eb00;
-  --ansi-yellow: #facc15;
-  --ansi-blue: #93c5fd;
-  --ansi-magenta: #f0abfc;
-  --ansi-cyan: #00fafa;
-  --ansi-white: #b5b5b5;
-}
-/* ======================================================================
  * Restricted ANSI colours (projected onto non-bright xterm named colours)
  * Bright colours are identical to non-bright colours.
  * ====================================================================== */
@@ -317,6 +270,59 @@ html.dark .myst-jp-nb-block:not(.full-ansi) .jupyter-error {
   --ansi-palette-254: var(--ansi-white);
   --ansi-palette-255: var(--ansi-white);
 }
+
+/* ======================================================================
+ * Regular stdout
+ * ====================================================================== */
+/* Light mode */
+.myst-jp-nb-block:not(.full-ansi) {
+  --ansi-white: rgb(102, 102, 102);
+  --ansi-yellow: rgb(128, 128, 0);
+}
+
+/* Dark mode */
+html.dark .myst-jp-nb-block:not(.full-ansi) {
+  --ansi-black: rgb(153, 153, 153);
+  --ansi-blue: rgb(85, 85, 255);
+
+  /* Nicer white */
+  --ansi-white: rgb(229, 229, 229);
+}
+
+/* ======================================================================
+ * Jupyter error cells
+ * ====================================================================== */
+/* Light mode */
+.myst-jp-nb-block:not(.full-ansi) .jupyter-error {
+  @apply bg-red-50;
+
+  --ansi-red: #b91c1c;
+  --ansi-green: #1d7500;
+  --ansi-yellow: #854d0e;
+  --ansi-blue: #1e40af;
+  --ansi-magenta: #86198f;
+  --ansi-cyan: #0c6ea6;
+  --ansi-white: #575757;
+}
+
+/* Dark mode */
+html.dark .myst-jp-nb-block:not(.full-ansi) .jupyter-error {
+  @apply bg-red-900/30;
+
+  --ansi-black: #b5b5b5;
+  --ansi-red: #ff9494;
+  --ansi-green: #00eb00;
+  --ansi-yellow: #facc15;
+  --ansi-blue: #93c5fd;
+  --ansi-magenta: #f0abfc;
+  --ansi-cyan: #00fafa;
+  --ansi-white: #b5b5b5;
+}
+
+/* ======================================================================
+ * Disable background colours (use FG instead)
+ * ====================================================================== */
+
 .myst-jp-nb-block:not(.full-ansi) .ansi-black-bg {
   background-color: unset;
   color: var(--ansi-black);

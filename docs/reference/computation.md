@@ -144,6 +144,26 @@ class DataLoader:
 DataLoader.load(42)
 ```
 
+We can also set the `full-ansi` class to show raw colours:
+
+```{code-cell} python
+:class: full-ansi
+:tags: [raises-exception]
+
+from pathlib import Path
+
+class DataLoader:
+    """Loads data from a file path."""
+
+    # A comment about this function!
+    @staticmethod
+    def load(path: str, limit: int = 10) -> list:
+        data = Path(path).read_text()
+        return data.split("\n")[:limit]
+
+DataLoader.load(42)
+```
+
 ## Wide cell inputs and outputs
 
 These cells produce wide outputs to test that scrollable regions are keyboard-accessible (tab to focus, arrow keys to scroll).

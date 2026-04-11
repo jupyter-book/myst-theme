@@ -2,4 +2,5 @@
 '@myst-theme/site': patch
 ---
 
-Add aria-label and other annotations to search items
+Re-order search entries to better behave under screen-readers.
+Add missing aria-expanded attribute.

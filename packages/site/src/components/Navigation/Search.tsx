@@ -525,7 +525,6 @@ function SearchForm({
               { 'border-red-500': !enabled },
             )}
             id={searchInputID}
-            role="combobox"
             aria-labelledby={searchLabelID}
             aria-controls={searchListID}
             aria-expanded={!!searchResults}

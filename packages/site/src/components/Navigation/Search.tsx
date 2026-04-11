@@ -267,13 +267,13 @@ function SearchResultItem({
     />
   );
 
-  // Render the subtitle i.e. file name
-  let subtitleRenderer;
+  // Render the context i.e. file name
+  let contextRenderer;
   if (result.type === 'lvl1') {
-    subtitleRenderer = undefined;
+    contextRenderer = undefined;
   } else {
-    const subtitle = result.hierarchy.lvl1!;
-    subtitleRenderer = <MarkedText text={subtitle} matches={matches} className="text-xs" />;
+    const contextName = result.hierarchy.lvl1!;
+    contextRenderer = <MarkedText text={contextName} matches={matches} className="text-xs" />;
   }
 
   const enterIconRenderer = (
@@ -292,8 +292,8 @@ function SearchResultItem({
       <div className="flex flex-row h-11">
         {iconRenderer}
         <div className="flex flex-col justify-center truncate grow">
+          {contextRenderer}
           {titleRenderer}
-          {subtitleRenderer}
         </div>
         {enterIconRenderer}
       </div>

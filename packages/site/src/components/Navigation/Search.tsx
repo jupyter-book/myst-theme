@@ -207,28 +207,6 @@ function SearchShortcut() {
 }
 
 /**
- * Build a screen-reader-friendly label for a search result: page name first, then match context.
- */
-function getResultAriaLabel(result: RankedSearchResult): string {
-  const pageName = result.hierarchy.lvl1 ?? '';
-  // For top-level page matches, the page name itself is the match and there isn't extra content
-  if (result.type === 'lvl1') return pageName;
-  // For sub-page matches, include the matched heading or content snippet after the page name
-  let matchText =
-    result.type === 'content' ? result.content : result.hierarchy[result.type as HeadingLevel];
-  // Collapse whitespace and truncate long content so screen readers don't read entire paragraphs
-  if (matchText) {
-    matchText = matchText.replace(/\s+/g, ' ').trim();
-    if (matchText.length > 120) {
-      matchText = matchText.slice(0, 120) + '…';
-    }
-    return `${pageName} - ${matchText}`;
-  } else {
-    return pageName;
-  }
-}
-
-/**
  * Renderer for a single search result
  */
 function SearchResultItem({
@@ -286,8 +264,6 @@ function SearchResultItem({
       to={withBaseurl(url, baseurl)}
       // Close the main search on click
       onClick={closeSearch}
-      // There's an aria-label on the parent <li> so we hide the links
-      aria-hidden="true"
     >
       <div className="flex flex-row h-11">
         {iconRenderer}
@@ -361,15 +337,9 @@ function SearchResults({
     },
     [onHoverSelect],
   );
-  const searchResultsWithAria = useMemo(() => {
-    return searchResults.map((result) => {
-      const ariaLabel = getResultAriaLabel(result);
-      return { result, ariaLabel };
-    });
-  }, [searchResults]);
   return (
     <div className="myst-search-results mt-4 overflow-y-scroll">
-      {searchResultsWithAria.length ? (
+      {searchResults.length ? (
         <ul
           // Accessiblity:
           // indicate that this is a selectbox
@@ -382,7 +352,7 @@ function SearchResults({
           aria-activedescendant={activeDescendent}
           className={classNames('flex flex-col gap-y-2 px-1', className)}
         >
-          {searchResultsWithAria.map(({ result, ariaLabel }, index) => (
+          {searchResults.map((result, index) => (
             <li
               key={result.id}
               ref={setItemRef}
@@ -392,8 +362,6 @@ function SearchResults({
               role="option"
               //   Indicate whether this is selected
               aria-selected={selectedIndex === index}
-              //   Provide a clean label for screen readers
-              aria-label={ariaLabel}
               // Allow for nested-highlighting
               className="myst-search-result-item group"
               // Trigger selection on movement, so that scrolling doesn't trigger handler

@@ -361,9 +361,15 @@ function SearchResults({
     },
     [onHoverSelect],
   );
+  const searchResultsWithAria = useMemo(() => {
+    return searchResults.map((result) => {
+      const ariaLabel = getResultAriaLabel(result);
+      return { result, ariaLabel };
+    });
+  }, [searchResults]);
   return (
     <div className="myst-search-results mt-4 overflow-y-scroll">
-      {searchResults.length ? (
+      {searchResultsWithAria.length ? (
         <ul
           // Accessiblity:
           // indicate that this is a selectbox
@@ -376,7 +382,7 @@ function SearchResults({
           aria-activedescendant={activeDescendent}
           className={classNames('flex flex-col gap-y-2 px-1', className)}
         >
-          {searchResults.map((result, index) => (
+          {searchResultsWithAria.map(({ result, ariaLabel }, index) => (
             <li
               key={result.id}
               ref={setItemRef}
@@ -387,7 +393,7 @@ function SearchResults({
               //   Indicate whether this is selected
               aria-selected={selectedIndex === index}
               //   Provide a clean label for screen readers
-              aria-label={getResultAriaLabel(result)}
+              aria-label={ariaLabel}
               // Allow for nested-highlighting
               className="myst-search-result-item group"
               // Trigger selection on movement, so that scrolling doesn't trigger handler

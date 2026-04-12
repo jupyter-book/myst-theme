@@ -470,7 +470,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
       <details
         className={classNames(
           'myst-fm-launch-modal-body rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
-          'bg-myst-bg-alt',
+          'bg-myst-bg-alt border border-myst-border',
           { hidden: !(detectedProviderType === 'jupyterhub' || detectedProviderType === 'error') },
         )}
         open={false}
@@ -587,7 +587,7 @@ export function LaunchButton(props: LaunchProps) {
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
-          className="myst-fm-launch-modal myst-fm-launch-modal-content z-30 text-myst-text-secondary bg-myst-bg p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] max-w-[400px]"
+          className="myst-fm-launch-modal myst-fm-launch-modal-content z-30 text-myst-text-secondary bg-myst-alt p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] max-w-[400px]"
           sideOffset={5}
         >
           <DetectLaunchContent {...props} onLaunch={closePopover} />

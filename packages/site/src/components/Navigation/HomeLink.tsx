@@ -22,7 +22,7 @@ export function HomeLink({
   const altText = logoAlt ?? logoText ?? name;
   return (
     <Link
-      className="myst-home-link flex items-center ml-3 dark:text-white w-fit md:ml-5 xl:ml-7"
+      className="myst-home-link flex items-center ml-3 text-myst-text w-fit md:ml-5 xl:ml-7"
       to={url ? url : withBaseurl('/', baseurl)}
       prefetch="intent"
     >

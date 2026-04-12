@@ -11,7 +11,7 @@ export function ActionMenu({ actions }: { actions?: SiteManifest['actions'] }) {
       <div>
         <Menu.Button className="myst-action-menu-button flex text-sm bg-transparent rounded-full focus:outline-none">
           <span className="sr-only">Open Menu</span>
-          <div className="flex items-center text-stone-200 hover:text-white">
+          <div className="flex items-center text-myst-text-tertiary hover:text-myst-text">
             <EllipsisVerticalIcon width="2rem" height="2rem" className="p-1" />
           </div>
         </Menu.Button>

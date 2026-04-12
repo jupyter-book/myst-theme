@@ -1,7 +1,7 @@
 # See docs at: https://mystmd.org/guide/frontmatter
 version: 1
 extends:
-  - ./authors.yml
+- ./authors.yml
 project:
   id: b19ac145-d09e-4dcc-bd37-28fbba0f9e8e
   title: myst-theme documentation
@@ -11,9 +11,9 @@ project:
   # authors: []
   github: https://github.com/jupyter-book/myst-theme
   error_rules:
-    - rule: link-resolves
-      keys:
-        - 'https://github.com/**'
+  - rule: link-resolves
+    keys:
+    - 'https://github.com/**'
   jupyter: true
   parts:
     banner: |
@@ -22,35 +22,48 @@ project:
     primary_sidebar_footer: _site/primary_sidebar_footer.md
     navbar_end: _site/navbar_end.md
   toc:
-    - file: index.md
-    - file: ui.md
-    - file: authorship.md
-    - file: anywidgets.md
-    - file: theming.md
-    - file: permalinks.md
-    - file: reference/index.md
-      children:
-      - pattern: 'reference/!(index)*.md'
-    - file: developer/index.md
-      children:
-       - file: developer/local.md
-       - file: developer/tips.md
-       - file: developer/architecture.md
-       - file: developer/testing.md
-       - file: developer/documentation.md
-       - file: developer/static-previews.md
+  - file: index.md
+  - file: ui.md
+  - file: authorship.md
+  - file: anywidgets.md
+  - file: theming.md
+  - file: permalinks.md
+  - file: reference/index.md
+    children:
+    - pattern: 'reference/!(index)*.md'
+  - file: developer/index.md
+    children:
+    - file: developer/local.md
+    - file: developer/tips.md
+    - file: developer/architecture.md
+    - file: developer/testing.md
+    - file: developer/documentation.md
+    - file: developer/static-previews.md
 
 site:
   # NOTE: You must run `make deploy-book` to generate the local version of this theme.
   template: ../.deploy/book
 
   nav:
-    - title: Developer page
-      url: /developer
+  - title: Reference
+    url: /reference
+  - title: Developer page
+    url: /developer
+    children:
+    - title: Local Development
+      url: /developer/local
+    - title: Architecture
+      url: /developer/architecture
+  actions:
+  - title: GitHub
+    url: https://github.com/jupyter-book/myst-theme
+  - title: MyST Docs
+    url: https://mystmd.org
   options:
     site_title: myst-theme documentation
     folders: true
     logo: _static/myst-logo-light.svg
     logo_dark: _static/myst-logo-dark.svg
     logo_alt: The logo for the MyST Markdown Project
+    logo_url: /
     internal_domains: "mystmd.org"

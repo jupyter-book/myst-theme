@@ -32,7 +32,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
           to={withBaseurl(item.url, baseurl) ?? ''}
           className={({ isActive }) =>
             classNames(
-              'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
+              'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium text-myst-text hover:text-myst-active focus:outline-none focus-visible:ring-2 focus-visible:ring-myst-focus-ring focus-visible:ring-opacity-75',
               {
                 'border-b border-myst-border': isActive,
               },
@@ -47,12 +47,12 @@ export function NavItem({ item }: { item: SiteNavItem }) {
   return (
     <Menu as="div" className="myst-top-nav-dropdown relative inline-block mx-2 grow-0">
       <div className="inline-block">
-        <Menu.Button className="inline-flex items-center justify-center w-full py-1 mx-2 font-medium rounded-md text-md text-myst-text focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+        <Menu.Button className="inline-flex items-center justify-center w-full py-1 mx-2 font-medium rounded-md text-md text-myst-text hover:text-myst-active focus:outline-none focus-visible:ring-2 focus-visible:ring-myst-focus-ring focus-visible:ring-opacity-75">
           <span>{item.title}</span>
           <ChevronDownIcon
             width="1.25rem"
             height="1.25rem"
-            className="ml-2 -mr-1 text-violet-200 hover:text-violet-100"
+            className="ml-2 -mr-1"
           />
         </Menu.Button>
       </div>
@@ -74,7 +74,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
                 {action.url?.startsWith('http') ? (
                   <a
                     href={url}
-                    className="myst-top-nav-dropdown-item block px-4 py-2 text-sm text-myst-text-secondary hover:bg-myst-surface hover:text-black"
+                    className="myst-top-nav-dropdown-item block px-4 py-2 text-sm text-myst-text hover:bg-myst-surface"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -85,9 +85,9 @@ export function NavItem({ item }: { item: SiteNavItem }) {
                     to={url}
                     className={({ isActive }) =>
                       classNames(
-                        'myst-top-nav-dropdown-item block px-4 py-2 text-sm text-myst-text-secondary hover:bg-myst-surface hover:text-black',
+                        'myst-top-nav-dropdown-item block px-4 py-2 text-sm text-myst-text hover:bg-myst-surface',
                         {
-                          'text-black font-bold': isActive,
+                          'font-bold': isActive,
                         },
                       )
                     }
@@ -129,7 +129,7 @@ export function TopNav({
   const { title, nav, actions } = config ?? {};
   const { logo, logo_dark, logo_text, logo_url, logo_alt } = config?.options ?? {};
   return (
-    <div className="myst-top-nav bg-myst-bg/80 backdrop-blur shadow dark:shadow-stone-700 p-3 md:px-8 sticky w-full top-0 z-30 h-[60px]">
+    <div className="myst-top-nav bg-myst-bg/80 backdrop-blur shadow shadow-myst-border p-3 md:px-8 sticky w-full top-0 z-30 h-[60px]">
       <nav className="myst-top-nav-bar flex items-center justify-between flex-nowrap max-w-[1440px] mx-auto">
         <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center shrink-0">
           {
@@ -180,7 +180,7 @@ export function TopNav({
             {actions?.map((action, index) => (
               <ExternalOrInternalLink
                 key={action.url || index}
-                className="inline-block px-4 py-2 mx-1 mt-0 leading-none border rounded text-md border-stone-700 dark:border-white text-stone-700 dark:text-white hover:text-myst-text-tertiary hover:bg-myst-surface"
+                className="inline-block px-4 py-2 mx-1 mt-0 leading-none border rounded text-md border-myst-border-strong text-myst-text hover:bg-myst-surface"
                 to={action.url}
               >
                 {action.title}

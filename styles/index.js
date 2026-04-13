@@ -44,9 +44,7 @@ const themeExtensions = {
     'myst-text-tertiary': 'var(--myst-color-text-tertiary)',
     'myst-border': 'var(--myst-color-border)',
     'myst-border-strong': 'var(--myst-color-border-strong)',
-    'myst-code-bg': 'var(--myst-color-code-bg)',
     'myst-code': 'var(--myst-color-code)',
-    'myst-pre-code': 'var(--myst-color-pre-code)',
     'myst-kbd-shadow': 'var(--myst-color-kbd-shadow)',
     // Admonition / semantic
     'myst-info': 'var(--myst-color-info)',
@@ -163,8 +161,6 @@ const themeExtensions = {
         '--tw-prose-kbd': 'var(--myst-color-text)',
         '--tw-prose-kbd-shadows': 'var(--myst-color-kbd-shadow)',
         '--tw-prose-code': 'var(--myst-color-code)',
-        '--tw-prose-pre-code': 'var(--myst-color-pre-code)',
-        '--tw-prose-pre-bg': 'var(--myst-color-code-bg)',
         '--tw-prose-th-borders': 'var(--myst-color-border)',
         '--tw-prose-td-borders': 'var(--myst-color-border)',
         code: {

@@ -33,11 +33,11 @@ This is a danger admonition — it uses the danger color group.
 :::
 
 A paragraph with a [link](https://mystmd.org) and some `inline code`. The link
-color comes from `--myst-color-link`, and inline code uses `--myst-color-code-bg`.
+color comes from `--myst-color-link`, and inline code uses `--myst-color-code`.
 
 ```python
 def hello():
-    print("code blocks use --myst-color-code-bg")
+    print("code blocks are styled by highlight.js")
 ```
 
 ## Applying overrides in your own site

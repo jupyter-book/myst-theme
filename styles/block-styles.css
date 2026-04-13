@@ -1,6 +1,6 @@
 @layer base {
   .shaded {
-    @apply pt-5 my-5 bg-myst-code-bg;
+    @apply pt-5 my-5 bg-myst-surface;
   }
   .framed {
     @apply p-5 my-5 border shadow bg-myst-bg-alt;

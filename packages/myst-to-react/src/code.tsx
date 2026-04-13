@@ -162,7 +162,7 @@ const inlineCode: NodeRenderer = ({ node, className }) => {
     return (
       <code
         className={classNames(
-          'px-1 rounded bg-myst-code-bg text-myst-text-secondary',
+          'px-1 rounded bg-myst-surface text-myst-text-secondary',
           className,
         )}
       >

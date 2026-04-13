@@ -42,9 +42,7 @@
     --myst-color-border-strong: #d1d5db; /* gray-300 */
 
     /* Neutral: code */
-    --myst-color-code-bg: #f1f5f9; /* slate-100 */
     --myst-color-code: #be1850; /* pink-700 — inline code text */
-    --myst-color-pre-code: #1c1917; /* stone-900 — code block text */
     --myst-color-kbd-shadow: rgb(28 25 23 / 10%); /* stone-900/10% */
 
     /* Admonition / semantic colors */
@@ -114,9 +112,7 @@
     --myst-color-border-strong: #6b7280; /* gray-500 */
 
     /* Neutral: code */
-    --myst-color-code-bg: #1e293b; /* slate-800 */
     --myst-color-code: #f472b6; /* pink-400 — inline code text */
-    --myst-color-pre-code: #e7e5e4; /* stone-200 — code block text on dark bg */
     --myst-color-kbd-shadow: rgb(255 255 255 / 10%); /* white/10% */
 
     /* Admonition / semantic colors */

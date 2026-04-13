@@ -31,7 +31,7 @@ const TOKENS = {
     'text-tertiary',
     'border',
     'border-strong',
-    'code-bg',
+    'code',
   ],
   Admonition: [
     'info', 'info-bg', 'info-text',
@@ -110,7 +110,7 @@ function render({ el }) {
       text.textContent = `--myst-color-${name}`;
 
       input.addEventListener('input', () => setVar(name, input.value));
-
+      
       row.appendChild(input);
       row.appendChild(text);
       grid.appendChild(row);

@@ -31,7 +31,7 @@ export function LinkCard({
       {!loading && thumbnail && (
         <img src={thumbnail} className="w-full h-[150px] object-cover object-top object-left m-0" />
       )}
-      {loading && <div className="animate-pulse bg-myst-code-bg w-full h-[150px]" />}
+      {loading && <div className="animate-pulse bg-myst-surface w-full h-[150px]" />}
       {internal && (
         <Link
           to={to}

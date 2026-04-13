@@ -126,7 +126,7 @@ export const AuthorPopover = ({
               {author.roles && <Definition title="Roles">{author.roles.join(', ')}</Definition>}
             </dl>
           </div>
-          <Popover.Arrow className="fill-white" />
+          <Popover.Arrow className="fill-myst-bg" />
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>

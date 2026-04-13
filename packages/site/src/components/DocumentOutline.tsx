@@ -51,7 +51,7 @@ type Props = {
  * scrollIntoView is used to ensure that when a user clicks on an item, it will smoothly scroll.
  */
 const Headings = ({ headings, activeId }: Props) => (
-  <ul className="myst-outline-list text-sm leading-6 text-slate-400">
+  <ul className="myst-outline-list text-sm leading-6">
     {headings.map((heading) => (
       <li
         key={heading.id}

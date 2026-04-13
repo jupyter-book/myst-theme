@@ -268,7 +268,7 @@ export function Power({
         <PowerIcon
           width="1.5rem"
           height="1.5rem"
-          className="myst-jp-btn-power inline-block align-top dark:text-white"
+          className="myst-jp-btn-power inline-block align-top text-myst-text"
         />
       }
     />

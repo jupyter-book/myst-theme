@@ -60,7 +60,7 @@ export function TabSet({
                 className={classNames(
                   'myst-tab-item-header flex-none px-3 py-1 font-semibold cursor-pointer',
                   {
-                    'myst-tab-item-header-active text-myst-active border-b-2 border-b-myst-active dark:border-b-white dark:text-white':
+                    'myst-tab-item-header-active text-myst-text border-b-2 border-b-myst-text':
                       active === tab.id,
                     'myst-tab-item-header-inactive text-myst-text-tertiary hover:text-myst-text-secondary':
                       active !== tab.id,

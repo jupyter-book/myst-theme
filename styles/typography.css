@@ -74,6 +74,6 @@
     min-height: calc(100vh);
   }
   .article {
-    @apply prose break-words max-w-none prose-stone dark:prose-invert;
+    @apply prose break-words max-w-none;
   }
 }

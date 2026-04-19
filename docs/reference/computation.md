@@ -5,6 +5,7 @@ jupyter:
     language: python
     name: python3
 ---
+
 # Computation and notebooks
 
 This page contains example content for previewing or demonstrating computational content and notebooks, as well as Thebe integration.
@@ -88,6 +89,99 @@ p.yaxis.axis_label = 'Column B'
 p.grid.grid_line_alpha = 0.3
 
 show(p)
+```
+
+## Text outputs
+
+A simple cell with printed text output for comparison with error outputs below:
+
+```{code-cell} python
+print("Hello, world!")
+print("Result:", 2 + 3)
+```
+
+A simple cell with ANSI codes:
+
+```{code-cell} python
+colour_palette = (
+    f"\033[38;5;140mEveryone with \033[31;1;4mtelekinetic powers\033[0m\033[38;5;140m, raise \033[31;1;1mmy\033[0m \033[31;1;3mhand\033[0m.\033[0m. \033[31;1;2mDim\033[0m"
+)
+colours_named = "\n".join((f"\033[38;5;{i}mMeep\033[0m" for i in range(16)))
+print(colour_palette)
+print(colours_named)
+```
+
+Also with the stderr stream:
+
+```{code-cell} python
+import sys
+
+print(colour_palette, file=sys.stderr)
+print(colours_named, file=sys.stderr)
+```
+
+We can also set the `full-color-output` class to show raw colours:
+
+```{code-cell} python
+:class: full-color-output
+import sys
+
+print(colour_palette)
+print(colours_named)
+```
+
+and `full-color-error` for stderr, too.
+
+```{code-cell} python
+:class: full-color-error
+import sys
+
+print(colour_palette, file=sys.stderr)
+print(colours_named, file=sys.stderr)
+```
+
+## Error outputs
+
+You can use the `raises-exception` cell tag to indicate that a code cell is expected to error.
+This will display the error output but continue executing the rest of the notebook.
+
+We use a semi-complex function with a traceback error to test out all the various types of error classes and make sure they show up properly:
+
+```{code-cell} python
+:tags: [raises-exception]
+
+from pathlib import Path
+
+class DataLoader:
+    """Loads data from a file path."""
+
+    # A comment about this function!
+    @staticmethod
+    def load(path: str, limit: int = 10) -> list:
+        data = Path(path).read_text()
+        return data.split("\n")[:limit]
+
+DataLoader.load(42)
+```
+
+We can also set the `full-color-error` class to show raw colours:
+
+```{code-cell} python
+:class: full-color-error
+:tags: [raises-exception]
+
+from pathlib import Path
+
+class DataLoader:
+    """Loads data from a file path."""
+
+    # A comment about this function!
+    @staticmethod
+    def load(path: str, limit: int = 10) -> list:
+        data = Path(path).read_text()
+        return data.split("\n")[:limit]
+
+DataLoader.load(42)
 ```
 
 ## Wide cell inputs and outputs

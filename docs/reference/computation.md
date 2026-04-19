@@ -89,3 +89,13 @@ p.grid.grid_line_alpha = 0.3
 
 show(p)
 ```
+
+## Wide cell inputs and outputs
+
+These cells produce wide outputs to test that scrollable regions are keyboard-accessible (tab to focus, arrow keys to scroll).
+
+```{code-cell} python
+def print_a_really_long_string():
+    print("MyST is really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really neat!")
+print_a_really_long_string()
+```

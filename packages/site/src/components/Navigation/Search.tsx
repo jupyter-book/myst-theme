@@ -245,13 +245,13 @@ function SearchResultItem({
     />
   );
 
-  // Render the subtitle i.e. file name
-  let subtitleRenderer;
+  // Render the context i.e. file name
+  let contextRenderer;
   if (result.type === 'lvl1') {
-    subtitleRenderer = undefined;
+    contextRenderer = undefined;
   } else {
-    const subtitle = result.hierarchy.lvl1!;
-    subtitleRenderer = <MarkedText text={subtitle} matches={matches} className="text-xs" />;
+    const contextName = result.hierarchy.lvl1!;
+    contextRenderer = <MarkedText text={contextName} matches={matches} className="text-xs" />;
   }
 
   const enterIconRenderer = (
@@ -268,8 +268,8 @@ function SearchResultItem({
       <div className="flex flex-row h-11">
         {iconRenderer}
         <div className="flex flex-col justify-center truncate grow">
+          {contextRenderer}
           {titleRenderer}
-          {subtitleRenderer}
         </div>
         {enterIconRenderer}
       </div>
@@ -526,6 +526,7 @@ function SearchForm({
             id={searchInputID}
             aria-labelledby={searchLabelID}
             aria-controls={searchListID}
+            aria-expanded={!!searchResults}
             placeholder="Search"
             type="search"
             required
@@ -556,9 +557,15 @@ const SearchPlaceholderButton = forwardRef<
   HTMLButtonElement,
   SearchPlaceholderButtonProps & Dialog.DialogTriggerProps
 >(({ className, disabled, ...props }, ref) => {
+  // Here we remove aria-controls from props so we can *decide* whether to insert it later
+  // This is because radix has a bug where it'll try pointing to a non-existent element
+  // if the dialog isn't open, so that's the logic we test below.
+  // ref: https://github.com/radix-ui/primitives/issues/3560
+  const { 'aria-controls': ariaControls, ...restProps } = props;
   return (
     <button
-      {...props}
+      {...restProps}
+      aria-controls={restProps['aria-expanded'] ? ariaControls : undefined}
       className={classNames(
         'myst-search-bar',
         className,

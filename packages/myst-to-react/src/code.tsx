@@ -7,6 +7,7 @@ import { MyST } from './MyST.js';
 import { useMemo } from 'react';
 import type { ComponentProps } from 'react';
 import { Details } from './dropdown.js';
+import { useIsScrollable } from '@myst-theme/providers';
 
 type Props = {
   value: string;
@@ -49,6 +50,7 @@ export function CodeBlock(props: Props) {
     background,
     border,
   } = props;
+  const { ref: highlighterRef, isScrollable } = useIsScrollable<HTMLDivElement>();
   const highlighterProps: Omit<HighlightPropsType, 'children'> = useMemo(() => {
     const highlightLines = new Set(emphasizeLines);
     return {
@@ -104,12 +106,22 @@ export function CodeBlock(props: Props) {
           </div>
         </div>
       )}
-      <SyntaxHighlighter
-        {...highlighterProps}
+
+      <div
+        ref={highlighterRef}
+        tabIndex={isScrollable ? 0 : undefined}
+        role={isScrollable ? 'region' : undefined}
+        aria-label="code block content"
         className="block overflow-auto p-3 myst-code-body hljs"
       >
-        {value}
-      </SyntaxHighlighter>
+        <SyntaxHighlighter
+          {...highlighterProps}
+          customStyle={{ padding: 0, margin: 0, background: 'transparent' }}
+        >
+          {value}
+        </SyntaxHighlighter>
+      </div>
+
       {showCopy && (
         <CopyIcon
           text={value}

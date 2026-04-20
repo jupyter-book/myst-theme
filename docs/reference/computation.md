@@ -120,6 +120,26 @@ print(colour_palette, file=sys.stderr)
 print(colours_named, file=sys.stderr)
 ```
 
+We can also set the `full-color-output` class to show raw colours:
+
+```{code-cell} python
+:class: full-color-output
+import sys
+
+print(colour_palette)
+print(colours_named)
+```
+
+and the corresponding class `full-color-error` for stderr, too.
+
+```{code-cell} python
+:class: full-color-error
+import sys
+
+print(colour_palette, file=sys.stderr)
+print(colours_named, file=sys.stderr)
+```
+
 ## Error outputs
 
 You can use the `raises-exception` cell tag to indicate that a code cell is expected to error.
@@ -143,6 +163,41 @@ class DataLoader:
 
 DataLoader.load(42)
 ```
+
+We can also set the `full-color-error` class to show raw colours:
+
+```{code-cell} python
+:class: full-color-error
+:label: code-cell-dataloader
+:tags: [raises-exception]
+
+from pathlib import Path
+
+class DataLoader:
+    """Loads data from a file path."""
+
+    # A comment about this function!
+    @staticmethod
+    def load(path: str, limit: int = 10) -> list:
+        data = Path(path).read_text()
+        return data.split("\n")[:limit]
+
+DataLoader.load(42)
+```
+
+Embedding a full-color cell loses the annotation:
+
+![](#code-cell-dataloader)
+
+But we can restore it
+
+% TODO: use embed with class once all nodes support class
+:::{div}
+:class: full-color-error
+
+![](#code-cell-dataloader)
+
+:::
 
 ## Wide cell inputs and outputs
 

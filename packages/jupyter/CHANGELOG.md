@@ -1,5 +1,15 @@
 # @myst-theme/jupyter
 
+## 1.2.1
+
+### Patch Changes
+
+- c7164c8: Add restricted ANSI palette by default
+- 0888410: Make overflowing content focusable
+- Updated dependencies [0888410]
+  - myst-to-react@1.2.1
+  - @myst-theme/providers@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes

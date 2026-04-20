@@ -1,5 +1,21 @@
 # @myst-theme/site
 
+## 1.2.1
+
+### Patch Changes
+
+- eed55ed: Re-order search entries to better behave under screen-readers.
+  Add missing aria-expanded attribute.
+- 472220e: Fix aria-controls in search popup
+- Updated dependencies [0888410]
+  - myst-to-react@1.2.1
+  - @myst-theme/providers@1.2.1
+  - @myst-theme/frontmatter@1.2.1
+  - @myst-theme/diagrams@1.2.1
+  - @myst-theme/common@1.2.1
+  - @myst-theme/search@1.2.1
+  - myst-demo@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes

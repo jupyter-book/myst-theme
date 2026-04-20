@@ -1,7 +1,7 @@
 import React from 'react';
 import type * as spec from 'myst-spec';
 import { HashLink } from './hashLink.js';
-import type { NodeRenderer } from '@myst-theme/providers';
+import { type NodeRenderer, useIsScrollable } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { Tooltip } from './components/index.js';
 import { MyST } from './MyST.js';
@@ -304,12 +304,21 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   table({ node, className }) {
     // TODO: actually render the tbody on the server if it isn't included here.
+    const { ref, isScrollable } = useIsScrollable<HTMLDivElement>();
     return (
-      <table className={classNames(node.class, className)} style={node.style}>
-        <tbody>
-          <MyST ast={node.children} />
-        </tbody>
-      </table>
+      <div
+        ref={ref}
+        tabIndex={isScrollable ? 0 : undefined}
+        role={isScrollable ? 'region' : undefined}
+        aria-label="table content"
+        className="overflow-auto"
+      >
+        <table className={classNames(node.class, className)} style={node.style}>
+          <tbody>
+            <MyST ast={node.children} />
+          </tbody>
+        </table>
+      </div>
     );
   },
   tableRow({ node, className }) {

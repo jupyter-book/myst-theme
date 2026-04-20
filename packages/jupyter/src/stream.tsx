@@ -4,9 +4,12 @@ import type { MinifiedStreamOutput } from 'nbtx';
 import { MaybeLongContent } from './components.js';
 import { useIsScrollable } from '@myst-theme/providers';
 
+import classNames from 'classnames';
+
 export default function Stream({ output }: { output: MinifiedStreamOutput }) {
   const { ref, isScrollable } = useIsScrollable<HTMLPreElement>();
 
+  const isError = output.name === 'stderr';
   return (
     <MaybeLongContent
       content={ensureString(output.text)}
@@ -17,9 +20,12 @@ export default function Stream({ output }: { output: MinifiedStreamOutput }) {
           tabIndex={isScrollable ? 0 : undefined}
           role={isScrollable ? 'region' : undefined}
           aria-label="cell output stream"
-          className="myst-jp-stream-output text-sm font-thin font-system overflow-auto"
+          className={classNames(
+            'myst-jp-stream-output text-sm font-thin font-system overflow-auto',
+            isError ? 'jupyter-error' : 'jupyter-output',
+          )}
         >
-          <Ansi>{content ?? ''}</Ansi>
+          <Ansi useClasses>{content ?? ''}</Ansi>
         </pre>
       )}
     />

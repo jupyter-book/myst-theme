@@ -100,7 +100,7 @@ print("Hello, world!")
 print("Result:", 2 + 3)
 ```
 
-A simple cell with ANSI codes:
+A simple cell with ANSI codes, such as color, emphasis, etc.:
 
 ```{code-cell} python
 colour_palette = (
@@ -111,7 +111,7 @@ print(colour_palette)
 print(colours_named)
 ```
 
-Also with the stderr stream:
+there are separate styles for the stderr stream:
 
 ```{code-cell} python
 import sys
@@ -130,7 +130,7 @@ print(colour_palette)
 print(colours_named)
 ```
 
-and `full-color-error` for stderr, too.
+and the corresponding class `full-color-error` for stderr, too.
 
 ```{code-cell} python
 :class: full-color-error

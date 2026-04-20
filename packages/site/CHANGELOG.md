@@ -1,5 +1,18 @@
 # @myst-theme/site
 
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [ad30791]
+  - myst-to-react@1.2.2
+  - @myst-theme/providers@1.2.2
+  - @myst-theme/frontmatter@1.2.2
+  - @myst-theme/diagrams@1.2.2
+  - @myst-theme/common@1.2.2
+  - @myst-theme/search@1.2.2
+  - myst-demo@1.2.2
+
 ## 1.2.1
 
 ### Patch Changes

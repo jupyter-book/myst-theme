@@ -120,26 +120,6 @@ print(colour_palette, file=sys.stderr)
 print(colours_named, file=sys.stderr)
 ```
 
-We can also set the `full-color-output` class to show raw colours:
-
-```{code-cell} python
-:class: full-color-output
-import sys
-
-print(colour_palette)
-print(colours_named)
-```
-
-and the corresponding class `full-color-error` for stderr, too.
-
-```{code-cell} python
-:class: full-color-error
-import sys
-
-print(colour_palette, file=sys.stderr)
-print(colours_named, file=sys.stderr)
-```
-
 ## Error outputs
 
 You can use the `raises-exception` cell tag to indicate that a code cell is expected to error.
@@ -148,26 +128,6 @@ This will display the error output but continue executing the rest of the notebo
 We use a semi-complex function with a traceback error to test out all the various types of error classes and make sure they show up properly:
 
 ```{code-cell} python
-:tags: [raises-exception]
-
-from pathlib import Path
-
-class DataLoader:
-    """Loads data from a file path."""
-
-    # A comment about this function!
-    @staticmethod
-    def load(path: str, limit: int = 10) -> list:
-        data = Path(path).read_text()
-        return data.split("\n")[:limit]
-
-DataLoader.load(42)
-```
-
-We can also set the `full-color-error` class to show raw colours:
-
-```{code-cell} python
-:class: full-color-error
 :tags: [raises-exception]
 
 from pathlib import Path

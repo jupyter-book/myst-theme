@@ -59,7 +59,13 @@ const mathRenderer: NodeRenderer<MathLike> = ({ node, className }) => {
           ref={ref}
           tabIndex={isScrollable ? 0 : undefined}
           role={isScrollable ? 'region' : undefined}
-          aria-label={isScrollable ? (node.enumerator ? `Equation ${node.enumerator}` : 'Mathematical Equation') : undefined}
+          aria-label={
+            isScrollable
+              ? node.enumerator
+                ? `Equation ${node.enumerator}`
+                : 'Mathematical Equation'
+              : undefined
+          }
           dangerouslySetInnerHTML={{ __html: node.html }}
           className="flex-grow overflow-x-auto overflow-y-hidden"
         />

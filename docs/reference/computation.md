@@ -189,7 +189,7 @@ Embedding a full-color cell loses the annotation:
 
 ![](#code-cell-dataloader)
 
-But we can restore it
+But we can restore it with a `full-color-error` class in a wrapping div or figure.
 
 % TODO: use embed with class once all nodes support class
 :::{div}

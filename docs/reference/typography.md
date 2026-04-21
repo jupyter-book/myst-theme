@@ -106,7 +106,13 @@ $$
 $$
 
 $$
-\frac{d}{dx} \left( \int_{0}^{x} f(u) du \right) = f(x)
+\begin{align*}
+P(\text{Third Year} ~\Big\vert~ \text{Declared}) 
+~ &=~ \frac{ 0.4 \times 0.8}{0.6 \times 0.5 ~+~ 0.4 \times  0.8} \\ \\
+&=~ \frac{\text{(prior probability of Third Year)} \times
+\text{(likelihood of Declared given Third Year)}}
+{\text{total probability of Declared}}
+\end{align*}
 $$
 
 ## Special Characters

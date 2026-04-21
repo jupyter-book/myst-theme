@@ -3,6 +3,7 @@ import type { InlineMath, Math } from 'myst-spec';
 import { InlineError } from './inlineError.js';
 import { HashLink } from './hashLink.js';
 import type { NodeRenderer } from '@myst-theme/providers';
+import { useIsScrollable } from '@myst-theme/providers';
 import classNames from 'classnames';
 
 // function Math({ value, html }: { value: string; html: string }) {
@@ -37,6 +38,7 @@ type MathLike = (InlineMath | Math) & {
 };
 
 const mathRenderer: NodeRenderer<MathLike> = ({ node, className }) => {
+  const { ref, isScrollable } = useIsScrollable<HTMLDivElement>();
   if (node.type === 'math') {
     if (node.error || !node.html) {
       return (
@@ -54,6 +56,16 @@ const mathRenderer: NodeRenderer<MathLike> = ({ node, className }) => {
     return (
       <div id={id} className={classNames('flex my-5 group', className)}>
         <div
+          ref={ref}
+          tabIndex={isScrollable ? 0 : undefined}
+          role={isScrollable ? 'region' : undefined}
+          aria-label={
+            isScrollable
+              ? node.enumerator
+                ? `Equation ${node.enumerator}`
+                : 'Mathematical Equation'
+              : undefined
+          }
           dangerouslySetInnerHTML={{ __html: node.html }}
           className="flex-grow overflow-x-auto overflow-y-hidden"
         />

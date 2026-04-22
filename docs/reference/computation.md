@@ -16,11 +16,13 @@ The [Example Outputs Site](https://jupyter-book.github.io/example-outputs/) has 
 
 ## Pandas
 
+The following cell shows the output of a scrollable table.
+
 ```{code-cell}
 import pandas as pd
 import numpy as np
 
-df = pd.DataFrame(np.random.randn(10, 4), columns=['A', 'B', 'C', 'D'])
+df = pd.DataFrame(np.random.randn(10, 10), columns=['Apples', 'Bananas', 'Coconuts', 'Dragon Fruit', 'Elderberry', 'Fig', 'Gooseberry', 'Honeydew', 'Inca berry', 'Jackfruit'])
 df
 ```
 

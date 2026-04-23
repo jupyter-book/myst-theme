@@ -31,7 +31,13 @@ export function useMediaQuery(query: string): boolean {
 
 /**
  * Returns a ref and a boolean indicating whether the element has horizontal overflow.
- * We use this to make scrollable regions keyboard-accessible if they are wide.
+ * Used to make scrollable regions keyboard-accessible when they are wide.
+ *
+ * ResizeObserver catches container/viewport resizes
+ * MutationObserver catches content changes inside, which seems to be
+ *   necessary because thebe changes the contents of the output area
+ *   after the parent wrapper is loaded, and this doesn't trigger the
+ *   ResizeObserver.
  */
 export function useIsScrollable<T extends HTMLElement>() {
   const ref = useRef<T>(null);
@@ -40,11 +46,15 @@ export function useIsScrollable<T extends HTMLElement>() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const observer = new ResizeObserver(() => {
-      setIsScrollable(el.scrollWidth > el.clientWidth);
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
+    const check = () => setIsScrollable(el.scrollWidth > el.clientWidth);
+    const resize = new ResizeObserver(check);
+    const mutation = new MutationObserver(check);
+    resize.observe(el);
+    mutation.observe(el, { childList: true, subtree: true });
+    return () => {
+      resize.disconnect();
+      mutation.disconnect();
+    };
   }, []);
 
   return { ref, isScrollable };

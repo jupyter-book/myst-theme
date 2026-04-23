@@ -7,6 +7,14 @@
   @apply hidden;
 }
 
+/* Undo thebe-core's per-output scroll container so overflow reaches our
+   outer outputs-container wrapper and we can make it keyboard-accessible.
+   ref: https://github.com/jupyter-book/thebe/issues/794
+   */
+[data-name='outputs-container'] .jp-OutputArea-output {
+  overflow: visible !important;
+}
+
 /* Pandas tables */
 /* Here we use important to overwrite mt from typography.css */
 

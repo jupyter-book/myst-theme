@@ -8,6 +8,17 @@ import { selectAll } from 'unist-util-select';
 import { OutputsContextProvider } from './providers.js';
 import { ActiveJupyterCellOutputs } from './active.js';
 
+/**
+ * Renders all outputs for a single cell.
+ *
+ * Two rendering paths:
+ * - Passive (no live compute, or live compute not ready): each child output renders
+ *   itself via <Output />, which uses either `SafeOutput (output.tsx) or
+ *   `JupyterOutput` (jupyter.tsx) to render the output depending on its type/MIME types.
+ * - Active (live thebe kernel ready): the whole cell is handed to
+ *   `ActiveJupyterCellOutputs`, which attaches a live Jupyter cell so outputs
+ *   can be re-rendered on execution.
+ */
 export function Outputs({ node }: { node: GenericNode }) {
   const className = classNames({ hidden: node.visibility === 'remove' });
   const { children, identifier, align } = node;

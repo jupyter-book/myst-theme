@@ -9,6 +9,12 @@ import { useOutputsContext } from './providers.js';
 import { Callout } from 'myst-to-react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
+// Output types and MIME types that can be rendered with plain HTML. For example:
+// - stream/error or text/plain becomes <pre>
+// - images become <img>, etc...
+//
+// Anything else (e.g., MIME outputs from pandas or plotly) use
+// thebe-core's rendermime registry to turn the MIME bundle into DOM (see jupyter.tsx).
 export const DIRECT_OUTPUT_TYPES = new Set(['stream', 'error']);
 
 export const DIRECT_MIME_TYPES = new Set([

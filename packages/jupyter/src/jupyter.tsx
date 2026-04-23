@@ -9,9 +9,14 @@ import { useThebeLoader } from 'thebe-react';
 import { PassiveOutputRenderer } from './passive.js';
 
 /**
- * Render a single output as a Jupyter output.
+ * Render one output whose MIME bundle can't be displayed with plain HTML
+ * (e.g. text/html from pandas, plotly JSON, Jupyter widgets).
+ * Outputs that CAN render directly go through `SafeOutput` instead (see `output.tsx`).
  *
- * @param id - The id of the cell.
+ * Uses thebe-core's rendermime registry via `PassiveOutputRenderer`. 
+ * "thebe" here does NOT mean a live kernel, we're only using its MIME→DOM renderers.
+ *
+ * @param outputsId - The id of the cell.
  * @param output - The output data.
  */
 export const JupyterOutput = React.memo(

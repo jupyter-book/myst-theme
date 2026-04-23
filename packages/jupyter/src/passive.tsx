@@ -5,9 +5,13 @@ import type { SourceFileKind } from 'myst-spec-ext';
 import { usePlotlyPassively } from './plotly.js';
 
 /**
- * Render a single output as a passive cell output.
+ * Render one output without a live kernel, using thebe-core's rendermime registry
+ * to turn the MIME bundle into DOM.
  *
- * This is used for outputs that require jupyters rendermime support, such as Plotly.
+ * Used for outputs that browsers can't render directly
+ * (e.g., pandas or plotly MIME types).
+ * 
+ * With live thebe kernels, the counterpart is `ActiveOutputRenderer` in `active.tsx`.
  *
  * @param id - The id of the cell.
  * @param data - The output data.

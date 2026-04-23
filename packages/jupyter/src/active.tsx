@@ -11,6 +11,13 @@ import { useFetchAnyTruncatedContent } from './hooks.js';
 import { useXRefState } from '@myst-theme/providers';
 import { fetchAndEncodeOutputImages } from './convertImages.js';
 
+/**
+ * Attaches a live thebe kernel cell to the DOM so its outputs update when the
+ * user re-executes code. Used when thebe compute is "ready" (a kernel is connected).
+ *
+ * Basically the same as `PassiveOutputRenderer`, but also holds
+ * a kernel session, so new outputs can stream in on re-execution.
+ */
 export function ActiveOutputRenderer({
   outputsId,
   initialData,

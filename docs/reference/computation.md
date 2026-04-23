@@ -160,7 +160,13 @@ print_a_really_long_string()
 
 ```{code-cell} python
 from IPython.display import display
+pfig = px.scatter(df, x='A', y='B', width=2500, title='Interactive Scatter Plot with Plotly')
+pfig.update_layout(
+    xaxis_title='Column A',
+    yaxis_title='Column B',
+    showlegend=False
+)
 
 display(df)
-display(fig)
+display(pfig)
 ```

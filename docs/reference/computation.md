@@ -22,7 +22,7 @@ The following cell shows the output of a scrollable table.
 import pandas as pd
 import numpy as np
 
-df = pd.DataFrame(np.random.randn(10, 10), columns=['Apples', 'Bananas', 'Coconuts', 'Dragon Fruit', 'Elderberry', 'Fig', 'Gooseberry', 'Honeydew', 'Inca berry', 'Jackfruit'])
+df = pd.DataFrame(np.random.randn(10, 26), columns=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
 df
 ```
 
@@ -154,4 +154,13 @@ These cells produce wide outputs to test that scrollable regions are keyboard-ac
 def print_a_really_long_string():
     print("MyST is really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really neat!")
 print_a_really_long_string()
+```
+
+## Multiple outputs
+
+```{code-cell} python
+from IPython.display import display
+
+display(df)
+display(fig)
 ```

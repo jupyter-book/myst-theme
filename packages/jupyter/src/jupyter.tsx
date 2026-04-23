@@ -13,7 +13,7 @@ import { PassiveOutputRenderer } from './passive.js';
  * (e.g. text/html from pandas, plotly JSON, Jupyter widgets).
  * Outputs that CAN render directly go through `SafeOutput` instead (see `output.tsx`).
  *
- * Uses thebe-core's rendermime registry via `PassiveOutputRenderer`. 
+ * Uses thebe-core's rendermime registry via `PassiveOutputRenderer`.
  * "thebe" here does NOT mean a live kernel, we're only using its MIME→DOM renderers.
  *
  * @param outputsId - The id of the cell.

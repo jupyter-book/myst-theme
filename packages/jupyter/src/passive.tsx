@@ -10,7 +10,7 @@ import { usePlotlyPassively } from './plotly.js';
  *
  * Used for outputs that browsers can't render directly
  * (e.g., pandas or plotly MIME types).
- * 
+ *
  * With live thebe kernels, the counterpart is `ActiveOutputRenderer` in `active.tsx`.
  *
  * @param id - The id of the cell.

@@ -32,12 +32,11 @@ export function useMediaQuery(query: string): boolean {
 /**
  * Returns a ref and a boolean indicating whether the element has horizontal overflow.
  * Used to make scrollable regions keyboard-accessible when they are wide.
- *
- * ResizeObserver catches container/viewport resizes
- * MutationObserver catches content changes inside, which seems to be
- *   necessary because thebe changes the contents of the output area
- *   after the parent wrapper is loaded, and this doesn't trigger the
- *   ResizeObserver.
+ * We use two events to detect overflow:
+ * 
+ * - ResizeObserver catches container/viewport resizes on initial load
+ * - requestAnimationFrame re-checks for content that lands after the parent
+ *   wrapper mounts, which is what happens when Thebe loads MIME bundle output.
  */
 export function useIsScrollable<T extends HTMLElement>() {
   const ref = useRef<T>(null);
@@ -47,13 +46,12 @@ export function useIsScrollable<T extends HTMLElement>() {
     const el = ref.current;
     if (!el) return;
     const check = () => setIsScrollable(el.scrollWidth > el.clientWidth);
+    const raf = requestAnimationFrame(check);
     const resize = new ResizeObserver(check);
-    const mutation = new MutationObserver(check);
     resize.observe(el);
-    mutation.observe(el, { childList: true, subtree: true });
     return () => {
+      cancelAnimationFrame(raf);
       resize.disconnect();
-      mutation.disconnect();
     };
   }, []);
 

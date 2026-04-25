@@ -50,7 +50,7 @@ export function Outputs({ node }: { node: GenericNode }) {
         id={identifier || undefined}
         data-mdast-node-id={outputsId}
         className={classNames(
-          'max-w-full m-0 group not-prose relative',
+          'max-w-full overflow-y-visible m-0 group not-prose relative',
           {
             'text-left': !align || align === 'left',
             'text-center': align === 'center',

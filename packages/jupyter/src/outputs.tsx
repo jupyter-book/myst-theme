@@ -7,7 +7,7 @@ import { Details, MyST } from 'myst-to-react';
 import { selectAll } from 'unist-util-select';
 import { OutputsContextProvider } from './providers.js';
 import { ActiveJupyterCellOutputs } from './active.js';
-import { useIsScrollable } from '@myst-theme/providers';
+import { useScrollableOutputs } from '@myst-theme/providers';
 
 /**
  * Renders all outputs for a single cell.
@@ -26,7 +26,7 @@ export function Outputs({ node }: { node: GenericNode }) {
   const outputsId = node.id ?? node.key;
   const cellExecutionContext = useCellExecution(outputsId);
   const { ready } = cellExecutionContext;
-  const { ref, isScrollable } = useIsScrollable<HTMLDivElement>();
+  const { ref } = useScrollableOutputs<HTMLDivElement>();
 
   const legacyOutputsArray = useMemo(() => {
     return selectAll('output', node).map((child) => (child as any).jupyter_data);
@@ -46,14 +46,11 @@ export function Outputs({ node }: { node: GenericNode }) {
     const passiveOutputs = (
       <div
         ref={ref}
-        tabIndex={isScrollable ? 0 : undefined}
-        role={isScrollable ? 'region' : undefined}
-        aria-label="cell output"
         data-name="outputs-container"
         id={identifier || undefined}
         data-mdast-node-id={outputsId}
         className={classNames(
-          'max-w-full overflow-y-visible overflow-x-auto m-0 group not-prose relative',
+          'max-w-full m-0 group not-prose relative',
           {
             'text-left': !align || align === 'left',
             'text-center': align === 'center',

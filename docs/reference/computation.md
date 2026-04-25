@@ -23,7 +23,7 @@ import pandas as pd
 import numpy as np
 
 df = pd.DataFrame(np.random.randn(10, 26), columns=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
-df
+df.iloc[:, :5]
 ```
 
 ## Matplotlib

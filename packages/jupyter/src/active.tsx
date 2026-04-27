@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { IOutput } from '@jupyterlab/nbformat';
-import type { ThebeCore } from 'thebe-core';
-import { ThebeEventType, EventSubject, CellStatusEvent } from 'thebe-core';
+import type { ThebeCore, ThebeEventType } from 'thebe-core';
 import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
 import { MyST } from 'myst-to-react';
@@ -66,12 +65,10 @@ export function ActiveOutputRenderer({
       });
     };
     stamp();
-    const off = events?.on(ThebeEventType.status, (_event, data) => {
-      if (
-        data.subject === EventSubject.cell &&
-        data.id === exec.cell?.id &&
-        data.status === CellStatusEvent.idle
-      ) {
+    // We use string event matching instead of importing the event from thebe-core
+    // because a dep in thebe-core tries to read `document` which may not exist
+    const off = events?.on('status' as ThebeEventType, (_event, data) => {
+      if (data.subject === 'cell' && data.id === exec.cell?.id && data.status === 'idle') {
         stamp();
       }
     });

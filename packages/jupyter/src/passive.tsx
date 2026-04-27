@@ -41,8 +41,8 @@ export function PassiveOutputRenderer({
     cell.current.attachToDOM(ref.current ?? undefined, true);
     cell.current.render(core?.stripWidgets([data]) ?? data);
     // Make the just-rendered output keyboard-focusable IF it actually overflows.
-    // JupyterLab already gives `.jp-OutputArea-output` `overflow: auto` so wide
-    // content scrolls; we only add tab access when there's something to scroll.
+    // thebe-core already defines the output DOM and scrolling behavior,
+    // this just adds the accessibility metadata to it.
     ref.current.querySelectorAll<HTMLElement>('.jp-OutputArea-output').forEach((el) => {
       if (el.scrollWidth > el.clientWidth) {
         el.tabIndex = 0;

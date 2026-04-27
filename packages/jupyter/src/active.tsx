@@ -56,7 +56,9 @@ export function ActiveOutputRenderer({
       <div
         ref={ref}
         data-thebe-active-ref="true"
-        className={classNames('relative', { 'invisible h-0': !executed && placeholder })}
+        className={classNames('relative not-prose', {
+          'invisible h-0': !executed && placeholder,
+        })}
       />
       {exec.ready && placeholder && !executed && <MyST ast={placeholder} />}
     </div>

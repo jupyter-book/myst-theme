@@ -1,5 +1,20 @@
 # myst-to-react
 
+## 1.2.2
+
+### Patch Changes
+
+- ad30791: Add aria tags to overflowing tables
+  - @myst-theme/providers@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 0888410: Make overflowing content focusable
+- Updated dependencies [0888410]
+  - @myst-theme/providers@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

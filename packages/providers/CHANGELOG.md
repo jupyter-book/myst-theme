@@ -1,5 +1,20 @@
 # @myst-theme/providers
 
+## 1.2.2
+
+### Patch Changes
+
+- @myst-theme/common@1.2.2
+- @myst-theme/search@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 0888410: Make overflowing content focusable
+  - @myst-theme/common@1.2.1
+  - @myst-theme/search@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes

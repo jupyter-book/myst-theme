@@ -1,5 +1,13 @@
 # @myst-theme/styles
 
+## 1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- c7164c8: Add restricted ANSI palette by default
+
 ## 1.2.0
 
 ### Minor Changes

@@ -1,5 +1,33 @@
 # @myst-theme/book
 
+## 1.2.2
+
+### Patch Changes
+
+- @myst-theme/providers@1.2.2
+- @myst-theme/jupyter@1.2.2
+- @myst-theme/site@1.2.2
+- @myst-theme/styles@1.2.2
+- @myst-theme/common@1.2.2
+- @myst-theme/icons@1.2.2
+- @myst-theme/landing-pages@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [eed55ed]
+- Updated dependencies [c7164c8]
+- Updated dependencies [0888410]
+- Updated dependencies [472220e]
+  - @myst-theme/site@1.2.1
+  - @myst-theme/jupyter@1.2.1
+  - @myst-theme/styles@1.2.1
+  - @myst-theme/providers@1.2.1
+  - @myst-theme/common@1.2.1
+  - @myst-theme/icons@1.2.1
+  - @myst-theme/landing-pages@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes

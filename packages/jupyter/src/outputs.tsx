@@ -7,7 +7,6 @@ import { Details, MyST } from 'myst-to-react';
 import { selectAll } from 'unist-util-select';
 import { OutputsContextProvider } from './providers.js';
 import { ActiveJupyterCellOutputs } from './active.js';
-import { useScrollableOutputs } from '@myst-theme/providers';
 
 /**
  * Renders all outputs for a single cell.
@@ -26,7 +25,6 @@ export function Outputs({ node }: { node: GenericNode }) {
   const outputsId = node.id ?? node.key;
   const cellExecutionContext = useCellExecution(outputsId);
   const { ready } = cellExecutionContext;
-  const { ref } = useScrollableOutputs<HTMLDivElement>();
 
   const legacyOutputsArray = useMemo(() => {
     return selectAll('output', node).map((child) => (child as any).jupyter_data);
@@ -45,7 +43,6 @@ export function Outputs({ node }: { node: GenericNode }) {
   if (!ready) {
     const passiveOutputs = (
       <div
-        ref={ref}
         data-name="outputs-container"
         id={identifier || undefined}
         data-mdast-node-id={outputsId}

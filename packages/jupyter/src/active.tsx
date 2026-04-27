@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import type { IOutput } from '@jupyterlab/nbformat';
 import type { ThebeCore } from 'thebe-core';
+import { ThebeEventType, EventSubject, CellStatusEvent } from 'thebe-core';
 import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
 import { MyST } from 'myst-to-react';
 import classNames from 'classnames';
 import { convertToIOutputs, type MinifiedOutput } from 'nbtx';
-import { useThebeLoader } from 'thebe-react';
+import { useThebeLoader, useThebeServer } from 'thebe-react';
 import { useFetchAnyTruncatedContent } from './hooks.js';
 import { useXRefState } from '@myst-theme/providers';
 import { fetchAndEncodeOutputImages } from './convertImages.js';
@@ -30,6 +31,7 @@ export function ActiveOutputRenderer({
   const exec = useCellExecution(outputsId);
   const placeholder = usePlaceholder();
   const ref = useRef<HTMLDivElement>(null);
+  const { events } = useThebeServer();
 
   useEffect(() => {
     if (!ref.current || !exec?.cell) {
@@ -51,7 +53,30 @@ export function ActiveOutputRenderer({
         core?.stripWidgets(initialData, true, placeholder ? () => '' : undefined) ?? initialData,
       );
     }
-  }, [ref?.current, exec?.cell]);
+
+    // Make outputs keyboard-focusable. Re-stamp on every cell-idle event
+    // (i.e. after each re-execution) since thebe replaces the output DOM.
+    const stamp = () => {
+      ref.current?.querySelectorAll<HTMLElement>('.jp-OutputArea-output').forEach((el) => {
+        if (el.scrollWidth > el.clientWidth) {
+          el.tabIndex = 0;
+          el.setAttribute('role', 'region');
+          el.setAttribute('aria-label', 'cell output');
+        }
+      });
+    };
+    stamp();
+    const off = events?.on(ThebeEventType.status, (_event, data) => {
+      if (
+        data.subject === EventSubject.cell &&
+        data.id === exec.cell?.id &&
+        data.status === CellStatusEvent.idle
+      ) {
+        stamp();
+      }
+    });
+    return () => off?.();
+  }, [ref?.current, exec?.cell, events]);
 
   const executed = exec?.cell?.executionCount != null;
   console.debug(

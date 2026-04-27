@@ -40,6 +40,16 @@ export function PassiveOutputRenderer({
     // eslint-disable-next-line import/no-extraneous-dependencies
     cell.current.attachToDOM(ref.current ?? undefined, true);
     cell.current.render(core?.stripWidgets([data]) ?? data);
+    // Make the just-rendered output keyboard-focusable IF it actually overflows.
+    // JupyterLab already gives `.jp-OutputArea-output` `overflow: auto` so wide
+    // content scrolls; we only add tab access when there's something to scroll.
+    ref.current.querySelectorAll<HTMLElement>('.jp-OutputArea-output').forEach((el) => {
+      if (el.scrollWidth > el.clientWidth) {
+        el.tabIndex = 0;
+        el.setAttribute('role', 'region');
+        el.setAttribute('aria-label', 'cell output');
+      }
+    });
   }, [ref, loaded]);
 
   return <div ref={ref} data-thebe-passive-ref="true" data-output-id={id} />;

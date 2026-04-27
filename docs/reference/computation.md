@@ -100,7 +100,7 @@ print("Hello, world!")
 print("Result:", 2 + 3)
 ```
 
-A simple cell with ANSI codes, such as color, emphasis, etc.:
+A simple cell with ANSI codes, such as color, emphasis, etc. This uses a restricted palette, which is designed for maximum readability at the expense of styling richness. For example, dim and bright styles are disabled, and only foreground colours are used. Background colours are remapped to the foreground:
 
 ```{code-cell} python
 colour_palette = (
@@ -120,7 +120,7 @@ print(colour_palette, file=sys.stderr)
 print(colours_named, file=sys.stderr)
 ```
 
-We can also set the `full-color-output` class to show raw colours:
+We can also set the `full-color-output` class to show raw colors. Unlike the earlier example, raw colors include the full 8-bit ANSI palette, dim and bright styles, and both foreground and background colors:
 
 ```{code-cell} python
 :class: full-color-output

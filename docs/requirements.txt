@@ -1,3 +1,4 @@
+# Change ../.binder/requirements.txt if you change something here
 altair
 bokeh
 jupyter

@@ -100,7 +100,7 @@ print("Hello, world!")
 print("Result:", 2 + 3)
 ```
 
-A simple cell with ANSI codes, such as color, emphasis, etc.:
+A simple cell with ANSI codes, such as color, emphasis, etc. This uses a restricted palette, which is designed for maximum readability at the expense of styling richness. For example, dim and bright styles are disabled, and only foreground colours are used. Background colours are remapped to the foreground:
 
 ```{code-cell} python
 colour_palette = (
@@ -114,6 +114,26 @@ print(colours_named)
 there are separate styles for the stderr stream:
 
 ```{code-cell} python
+import sys
+
+print(colour_palette, file=sys.stderr)
+print(colours_named, file=sys.stderr)
+```
+
+We can also set the `full-color-output` class to show raw colors. Unlike the earlier example, raw colors include the full 8-bit ANSI palette, dim and bright styles, and both foreground and background colors:
+
+```{code-cell} python
+:class: full-color-output
+import sys
+
+print(colour_palette)
+print(colours_named)
+```
+
+and the corresponding class `full-color-error` for stderr, too.
+
+```{code-cell} python
+:class: full-color-error
 import sys
 
 print(colour_palette, file=sys.stderr)
@@ -143,6 +163,41 @@ class DataLoader:
 
 DataLoader.load(42)
 ```
+
+We can also set the `full-color-error` class to show raw colours:
+
+```{code-cell} python
+:class: full-color-error
+:label: code-cell-dataloader
+:tags: [raises-exception]
+
+from pathlib import Path
+
+class DataLoader:
+    """Loads data from a file path."""
+
+    # A comment about this function!
+    @staticmethod
+    def load(path: str, limit: int = 10) -> list:
+        data = Path(path).read_text()
+        return data.split("\n")[:limit]
+
+DataLoader.load(42)
+```
+
+Embedding a full-color cell loses the annotation:
+
+![](#code-cell-dataloader)
+
+But we can restore it with a `full-color-error` class in a wrapping div or figure.
+
+% TODO: use embed with class once all nodes support class
+:::{div}
+:class: full-color-error
+
+![](#code-cell-dataloader)
+
+:::
 
 ## Wide cell inputs and outputs
 

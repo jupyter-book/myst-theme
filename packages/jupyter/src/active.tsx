@@ -53,9 +53,11 @@ export function ActiveOutputRenderer({
       );
     }
 
-    // Make outputs keyboard-focusable. Re-stamp on every cell-idle event
-    // (i.e. after each re-execution) since thebe replaces the output DOM.
-    const stamp = () => {
+    // Make outputs keyboard-focusable. This scans the output area for cell output DOM,
+    // and adds a11y metadata saying it's scrollable if it's overflowed.
+    // We call it once, then subscribe to thebe status events to re-stamp
+    // the cell when the cell emits "idle" (after an execution).
+    const stampScrollableMetadata = () => {
       ref.current?.querySelectorAll<HTMLElement>('.jp-OutputArea-output').forEach((el) => {
         if (el.scrollWidth > el.clientWidth) {
           el.tabIndex = 0;
@@ -64,12 +66,12 @@ export function ActiveOutputRenderer({
         }
       });
     };
-    stamp();
+    stampScrollableMetadata();
     // We use string event matching instead of importing the event from thebe-core
     // because a dep in thebe-core tries to read `document` which may not exist
     const off = events?.on('status' as ThebeEventType, (_event, data) => {
       if (data.subject === 'cell' && data.id === exec.cell?.id && data.status === 'idle') {
-        stamp();
+        stampScrollableMetadata();
       }
     });
     return () => off?.();

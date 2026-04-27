@@ -11,5 +11,4 @@ jobs:
         uses: berkeley-cdss/myst-a11y@v1
         with:
           working_directory: 'docs'
-          base_url: ${{ github.event.repository.name }}
           save_report: 'false'

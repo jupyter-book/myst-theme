@@ -1,3 +1,4 @@
+# Keep in sync with ../docs/requirements.txt
 altair
 bokeh
 jupyter

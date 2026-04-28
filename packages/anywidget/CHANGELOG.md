@@ -1,5 +1,11 @@
 # @myst-theme/anywidget
 
+## 1.2.3
+
+### Patch Changes
+
+- @myst-theme/providers@1.2.3
+
 ## 1.2.2
 
 ### Patch Changes

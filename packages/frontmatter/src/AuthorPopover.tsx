@@ -45,10 +45,10 @@ export const AuthorPopover = ({
           sideOffset={5}
         >
           <div className="flex flex-col gap-2.5">
-            <p className="myst-fm-author-popover-name text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
+            <p className="myst-fm-author-popover-name text-myst-text text-[15px] leading-[19px] font-medium mb-2.5">
               {author.name}
             </p>
-            <p className="myst-fm-author-popover-affiliations text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
+            <p className="myst-fm-author-popover-affiliations text-myst-text text-[15px] leading-[19px] font-medium mb-2.5">
               {author.affiliations?.map((affiliationId) => (
                 <Affiliation
                   key={affiliationId}
@@ -57,7 +57,7 @@ export const AuthorPopover = ({
                 />
               ))}
             </p>
-            <dl className="myst-fm-author-popover-details divide-y divide-gray-100">
+            <dl className="myst-fm-author-popover-details divide-y divide-myst-border">
               {author.email && (
                 <Definition title="Email">
                   <a

@@ -90,8 +90,7 @@ export function CodeBlock(props: Props) {
       className={classNames('relative myst-code group not-prose', className, {
         'my-5 text-sm shadow hover:shadow-md dark:shadow-2xl dark:shadow-neutral-900': shadow,
         'bg-stone-200/10': background,
-        'border border-l-4 border-myst-border border-l-myst-link-underline':
-          border,
+        'border border-l-4 border-myst-border border-l-myst-link-underline': border,
       })}
     >
       {filename && (
@@ -173,10 +172,7 @@ const inlineCode: NodeRenderer = ({ node, className }) => {
   if (isColor(node.value)) {
     return (
       <code
-        className={classNames(
-          'px-1 rounded bg-myst-surface text-myst-text-secondary',
-          className,
-        )}
+        className={classNames('px-1 rounded bg-myst-surface text-myst-text-secondary', className)}
       >
         {node.value}
         <span

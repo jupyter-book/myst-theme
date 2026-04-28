@@ -49,11 +49,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
       <div className="inline-block">
         <Menu.Button className="inline-flex items-center justify-center w-full py-1 mx-2 font-medium rounded-md text-md text-myst-text hover:text-myst-active focus:outline-none focus-visible:ring-2 focus-visible:ring-myst-focus-ring focus-visible:ring-opacity-75">
           <span>{item.title}</span>
-          <ChevronDownIcon
-            width="1.25rem"
-            height="1.25rem"
-            className="ml-2 -mr-1"
-          />
+          <ChevronDownIcon width="1.25rem" height="1.25rem" className="ml-2 -mr-1" />
         </Menu.Button>
       </div>
       <Transition

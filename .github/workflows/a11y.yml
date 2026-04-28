@@ -14,7 +14,10 @@ jobs:
 
       # Build the book locally so we audit the latest version of the theme
       - name: Build local book theme
-        run: make build-book
+        run: |
+          npm ci
+          npm run build
+          make build-book
 
       - name: Run Accessibility Checks
         uses: berkeley-cdss/myst-a11y@v1

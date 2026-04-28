@@ -1,22 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import type { IOutput } from '@jupyterlab/nbformat';
-import type { ThebeCore, ThebeEventType } from 'thebe-core';
+import type { ThebeCore } from 'thebe-core';
 import { useCellExecution } from './execute/index.js';
 import { usePlaceholder } from './decoration.js';
 import { MyST } from 'myst-to-react';
 import classNames from 'classnames';
 import { convertToIOutputs, type MinifiedOutput } from 'nbtx';
-import { useThebeLoader, useThebeServer } from 'thebe-react';
+import { useThebeLoader } from 'thebe-react';
 import { useFetchAnyTruncatedContent } from './hooks.js';
 import { useXRefState } from '@myst-theme/providers';
 import { fetchAndEncodeOutputImages } from './convertImages.js';
+import { stampScrollableA11y } from './passive.js';
 
 /**
- * Attaches a live thebe kernel cell to the DOM so its outputs update when the
- * user re-executes code. Used when thebe compute is "ready" (a kernel is connected).
- *
- * Basically the same as `PassiveOutputRenderer`, but also holds
- * a kernel session, so new outputs can stream in on re-execution.
+ * Attaches a live thebe kernel cell to the DOM so outputs update on re-execution.
+ * Used when thebe compute is "ready" (a kernel is connected). The passive
+ * counterpart, `PassiveOutputRenderer`, renders a fresh MIME bundle into a
+ * disposable cell instead.
  */
 export function ActiveOutputRenderer({
   outputsId,
@@ -30,20 +30,9 @@ export function ActiveOutputRenderer({
   const exec = useCellExecution(outputsId);
   const placeholder = usePlaceholder();
   const ref = useRef<HTMLDivElement>(null);
-  const { events } = useThebeServer();
 
   useEffect(() => {
-    if (!ref.current || !exec?.cell) {
-      console.debug(`Jupyter: No cell ref available for cell ${outputsId}:${exec?.cell?.id}`);
-      return;
-    }
-
-    const verb = exec.cell.isAttachedToDOM ? 'reattaching' : 'attaching';
-    console.debug(`${verb} cell ${exec.cell.id} to DOM at:`, {
-      el: ref.current,
-      connected: ref.current.isConnected,
-      data: core?.stripWidgets(initialData) ?? initialData,
-    });
+    if (!ref.current || !exec?.cell) return;
 
     exec.cell.attachToDOM(ref.current);
 
@@ -53,34 +42,16 @@ export function ActiveOutputRenderer({
       );
     }
 
-    // Make outputs keyboard-focusable. This scans the output area for cell output DOM,
-    // and adds a11y metadata saying it's scrollable if it's overflowed.
-    // We call it once, then subscribe to thebe status events to re-stamp
-    // the cell when the cell emits "idle" (after an execution).
-    const stampScrollableMetadata = () => {
-      ref.current?.querySelectorAll<HTMLElement>('.jp-OutputArea-output').forEach((el) => {
-        if (el.scrollWidth > el.clientWidth) {
-          el.tabIndex = 0;
-          el.setAttribute('role', 'region');
-          el.setAttribute('aria-label', 'cell output');
-        }
-      });
-    };
-    stampScrollableMetadata();
-    // We use string event matching instead of importing the event from thebe-core
-    // because a dep in thebe-core tries to read `document` which may not exist
-    const off = events?.on('status' as ThebeEventType, (_event, data) => {
-      if (data.subject === 'cell' && data.id === exec.cell?.id && data.status === 'idle') {
-        stampScrollableMetadata();
-      }
-    });
-    return () => off?.();
-  }, [ref?.current, exec?.cell, events]);
+    // Stamp a11y attributes on overflowing outputs. Use a MutationObserver
+    // because renderers (e.g. Plotly) insert content asynchronously, and
+    // re-execution swaps the output DOM out from under us.
+    stampScrollableA11y(ref.current);
+    const observer = new MutationObserver(() => stampScrollableA11y(ref.current));
+    observer.observe(ref.current, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, [exec?.cell]);
 
   const executed = exec?.cell?.executionCount != null;
-  console.debug(
-    `Jupyter: Cell ${outputsId} executed: ${executed}; Show output: ${executed || !placeholder}`,
-  );
 
   return (
     <div>

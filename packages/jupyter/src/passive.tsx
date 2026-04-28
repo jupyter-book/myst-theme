@@ -5,6 +5,21 @@ import type { SourceFileKind } from 'myst-spec-ext';
 import { usePlotlyPassively } from './plotly.js';
 
 /**
+ * Mark each `.jp-OutputArea-output` descendant of `root` as keyboard-focusable
+ * (tabIndex/role/aria-label) when its content overflows horizontally, so wide
+ * outputs (tables, plots) are reachable via keyboard.
+ */
+export function stampScrollableA11y(root: HTMLElement | null) {
+  root?.querySelectorAll<HTMLElement>('.jp-OutputArea-output').forEach((el) => {
+    if (el.scrollWidth > el.clientWidth) {
+      el.tabIndex = 0;
+      el.setAttribute('role', 'region');
+      el.setAttribute('aria-label', 'cell output');
+    }
+  });
+}
+
+/**
  * Render one output without a live kernel, using thebe-core's rendermime registry
  * to turn the MIME bundle into DOM.
  *
@@ -40,16 +55,13 @@ export function PassiveOutputRenderer({
     // eslint-disable-next-line import/no-extraneous-dependencies
     cell.current.attachToDOM(ref.current ?? undefined, true);
     cell.current.render(core?.stripWidgets([data]) ?? data);
-    // Make the just-rendered output keyboard-focusable IF it actually overflows.
-    // thebe-core already defines the output DOM and scrolling behavior,
-    // this just adds the accessibility metadata to it.
-    ref.current.querySelectorAll<HTMLElement>('.jp-OutputArea-output').forEach((el) => {
-      if (el.scrollWidth > el.clientWidth) {
-        el.tabIndex = 0;
-        el.setAttribute('role', 'region');
-        el.setAttribute('aria-label', 'cell output');
-      }
-    });
+    // Stamp a11y attributes on overflowing outputs. Use a MutationObserver
+    // because some renderers (e.g. Plotly) insert their content asynchronously,
+    // after cell.render() returns.
+    stampScrollableA11y(ref.current);
+    const observer = new MutationObserver(() => stampScrollableA11y(ref.current));
+    observer.observe(ref.current, { childList: true, subtree: true });
+    return () => observer.disconnect();
   }, [ref, loaded]);
 
   return <div ref={ref} data-thebe-passive-ref="true" data-output-id={id} />;

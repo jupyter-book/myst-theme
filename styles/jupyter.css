@@ -7,6 +7,16 @@
   @apply hidden;
 }
 
+/* Padding for streamed text output (stdout/stderr/tracebacks).
+   Covers both rendering modes:
+   - passive (React `Stream`/`Error` components → .myst-jp-stream-output / .myst-jp-error-output)
+   - active (thebe-rendered → .jp-OutputArea-output.jp-RenderedText) */
+.myst-jp-stream-output,
+.myst-jp-error-output,
+.jp-OutputArea-output.jp-RenderedText {
+  @apply p-3;
+}
+
 /* Pandas tables */
 /* Here we use important to overwrite mt from typography.css */
 

@@ -130,7 +130,7 @@ export function ActiveJupyterCellOutputs({
 
   if (!inCrossRef && exec?.ready) {
     return (
-      <div>
+      <div data-name="active-outputs-container" className="not-prose mb-5">
         {!fullOutputs && <div className="p-2.5">Fetching full output data...</div>}
         {core && fullOutputs && (
           <ActiveOutputRenderer

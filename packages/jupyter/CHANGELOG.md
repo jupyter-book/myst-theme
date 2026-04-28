@@ -1,5 +1,14 @@
 # @myst-theme/jupyter
 
+## 1.2.3
+
+### Patch Changes
+
+- 1cc84ae: Add not-prose to active thebe case
+- Updated dependencies [b82356d]
+  - myst-to-react@1.2.3
+  - @myst-theme/providers@1.2.3
+
 ## 1.2.2
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @myst-theme/book
 
+## 1.2.3
+
+### Patch Changes
+
+- Updated dependencies [3aaa57d]
+- Updated dependencies [1cc84ae]
+  - @myst-theme/styles@1.2.3
+  - @myst-theme/jupyter@1.2.3
+  - @myst-theme/providers@1.2.3
+  - @myst-theme/site@1.2.3
+  - @myst-theme/common@1.2.3
+  - @myst-theme/icons@1.2.3
+  - @myst-theme/landing-pages@1.2.3
+
 ## 1.2.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 1.2.3
+
+### Patch Changes
+
+- 3aaa57d: Add full-color support to the ANSI renderers
+
 ## 1.2.2
 
 ## 1.2.1

@@ -16,12 +16,14 @@ The [Example Outputs Site](https://jupyter-book.github.io/example-outputs/) has 
 
 ## Pandas
 
+The following cell shows the output of a scrollable table.
+
 ```{code-cell}
 import pandas as pd
 import numpy as np
 
-df = pd.DataFrame(np.random.randn(10, 4), columns=['A', 'B', 'C', 'D'])
-df
+df = pd.DataFrame(np.random.randn(10, 26), columns=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
+df.iloc[:, :5]
 ```
 
 ## Matplotlib
@@ -207,4 +209,19 @@ These cells produce wide outputs to test that scrollable regions are keyboard-ac
 def print_a_really_long_string():
     print("MyST is really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really neat!")
 print_a_really_long_string()
+```
+
+## Multiple outputs
+
+```{code-cell} python
+from IPython.display import display
+pfig = px.scatter(df, x='A', y='B', width=2500, title='Interactive Scatter Plot with Plotly')
+pfig.update_layout(
+    xaxis_title='Column A',
+    yaxis_title='Column B',
+    showlegend=False
+)
+
+display(df)
+display(pfig)
 ```

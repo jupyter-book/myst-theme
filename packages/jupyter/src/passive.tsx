@@ -5,9 +5,28 @@ import type { SourceFileKind } from 'myst-spec-ext';
 import { usePlotlyPassively } from './plotly.js';
 
 /**
- * Render a single output as a passive cell output.
+ * Mark each `.jp-OutputArea-output` descendant of `root` as keyboard-focusable
+ * (tabIndex/role/aria-label) when its content overflows horizontally, so wide
+ * outputs (tables, plots) are reachable via keyboard.
+ */
+export function stampScrollableA11y(root: HTMLElement | null) {
+  root?.querySelectorAll<HTMLElement>('.jp-OutputArea-output').forEach((el) => {
+    if (el.scrollWidth > el.clientWidth) {
+      el.tabIndex = 0;
+      el.setAttribute('role', 'region');
+      el.setAttribute('aria-label', 'cell output');
+    }
+  });
+}
+
+/**
+ * Render one output without a live kernel, using thebe-core's rendermime registry
+ * to turn the MIME bundle into DOM.
  *
- * This is used for outputs that require jupyters rendermime support, such as Plotly.
+ * Used for outputs that browsers can't render directly
+ * (e.g., pandas or plotly MIME types).
+ *
+ * With live thebe kernels, the counterpart is `ActiveOutputRenderer` in `active.tsx`.
  *
  * @param id - The id of the cell.
  * @param data - The output data.
@@ -36,6 +55,13 @@ export function PassiveOutputRenderer({
     // eslint-disable-next-line import/no-extraneous-dependencies
     cell.current.attachToDOM(ref.current ?? undefined, true);
     cell.current.render(core?.stripWidgets([data]) ?? data);
+    // Stamp a11y attributes on overflowing outputs. Use a MutationObserver
+    // because some renderers (e.g. Plotly) insert their content asynchronously,
+    // after cell.render() returns.
+    stampScrollableA11y(ref.current);
+    const observer = new MutationObserver(() => stampScrollableA11y(ref.current));
+    observer.observe(ref.current, { childList: true, subtree: true });
+    return () => observer.disconnect();
   }, [ref, loaded]);
 
   return <div ref={ref} data-thebe-passive-ref="true" data-output-id={id} />;

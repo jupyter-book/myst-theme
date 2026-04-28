@@ -10,7 +10,14 @@ import { useThebeLoader } from 'thebe-react';
 import { useFetchAnyTruncatedContent } from './hooks.js';
 import { useXRefState } from '@myst-theme/providers';
 import { fetchAndEncodeOutputImages } from './convertImages.js';
+import { stampScrollableA11y } from './passive.js';
 
+/**
+ * Attaches a live thebe kernel cell to the DOM so outputs update on re-execution.
+ * Used when thebe compute is "ready" (a kernel is connected). The passive
+ * counterpart, `PassiveOutputRenderer`, renders a fresh MIME bundle into a
+ * disposable cell instead.
+ */
 export function ActiveOutputRenderer({
   outputsId,
   initialData,
@@ -25,17 +32,7 @@ export function ActiveOutputRenderer({
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!ref.current || !exec?.cell) {
-      console.debug(`Jupyter: No cell ref available for cell ${outputsId}:${exec?.cell?.id}`);
-      return;
-    }
-
-    const verb = exec.cell.isAttachedToDOM ? 'reattaching' : 'attaching';
-    console.debug(`${verb} cell ${exec.cell.id} to DOM at:`, {
-      el: ref.current,
-      connected: ref.current.isConnected,
-      data: core?.stripWidgets(initialData) ?? initialData,
-    });
+    if (!ref.current || !exec?.cell) return;
 
     exec.cell.attachToDOM(ref.current);
 
@@ -44,12 +41,17 @@ export function ActiveOutputRenderer({
         core?.stripWidgets(initialData, true, placeholder ? () => '' : undefined) ?? initialData,
       );
     }
-  }, [ref?.current, exec?.cell]);
+
+    // Stamp a11y attributes on overflowing outputs. Use a MutationObserver
+    // because renderers (e.g. Plotly) insert content asynchronously, and
+    // re-execution swaps the output DOM out from under us.
+    stampScrollableA11y(ref.current);
+    const observer = new MutationObserver(() => stampScrollableA11y(ref.current));
+    observer.observe(ref.current, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, [exec?.cell]);
 
   const executed = exec?.cell?.executionCount != null;
-  console.debug(
-    `Jupyter: Cell ${outputsId} executed: ${executed}; Show output: ${executed || !placeholder}`,
-  );
 
   return (
     <div>
@@ -101,7 +103,7 @@ export function ActiveJupyterCellOutputs({
 
   if (!inCrossRef && exec?.ready) {
     return (
-      <div>
+      <div data-name="active-outputs-container" className="not-prose mb-5">
         {!fullOutputs && <div className="p-2.5">Fetching full output data...</div>}
         {core && fullOutputs && (
           <ActiveOutputRenderer

@@ -20,7 +20,7 @@ export function Abstract({
         {title}
         <HashLink id={id} title={`Link to ${title}`} hover className="ml-2" />
       </h2>
-      <div className="myst-abstract-box px-6 py-1 mb-3 rounded-sm bg-slate-50 dark:bg-slate-800">
+      <div className="myst-abstract-box px-6 py-1 mb-3 rounded-sm bg-myst-bg-alt">
         <MyST ast={content} className="myst-abstract-content col-body" />
       </div>
     </div>

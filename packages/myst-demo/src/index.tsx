@@ -329,14 +329,13 @@ export function MySTRenderer({
   }
   const demoMenu = (
     <>
-      <div className="self-center text-sm border cursor-pointer dark:border-slate-600">
+      <div className="self-center text-sm border cursor-pointer border-myst-border">
         {['DEMO', 'AST', 'HTML', 'LaTeX', 'Typst', 'JATS', 'DOCX'].map((show) => (
           <button
             key={show}
             className={classnames('px-2 py-1', {
-              'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
-                previewType !== show,
-              'bg-blue-800 text-white': previewType === show,
+              'bg-myst-bg hover:bg-myst-surface-hover': previewType !== show,
+              'bg-myst-primary text-white': previewType === show,
             })}
             title={`Show the ${show}`}
             aria-label={`Show the ${show}`}
@@ -348,14 +347,13 @@ export function MySTRenderer({
         ))}
       </div>
       {previewType === 'AST' && (
-        <div className="self-center text-sm border cursor-pointer w-fit dark:border-slate-600">
+        <div className="self-center text-sm border cursor-pointer w-fit border-myst-border">
           {['yaml', 'json'].map((show) => (
             <button
               key={show}
               className={classnames('px-2 py-1', {
-                'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
-                  astLang !== show,
-                'bg-blue-800 text-white': astLang === show,
+                'bg-myst-bg hover:bg-myst-surface-hover': astLang !== show,
+                'bg-myst-primary text-white': astLang === show,
               })}
               title={`Show the AST as ${show.toUpperCase()}`}
               aria-pressed={astLang === show ? 'true' : 'false'}
@@ -368,9 +366,8 @@ export function MySTRenderer({
             <button
               key={show}
               className={classnames('px-2 py-1', {
-                'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
-                  astStage !== show,
-                'bg-blue-800 text-white': astStage === show,
+                'bg-myst-bg hover:bg-myst-surface-hover': astStage !== show,
+                'bg-myst-primary text-white': astStage === show,
               })}
               title={`Show the AST Stage ${show.toUpperCase()}`}
               aria-pressed={astStage === show ? 'true' : 'false'}
@@ -401,7 +398,7 @@ export function MySTRenderer({
       )}
     >
       {column && (
-        <div className="flex flex-row items-stretch h-full col-span-2 px-2 border dark:border-slate-600">
+        <div className="flex flex-row items-stretch h-full col-span-2 px-2 border border-myst-border">
           <div className="flex-grow"></div>
           {demoMenu}
         </div>
@@ -414,7 +411,7 @@ export function MySTRenderer({
             ref={area}
             value={text}
             className={classnames(
-              'block p-6 w-full font-mono shadow-inner outline-none resize-none bg-slate-50/50 dark:bg-slate-800/50',
+              'block p-6 w-full font-mono shadow-inner outline-none resize-none bg-myst-bg-alt/50',
               { 'text-sm': !column },
               { 'h-full': column },
             )}
@@ -424,7 +421,7 @@ export function MySTRenderer({
       </div>
       {/* The `exclude-from-outline` class is excluded from the document outline */}
       <div
-        className={classnames('relative exclude-from-outline min-h-1 dark:bg-slate-900', {
+        className={classnames('relative exclude-from-outline min-h-1 dark:bg-myst-surface', {
           'overflow-auto': column,
         })}
       >
@@ -484,9 +481,9 @@ export function MySTRenderer({
               <div
                 key={i}
                 className={classnames('p-1 shadow-inner text-white not-prose', {
-                  'bg-red-500 dark:bg-red-800': m.fatal === true,
-                  'bg-orange-500 dark:bg-orange-700': m.fatal === false,
-                  'bg-slate-500 dark:bg-slate-800': m.fatal === null,
+                  'bg-myst-danger-text': m.fatal === true,
+                  'bg-myst-warning-text': m.fatal === false,
+                  'bg-myst-text-tertiary': m.fatal === null,
                 })}
               >
                 {m.fatal === true && (

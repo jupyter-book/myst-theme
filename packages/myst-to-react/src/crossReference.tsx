@@ -174,10 +174,10 @@ export function CrossReferenceHover({
         <XRefProvider remote={remote} remoteBaseUrl={remoteBaseUrl} url={url} dataUrl={dataUrl}>
           <div className="hover-document article w-[500px] sm:max-w-[500px] overflow-auto">
             {remoteBaseUrl && (
-              <div className="px-3 py-1 w-full text-xs bg-gray-50 border-b">
-                <strong className="text-gray-700">Source: </strong>
+              <div className="px-3 py-1 w-full text-xs bg-myst-bg-alt border-b">
+                <strong className="text-myst-text-secondary">Source: </strong>
                 <a
-                  className={classNames('text-gray-700', className)}
+                  className={classNames('text-myst-text-secondary', className)}
                   href={`${createRemoteBaseUrl(url, remoteBaseUrl)}${htmlId ? `#${htmlId}` : ''}`}
                   target="_blank"
                 >

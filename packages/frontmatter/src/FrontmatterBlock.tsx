@@ -308,9 +308,7 @@ export function FrontmatterBlock({
         </h1>
       )}
       {subtitle && (
-        <p className="myst-fm-block-subtitle mt-2 mb-0 lead text-zinc-600 dark:text-zinc-400">
-          {subtitle}
-        </p>
+        <p className="myst-fm-block-subtitle mt-2 mb-0 lead text-myst-text-tertiary">{subtitle}</p>
       )}
       {!hideAuthors && hasAuthors && authorStyle === 'list' && (
         <AuthorsList authors={frontmatter.authors} affiliations={frontmatter.affiliations} />

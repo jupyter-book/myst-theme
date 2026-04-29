@@ -51,23 +51,23 @@ type Props = {
  * scrollIntoView is used to ensure that when a user clicks on an item, it will smoothly scroll.
  */
 const Headings = ({ headings, activeId }: Props) => (
-  <ul className="myst-outline-list text-sm leading-6 text-slate-400">
+  <ul className="myst-outline-list text-sm leading-6">
     {headings.map((heading) => (
       <li
         key={heading.id}
-        className={classNames('myst-outline-item border-l-2 hover:border-l-blue-500', {
-          'text-blue-600': heading.id === activeId,
-          'border-l-gray-300 dark:border-l-gray-50': heading.id !== activeId,
-          'border-l-blue-500': heading.id === activeId,
-          'bg-blue-50 dark:bg-slate-800': heading.id === activeId,
+        className={classNames('myst-outline-item border-l-2 hover:border-l-myst-active', {
+          'text-myst-active': heading.id === activeId,
+          'border-l-myst-border-strong': heading.id !== activeId,
+          'border-l-myst-active': heading.id === activeId,
+          'bg-myst-active-surface': heading.id === activeId,
           'myst-outline-item-active': heading.id === activeId,
         })}
       >
         <a
           className={classNames('block p-1', {
-            'text-slate-900 dark:text-slate-50': heading.level < 2 && heading.id !== activeId,
-            'text-slate-500 dark:text-slate-300': heading.level >= 2 && heading.id !== activeId,
-            'text-blue-600 dark:text-white font-bold': heading.id === activeId,
+            'text-myst-text': heading.level < 2 && heading.id !== activeId,
+            'text-myst-text-tertiary': heading.level >= 2 && heading.id !== activeId,
+            'text-myst-active dark:text-white font-bold': heading.id === activeId,
             'pr-2': heading.id !== activeId, // Allows for bold to change length
             'pl-2': heading.level === 1,
             'pl-4': heading.level === 2,
@@ -459,7 +459,7 @@ export const DocumentOutline = ({
         className={classNames(
           'myst-outline not-prose overflow-y-auto',
           'transition-opacity duration-700', // Animation on load
-          'bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm rounded-lg p-2 -m-2', // Solid background to avoid overlap with margin content
+          'bg-myst-bg/95 backdrop-blur-sm rounded-lg p-2 -m-2', // Solid background to avoid overlap with margin content
           className,
         )}
         style={{
@@ -467,15 +467,15 @@ export const DocumentOutline = ({
           maxHeight: `calc(100vh - ${top + 100}px)`,
         }}
       >
-        <div className="myst-outline-header flex flex-row gap-2 mb-4 text-sm leading-6 uppercase rounded-lg text-slate-900 dark:text-slate-100">
+        <div className="myst-outline-header flex flex-row gap-2 mb-4 text-sm leading-6 uppercase rounded-lg text-myst-text">
           {title}
           <Collapsible.Trigger asChild>
             <button
-              className="myst-outline-collapsible self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+              className="myst-outline-collapsible self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-myst-focus-outline outline-2"
               aria-label="Open Contents"
             >
               <ChevronRightIcon
-                className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+                className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-myst-text-secondary"
                 height="1.5rem"
                 width="1.5rem"
               />
@@ -499,10 +499,10 @@ export function SupportingDocuments() {
   if (!pages || pages.length === 0) return null;
   return (
     <>
-      <div className="myst-supporting-documents my-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">
+      <div className="myst-supporting-documents my-4 text-sm leading-6 uppercase text-myst-text">
         Supporting Documents
       </div>
-      <ul className="flex flex-col gap-2 pl-0 text-sm leading-6 list-none text-slate-700 dark:text-slate-300">
+      <ul className="flex flex-col gap-2 pl-0 text-sm leading-6 list-none text-myst-text-secondary">
         {pages
           .filter((p) => 'slug' in p)
           .map((p) => {
@@ -512,8 +512,8 @@ export function SupportingDocuments() {
                   to={withBaseurl(`/${slugToUrl(p.slug)}#main`, baseurl)}
                   prefetch="intent"
                   className={({ isActive }) =>
-                    classNames('no-underline flex self-center hover:text-blue-700', {
-                      'text-blue-600': isActive,
+                    classNames('no-underline flex self-center hover:text-myst-link', {
+                      'text-myst-active': isActive,
                     })
                   }
                 >

@@ -67,7 +67,7 @@ function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: str
 export const Toc = ({ headings }: { headings: Heading[] }) => {
   const nested = nestToc(headings);
   return (
-    <div className="myst-toc w-full px-1 dark:text-white">
+    <div className="myst-toc w-full px-1 text-myst-text">
       {nested.map((item) => (
         <NestedToc heading={item} key={item.id} />
       ))}
@@ -98,7 +98,7 @@ function LinkItem({
       <Link
         title={`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
         className={classNames(
-          'myst-toc-heading block break-words focus:outline outline-blue-200 outline-2 rounded',
+          'myst-toc-heading block break-words focus:outline outline-myst-focus-outline outline-2 rounded',
           className,
         )}
         to={heading.url}
@@ -137,7 +137,7 @@ function LinkItem({
       prefetch="intent"
       title={`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
       className={classNames(
-        'block break-words focus:outline outline-blue-200 outline-2 rounded',
+        'block break-words focus:outline outline-myst-focus-outline outline-2 rounded',
         className,
       )}
       to={withBaseurl(heading.path, baseurl)}
@@ -167,7 +167,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
     return (
       <LinkItem
         className={classNames('myst-toc-item p-2 my-1 rounded-lg', {
-          'myst-toc-item-exact bg-blue-300/30': exact,
+          'myst-toc-item-exact bg-myst-active-bg': exact,
           'hover:bg-slate-300/30': !exact,
           'font-bold': heading.level === 'index',
         })}
@@ -181,14 +181,14 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
         className={classNames(
           'myst-toc-item flex flex-row w-full gap-2 pl-2 my-1 text-left rounded-lg outline-none',
           {
-            'myst-toc-item-exact bg-blue-300/30': exact,
+            'myst-toc-item-exact bg-myst-active-bg': exact,
             'hover:bg-slate-300/30': !exact,
           },
         )}
       >
         <LinkItem
           className={classNames('py-2 grow', {
-            'font-semibold text-blue-800 dark:text-blue-200': startOpen,
+            'font-semibold text-myst-heading': startOpen,
             'cursor-pointer': !heading.path,
           })}
           heading={heading}
@@ -196,11 +196,11 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
         />
         <Collapsible.Trigger asChild>
           <button
-            className="self-stretch flex items-center flex-none px-1 rounded-l-md group hover:bg-slate-300/30 focus-visible:outline outline-blue-200 outline-2"
+            className="self-stretch flex items-center flex-none px-1 rounded-l-md group hover:bg-slate-300/30 focus-visible:outline outline-myst-focus-outline outline-2"
             aria-label="Open Folder"
           >
             <ChevronRightIcon
-              className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+              className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-myst-text-secondary"
               height="1.5rem"
               width="1.5rem"
             />

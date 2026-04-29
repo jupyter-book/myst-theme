@@ -9,10 +9,10 @@ type Affiliations = Required<PageFrontmatter>['affiliations'];
 function Definition({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="myst-fm-popover-definition px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-      <dt className="myst-fm-popover-definition-title text-sm font-medium leading-6 text-gray-900">
+      <dt className="myst-fm-popover-definition-title text-sm font-medium leading-6 text-myst-text">
         {title}
       </dt>
-      <dd className="myst-fm-popover-definition-value mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+      <dd className="myst-fm-popover-definition-value mt-1 text-sm leading-6 text-myst-text-secondary sm:col-span-2 sm:mt-0">
         {children}
       </dd>
     </div>
@@ -41,14 +41,14 @@ export const AuthorPopover = ({
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
-          className="myst-fm-author-popover-content hover-card-content rounded p-5 w-[400px] bg-white shadow"
+          className="myst-fm-author-popover-content hover-card-content rounded p-5 w-[400px] bg-myst-bg shadow"
           sideOffset={5}
         >
           <div className="flex flex-col gap-2.5">
-            <p className="myst-fm-author-popover-name text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
+            <p className="myst-fm-author-popover-name text-myst-text text-[15px] leading-[19px] font-medium mb-2.5">
               {author.name}
             </p>
-            <p className="myst-fm-author-popover-affiliations text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
+            <p className="myst-fm-author-popover-affiliations text-myst-text text-[15px] leading-[19px] font-medium mb-2.5">
               {author.affiliations?.map((affiliationId) => (
                 <Affiliation
                   key={affiliationId}
@@ -57,7 +57,7 @@ export const AuthorPopover = ({
                 />
               ))}
             </p>
-            <dl className="myst-fm-author-popover-details divide-y divide-gray-100">
+            <dl className="myst-fm-author-popover-details divide-y divide-myst-border">
               {author.email && (
                 <Definition title="Email">
                   <a
@@ -126,7 +126,7 @@ export const AuthorPopover = ({
               {author.roles && <Definition title="Roles">{author.roles.join(', ')}</Definition>}
             </dl>
           </div>
-          <Popover.Arrow className="fill-white" />
+          <Popover.Arrow className="fill-myst-bg" />
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>

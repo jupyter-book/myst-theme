@@ -95,16 +95,16 @@ export function Callout({
       id={identifier}
       dropdown={dropdown}
       className={classNames(
-        'myst-exercise my-5 shadow dark:bg-stone-800 overflow-hidden',
-        'dark:border-l-4 border-slate-400',
+        'myst-exercise my-5 shadow dark:bg-myst-bg-alt overflow-hidden',
+        'dark:border-l-4 border-myst-border-strong',
         {
-          'dark:border-gray-500/60': !color || color === 'gray',
-          'dark:border-blue-500/60': color === 'blue',
-          'dark:border-green-500/60': color === 'green',
-          'dark:border-amber-500/70': color === 'yellow',
-          'dark:border-orange-500/60': color === 'orange',
-          'dark:border-red-500/60': color === 'red',
-          'dark:border-purple-500/60': color === 'purple',
+          'dark:border-myst-gray/60': !color || color === 'gray',
+          'dark:border-myst-info/60': color === 'blue',
+          'dark:border-myst-success/60': color === 'green',
+          'dark:border-myst-warning/70': color === 'yellow',
+          'dark:border-myst-orange/60': color === 'orange',
+          'dark:border-myst-danger/60': color === 'red',
+          'dark:border-myst-purple/60': color === 'purple',
         },
         className,
       )}
@@ -116,13 +116,13 @@ export function Callout({
           'text-md',
           'border-y dark:border-y-0',
           {
-            'bg-gray-50/80 dark:bg-slate-900': !color || color === 'gray',
-            'bg-blue-50/80 dark:bg-slate-900': color === 'blue',
-            'bg-green-50/80 dark:bg-slate-900': color === 'green',
-            'bg-amber-50/80 dark:bg-slate-900': color === 'yellow',
-            'bg-orange-50/80 dark:bg-slate-900': color === 'orange',
-            'bg-red-50/80 dark:bg-slate-900': color === 'red',
-            'bg-purple-50/80 dark:bg-slate-900': color === 'purple',
+            'bg-myst-gray-bg': !color || color === 'gray',
+            'bg-myst-info-bg': color === 'blue',
+            'bg-myst-success-bg': color === 'green',
+            'bg-myst-warning-bg': color === 'yellow',
+            'bg-myst-orange-bg': color === 'orange',
+            'bg-myst-danger-bg': color === 'red',
+            'bg-myst-purple-bg': color === 'purple',
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           },
@@ -135,20 +135,20 @@ export function Callout({
             className={classNames(
               'myst-exercise-header-icon inline-block pl-2 mr-2 self-center flex-none',
               classNames({
-                'text-gray-600': !color || color === 'gray',
-                'text-blue-600': color === 'blue',
-                'text-green-600': color === 'green',
-                'text-amber-600': color === 'yellow',
-                'text-orange-600': color === 'orange',
-                'text-red-600': color === 'red',
-                'text-purple-600': color === 'purple',
+                'text-myst-gray-text': !color || color === 'gray',
+                'text-myst-info-text': color === 'blue',
+                'text-myst-success-text': color === 'green',
+                'text-myst-warning-text': color === 'yellow',
+                'text-myst-orange-text': color === 'orange',
+                'text-myst-danger-text': color === 'red',
+                'text-myst-purple-text': color === 'purple',
               }),
             )}
           />
         )}
         <div
           className={classNames(
-            'myst-exercise-title text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
+            'myst-exercise-title text-myst-text grow self-center overflow-hidden break-words',
             { 'ml-4': !Icon }, // No icon!
             'group', // For nested cross-reference links
           )}
@@ -156,7 +156,7 @@ export function Callout({
           {title}
         </div>
         {dropdown && (
-          <div className="self-center flex-none text-sm font-thin text-neutral-700 dark:text-neutral-200">
+          <div className="self-center flex-none text-sm font-thin text-myst-text-secondary">
             <ChevronRightIcon
               width="1.5rem"
               height="1.5rem"

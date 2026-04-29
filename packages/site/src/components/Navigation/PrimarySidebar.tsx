@@ -31,7 +31,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
           'myst-primary-sidebar-item-short',
           'p-2 my-1 rounded-lg',
           'hover:bg-slate-300/30',
-          'block break-words focus:outline outline-blue-200 outline-2 rounded',
+          'block break-words focus:outline outline-myst-focus-outline outline-2 rounded',
         )}
       >
         {item.title}
@@ -58,11 +58,11 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
         </ExternalOrInternalLink>
         <Collapsible.Trigger asChild>
           <button
-            className="myst-primary-sidebar-item-child self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+            className="myst-primary-sidebar-item-child self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-myst-focus-outline outline-2"
             aria-label="Open Folder"
           >
             <ChevronRightIcon
-              className="myst-primary-sidebar-item-icon transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
+              className="myst-primary-sidebar-item-icon transition-transform duration-300 group-data-[state=open]:rotate-90 text-myst-text-secondary"
               height="1.5rem"
               width="1.5rem"
             />
@@ -79,7 +79,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
               'myst-primary-sidebar-item-link',
               'p-2 my-1 rounded-lg',
               'hover:bg-slate-300/30',
-              'block break-words focus:outline outline-blue-200 outline-2 rounded',
+              'block break-words focus:outline outline-myst-focus-outline outline-2 rounded',
             )}
           >
             {action.title}
@@ -93,7 +93,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
 export function SidebarNav({ nav }: { nav?: SiteManifest['nav'] }) {
   if (!nav) return null;
   return (
-    <div className="w-full px-1 dark:text-white font-medium">
+    <div className="w-full px-1 text-myst-text font-medium">
       {nav.map((item) => {
         return <SidebarNavItem key={'url' in item ? item.url : item.title} item={item} />;
       })}
@@ -207,7 +207,7 @@ export const PrimarySidebar = ({
           'overflow-hidden max-xl:h-full',
           {
             flex: open,
-            'bg-white dark:bg-stone-900': open, // just apply when open, so that theme can transition
+            'bg-myst-bg': open, // just apply when open, so that theme can transition
             'hidden xl:flex': !open && !mobileOnly,
             hidden: !open && mobileOnly,
             'lg:hidden': mobileOnly && !headings,

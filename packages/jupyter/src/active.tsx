@@ -52,13 +52,7 @@ export function ActiveOutputRenderer({
       );
     }
 
-    // Stamp a11y attributes on overflowing outputs. Use a MutationObserver
-    // because renderers (e.g. Plotly) insert content asynchronously, and
-    // re-execution swaps the output DOM out from under us.
-    stampScrollableA11y(ref.current);
-    const observer = new MutationObserver(() => stampScrollableA11y(ref.current));
-    observer.observe(ref.current, { childList: true, subtree: true });
-    return () => observer.disconnect();
+    return stampScrollableA11y(ref.current);
   }, [ref?.current, exec?.cell]);
 
   const executed = exec?.cell?.executionCount != null;

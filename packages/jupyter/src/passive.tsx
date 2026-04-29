@@ -8,24 +8,26 @@ import { usePlotlyPassively } from './plotly.js';
  * Mark each `.jp-OutputArea-output` descendant of `root` as keyboard-focusable
  * (tabIndex/role/aria-label) when its content overflows horizontally, so wide
  * outputs (tables, plots) are reachable via keyboard.
- *
- * Re-stamps on DOM mutations because renderers (e.g. Plotly) insert content
- * asynchronously, and re-execution can swap the output DOM. Returns a cleanup
- * function that disconnects the observer.
  */
 export function stampScrollableA11y(root: HTMLElement | null) {
+  root?.querySelectorAll<HTMLElement>('.jp-OutputArea-output').forEach((el) => {
+    if (el.scrollWidth > el.clientWidth) {
+      el.tabIndex = 0;
+      el.setAttribute('role', 'region');
+      el.setAttribute('aria-label', 'cell output');
+    }
+  });
+}
+
+/**
+ * Stamp `root` now and re-stamp on any DOM mutation. Needed because some
+ * renderers (e.g. Plotly) insert content asynchronously, and re-execution
+ * can swap the output DOM. Returns a disconnect function for effect cleanup.
+ */
+export function observeScrollableA11y(root: HTMLElement | null) {
   if (!root) return () => {};
-  const stamp = () => {
-    root.querySelectorAll<HTMLElement>('.jp-OutputArea-output').forEach((el) => {
-      if (el.scrollWidth > el.clientWidth) {
-        el.tabIndex = 0;
-        el.setAttribute('role', 'region');
-        el.setAttribute('aria-label', 'cell output');
-      }
-    });
-  };
-  stamp();
-  const observer = new MutationObserver(stamp);
+  stampScrollableA11y(root);
+  const observer = new MutationObserver(() => stampScrollableA11y(root));
   observer.observe(root, { childList: true, subtree: true });
   return () => observer.disconnect();
 }
@@ -66,7 +68,7 @@ export function PassiveOutputRenderer({
     // eslint-disable-next-line import/no-extraneous-dependencies
     cell.current.attachToDOM(ref.current ?? undefined, true);
     cell.current.render(core?.stripWidgets([data]) ?? data);
-    return stampScrollableA11y(ref.current);
+    return observeScrollableA11y(ref.current);
   }, [ref, loaded]);
 
   return <div ref={ref} data-thebe-passive-ref="true" data-output-id={id} />;

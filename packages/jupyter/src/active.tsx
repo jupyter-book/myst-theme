@@ -10,7 +10,7 @@ import { useThebeLoader } from 'thebe-react';
 import { useFetchAnyTruncatedContent } from './hooks.js';
 import { useXRefState } from '@myst-theme/providers';
 import { fetchAndEncodeOutputImages } from './convertImages.js';
-import { stampScrollableA11y } from './passive.js';
+import { observeScrollableA11y } from './passive.js';
 
 /**
  * Attaches a live thebe kernel cell to the DOM so outputs update on re-execution.
@@ -52,7 +52,7 @@ export function ActiveOutputRenderer({
       );
     }
 
-    return stampScrollableA11y(ref.current);
+    return observeScrollableA11y(ref.current);
   }, [ref?.current, exec?.cell]);
 
   const executed = exec?.cell?.executionCount != null;

@@ -32,7 +32,17 @@ export function ActiveOutputRenderer({
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!ref.current || !exec?.cell) return;
+    if (!ref.current || !exec?.cell) {
+      console.debug(`Jupyter: No cell ref available for cell ${outputsId}:${exec?.cell?.id}`);
+      return;
+    }
+
+    const verb = exec.cell.isAttachedToDOM ? 'reattaching' : 'attaching';
+    console.debug(`${verb} cell ${exec.cell.id} to DOM at:`, {
+      el: ref.current,
+      connected: ref.current.isConnected,
+      data: core?.stripWidgets(initialData) ?? initialData,
+    });
 
     exec.cell.attachToDOM(ref.current);
 
@@ -49,9 +59,12 @@ export function ActiveOutputRenderer({
     const observer = new MutationObserver(() => stampScrollableA11y(ref.current));
     observer.observe(ref.current, { childList: true, subtree: true });
     return () => observer.disconnect();
-  }, [exec?.cell]);
+  }, [ref?.current, exec?.cell]);
 
   const executed = exec?.cell?.executionCount != null;
+  console.debug(
+    `Jupyter: Cell ${outputsId} executed: ${executed}; Show output: ${executed || !placeholder}`,
+  );
 
   return (
     <div>

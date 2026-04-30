@@ -21,7 +21,7 @@ export default function Stream({ output }: { output: MinifiedStreamOutput }) {
           role={isScrollable ? 'region' : undefined}
           aria-label="cell output stream"
           className={classNames(
-            'myst-jp-stream-output text-sm font-thin font-system overflow-auto',
+            'myst-jp-stream-output text-sm font-thin font-system overflow-auto p-3',
             isError ? 'jupyter-error' : 'jupyter-output',
           )}
         >

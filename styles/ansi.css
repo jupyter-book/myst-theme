@@ -1,34 +1,16 @@
 /* 
- * Restricted & unrestricted styles 
- */
-.ansi-bold {
-  font-weight: bold;
-}
-.ansi-italic {
-  font-style: italic;
-}
-.ansi-strikethrough {
-  text-decoration-line: line-through;
-}
-.ansi-underline {
-  text-decoration-line: underline;
-}
-.ansi-hidden {
-  visibility: hidden;
-}
-/* 
  * Restricted colour mapping (FG only) 
  */
-:is(.jupyter-error, .jupyter-output) span[class*='ansi-'] {
+:where(.jupyter-error, .jupyter-output) span[class*='ansi-'] {
   /* Styling */
   color: var(--bg-color, var(--fg-color));
+  background-color: unset;
 }
 
 /* 
  * Restricted palette with only eight colours 
  */
-.jupyter-error,
-.jupyter-output {
+:where(.jupyter-error, .jupyter-output) {
   /* Palette */
   --ansi-black: rgb(0 0 0);
   --ansi-red: rgb(187 0 0);
@@ -286,6 +268,300 @@
   --ansi-palette-253: var(--ansi-white);
   --ansi-palette-254: var(--ansi-white);
   --ansi-palette-255: var(--ansi-white);
+}
+
+/* 
+ * Restricted & unrestricted styles 
+ */
+.ansi-bold {
+  font-weight: bold;
+}
+.ansi-italic {
+  font-style: italic;
+}
+.ansi-strikethrough {
+  text-decoration-line: line-through;
+}
+.ansi-underline {
+  text-decoration-line: underline;
+}
+.ansi-hidden {
+  visibility: hidden;
+}
+
+/* Unrestricted friendly styles */
+:where(.full-color-error .jupyter-error, .full-color-output .jupyter-output) span.ansi-dim {
+  opacity: 0.5;
+}
+
+/* Unrestricted colour mapping */
+:where(.full-color-error .jupyter-error, .full-color-output .jupyter-output) span[class*='ansi-'] {
+  /* Styling */
+  color: var(--fg-color);
+  background-color: var(--bg-color);
+}
+
+/*
+ * Unrestricted palette computed from https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
+ */
+:where(.full-color-error .jupyter-error, .full-color-output .jupyter-output) {
+  /* Palette */
+  --ansi-black: rgb(0 0 0);
+  --ansi-red: rgb(187 0 0);
+  --ansi-green: rgb(0 187 0);
+  --ansi-yellow: rgb(187 187 0);
+  --ansi-blue: rgb(0 0 187);
+  --ansi-magenta: rgb(187 0 187);
+  --ansi-cyan: rgb(0 187 187);
+  --ansi-white: rgb(255 255 255);
+  --ansi-bright-black: rgb(85 85 85);
+  --ansi-bright-red: rgb(255 85 85);
+  --ansi-bright-green: rgb(0 255 0);
+  --ansi-bright-yellow: rgb(255 255 85);
+  --ansi-bright-blue: rgb(85 85 255);
+  --ansi-bright-magenta: rgb(255 85 255);
+  --ansi-bright-cyan: rgb(85 255 255);
+  --ansi-bright-white: rgb(255 255 255);
+  --ansi-palette-16: rgb(0 0 0);
+  --ansi-palette-17: rgb(0 0 95);
+  --ansi-palette-18: rgb(0 0 135);
+  --ansi-palette-19: rgb(0 0 175);
+  --ansi-palette-20: rgb(0 0 215);
+  --ansi-palette-21: rgb(0 0 255);
+  --ansi-palette-22: rgb(0 95 0);
+  --ansi-palette-23: rgb(0 95 95);
+  --ansi-palette-24: rgb(0 95 135);
+  --ansi-palette-25: rgb(0 95 175);
+  --ansi-palette-26: rgb(0 95 215);
+  --ansi-palette-27: rgb(0 95 255);
+  --ansi-palette-28: rgb(0 135 0);
+  --ansi-palette-29: rgb(0 135 95);
+  --ansi-palette-30: rgb(0 135 135);
+  --ansi-palette-31: rgb(0 135 175);
+  --ansi-palette-32: rgb(0 135 215);
+  --ansi-palette-33: rgb(0 135 255);
+  --ansi-palette-34: rgb(0 175 0);
+  --ansi-palette-35: rgb(0 175 95);
+  --ansi-palette-36: rgb(0 175 135);
+  --ansi-palette-37: rgb(0 175 175);
+  --ansi-palette-38: rgb(0 175 215);
+  --ansi-palette-39: rgb(0 175 255);
+  --ansi-palette-40: rgb(0 215 0);
+  --ansi-palette-41: rgb(0 215 95);
+  --ansi-palette-42: rgb(0 215 135);
+  --ansi-palette-43: rgb(0 215 175);
+  --ansi-palette-44: rgb(0 215 215);
+  --ansi-palette-45: rgb(0 215 255);
+  --ansi-palette-46: rgb(0 255 0);
+  --ansi-palette-47: rgb(0 255 95);
+  --ansi-palette-48: rgb(0 255 135);
+  --ansi-palette-49: rgb(0 255 175);
+  --ansi-palette-50: rgb(0 255 215);
+  --ansi-palette-51: rgb(0 255 255);
+  --ansi-palette-52: rgb(95 0 0);
+  --ansi-palette-53: rgb(95 0 95);
+  --ansi-palette-54: rgb(95 0 135);
+  --ansi-palette-55: rgb(95 0 175);
+  --ansi-palette-56: rgb(95 0 215);
+  --ansi-palette-57: rgb(95 0 255);
+  --ansi-palette-58: rgb(95 95 0);
+  --ansi-palette-59: rgb(95 95 95);
+  --ansi-palette-60: rgb(95 95 135);
+  --ansi-palette-61: rgb(95 95 175);
+  --ansi-palette-62: rgb(95 95 215);
+  --ansi-palette-63: rgb(95 95 255);
+  --ansi-palette-64: rgb(95 135 0);
+  --ansi-palette-65: rgb(95 135 95);
+  --ansi-palette-66: rgb(95 135 135);
+  --ansi-palette-67: rgb(95 135 175);
+  --ansi-palette-68: rgb(95 135 215);
+  --ansi-palette-69: rgb(95 135 255);
+  --ansi-palette-70: rgb(95 175 0);
+  --ansi-palette-71: rgb(95 175 95);
+  --ansi-palette-72: rgb(95 175 135);
+  --ansi-palette-73: rgb(95 175 175);
+  --ansi-palette-74: rgb(95 175 215);
+  --ansi-palette-75: rgb(95 175 255);
+  --ansi-palette-76: rgb(95 215 0);
+  --ansi-palette-77: rgb(95 215 95);
+  --ansi-palette-78: rgb(95 215 135);
+  --ansi-palette-79: rgb(95 215 175);
+  --ansi-palette-80: rgb(95 215 215);
+  --ansi-palette-81: rgb(95 215 255);
+  --ansi-palette-82: rgb(95 255 0);
+  --ansi-palette-83: rgb(95 255 95);
+  --ansi-palette-84: rgb(95 255 135);
+  --ansi-palette-85: rgb(95 255 175);
+  --ansi-palette-86: rgb(95 255 215);
+  --ansi-palette-87: rgb(95 255 255);
+  --ansi-palette-88: rgb(135 0 0);
+  --ansi-palette-89: rgb(135 0 95);
+  --ansi-palette-90: rgb(135 0 135);
+  --ansi-palette-91: rgb(135 0 175);
+  --ansi-palette-92: rgb(135 0 215);
+  --ansi-palette-93: rgb(135 0 255);
+  --ansi-palette-94: rgb(135 95 0);
+  --ansi-palette-95: rgb(135 95 95);
+  --ansi-palette-96: rgb(135 95 135);
+  --ansi-palette-97: rgb(135 95 175);
+  --ansi-palette-98: rgb(135 95 215);
+  --ansi-palette-99: rgb(135 95 255);
+  --ansi-palette-100: rgb(135 135 0);
+  --ansi-palette-101: rgb(135 135 95);
+  --ansi-palette-102: rgb(135 135 135);
+  --ansi-palette-103: rgb(135 135 175);
+  --ansi-palette-104: rgb(135 135 215);
+  --ansi-palette-105: rgb(135 135 255);
+  --ansi-palette-106: rgb(135 175 0);
+  --ansi-palette-107: rgb(135 175 95);
+  --ansi-palette-108: rgb(135 175 135);
+  --ansi-palette-109: rgb(135 175 175);
+  --ansi-palette-110: rgb(135 175 215);
+  --ansi-palette-111: rgb(135 175 255);
+  --ansi-palette-112: rgb(135 215 0);
+  --ansi-palette-113: rgb(135 215 95);
+  --ansi-palette-114: rgb(135 215 135);
+  --ansi-palette-115: rgb(135 215 175);
+  --ansi-palette-116: rgb(135 215 215);
+  --ansi-palette-117: rgb(135 215 255);
+  --ansi-palette-118: rgb(135 255 0);
+  --ansi-palette-119: rgb(135 255 95);
+  --ansi-palette-120: rgb(135 255 135);
+  --ansi-palette-121: rgb(135 255 175);
+  --ansi-palette-122: rgb(135 255 215);
+  --ansi-palette-123: rgb(135 255 255);
+  --ansi-palette-124: rgb(175 0 0);
+  --ansi-palette-125: rgb(175 0 95);
+  --ansi-palette-126: rgb(175 0 135);
+  --ansi-palette-127: rgb(175 0 175);
+  --ansi-palette-128: rgb(175 0 215);
+  --ansi-palette-129: rgb(175 0 255);
+  --ansi-palette-130: rgb(175 95 0);
+  --ansi-palette-131: rgb(175 95 95);
+  --ansi-palette-132: rgb(175 95 135);
+  --ansi-palette-133: rgb(175 95 175);
+  --ansi-palette-134: rgb(175 95 215);
+  --ansi-palette-135: rgb(175 95 255);
+  --ansi-palette-136: rgb(175 135 0);
+  --ansi-palette-137: rgb(175 135 95);
+  --ansi-palette-138: rgb(175 135 135);
+  --ansi-palette-139: rgb(175 135 175);
+  --ansi-palette-140: rgb(175 135 215);
+  --ansi-palette-141: rgb(175 135 255);
+  --ansi-palette-142: rgb(175 175 0);
+  --ansi-palette-143: rgb(175 175 95);
+  --ansi-palette-144: rgb(175 175 135);
+  --ansi-palette-145: rgb(175 175 175);
+  --ansi-palette-146: rgb(175 175 215);
+  --ansi-palette-147: rgb(175 175 255);
+  --ansi-palette-148: rgb(175 215 0);
+  --ansi-palette-149: rgb(175 215 95);
+  --ansi-palette-150: rgb(175 215 135);
+  --ansi-palette-151: rgb(175 215 175);
+  --ansi-palette-152: rgb(175 215 215);
+  --ansi-palette-153: rgb(175 215 255);
+  --ansi-palette-154: rgb(175 255 0);
+  --ansi-palette-155: rgb(175 255 95);
+  --ansi-palette-156: rgb(175 255 135);
+  --ansi-palette-157: rgb(175 255 175);
+  --ansi-palette-158: rgb(175 255 215);
+  --ansi-palette-159: rgb(175 255 255);
+  --ansi-palette-160: rgb(215 0 0);
+  --ansi-palette-161: rgb(215 0 95);
+  --ansi-palette-162: rgb(215 0 135);
+  --ansi-palette-163: rgb(215 0 175);
+  --ansi-palette-164: rgb(215 0 215);
+  --ansi-palette-165: rgb(215 0 255);
+  --ansi-palette-166: rgb(215 95 0);
+  --ansi-palette-167: rgb(215 95 95);
+  --ansi-palette-168: rgb(215 95 135);
+  --ansi-palette-169: rgb(215 95 175);
+  --ansi-palette-170: rgb(215 95 215);
+  --ansi-palette-171: rgb(215 95 255);
+  --ansi-palette-172: rgb(215 135 0);
+  --ansi-palette-173: rgb(215 135 95);
+  --ansi-palette-174: rgb(215 135 135);
+  --ansi-palette-175: rgb(215 135 175);
+  --ansi-palette-176: rgb(215 135 215);
+  --ansi-palette-177: rgb(215 135 255);
+  --ansi-palette-178: rgb(215 175 0);
+  --ansi-palette-179: rgb(215 175 95);
+  --ansi-palette-180: rgb(215 175 135);
+  --ansi-palette-181: rgb(215 175 175);
+  --ansi-palette-182: rgb(215 175 215);
+  --ansi-palette-183: rgb(215 175 255);
+  --ansi-palette-184: rgb(215 215 0);
+  --ansi-palette-185: rgb(215 215 95);
+  --ansi-palette-186: rgb(215 215 135);
+  --ansi-palette-187: rgb(215 215 175);
+  --ansi-palette-188: rgb(215 215 215);
+  --ansi-palette-189: rgb(215 215 255);
+  --ansi-palette-190: rgb(215 255 0);
+  --ansi-palette-191: rgb(215 255 95);
+  --ansi-palette-192: rgb(215 255 135);
+  --ansi-palette-193: rgb(215 255 175);
+  --ansi-palette-194: rgb(215 255 215);
+  --ansi-palette-195: rgb(215 255 255);
+  --ansi-palette-196: rgb(255 0 0);
+  --ansi-palette-197: rgb(255 0 95);
+  --ansi-palette-198: rgb(255 0 135);
+  --ansi-palette-199: rgb(255 0 175);
+  --ansi-palette-200: rgb(255 0 215);
+  --ansi-palette-201: rgb(255 0 255);
+  --ansi-palette-202: rgb(255 95 0);
+  --ansi-palette-203: rgb(255 95 95);
+  --ansi-palette-204: rgb(255 95 135);
+  --ansi-palette-205: rgb(255 95 175);
+  --ansi-palette-206: rgb(255 95 215);
+  --ansi-palette-207: rgb(255 95 255);
+  --ansi-palette-208: rgb(255 135 0);
+  --ansi-palette-209: rgb(255 135 95);
+  --ansi-palette-210: rgb(255 135 135);
+  --ansi-palette-211: rgb(255 135 175);
+  --ansi-palette-212: rgb(255 135 215);
+  --ansi-palette-213: rgb(255 135 255);
+  --ansi-palette-214: rgb(255 175 0);
+  --ansi-palette-215: rgb(255 175 95);
+  --ansi-palette-216: rgb(255 175 135);
+  --ansi-palette-217: rgb(255 175 175);
+  --ansi-palette-218: rgb(255 175 215);
+  --ansi-palette-219: rgb(255 175 255);
+  --ansi-palette-220: rgb(255 215 0);
+  --ansi-palette-221: rgb(255 215 95);
+  --ansi-palette-222: rgb(255 215 135);
+  --ansi-palette-223: rgb(255 215 175);
+  --ansi-palette-224: rgb(255 215 215);
+  --ansi-palette-225: rgb(255 215 255);
+  --ansi-palette-226: rgb(255 255 0);
+  --ansi-palette-227: rgb(255 255 95);
+  --ansi-palette-228: rgb(255 255 135);
+  --ansi-palette-229: rgb(255 255 175);
+  --ansi-palette-230: rgb(255 255 215);
+  --ansi-palette-231: rgb(255 255 255);
+  --ansi-palette-232: rgb(8 8 8);
+  --ansi-palette-233: rgb(18 18 18);
+  --ansi-palette-234: rgb(28 28 28);
+  --ansi-palette-235: rgb(38 38 38);
+  --ansi-palette-236: rgb(48 48 48);
+  --ansi-palette-237: rgb(58 58 58);
+  --ansi-palette-238: rgb(68 68 68);
+  --ansi-palette-239: rgb(78 78 78);
+  --ansi-palette-240: rgb(88 88 88);
+  --ansi-palette-241: rgb(98 98 98);
+  --ansi-palette-242: rgb(108 108 108);
+  --ansi-palette-243: rgb(118 118 118);
+  --ansi-palette-244: rgb(128 128 128);
+  --ansi-palette-245: rgb(138 138 138);
+  --ansi-palette-246: rgb(148 148 148);
+  --ansi-palette-247: rgb(158 158 158);
+  --ansi-palette-248: rgb(168 168 168);
+  --ansi-palette-249: rgb(178 178 178);
+  --ansi-palette-250: rgb(188 188 188);
+  --ansi-palette-251: rgb(198 198 198);
+  --ansi-palette-252: rgb(208 208 208);
+  --ansi-palette-253: rgb(218 218 218);
+  --ansi-palette-254: rgb(228 228 228);
+  --ansi-palette-255: rgb(238 238 238);
 }
 
 .ansi-white-bg {

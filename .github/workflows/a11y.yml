@@ -23,8 +23,4 @@ jobs:
         uses: berkeley-cdss/myst-a11y@v1
         with:
           working_directory: 'docs'
-<<<<<<< HEAD
           save_report: 'true'
-=======
-          save_report: 'false'
->>>>>>> 7d23c4fb10ea485d7200f39b67690526c0947eb0

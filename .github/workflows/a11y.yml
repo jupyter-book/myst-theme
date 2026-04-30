@@ -11,4 +11,4 @@ jobs:
         uses: berkeley-cdss/myst-a11y@v1
         with:
           working_directory: 'docs'
-          save_report: 'false'
+          save_report: 'true'

@@ -29,6 +29,27 @@ site:
     logo_alt: alternative text for the site logo
 ```
 
+### Navigation items
+
+Add links to the top navigation bar with `site.nav`. Each entry is either a single link or a group of links rendered as a dropdown menu. When a nav item has a `children` list, it renders as a dropdown.
+
+```{code-block} yaml
+:filename: myst.yml
+
+site:
+  nav:
+    - title: Developer page
+      url: /developer
+    - title: Resources
+      children:
+        - title: MyST documentation
+          url: https://mystmd.org
+        - title: GitHub repository
+          url: https://github.com/jupyter-book/myst-theme
+        - title: Reference
+          url: /reference
+```
+
 ## Banner
 
 Display an announcement bar at the top of your site.

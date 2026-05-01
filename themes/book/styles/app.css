@@ -1,2 +1,6 @@
 @import '@myst-theme/styles';
 @import './grid-system.css';
+
+#myst-no-css {
+  --has-styling: 1;
+}

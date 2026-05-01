@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/providers",
-  "version": "0.17.0",
+  "version": "1.2.2",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -8,9 +8,13 @@
     "dist"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "test": "vitest run",
@@ -22,7 +26,9 @@
     "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
-    "@myst-theme/common": "^0.17.0"
+    "@myst-theme/common": "^1.2.2",
+    "@myst-theme/search": "^1.2.2",
+    "regexp.escape": "^2.0.1"
   },
   "peerDependencies": {
     "@types/react": "^16.8 || ^17.0 || ^18.0",
@@ -33,5 +39,7 @@
     "react": "^16.8 || ^17.0 || ^18.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/regexp.escape": "^2.0.0"
+  }
 }

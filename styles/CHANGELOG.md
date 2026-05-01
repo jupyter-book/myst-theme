@@ -1,5 +1,47 @@
 # @myst-theme/styles
 
+## 1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- c7164c8: Add restricted ANSI palette by default
+
+## 1.2.0
+
+### Minor Changes
+
+- 9ecc788: Add grid-item renderer
+
+## 1.1.4
+
+## 1.1.3
+
+## 1.1.2
+
+## 1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- 9d1a6d3: Fix inline image styling that was incorrectly applied to images in figures and tables
+- cbe05f1: Make table cells match table headers
+- c519f9b: Standardize link styles
+
+## 1.0.1
+
+## 1.0.0
+
+### Patch Changes
+
+- bd19488: Fix inline images and centered figure captions
+
+## 0.18.0
+
+## 0.17.1
+
 ## 0.17.0
 
 ## 0.16.0
@@ -195,7 +237,6 @@
 ### Minor Changes
 
 - 0536fa7: Rename styles to allow for additional grid systems:
-
   - `article-grid-gap` to `grid-gap`
   - `article-subgrid-gap` to `subgrid-gap`
 

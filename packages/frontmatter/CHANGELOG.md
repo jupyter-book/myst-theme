@@ -1,5 +1,42 @@
 # @myst-theme/frontmatter
 
+## 1.2.2
+
+## 1.2.1
+
+## 1.2.0
+
+## 1.1.4
+
+## 1.1.3
+
+## 1.1.2
+
+## 1.1.1
+
+## 1.1.0
+
+## 1.0.1
+
+### Patch Changes
+
+- eabac28: Remove starting slash from URLParams for launch buttons
+
+## 1.0.0
+
+## 0.18.0
+
+### Minor Changes
+
+- dee582b: Add human-readable CSS classes to myst components
+- c6699ff: Add hide_authors handling
+
+### Patch Changes
+
+- 10a7355: remove Jupyter Logo that is not clickable
+
+## 0.17.1
+
 ## 0.17.0
 
 ## 0.16.0

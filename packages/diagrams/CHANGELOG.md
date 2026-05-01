@@ -1,5 +1,87 @@
 # @myst-theme/diagrams
 
+## 1.2.2
+
+### Patch Changes
+
+- @myst-theme/providers@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [0888410]
+  - @myst-theme/providers@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- Updated dependencies [f908854]
+  - @myst-theme/providers@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [a8b0c87]
+  - @myst-theme/providers@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- Updated dependencies [fd4708d]
+  - @myst-theme/providers@1.1.0
+
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [c863568]
+  - @myst-theme/providers@1.0.1
+
+## 1.0.0
+
+### Patch Changes
+
+- @myst-theme/providers@1.0.0
+
+## 0.18.0
+
+### Minor Changes
+
+- 17b3b1b: Upgrade mermaidjs to ^11
+
+### Patch Changes
+
+- Updated dependencies [60cca10]
+  - @myst-theme/providers@0.18.0
+
+## 0.17.1
+
+### Patch Changes
+
+- @myst-theme/providers@0.17.1
+
 ## 0.17.0
 
 ### Patch Changes

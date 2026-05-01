@@ -3,10 +3,12 @@ import classNames from 'classnames';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import type { Heading } from '@myst-theme/common';
 import {
+  isExternalUrl,
   useBaseurl,
   useLinkProvider,
   useNavLinkProvider,
   useNavOpen,
+  useSiteManifest,
   withBaseurl,
 } from '@myst-theme/providers';
 import { useLocation, useNavigation } from '@remix-run/react';
@@ -43,8 +45,12 @@ function nestToc(toc: Heading[]): NestedHeading[] {
 
 function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: string) {
   const headingPath = withBaseurl(heading.path, baseurl);
-  if (pathname && headingPath === `${pathname}/index`) return true;
-  return headingPath === pathname;
+  // In static html builds, pathname ends up with an unwanted trailing slash
+  // and then won't match the heading's slashless path. So first normalize the
+  // given path by removing any trailing slash.
+  const normedPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+  if (normedPath && headingPath === `${normedPath}/index`) return true;
+  return headingPath === normedPath;
 }
 
 function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: string): string[] {
@@ -61,7 +67,7 @@ function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: str
 export const Toc = ({ headings }: { headings: Heading[] }) => {
   const nested = nestToc(headings);
   return (
-    <div className="w-full px-1 dark:text-white">
+    <div className="myst-toc w-full px-1 dark:text-white">
       {nested.map((item) => (
         <NestedToc heading={item} key={item.id} />
       ))}
@@ -83,13 +89,16 @@ function LinkItem({
   const baseurl = useBaseurl();
   const [, setOpen] = useNavOpen();
   // Render external URL
+  const config = useSiteManifest();
+  // In case the URL part of our "treat as internal" domain list
+  const treatAsInternal = !isExternalUrl(heading.url, config?.options?.internal_domains);
   if (heading.url) {
-    const target = heading.open_in_same_tab ? '_self' : '_blank';
+    const target = heading.open_in_same_tab || treatAsInternal ? '_self' : '_blank';
     return (
       <Link
         title={`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
         className={classNames(
-          'block break-words focus:outline outline-blue-200 outline-2 rounded',
+          'myst-toc-heading block break-words focus:outline outline-blue-200 outline-2 rounded',
           className,
         )}
         to={heading.url}
@@ -102,7 +111,9 @@ function LinkItem({
         <span className="inline align-middle">
           {`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
         </span>
-        <ArrowTopRightOnSquareIcon className="inline h-4 w-4 align-middle ml-[0.2rem]" />
+        {!treatAsInternal && (
+          <ArrowTopRightOnSquareIcon className="inline h-4 w-4 align-middle ml-[0.2rem]" />
+        )}
       </Link>
     );
   }
@@ -155,8 +166,8 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
   if (!heading.children || heading.children.length === 0) {
     return (
       <LinkItem
-        className={classNames('p-2 my-1 rounded-lg', {
-          'bg-blue-300/30': exact,
+        className={classNames('myst-toc-item p-2 my-1 rounded-lg', {
+          'myst-toc-item-exact bg-blue-300/30': exact,
           'hover:bg-slate-300/30': !exact,
           'font-bold': heading.level === 'index',
         })}
@@ -168,9 +179,9 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
     <Collapsible.Root className="w-full" open={open} onOpenChange={setOpen}>
       <div
         className={classNames(
-          'flex flex-row w-full gap-2 px-2 my-1 text-left rounded-lg outline-none',
+          'myst-toc-item flex flex-row w-full gap-2 pl-2 my-1 text-left rounded-lg outline-none',
           {
-            'bg-blue-300/30': exact,
+            'myst-toc-item-exact bg-blue-300/30': exact,
             'hover:bg-slate-300/30': !exact,
           },
         )}
@@ -185,7 +196,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
         />
         <Collapsible.Trigger asChild>
           <button
-            className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+            className="self-stretch flex items-center flex-none px-1 rounded-l-md group hover:bg-slate-300/30 focus-visible:outline outline-blue-200 outline-2"
             aria-label="Open Folder"
           >
             <ChevronRightIcon

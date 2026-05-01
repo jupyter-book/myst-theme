@@ -1,5 +1,100 @@
 # @myst-theme/providers
 
+## 1.2.2
+
+### Patch Changes
+
+- @myst-theme/common@1.2.2
+- @myst-theme/search@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 0888410: Make overflowing content focusable
+  - @myst-theme/common@1.2.1
+  - @myst-theme/search@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- f908854: Fix up the pattern/logic for internal_domains
+  - @myst-theme/common@1.2.0
+  - @myst-theme/search@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/common@1.1.4
+- @myst-theme/search@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- a8b0c87: Support a domain to treat as internal URLs
+- Updated dependencies [be43281]
+  - @myst-theme/common@1.1.3
+  - @myst-theme/search@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [c3c427d]
+  - @myst-theme/common@1.1.2
+  - @myst-theme/search@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- @myst-theme/common@1.1.1
+- @myst-theme/search@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- fd4708d: Export myst-search type dependence of providers
+  - @myst-theme/common@1.1.0
+  - @myst-theme/search@1.1.0
+
+## 1.0.1
+
+### Patch Changes
+
+- c863568: Fix base URL behavior in top nav
+- Updated dependencies [796a556]
+  - @myst-theme/common@1.0.1
+
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [16a3bc8]
+  - @myst-theme/common@1.0.0
+
+## 0.18.0
+
+### Patch Changes
+
+- 60cca10: Adjust the primary sidebar height and positioning when banner is displayed.
+
+  Also expose the banner state for other components to use.
+
+- Updated dependencies [dee582b]
+- Updated dependencies [c6699ff]
+  - @myst-theme/common@0.18.0
+
+## 0.17.1
+
+### Patch Changes
+
+- @myst-theme/common@0.17.1
+
 ## 0.17.0
 
 ### Patch Changes

@@ -1,0 +1,31 @@
+[[plugins]]
+  package = "./.netlify/build-cache"
+
+[build]
+  environment = { PYTHON_VERSION = "3.12" }
+  publish = "docs/_build/html"
+  command = """
+    # Determine which mystmd branch to build against. By default, use `main`.
+    # You specify a different branch in the right-hand column of the PR UI:
+    # under Projects, expand the fields and fill out `mystmd-branch`.
+    #
+    # For PR deploy previews, REVIEW_ID is set by Netlify to the PR number.
+    # GITHUB_TOKEN must be set in Netlify env vars (read-only PAT, read:project scope)
+    # to query the project board (https://github.com/orgs/jupyter-book/projects/4).
+    #
+    # Falls back to `main` if unset or not a PR build.
+    read -r mystmd_url mystmd_ref < <(python .github/tools/get-mystmd-branch.py) &&
+    echo "Building with mystmd: $mystmd_url@$mystmd_ref" &&
+    (git clone --depth 1 --branch "$mystmd_ref" "$mystmd_url" /tmp/mystmd && \
+    cd /tmp/mystmd && \
+    npm install && \
+    npm run build && \
+    npm run link) && \
+    # Build myst-theme
+    npm install && \
+    npm run build && \
+    # Install Python requirements and build docs
+    pip install uv && \
+    python -m uv pip install -r docs/requirements.txt --system && \
+    make build-docs
+  """

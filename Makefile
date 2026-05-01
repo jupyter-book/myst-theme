@@ -10,6 +10,7 @@ check:
 	@which jq > /dev/null || (echo "Error: the jq linux command is not available. Please install it first (brew install jq | apt-get install jq)." && exit 1)
 
 build-theme:
+	npm install
 	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
 	git clone --depth 1 https://github.com/myst-templates/$(THEME)-theme .deploy/$(THEME)

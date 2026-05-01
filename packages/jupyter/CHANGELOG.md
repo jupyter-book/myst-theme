@@ -1,5 +1,124 @@
 # @myst-theme/jupyter
 
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [ad30791]
+  - myst-to-react@1.2.2
+  - @myst-theme/providers@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- c7164c8: Add restricted ANSI palette by default
+- 0888410: Make overflowing content focusable
+- Updated dependencies [0888410]
+  - myst-to-react@1.2.1
+  - @myst-theme/providers@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- Updated dependencies [9ecc788]
+- Updated dependencies [f908854]
+- Updated dependencies [f8ef1ef]
+  - myst-to-react@1.2.0
+  - @myst-theme/providers@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.4
+- myst-to-react@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [a8b0c87]
+- Updated dependencies [a96413c]
+  - myst-to-react@1.1.3
+  - @myst-theme/providers@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [7d92ceb]
+  - myst-to-react@1.1.2
+  - @myst-theme/providers@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [ae018ba]
+  - myst-to-react@1.1.1
+  - @myst-theme/providers@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- 20e0e66: Fix ID of code cells
+- Updated dependencies [fd4708d]
+- Updated dependencies [75475f8]
+- Updated dependencies [c519f9b]
+- Updated dependencies [9bfb08e]
+  - @myst-theme/providers@1.1.0
+  - myst-to-react@1.1.0
+
+## 1.0.1
+
+### Patch Changes
+
+- 92adc7d: Added validation and fallback rendering in the `output` node and softened handling of missing `OutputContext`; both changes avoid pageload errors on unexpected AST content for outputs
+- 796a556: Re-exporting the MyST AST version
+- Updated dependencies [c863568]
+- Updated dependencies [92adc7d]
+- Updated dependencies [796a556]
+- Updated dependencies [92adc7d]
+- Updated dependencies [c3c9e19]
+  - @myst-theme/providers@1.0.1
+  - myst-to-react@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- 16a3bc8: Updates the theme to accept a new AST structure for notebook output. These changes are not backwards compatible, and after this change, only the new AST structure is supported. Meaning, content upgrades are required to use the new themes. See https://github.com/jupyter-book/mystmd/pull/1903 for related AST changes.
+
+### Patch Changes
+
+- Updated dependencies [bd19488]
+  - myst-to-react@1.0.0
+  - @myst-theme/providers@1.0.0
+
+## 0.18.0
+
+### Minor Changes
+
+- dee582b: Add human-readable CSS classes to myst components
+
+### Patch Changes
+
+- ef1b152: Fix execution button positioning
+- Updated dependencies [60cca10]
+- Updated dependencies [49fc460]
+  - @myst-theme/providers@0.18.0
+  - myst-to-react@0.18.0
+
+## 0.17.1
+
+### Patch Changes
+
+- @myst-theme/providers@0.17.1
+- myst-to-react@0.17.1
+
 ## 0.17.0
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 import React from 'react';
 import type * as spec from 'myst-spec';
 import { HashLink } from './hashLink.js';
-import type { NodeRenderer } from '@myst-theme/providers';
+import { type NodeRenderer, useIsScrollable } from '@myst-theme/providers';
 import classNames from 'classnames';
 import { Tooltip } from './components/index.js';
 import { MyST } from './MyST.js';
@@ -183,11 +183,21 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
     );
   },
   paragraph({ node, className }) {
-    return (
-      <p id={node.html_id} className={className}>
-        <MyST ast={node.children} />
-      </p>
-    );
+    const isSingleImage = node.children?.length === 1 && node.children[0].type === 'image';
+    const isSingleLinkedImage =
+      node.children?.length === 1 &&
+      node.children[0].type === 'link' &&
+      node.children[0].children?.length === 1 &&
+      node.children[0].children[0]?.type === 'image';
+    // Only wrap in <p> if it's not a single image or linked image
+    if (!isSingleImage && !isSingleLinkedImage) {
+      return (
+        <p id={node.html_id} className={className}>
+          <MyST ast={node.children} />
+        </p>
+      );
+    }
+    return <MyST ast={node.children} />;
   },
   algorithmLine({ node, className }) {
     // Used in algorithms
@@ -294,12 +304,21 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   },
   table({ node, className }) {
     // TODO: actually render the tbody on the server if it isn't included here.
+    const { ref, isScrollable } = useIsScrollable<HTMLDivElement>();
     return (
-      <table className={classNames(node.class, className)} style={node.style}>
-        <tbody>
-          <MyST ast={node.children} />
-        </tbody>
-      </table>
+      <div
+        ref={ref}
+        tabIndex={isScrollable ? 0 : undefined}
+        role={isScrollable ? 'region' : undefined}
+        aria-label="table content"
+        className="overflow-auto"
+      >
+        <table className={classNames(node.class, className)} style={node.style}>
+          <tbody>
+            <MyST ast={node.children} />
+          </tbody>
+        </table>
+      </div>
     );
   },
   tableRow({ node, className }) {
@@ -349,7 +368,7 @@ const BASIC_RENDERERS: BasicNodeRenderers = {
   abbreviation({ node, className }) {
     return (
       <Tooltip title={node.title} className={classNames(className)}>
-        <abbr aria-label={node.title} className="border-b border-dotted cursor-help">
+        <abbr aria-label={node.title} className="hover-text">
           <MyST ast={node.children} />
         </abbr>
       </Tooltip>

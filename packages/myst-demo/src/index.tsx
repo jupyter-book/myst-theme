@@ -111,7 +111,7 @@ async function parse(
   const { mystToHtml } = await import('myst-to-html');
   const { buttonRole } = await import('myst-ext-button');
   const { cardDirective } = await import('myst-ext-card');
-  const { gridDirective } = await import('myst-ext-grid');
+  const { gridDirectives } = await import('myst-ext-grid');
   const { tabDirectives } = await import('myst-ext-tabs');
   const { proofDirective } = await import('myst-ext-proof');
   const { exerciseDirectives } = await import('myst-ext-exercise');
@@ -121,7 +121,7 @@ async function parse(
       markdownit: { linkify: true },
       directives: [
         cardDirective,
-        gridDirective,
+        ...gridDirectives,
         ...tabDirectives,
         proofDirective,
         ...exerciseDirectives,

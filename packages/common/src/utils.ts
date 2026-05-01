@@ -9,7 +9,7 @@ import { slugToUrl } from 'myst-common';
 
 type Image = ImageSpec & { urlOptimized?: string };
 type Link = LinkSpec & { static?: boolean };
-type Output = { data?: MinifiedOutput[] };
+type Output = { jupyter_data?: MinifiedOutput };
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 type ManifestProjectItem = ManifestProject['pages'][0];
@@ -105,6 +105,13 @@ function updateMdastStaticLinksInplace(mdast: GenericParent, updateUrl: UpdateUr
       node.urlOptimized = updateUrl(node.urlOptimized);
     }
   });
+  const widgets = selectAll('anywidget', mdast) as any[];
+  widgets.forEach((node) => {
+    node.esm = updateUrl(node.esm);
+    if (node.css) {
+      node.css = updateUrl(node.css);
+    }
+  });
   const links = selectAll('link,linkBlock,card', mdast) as Link[];
   const staticLinks = links?.filter((node) => node.static);
   staticLinks.forEach((node) => {
@@ -113,8 +120,8 @@ function updateMdastStaticLinksInplace(mdast: GenericParent, updateUrl: UpdateUr
   });
   const outputs = selectAll('output', mdast) as Output[];
   outputs.forEach((node) => {
-    if (!node.data) return;
-    walkOutputs(node.data, (obj) => {
+    if (!node.jupyter_data) return;
+    walkOutputs([node.jupyter_data], (obj) => {
       // The path will be defined from output of myst
       // Here we are re-assigning it to the current domain
       if (!obj.path) return;
@@ -239,4 +246,13 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
 
 export function isFlatSite(config?: SiteManifest): boolean {
   return config?.projects?.length === 1 && !config.projects[0].slug;
+}
+
+/**
+ * Parse a URL pathname into path segments, handling trailing slashes.
+ *
+ * e.g. "/project/page/" → ["project", "page"]
+ */
+export function parsePathname(pathname: string): string[] {
+  return pathname.replace(/^\/+|\/+$/g, '').split('/');
 }

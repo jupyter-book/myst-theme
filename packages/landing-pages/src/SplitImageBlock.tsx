@@ -42,28 +42,28 @@ export function SplitImageBlock(props: Omit<LandingBlockProps, 'children'>) {
 
   return (
     <LandingBlock {...props}>
-      <div className="relative rounded-md bg-stone-900 dark:bg-stone-800">
-        <div className="lg:absolute lg:h-full lg:w-[calc(50%)] md:absolute md:h-full md:w-[calc(100%/3)] h-80 relative [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_img]:m-0 [&_picture]:m-0 [&_picture]:inline">
+      <div className="myst-landing-split-img relative rounded-md bg-stone-900 dark:bg-stone-800">
+        <div className="myst-landing-split-img-image lg:absolute lg:h-full lg:w-[calc(50%)] md:absolute md:h-full md:w-[calc(100%/3)] h-80 relative [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_img]:m-0 [&_picture]:m-0 [&_picture]:inline">
           <MyST ast={image} />
         </div>
-        <div className="relative py-24">
-          <div className="lg:ml-auto lg:w-[calc(50%)] lg:p-8 lg:pl-24 md:ml-auto md:w-[calc(2*100%/3)] md:pl-16 md:p-8 px-6">
+        <div className="myst-landing-split-img-content-wrapper relative py-24">
+          <div className="myst-landing-split-img-content lg:ml-auto lg:w-[calc(50%)] lg:p-8 lg:pl-24 md:ml-auto md:w-[calc(2*100%/3)] md:pl-16 md:p-8 px-6">
             {subtitle && (
-              <p className="my-0 font-semibold prose text-indigo-400 uppercase  prose-invert">
+              <p className="myst-landing-split-img-subtitle my-0 font-semibold prose text-indigo-400 uppercase  prose-invert">
                 <MyST ast={subtitle.children} />
               </p>
             )}
             {heading && (
               <BlockHeading
                 node={heading}
-                className="mt-2 mb-0 text-5xl font-semibold tracking-tight text-white"
+                className="myst-landing-split-img-heading mt-2 mb-0 text-5xl font-semibold tracking-tight text-white"
               />
             )}
-            <div className="mt-6">
+            <div className="myst-landing-split-img-body mt-6">
               <MyST ast={body} className="prose prose-invert" />
             </div>
             {links && (
-              <div className="flex flex-row flex-wrap items-center gap-4 mt-8">
+              <div className="myst-landing-split-img-links flex flex-row flex-wrap items-center gap-4 mt-8">
                 <MyST ast={links} className="prose prose-invert" />
               </div>
             )}

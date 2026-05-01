@@ -5,6 +5,7 @@ import type { GenericParent } from 'myst-common';
 import { useProjectManifest } from '@myst-theme/providers';
 import type { RepoProviderSpec } from 'thebe-core';
 import { ThebeBundleLoaderProvider, ThebeServerProvider } from 'thebe-react';
+import type { IdOrKey } from './execute/types.js';
 
 type ComputeOptionsContextType = {
   enabled: boolean;
@@ -106,4 +107,24 @@ export function ThebeLoaderAndServer({
       </ThebeServerProvider>
     </ThebeBundleLoaderProvider>
   );
+}
+
+type OutputsContextType = {
+  outputsId: IdOrKey | undefined;
+};
+const OutputsContext = React.createContext<OutputsContextType | null>(null);
+
+export function useOutputsContext() {
+  const context = useContext(OutputsContext);
+  if (context === null) return { outputsId: undefined };
+  return context;
+}
+export function OutputsContextProvider({
+  outputsId,
+  children,
+}: {
+  children: React.ReactNode;
+  outputsId: IdOrKey;
+}) {
+  return <OutputsContext.Provider value={{ outputsId }}>{children}</OutputsContext.Provider>;
 }

@@ -41,6 +41,7 @@ export const IFrame: NodeRenderer = ({ node, className }) => {
           width="100%"
           height="100%"
           src={node.src}
+          title={node.title}
           allowFullScreen
           allow="autoplay"
           style={{

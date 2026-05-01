@@ -1,5 +1,79 @@
 # @myst-theme/search-minisearch
 
+## 1.2.2
+
+### Patch Changes
+
+- @myst-theme/search@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- @myst-theme/search@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- @myst-theme/search@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/search@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- @myst-theme/search@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- @myst-theme/search@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- @myst-theme/search@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- @myst-theme/search@1.1.0
+
+## 1.0.1
+
+### Patch Changes
+
+- @myst-theme/search@1.0.1
+
+## 1.0.0
+
+### Patch Changes
+
+- @myst-theme/search@1.0.0
+
+## 0.18.0
+
+### Patch Changes
+
+- Updated dependencies [ba1e034]
+- Updated dependencies [9f20d99]
+  - @myst-theme/search@0.18.0
+
+## 0.17.1
+
+### Patch Changes
+
+- @myst-theme/search@0.17.1
+
 ## 0.17.0
 
 ### Patch Changes

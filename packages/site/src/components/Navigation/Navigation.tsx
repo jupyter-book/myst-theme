@@ -3,6 +3,7 @@ import { PrimarySidebar } from './PrimarySidebar.js';
 import type { Heading } from '@myst-theme/common';
 import { getProjectHeadings } from '@myst-theme/common';
 import type { SiteManifest } from 'myst-config';
+import type { GenericParent } from 'myst-common';
 
 /**
  * PrimaryNavigation will load nav links and headers from the site manifest and display
@@ -15,6 +16,7 @@ export const PrimaryNavigation = ({
   hide_toc,
   mobileOnly,
   footer,
+  navbarEnd,
 }: {
   children?: React.ReactNode;
   projectSlug?: string;
@@ -22,6 +24,7 @@ export const PrimaryNavigation = ({
   hide_toc?: boolean;
   mobileOnly?: boolean;
   footer?: React.ReactNode;
+  navbarEnd?: GenericParent;
 }) => {
   const config = useSiteManifest();
   if (!config) return null;
@@ -41,6 +44,7 @@ export const PrimaryNavigation = ({
       nav={nav}
       headings={headings}
       footer={footer}
+      navbarEnd={navbarEnd}
     />
   );
 };
@@ -63,6 +67,7 @@ export const ConfigurablePrimaryNavigation = ({
   nav,
   headings,
   footer,
+  navbarEnd,
 }: {
   children?: React.ReactNode;
   sidebarRef?: React.RefObject<HTMLDivElement>;
@@ -71,6 +76,7 @@ export const ConfigurablePrimaryNavigation = ({
   nav?: SiteManifest['nav'];
   headings?: Heading[];
   footer?: React.ReactNode;
+  navbarEnd?: GenericParent;
 }) => {
   const [open, setOpen] = useNavOpen();
   const top = useThemeTop();
@@ -91,17 +97,23 @@ export const ConfigurablePrimaryNavigation = ({
   return (
     <>
       {open && !mobileOnly && headings && (
+        // Darkened backdrop behind the open sidebar on mobile.
         <div
-          className="fixed inset-0 z-30 bg-black opacity-50"
+          // It follows the same top-offset rules as the sidebar: header offset on desktop,
+          // full-screen from top on mobile.
+          className="myst-navigation-overlay fixed inset-0 max-xl:z-40 xl:z-30 bg-black opacity-50 max-xl:!mt-0"
           style={{ marginTop: top }}
+          // Clicking the backdrop is the primary escape path for closing the sidebar.
           onClick={() => setOpen(false)}
         ></div>
       )}
       <PrimarySidebar
+        // The actual sidebar panel is here; the overlay backdrop is above.
         sidebarRef={sidebarRef}
         nav={nav}
         headings={headings}
         footer={footer}
+        navbarEnd={navbarEnd}
         hide_toc={hide_toc}
         mobileOnly={mobileOnly}
       />

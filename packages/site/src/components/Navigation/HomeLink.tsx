@@ -5,41 +5,44 @@ export function HomeLink({
   logo,
   logoDark,
   logoText,
+  logoAlt,
   name,
   url,
 }: {
   logo?: string;
   logoDark?: string;
   logoText?: string;
+  logoAlt?: string;
   name?: string;
   url?: string;
 }) {
   const Link = useLinkProvider();
   const baseurl = useBaseurl();
   const nothingSet = !logo && !logoText;
+  const altText = logoAlt ?? logoText ?? name;
   return (
     <Link
-      className="flex items-center ml-3 dark:text-white w-fit md:ml-5 xl:ml-7"
+      className="myst-home-link flex items-center ml-3 dark:text-white w-fit md:ml-5 xl:ml-7"
       to={url ? url : withBaseurl('/', baseurl)}
       prefetch="intent"
     >
       {logo && (
         <div
-          className={classNames('p-1 mr-3', {
-            'dark:bg-white dark:rounded': !logoDark,
+          className={classNames('myst-home-link-logo mr-3 flex items-center', {
+            'dark:bg-white dark:rounded px-1': !logoDark,
           })}
         >
           <img
             src={logo}
             className={classNames('h-9', { 'dark:hidden': !!logoDark })}
-            alt={logoText || name}
+            alt={altText}
             height="2.25rem"
           ></img>
           {logoDark && (
             <img
               src={logoDark}
               className="hidden h-9 dark:block"
-              alt={logoText || name}
+              alt={altText}
               height="2.25rem"
             ></img>
           )}

@@ -2,12 +2,13 @@ import {
   useBaseurl,
   useNavLinkProvider,
   useSiteManifest,
+  useThemeTop,
   withBaseurl,
 } from '@myst-theme/providers';
 import { useNavigation } from '@remix-run/react';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import { DocumentChartBarIcon } from '@heroicons/react/24/outline';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
@@ -17,6 +18,21 @@ import { slugToUrl } from 'myst-common';
 const SELECTOR = [1, 2, 3, 4].map((n) => `main h${n}`).join(', ');
 
 const onClient = typeof document !== 'undefined';
+
+/**
+ * Returns `next` if it differs from `prev`, otherwise returns `prev` unchanged.
+ * This prevents unnecessary React state updates (and re-renders) when the
+ * array contents haven't actually changed - important for breaking feedback
+ * loops with IntersectionObserver and MutationObserver.
+ */
+function arrayIfChanged<T>(prev: T[], next: T[]): T[] {
+  if (prev === next) return prev;
+  if (prev.length !== next.length) return next;
+  for (let i = 0; i < prev.length; i++) {
+    if (prev[i] !== next[i]) return next;
+  }
+  return prev;
+}
 
 export type Heading = {
   element: HTMLHeadingElement;
@@ -35,15 +51,16 @@ type Props = {
  * scrollIntoView is used to ensure that when a user clicks on an item, it will smoothly scroll.
  */
 const Headings = ({ headings, activeId }: Props) => (
-  <ul className="text-sm leading-6 text-slate-400">
+  <ul className="myst-outline-list text-sm leading-6 text-slate-400">
     {headings.map((heading) => (
       <li
         key={heading.id}
-        className={classNames('border-l-2 hover:border-l-blue-500', {
+        className={classNames('myst-outline-item border-l-2 hover:border-l-blue-500', {
           'text-blue-600': heading.id === activeId,
           'border-l-gray-300 dark:border-l-gray-50': heading.id !== activeId,
           'border-l-blue-500': heading.id === activeId,
           'bg-blue-50 dark:bg-slate-800': heading.id === activeId,
+          'myst-outline-item-active': heading.id === activeId,
         })}
       >
         <a
@@ -147,13 +164,24 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
 
   if (!onClient) return { observer };
   useEffect(() => {
+    // We want a list of all header elements on screen to loop through, but:
+    // IntersectionObserver returns elements that have *changed state*, not the full list of elements on screen.
+    // So we maintain a set of on-screen elements and add/remove as new intersection events happen.
     const cb: IntersectionObserverCallback = (entries) => {
-      setIntersecting(entries.filter((e) => e.isIntersecting).map((e) => e.target));
+      setIntersecting((prev) => {
+        const next = new Set(prev);
+        // Add or remove from our set based on intersection state
+        entries.forEach((e) => {
+          if (e.isIntersecting) next.add(e.target);
+          else next.delete(e.target);
+        });
+        return arrayIfChanged(prev, Array.from(next));
+      });
     };
     const o = new IntersectionObserver(cb, options ?? {});
     setObserver(o);
     return () => o.disconnect();
-  }, []);
+  }, [options]);
 
   // Changes to the DOM mean we need to update our intersection observer
   useEffect(() => {
@@ -162,12 +190,18 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
     }
     // Observe all heading elements
     const toWatch = elements;
-    toWatch.map((e) => observer.observe(e));
+    toWatch.forEach((e) => {
+      observer.observe(e);
+    });
     // Cleanup afterwards
     return () => {
-      toWatch.map((e) => observer.unobserve(e));
+      toWatch.forEach((e) => {
+        observer.unobserve(e);
+      });
+      // Ensure we don't keep stale references when elements are removed/unobserved.
+      setIntersecting((prev) => prev.filter((e) => !toWatch.includes(e)));
     };
-  }, [elements]);
+  }, [elements, observer]);
 
   return { observer, intersecting };
 };
@@ -176,6 +210,7 @@ const useIntersectionObserver = (elements: Element[], options?: Record<string, a
  * Keep track of which headers are visible, and which header is active
  */
 export function useHeaders(selector: string, maxdepth: number) {
+  const topOffset = useThemeTop();
   if (!onClient) return { activeId: '', headings: [] };
   // Keep track of main manually for now
   const mainElementRef = useRef<HTMLElement | null>(null);
@@ -188,10 +223,11 @@ export function useHeaders(selector: string, maxdepth: number) {
   const onMutation = useCallback(
     throttle(
       () => {
-        setElements(getHeaders(selector));
+        setElements((prev) => arrayIfChanged(prev, getHeaders(selector)));
       },
       500,
-      { trailing: false },
+      // Trailing updates help ensure we eventually process the last DOM mutation burst.
+      { trailing: true },
     ),
     [selector],
   );
@@ -209,6 +245,9 @@ export function useHeaders(selector: string, maxdepth: number) {
   const [activeId, setActiveId] = useState<string>();
 
   useEffect(() => {
+    // Use the theme's top offset (navbar height) + a bit of padding for filtering active headings to avoid over-shooting the header.
+    const OFFSET_PX = topOffset - 10;
+    // Prefer a heading marked as highlighted (e.g. focus/anchor) if one is currently intersecting.
     const highlighted = intersecting!.reduce(
       (a, b) => {
         if (a) return a;
@@ -217,11 +256,28 @@ export function useHeaders(selector: string, maxdepth: number) {
       },
       null as string | null,
     );
-    const active = [...(intersecting as HTMLElement[])].sort(
-      (a, b) => a.offsetTop - b.offsetTop,
-    )[0];
-    if (highlighted || active) setActiveId(highlighted || active.id);
-  }, [intersecting]);
+    const intersectingElements = intersecting as HTMLElement[];
+    // Choose the heading closest to the navbar offset line within a viewport window under it.
+    // Using a window avoids a case where the active header is off screen the next header is way at the bottom of the screen.
+    let bestInActiveHeaderWindow: { el: HTMLElement; distance: number } | undefined;
+    const ACTIVE_WINDOW_PX = window.innerHeight * 0.33;
+    for (const el of intersectingElements) {
+      const distance = el.getBoundingClientRect().top - OFFSET_PX;
+      if (
+        // Only keep things under the navbar line
+        distance >= 0 &&
+        // Only keep things over the active window size
+        distance <= ACTIVE_WINDOW_PX &&
+        // Now if it's closer to the navbar line than the active element, update active
+        (!bestInActiveHeaderWindow || distance < bestInActiveHeaderWindow.distance)
+      ) {
+        bestInActiveHeaderWindow = { el, distance };
+      }
+    }
+    // If nothing is below the navbar line, keep the current active heading.
+    const active = bestInActiveHeaderWindow?.el;
+    if (highlighted || active) setActiveId(highlighted || active?.id);
+  }, [intersecting, topOffset]);
 
   const [headings, setHeadings] = useState<Heading[]>([]);
   useEffect(() => {
@@ -291,6 +347,8 @@ export function useOutlineHeight<T extends HTMLElement = HTMLElement>(
 function useMarginOccluder() {
   const [occluded, setOccluded] = useState(false);
   const [elements, setElements] = useState<Element[]>([]);
+  // Memoize options so `useIntersectionObserver(..., options)` doesn't recreate the observer each render.
+  const intersectionOptions = useMemo(() => ({ rootMargin: '0px 0px -33% 0px' }), []);
 
   // Keep track of main manually for now
   const mainElementRef = useRef<HTMLElement | null>(null);
@@ -326,10 +384,11 @@ function useMarginOccluder() {
           .flat()
           .join(', ');
         const marginElements = mainElementRef.current.querySelectorAll(selector);
-        setElements(Array.from(marginElements));
+        setElements((prev) => arrayIfChanged(prev, Array.from(marginElements)));
       },
       500,
-      { trailing: false },
+      // Trailing updates help ensure we eventually process the last DOM mutation burst.
+      { trailing: true },
     ),
     [],
   );
@@ -342,7 +401,7 @@ function useMarginOccluder() {
   // Trigger initial update
   useEffect(onMutation, []);
   // Keep tabs of margin elements on screen
-  const { intersecting } = useIntersectionObserver(elements, { rootMargin: '0px 0px -33% 0px' });
+  const { intersecting } = useIntersectionObserver(elements, intersectionOptions);
   useEffect(() => {
     setOccluded(intersecting!.length > 0);
   }, [intersecting]);
@@ -393,24 +452,28 @@ export const DocumentOutline = ({
   }
 
   return (
-    <Collapsible.Root open={open} onOpenChange={setOpen}>
+    <Collapsible.Root open={open} onOpenChange={setOpen} className="myst-outline-section">
       <nav
         ref={outlineRef}
         aria-label="Document Outline"
         className={classNames(
-          'not-prose overflow-y-auto',
+          'myst-outline not-prose overflow-y-auto',
           'transition-opacity duration-700', // Animation on load
+          'bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm rounded-lg p-2 -m-2', // Solid background to avoid overlap with margin content
           className,
         )}
         style={{
           top: top,
-          maxHeight: `calc(100vh - ${top + 20}px)`,
+          maxHeight: `calc(100vh - ${top + 100}px)`,
         }}
       >
-        <div className="flex flex-row gap-2 mb-4 text-sm leading-6 uppercase rounded-lg text-slate-900 dark:text-slate-100">
+        <div className="myst-outline-header flex flex-row gap-2 mb-4 text-sm leading-6 uppercase rounded-lg text-slate-900 dark:text-slate-100">
           {title}
           <Collapsible.Trigger asChild>
-            <button className="self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2">
+            <button
+              className="myst-outline-collapsible self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-blue-200 outline-2"
+              aria-label="Open Contents"
+            >
               <ChevronRightIcon
                 className="transition-transform duration-300 group-data-[state=open]:rotate-90 text-text-slate-700 dark:text-slate-100"
                 height="1.5rem"
@@ -436,7 +499,7 @@ export function SupportingDocuments() {
   if (!pages || pages.length === 0) return null;
   return (
     <>
-      <div className="my-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">
+      <div className="myst-supporting-documents my-4 text-sm leading-6 uppercase text-slate-900 dark:text-slate-100">
         Supporting Documents
       </div>
       <ul className="flex flex-col gap-2 pl-0 text-sm leading-6 list-none text-slate-700 dark:text-slate-300">

@@ -1,5 +1,190 @@
 # @myst-theme/article
 
+## 1.2.2
+
+### Patch Changes
+
+- @myst-theme/providers@1.2.2
+- @myst-theme/jupyter@1.2.2
+- @myst-theme/site@1.2.2
+- @myst-theme/styles@1.2.2
+- @myst-theme/common@1.2.2
+- @myst-theme/icons@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [eed55ed]
+- Updated dependencies [c7164c8]
+- Updated dependencies [0888410]
+- Updated dependencies [472220e]
+  - @myst-theme/site@1.2.1
+  - @myst-theme/jupyter@1.2.1
+  - @myst-theme/styles@1.2.1
+  - @myst-theme/providers@1.2.1
+  - @myst-theme/common@1.2.1
+  - @myst-theme/icons@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- Updated dependencies [f5e7528]
+- Updated dependencies [9ecc788]
+- Updated dependencies [f908854]
+- Updated dependencies [ee2d127]
+  - @myst-theme/site@1.2.0
+  - @myst-theme/styles@1.2.0
+  - @myst-theme/providers@1.2.0
+  - @myst-theme/jupyter@1.2.0
+  - @myst-theme/common@1.2.0
+  - @myst-theme/icons@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.4
+- @myst-theme/jupyter@1.1.4
+- @myst-theme/site@1.1.4
+- @myst-theme/styles@1.1.4
+- @myst-theme/common@1.1.4
+- @myst-theme/icons@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- be43281: Fix bug with trailing slash in URLs
+- Updated dependencies [be43281]
+- Updated dependencies [a8b0c87]
+  - @myst-theme/common@1.1.3
+  - @myst-theme/providers@1.1.3
+  - @myst-theme/site@1.1.3
+  - @myst-theme/jupyter@1.1.3
+  - @myst-theme/styles@1.1.3
+  - @myst-theme/icons@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- c3c427d: Add alt text for logo
+- Updated dependencies [a569399]
+- Updated dependencies [2208b1e]
+- Updated dependencies [192a1b0]
+- Updated dependencies [c3c427d]
+  - @myst-theme/site@1.1.2
+  - @myst-theme/common@1.1.2
+  - @myst-theme/providers@1.1.2
+  - @myst-theme/jupyter@1.1.2
+  - @myst-theme/styles@1.1.2
+  - @myst-theme/icons@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [f722531]
+  - @myst-theme/site@1.1.1
+  - @myst-theme/providers@1.1.1
+  - @myst-theme/jupyter@1.1.1
+  - @myst-theme/styles@1.1.1
+  - @myst-theme/common@1.1.1
+  - @myst-theme/icons@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- 9538e88: Use `npm ci` instead of `npm install` for themes
+- Updated dependencies [e213587]
+- Updated dependencies [37fa906]
+- Updated dependencies [9d1a6d3]
+- Updated dependencies [fd4708d]
+- Updated dependencies [cbe05f1]
+- Updated dependencies [c519f9b]
+- Updated dependencies [20e0e66]
+  - @myst-theme/site@1.1.0
+  - @myst-theme/styles@1.1.0
+  - @myst-theme/providers@1.1.0
+  - @myst-theme/jupyter@1.1.0
+  - @myst-theme/common@1.1.0
+  - @myst-theme/icons@1.1.0
+
+## 1.0.1
+
+### Patch Changes
+
+- c3c9e19: Use of `migrate()` updates to ensure full pass-through of the `PageLoader` data. At the moment `myst-migrate` only deals with `mdast` but in will likely deal with the entire page, this change enables that.
+- Updated dependencies [92adc7d]
+- Updated dependencies [796a556]
+- Updated dependencies [c863568]
+- Updated dependencies [796a556]
+  - @myst-theme/jupyter@1.0.1
+  - @myst-theme/providers@1.0.1
+  - @myst-theme/site@1.0.1
+  - @myst-theme/common@1.0.1
+  - @myst-theme/styles@1.0.1
+  - @myst-theme/icons@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- 16a3bc8: Updates the theme to accept a new AST structure for notebook output. These changes are not backwards compatible, and after this change, only the new AST structure is supported. Meaning, content upgrades are required to use the new themes. See https://github.com/jupyter-book/mystmd/pull/1903 for related AST changes.
+
+### Patch Changes
+
+- Updated dependencies [16a3bc8]
+- Updated dependencies [bd19488]
+  - @myst-theme/jupyter@1.0.0
+  - @myst-theme/common@1.0.0
+  - @myst-theme/styles@1.0.0
+  - @myst-theme/providers@1.0.0
+  - @myst-theme/site@1.0.0
+  - @myst-theme/icons@1.0.0
+
+## 0.18.0
+
+### Minor Changes
+
+- dee582b: Add human-readable CSS classes to myst components
+
+### Patch Changes
+
+- c6699ff: Add hide_authors handling
+- Updated dependencies [dee582b]
+- Updated dependencies [3a334e5]
+- Updated dependencies [c6699ff]
+- Updated dependencies [b5a3495]
+- Updated dependencies [ef1b152]
+- Updated dependencies [60cca10]
+- Updated dependencies [7190e6c]
+  - @myst-theme/jupyter@0.18.0
+  - @myst-theme/common@0.18.0
+  - @myst-theme/icons@0.18.0
+  - @myst-theme/site@0.18.0
+  - @myst-theme/providers@0.18.0
+  - @myst-theme/styles@0.18.0
+
+## 0.17.1
+
+### Patch Changes
+
+- 4ee2d3f: Changes to DOM ordering to ensure that `main` encloses `article` and that there is only one `main` on a page in both themes.
+- Updated dependencies [b61c5ec]
+- Updated dependencies [630812f]
+- Updated dependencies [4ee2d3f]
+- Updated dependencies [8981edd]
+  - @myst-theme/site@0.17.1
+  - @myst-theme/providers@0.17.1
+  - @myst-theme/jupyter@0.17.1
+  - @myst-theme/styles@0.17.1
+  - @myst-theme/common@0.17.1
+  - @myst-theme/icons@0.17.1
+
 ## 0.17.0
 
 ### Minor Changes
@@ -882,7 +1067,6 @@
 ### Patch Changes
 
 - 0536fa7: Rename styles to allow for additional grid systems:
-
   - `article-grid-gap` to `grid-gap`
   - `article-subgrid-gap` to `subgrid-gap`
 

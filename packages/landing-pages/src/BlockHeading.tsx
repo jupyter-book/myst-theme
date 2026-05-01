@@ -10,15 +10,22 @@ export function BlockHeading({ node, className }: { node: GenericParent; classNa
   return e(
     `h${depth}`,
     {
-      className: classNames(node.class, className, 'group'),
+      className: classNames('myst-landing-heading', node.class, className, 'group'),
       id: id,
     },
     <>
-      {enumerator && <span className="mr-3 select-none">{enumerator}</span>}
-      <span className="heading-text">
+      {enumerator && <span className="myst-landing-enumerator mr-3 select-none">{enumerator}</span>}
+      <span className="myst-landing-text heading-text">
         <MyST ast={node.children} />
       </span>
-      <HashLink id={id} kind="Section" className="font-normal" hover hideInPopup noWidth />
+      <HashLink
+        className="myst-landing-link font-normal"
+        id={id}
+        kind="Section"
+        hover
+        hideInPopup
+        noWidth
+      />
     </>,
   );
 }

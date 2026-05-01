@@ -1,5 +1,106 @@
 # myst-to-react
 
+## 1.2.2
+
+### Patch Changes
+
+- ad30791: Add aria tags to overflowing tables
+  - @myst-theme/providers@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 0888410: Make overflowing content focusable
+- Updated dependencies [0888410]
+  - @myst-theme/providers@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- 9ecc788: Add grid-item renderer
+
+### Patch Changes
+
+- f8ef1ef: Add both vert and horiz gap for badges
+- Updated dependencies [f908854]
+  - @myst-theme/providers@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- a8b0c87: Support a domain to treat as internal URLs
+- a96413c: Fix ROR rendererwq
+- Updated dependencies [a8b0c87]
+  - @myst-theme/providers@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- 7d92ceb: Make link icons stay on the same line as link
+  - @myst-theme/providers@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- ae018ba: Static links should not change the base URL
+  - @myst-theme/providers@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 9bfb08e: Add more preview icons for github issues and PRs
+
+### Patch Changes
+
+- 75475f8: fix inline images that are linked as blocks
+- c519f9b: Standardize link styles
+- Updated dependencies [fd4708d]
+  - @myst-theme/providers@1.1.0
+
+## 1.0.1
+
+### Patch Changes
+
+- 92adc7d: Export `Callout` for direct reuse
+- 796a556: Modify cross reference lookup for remote content (external references) to apply migration to the current AST version. Re-exporting the current AST version.
+- 92adc7d: Aligned fallback component for `output` in `figure` `NodeRenderer` with how it is presented elsewhere
+- c3c9e19: Use of `migrate()` updates to ensure full pass-through of the `PageLoader` data. At the moment `myst-migrate` only deals with `mdast` but in will likely deal with the entire page, this change enables that.
+- Updated dependencies [c863568]
+  - @myst-theme/providers@1.0.1
+
+## 1.0.0
+
+### Patch Changes
+
+- bd19488: Fix inline images and centered figure captions
+  - @myst-theme/providers@1.0.0
+
+## 0.18.0
+
+### Patch Changes
+
+- 49fc460: Consume title in iframe renderer
+- Updated dependencies [60cca10]
+  - @myst-theme/providers@0.18.0
+
+## 0.17.1
+
+### Patch Changes
+
+- @myst-theme/providers@0.17.1
+
 ## 0.17.0
 
 ### Patch Changes

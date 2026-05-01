@@ -36,9 +36,10 @@ app.all(
 
 async function start() {
   // Find an open port if the env is not specified
+  const host = process.env.HOST || 'localhost';
   const port = process.env.PORT || (await getPort({ port: getPort.makeRange(3000, 3100) }));
-  app.listen(port, () => {
-    console.log(`Server started at http://localhost:${port}`);
+  app.listen(port, host, () => {
+    console.log(`Server started at http://${host}:${port}`);
   });
 }
 

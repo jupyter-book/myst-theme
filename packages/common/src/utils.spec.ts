@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { isFlatSite } from './utils.js';
+import { isFlatSite, parsePathname } from './utils.js';
 
 describe('utils', () => {
   test('isFlatSite true', () => {
@@ -31,5 +31,13 @@ describe('utils', () => {
         ],
       }),
     ).toBe(false);
+  });
+});
+
+describe('parsePathname', () => {
+  test('trailing slash produces same parts as without', () => {
+    expect(parsePathname('/community/')).toEqual(['community']);
+    expect(parsePathname('/community')).toEqual(['community']);
+    expect(parsePathname('/project/page/')).toEqual(['project', 'page']);
   });
 });

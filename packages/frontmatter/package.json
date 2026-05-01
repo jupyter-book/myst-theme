@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/frontmatter",
-  "version": "0.17.0",
+  "version": "1.2.2",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -8,9 +8,13 @@
     "dist"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",

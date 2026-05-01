@@ -4,7 +4,7 @@ import {
   type LinksFunction,
   type LoaderFunction,
 } from '@remix-run/node';
-import { getProject, isFlatSite, type PageLoader } from '@myst-theme/common';
+import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
   useOutlineHeight,
@@ -25,11 +25,14 @@ import {
   useSiteManifest,
   useThemeTop,
   ProjectProvider,
+  BannerStateProvider,
 } from '@myst-theme/providers';
-import { MadeWithMyst } from '@myst-theme/icons';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
+import { MadeWithMyst } from '@myst-theme/icons';
 import { ArticlePage } from '../components/ArticlePage.js';
 import { Footer } from '../components/Footer.js';
+import { Banner } from '../components/Banner.js';
+import { SidebarFooter } from '../components/SidebarFooter.js';
 import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 type ManifestProject = Required<SiteManifest>['projects'][0];
@@ -60,7 +63,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }
 export const links: LinksFunction = () => [KatexCSS];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const [first, ...rest] = new URL(request.url).pathname.slice(1).split('/');
+  const [first, ...rest] = parsePathname(new URL(request.url).pathname);
   const config = await getConfig();
   const project = getProject(config, first);
   const projectName = project?.slug === first ? first : undefined;
@@ -90,14 +93,19 @@ function ArticlePageAndNavigationInternal({
 }) {
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
-  const projectParts = useSiteManifest()?.parts;
+  const siteManifest = useSiteManifest() as any;
+  const projectParts = { ...siteManifest?.projects?.[0]?.parts, ...siteManifest?.parts };
   return (
     <>
-      <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
+      <TabStateProvider>
+        {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
+      </TabStateProvider>
+      <TopNav hideToc={hide_toc} hideSearch={hideSearch} navbarEnd={projectParts?.navbar_end?.mdast} />
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
-        footer={<MadeWithMyst />}
+        footer={<SidebarFooter content={projectParts?.primary_sidebar_footer?.mdast} />}
+        navbarEnd={projectParts?.navbar_end?.mdast}
         projectSlug={projectSlug}
       />
       <TabStateProvider>
@@ -133,13 +141,15 @@ export function ArticlePageAndNavigation({
 }) {
   return (
     <UiStateProvider>
-      <ArticlePageAndNavigationInternal
-        children={children}
-        hide_toc={hide_toc}
-        hideSearch={hideSearch}
-        projectSlug={projectSlug}
-        inset={inset}
-      />
+      <BannerStateProvider>
+        <ArticlePageAndNavigationInternal
+          children={children}
+          hide_toc={hide_toc}
+          hideSearch={hideSearch}
+          projectSlug={projectSlug}
+          inset={inset}
+        />
+      </BannerStateProvider>
     </UiStateProvider>
   );
 }

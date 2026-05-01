@@ -22,12 +22,14 @@ import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
+import { ANY_RENDERERS } from '@myst-theme/anywidget';
 import { useCallback } from 'react';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
   JUPYTER_RENDERERS,
   LANDING_PAGE_RENDERERS,
+  ANY_RENDERERS,
 ]);
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
@@ -83,6 +85,54 @@ function createSearch(index: MystSearchIndex): ISearch {
   return createMiniSearch(index.records, options);
 }
 
+/*
+ * Component that shows a "no CSS loaded" warning when a page
+ * loads without the built-in MyST stylesheet. This can happen on static builds
+ * when the BASE_URL doesn't match the deployment base URL.
+ */
+function NoCSSWarning() {
+  const CLIENT_THEME_SOURCE = `
+    (() => {
+            // Test for has-styling variable set by the MyST stylesheet
+            const node = document.currentScript.parentNode;
+            const hasCSS = window.getComputedStyle(node).getPropertyValue("--has-styling");
+            if (hasCSS === ""){
+                    node.showModal();
+            }
+
+    })()
+`;
+  return (
+    <>
+      <dialog
+        id="myst-no-css"
+        // Use inline styles to ensure styling without stylesheets
+        style={{
+          position: 'fixed',
+          left: '0px',
+          top: '0px',
+          width: '100%',
+          height: '100vh',
+          fontSize: '4rem',
+          padding: '1rem',
+          color: 'black',
+          background: 'white',
+        }}
+        // Opening the modal sets an open attribute, so we need to disable the warning
+        suppressHydrationWarning
+      >
+        <strong>Site not loading correctly?</strong>
+        <p>
+          This may be due to an incorrect <code>BASE_URL</code> configuration. See{' '}
+          <a href="https://mystmd.org/guide/deployment#deploy-base-url">the MyST Documentation</a>{' '}
+          for reference.
+        </p>
+        <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />
+      </dialog>
+    </>
+  );
+}
+
 export default function AppWithReload() {
   const { theme, config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
@@ -110,6 +160,7 @@ export default function AppWithReload() {
             { id: 'skip-to-article', title: 'Skip to article content' },
           ]}
         />
+        <NoCSSWarning />
         <Outlet />
       </Document>
     </SearchFactoryProvider>

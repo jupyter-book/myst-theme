@@ -1,5 +1,211 @@
 # @myst-theme/site
 
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [ad30791]
+  - myst-to-react@1.2.2
+  - @myst-theme/providers@1.2.2
+  - @myst-theme/frontmatter@1.2.2
+  - @myst-theme/diagrams@1.2.2
+  - @myst-theme/common@1.2.2
+  - @myst-theme/search@1.2.2
+  - myst-demo@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- eed55ed: Re-order search entries to better behave under screen-readers.
+  Add missing aria-expanded attribute.
+- 472220e: Fix aria-controls in search popup
+- Updated dependencies [0888410]
+  - myst-to-react@1.2.1
+  - @myst-theme/providers@1.2.1
+  - @myst-theme/frontmatter@1.2.1
+  - @myst-theme/diagrams@1.2.1
+  - @myst-theme/common@1.2.1
+  - @myst-theme/search@1.2.1
+  - myst-demo@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- f5e7528: Add accessible labels to footer links
+- ee2d127: ✨ Add navbar_end part in navbar UI
+- Updated dependencies [9ecc788]
+- Updated dependencies [f908854]
+- Updated dependencies [f8ef1ef]
+  - myst-to-react@1.2.0
+  - myst-demo@1.2.0
+  - @myst-theme/providers@1.2.0
+  - @myst-theme/frontmatter@1.2.0
+  - @myst-theme/diagrams@1.2.0
+  - @myst-theme/common@1.2.0
+  - @myst-theme/search@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.4
+- @myst-theme/frontmatter@1.1.4
+- @myst-theme/diagrams@1.1.4
+- @myst-theme/common@1.1.4
+- @myst-theme/search@1.1.4
+- myst-to-react@1.1.4
+- myst-demo@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- a8b0c87: Support a domain to treat as internal URLs
+- Updated dependencies [be43281]
+- Updated dependencies [a8b0c87]
+- Updated dependencies [a96413c]
+  - @myst-theme/common@1.1.3
+  - myst-to-react@1.1.3
+  - @myst-theme/providers@1.1.3
+  - @myst-theme/frontmatter@1.1.3
+  - @myst-theme/diagrams@1.1.3
+  - @myst-theme/search@1.1.3
+  - myst-demo@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- a569399: Make sidebar modal take up full height
+- 2208b1e: Re-use classes for sidebar whitespace
+- 192a1b0: Use parent width instead of screen size for page components to fix overflow
+- c3c427d: Add alt text for logo
+- Updated dependencies [7d92ceb]
+- Updated dependencies [c3c427d]
+  - myst-to-react@1.1.2
+  - @myst-theme/common@1.1.2
+  - @myst-theme/providers@1.1.2
+  - @myst-theme/frontmatter@1.1.2
+  - @myst-theme/diagrams@1.1.2
+  - @myst-theme/search@1.1.2
+  - myst-demo@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- f722531: Increase contrast of search bar on dark mode
+- Updated dependencies [ae018ba]
+  - myst-to-react@1.1.1
+  - @myst-theme/providers@1.1.1
+  - @myst-theme/frontmatter@1.1.1
+  - @myst-theme/diagrams@1.1.1
+  - @myst-theme/common@1.1.1
+  - @myst-theme/search@1.1.1
+  - myst-demo@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- e213587: On static builds, fix sidebar menu not expanding for current page (closes [#635](https://github.com/jupyter-book/mystmd/issues/2288)).
+- 37fa906: Improve UX of ToC expand widget
+- Updated dependencies [fd4708d]
+- Updated dependencies [75475f8]
+- Updated dependencies [c519f9b]
+- Updated dependencies [9bfb08e]
+  - @myst-theme/providers@1.1.0
+  - myst-to-react@1.1.0
+  - @myst-theme/frontmatter@1.1.0
+  - @myst-theme/diagrams@1.1.0
+  - @myst-theme/common@1.1.0
+  - @myst-theme/search@1.1.0
+  - myst-demo@1.1.0
+
+## 1.0.1
+
+### Patch Changes
+
+- c863568: Fix base URL behavior in top nav
+- Updated dependencies [eabac28]
+- Updated dependencies [c863568]
+- Updated dependencies [92adc7d]
+- Updated dependencies [796a556]
+- Updated dependencies [92adc7d]
+- Updated dependencies [796a556]
+- Updated dependencies [c3c9e19]
+  - @myst-theme/frontmatter@1.0.1
+  - @myst-theme/providers@1.0.1
+  - myst-to-react@1.0.1
+  - @myst-theme/common@1.0.1
+  - @myst-theme/diagrams@1.0.1
+  - @myst-theme/search@1.0.1
+  - myst-demo@1.0.1
+
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [16a3bc8]
+- Updated dependencies [bd19488]
+  - @myst-theme/common@1.0.0
+  - myst-to-react@1.0.0
+  - @myst-theme/providers@1.0.0
+  - @myst-theme/frontmatter@1.0.0
+  - @myst-theme/diagrams@1.0.0
+  - @myst-theme/search@1.0.0
+  - myst-demo@1.0.0
+
+## 0.18.0
+
+### Minor Changes
+
+- dee582b: Add human-readable CSS classes to myst components
+
+### Patch Changes
+
+- 3a334e5: Reduce height of document outline in right panel to avoid overflowing the screen height
+- c6699ff: Add hide_authors handling
+- b5a3495: Add project.parts.primary_sidebar_footer option
+- 60cca10: Adjust the primary sidebar height and positioning when banner is displayed.
+
+  Also expose the banner state for other components to use.
+
+- 7190e6c: Add baseurl to the sidebar links
+- Updated dependencies [10a7355]
+- Updated dependencies [dee582b]
+- Updated dependencies [ba1e034]
+- Updated dependencies [c6699ff]
+- Updated dependencies [9f20d99]
+- Updated dependencies [17b3b1b]
+- Updated dependencies [60cca10]
+- Updated dependencies [49fc460]
+  - @myst-theme/frontmatter@0.18.0
+  - @myst-theme/common@0.18.0
+  - @myst-theme/search@0.18.0
+  - @myst-theme/diagrams@0.18.0
+  - @myst-theme/providers@0.18.0
+  - myst-to-react@0.18.0
+  - myst-demo@0.18.0
+
+## 0.17.1
+
+### Patch Changes
+
+- b61c5ec: On static builds, fix sidebar menu not expanding for current page (closes [#635](https://github.com/jupyter-book/mystmd/issues/2288)).
+- 630812f: Add `aria-label` for `DocumentOutline.tsx` dropdown button
+- 4ee2d3f: Changes to DOM ordering to ensure that `main` encloses `article` and that there is only one `main` on a page in both themes.
+- 8981edd: Fix top navigation links not following the BASE_URL environment variable
+  - @myst-theme/providers@0.17.1
+  - @myst-theme/frontmatter@0.17.1
+  - @myst-theme/diagrams@0.17.1
+  - @myst-theme/common@0.17.1
+  - @myst-theme/search@0.17.1
+  - myst-to-react@0.17.1
+  - myst-demo@0.17.1
+
 ## 0.17.0
 
 ### Minor Changes
@@ -1002,7 +1208,6 @@
 ### Patch Changes
 
 - 0536fa7: Rename styles to allow for additional grid systems:
-
   - `article-grid-gap` to `grid-gap`
   - `article-subgrid-gap` to `subgrid-gap`
 

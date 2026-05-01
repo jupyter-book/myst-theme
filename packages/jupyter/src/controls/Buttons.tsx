@@ -45,7 +45,12 @@ function BinderButton({
   }
 
   return (
-    <button className={className} disabled={busy} onClick={onClick} title={title}>
+    <button
+      className={classNames('myst-jp-btn-binder', className)}
+      disabled={busy}
+      onClick={onClick}
+      title={title}
+    >
       <div className="flex items-center h-full">
         {iconToShow}
         <span>{label}</span>
@@ -80,7 +85,7 @@ export function LaunchBinder({ type, location }: { type: 'link' | 'button'; loca
     return (
       <a
         ref={autoClickRef}
-        className={btnStyles}
+        className={classNames('myst-jp-btn-launch-binder', btnStyles)}
         href={userServerUrl}
         target="_blank"
         rel="noopener noreferrer"
@@ -143,7 +148,7 @@ export function SpinnerStatusButton({
   }
 
   return (
-    <div className="relative flex text-sm">
+    <div className="myst-jp-btn-spinner-status relative flex text-sm">
       <button
         className={classNames(
           'cursor-pointer text-gray-700 dark:text-white active:text-green-700 hover:opacity-100',
@@ -160,7 +165,7 @@ export function SpinnerStatusButton({
         {icon}
       </button>
       {busy && (
-        <span className="absolute top-0 left-0 z-10 opacity-100">
+        <span className="myst-jp-btn-spinner-overlay absolute top-0 left-0 z-10 opacity-100">
           <Spinner size={24} />
         </span>
       )}
@@ -184,7 +189,7 @@ function SpinnerButton({
   onClick: () => void;
 }) {
   return (
-    <div className="relative flex text-sm">
+    <div className="myst-jp-btn-spinner relative flex text-sm">
       <button
         className={classNames(' text-gray-700 dark:text-white active:text-green-700 ', {
           'opacity-10 hover:opacity-10': busy,
@@ -200,7 +205,7 @@ function SpinnerButton({
         {icon}
       </button>
       {busy && (
-        <span className="absolute top-0 left-0 z-10 opacity-100">
+        <span className="myst-jp-btn-spinner-overlay absolute top-0 left-0 z-10 opacity-100">
           <Spinner size={24} />
         </span>
       )}
@@ -228,7 +233,13 @@ export function Run({
       disabled={disabled}
       title={title ?? 'run all cells'}
       onClick={onClick}
-      icon={<PlayCircleIcon width="1.5rem" height="1.5rem" className="inline-block align-top" />}
+      icon={
+        <PlayCircleIcon
+          width="1.5rem"
+          height="1.5rem"
+          className="myst-jp-btn-run inline-block align-top"
+        />
+      }
     />
   );
 }
@@ -257,7 +268,7 @@ export function Power({
         <PowerIcon
           width="1.5rem"
           height="1.5rem"
-          className="inline-block align-top dark:text-white"
+          className="myst-jp-btn-power inline-block align-top dark:text-white"
         />
       }
     />
@@ -284,7 +295,13 @@ export function ReRun({
       disabled={disabled}
       title={title ?? 'run all cells'}
       onClick={onClick}
-      icon={<ArrowPathIcon width="1.5rem" height="1.5rem" className="inline-block align-top" />}
+      icon={
+        <ArrowPathIcon
+          width="1.5rem"
+          height="1.5rem"
+          className="myst-jp-btn-rerun inline-block align-top"
+        />
+      }
     />
   );
 }
@@ -310,7 +327,11 @@ export function Restart({
       title={title ?? 'reset notebook'}
       onClick={onClick}
       icon={
-        <ArrowUturnLeftIcon width="1.5rem" height="1.5rem" className="inline-block align-top" />
+        <ArrowUturnLeftIcon
+          width="1.5rem"
+          height="1.5rem"
+          className="myst-jp-btn-restart inline-block align-top"
+        />
       }
     />
   );
@@ -329,7 +350,7 @@ export function Clear({
 }) {
   return (
     <button
-      className={classNames('flex text-gray-700 dark:text-white', {
+      className={classNames('myst-jp-btn-clear flex text-gray-700 dark:text-white', {
         'cursor-not-allowed opacity-10': disabled || !ready,
         'active:text-green-700 opacity-70 hover:opacity-100 cursor-pointer': !disabled,
       })}
@@ -356,7 +377,7 @@ export function Launch({
 }) {
   return (
     <button
-      className="flex items-center text-gray-700 cursor-pointer dark:text-white active:text-green-700 opacity-70 hover:opacity-100"
+      className="myst-jp-btn-launch flex items-center text-gray-700 cursor-pointer dark:text-white active:text-green-700 opacity-70 hover:opacity-100"
       disabled={disabled || !ready}
       onClick={() => onClick()}
       title={title ?? 'launch in jupyter'}

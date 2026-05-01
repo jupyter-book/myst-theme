@@ -21,13 +21,13 @@ export function Affiliation({
       {affiliation.name || affiliation.institution}{' '}
       {affiliation.ror && (
         <a
-          className="ml-1"
+          className="myst-fm-affiliation-link ml-1"
           href={`https://ror.org/${affiliation.ror.replace(/(https?:\/\/)?ror\.org\//, '')}`}
           target="_blank"
           rel="noopener noreferrer"
           title="Research Organization Registry"
         >
-          <RorIcon width="1rem" height="1rem" className="inline-block" />
+          <RorIcon width="1rem" height="1rem" className="myst-fm-affiliation-icon inline-block" />
         </a>
       )}
     </>

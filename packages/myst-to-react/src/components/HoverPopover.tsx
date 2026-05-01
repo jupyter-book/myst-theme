@@ -7,7 +7,7 @@ export function HoverPopover({
   openDelay = 400,
   card,
   side,
-  arrowClass = 'fill-white',
+  arrowClass = 'fill-myst-surface',
 }: {
   children: React.ReactNode;
   openDelay?: number;
@@ -48,16 +48,11 @@ export function Tooltip({
     <HoverPopover
       side="top"
       card={
-        <div
-          className={classNames(
-            'p-1 text-xs text-white bg-blue-900 dark:bg-white dark:text-black',
-            className,
-          )}
-        >
+        <div className={classNames('p-1 text-xs text-myst-text bg-myst-surface', className)}>
           {title}
         </div>
       }
-      arrowClass="fill-blue-900 dark:fill-white"
+      arrowClass="fill-myst-surface"
     >
       {children}
     </HoverPopover>

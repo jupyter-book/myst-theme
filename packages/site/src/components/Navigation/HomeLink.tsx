@@ -22,14 +22,14 @@ export function HomeLink({
   const altText = logoAlt ?? logoText ?? name;
   return (
     <Link
-      className="myst-home-link flex items-center ml-3 dark:text-white w-fit md:ml-5 xl:ml-7"
+      className="myst-home-link flex items-center ml-3 text-myst-text w-fit md:ml-5 xl:ml-7"
       to={url ? url : withBaseurl('/', baseurl)}
       prefetch="intent"
     >
       {logo && (
         <div
           className={classNames('myst-home-link-logo mr-3 flex items-center', {
-            'dark:bg-white dark:rounded px-1': !logoDark,
+            'bg-myst-bg dark:rounded px-1': !logoDark,
           })}
         >
           <img

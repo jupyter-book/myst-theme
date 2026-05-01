@@ -67,7 +67,7 @@ export function OutputDecoration({
         className="mb-4 shadow myst-jp-output-deco"
       >
         <div
-          className="myst-jp-output-deco-header sticky z-[2] w-full bg-gray-100/80 backdrop-blur dark:bg-neutral-800/80 py-1 px-2"
+          className="myst-jp-output-deco-header sticky z-[2] w-full bg-myst-surface/80 backdrop-blur py-1 px-2"
           style={{ top }}
         >
           <div className="flex items-center myst-jp-output-deco-inner">

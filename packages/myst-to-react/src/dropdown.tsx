@@ -33,7 +33,7 @@ export function Details({
     <details
       className={classNames(
         'myst-dropdown rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
-        'bg-gray-50 dark:bg-stone-800',
+        'bg-myst-bg-alt',
         className,
       )}
       open={open}
@@ -42,11 +42,11 @@ export function Details({
         className={classNames(
           'myst-dropdown-header m-0 text-lg font-medium py-1 min-h-[2em] pl-3',
           'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]',
-          'bg-gray-100 dark:bg-slate-900',
+          'bg-myst-surface',
         )}
       >
-        <span className="myst-dropdown-header-title text-neutral-900 dark:text-white">
-          <span className="block float-right text-sm font-thin text-neutral-700 dark:text-neutral-200">
+        <span className="myst-dropdown-header-title text-myst-text">
+          <span className="block float-right text-sm font-thin text-myst-text-secondary">
             <ChevronRightIcon
               width="1.5rem"
               height="1.5rem"

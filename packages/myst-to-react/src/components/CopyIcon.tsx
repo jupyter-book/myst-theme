@@ -18,7 +18,7 @@ export function CopyIcon({ text, className }: { text: string; className?: string
         'inline-flex items-center opacity-0 group-hover:opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 cursor-pointer ml-2',
         'transition-color duration-200 ease-in-out',
         {
-          'text-blue-400 hover:text-blue-500': !copied,
+          'text-myst-link-underline hover:text-myst-link-hover': !copied,
           'text-green-500 hover:text-green-500': copied,
         },
         className,

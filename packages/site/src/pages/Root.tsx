@@ -142,7 +142,7 @@ export function DocumentWithoutProviders({
         />
         {head}
       </head>
-      <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
+      <body className="m-0 transition-colors duration-500 bg-myst-bg">
         <BaseUrlProvider baseurl={baseurl}>
           <SiteProvider config={config}>{children}</SiteProvider>
         </BaseUrlProvider>

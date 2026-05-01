@@ -1,5 +1,8 @@
 name: Accessibility Audit
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   check-a11y:
@@ -25,3 +28,49 @@ jobs:
           working_directory: 'docs'
           execute: 'true'
           save_report: 'true'
+
+      - name: Create or Update Accessibility Issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          REPORT_PATH=$(find . -name "axe-report.json" | head -n 1)
+          
+          if [ ! -f "$REPORT_PATH" ]; then
+            echo "No accessibility report found. Skipping issue update."
+            exit 0
+          fi
+
+          ERROR_COUNT=$(jq '[.[].violations | length] | add' "$REPORT_PATH")
+          
+          # Build the Issue Body
+          echo "## Accessibility Audit " > report.md
+          echo "Found **$ERROR_COUNT** violations across MyST Theme Documentation." >> report.md
+          echo "See the [most recent action run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for full details." >> report.md
+          echo "" >> report.md
+          echo "| Page URL | Violations |" >> report.md
+          echo "| --- | --- |" >> report.md
+          jq -r '.[] | "| \(.url) | \([.violations[].nodes | length] | add // 0) |"' "$REPORT_PATH" >> report.md
+
+          # Handle Issue (Find, Create/Edit/Close)
+          # Find the most recently created open issue with the "a11y-audit" label
+          EXISTING_ISSUE=$(gh issue list --label "a11y-audit" --state open --json number --jq '.[0].number')
+          TITLE="Accessibility report: $ERROR_COUNT errors detected"
+
+          if [ -n "$EXISTING_ISSUE" ]; then
+            if [ "$ERROR_COUNT" -eq "0" ]; then
+              echo "Errors resolved! Closing issue #$EXISTING_ISSUE"
+              gh issue comment "$EXISTING_ISSUE" --body "All accessibility errors have been resolved in the latest run."
+              gh issue close "$EXISTING_ISSUE"
+            else
+              echo "Updating existing issue #$EXISTING_ISSUE"
+              gh issue edit "$EXISTING_ISSUE" --title "$TITLE" --body-file report.md
+            fi
+          elif [ "$ERROR_COUNT" -gt "0" ]; then
+            echo "Creating new issue"
+            gh issue create \
+              --title "$TITLE" \
+              --body-file report.md \
+              --label "a11y"
+          fi

@@ -1,5 +1,13 @@
 # @myst-theme/providers
 
+## 1.3.0
+
+### Patch Changes
+
+- df76193: Make cell outputs focusable if they aren't stdin/stderr
+  - @myst-theme/common@1.3.0
+  - @myst-theme/search@1.3.0
+
 ## 1.2.2
 
 ### Patch Changes

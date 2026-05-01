@@ -1,5 +1,14 @@
 # @myst-theme/landing-pages
 
+## 1.3.0
+
+### Patch Changes
+
+- Updated dependencies [df76193]
+- Updated dependencies [b82356d]
+  - @myst-theme/providers@1.3.0
+  - myst-to-react@1.3.0
+
 ## 1.2.2
 
 ### Patch Changes

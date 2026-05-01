@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 1.3.0
+
+### Patch Changes
+
+- b82356d: Add tabindex when equations overflow
+- Updated dependencies [df76193]
+  - @myst-theme/providers@1.3.0
+
 ## 1.2.2
 
 ### Patch Changes

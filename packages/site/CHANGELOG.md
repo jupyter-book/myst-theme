@@ -1,5 +1,24 @@
 # @myst-theme/site
 
+## 1.3.0
+
+### Minor Changes
+
+- b1f5ae4: Remove broken 'Link to Keywords' `HashLink`
+
+### Patch Changes
+
+- 9e431a9: Allow navbar to grow in height
+- Updated dependencies [df76193]
+- Updated dependencies [b82356d]
+  - @myst-theme/providers@1.3.0
+  - myst-to-react@1.3.0
+  - @myst-theme/frontmatter@1.3.0
+  - @myst-theme/diagrams@1.3.0
+  - @myst-theme/common@1.3.0
+  - @myst-theme/search@1.3.0
+  - myst-demo@1.3.0
+
 ## 1.2.2
 
 ### Patch Changes

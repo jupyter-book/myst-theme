@@ -33,6 +33,7 @@ jobs:
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROD_URL: "https://myst-theme.netlify.app"
         shell: bash
         run: |
           REPORT_PATH=$(find . -name "axe-report.json" | head -n 1)
@@ -72,5 +73,5 @@ jobs:
             gh issue create \
               --title "$TITLE" \
               --body-file report.md \
-              --label "a11y"
+              --label "a11y-audit"
           fi

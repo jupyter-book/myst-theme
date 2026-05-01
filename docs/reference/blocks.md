@@ -1,5 +1,9 @@
 ---
 title: Blocks
+keywords: [blocks, code, cards]
+parts:
+  abstract: |
+    A reference page demonstrating the various content blocks supported by the MyST theme. This section is the *abstract* which we also demonstrate here. It's defined in project frontmatter.
 ---
 
 # Blocks

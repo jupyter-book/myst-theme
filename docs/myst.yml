@@ -46,6 +46,14 @@ site:
   nav:
     - title: Developer page
       url: /developer
+    - title: Resources
+      children:
+        - title: MyST documentation
+          url: https://mystmd.org
+        - title: GitHub repository
+          url: https://github.com/jupyter-book/myst-theme
+        - title: Reference
+          url: /reference
   options:
     site_title: myst-theme documentation
     folders: true

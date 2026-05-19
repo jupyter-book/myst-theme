@@ -48,6 +48,7 @@ module.exports = {
     'credit-roles',
     'tex-to-typst',
     'jats-tags',
+    /^@scienceicons\/.*/,
     /^@myst-theme\/.*/,
     /react-syntax-highlighter.*/,
     'markdown-it-myst-extras',

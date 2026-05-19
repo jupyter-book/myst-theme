@@ -1,5 +1,10 @@
 import type { NodeRenderer } from '@myst-theme/providers';
-import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
+import {
+  LightAsync as SyntaxHighlighter,
+  PrismAsyncLight as PrismSyntaxHighlighter,
+} from 'react-syntax-highlighter';
+import prismDark from 'react-syntax-highlighter/dist/esm/styles/prism/one-dark';
+import prismLight from 'react-syntax-highlighter/dist/esm/styles/prism/one-light';
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { CopyIcon } from './components/index.js';
@@ -7,7 +12,7 @@ import { MyST } from './MyST.js';
 import { useMemo } from 'react';
 import type { ComponentProps } from 'react';
 import { Details } from './dropdown.js';
-import { useIsScrollable } from '@myst-theme/providers';
+import { useIsScrollable, useThemeSwitcher } from '@myst-theme/providers';
 
 type Props = {
   value: string;
@@ -24,13 +29,17 @@ type Props = {
   className?: string;
 };
 
+const PRISM_FALLBACK_LANGUAGES = ['jsx', 'prolog', 'tsx'] as const;
+const PRISM_FALLBACK_LANGUAGE_SET = new Set<string>(PRISM_FALLBACK_LANGUAGES);
+const LANGUAGE_ALIASES: Record<string, string> = {
+  html: 'xml',
+  javascriptreact: 'jsx',
+  typescriptreact: 'tsx',
+};
+
 function normalizeLanguage(lang?: string): string | undefined {
-  switch (lang) {
-    case 'html':
-      return 'xml';
-    default:
-      return lang;
-  }
+  if (!lang) return undefined;
+  return LANGUAGE_ALIASES[lang] ?? lang;
 }
 
 type HighlightPropsType = ComponentProps<typeof SyntaxHighlighter>;
@@ -51,10 +60,13 @@ export function CodeBlock(props: Props) {
     border,
   } = props;
   const { ref: highlighterRef, isScrollable } = useIsScrollable<HTMLDivElement>();
+  const { isDark } = useThemeSwitcher();
+  const language = normalizeLanguage(lang);
+  const usePrism = !!language && PRISM_FALLBACK_LANGUAGE_SET.has(language);
   const highlighterProps: Omit<HighlightPropsType, 'children'> = useMemo(() => {
     const highlightLines = new Set(emphasizeLines);
     return {
-      language: normalizeLanguage(lang),
+      language,
       startingLineNumber,
       showLineNumbers,
       useInlineStyles: true,
@@ -82,7 +94,9 @@ export function CodeBlock(props: Props) {
         backgroundColor: 'unset',
       },
     };
-  }, [emphasizeLines]);
+  }, [emphasizeLines, language, showLineNumbers, startingLineNumber]);
+  const Highlighter = usePrism ? PrismSyntaxHighlighter : SyntaxHighlighter;
+  const syntaxStyle = usePrism ? (isDark ? prismDark : prismLight) : undefined;
 
   return (
     <div
@@ -114,12 +128,13 @@ export function CodeBlock(props: Props) {
         aria-label="code block content"
         className="block overflow-auto p-3 myst-code-body hljs"
       >
-        <SyntaxHighlighter
+        <Highlighter
           {...highlighterProps}
+          style={syntaxStyle}
           customStyle={{ padding: 0, margin: 0, background: 'transparent' }}
         >
           {value}
-        </SyntaxHighlighter>
+        </Highlighter>
       </div>
 
       {showCopy && (

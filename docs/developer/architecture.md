@@ -44,15 +44,13 @@ Use this as a rough reference for the classes you can use, but note that _this i
 ## Routes
 
 Both themes use Remix file-system routing (`themes/{book,article}/app/routes/`).
-If you're new to Remix routes, the [Remix routes overview](https://v2.remix.run/docs/discussion/routes) is a good starting point.
+We are on Remix v1, but opt in to the flat-route filename convention via the [`v2_routeConvention: true` future flag](https://github.com/remix-run/remix/blob/remix%401.19.3/docs/file-conventions/route-files-v2.md) in `remix.config.js`.
 
-A few Remix conventions to know:
+A few conventions to know:
 
 - `[brackets]` make a filename character literal - `[favicon.ico].tsx` serves `/favicon.ico`. Without brackets Remix would treat `.` as a path separator.
 - `$` marks dynamic segments - the bare file `$.tsx` is a catch-all.
 - `(parens)` mark optional segments.
-
-See the [Remix v2 routing reference](https://v2.remix.run/docs/file-conventions/routes) for the full set.
 
 A few key routes we use:
 

@@ -87,6 +87,18 @@ The {smallcaps}`HTML` specification defines web standards.
 
 {button}`Click Me! <https://mystmd.org>`
 
+Button inline {button}`Click Me! <https://mystmd.org>`.
+
+Long paragraph of text with a button after at least one line break has happened.
+Long paragraph of text with a button after at least one line break has happened.
+Button inline {button}`Click Me! <https://mystmd.org>`.
+Long paragraph of text with a button after at least one line break has happened.
+Long paragraph of text with a button after at least one line break has happened.
+
+Lots of horizontally stacked buttons to show how they spill onto lines.
+
+{button}`Button one <https://example.com>` {button}`Button two with really long text <https://example.com>` {button}`Button three with really long text <https://example.com>` {button}`Button four <https://example.com>` {button}`Button five <https://example.com>`
+
 (math)=
 
 ## Math

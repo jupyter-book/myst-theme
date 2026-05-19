@@ -44,13 +44,19 @@ function nestToc(toc: Heading[]): NestedHeading[] {
 }
 
 function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: string) {
-  const headingPath = withBaseurl(heading.path, baseurl);
-  // In static html builds, pathname ends up with an unwanted trailing slash
-  // and then won't match the heading's slashless path. So first normalize the
-  // given path by removing any trailing slash.
-  const normedPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
-  if (normedPath && headingPath === `${normedPath}/index`) return true;
-  return headingPath === normedPath;
+  // Normalize `pathname` to be comparable to the unprefixed `heading.path`.
+  //
+  // During SSR in `myst build --html` static builds, `useLocation().pathname`
+  // does not include the site's `baseurl`; on the client it does (Remix does
+  // not strip the basename here).
+  //
+  // Also strip any trailing slash, since static builds end up with one and
+  // `heading.path` is slashless.
+  let normed = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+  if (baseurl && normed.startsWith(baseurl)) normed = normed.slice(baseurl.length);
+  const headingPath = heading.path;
+  if (normed && headingPath === `${normed}/index`) return true;
+  return headingPath === normed;
 }
 
 function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: string): string[] {

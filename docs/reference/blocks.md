@@ -125,12 +125,17 @@ $$
 
 ## Mermaid
 
-```mermaid
+```{mermaid}
+:label: my-mermaid
 graph LR
     A[Start] --> B{Decision}
     B -->|Yes| C[Action]
     B -->|No| D[End]
 ```
+
+A reference to [the labeled diagram above](#my-mermaid) should not cause the
+diagram itself to disappear.
+
 
 ## IFrame
 

@@ -1,5 +1,5 @@
 ---
-'@myst-theme/site': minor
+'@myst-theme/site': patch
 ---
 
 Avoid flashing on initial page load

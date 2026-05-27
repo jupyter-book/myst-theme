@@ -15,14 +15,5 @@ export function BlockingThemeLoader({ useLocalStorage }: { useLocalStorage: bool
   if (!hasAnyTheme) classes.add(savedTheme ?? theme);
 `;
 
-  // The <style> hides the page until the theme class (.light or .dark) is set on <html>.
-  // The blocking <script> sets that class synchronously before the browser paints, so the
-  // page is never visibly hidden — but if anything temporarily removes the class (e.g. a
-  // React hydration edge case), the page goes invisible rather than flashing the wrong theme.
-  return (
-    <>
-      <style dangerouslySetInnerHTML={{ __html: 'html:not(.light):not(.dark){visibility:hidden}' }} />
-      <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />
-    </>
-  );
+  return <script dangerouslySetInnerHTML={{ __html: CLIENT_THEME_SOURCE }} />;
 }

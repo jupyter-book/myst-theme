@@ -1,6 +1,6 @@
 ---
-'myst-to-react': minor
-'@myst-theme/site': minor
+'myst-to-react': patch
+'@myst-theme/site': patch
 ---
 
 Fix TOML highlighting

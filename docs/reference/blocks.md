@@ -1,5 +1,9 @@
 ---
 title: Blocks
+keywords: [blocks, code, cards]
+parts:
+  abstract: |
+    A reference page demonstrating the various content blocks supported by the MyST theme. This section is the *abstract* which we also demonstrate here. It's defined in project frontmatter.
 ---
 
 # Blocks
@@ -121,12 +125,17 @@ $$
 
 ## Mermaid
 
-```mermaid
+```{mermaid}
+:label: my-mermaid
 graph LR
     A[Start] --> B{Decision}
     B -->|Yes| C[Action]
     B -->|No| D[End]
 ```
+
+A reference to [the labeled diagram above](#my-mermaid) should not cause the
+diagram itself to disappear.
+
 
 ## IFrame
 

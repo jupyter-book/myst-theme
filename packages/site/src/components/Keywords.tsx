@@ -12,7 +12,7 @@ export function Keywords({
 }) {
   if (hideKeywords || !keywords || keywords.length === 0) return null;
   return (
-    <div className={classNames('myst-keywords mb-10 group', className)}>
+    <div id="myst-keywords" className={classNames('myst-keywords mb-10 group', className)}>
       <span className="myst-keywords-label mr-2 font-semibold">Keywords:</span>
       <span className="myst-keywords-list">
         {keywords.map((k, i) => (
@@ -26,7 +26,7 @@ export function Keywords({
           </span>
         ))}
       </span>
-      <HashLink id="keywords" title="Link to Keywords" hover className="ml-2" />
+      <HashLink id="myst-keywords" title="Link to Keywords" hover className="ml-2" />
     </div>
   );
 }

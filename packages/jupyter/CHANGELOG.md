@@ -1,5 +1,16 @@
 # @myst-theme/jupyter
 
+## 1.3.0
+
+### Patch Changes
+
+- df76193: Make cell outputs focusable if they aren't stdin/stderr
+- 1cc84ae: Add not-prose to active thebe case
+- Updated dependencies [df76193]
+- Updated dependencies [b82356d]
+  - @myst-theme/providers@1.3.0
+  - myst-to-react@1.3.0
+
 ## 1.2.2
 
 ### Patch Changes

@@ -63,7 +63,7 @@ export function Author({
           href={`https://orcid.org/${author.orcid}`}
           title={`ORCID: ${author.orcid}`}
           icon={OrcidIcon}
-          className="myst-fm-author-icon-orcid hover:text-[#A9C751]"
+          className="myst-fm-author-icon-orcid hover:text-myst-active"
         />
       )}
     </span>

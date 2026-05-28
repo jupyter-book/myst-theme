@@ -153,7 +153,7 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
       <OpenAccessIcon
         width="1.25rem"
         height="1.25rem"
-        className="myst-fm-block-open-access-icon mr-1 inline-block opacity-60 hover:opacity-100 hover:text-[#E18435]"
+        className="myst-fm-block-open-access-icon mr-1 inline-block opacity-60 hover:opacity-100 hover:text-myst-active"
       />
     </a>
   );

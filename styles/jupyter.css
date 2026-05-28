@@ -39,11 +39,11 @@ table.dataframe {
 /* System to override the Jupyter colors depending on line parity */
 
 .jp-OutputArea-output table tr:nth-child(odd) {
-  @apply bg-neutral-100 dark:bg-neutral-900 [&>*]:hover:bg-sky-100 [&>*]:dark:hover:bg-sky-950;
+  @apply bg-myst-bg-alt [&>*]:hover:bg-myst-info-bg;
 }
 
 .jp-OutputArea-output table tr:nth-child(even) {
-  @apply bg-neutral-200 dark:bg-neutral-800 [&>*]:hover:bg-sky-100 [&>*]:dark:hover:bg-sky-950;
+  @apply bg-myst-surface [&>*]:hover:bg-myst-info-bg;
 }
 
 html.dark {

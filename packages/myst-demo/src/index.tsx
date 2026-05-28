@@ -411,7 +411,7 @@ export function MySTRenderer({
             ref={area}
             value={text}
             className={classnames(
-              'block p-6 w-full font-mono shadow-inner outline-none resize-none bg-myst-bg-alt/50',
+              'block p-6 w-full font-mono shadow-inner outline-none resize-none bg-slate-50/50 dark:bg-slate-800/50',
               { 'text-sm': !column },
               { 'h-full': column },
             )}

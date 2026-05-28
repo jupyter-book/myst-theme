@@ -176,7 +176,7 @@ export function Admonition({
       open={open}
       className={classNames(
         `myst-admonition myst-admonition-${kind} my-5 shadow-md dark:shadow-2xl dark:shadow-neutral-900`,
-        'bg-myst-bg-alt/10 dark:bg-myst-bg-alt',
+        'bg-gray-50/10 dark:bg-stone-800',
         'overflow-hidden',
         {
           'myst-admonition-default rounded border-l-4': !simple,

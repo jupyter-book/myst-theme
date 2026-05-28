@@ -19,7 +19,7 @@ export function CopyIcon({ text, className }: { text: string; className?: string
         'transition-color duration-200 ease-in-out',
         {
           'text-myst-link-underline hover:text-myst-link-hover': !copied,
-          'text-green-500 hover:text-green-500': copied,
+          'text-myst-success': copied,
         },
         className,
       )}

@@ -96,7 +96,7 @@ export function CodeBlock(props: Props) {
       })}
     >
       {filename && (
-        <div className="flex flex-row pl-2 bg-myst-bg border-b dark:bg-slate-600 dark:border-slate-300">
+        <div className="flex flex-row pl-2 bg-myst-bg border-b border-myst-border">
           <DocumentIcon
             width="16px"
             height="16px"

@@ -141,9 +141,9 @@ export function SpinnerStatusButton({
   let icon = <PowerIcon width="1.5rem" height="1.5rem" />;
   if (ready) {
     if (modified) {
-      icon = <BoltIcon width="1.5rem" height="1.5rem" className="text-green-600" />;
+      icon = <BoltIcon width="1.5rem" height="1.5rem" className="text-myst-success" />;
     } else {
-      icon = <BoltIconSolid width="1.5rem" height="1.5rem" className="text-green-600" />;
+      icon = <BoltIconSolid width="1.5rem" height="1.5rem" className="text-myst-success" />;
     }
   }
 
@@ -151,7 +151,7 @@ export function SpinnerStatusButton({
     <div className="myst-jp-btn-spinner-status relative flex text-sm">
       <button
         className={classNames(
-          'cursor-pointer text-myst-text-secondary active:text-green-700 hover:opacity-100',
+          'cursor-pointer text-myst-text-secondary active:text-myst-success hover:opacity-100',
           {
             'opacity-10': busy,
             'opacity-70': !busy,
@@ -191,7 +191,7 @@ function SpinnerButton({
   return (
     <div className="myst-jp-btn-spinner relative flex text-sm">
       <button
-        className={classNames(' text-myst-text-secondary active:text-green-700 ', {
+        className={classNames(' text-myst-text-secondary active:text-myst-success ', {
           'opacity-10 hover:opacity-10': busy,
           'opacity-70': !busy && !disabled,
           'cursor-pointer hover:opacity-100': !disabled,
@@ -352,7 +352,7 @@ export function Clear({
     <button
       className={classNames('myst-jp-btn-clear flex text-myst-text-secondary', {
         'cursor-not-allowed opacity-10': disabled || !ready,
-        'active:text-green-700 opacity-70 hover:opacity-100 cursor-pointer': !disabled,
+        'active:text-myst-success opacity-70 hover:opacity-100 cursor-pointer': !disabled,
       })}
       disabled={disabled || !ready}
       onClick={() => onClick()}
@@ -377,7 +377,7 @@ export function Launch({
 }) {
   return (
     <button
-      className="myst-jp-btn-launch flex items-center text-myst-text-secondary cursor-pointer active:text-green-700 opacity-70 hover:opacity-100"
+      className="myst-jp-btn-launch flex items-center text-myst-text-secondary cursor-pointer active:text-myst-success opacity-70 hover:opacity-100"
       disabled={disabled || !ready}
       onClick={() => onClick()}
       title={title ?? 'launch in jupyter'}

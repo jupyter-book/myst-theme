@@ -456,7 +456,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
           </span>
           <Form.Control asChild>
             <input
-              className="myst-fm-launch-input ps-[32px] box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
+              className="myst-fm-launch-input ps-[32px] box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-myst-border-strong outline-none bg-myst-bg-alt hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
               type="url"
               placeholder={defaultBinderBaseURL}
               required

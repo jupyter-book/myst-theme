@@ -28,6 +28,8 @@ function normalizeLanguage(lang?: string): string | undefined {
   switch (lang) {
     case 'html':
       return 'xml';
+    case 'toml':
+      return 'ini';
     default:
       return lang;
   }

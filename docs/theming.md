@@ -2,48 +2,13 @@
 title: Theming
 ---
 
-myst-theme exposes its color palette as CSS custom properties, so you can re-skin
-the entire interface from a single stylesheet. Use the picker below to experiment
-live — every component on this page reads from the same tokens, so changes
-propagate instantly.
+`myst-theme` exposes its color palette as CSS custom properties (CSS variables), so you can re-skin the entire interface from a single stylesheet without rebuilding the theme.
 
-## Live color picker
-
-```{anywidget} ./src/color-picker.mjs
-:css: ./src/color-picker.css
-```
-
-## Sample components
-
-:::{note}
-This is a note admonition. It uses `--myst-color-info`, `--myst-color-info-bg`,
-and `--myst-color-info-text`.
-:::
-
-:::{tip}
-This is a tip — it shares the success color group.
-:::
-
-:::{warning}
-This is a warning — it uses the warning color group.
-:::
-
-:::{danger}
-This is a danger admonition — it uses the danger color group.
-:::
-
-A paragraph with a [link](https://mystmd.org) and some `inline code`. The link
-color comes from `--myst-color-link`, and inline code uses `--myst-color-code`.
-
-```python
-def hello():
-    print("code blocks are styled by highlight.js")
-```
+To explore the tokens interactively, try the [Live color picker](./color-picker.md).
 
 ## Applying overrides in your own site
 
-Once you've found a palette you like, add the corresponding declarations to a
-stylesheet loaded by your site:
+Add the declarations you want to override to a stylesheet loaded by your site:
 
 ```css
 :root {
@@ -60,6 +25,12 @@ stylesheet loaded by your site:
 }
 ```
 
-The picker above writes to `document.documentElement`'s inline style, so its
-overrides apply to both light and dark modes at once. In production, define
-light and dark values separately under `:root` and `.dark` as shown above.
+## Known limitations
+
+A few colors are intentionally not themable yet:
+
+- **Opacity modifiers** (e.g. `bg-myst-bg/80`) don't work with CSS variables under Tailwind v3, so a few translucent surfaces remain hardcoded (the top navbar backdrop, some hover overlays).
+  Migrating these requires either RGB channel tokens, `color-mix()`, or Tailwind v4.
+- **Inverted color schemes** — action buttons and the theme toggle previously rendered with inverted colors on hover.
+  There's currently no token for "use the opposite scheme's colors here", so these now follow the standard tokens.
+- **Semantic non-brand colors** are deliberately hardcoded: GitHub PR/issue state icons, error/validation states, the launch button's Jupyter orange, and neutral spinner tracks.

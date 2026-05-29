@@ -13,15 +13,11 @@ export function ProjectProvider({
   project?: ManifestProject;
   children: React.ReactNode;
 }) {
-  const config = useSiteManifest();
-  return (
-    <ProjectContext.Provider value={project ?? config?.projects?.[0]}>
-      {children}
-    </ProjectContext.Provider>
-  );
+  return <ProjectContext.Provider value={project}>{children}</ProjectContext.Provider>;
 }
 
 export function useProjectManifest() {
-  const config = useContext(ProjectContext);
-  return config;
+  const config = useSiteManifest();
+  const project = useContext(ProjectContext);
+  return project ?? config?.projects?.[0];
 }

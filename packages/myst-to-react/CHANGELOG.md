@@ -1,5 +1,13 @@
 # myst-to-react
 
+## 1.3.1
+
+### Patch Changes
+
+- aac7f50: In highlighter, alias ts to typescript
+- 4095409: Fix TOML highlighting
+  - @myst-theme/providers@1.3.1
+
 ## 1.3.0
 
 ### Patch Changes

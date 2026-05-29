@@ -30,6 +30,8 @@ function normalizeLanguage(lang?: string): string | undefined {
       return 'xml';
     case 'toml':
       return 'ini';
+    case 'ts':
+      return 'typescript';
     default:
       return lang;
   }

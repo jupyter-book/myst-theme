@@ -12,9 +12,9 @@ function getAsideClass(kind?: string) {
     case 'topic':
       return {
         container:
-          'myst-aside myst-aside-${kind} my-5 shadow dark:bg-stone-800 overflow-hidden dark:border-l-4 border-slate-400',
+          'myst-aside myst-aside-${kind} my-5 shadow dark:bg-myst-bg-alt overflow-hidden dark:border-l-4 border-myst-border-strong',
         title:
-          'myst-aside-title m-0 font-medium py-2 px-4 flex min-w-0 text-md border-y dark:border-y-0 bg-gray-50/80 dark:bg-slate-900',
+          'myst-aside-title m-0 font-medium py-2 px-4 flex min-w-0 text-md border-y dark:border-y-0 bg-myst-bg-alt',
         body: 'myst-aside-body px-4',
       };
     case 'margin':

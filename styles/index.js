@@ -19,6 +19,56 @@ const content = [
 ];
 
 const themeExtensions = {
+  colors: {
+    'myst-link': 'var(--myst-color-link)',
+    'myst-link-hover': 'var(--myst-color-link-hover)',
+    'myst-link-underline': 'var(--myst-color-link-underline)',
+    'myst-active': 'var(--myst-color-active)',
+    'myst-active-bg': 'var(--myst-color-active-bg)',
+    'myst-active-surface': 'var(--myst-color-active-surface)',
+    'myst-primary': 'var(--myst-color-primary)',
+    'myst-primary-hover': 'var(--myst-color-primary-hover)',
+    'myst-focus-ring': 'var(--myst-color-focus-ring)',
+    'myst-focus-outline': 'var(--myst-color-focus-outline)',
+    'myst-heading': 'var(--myst-color-heading)',
+    'myst-accent-surface': 'var(--myst-color-accent-surface)',
+    'myst-accent-surface-border': 'var(--myst-color-accent-surface-border)',
+    'myst-accent-surface-text': 'var(--myst-color-accent-surface-text)',
+    // Neutral
+    'myst-bg': 'var(--myst-color-bg)',
+    'myst-bg-alt': 'var(--myst-color-bg-alt)',
+    'myst-surface': 'var(--myst-color-surface)',
+    'myst-surface-hover': 'var(--myst-color-surface-hover)',
+    'myst-text': 'var(--myst-color-text)',
+    'myst-text-secondary': 'var(--myst-color-text-secondary)',
+    'myst-text-tertiary': 'var(--myst-color-text-tertiary)',
+    'myst-border': 'var(--myst-color-border)',
+    'myst-border-strong': 'var(--myst-color-border-strong)',
+    'myst-code': 'var(--myst-color-code)',
+    'myst-kbd-shadow': 'var(--myst-color-kbd-shadow)',
+    // Admonition / semantic
+    'myst-info': 'var(--myst-color-info)',
+    'myst-info-bg': 'var(--myst-color-info-bg)',
+    'myst-info-text': 'var(--myst-color-info-text)',
+    'myst-success': 'var(--myst-color-success)',
+    'myst-success-bg': 'var(--myst-color-success-bg)',
+    'myst-success-text': 'var(--myst-color-success-text)',
+    'myst-warning': 'var(--myst-color-warning)',
+    'myst-warning-bg': 'var(--myst-color-warning-bg)',
+    'myst-warning-text': 'var(--myst-color-warning-text)',
+    'myst-danger': 'var(--myst-color-danger)',
+    'myst-danger-bg': 'var(--myst-color-danger-bg)',
+    'myst-danger-text': 'var(--myst-color-danger-text)',
+    'myst-orange': 'var(--myst-color-orange)',
+    'myst-orange-bg': 'var(--myst-color-orange-bg)',
+    'myst-orange-text': 'var(--myst-color-orange-text)',
+    'myst-purple': 'var(--myst-color-purple)',
+    'myst-purple-bg': 'var(--myst-color-purple-bg)',
+    'myst-purple-text': 'var(--myst-color-purple-text)',
+    'myst-gray': 'var(--myst-color-gray)',
+    'myst-gray-bg': 'var(--myst-color-gray-bg)',
+    'myst-gray-text': 'var(--myst-color-gray-text)',
+  },
   gridTemplateColumns: {
     'article-sm':
       '[screen-start screen-inset-start] 0.5rem [page-start page-inset-start body-outset-start body-start gutter-left-start body-inset-start middle-start] 1fr 1fr [gutter-left-end] 1fr 1fr [gutter-right-start] 1fr 1fr [middle-end body-inset-end body-end gutter-right-end body-outset-end page-inset-end page-end] 0.5rem [screen-inset-end screen-end]',
@@ -97,6 +147,22 @@ const themeExtensions = {
   typography: (theme) => ({
     DEFAULT: {
       css: {
+        '--tw-prose-body': 'var(--myst-color-text)',
+        '--tw-prose-headings': 'var(--myst-color-text)',
+        '--tw-prose-lead': 'var(--myst-color-text-secondary)',
+        '--tw-prose-links': 'var(--myst-color-link)',
+        '--tw-prose-bold': 'var(--myst-color-text)',
+        '--tw-prose-counters': 'var(--myst-color-text-secondary)',
+        '--tw-prose-bullets': 'var(--myst-color-text-tertiary)',
+        '--tw-prose-hr': 'var(--myst-color-border)',
+        '--tw-prose-quotes': 'var(--myst-color-text)',
+        '--tw-prose-quote-borders': 'var(--myst-color-border)',
+        '--tw-prose-captions': 'var(--myst-color-text-tertiary)',
+        '--tw-prose-kbd': 'var(--myst-color-text)',
+        '--tw-prose-kbd-shadows': 'var(--myst-color-kbd-shadow)',
+        '--tw-prose-code': 'var(--myst-color-code)',
+        '--tw-prose-th-borders': 'var(--myst-color-border)',
+        '--tw-prose-td-borders': 'var(--myst-color-border)',
         code: {
           fontWeight: '400',
         },
@@ -122,16 +188,14 @@ const themeExtensions = {
           color: 'var(--tw-prose-headings)',
           fontWeight: '500',
         },
-      },
-    },
-    invert: {
-      css: {
-        '--tw-prose-code': theme('colors.pink[400]'),
-      },
-    },
-    stone: {
-      css: {
-        '--tw-prose-code': theme('colors.pink[700]'),
+        a: {
+          color: 'var(--myst-color-link)',
+          textDecorationColor: 'var(--myst-color-link-underline)',
+          '&:hover': {
+            color: 'var(--myst-color-link-hover)',
+            textDecorationColor: 'var(--myst-color-link-hover)',
+          },
+        },
       },
     },
   }),

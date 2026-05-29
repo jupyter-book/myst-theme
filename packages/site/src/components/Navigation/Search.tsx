@@ -82,7 +82,7 @@ function MarkedText({
   const renderToken = (token: string) =>
     pattern.test(token) ? (
       <>
-        <mark className="text-blue-600 bg-inherit dark:text-blue-400 group-aria-selected:text-white group-aria-selected:underline">
+        <mark className="text-myst-active bg-inherit group-aria-selected:text-white group-aria-selected:underline">
           {token}
         </mark>
       </>
@@ -174,11 +174,11 @@ function SearchShortcut() {
   return (
     <div
       aria-hidden
-      className="myst-search-shortcut items-center hidden mx-1 font-mono text-sm text-gray-600 dark:text-gray-300 sm:flex gap-x-1"
+      className="myst-search-shortcut items-center hidden mx-1 font-mono text-sm text-myst-text-secondary sm:flex gap-x-1"
     >
       <kbd
         className={classNames(
-          'px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md',
+          'px-2 py-1 border border-myst-border-strong rounded-md',
           'shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none',
           'hide-mac',
           { hidden: hostIsMac === true },
@@ -189,7 +189,7 @@ function SearchShortcut() {
       </kbd>
       <kbd
         className={classNames(
-          'px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md',
+          'px-2 py-1 border border-myst-border-strong rounded-md',
           'shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none',
           'show-mac',
           { hidden: hostIsMac === false },
@@ -198,7 +198,7 @@ function SearchShortcut() {
       >
         ⌘
       </kbd>
-      <kbd className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none ">
+      <kbd className="px-2 py-1 border border-myst-border-strong rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none ">
         K
       </kbd>
       <BlockingPlatformLoader />
@@ -260,7 +260,7 @@ function SearchResultItem({
 
   return (
     <Link
-      className="block px-1 py-2 text-gray-700 rounded shadow-md dark:text-white group-aria-selected:bg-blue-600 group-aria-selected:text-white dark:shadow-none dark:bg-stone-800"
+      className="block px-1 py-2 text-myst-text-secondary rounded shadow-md group-aria-selected:bg-myst-active group-aria-selected:text-white dark:shadow-none dark:bg-myst-bg-alt"
       to={withBaseurl(url, baseurl)}
       // Close the main search on click
       onClick={closeSearch}
@@ -507,7 +507,7 @@ function SearchForm({
       <form onSubmit={onSubmit}>
         <div className="relative flex w-full h-10 flow-row gap-x-1 ">
           <label id={searchLabelID} htmlFor={searchInputID}>
-            <MagnifyingGlassIcon className="absolute text-gray-600 dark:text-gray-300 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
+            <MagnifyingGlassIcon className="absolute text-myst-text-secondary inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
             <span className="hidden">Search query</span>
           </label>
           <input
@@ -516,12 +516,11 @@ function SearchForm({
             disabled={!enabled}
             autoCapitalize="false"
             className={classNames(
-              'myst-search-input block flex-grow p-2 ps-10 placeholder-gray-400',
-              'border border-gray-300 dark:border-gray-600',
-              'rounded-lg bg-gray-50 dark:bg-gray-700',
-              'focus:ring-blue-500 dark:focus:ring-blue-500',
-              'focus:border-blue-500 dark:focus:border-blue-500',
-              'dark:placeholder-gray-400',
+              'myst-search-input block flex-grow p-2 ps-10 placeholder-myst-text-tertiary',
+              'border border-myst-border-strong',
+              'rounded-lg bg-myst-bg-alt dark:bg-myst-surface-hover',
+              'focus:ring-myst-focus-ring',
+              'focus:border-myst-focus-ring',
               { 'border-red-500': !enabled },
             )}
             id={searchInputID}
@@ -542,7 +541,7 @@ function SearchForm({
         </div>
       </form>
       {!enabled && (
-        <div className="myst-search-no-results mx-2 mt-4 text-sm text-gray-500">
+        <div className="myst-search-no-results mx-2 mt-4 text-sm text-myst-text-tertiary">
           Search is not enabled for this site. :(
         </div>
       )}
@@ -570,14 +569,14 @@ const SearchPlaceholderButton = forwardRef<
       className={classNames(
         'myst-search-bar',
         className,
-        'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-600 dark:text-gray-300',
-        'border border-gray-300 dark:border-gray-600',
-        'rounded-lg bg-gray-50 dark:bg-gray-700',
+        'flex items-center h-10 aspect-square sm:w-64 text-left text-myst-text-secondary',
+        'border border-myst-border-strong',
+        'rounded-lg bg-myst-bg-alt dark:bg-myst-surface-hover',
         {
-          'myst-search-bar-disabled hover:ring-blue-500': !disabled,
-          'dark:hover:ring-blue-500': !disabled,
-          'hover:border-blue-500': !disabled,
-          'dark:hover:border-blue-500': !disabled,
+          'myst-search-bar-disabled hover:ring-myst-focus-ring': !disabled,
+          'dark:hover:ring-myst-focus-ring': !disabled,
+          'hover:border-myst-focus-ring': !disabled,
+          'dark:hover:border-myst-focus-ring': !disabled,
         },
       )}
       disabled={!!disabled}
@@ -639,7 +638,7 @@ export function Search({ debounceTime = 500, charLimit = 64 }: SearchProps) {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-[#656c85cc] z-[1000]" />
         <Dialog.Content
-          className="myst-search-dialog fixed flex flex-col top-0 bg-white dark:bg-stone-900 z-[1001] h-screen w-full sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4 text-gray-900 dark:text-white"
+          className="myst-search-dialog fixed flex flex-col top-0 bg-myst-bg z-[1001] h-screen w-full sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4 text-myst-text"
           // Store state as CSS variables so that we can set the style with tailwind variants
           style={
             {

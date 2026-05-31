@@ -15,16 +15,19 @@ name: Publish theme assets to GitHub Release
 #
 # Triggers:
 #   - called by release.yml after the changesets release publishes (primary path),
-#     attaching the zips to the GitHub release it created for that tag.
-#   - pushing a tag directly, which also works on forks (manual / custom builds).
+#     attaching the zips to the GitHub release it created for that tag. (The release
+#     event below does not fire there, because releases created with GITHUB_TOKEN do
+#     not trigger further workflow runs, so release.yml calls this explicitly.)
+#   - creating a GitHub release (UI / CLI / API), which also works on forks
+#     (manual / custom builds).
 on:
   workflow_call:
     inputs:
       tag_name:
         required: true
         type: string
-  push:
-    tags: ['*']
+  release:
+    types: [published]
 
 jobs:
   github-release:

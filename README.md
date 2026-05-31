@@ -58,9 +58,21 @@ git config --global http.postBuffer 157286400
 
 ## Deployment to GH releases
 
+The `theme-assets.yml` workflow builds the `book` and `article` themes and attaches `book-theme.zip` and `article-theme.zip` to a GitHub release.
+This is a first step toward distributing the themes as GitHub Releases instead of pushing to the `myst-templates/*-theme` repos (the `make deploy-*` flow above).
+Nothing consumes these yet - for now the workflow just makes the artifacts available.
+See [the tracking issue](https://github.com/jupyter-book/myst-enhancement-proposals/issues/34) for the broader migration.
+
 ### How to publish
 
-As of this first step towards GH releases, publication is done by pushing a tag to github, which has the effect of making a release named after that tag
+This normally happens automatically: when a changesets release publishes to NPM, the `release.yml` workflow creates the GitHub release and then calls this workflow to attach the theme zips to it.
+
+You can also trigger it manually by pushing a tag, which works on forks too — handy for publishing a custom build of the themes:
+
+```bash
+git tag my-test-tag
+git push origin my-test-tag
+```
 
 ### Browse available versions
 

@@ -1,0 +1,80 @@
+name: Publish theme assets to GitHub Release
+
+# Packages the book and article themes and attaches them to a GitHub Release.
+# This mirrors `make build-theme`, but ships zips as release assets rather than
+# pushing to the myst-templates/*-theme repos. For now the myst-cli doesn't do
+# anything with the GitHub releases, but this is a step toward using GitHub
+# releases instead of the myst-templates repos.
+# ref: https://github.com/jupyter-book/myst-enhancement-proposals/issues/34
+#
+# Each theme zip contains:
+#   build/, public/, template.yml  (built by `npm run prod:build`)
+#   server.js                      (from template/, as-is)
+#   package.json                   (from template/, with template->THEME and VERSION substituted)
+#   package-lock.json              (from `npm install`)
+#
+# Triggers:
+#   - called by release.yml after the changesets release publishes (primary path),
+#     attaching the zips to the GitHub release it created for that tag.
+#   - pushing a tag directly, which also works on forks (manual / custom builds).
+on:
+  workflow_call:
+    inputs:
+      tag_name:
+        required: true
+        type: string
+  push:
+    tags: ['*']
+
+jobs:
+  github-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Run tests
+        run: npm run test
+
+      # Build, package, and zip each theme. node_modules is excluded from the
+      # zip to match what the Makefile ships (it is gitignored there)
+      - name: Build and package themes
+        run: |
+          VERSION=$(node -p "require('./packages/site/package.json').version")
+          mkdir dist_zip
+          for THEME in book article; do
+            (cd "themes/$THEME" && npm run prod:build)
+            DIST="dist-$THEME"
+            rm -rf "$DIST" && mkdir "$DIST"
+            cp -r "themes/$THEME/public" "$DIST/public"
+            cp -r "themes/$THEME/build" "$DIST/build"
+            cp -r "themes/$THEME/template.yml" "$DIST/template.yml"
+            cp template/server.js "$DIST/server.js"
+            sed -e "s/VERSION/$VERSION/g" -e "s/template/$THEME/g" template/package.json > "$DIST/package.json"
+            (cd "$DIST" && npm install)
+            zip -r "dist_zip/$THEME-theme.zip" "$DIST/" -x '*/node_modules/*'
+          done
+
+      # Attach both zips to the release for this tag. When called from
+      # release.yml the tag comes from the input; on a tag push it is the
+      # tag that triggered the workflow. If the release already exists (the
+      # changesets path), the action updates it and keeps its notes.
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag_name || github.ref_name }}
+          files: dist_zip/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

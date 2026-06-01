@@ -67,11 +67,23 @@ See [the tracking issue](https://github.com/jupyter-book/myst-enhancement-propos
 
 This normally happens automatically: when a changesets release publishes to NPM, the `release.yml` workflow creates the GitHub release and then calls this workflow to attach the theme zips to it.
 
-You can also trigger it manually by pushing a tag, which works on forks too — handy for publishing a custom build of the themes:
+You can also trigger it manually by creating a gitHub release; this can be done from the web UI, or from the command line using the GitHub CLI:
 
 ```bash
-git tag my-test-tag
-git push origin my-test-tag
+gh release create my-release --target <commit_ref> --title "A title" --notes "The release notes"
+
+# you can also check the available releases with:
+gh release list
+```
+
+Note that this works from a fork as well — handy for publishing a custom build of the themes; in which case you will use your custom theme by mentioning in your `myst.yml` file something like:
+
+```yaml
+site:
+  template:
+    #  the fork owner  ↓↓↓↓↓↓↓
+    #                                      the release name ↓↓↓↓↓↓↓↓↓↓
+    https://github.com/my-orga/myst-theme/releases/download/my-release/book-theme.zip
 ```
 
 ### Browse available versions

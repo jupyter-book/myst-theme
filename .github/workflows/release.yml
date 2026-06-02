@@ -22,6 +22,11 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+      # Even though we use bun for install and test runners we still publish using npm.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - run: bun install
       - run: bun run build
       - run: bun run test

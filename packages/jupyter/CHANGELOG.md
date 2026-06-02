@@ -1,5 +1,44 @@
 # @myst-theme/jupyter
 
+## 1.3.0
+
+### Patch Changes
+
+- df76193: Make cell outputs focusable if they aren't stdin/stderr
+- 1cc84ae: Add not-prose to active thebe case
+- Updated dependencies [df76193]
+- Updated dependencies [b82356d]
+  - @myst-theme/providers@1.3.0
+  - myst-to-react@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [ad30791]
+  - myst-to-react@1.2.2
+  - @myst-theme/providers@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- c7164c8: Add restricted ANSI palette by default
+- 0888410: Make overflowing content focusable
+- Updated dependencies [0888410]
+  - myst-to-react@1.2.1
+  - @myst-theme/providers@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- Updated dependencies [9ecc788]
+- Updated dependencies [f908854]
+- Updated dependencies [f8ef1ef]
+  - myst-to-react@1.2.0
+  - @myst-theme/providers@1.2.0
+
 ## 1.1.4
 
 ### Patch Changes

@@ -1,5 +1,36 @@
 # @myst-theme/providers
 
+## 1.3.0
+
+### Patch Changes
+
+- df76193: Make cell outputs focusable if they aren't stdin/stderr
+  - @myst-theme/common@1.3.0
+  - @myst-theme/search@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- @myst-theme/common@1.2.2
+- @myst-theme/search@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 0888410: Make overflowing content focusable
+  - @myst-theme/common@1.2.1
+  - @myst-theme/search@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- f908854: Fix up the pattern/logic for internal_domains
+  - @myst-theme/common@1.2.0
+  - @myst-theme/search@1.2.0
+
 ## 1.1.4
 
 ### Patch Changes

@@ -1,5 +1,38 @@
 # myst-demo
 
+## 1.3.0
+
+### Patch Changes
+
+- Updated dependencies [b82356d]
+  - myst-to-react@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [ad30791]
+  - myst-to-react@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [0888410]
+  - myst-to-react@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- 9ecc788: Add grid-item renderer
+
+### Patch Changes
+
+- Updated dependencies [9ecc788]
+- Updated dependencies [f8ef1ef]
+  - myst-to-react@1.2.0
+
 ## 1.1.4
 
 ### Patch Changes

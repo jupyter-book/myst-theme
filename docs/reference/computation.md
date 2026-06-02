@@ -5,6 +5,7 @@ jupyter:
     language: python
     name: python3
 ---
+
 # Computation and notebooks
 
 This page contains example content for previewing or demonstrating computational content and notebooks, as well as Thebe integration.
@@ -15,12 +16,15 @@ The [Example Outputs Site](https://jupyter-book.github.io/example-outputs/) has 
 
 ## Pandas
 
+The following cell shows the output of a scrollable table.
+
 ```{code-cell}
 import pandas as pd
 import numpy as np
 
-df = pd.DataFrame(np.random.randn(10, 4), columns=['A', 'B', 'C', 'D'])
-df
+df = pd.DataFrame(np.random.randn(10, 26), columns=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
+# Here we'll just display the first few columns, we demonstrate wide tables below
+df.iloc[:, :5]
 ```
 
 ## Matplotlib
@@ -88,4 +92,137 @@ p.yaxis.axis_label = 'Column B'
 p.grid.grid_line_alpha = 0.3
 
 show(p)
+```
+
+## Text outputs
+
+A simple cell with printed text output for comparison with error outputs below:
+
+```{code-cell} python
+print("Hello, world!")
+print("Result:", 2 + 3)
+```
+
+A simple cell with ANSI codes, such as color, emphasis, etc. This uses a restricted palette, which is designed for maximum readability at the expense of styling richness. For example, dim and bright styles are disabled, and only foreground colours are used. Background colours are remapped to the foreground:
+
+```{code-cell} python
+colour_palette = (
+    f"\033[38;5;140mEveryone with \033[31;1;4mtelekinetic powers\033[0m\033[38;5;140m, raise \033[31;1;1mmy\033[0m \033[31;1;3mhand\033[0m.\033[0m. \033[31;1;2mDim\033[0m"
+)
+colours_named = "\n".join((f"\033[38;5;{i}mMeep\033[0m" for i in range(16)))
+print(colour_palette)
+print(colours_named)
+```
+
+there are separate styles for the stderr stream:
+
+```{code-cell} python
+import sys
+
+print(colour_palette, file=sys.stderr)
+print(colours_named, file=sys.stderr)
+```
+
+We can also set the `full-color-output` class to show raw colors. Unlike the earlier example, raw colors include the full 8-bit ANSI palette, dim and bright styles, and both foreground and background colors:
+
+```{code-cell} python
+:class: full-color-output
+import sys
+
+print(colour_palette)
+print(colours_named)
+```
+
+and the corresponding class `full-color-error` for stderr, too.
+
+```{code-cell} python
+:class: full-color-error
+import sys
+
+print(colour_palette, file=sys.stderr)
+print(colours_named, file=sys.stderr)
+```
+
+## Error outputs
+
+You can use the `raises-exception` cell tag to indicate that a code cell is expected to error.
+This will display the error output but continue executing the rest of the notebook.
+
+We use a semi-complex function with a traceback error to test out all the various types of error classes and make sure they show up properly:
+
+```{code-cell} python
+:tags: [raises-exception]
+
+from pathlib import Path
+
+class DataLoader:
+    """Loads data from a file path."""
+
+    # A comment about this function!
+    @staticmethod
+    def load(path: str, limit: int = 10) -> list:
+        data = Path(path).read_text()
+        return data.split("\n")[:limit]
+
+DataLoader.load(42)
+```
+
+We can also set the `full-color-error` class to show raw colours:
+
+```{code-cell} python
+:class: full-color-error
+:label: code-cell-dataloader
+:tags: [raises-exception]
+
+from pathlib import Path
+
+class DataLoader:
+    """Loads data from a file path."""
+
+    # A comment about this function!
+    @staticmethod
+    def load(path: str, limit: int = 10) -> list:
+        data = Path(path).read_text()
+        return data.split("\n")[:limit]
+
+DataLoader.load(42)
+```
+
+Embedding a full-color cell loses the annotation:
+
+![](#code-cell-dataloader)
+
+But we can restore it with a `full-color-error` class in a wrapping div or figure.
+
+% TODO: use embed with class once all nodes support class
+:::{div}
+:class: full-color-error
+
+![](#code-cell-dataloader)
+
+:::
+
+## Wide cell inputs and outputs
+
+These cells produce wide outputs to test that scrollable regions are keyboard-accessible (tab to focus, arrow keys to scroll).
+
+```{code-cell} python
+def print_a_really_long_string():
+    print("MyST is really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really neat!")
+print_a_really_long_string()
+```
+
+## Multiple outputs
+
+```{code-cell} python
+from IPython.display import display
+pfig = px.scatter(df, x='A', y='B', width=2500, title='Interactive Scatter Plot with Plotly')
+pfig.update_layout(
+    xaxis_title='Column A',
+    yaxis_title='Column B',
+    showlegend=False
+)
+
+display(df)
+display(pfig)
 ```

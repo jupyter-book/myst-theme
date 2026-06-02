@@ -67,6 +67,8 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
           const shadowRoot = rootEl.shadowRoot ?? rootEl.attachShadow({ mode: 'open' });
           // Create node to render the widget
           widgetRoot = document.createElement('div');
+          widgetRoot.className = classNames('myst-anywidget', node.class);
+          widgetRoot.style.position = 'relative';
           shadowRoot.replaceChildren(widgetRoot);
         } else {
           widgetRoot = rootEl;

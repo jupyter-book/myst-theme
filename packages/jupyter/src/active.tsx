@@ -10,7 +10,14 @@ import { useThebeLoader } from 'thebe-react';
 import { useFetchAnyTruncatedContent } from './hooks.js';
 import { useXRefState } from '@myst-theme/providers';
 import { fetchAndEncodeOutputImages } from './convertImages.js';
+import { observeScrollableA11y } from './passive.js';
 
+/**
+ * Attaches a live thebe kernel cell to the DOM so outputs update on re-execution.
+ * Used when thebe compute is "ready" (a kernel is connected). The passive
+ * counterpart, `PassiveOutputRenderer`, renders a fresh MIME bundle into a
+ * disposable cell instead.
+ */
 export function ActiveOutputRenderer({
   outputsId,
   initialData,
@@ -44,6 +51,8 @@ export function ActiveOutputRenderer({
         core?.stripWidgets(initialData, true, placeholder ? () => '' : undefined) ?? initialData,
       );
     }
+
+    return observeScrollableA11y(ref.current);
   }, [ref?.current, exec?.cell]);
 
   const executed = exec?.cell?.executionCount != null;
@@ -56,7 +65,9 @@ export function ActiveOutputRenderer({
       <div
         ref={ref}
         data-thebe-active-ref="true"
-        className={classNames('relative', { 'invisible h-0': !executed && placeholder })}
+        className={classNames('relative not-prose', {
+          'invisible h-0': !executed && placeholder,
+        })}
       />
       {exec.ready && placeholder && !executed && <MyST ast={placeholder} />}
     </div>
@@ -99,7 +110,7 @@ export function ActiveJupyterCellOutputs({
 
   if (!inCrossRef && exec?.ready) {
     return (
-      <div>
+      <div data-name="active-outputs-container" className="not-prose mb-5">
         {!fullOutputs && <div className="p-2.5">Fetching full output data...</div>}
         {core && fullOutputs && (
           <ActiveOutputRenderer

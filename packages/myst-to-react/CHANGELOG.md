@@ -1,5 +1,40 @@
 # myst-to-react
 
+## 1.3.0
+
+### Patch Changes
+
+- b82356d: Add tabindex when equations overflow
+- Updated dependencies [df76193]
+  - @myst-theme/providers@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- ad30791: Add aria tags to overflowing tables
+  - @myst-theme/providers@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 0888410: Make overflowing content focusable
+- Updated dependencies [0888410]
+  - @myst-theme/providers@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- 9ecc788: Add grid-item renderer
+
+### Patch Changes
+
+- f8ef1ef: Add both vert and horiz gap for badges
+- Updated dependencies [f908854]
+  - @myst-theme/providers@1.2.0
+
 ## 1.1.4
 
 ### Patch Changes

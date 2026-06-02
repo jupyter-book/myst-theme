@@ -4,6 +4,7 @@ COMMIT = $(shell git rev-parse --short HEAD)
 # You may need to install jq for this to work!
 VERSION = $(shell cat packages/site/package.json | jq -r '.version')
 
+THEME_REPO_OWNER=myst-templates
 THEME=article
 
 check:
@@ -13,7 +14,7 @@ build-theme:
 	bun install
 	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
-	git clone --depth 1 https://github.com/myst-templates/$(THEME)-theme .deploy/$(THEME)
+	git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME)
 	rm -rf .deploy/$(THEME)/public .deploy/$(THEME)/build .deploy/$(THEME)/package.json .deploy/$(THEME)/package-lock.json .deploy/$(THEME)/bun.lock .deploy/$(THEME)/template.yml .deploy/$(THEME)/server.js
 	find template -type f  -exec cp {} .deploy/$(THEME) \;
 	rm -rf themes/$(THEME)/{public,build}
@@ -33,7 +34,7 @@ build-book:
 	make THEME=book build-theme
 
 deploy-theme: check
-	echo "Deploying $(THEME) theme to myst-templates/$(THEME)-theme"
+	echo "Deploying $(THEME) theme to $(THEME_REPO_OWNER)/$(THEME)-theme"
 	echo "Version: $(VERSION)"
 	make THEME=$(THEME) build-theme
 	cd .deploy/$(THEME) && git add .

@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { useNavigation } from '@remix-run/react';
+import type { GenericParent } from 'myst-common';
+import { MyST } from 'myst-to-react';
 import {
   useNavOpen,
   useSiteManifest,
@@ -149,6 +151,7 @@ export const PrimarySidebar = ({
   sidebarRef,
   nav,
   footer,
+  navbarEnd,
   headings,
   hide_toc,
   mobileOnly,
@@ -157,6 +160,7 @@ export const PrimarySidebar = ({
   nav?: SiteManifest['nav'];
   headings?: Heading[];
   footer?: React.ReactNode;
+  navbarEnd?: GenericParent;
   hide_toc?: boolean;
   mobileOnly?: boolean;
 }) => {
@@ -221,6 +225,16 @@ export const PrimarySidebar = ({
             >
               <SidebarNav nav={nav} />
             </nav>
+          )}
+          {navbarEnd && (
+            <div
+              className={classNames(
+                'article myst-primary-sidebar-navbar-end xl:hidden p-2 my-1 flex flex-wrap gap-2 [&_p]:contents',
+                sidebarSectionInsetClass,
+              )}
+            >
+              <MyST ast={navbarEnd} />
+            </div>
           )}
           {nav && headings && <div className="my-3 border-b-2 lg:hidden" />}
           {headings && (

@@ -1,5 +1,67 @@
 # @myst-theme/book
 
+## 1.3.0
+
+### Patch Changes
+
+- Updated dependencies [3aaa57d]
+- Updated dependencies [df76193]
+- Updated dependencies [9e431a9]
+- Updated dependencies [b1f5ae4]
+- Updated dependencies [1cc84ae]
+  - @myst-theme/styles@1.3.0
+  - @myst-theme/jupyter@1.3.0
+  - @myst-theme/providers@1.3.0
+  - @myst-theme/site@1.3.0
+  - @myst-theme/common@1.3.0
+  - @myst-theme/icons@1.3.0
+  - @myst-theme/landing-pages@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- @myst-theme/providers@1.2.2
+- @myst-theme/jupyter@1.2.2
+- @myst-theme/site@1.2.2
+- @myst-theme/styles@1.2.2
+- @myst-theme/common@1.2.2
+- @myst-theme/icons@1.2.2
+- @myst-theme/landing-pages@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [eed55ed]
+- Updated dependencies [c7164c8]
+- Updated dependencies [0888410]
+- Updated dependencies [472220e]
+  - @myst-theme/site@1.2.1
+  - @myst-theme/jupyter@1.2.1
+  - @myst-theme/styles@1.2.1
+  - @myst-theme/providers@1.2.1
+  - @myst-theme/common@1.2.1
+  - @myst-theme/icons@1.2.1
+  - @myst-theme/landing-pages@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- ee2d127: ✨ Add navbar_end part in navbar UI
+- Updated dependencies [f5e7528]
+- Updated dependencies [9ecc788]
+- Updated dependencies [f908854]
+- Updated dependencies [ee2d127]
+  - @myst-theme/site@1.2.0
+  - @myst-theme/styles@1.2.0
+  - @myst-theme/providers@1.2.0
+  - @myst-theme/jupyter@1.2.0
+  - @myst-theme/common@1.2.0
+  - @myst-theme/icons@1.2.0
+  - @myst-theme/landing-pages@1.2.0
+
 ## 1.1.4
 
 ### Patch Changes

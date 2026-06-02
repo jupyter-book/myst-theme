@@ -1,5 +1,9 @@
 ---
 title: Blocks
+keywords: [blocks, code, cards]
+parts:
+  abstract: |
+    A reference page demonstrating the various content blocks supported by the MyST theme. This section is the *abstract* which we also demonstrate here. It's defined in project frontmatter.
 ---
 
 # Blocks
@@ -30,6 +34,15 @@ def hello_world():
 def calculate_sum(a, b):
     result = a + b
     return result
+```
+
+### Wide Code Block
+
+This code block has long lines and should be horizontally scrollable. Keyboard users should be able to tab to it and scroll with arrow keys.
+
+```python
+def print_a_really_long_string():
+    print("MyST is really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really neat!")
 ```
 
 ## Blockquotes
@@ -112,12 +125,17 @@ $$
 
 ## Mermaid
 
-```mermaid
+```{mermaid}
+:label: my-mermaid
 graph LR
     A[Start] --> B{Decision}
     B -->|Yes| C[Action]
     B -->|No| D[End]
 ```
+
+A reference to [the labeled diagram above](#my-mermaid) should not cause the
+diagram itself to disappear.
+
 
 ## IFrame
 

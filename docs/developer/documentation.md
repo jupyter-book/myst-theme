@@ -19,3 +19,9 @@ Currently much of the documentation for the myst-theme is in the [mystmd guide](
 We are considering moving all of that documentation to the `myst-theme` repository so they are in one place. Follow this issue for details:
 
 https://github.com/jupyter-book/myst-theme/issues/391
+
+## Run the docs on Binder
+
+The repository includes a `.binder/` folder so [mybinder.org](https://mybinder.org) can build an environment for executing the examples in the docs.
+
+`.binder/requirements.txt` mirrors `docs/requirements.txt` and must be kept in sync!

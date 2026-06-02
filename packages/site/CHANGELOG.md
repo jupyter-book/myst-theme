@@ -1,5 +1,70 @@
 # @myst-theme/site
 
+## 1.3.0
+
+### Minor Changes
+
+- b1f5ae4: Remove broken 'Link to Keywords' `HashLink`
+
+### Patch Changes
+
+- 9e431a9: Allow navbar to grow in height
+- Updated dependencies [df76193]
+- Updated dependencies [b82356d]
+  - @myst-theme/providers@1.3.0
+  - myst-to-react@1.3.0
+  - @myst-theme/frontmatter@1.3.0
+  - @myst-theme/diagrams@1.3.0
+  - @myst-theme/common@1.3.0
+  - @myst-theme/search@1.3.0
+  - myst-demo@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [ad30791]
+  - myst-to-react@1.2.2
+  - @myst-theme/providers@1.2.2
+  - @myst-theme/frontmatter@1.2.2
+  - @myst-theme/diagrams@1.2.2
+  - @myst-theme/common@1.2.2
+  - @myst-theme/search@1.2.2
+  - myst-demo@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- eed55ed: Re-order search entries to better behave under screen-readers.
+  Add missing aria-expanded attribute.
+- 472220e: Fix aria-controls in search popup
+- Updated dependencies [0888410]
+  - myst-to-react@1.2.1
+  - @myst-theme/providers@1.2.1
+  - @myst-theme/frontmatter@1.2.1
+  - @myst-theme/diagrams@1.2.1
+  - @myst-theme/common@1.2.1
+  - @myst-theme/search@1.2.1
+  - myst-demo@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- f5e7528: Add accessible labels to footer links
+- ee2d127: ✨ Add navbar_end part in navbar UI
+- Updated dependencies [9ecc788]
+- Updated dependencies [f908854]
+- Updated dependencies [f8ef1ef]
+  - myst-to-react@1.2.0
+  - myst-demo@1.2.0
+  - @myst-theme/providers@1.2.0
+  - @myst-theme/frontmatter@1.2.0
+  - @myst-theme/diagrams@1.2.0
+  - @myst-theme/common@1.2.0
+  - @myst-theme/search@1.2.0
+
 ## 1.1.4
 
 ### Patch Changes

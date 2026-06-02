@@ -86,6 +86,19 @@ site:
     https://github.com/my-orga/myst-theme/releases/download/my-release/book-theme.zip
 ```
 
+### Track the latest `main`
+
+Every push to `main` refreshes a rolling `myst-to-react@main` prerelease with freshly built theme zips, via the `release.yml` workflow.
+This lets you try unreleased changes by pinning your theme to it:
+
+```yaml
+site:
+  template: https://github.com/jupyter-book/myst-theme/releases/download/myst-to-react@main/book-theme.zip
+```
+
+Use at your own risk! This tracks unreleased work and can break at any time.
+It is meant for power users who want to test bleeding-edge changes and report regressions early.
+
 ### Browse available versions
 
 Published versions of the `article` and `book` themes can be found [![as GH releases](https://img.shields.io/badge/as%20GH%20releases-blue?logo=github&style=flat-square)](https://github.com/jupyter-book/myst-theme/releases)

@@ -99,3 +99,14 @@ jobs:
     with:
       tag_name: ${{ needs.get-tag.outputs.tag_name }}
     secrets: inherit
+
+  # Refresh the rolling `myst-to-react@main` prerelease on every push to main,
+  # so power users can pin their themes to the bleeding edge. Runs regardless of
+  # whether a version was published. See README "Track the latest main".
+  refresh-main-assets:
+    name: Refresh myst-to-react@main assets
+    uses: ./.github/workflows/theme-assets.yml
+    with:
+      tag_name: myst-to-react@main
+      rolling: true
+    secrets: inherit

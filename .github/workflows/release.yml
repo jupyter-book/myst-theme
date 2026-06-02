@@ -86,3 +86,16 @@ jobs:
     with:
       tag_name: ${{ needs.get-tag.outputs.tag_name }}
     secrets: inherit
+
+  # Attach the book and article theme zips to the release we just created
+  attach-theme-assets:
+    name: Attach theme assets to release
+    needs:
+      - release
+      - get-tag
+      - release-github
+    if: ${{ needs.release.outputs.published == 'true' }}
+    uses: ./.github/workflows/theme-assets.yml
+    with:
+      tag_name: ${{ needs.get-tag.outputs.tag_name }}
+    secrets: inherit

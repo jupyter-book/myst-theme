@@ -1,6 +1,7 @@
 import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
 import {
   json,
+  redirect,
   type LinksFunction,
   type LoaderFunction,
   type V2_MetaFunction,
@@ -11,7 +12,7 @@ import {
   ErrorDocumentNotFound,
   ErrorUnhandled,
 } from '@myst-theme/site';
-import { getConfig, getPage } from '~/utils/loaders.server';
+import { getConfig, getPage, getStaticFileUrl } from '~/utils/loaders.server';
 import { useLoaderData } from '@remix-run/react';
 import type { SiteManifest } from 'myst-config';
 import { ArticlePageAndNavigation } from '../components/ArticlePageAndNavigation';
@@ -47,19 +48,29 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }
 export const links: LinksFunction = () => [KatexCSS];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const [first, ...rest] = parsePathname(new URL(request.url).pathname);
+  const url = new URL(request.url);
+  const [first, ...rest] = parsePathname(url.pathname);
   const config = await getConfig();
   const project = getProject(config, first);
   const projectName = project?.slug === first ? first : undefined;
   const slugParts = projectName ? rest : [first, ...rest];
   const slug = slugParts.length ? slugParts.join('.') : undefined;
   const flat = isFlatSite(config);
-  const page = await getPage(request, {
-    project: flat ? projectName : (projectName ?? slug),
-    slug: flat ? slug : projectName ? slug : undefined,
-    redirect: process.env.MODE === 'static' ? false : true,
-  });
-  return json({ config, project, page });
+  try {
+    const page = await getPage(request, {
+      project: flat ? projectName : (projectName ?? slug),
+      slug: flat ? slug : projectName ? slug : undefined,
+      // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
+      redirect: process.env.MODE === 'static' ? false : true,
+    });
+    return json({ config, project, page });
+  } catch (e) {
+    if (e instanceof Response && e.status === 404) {
+      const cdnUrl = await getStaticFileUrl(url.pathname);
+      if (cdnUrl) throw redirect(cdnUrl);
+    }
+    throw e;
+  }
 };
 
 export default function Page() {

@@ -7,6 +7,10 @@ on:
 jobs:
   check-a11y:
     runs-on: ubuntu-latest
+    # Allow the workflow to create/update the accessibility audit issue
+    permissions:
+      contents: read
+      issues: write
     steps:
       - uses: actions/checkout@v4
 
@@ -22,7 +26,9 @@ jobs:
           npm run build
           make build-book
 
+      # Don't fail the job when violations are found; we report them via the issue below
       - name: Run Accessibility Checks
+        continue-on-error: true
         uses: berkeley-cdss/myst-a11y@v1
         with:
           working_directory: 'docs'

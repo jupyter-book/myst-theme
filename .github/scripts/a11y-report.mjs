@@ -25,6 +25,13 @@ const toPublic = (url) => (docsUrl ? url.replace(LOCAL, docsUrl) : url);
 const toPath = (url) => url.replace(LOCAL, '') || '/';
 const pageLink = (url) => `[${toPath(url)}](${toPublic(url)})`;
 
+// axe joins every failed condition into failureSummary; keep just the first
+// concrete reason and escape angle brackets so e.g. `<label>` renders.
+const firstReason = (text = '') =>
+  (text.split('\n').map((s) => s.trim()).find((s) => s && !/^Fix (any|all) of the following:?$/i.test(s)) ?? '')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
 // Flatten every failing element, tagged with its page and rule.
 const elements = [];
 for (const page of pages) {
@@ -34,14 +41,10 @@ for (const page of pages) {
         url: page.url,
         rule: v.id,
         impact: v.impact,
-        help: v.help,
         helpUrl: v.helpUrl,
         description: v.description,
         target: node.target?.[0] ?? '(unknown)',
-        summary: (node.failureSummary ?? '')
-          .replace(/^Fix any of the following:\s*/i, '')
-          .replace(/\s*\n\s*/g, ' ')
-          .trim(),
+        summary: firstReason(node.failureSummary),
       });
     }
   }

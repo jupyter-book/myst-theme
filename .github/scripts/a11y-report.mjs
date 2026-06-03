@@ -4,7 +4,7 @@
  *
  * Usage: node a11y-report.mjs <path-to-axe-report.json>
  * Env:
- *   PROD_URL  Public site base URL; audited localhost links are rewritten to it.
+ *   DOCS_URL  Public docs site base URL; audited localhost links are rewritten to it.
  *   RUN_URL   Link to the GitHub Actions run that produced the report.
  */
 import { readFileSync } from 'node:fs';
@@ -15,13 +15,13 @@ const MAX_PER_PAGE = 10;
 const LOCAL = 'http://localhost:8080';
 
 const reportPath = process.argv[2];
-const prodUrl = (process.env.PROD_URL || '').replace(/\/$/, '');
+const docsUrl = (process.env.DOCS_URL || '').replace(/\/$/, '');
 const runUrl = process.env.RUN_URL || '';
 
 const pages = JSON.parse(readFileSync(reportPath, 'utf8'));
 
 // Audits run against a local server, so rewrite links to the public site.
-const toPublic = (url) => (prodUrl ? url.replace(LOCAL, prodUrl) : url);
+const toPublic = (url) => (docsUrl ? url.replace(LOCAL, docsUrl) : url);
 const toPath = (url) => url.replace(LOCAL, '') || '/';
 const pageLink = (url) => `[${toPath(url)}](${toPublic(url)})`;
 

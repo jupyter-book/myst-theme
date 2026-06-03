@@ -10,6 +10,11 @@ project:
   # keywords: []
   # authors: []
   github: https://github.com/jupyter-book/myst-theme
+  # Files served verbatim at a stable URL (not processed as MyST pages).
+  # Each entry is copied to the site root by its basename (parent folders dropped).
+  static_files:
+    - assets/standalone.csv # a file   -> served at /standalone.csv
+    - assets/downloads      # a folder -> served at /downloads/example-data.csv
   error_rules:
     - rule: link-resolves
       keys:

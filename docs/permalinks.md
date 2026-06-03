@@ -76,7 +76,7 @@ How you link a file determines its URL. See the [MyST downloads guide](https://m
   - Example
 * - `` {download}`path/to/file.csv` ``
   - `/file-<hash>.csv`
-  - Cache-busted; URL changes with the file
+  - Hashed so that URL changes with the contents of the file
   - {download}`assets/downloads/example-data.csv`
 * - `[text](path/to/file.csv)` (resolves to a source file)
   - `/file-<hash>.csv`
@@ -92,9 +92,9 @@ How you link a file determines its URL. See the [MyST downloads guide](https://m
   - [/downloads/example-data.csv](/downloads/example-data.csv)
 :::
 
-A stable link only works if its path doesn't match a source file. Declare the file under `static_files` in `myst.yml`, then link to the resulting URL. The live app redirects such unmatched routes to the served file.
+A static link only works if its path doesn't match a source file. Declare the file under `static_files` in `myst.yml`, then link to the resulting URL. The live app redirects such unmatched routes to the served file.
 
-Each entry is copied to the site root by its **basename**, so parent folders are dropped. You do not need to add a `BASE_URL`, just provide a link relative to your site root. This is the configuration powering the examples above:
+Static files are copied to the site root. To link to them, you can provide a link relative to root: `/my_file.pdf` (no need to include `BASE_URL`). Folder structure is preserved, so if `my_folder` is added to `static_files`, you can link to `/my_folder/my_file.pdf`. This is the configuration powering the examples above:
 
 :::{literalinclude} ./myst.yml
 :language: yaml

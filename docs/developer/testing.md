@@ -49,3 +49,12 @@ For example, see the `myst-to-react` configuration:
     "test": "vitest run",
     ...
 ```
+
+(testing:a11y)=
+## Accessibility audit
+
+On every push to `main`, the [`a11y.yml` workflow](https://github.com/jupyter-book/myst-theme/blob/main/.github/workflows/a11y.yml) builds the documentation against the local theme and runs an [axe-core](https://github.com/dequelabs/axe-core) accessibility audit via [`berkeley-cdss/myst-a11y`](https://github.com/berkeley-cdss/myst-a11y).
+
+If violations are found, the results are reported in a GitHub issue labelled [`a11y-audit`](https://github.com/jupyter-book/myst-theme/issues?q=label%3Aa11y-audit).
+
+To see the current state of accessibility issues, look for the open `a11y-audit` issue.

@@ -92,7 +92,7 @@ How you link a file determines its URL. See the [MyST downloads guide](https://m
   - [/downloads/example-data.csv](/downloads/example-data.csv)
 :::
 
-A static link only works if its path doesn't match a source file. Declare the file under `static_files` in `myst.yml`, then link to the resulting URL. The live app redirects such unmatched routes to the served file.
+A static link only works if its path doesn't match a source file. Declare the file under `static_files` in `myst.yml`, then link to the resulting URL.
 
 Static files are copied to the site root. To link to them, you can provide a link relative to root: `/my_file.pdf` (no need to include `BASE_URL`). Folder structure is preserved, so if `my_folder` is added to `static_files`, you can link to `/my_folder/my_file.pdf`. This is the configuration powering the examples above:
 

@@ -40,30 +40,26 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROD_URL: "https://myst-theme.netlify.app"
+          RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
         shell: bash
         run: |
-          REPORT_PATH=$(find . -name "axe-report.json" | head -n 1)
-          
+          REPORT_PATH=$(find . -name "axe-report.json" -not -path "*/node_modules/*" | head -n 1)
+
           if [ ! -f "$REPORT_PATH" ]; then
             echo "No accessibility report found. Skipping issue update."
             exit 0
           fi
 
-          ERROR_COUNT=$(jq '[.[].violations | length] | add' "$REPORT_PATH")
-          
-          # Build the Issue Body
-          echo "## Accessibility Audit " > report.md
-          echo "Found **$ERROR_COUNT** violations across MyST Theme Documentation." >> report.md
-          echo "See the [most recent action run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for full details." >> report.md
-          echo "" >> report.md
-          echo "| Page URL | Violations |" >> report.md
-          echo "| --- | --- |" >> report.md
-          jq -r '.[] | "| \(.url) | \([.violations[].nodes | length] | add // 0) |"' "$REPORT_PATH" >> report.md
+          # Count the failing elements (not just the number of distinct rules)
+          ERROR_COUNT=$(jq '[.[].violations[].nodes | length] | add // 0' "$REPORT_PATH")
+
+          # Build the issue body from the report
+          node .github/scripts/a11y-report.mjs "$REPORT_PATH" > report.md
 
           # Handle Issue (Find, Create/Edit/Close)
           # Find the most recently created open issue with the "a11y-audit" label
           EXISTING_ISSUE=$(gh issue list --label "a11y-audit" --state open --json number --jq '.[0].number')
-          TITLE="Accessibility report: $ERROR_COUNT errors detected"
+          TITLE="Accessibility report: $ERROR_COUNT issues detected"
 
           if [ -n "$EXISTING_ISSUE" ]; then
             if [ "$ERROR_COUNT" -eq "0" ]; then

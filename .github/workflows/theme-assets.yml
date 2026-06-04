@@ -18,6 +18,8 @@ name: Publish theme assets to GitHub Release
 #     attaching the zips to the GitHub release it created for that tag. (The release
 #     event below does not fire there, because releases created with GITHUB_TOKEN do
 #     not trigger further workflow runs, so release.yml calls this explicitly.)
+#   - called by release.yml on every push to main, with rolling=true, to refresh
+#     the bleeding-edge `myst-to-react@main` prerelease.
 #   - creating a GitHub release (UI / CLI / API), which also works on forks
 #     (manual / custom builds).
 on:
@@ -26,6 +28,12 @@ on:
       tag_name:
         required: true
         type: string
+      # When true, refresh a single prerelease in place (overwriting its assets)
+      # instead of attaching to a fixed release. Used for the rolling main release.
+      rolling:
+        required: false
+        type: boolean
+        default: false
   release:
     types: [published]
 
@@ -75,9 +83,28 @@ jobs:
       # tag that triggered the workflow. If the release already exists (the
       # changesets path), the action updates it and keeps its notes.
       - name: Upload release assets
+        if: ${{ !inputs.rolling }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.tag_name || github.ref_name }}
           files: dist_zip/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Update myst-to-react@main with the latest changes. We create the
+      # prerelease once and then overwrite its assets in place on later pushes.
+      # Note that the tag will not change, so it'll technically point to a different
+      # state of the repo, so we also add the hash of the latest update to the notes.
+      - name: Refresh rolling release
+        if: ${{ inputs.rolling }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ inputs.tag_name }}"
+          NOTES="Bleeding-edge theme assets, rebuilt from \`main\` on each push (currently $GITHUB_SHA). Use at your own risk! This tracks unreleased changes and can break at any time."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist_zip/*.zip --clobber
+            gh release edit "$TAG" --notes "$NOTES"
+          else
+            gh release create "$TAG" --title "$TAG" --notes "$NOTES" --prerelease --target "$GITHUB_SHA" dist_zip/*.zip
+          fi

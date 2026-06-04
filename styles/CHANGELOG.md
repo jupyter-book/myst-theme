@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 1.3.1
+
+### Patch Changes
+
+- e9aee3a: Fix vertical height for stacked buttons
+
 ## 1.3.0
 
 ### Patch Changes

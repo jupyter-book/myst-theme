@@ -14,11 +14,17 @@
   },
   "sideEffects": false,
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rm -rf dist",
     "lint": "eslint \"src/**/*.ts*\" -c ./.eslintrc.cjs",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "build:esm": "tsc --project ./tsconfig.json --module Node16 --outDir dist --declaration",
     "build": "npm-run-all -l clean -p build:esm"
   },
-  "dependencies": {}
+  "dependencies": {
+    "myst-common": "^1.8.1",
+    "myst-config": "^1.8.1",
+    "myst-frontmatter": "^1.8.1",
+    "myst-spec": "^0.0.5",
+    "myst-spec-ext": "^1.8.1"
+  }
 }

@@ -14,7 +14,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rm -rf dist",
     "lint": "eslint \"src/**/*.ts*\" -c ./.eslintrc.cjs",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "build:esm": "tsc --project ./tsconfig.json --module Node16 --outDir dist --declaration",

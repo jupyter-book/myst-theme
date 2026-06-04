@@ -231,7 +231,7 @@ export function useHeaders(selector: string, maxdepth: number) {
     ),
     [selector],
   );
-  useMutationObserver(mainElementRef, onMutation, {
+  useMutationObserver(mainElementRef as RefObject<Element>, onMutation, {
     attributes: true,
     childList: true,
     subtree: true,
@@ -392,7 +392,7 @@ function useMarginOccluder() {
     ),
     [],
   );
-  useMutationObserver(mainElementRef, onMutation, {
+  useMutationObserver(mainElementRef as RefObject<Element>, onMutation, {
     attributes: true,
     childList: true,
     subtree: true,

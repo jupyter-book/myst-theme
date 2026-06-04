@@ -88,7 +88,7 @@ export function Callout({
   dropdown?: boolean;
   identifier?: string;
   className?: string;
-  Icon?: (props: { width?: string; height?: string; className?: string }) => JSX.Element;
+  Icon?: (props: { width?: string; height?: string; className?: string }) => React.JSX.Element;
 }) {
   return (
     <WrapperElement

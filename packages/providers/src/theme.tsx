@@ -19,8 +19,8 @@ export type NavLinkProps = Omit<LinkProps, 'className'> & {
   className?: string | ((opts: { isActive: boolean }) => string);
 };
 
-export type Link = (props: LinkProps) => JSX.Element;
-export type NavLink = (props: NavLinkProps) => JSX.Element;
+export type Link = (props: LinkProps) => React.JSX.Element;
+export type NavLink = (props: NavLinkProps) => React.JSX.Element;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function HtmlLink({ to, className, children, prefetch, ...props }: LinkProps) {

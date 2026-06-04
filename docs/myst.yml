@@ -60,6 +60,7 @@ site:
         - title: Reference
           url: /reference
   options:
+    style: public/layout-demo.css
     site_title: myst-theme documentation
     folders: true
     logo: _static/myst-logo-light.svg

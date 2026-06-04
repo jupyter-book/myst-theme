@@ -1,5 +1,12 @@
 # @myst-theme/anywidget
 
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies [623f66d]
+  - @myst-theme/providers@1.3.2
+
 ## 1.3.1
 
 ### Patch Changes

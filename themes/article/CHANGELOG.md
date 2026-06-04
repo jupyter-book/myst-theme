@@ -1,5 +1,21 @@
 # @myst-theme/article
 
+## 1.3.2
+
+### Patch Changes
+
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+- Updated dependencies [623f66d]
+  - @myst-theme/frontmatter@1.3.2
+  - @myst-theme/icons@1.3.2
+  - @myst-theme/jupyter@1.3.2
+  - myst-to-react@1.3.2
+  - @myst-theme/providers@1.3.2
+  - @myst-theme/site@1.3.2
+  - @myst-theme/styles@1.3.2
+  - @myst-theme/common@1.3.2
+  - @myst-theme/anywidget@1.3.2
+
 ## 1.3.1
 
 ### Patch Changes

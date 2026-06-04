@@ -1,5 +1,14 @@
 # myst-to-react
 
+## 1.3.2
+
+### Patch Changes
+
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+- Updated dependencies [623f66d]
+  - @myst-theme/providers@1.3.2
+  - @myst-theme/common@1.3.2
+
 ## 1.3.1
 
 ### Patch Changes

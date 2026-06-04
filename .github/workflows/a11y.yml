@@ -13,17 +13,19 @@ jobs:
       issues: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          submodules: recursive
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       # Build the book locally so we audit the latest version of the theme
       - name: Build local book theme
         run: |
-          npm ci
-          npm run build
+          bun install
+          bun run build
           make build-book
 
       # Don't fail the job when violations are found; we report them via the issue below

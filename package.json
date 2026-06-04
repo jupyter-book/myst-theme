@@ -5,8 +5,7 @@
   "workspaces": [
     "packages/*",
     "themes/*",
-    "styles",
-    "docs"
+    "styles"
   ],
   "scripts": {
     "compile": "turbo run compile",
@@ -15,8 +14,6 @@
     "theme:book": "turbo run dev --parallel --env-mode=loose --filter='./themes/book'",
     "theme:article": "turbo run dev --parallel --env-mode=loose --filter='./themes/article'",
     "test": "turbo run test",
-    "storybook": "cd docs && bun run storybook",
-    "build-storybook": "bun run build && cd docs && storybook build",
     "clean": "turbo run clean --parallel && find . -name '.turbo' -type d -prune -exec rm -rf '{}' +",
     "lint": "turbo run lint",
     "lint:format": "turbo run lint:format",

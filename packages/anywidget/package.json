@@ -17,7 +17,7 @@
     "url": "git+https://github.com/jupyter-book/myst-theme.git"
   },
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rm -rf dist",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",

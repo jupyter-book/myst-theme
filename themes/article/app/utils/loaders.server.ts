@@ -95,6 +95,17 @@ export async function getPage(
   return { ...loader, footer, domain: getDomainFromRequest(request), project: projectName };
 }
 
+/**
+ * Return the content CDN URL for a path if it exists as a static file,
+ * or null if the content server has no such file.
+ */
+export async function getStaticFileUrl(pathname: string): Promise<string | null> {
+  const url = `${CONTENT_CDN}${pathname}`;
+  const response = await fetch(url, { method: 'HEAD' }).catch(() => null);
+  if (!response || !response.ok) return null;
+  return url;
+}
+
 export async function getObjectsInv(): Promise<ArrayBuffer | null> {
   const url = updateLink('/objects.inv');
   const response = await fetch(url).catch(() => null);

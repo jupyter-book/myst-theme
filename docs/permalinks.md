@@ -63,3 +63,41 @@ For example:
 
 You can match an exact domain (e.g. `mystmd.org`) or use a wildcard to match a single subdomain level. Matches will only be for that subdomain level, not deeper ones, and will not match the root domain (e.g. `*.mystmd.org` matches `docs.mystmd.org` but not `a.b.mystmd.org` or `mystmd.org`).
 
+## Linking to static files
+
+How you link a file determines its URL. See the [MyST downloads guide](https://mystmd.org/guide/website-downloads) for the full reference.
+
+:::{list-table} Static file link behavior
+:header-rows: 1
+
+* - Link structure
+  - URL you get
+  - Notes
+  - Example
+* - `` {download}`path/to/file.csv` ``
+  - `/file-<hash>.csv`
+  - Hashed so that URL changes with the contents of the file
+  - {download}`assets/downloads/example-data.csv`
+* - `[text](path/to/file.csv)` (resolves to a source file)
+  - `/file-<hash>.csv`
+  - Same as the download role
+  - [example-data.csv](assets/downloads/example-data.csv)
+* - `[text](/file.csv)` - `static_files` **file** entry
+  - `/file.csv`
+  - Stable (parent folders dropped)
+  - [/standalone.csv](/standalone.csv)
+* - `[text](/folder/file.csv)` - `static_files` **folder** entry
+  - `/folder/file.csv`
+  - Stable (folder name kept, parent dropped)
+  - [/downloads/example-data.csv](/downloads/example-data.csv)
+:::
+
+A static link only works if its path doesn't match a source file. Declare the file under `static_files` in `myst.yml`, then link to the resulting URL.
+
+Static files are copied to the site root. To link to them, you can provide a link relative to root: `/my_file.pdf` (no need to include `BASE_URL`). Folder structure is preserved, so if `my_folder` is added to `static_files`, you can link to `/my_folder/my_file.pdf`. This is the configuration powering the examples above:
+
+:::{literalinclude} ./myst.yml
+:language: yaml
+:start-at: static_files:
+:end-at: assets/downloads
+:::

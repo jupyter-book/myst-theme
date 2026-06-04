@@ -84,19 +84,3 @@ To connect to a remote content server, provide both the CDN URL and the matching
 CONTENT_CDN="https://remote.example.com" CONTENT_CDN_PORT=3111 bun run theme:book
 CONTENT_CDN="https://remote.example.com" CONTENT_CDN_PORT=3111 bun run theme:article
 ```
-
-## Preview components and UI with storybook
-
-We have a lightweight [storybook](https://storybook.js.org/) configuration, which is another way to preview the design of these components.
-
-This is the same tool that powers [the MyST Theme components documentation](https://jupyter-book.github.io/myst-theme/?path=/docs/components-introduction--docs).
-
-To use Storybook, first complete the [initial setup](#initial-setup), then run:
-
-```shell
-# Terminal 1
-bun run storybook
-
-# Terminal 2
-bun run dev
-```

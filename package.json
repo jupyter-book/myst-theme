@@ -66,5 +66,11 @@
   "patchedDependencies": {
     "@jupyter-widgets/controls@5.0.12": "patches/@jupyter-widgets%2Fcontrols@5.0.12.patch",
     "@remix-run/dev@1.17.1": "patches/@remix-run%2Fdev@1.17.1.patch"
+  },
+  "overrides": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3"
   }
 }

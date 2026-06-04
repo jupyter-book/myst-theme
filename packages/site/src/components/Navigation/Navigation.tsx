@@ -20,7 +20,7 @@ export const PrimaryNavigation = ({
 }: {
   children?: React.ReactNode;
   projectSlug?: string;
-  sidebarRef?: React.RefObject<HTMLDivElement>;
+  sidebarRef?: React.RefObject<HTMLDivElement | null>;
   hide_toc?: boolean;
   mobileOnly?: boolean;
   footer?: React.ReactNode;
@@ -70,7 +70,7 @@ export const ConfigurablePrimaryNavigation = ({
   navbarEnd,
 }: {
   children?: React.ReactNode;
-  sidebarRef?: React.RefObject<HTMLDivElement>;
+  sidebarRef?: React.RefObject<HTMLDivElement | null>;
   hide_toc?: boolean;
   mobileOnly?: boolean;
   nav?: SiteManifest['nav'];

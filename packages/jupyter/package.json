@@ -53,8 +53,6 @@
   "devDependencies": {
     "@jupyterlab/nbformat": "^4.0.0",
     "@jupyterlab/rendermime": "^4.0.0",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
     "vitest": "^1.0.0"
   },
   "peerDependencies": {

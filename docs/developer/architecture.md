@@ -33,7 +33,6 @@
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 - [Tailwind](https://tailwindcss.com/) for styling
-- [Storybook](https://storybook.js.org/) for documenting components
 
 ### Tailwind CSS bundle and class list
 

@@ -248,7 +248,7 @@ export function MySTRenderer({
   column?: boolean;
   fullscreen?: boolean;
   captureTab?: boolean;
-  TitleBlock?: (props: { frontmatter: PageFrontmatter }) => JSX.Element | null;
+  TitleBlock?: (props: { frontmatter: PageFrontmatter }) => React.JSX.Element | null;
   numbering?: any;
   className?: string;
 }) {

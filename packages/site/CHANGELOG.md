@@ -1,5 +1,23 @@
 # @myst-theme/site
 
+## 1.3.1
+
+### Patch Changes
+
+- 007795e: Handle baseURL problems with static sites
+- 4095409: Fix TOML highlighting
+- 02c8537: Avoid flashing on initial page load
+- Updated dependencies [a406632]
+- Updated dependencies [aac7f50]
+- Updated dependencies [4095409]
+  - @myst-theme/diagrams@1.3.1
+  - myst-to-react@1.3.1
+  - @myst-theme/providers@1.3.1
+  - @myst-theme/frontmatter@1.3.1
+  - @myst-theme/common@1.3.1
+  - @myst-theme/search@1.3.1
+  - myst-demo@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes

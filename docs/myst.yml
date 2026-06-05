@@ -19,7 +19,7 @@ project:
     - rule: link-resolves
       keys:
         - 'https://github.com/**'
-  jupyter: true
+  jupyter: false
   parts:
     banner: |
       📢 **Announcement:** This is a test banner for the MyST Theme! [Learn more about MyST](/reference).

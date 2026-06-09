@@ -77,7 +77,8 @@ options:
       Supports wildcard subdomains with *. Example: "jupyter.org" or "*.jupyter.org"
   - type: file
     id: style
-    description: Local path to a CSS file
+    multiple: true
+    description: Local path to a CSS file, or a list of them (applied in order)
 parts:
   - id: footer
     description: The site wide footer

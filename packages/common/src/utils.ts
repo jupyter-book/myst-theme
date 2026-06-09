@@ -172,7 +172,12 @@ export function updateSiteManifestStaticLinksInplace(
   if (data.options.logo) data.options.logo = updateUrl(data.options.logo);
   if (data.options.logo_dark) data.options.logo_dark = updateUrl(data.options.logo_dark);
   if (data.options.favicon) data.options.favicon = updateUrl(data.options.favicon);
-  if (data.options.style) data.options.style = updateUrl(data.options.style);
+  if (data.options.style) {
+    // `style` may be a single link or, for a `multiple` file option, a list.
+    data.options.style = Array.isArray(data.options.style)
+      ? data.options.style.map(updateUrl)
+      : updateUrl(data.options.style);
+  }
   if (data.parts) {
     Object.values(data.parts).forEach(({ mdast }) => {
       updateMdastStaticLinksInplace(mdast, updateUrl);

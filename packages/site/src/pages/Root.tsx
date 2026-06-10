@@ -139,6 +139,8 @@ export function DocumentWithoutProviders({
         <Analytics
           analytics_google={config?.options?.analytics_google}
           analytics_plausible={config?.options?.analytics_plausible}
+          analytics_umami_url={config?.options?.analytics_umami_url}
+          analytics_umami_id={config?.options?.analytics_umami_id}
         />
         {head}
       </head>

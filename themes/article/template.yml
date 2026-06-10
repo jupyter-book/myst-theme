@@ -58,6 +58,12 @@ options:
   - type: string
     id: analytics_plausible
     description: Plausible analytics key
+  - type: string
+    id: analytics_umami_url
+    description: Umami analytics script url
+  - type: string
+    id: analytics_umami_id
+    description: Umami analytics website id
   - type: boolean
     id: numbered_references
     description: Show references as numbered, rather than in APA-style. Only applies to parenthetical citations

@@ -29,6 +29,13 @@ export function Analytics({ analytics_google, analytics_plausible }: SiteAnalyti
           />
         </>
       )}
+      {analytics_umami_url && analytics_umami_id && (
+        <script
+          defer
+          src={analytics_umami_url}
+          data-website-id={analytics_umami_id}
+        ></script>
+      )}
     </>
   );
 }

@@ -82,6 +82,8 @@ export type CommonTemplateOptions = {
   logo_alt?: string;
   analytics_google?: string;
   analytics_plausible?: string;
+  analytics_umami_url?: string;
+  analytics_umami_id?: string;
   numbered_references?: boolean;
   folders?: boolean;
   style?: string;

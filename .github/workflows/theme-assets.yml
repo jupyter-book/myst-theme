@@ -11,7 +11,7 @@ name: Publish theme assets to GitHub Release
 #   build/, public/, template.yml  (built by `bun run prod:build`)
 #   server.js                      (from template/, as-is)
 #   package.json                   (from template/, with template->THEME and VERSION substituted)
-#   bun.lock                       (from `bun install`)
+#   package-lock.json              (from `npm install --package-lock-only`)
 #
 # Triggers:
 #   - called by release.yml after the changesets release publishes (primary path),
@@ -44,15 +44,24 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
       - name: Install dependencies
         run: bun install
+
       - name: Build
         run: bun run build
       - name: Run tests
         run: bun run test
 
       # Build, package, and zip each theme. node_modules is excluded from the
-      # zip to match what the Makefile ships (it is gitignored there)
+      # zip to match what the Makefile ships (it is gitignored there).
+      #
+      # `npm install --package-lock-only` generates the
+      # `package-lock.json`, so that users can install our theme using `npm`.
       - name: Build and package themes
         run: |
           VERSION=$(node -p "require('./packages/site/package.json').version")
@@ -66,7 +75,7 @@ jobs:
             cp -r "themes/$THEME/template.yml" "$DIST/template.yml"
             cp template/server.js "$DIST/server.js"
             sed -e "s/VERSION/$VERSION/g" -e "s/template/$THEME/g" template/package.json > "$DIST/package.json"
-            (cd "$DIST" && bun install)
+            (cd "$DIST" && npm install --package-lock-only)
             zip -r "dist_zip/$THEME-theme.zip" "$DIST/" -x '*/node_modules/*'
           done
 

@@ -148,11 +148,11 @@ export function DownloadsDropdown({ exports }: HasExports) {
           title="Download"
         />
       </Menu.Button>
-      <Menu.Items className="myst-fm-downloads-menu absolute z-10 overflow-hidden rounded-sm shadow-lg -right-1 ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <Menu.Items className="myst-fm-downloads-menu absolute z-10 overflow-hidden bg-myst-bg rounded-sm shadow-lg -right-1 ring-1 ring-black ring-opacity-5 focus:outline-none">
         {exports.map((exp, index) => (
           <Menu.Item key={index}>
             <Download
-              className="myst-fm-downloads-item block p-3 no-underline bg-myst-surface"
+              className="myst-fm-downloads-item block p-3 no-underline hover:bg-myst-surface-hover"
               url={exp.url}
               filename={exp.filename}
               format={exp.format}

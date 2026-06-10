@@ -3,8 +3,8 @@ name: Build Book Theme and Release
 on:
   push:
     tags:
-      - 'v*'
-      - 'latest'
+      - "v*"
+      - "latest"
     branches:
       - main
 
@@ -16,12 +16,17 @@ jobs:
         with:
           fetch-depth: 2
           submodules: recursive
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18.x
-      - run: npm install
-      - run: npm run build
+          bun-version: latest
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: bun install
+      - run: bun run build
+      - run: bun run test
       - run: make build-book
 
       # Compress the directory into a ZIP file before uploading
@@ -51,7 +56,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: book-theme.zip  # Update to point to the ZIP file
-          asset_name: book-theme.zip  # The name of the uploaded asset
+          asset_path: book-theme.zip # Update to point to the ZIP file
+          asset_name: book-theme.zip # The name of the uploaded asset
           asset_content_type: application/zip
-

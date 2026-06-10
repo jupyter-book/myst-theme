@@ -1,14 +1,15 @@
 ---
-title: Theming
+title: Styling
 ---
 
 `myst-theme` exposes its color palette as CSS custom properties (CSS variables), so you can re-skin the entire interface from a single stylesheet without rebuilding the theme.
+Many elements also carry semantic, human-readable CSS classes (e.g. `myst-top-nav`, `myst-admonition-header`) that you can target directly for more targeted overrides.
 
 To explore the tokens interactively, try the [Live color picker](./color-picker.md).
 
 ## Applying overrides in your own site
 
-Add the declarations you want to override to a stylesheet loaded by your site:
+Add the declarations you want to override to a [stylesheet loaded by your site](https://mystmd.org/guide/website-style#style-sheet):
 
 ```css
 :root {
@@ -25,12 +26,12 @@ Add the declarations you want to override to a stylesheet loaded by your site:
 }
 ```
 
+For the full list of available variables and their default values, see [`theme-colors.css`](https://github.com/jupyter-book/myst-theme/blob/main/styles/theme-colors.css).
+
 ## Known limitations
 
-A few colors are intentionally not themable yet:
+A few aspects of the UI are intentionally not themable yet:
 
-- **Opacity modifiers** (e.g. `bg-myst-bg/80`) don't work with CSS variables under Tailwind v3, so a few translucent surfaces remain hardcoded (the top navbar backdrop, some hover overlays).
-  Migrating these requires either RGB channel tokens, `color-mix()`, or Tailwind v4.
 - **Inverted color schemes** — action buttons and the theme toggle previously rendered with inverted colors on hover.
   There's currently no token for "use the opposite scheme's colors here", so these now follow the standard tokens.
 - **Semantic non-brand colors** are deliberately hardcoded: GitHub PR/issue state icons, error/validation states, the launch button's Jupyter orange, and neutral spinner tracks.

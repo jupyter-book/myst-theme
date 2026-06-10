@@ -3,7 +3,7 @@ title: Styling
 ---
 
 `myst-theme` exposes its color palette as CSS custom properties (CSS variables), so you can re-skin the entire interface from a single stylesheet without rebuilding the theme.
-Many elements also carry semantic, human-readable CSS classes (e.g. `myst-top-nav`, `myst-admonition-header`) that you can target directly for more targeted overrides.
+Most elements also carry semantic CSS classes (e.g. `myst-top-nav`, `myst-admonition-header`) that you can target directly.
 
 To explore the tokens interactively, try the [Live color picker](./color-picker.md).
 

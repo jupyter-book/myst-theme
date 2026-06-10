@@ -5,6 +5,7 @@
 "myst-to-react": patch
 "@myst-theme/frontmatter": patch
 "@myst-theme/icons": patch
+"@myst-theme/jupyter": patch
 ---
 
 Expose accent, neutral, and semantic colors as CSS custom properties for theme customization

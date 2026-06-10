@@ -145,3 +145,11 @@
     --myst-color-gray-text: #9ca3af; /* gray-400 */
   }
 }
+
+.myst-bg-translucent {
+  background-color: rgb(from var(--myst-color-bg) r g b / 0.8);
+}
+
+.myst-bg-translucent-strong {
+  background-color: rgb(from var(--myst-color-bg) r g b / 0.95);
+}

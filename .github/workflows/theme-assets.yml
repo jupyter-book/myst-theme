@@ -75,7 +75,7 @@ jobs:
             cp -r "themes/$THEME/template.yml" "$DIST/template.yml"
             cp template/server.js "$DIST/server.js"
             sed -e "s/VERSION/$VERSION/g" -e "s/template/$THEME/g" template/package.json > "$DIST/package.json"
-            (cd "$DIST" && npm install --package-lock-only)
+            (cd "$DIST" && bun install && npm install --package-lock-only)
             zip -r "dist_zip/$THEME-theme.zip" "$DIST/" -x '*/node_modules/*'
           done
 

@@ -34,7 +34,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
             classNames(
               'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium text-myst-text hover:text-myst-active focus:outline-none focus-visible:ring-2 focus-visible:ring-myst-focus-ring focus-visible:ring-opacity-75',
               {
-                'border-b border-myst-border': isActive,
+                'border-b border-myst-border-strong': isActive,
               },
             )
           }

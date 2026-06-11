@@ -574,9 +574,7 @@ const SearchPlaceholderButton = forwardRef<
         'rounded-lg bg-myst-bg-secondary dark:bg-myst-surface-hover',
         {
           'myst-search-bar-disabled hover:ring-myst-focus-ring': !disabled,
-          'dark:hover:ring-myst-focus-ring': !disabled,
           'hover:border-myst-focus-ring': !disabled,
-          'dark:hover:border-myst-focus-ring': !disabled,
         },
       )}
       disabled={!!disabled}

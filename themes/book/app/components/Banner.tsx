@@ -64,7 +64,7 @@ export function Banner({ content, className }: { content: GenericParent; classNa
         {/* Close button */}
         <button
           onClick={handleDismiss}
-          className="flex-shrink-0 p-1 rounded hover:bg-myst-accent-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-myst-focus-ring focus-visible:ring-offset-2 transition-colors"
+          className="flex-shrink-0 p-1 rounded hover:bg-myst-accent-surface-border focus:outline-none focus-visible:ring-2 focus-visible:ring-myst-focus-ring focus-visible:ring-offset-2 transition-colors"
           aria-label="Dismiss announcement"
           type="button"
         >

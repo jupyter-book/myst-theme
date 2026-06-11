@@ -157,10 +157,17 @@
   }
 }
 
+/* Opaque fallback first: browsers without relative color syntax
+   (Chrome < 119, Firefox < 128) ignore the rgb(from ...) line.
+   We can probably remove the non-rgb background-color fallback after
+   ~January 2027, when relative color syntax reaches Baseline "widely
+   available" (30 months after Firefox 128 shipped in July 2024). */
 .myst-bg-translucent {
+  background-color: var(--myst-color-bg);
   background-color: rgb(from var(--myst-color-bg) r g b / 0.8);
 }
 
 .myst-bg-translucent-strong {
+  background-color: var(--myst-color-bg);
   background-color: rgb(from var(--myst-color-bg) r g b / 0.95);
 }

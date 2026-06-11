@@ -487,9 +487,10 @@ export function MySTRenderer({
               <div
                 key={i}
                 className={classnames('p-1 shadow-inner text-white not-prose', {
-                  'bg-myst-danger-text': m.fatal === true,
-                  'bg-myst-warning-text': m.fatal === false,
-                  'bg-myst-text-tertiary': m.fatal === null,
+                  // Error-state colors are deliberately not themable (see docs/theming.md)
+                  'bg-red-500 dark:bg-red-800': m.fatal === true,
+                  'bg-orange-500 dark:bg-orange-700': m.fatal === false,
+                  'bg-slate-500 dark:bg-slate-800': m.fatal === null,
                 })}
               >
                 {m.fatal === true && (

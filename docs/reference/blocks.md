@@ -216,3 +216,9 @@ Term Two
 Term Three
 : Another term with its definition.
 ```
+
+## MyST Demo
+
+```{myst}
+This is just to show off the UI of the myst demo directive!
+```

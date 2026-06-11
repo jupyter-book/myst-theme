@@ -42,6 +42,7 @@ const themeExtensions = {
     'myst-text': 'var(--myst-color-text)',
     'myst-text-secondary': 'var(--myst-color-text-secondary)',
     'myst-text-tertiary': 'var(--myst-color-text-tertiary)',
+    'myst-prose-body': 'var(--myst-color-prose-body)',
     'myst-border': 'var(--myst-color-border)',
     'myst-border-strong': 'var(--myst-color-border-strong)',
     'myst-inverse-bg': 'var(--myst-color-inverse-bg)',
@@ -149,13 +150,13 @@ const themeExtensions = {
   typography: (theme) => ({
     DEFAULT: {
       css: {
-        '--tw-prose-body': 'var(--myst-color-text)',
+        '--tw-prose-body': 'var(--myst-color-prose-body)',
         '--tw-prose-headings': 'var(--myst-color-text)',
         '--tw-prose-lead': 'var(--myst-color-text-secondary)',
         '--tw-prose-links': 'var(--myst-color-link)',
         '--tw-prose-bold': 'var(--myst-color-text)',
-        '--tw-prose-counters': 'var(--myst-color-text-secondary)',
-        '--tw-prose-bullets': 'var(--myst-color-text-tertiary)',
+        '--tw-prose-counters': 'var(--myst-color-text-tertiary)',
+        '--tw-prose-bullets': 'var(--myst-color-border-strong)',
         '--tw-prose-hr': 'var(--myst-color-border)',
         '--tw-prose-quotes': 'var(--myst-color-text)',
         '--tw-prose-quote-borders': 'var(--myst-color-border)',
@@ -163,7 +164,7 @@ const themeExtensions = {
         '--tw-prose-kbd': 'var(--myst-color-text)',
         '--tw-prose-kbd-shadows': 'var(--myst-color-kbd-shadow)',
         '--tw-prose-code': 'var(--myst-color-code)',
-        '--tw-prose-th-borders': 'var(--myst-color-border)',
+        '--tw-prose-th-borders': 'var(--myst-color-border-strong)',
         '--tw-prose-td-borders': 'var(--myst-color-border)',
         code: {
           fontWeight: '400',

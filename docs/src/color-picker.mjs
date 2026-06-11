@@ -29,6 +29,7 @@ const TOKENS = {
     'text',
     'text-secondary',
     'text-tertiary',
+    'prose-body',
     'border',
     'border-strong',
     'code',

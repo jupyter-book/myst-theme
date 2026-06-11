@@ -36,6 +36,8 @@
     --myst-color-text: #111827; /* gray-900 */
     --myst-color-text-secondary: #4b5563; /* gray-600 */
     --myst-color-text-tertiary: #6b7280; /* gray-500 */
+    /* Body text of rendered (prose) content: softer than UI text for long-form reading */
+    --myst-color-prose-body: #44403c; /* stone-700 */
 
     /* Neutral: borders */
     --myst-color-border: #e5e7eb; /* gray-200 */
@@ -110,6 +112,7 @@
     --myst-color-text: #ffffff; /* white */
     --myst-color-text-secondary: #d1d5db; /* gray-300 */
     --myst-color-text-tertiary: #9ca3af; /* gray-400 */
+    --myst-color-prose-body: #d6d3d1; /* stone-300 */
 
     /* Neutral: borders */
     --myst-color-border: #4b5563; /* gray-600 */

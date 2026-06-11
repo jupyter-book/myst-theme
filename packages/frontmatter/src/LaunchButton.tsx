@@ -578,7 +578,7 @@ export function LaunchButton(props: LaunchProps) {
     <Popover.Root>
       <Popover.Trigger asChild>
         <button
-          className="myst-fm-launch-button inline-flex size-[24px] hover:text-[#E18435] items-center justify-center"
+          className="myst-fm-launch-button inline-flex size-[24px] text-myst-text-tertiary hover:text-[#E18435] items-center justify-center"
           aria-label="Launch in external computing interface"
           title="Launch in external computing interface"
         >

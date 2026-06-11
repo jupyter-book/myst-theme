@@ -1,5 +1,21 @@
 # @myst-theme/article
 
+## 1.3.1
+
+### Patch Changes
+
+- 273f75c: Serve static files by relaying past routing
+- Updated dependencies [007795e]
+- Updated dependencies [e9aee3a]
+- Updated dependencies [4095409]
+- Updated dependencies [02c8537]
+  - @myst-theme/site@1.3.1
+  - @myst-theme/styles@1.3.1
+  - @myst-theme/providers@1.3.1
+  - @myst-theme/jupyter@1.3.1
+  - @myst-theme/common@1.3.1
+  - @myst-theme/icons@1.3.1
+
 ## 1.3.0
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @myst-theme/diagrams
 
+## 1.3.1
+
+### Patch Changes
+
+- a406632: Mermaid diagrams now respect the active light/dark theme and re-render when the user toggles theme.
+  - @myst-theme/providers@1.3.1
+
 ## 1.3.0
 
 ### Patch Changes

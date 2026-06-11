@@ -1,0 +1,81 @@
+name: Accessibility Audit
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-a11y:
+    runs-on: ubuntu-latest
+    # Allow the workflow to create/update the accessibility audit issue
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      # Build the book locally so we audit the latest version of the theme
+      - name: Build local book theme
+        run: |
+          bun install
+          bun run build
+          make build-book
+
+      # Don't fail the job when violations are found; we report them via the issue below
+      - name: Run Accessibility Checks
+        continue-on-error: true
+        uses: berkeley-cdss/myst-a11y@v1
+        with:
+          working_directory: 'docs'
+          execute: 'true'
+          save_report: 'true'
+
+      - name: Create or Update Accessibility Issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCS_URL: "https://myst-theme.netlify.app"
+          RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        shell: bash
+        run: |
+          REPORT_PATH=$(find . -name "axe-report.json" -not -path "*/node_modules/*" | head -n 1)
+
+          if [ ! -f "$REPORT_PATH" ]; then
+            echo "No accessibility report found. Skipping issue update."
+            exit 0
+          fi
+
+          # Count the failing elements (not just the number of distinct rules)
+          ERROR_COUNT=$(jq '[.[].violations[].nodes | length] | add // 0' "$REPORT_PATH")
+
+          # Build the issue body from the report
+          node .github/scripts/a11y-report.mjs "$REPORT_PATH" > report.md
+
+          # Handle Issue (Find, Create/Edit/Close)
+          # Find the most recently created open issue with the "a11y-audit" label
+          EXISTING_ISSUE=$(gh issue list --label "a11y-audit" --state open --json number --jq '.[0].number')
+          TITLE="Accessibility report: $ERROR_COUNT issues detected"
+
+          if [ -n "$EXISTING_ISSUE" ]; then
+            if [ "$ERROR_COUNT" -eq "0" ]; then
+              echo "Errors resolved! Closing issue #$EXISTING_ISSUE"
+              gh issue comment "$EXISTING_ISSUE" --body "All accessibility errors have been resolved in the latest run."
+              gh issue close "$EXISTING_ISSUE"
+            else
+              echo "Updating existing issue #$EXISTING_ISSUE"
+              gh issue edit "$EXISTING_ISSUE" --title "$TITLE" --body-file report.md
+            fi
+          elif [ "$ERROR_COUNT" -gt "0" ]; then
+            echo "Creating new issue"
+            gh issue create \
+              --title "$TITLE" \
+              --body-file report.md \
+              --label "a11y-audit"
+          fi

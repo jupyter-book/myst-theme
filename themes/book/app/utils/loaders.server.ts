@@ -96,11 +96,22 @@ export async function getPage(
   return { ...loader, footer, domain: getDomainFromRequest(request), project: projectName };
 }
 
-export async function getObjectsInv(): Promise<Buffer | null> {
+/**
+ * Return the content CDN URL for a path if it exists as a static file,
+ * or null if the content server has no such file.
+ */
+export async function getStaticFileUrl(pathname: string): Promise<string | null> {
+  const url = `${CONTENT_CDN}${pathname}`;
+  const response = await fetch(url, { method: 'HEAD' }).catch(() => null);
+  if (!response || !response.ok) return null;
+  return url;
+}
+
+export async function getObjectsInv(): Promise<ArrayBuffer | null> {
   const url = updateLink('/objects.inv');
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
-  return response.buffer();
+  return response.arrayBuffer();
 }
 
 export async function getMystXrefJson(): Promise<Record<string, any> | null> {
@@ -121,13 +132,19 @@ export async function getMystSearchJson(): Promise<MystSearchIndex | null> {
   return await response.json();
 }
 
-export async function getFavicon(): Promise<{ contentType: string | null; buffer: Buffer } | null> {
+export async function getFavicon(): Promise<{
+  contentType: string | null;
+  buffer: ArrayBuffer;
+} | null> {
   // We are always fetching this at run time, so we don't want the rewritten links
   const config = await getConfig({ rewriteStaticFolder: false });
   const url = config.options?.favicon || 'https://mystmd.org/favicon.ico';
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
-  return { contentType: response.headers.get('Content-Type'), buffer: await response.buffer() };
+  return {
+    contentType: response.headers.get('Content-Type'),
+    buffer: await response.arrayBuffer(),
+  };
 }
 
 export async function getCustomStyleSheet(): Promise<string | undefined> {

@@ -194,7 +194,7 @@ function GithubIssuePreview({
   });
   const iconClassName = 'inline-block mr-2 -translate-y-px h-6 w-6';
   // Define the icon element we'll render based on the issue's state
-  let stateIcon: JSX.Element | null = null;
+  let stateIcon: React.JSX.Element | null = null;
   if (isPullRequest) {
     // If it's a PR we choose between open, merged, not merged
     if (isOpen) {

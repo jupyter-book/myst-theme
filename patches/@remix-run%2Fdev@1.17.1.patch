@@ -1,0 +1,12 @@
+diff --git a/dist/cli/detectPackageManager.js b/dist/cli/detectPackageManager.js
+index 09e90b4363de3e82498ad00c73510a17eb1bb77f..439f0ec32a973ee35fe6c7c4ada5b44341b1bd0f 100644
+--- a/dist/cli/detectPackageManager.js
++++ b/dist/cli/detectPackageManager.js
+@@ -29,6 +29,7 @@ const detectPackageManager = () => {
+     if (pkgManager === "npm") return "npm";
+     if (pkgManager === "pnpm") return "pnpm";
+     if (pkgManager === "yarn") return "yarn";
++    if (pkgManager === "bun") return "bun";
+     return undefined;
+   } catch {
+     return undefined;

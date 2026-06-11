@@ -4,7 +4,7 @@
   button.button,
   span.button,
   cite.button a {
-    @apply px-4 py-2 font-bold rounded no-underline cursor-pointer;
+    @apply inline-block mt-1 px-4 py-1 font-bold rounded no-underline cursor-pointer;
     @apply text-white dark:text-white hover:text-white dark:hover:text-white;
     @apply bg-myst-primary whitespace-nowrap;
     &:hover {

@@ -18,22 +18,25 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 24.x
-        uses: actions/setup-node@v3
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 24.x
-      - name: Ensure npm 11.5.1+ for trusted publishing
-        run: npm install -g npm@latest
-      - run: npm ci
-      - run: npm run build
-      - run: npm run test
+          bun-version: latest
+      # Even though we use bun for install and test runners we still publish using npm.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: bun install
+      - run: bun run build
+      - run: bun run test
       # Changesets action will set published=true if it does publish
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          version: npm run version
-          publish: npm run publish:ci
+          version: bun run version
+          publish: bun run publish:ci
           commit: 🚀 Release
           createGithubReleases: false
         env:
@@ -83,6 +86,19 @@ jobs:
       - get-tag
     if: ${{ needs.release.outputs.published == 'true' }}
     uses: ./.github/workflows/publish-github-release.yml
+    with:
+      tag_name: ${{ needs.get-tag.outputs.tag_name }}
+    secrets: inherit
+
+  # Attach the book and article theme zips to the release we just created
+  attach-theme-assets:
+    name: Attach theme assets to release
+    needs:
+      - release
+      - get-tag
+      - release-github
+    if: ${{ needs.release.outputs.published == 'true' }}
+    uses: ./.github/workflows/theme-assets.yml
     with:
       tag_name: ${{ needs.get-tag.outputs.tag_name }}
     secrets: inherit

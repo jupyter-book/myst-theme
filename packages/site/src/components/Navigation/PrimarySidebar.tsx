@@ -156,7 +156,7 @@ export const PrimarySidebar = ({
   hide_toc,
   mobileOnly,
 }: {
-  sidebarRef?: React.RefObject<HTMLElement>;
+  sidebarRef?: React.RefObject<HTMLElement | null>;
   nav?: SiteManifest['nav'];
   headings?: Heading[];
   footer?: React.ReactNode;

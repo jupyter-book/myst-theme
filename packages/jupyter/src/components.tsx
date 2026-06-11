@@ -8,7 +8,7 @@ export const MaybeLongContent = ({
 }: {
   content?: string;
   path?: string;
-  render: (content: string) => JSX.Element;
+  render: (content: string) => React.JSX.Element;
 }) => {
   const { error, data } = useLongContent(content, path);
   if (error) {

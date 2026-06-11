@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/jupyter",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,7 +16,7 @@
     "url": "git+https://github.com/jupyter-book/myst-theme.git"
   },
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rm -rf dist",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx\" -c ./.eslintrc.cjs",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "dev": "npm-run-all --parallel \"build:* -- --watch\"",
@@ -29,17 +29,18 @@
     "@curvenote/ansi-to-react": "^7.0.0",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
-    "@myst-theme/providers": "^1.3.0",
+    "@myst-theme/common": "^1.3.1",
+    "@myst-theme/providers": "^1.3.1",
     "@scienceicons/react": "^0.0.13",
     "buffer": "^6.0.3",
     "classnames": "^2.5.1",
     "jupyterlab-plotly": "^5.24.0",
     "myst-common": "^1.8.1",
-    "myst-config": "^1.7.9",
-    "myst-frontmatter": "^1.7.9",
+    "myst-config": "^1.8.1",
+    "myst-frontmatter": "^1.8.1",
     "myst-spec": "^0.0.5",
     "myst-spec-ext": "^1.8.1",
-    "myst-to-react": "^1.3.0",
+    "myst-to-react": "^1.3.1",
     "nanoid": "^4.0.2",
     "nbtx": "^0.2.3",
     "react-syntax-highlighter": "^15.5.0",
@@ -50,14 +51,14 @@
     "unist-util-select": "^4.0.3"
   },
   "devDependencies": {
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@jupyterlab/nbformat": "^4.0.0",
+    "@jupyterlab/rendermime": "^4.0.0",
     "vitest": "^1.0.0"
   },
   "peerDependencies": {
-    "@types/react": "^16.8 || ^17.0 || ^18.0",
-    "@types/react-dom": "^16.8 || ^17.0 || ^18.0",
-    "react": "^16.8 || ^17.0 || ^18.0",
-    "react-dom": "^16.8 || ^17.0 || ^18.0"
+    "@types/react": "^16.8 || ^17.0 || ^18.0 || ^19.0",
+    "@types/react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0",
+    "react": "^16.8 || ^17.0 || ^18.0 || ^19.0",
+    "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0"
   }
 }

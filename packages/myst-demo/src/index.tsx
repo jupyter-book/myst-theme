@@ -4,7 +4,13 @@ import type { TypstResult } from 'myst-to-typst'; // Only import the type!!
 import { remove } from 'unist-util-remove';
 import type { VFileMessage } from 'vfile-message';
 import { load as yamlLoad, dump as yamlDump } from 'js-yaml';
-import { fileError, RuleId, type GenericParent, type References } from 'myst-common';
+import {
+  fileError,
+  RuleId,
+  type GenericNode,
+  type GenericParent,
+  type References,
+} from 'myst-common';
 import type { Code } from 'myst-spec';
 import { SourceFileKind } from 'myst-spec-ext';
 import type { DocxResult } from 'myst-to-docx';
@@ -242,7 +248,7 @@ export function MySTRenderer({
   column?: boolean;
   fullscreen?: boolean;
   captureTab?: boolean;
-  TitleBlock?: (props: { frontmatter: PageFrontmatter }) => JSX.Element | null;
+  TitleBlock?: (props: { frontmatter: PageFrontmatter }) => React.JSX.Element | null;
   numbering?: any;
   className?: string;
 }) {
@@ -505,11 +511,17 @@ export function MySTRenderer({
   );
 }
 
-export const MystDemoRenderer: NodeRenderer = ({ node, className }) => {
+export const MystDemoRenderer: NodeRenderer = ({
+  node,
+  className,
+}: {
+  node: GenericNode;
+  className?: string;
+}) => {
   return (
     <MySTRenderer
       id={node.html_id || node.identifier}
-      value={node.value}
+      value={node.value || ''}
       numbering={node.numbering}
       className={classnames(node.class, className)}
     />

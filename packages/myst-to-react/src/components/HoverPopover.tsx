@@ -49,10 +49,7 @@ export function Tooltip({
       side="top"
       card={
         <div
-          className={classNames(
-            'p-1 text-xs text-myst-inverse-text bg-myst-inverse-bg',
-            className,
-          )}
+          className={classNames('p-1 text-xs text-myst-inverse-text bg-myst-inverse-bg', className)}
         >
           {title}
         </div>

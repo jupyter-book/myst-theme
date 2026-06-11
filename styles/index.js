@@ -44,6 +44,8 @@ const themeExtensions = {
     'myst-text-tertiary': 'var(--myst-color-text-tertiary)',
     'myst-border': 'var(--myst-color-border)',
     'myst-border-strong': 'var(--myst-color-border-strong)',
+    'myst-inverse-bg': 'var(--myst-color-inverse-bg)',
+    'myst-inverse-text': 'var(--myst-color-inverse-text)',
     'myst-code': 'var(--myst-color-code)',
     'myst-kbd-shadow': 'var(--myst-color-kbd-shadow)',
     // Admonition / semantic

@@ -41,6 +41,10 @@
     --myst-color-border: #e5e7eb; /* gray-200 */
     --myst-color-border-strong: #d1d5db; /* gray-300 */
 
+    /* Inverse surface (e.g. tooltips): opposite of the current scheme */
+    --myst-color-inverse-bg: #1e3a8a; /* blue-900 */
+    --myst-color-inverse-text: #ffffff; /* white */
+
     /* Neutral: code */
     --myst-color-code: #be1850; /* pink-700 — inline code text */
     --myst-color-kbd-shadow: rgb(28 25 23 / 10%); /* stone-900/10% */
@@ -110,6 +114,10 @@
     /* Neutral: borders */
     --myst-color-border: #4b5563; /* gray-600 */
     --myst-color-border-strong: #6b7280; /* gray-500 */
+
+    /* Inverse surface (e.g. tooltips): opposite of the current scheme */
+    --myst-color-inverse-bg: #ffffff; /* white */
+    --myst-color-inverse-text: #000000; /* black */
 
     /* Neutral: code */
     --myst-color-code: #f472b6; /* pink-400 — inline code text */

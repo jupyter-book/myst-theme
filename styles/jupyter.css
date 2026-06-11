@@ -43,7 +43,7 @@ table.dataframe {
 }
 
 .jp-OutputArea-output table tr:nth-child(even) {
-  @apply !bg-myst-surface [&>*]:hover:!bg-myst-info-bg;
+  @apply !bg-myst-bg [&>*]:hover:!bg-myst-info-bg;
 }
 
 html.dark {

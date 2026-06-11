@@ -140,7 +140,7 @@ export function TopNav({
               })}
             >
               <button
-                className="myst-top-nav-menu-button flex items-center justify-center border-myst-border-strong text-myst-text hover:text-myst-text w-10 h-10"
+                className="myst-top-nav-menu-button flex items-center justify-center border-myst-border-strong text-myst-text-secondary hover:text-myst-text w-10 h-10"
                 onClick={() => {
                   setOpen(!open);
                 }}

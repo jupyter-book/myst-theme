@@ -194,7 +194,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
       >
         <LinkItem
           className={classNames('py-2 grow', {
-            'font-semibold text-myst-heading': startOpen,
+            'font-semibold text-myst-accent-text': startOpen,
             'cursor-pointer': !heading.path,
           })}
           heading={heading}

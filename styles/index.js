@@ -30,7 +30,7 @@ const themeExtensions = {
     'myst-primary-hover': 'var(--myst-color-primary-hover)',
     'myst-focus-ring': 'var(--myst-color-focus-ring)',
     'myst-focus-outline': 'var(--myst-color-focus-outline)',
-    'myst-heading': 'var(--myst-color-heading)',
+    'myst-accent-text': 'var(--myst-color-accent-text)',
     'myst-accent-surface': 'var(--myst-color-accent-surface)',
     'myst-accent-surface-border': 'var(--myst-color-accent-surface-border)',
     'myst-accent-surface-text': 'var(--myst-color-accent-surface-text)',

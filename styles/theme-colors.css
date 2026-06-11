@@ -19,7 +19,7 @@
     --myst-color-focus-outline: #bfdbfe; /* blue-200 */
 
     /* Headings that use accent color */
-    --myst-color-heading: #1e3a8a; /* blue-900 */
+    --myst-color-accent-text: #1e3a8a; /* blue-900 */
 
     /* Accent surfaces (banners, callout backgrounds) */
     --myst-color-accent-surface: #eff6ff; /* blue-50 */
@@ -94,7 +94,7 @@
     --myst-color-focus-ring: #60a5fa; /* blue-400 */
     --myst-color-focus-outline: #1e40af; /* blue-800 */
 
-    --myst-color-heading: #dbeafe; /* blue-100 */
+    --myst-color-accent-text: #dbeafe; /* blue-100 */
 
     --myst-color-accent-surface: #1e3a8a4d; /* blue-900/30 */
     --myst-color-accent-surface-border: #1e40af; /* blue-800 */

@@ -8,7 +8,7 @@ const TOKENS = {
   Accent: [
     'primary',
     'primary-hover',
-    'heading',
+    'accent-text',
     'link',
     'link-hover',
     'link-underline',

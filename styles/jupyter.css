@@ -39,7 +39,7 @@ table.dataframe {
 /* System to override the Jupyter colors depending on line parity */
 
 .jp-OutputArea-output table tr:nth-child(odd) {
-  @apply !bg-myst-bg-alt [&>*]:hover:!bg-myst-info-bg;
+  @apply !bg-myst-bg-secondary [&>*]:hover:!bg-myst-info-bg;
 }
 
 .jp-OutputArea-output table tr:nth-child(even) {

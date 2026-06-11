@@ -23,7 +23,7 @@ const TOKENS = {
   ],
   Neutral: [
     'bg',
-    'bg-alt',
+    'bg-secondary',
     'surface',
     'surface-hover',
     'text',

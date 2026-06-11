@@ -3,7 +3,7 @@
   border: 1px solid var(--myst-color-border, #e5e7eb);
   border-radius: 6px;
   padding: 1rem;
-  background: var(--myst-color-bg-alt, #f9fafb);
+  background: var(--myst-color-bg-secondary, #f9fafb);
 }
 
 .myst-color-picker .cp-header {

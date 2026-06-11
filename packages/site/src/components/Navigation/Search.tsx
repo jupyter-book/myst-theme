@@ -260,7 +260,7 @@ function SearchResultItem({
 
   return (
     <Link
-      className="block px-1 py-2 text-myst-text-secondary rounded shadow-md group-aria-selected:bg-myst-active group-aria-selected:text-white dark:shadow-none dark:bg-myst-bg-alt"
+      className="block px-1 py-2 text-myst-text-secondary rounded shadow-md group-aria-selected:bg-myst-active group-aria-selected:text-white dark:shadow-none dark:bg-myst-bg-secondary"
       to={withBaseurl(url, baseurl)}
       // Close the main search on click
       onClick={closeSearch}
@@ -518,7 +518,7 @@ function SearchForm({
             className={classNames(
               'myst-search-input block flex-grow p-2 ps-10 placeholder-myst-text-tertiary',
               'border border-myst-border-strong',
-              'rounded-lg bg-myst-bg-alt dark:bg-myst-surface-hover',
+              'rounded-lg bg-myst-bg-secondary dark:bg-myst-surface-hover',
               'focus:ring-myst-focus-ring',
               'focus:border-myst-focus-ring',
               { 'border-red-500': !enabled },
@@ -571,7 +571,7 @@ const SearchPlaceholderButton = forwardRef<
         className,
         'flex items-center h-10 aspect-square sm:w-64 text-left text-myst-text-secondary',
         'border border-myst-border-strong',
-        'rounded-lg bg-myst-bg-alt dark:bg-myst-surface-hover',
+        'rounded-lg bg-myst-bg-secondary dark:bg-myst-surface-hover',
         {
           'myst-search-bar-disabled hover:ring-myst-focus-ring': !disabled,
           'dark:hover:ring-myst-focus-ring': !disabled,

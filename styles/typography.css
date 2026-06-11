@@ -45,7 +45,7 @@
     @apply pl-0;
   }
   .prose table tr:hover td {
-    @apply bg-myst-bg-alt;
+    @apply bg-myst-bg-secondary;
   }
   .prose table td dl {
     margin: 0;

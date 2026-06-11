@@ -28,7 +28,7 @@
 
     /* Neutral: backgrounds */
     --myst-color-bg: #ffffff; /* white */
-    --myst-color-bg-alt: #f9fafb; /* gray-50 */
+    --myst-color-bg-secondary: #f9fafb; /* gray-50 */
     --myst-color-surface: #f3f4f6; /* gray-100 */
     --myst-color-surface-hover: #e5e7eb; /* gray-200 */
 
@@ -102,7 +102,7 @@
 
     /* Neutral: backgrounds */
     --myst-color-bg: #1c1917; /* stone-900 */
-    --myst-color-bg-alt: #292524; /* stone-800 */
+    --myst-color-bg-secondary: #292524; /* stone-800 */
     --myst-color-surface: #1e293b; /* slate-800 */
     --myst-color-surface-hover: #334155; /* slate-700 */
 

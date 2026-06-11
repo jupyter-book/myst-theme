@@ -36,7 +36,7 @@ const themeExtensions = {
     'myst-accent-surface-text': 'var(--myst-color-accent-surface-text)',
     // Neutral
     'myst-bg': 'var(--myst-color-bg)',
-    'myst-bg-alt': 'var(--myst-color-bg-alt)',
+    'myst-bg-secondary': 'var(--myst-color-bg-secondary)',
     'myst-surface': 'var(--myst-color-surface)',
     'myst-surface-hover': 'var(--myst-color-surface-hover)',
     'myst-text': 'var(--myst-color-text)',

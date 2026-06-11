@@ -3,10 +3,10 @@
     @apply pt-5 my-5 bg-myst-surface;
   }
   .framed {
-    @apply p-5 my-5 border shadow bg-myst-bg-alt;
+    @apply p-5 my-5 border shadow bg-myst-bg-secondary;
   }
   .shaded-children > * {
-    @apply p-2 bg-myst-bg-alt;
+    @apply p-2 bg-myst-bg-secondary;
   }
   .rounded-children > * {
     @apply rounded;

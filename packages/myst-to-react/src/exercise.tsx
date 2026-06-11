@@ -95,7 +95,7 @@ export function Callout({
       id={identifier}
       dropdown={dropdown}
       className={classNames(
-        'myst-exercise my-5 shadow dark:bg-myst-bg-alt overflow-hidden',
+        'myst-exercise my-5 shadow dark:bg-myst-bg-secondary overflow-hidden',
         'dark:border-l-4 border-myst-border-strong',
         {
           'dark:border-gray-500/60': !color || color === 'gray',

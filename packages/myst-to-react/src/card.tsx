@@ -24,7 +24,7 @@ export const Header: NodeRenderer<HeaderSpec> = ({ node, className }) => {
   return (
     <header
       className={classNames(
-        'myst-card-header py-1 pl-3 m-0 border-b border-myst-border bg-myst-bg-alt',
+        'myst-card-header py-1 pl-3 m-0 border-b border-myst-border bg-myst-bg-secondary',
         className,
       )}
     >
@@ -37,7 +37,7 @@ export const Footer: NodeRenderer<FooterSpec> = ({ node, className }) => {
   return (
     <footer
       className={classNames(
-        'myst-card-footer py-1 pl-3 m-0 border-t border-myst-border bg-myst-bg-alt',
+        'myst-card-footer py-1 pl-3 m-0 border-t border-myst-border bg-myst-bg-secondary',
         className,
       )}
     >

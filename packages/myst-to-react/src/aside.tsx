@@ -12,7 +12,7 @@ function getAsideClass(kind?: string) {
     case 'topic':
       return {
         container:
-          'myst-aside myst-aside-${kind} my-5 shadow dark:bg-myst-bg-alt overflow-hidden dark:border-l-4 border-myst-border-strong',
+          'myst-aside myst-aside-${kind} my-5 shadow dark:bg-myst-bg-secondary overflow-hidden dark:border-l-4 border-myst-border-strong',
         title:
           'myst-aside-title m-0 font-medium py-2 px-4 flex min-w-0 text-md border-y dark:border-y-0 bg-myst-surface',
         body: 'myst-aside-body px-4',

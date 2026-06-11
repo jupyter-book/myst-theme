@@ -33,7 +33,7 @@ export function Details({
     <details
       className={classNames(
         'myst-dropdown rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
-        'bg-myst-bg-alt',
+        'bg-myst-bg-secondary',
         className,
       )}
       open={open}

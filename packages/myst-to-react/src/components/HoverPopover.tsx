@@ -7,7 +7,7 @@ export function HoverPopover({
   openDelay = 400,
   card,
   side,
-  arrowClass = 'fill-myst-surface',
+  arrowClass = 'fill-myst-bg dark:fill-myst-surface',
 }: {
   children: React.ReactNode;
   openDelay?: number;

@@ -34,7 +34,7 @@
   }
 
   .hover-document {
-    @apply text-sm bg-myst-surface border rounded shadow-xl border-myst-border;
+    @apply text-sm bg-myst-bg dark:bg-myst-surface border rounded shadow-xl border-myst-border;
   }
 
   /* Hoverable links: dotted underline */

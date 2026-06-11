@@ -341,7 +341,7 @@ export function MySTRenderer({
             key={show}
             className={classnames('px-2 py-1', {
               'bg-myst-bg hover:bg-myst-surface-hover': previewType !== show,
-              'bg-myst-inverse-bg text-myst-inverse-text': previewType === show,
+              'bg-myst-primary-hover text-white': previewType === show,
             })}
             title={`Show the ${show}`}
             aria-label={`Show the ${show}`}
@@ -359,7 +359,7 @@ export function MySTRenderer({
               key={show}
               className={classnames('px-2 py-1', {
                 'bg-myst-bg hover:bg-myst-surface-hover': astLang !== show,
-                'bg-myst-inverse-bg text-myst-inverse-text': astLang === show,
+                'bg-myst-primary-hover text-white': astLang === show,
               })}
               title={`Show the AST as ${show.toUpperCase()}`}
               aria-pressed={astLang === show ? 'true' : 'false'}
@@ -373,7 +373,7 @@ export function MySTRenderer({
               key={show}
               className={classnames('px-2 py-1', {
                 'bg-myst-bg hover:bg-myst-surface-hover': astStage !== show,
-                'bg-myst-inverse-bg text-myst-inverse-text': astStage === show,
+                'bg-myst-primary-hover text-white': astStage === show,
               })}
               title={`Show the AST Stage ${show.toUpperCase()}`}
               aria-pressed={astStage === show ? 'true' : 'false'}

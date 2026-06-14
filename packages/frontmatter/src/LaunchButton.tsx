@@ -429,10 +429,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
         <div className="flex flex-col items-baseline justify-between">
           <Form.Label className="myst-fm-launch-label text-[15px] font-medium leading-[35px]">
             Enter a JupyterHub or BinderHub URL, e.g.{' '}
-            <a
-              href="https://mybinder.org"
-              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-            >
+            <a href="https://mybinder.org" className="font-medium text-myst-active hover:underline">
               https://mybinder.org
             </a>
           </Form.Label>
@@ -459,7 +456,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
           </span>
           <Form.Control asChild>
             <input
-              className="myst-fm-launch-input ps-[32px] box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-slate-400 outline-none bg-gray-50 dark:bg-gray-700 hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
+              className="myst-fm-launch-input ps-[32px] box-border inline-flex h-[35px] w-full appearance-none items-center justify-center rounded px-2.5 text-[15px] leading-none shadow-[0_0_0_1px] shadow-myst-border-strong outline-none bg-myst-bg-secondary hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black]"
               type="url"
               placeholder={defaultBinderBaseURL}
               required
@@ -473,7 +470,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
       <details
         className={classNames(
           'myst-fm-launch-modal-body rounded-md my-5 shadow dark:shadow-2xl dark:shadow-neutral-900 overflow-hidden',
-          'bg-gray-50 dark:bg-stone-800',
+          'bg-myst-bg-secondary border border-myst-border',
           { hidden: !(detectedProviderType === 'jupyterhub' || detectedProviderType === 'error') },
         )}
         open={false}
@@ -482,11 +479,11 @@ function DetectLaunchContent(props: ModalLaunchProps) {
           className={classNames(
             'myst-fm-launch-modal-header m-0 text-lg font-medium py-1 min-h-[2em] pl-3',
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]',
-            'bg-gray-100 dark:bg-slate-900',
+            'bg-myst-surface',
           )}
         >
-          <span className="text-neutral-900 dark:text-white">
-            <span className="block float-right text-sm font-thin text-neutral-700 dark:text-neutral-200">
+          <span className="text-myst-text">
+            <span className="block float-right text-sm font-thin text-myst-text-secondary">
               <ChevronRightIcon
                 width="1.5rem"
                 height="1.5rem"
@@ -581,7 +578,7 @@ export function LaunchButton(props: LaunchProps) {
     <Popover.Root>
       <Popover.Trigger asChild>
         <button
-          className="myst-fm-launch-button inline-flex size-[24px] hover:text-[#E18435] items-center justify-center"
+          className="myst-fm-launch-button inline-flex size-[24px] text-myst-text-tertiary hover:text-[#E18435] items-center justify-center"
           aria-label="Launch in external computing interface"
           title="Launch in external computing interface"
         >
@@ -590,7 +587,7 @@ export function LaunchButton(props: LaunchProps) {
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
-          className="myst-fm-launch-modal myst-fm-launch-modal-content z-30 text-gray-700 dark:text-white bg-white dark:bg-stone-800 p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] max-w-[400px]"
+          className="myst-fm-launch-modal myst-fm-launch-modal-content z-30 text-myst-text-secondary bg-myst-bg-secondary p-5 rounded shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] max-w-[400px]"
           sideOffset={5}
         >
           <DetectLaunchContent {...props} onLaunch={closePopover} />

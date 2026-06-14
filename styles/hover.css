@@ -34,7 +34,7 @@
   }
 
   .hover-document {
-    @apply text-sm bg-white border rounded shadow-xl dark:bg-slate-800 border-gray-50;
+    @apply text-sm bg-myst-bg dark:bg-myst-surface border rounded shadow-xl border-myst-border;
   }
 
   /* Hoverable links: dotted underline */
@@ -44,6 +44,6 @@
 
   /* Non-link hover elements (e.g., abbreviations): gray dotted underline */
   .hover-text {
-    @apply underline decoration-dotted decoration-[0.1em] underline-offset-[0.15em] decoration-gray-500 dark:decoration-gray-400 cursor-help;
+    @apply underline decoration-dotted decoration-[0.1em] underline-offset-[0.15em] decoration-myst-text-tertiary cursor-help;
   }
 }

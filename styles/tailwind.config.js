@@ -10,6 +10,8 @@ module.exports = {
     '../packages/frontmatter/src/**/*.{js,ts,jsx,tsx}',
     '../docs/stories/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  theme: mystTheme.themeExtensions,
+  theme: {
+    extend: mystTheme.themeExtensions,
+  },
   plugins: [require('@tailwindcss/typography')],
 };

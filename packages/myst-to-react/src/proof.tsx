@@ -134,8 +134,8 @@ export function Proof({
       id={identifier}
       dropdown={dropdown}
       className={classNames(
-        'myst-proof my-5 shadow dark:bg-stone-800 overflow-hidden',
-        'dark:border-l-4 border-slate-400',
+        'myst-proof my-5 shadow dark:bg-myst-bg-secondary overflow-hidden',
+        'dark:border-l-4 border-myst-border-strong',
         {
           'dark:border-gray-500/60': !color || color === 'gray',
           'dark:border-blue-500/60': color === 'blue',
@@ -155,13 +155,13 @@ export function Proof({
           'text-md',
           'border-y dark:border-y-0',
           {
-            'bg-gray-50/80 dark:bg-slate-900': !color || color === 'gray',
-            'bg-blue-50/80 dark:bg-slate-900': color === 'blue',
-            'bg-green-50/80 dark:bg-slate-900': color === 'green',
-            'bg-amber-50/80 dark:bg-slate-900': color === 'yellow',
-            'bg-orange-50/80 dark:bg-slate-900': color === 'orange',
-            'bg-red-50/80 dark:bg-slate-900': color === 'red',
-            'bg-purple-50/80 dark:bg-slate-900': color === 'purple',
+            'bg-myst-gray-bg': !color || color === 'gray',
+            'bg-myst-info-bg': color === 'blue',
+            'bg-myst-success-bg': color === 'green',
+            'bg-myst-warning-bg': color === 'yellow',
+            'bg-myst-orange-bg': color === 'orange',
+            'bg-myst-danger-bg': color === 'red',
+            'bg-myst-purple-bg': color === 'purple',
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           },
@@ -169,7 +169,7 @@ export function Proof({
       >
         <div
           className={classNames(
-            'myst-proof-title text-neutral-900 dark:text-white grow self-center overflow-hidden break-words',
+            'myst-proof-title text-myst-text grow self-center overflow-hidden break-words',
             'ml-4', // No icon!
           )}
         >
@@ -179,7 +179,7 @@ export function Proof({
           {title && <>({title})</>}
         </div>
         {dropdown && (
-          <div className="self-center flex-none text-sm font-thin text-neutral-700 dark:text-neutral-200">
+          <div className="self-center flex-none text-sm font-thin text-myst-text-secondary">
             <ChevronRightIcon
               width="1.5rem"
               height="1.5rem"

@@ -32,16 +32,32 @@ const TOKENS = {
     'prose-body',
     'border',
     'border-strong',
+    'inverse-bg',
+    'inverse-text',
     'code',
   ],
   Admonition: [
-    'info', 'info-bg', 'info-text',
-    'success', 'success-bg', 'success-text',
-    'warning', 'warning-bg', 'warning-text',
-    'danger', 'danger-bg', 'danger-text',
-    'orange', 'orange-bg', 'orange-text',
-    'purple', 'purple-bg', 'purple-text',
-    'gray', 'gray-bg', 'gray-text',
+    'info',
+    'info-bg',
+    'info-text',
+    'success',
+    'success-bg',
+    'success-text',
+    'warning',
+    'warning-bg',
+    'warning-text',
+    'danger',
+    'danger-bg',
+    'danger-text',
+    'orange',
+    'orange-bg',
+    'orange-text',
+    'purple',
+    'purple-bg',
+    'purple-text',
+    'gray',
+    'gray-bg',
+    'gray-text',
   ],
 };
 
@@ -59,7 +75,13 @@ function readVar(name) {
   document.body.removeChild(probe);
   const m = rgb.match(/\d+/g);
   if (!m) return '#000000';
-  return '#' + m.slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0')).join('');
+  return (
+    '#' +
+    m
+      .slice(0, 3)
+      .map((n) => Number(n).toString(16).padStart(2, '0'))
+      .join('')
+  );
 }
 
 function setVar(name, value) {
@@ -111,7 +133,7 @@ function render({ el }) {
       text.textContent = `--myst-color-${name}`;
 
       input.addEventListener('input', () => setVar(name, input.value));
-      
+
       row.appendChild(input);
       row.appendChild(text);
       grid.appendChild(row);
@@ -128,7 +150,9 @@ function render({ el }) {
     const css = `${selector} {\n${lines.join('\n')}\n}`;
     navigator.clipboard.writeText(css).then(() => {
       copyBtn.textContent = 'Copied!';
-      setTimeout(() => { copyBtn.textContent = 'Copy CSS'; }, 1500);
+      setTimeout(() => {
+        copyBtn.textContent = 'Copy CSS';
+      }, 1500);
     });
   });
 

@@ -162,7 +162,11 @@ export async function getCustomStyleSheet(): Promise<string | undefined> {
     urls.map(async (url) => {
       const response = await fetch(url).catch(() => null);
       if (!response || response.status === 404) return undefined;
-      return response.text();
+      try {
+        return response.text();
+      } catch {
+        return undefined;
+      }
     }),
   );
   const css = sheets.filter(Boolean).join('\n\n');

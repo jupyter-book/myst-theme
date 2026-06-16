@@ -72,7 +72,7 @@ options:
   - type: file
     id: style
     multiple: true
-    description: Local path to a CSS file, or a list of them (applied in order)
+    description: URL to fetch, or a list of them (applied in order)
 build:
   install: npm ci --ignore-scripts
   start: npm run start

@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/jupyter-book/myst-theme",
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.9",
+    "@tailwindcss/typography": "^0.5.16",
     "tailwindcss": "^3.2.4"
   }
 }

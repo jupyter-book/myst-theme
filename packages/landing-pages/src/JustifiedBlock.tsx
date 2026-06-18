@@ -42,7 +42,7 @@ export function JustifiedBlock(props: Omit<LandingBlockProps, 'children'>) {
     <LandingBlock {...props}>
       <div className="myst-landing-justified grid-areas-just-narrow md:grid-areas-just-wide grid grid-cols-[auto_1fr_auto] justify-between gap-2 py-20 sm:py-28 lg:px-8">
         {subtitle && (
-          <p className="myst-landing-justified-subtitle grid-area-subtitle my-0 font-semibold text-indigo-400 uppercase">
+          <p className="myst-landing-justified-subtitle grid-area-subtitle my-0 font-semibold text-myst-active uppercase">
             <MyST ast={subtitle.children} />
           </p>
         )}

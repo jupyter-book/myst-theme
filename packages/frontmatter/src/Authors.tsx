@@ -28,7 +28,7 @@ function AuthorIconLink({
         width="1rem"
         height="1rem"
         className={classNames(
-          'myst-fm-author-icon inline-block text-gray-400 -translate-y-[0.1em]',
+          'myst-fm-author-icon inline-block text-myst-text-tertiary -translate-y-[0.1em]',
           className,
         )}
       />
@@ -55,7 +55,7 @@ export function Author({
           href={`mailto:${author.email}`}
           title={`${author.name} <${author.email}>`}
           icon={EmailIcon}
-          className="myst-fm-author-icon-email hover:text-blue-400"
+          className="myst-fm-author-icon-email hover:text-myst-link-underline"
         />
       )}
       {author.orcid && (
@@ -63,7 +63,7 @@ export function Author({
           href={`https://orcid.org/${author.orcid}`}
           title={`ORCID: ${author.orcid}`}
           icon={OrcidIcon}
-          className="myst-fm-author-icon-orcid hover:text-[#A9C751]"
+          className="myst-fm-author-icon-orcid hover:text-myst-active"
         />
       )}
     </span>

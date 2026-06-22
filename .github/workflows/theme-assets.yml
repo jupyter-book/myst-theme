@@ -44,12 +44,17 @@ jobs:
         with:
           node-version: 24
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Install dependencies
-        run: npm install
+        run: bun install
       - name: Build
-        run: npm run build
+        run: bun run build
       - name: Run tests
-        run: npm run test
+        run: bun run test
 
       # Build, package, and zip each theme. node_modules is excluded from the
       # zip to match what the Makefile ships (it is gitignored there)
@@ -58,7 +63,7 @@ jobs:
           VERSION=$(node -p "require('./packages/site/package.json').version")
           mkdir dist_zip
           for THEME in book article; do
-            (cd "themes/$THEME" && npm run prod:build)
+            (cd "themes/$THEME" && bun run prod:build)
             DIST="dist-$THEME"
             rm -rf "$DIST" && mkdir "$DIST"
             cp -r "themes/$THEME/public" "$DIST/public"

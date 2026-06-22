@@ -9,7 +9,7 @@ export function LinkCard({
   loading = false,
   description,
   thumbnail,
-  className = 'w-[300px] sm:max-w-[500px] bg-myst-bg rounded shadow-md',
+  className = 'w-[300px] sm:max-w-[500px] bg-myst-bg rounded shadow-md text-myst-text',
 }: {
   url: string;
   internal?: boolean;

@@ -79,6 +79,9 @@
     --myst-color-gray: #6b7280; /* gray-500 */
     --myst-color-gray-bg: #f9fafb; /* gray-50 */
     --myst-color-gray-text: #4b5563; /* gray-600 */
+
+    /* Prose font */
+    --myst-font-sans: system-ui, sans-serif;
   }
 
   .dark {

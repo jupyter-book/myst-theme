@@ -47,6 +47,16 @@ The following loads a widget from the [`example-js-anywidget` repository](https:
 ```{anywidget} https://github.com/jupyter-book/example-js-anywidget/releases/latest/download/widget.mjs
 ```
 
+## Accessing React context
+
+If your `render()` function needs to access React or ReactDOM, you can accept them as additional arguments:
+
+```javascript
+export function render({model, el, React, ReactDOM}) {
+  ...
+}
+```
+
 ## Security and best practices
 
 ### Do not modify items outside of the `el` element

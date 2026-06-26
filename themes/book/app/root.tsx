@@ -16,14 +16,14 @@ export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { createSearch as createMiniSearch } from '@myst-theme/search-minisearch';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { SearchFactoryProvider, mergeRenderers } from '@myst-theme/providers';
-import type { NodeRenderers } from '@myst-theme/providers';
+import type { NodeRenderer, NodeRenderers } from '@myst-theme/providers';
 import type { ISearch, MystSearchIndex } from '@myst-theme/search';
 import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
@@ -31,6 +31,65 @@ const RENDERERS: NodeRenderers = mergeRenderers([
   LANDING_PAGE_RENDERERS,
   ANY_RENDERERS,
 ]);
+
+/**
+ * A custom renderer declared in the site config:
+ *
+ * ```json
+ * "renderers": [
+ *   { "name": "Clock", "element": "clock", "url": "/clock-….mjs" }
+ * ]
+ * ```
+ *
+ * Each module is dynamically imported and its default export is invoked as
+ * `render({ el, node })`, anywidget-style. The (optional) returned function is
+ * used to clean up when the element is removed.
+ */
+type ConfigRenderer = {
+  name?: string;
+  element: string;
+  url: string;
+};
+
+/**
+ * Wraps a custom renderer module URL in a React component that imports the
+ * module and drives its `render({ el, node })` lifecycle.
+ */
+function createElementRenderer(url: string): NodeRenderer {
+  return function ElementRenderer({ node, className }) {
+    const ref = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+      let cancelled = false;
+      let cleanup: void | (() => void);
+      import(/* @vite-ignore */ url)
+        .then((mod) => {
+          if (cancelled || !ref.current) return;
+          cleanup = mod.default?.({ el: ref.current, node });
+        })
+        .catch((err) => {
+          console.error(`Failed to load renderer module from ${url}:`, err);
+        });
+      return () => {
+        cancelled = true;
+        cleanup?.();
+      };
+    }, [node, url]);
+    return <div ref={ref} className={className} />;
+  };
+}
+
+/** Build node renderers from the config, keyed off each entry's `element`. */
+function getRenderers(config?: SiteLoader['config']): NodeRenderers {
+  const configRenderers = ((config as any)?.renderers ?? []) as ConfigRenderer[];
+  if (!configRenderers.length) return RENDERERS;
+  const dynamic: NodeRenderers = {};
+  for (const { element, url } of configRenderers) {
+    if (element && url) dynamic[element] = createElementRenderer(url);
+  }
+  return mergeRenderers([RENDERERS, dynamic]);
+}
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return getMetaTagsForSite({
@@ -136,6 +195,8 @@ function NoCSSWarning() {
 export default function AppWithReload() {
   const { theme, config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
+  const renderers = useMemo(() => getRenderers(config), [config]);
+
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
 
   return (
@@ -146,7 +207,7 @@ export default function AppWithReload() {
         scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
         staticBuild={MODE === 'static'}
         baseurl={BASE_URL}
-        renderers={RENDERERS}
+        renderers={renderers}
         head={
           <>
             <link rel="icon" href={`${BASE_URL || ''}/favicon.ico`} />

@@ -138,6 +138,11 @@ export function updateSiteManifestStaticLinksInplace(
     if (!action.static) return;
     action.url = updateUrl(action.url);
   });
+  // Rewrite custom renderer module URLs to point at the CDN / static folder
+  const renderers = (data as any).renderers as { url?: string }[] | undefined;
+  renderers?.forEach((renderer) => {
+    if (renderer.url) renderer.url = updateUrl(renderer.url);
+  });
   // TODO: this needs to be based on the template.yml in the future
   // We have moved logo/logo_dark to options in v1.1.28
   data.options ??= {};

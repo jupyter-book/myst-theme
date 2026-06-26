@@ -11,6 +11,7 @@
  * ```
  */
 import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
 import classNames from 'classnames';
 import type { AnyWidget } from './types.js';
 import { MystAnyModel } from './models.js';
@@ -84,6 +85,8 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
         maybeCleanupRender = await widget.render?.({
           model,
           el: widgetRoot,
+          React,
+          ReactDOM,
         });
       })
       .catch((err) => {

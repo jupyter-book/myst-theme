@@ -14,7 +14,7 @@ export function NotebookBlock({ node, className }: { node: GenericParent; classN
   const pageKind = usePageKind();
   const block = (
     <div
-      id={node.html_id ?? node.identifier ?? node.key}
+      id={node.html_id ?? node.identifier}
       className={classNames('myst-jp-nb-block relative group/block', className, node.class, {
         [node.data?.class]: typeof node.data?.class === 'string',
         hidden: node.visibility === 'remove',

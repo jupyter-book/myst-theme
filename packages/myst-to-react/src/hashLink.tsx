@@ -1,5 +1,6 @@
 import { useXRefState } from '@myst-theme/providers';
 import classNames from 'classnames';
+import { useEffect } from 'react';
 
 export type HashLinkBehavior = {
   /** When scrolling, is this `instant`, `auto` or `scroll`? */
@@ -43,6 +44,44 @@ export function scrollToElement(
     if (el.tabIndex === -1) el.tabIndex = -1;
     el.focus({ preventScroll: true });
   }
+}
+
+const CELL_ID_PREFIX = '#cell-id=';
+
+/**
+ * Parse a `#cell-id=<id>` URL fragment into its bare cell id, or `null`.
+ *
+ * This is the JupyterLab/nbconvert deep-link scheme. The element's `id`
+ * attribute stays the *bare* id (HTML-valid, CSS-selectable, parity with the
+ * AST and JATS exports); the `cell-id=` prefix is purely a URL convention.
+ */
+export function parseCellIdFragment(hash: string): string | null {
+  if (!hash || !hash.startsWith(CELL_ID_PREFIX)) return null;
+  const id = decodeURIComponent(hash.slice(CELL_ID_PREFIX.length));
+  return id || null;
+}
+
+/**
+ * Honor incoming `#cell-id=<id>` deep-links (the JupyterLab/nbconvert scheme).
+ *
+ * Because the element id is the bare cell id, the browser will not natively
+ * auto-scroll a `#cell-id=` fragment — we bridge it here, on initial load and on
+ * `hashchange`. Bare `#<id>` links keep working natively. No-ops (never throws)
+ * for non-matching fragments or missing elements.
+ */
+export function useScrollToCellFragment(): void {
+  useEffect(() => {
+    const scroll = () => {
+      const id = parseCellIdFragment(window.location.hash);
+      if (!id) return;
+      const el = document.getElementById(id); // bare id tolerates any chars
+      // historyState: null -> leave the visible `#cell-id=` fragment in place
+      scrollToElement(el, { historyState: null });
+    };
+    scroll(); // initial load (deep-link)
+    window.addEventListener('hashchange', scroll);
+    return () => window.removeEventListener('hashchange', scroll);
+  }, []);
 }
 
 export function HashLink({

@@ -105,7 +105,7 @@ export function ActiveJupyterCellOutputs({
 
   if (error) {
     console.error(error);
-    return <div className="text-red-500">Error rendering output: {error.message}</div>;
+    return <div className="text-myst-error">Error rendering output: {error.message}</div>;
   }
 
   if (!inCrossRef && exec?.ready) {

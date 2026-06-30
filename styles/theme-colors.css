@@ -77,6 +77,11 @@
     --myst-color-danger-bg: #fef2f2; /* red-50 */
     --myst-color-danger-text: #dc2626; /* red-600 */
 
+    /* error: UI error states (validation, runtime errors) */
+    --myst-color-error: #ef4444; /* red-500 */
+    --myst-color-error-bg: #fee2e2; /* red-100 */
+    --myst-color-error-text: #b91c1c; /* red-700 */
+
     /* theorem: {proof} lemma, conjecture, theorem */
     --myst-color-theorem: #a855f7; /* purple-500 */
     --myst-color-theorem-bg: #faf5ff; /* purple-50 */
@@ -151,6 +156,10 @@
     --myst-color-danger: #ef4444; /* red-500 */
     --myst-color-danger-bg: #0f172a; /* slate-900 */
     --myst-color-danger-text: #f87171; /* red-400 */
+
+    --myst-color-error: #f87171; /* red-400 */
+    --myst-color-error-bg: #0f172a; /* slate-900 */
+    --myst-color-error-text: #fca5a5; /* red-300 */
 
     --myst-color-theorem-bg: #0f172a; /* slate-900 */
     --myst-color-theorem-text: #c084fc; /* purple-400 */

@@ -14,26 +14,113 @@ See [Theming](./theming.md) for how to wire it up.
 
 ## Sample components
 
+### Admonitions
+
 :::{note}
-This is a note admonition. It uses `--myst-color-info`, `--myst-color-info-bg`, and `--myst-color-info-text`.
+Info group: `--myst-color-info`, `--myst-color-info-bg`, `--myst-color-info-text`. Used by `{note}` and `{important}`.
 :::
 
 :::{tip}
-This is a tip — it shares the success color group.
+Success group: `--myst-color-success`, `--myst-color-success-bg`, `--myst-color-success-text`. Used by `{tip}`, `{hint}`, and `{seealso}`.
 :::
 
 :::{warning}
-This is a warning — it uses the warning color group.
+Warning group: `--myst-color-warning`, `--myst-color-warning-bg`, `--myst-color-warning-text`. Used by `{warning}`, `{attention}`, and `{caution}`.
 :::
 
 :::{danger}
-This is a danger admonition — it uses the danger color group.
+Danger group: `--myst-color-danger`, `--myst-color-danger-bg`, `--myst-color-danger-text`. Used by `{danger}` and `{error}`.
 :::
 
-A paragraph with a [link](https://mystmd.org) and some `inline code`.
-The link color comes from `--myst-color-link`, and inline code uses `--myst-color-code`.
+A simple admonition (`:class: simple`) uses `--myst-color-surface` for its background instead of a colored header.
 
-```python
+:::{note}
+:class: simple
+Simple style — background is `--myst-color-surface`.
+:::
+
+### Exercise blocks
+
+The orange, purple, and gray color groups appear in `{exercise}` and `{proof}` blocks. The color is selected via `:class:`.
+
+:::{exercise}
+:class: orange
+Orange group: `--myst-color-orange`, `--myst-color-orange-bg`, `--myst-color-orange-text`.
+:::
+
+:::{exercise}
+:class: purple
+Purple group: `--myst-color-purple`, `--myst-color-purple-bg`, `--myst-color-purple-text`.
+:::
+
+:::{exercise}
+Gray group (default): `--myst-color-gray`, `--myst-color-gray-bg`, `--myst-color-gray-text`.
+:::
+
+### Cards
+
+Card borders use `--myst-color-border`; card headers and footers use `--myst-color-bg-secondary`.
+
+:::{card} Card header (`--myst-color-bg-secondary`)
+Card body — sits on the page background (`--myst-color-bg`).
+
++++
+Card footer (`--myst-color-bg-secondary`).
+:::
+
+### Dropdowns
+
+The closed dropdown header uses `--myst-color-bg-secondary`.
+
+:::{dropdown} Dropdown header (`--myst-color-bg-secondary`)
+Expanded body content.
+:::
+
+### Tab sets
+
+The active tab label and bottom border use `--myst-color-active`; inactive tab labels use `--myst-color-text-tertiary`. The tab row sits on `--myst-color-border`.
+
+::::{tab-set}
+:::{tab-item} Active tab
+Active tab label: `--myst-color-active`.
+:::
+:::{tab-item} Inactive tab
+Inactive tab label: `--myst-color-text-tertiary`.
+:::
+::::
+
+### Code
+
+The filename bar uses `--myst-color-bg-secondary` and `--myst-color-border`; the filename text uses `--myst-color-text-secondary`.
+
+```{code-block} python
+:filename: example.py
 def hello():
     print("code blocks are styled by highlight.js")
 ```
+
+### Prose and typography
+
+Regular prose paragraphs use `--myst-color-prose-body`. [Links](https://mystmd.org) use `--myst-color-link` and `--myst-color-link-underline`. `Inline code` uses `--myst-color-code`. Keyboard shortcuts like {kbd}`Ctrl+C` use `--myst-color-kbd-shadow` for the key shadow.
+
+### Table
+
+Table borders use `--myst-color-border` and `--myst-color-border-strong`.
+
+| Column A | Column B | Column C |
+|---|---|---|
+| Row 1, cell 1 | Row 1, cell 2 | Row 1, cell 3 |
+| Row 2, cell 1 | Row 2, cell 2 | Row 2, cell 3 |
+| Row 3, cell 1 | Row 3, cell 2 | Row 3, cell 3 |
+
+### Navigation and interaction tokens
+
+Some tokens are only visible in the site navigation and UI, or require user interaction to trigger:
+
+- **Page background**: `--myst-color-bg` — the page itself; `--myst-color-bg-secondary` also appears in the sidebar and nav panels.
+- **Current-page highlight**: `--myst-color-active-bg` — the sidebar TOC highlights the active page entry.
+- **Section heading in TOC**: `--myst-color-accent-text` — bold section titles in the sidebar use this color.
+- **Document outline**: `--myst-color-active-surface` — the in-page heading tracker on the right.
+- **Focus indicators**: `--myst-color-focus-ring`, `--myst-color-focus-outline` — tab through the page to see focus rings on interactive elements.
+- **Primary color**: `--myst-color-primary` — the page-load progress bar and download/launch buttons.
+- **Hover popover**: `--myst-color-inverse-bg`, `--myst-color-inverse-text` — hover over a cross-reference or footnote to see the popover tooltip.

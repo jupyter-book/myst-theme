@@ -6,7 +6,8 @@ Use the picker to experiment with the MyST color tokens live.
 Every component on this page reads from the same tokens, so changes propagate instantly.
 
 When you've settled on a palette, copy the generated CSS into a stylesheet in your own site.
-See [Theming](./theming.md) for how to wire it up.
+Remember to do this for both light and dark modes.
+See [Theming](./theming.md) for how to wire up the CSS.
 
 ````{anywidget} ./src/color-picker.mjs
 :css: ./src/color-picker.css

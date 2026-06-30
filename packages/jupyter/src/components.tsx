@@ -13,7 +13,9 @@ export const MaybeLongContent = ({
   const { error, data } = useLongContent(content, path);
   if (error) {
     return (
-      <div className="myst-jp-long-error text-myst-error">Error loading content: {error.message}</div>
+      <div className="myst-jp-long-error text-myst-error">
+        Error loading content: {error.message}
+      </div>
     );
   }
   if (!data) {

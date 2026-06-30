@@ -116,13 +116,13 @@ export function Callout({
           'text-md',
           'border-y dark:border-y-0',
           {
-            'bg-myst-gray-bg': !color || color === 'gray',
+            'bg-myst-proof-bg': !color || color === 'gray',
             'bg-myst-info-bg': color === 'blue',
             'bg-myst-success-bg': color === 'green',
             'bg-myst-warning-bg': color === 'yellow',
-            'bg-myst-orange-bg': color === 'orange',
+            'bg-myst-example-bg': color === 'orange',
             'bg-myst-danger-bg': color === 'red',
-            'bg-myst-purple-bg': color === 'purple',
+            'bg-myst-theorem-bg': color === 'purple',
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           },
@@ -135,13 +135,13 @@ export function Callout({
             className={classNames(
               'myst-exercise-header-icon inline-block pl-2 mr-2 self-center flex-none',
               classNames({
-                'text-myst-gray-text': !color || color === 'gray',
+                'text-myst-proof-text': !color || color === 'gray',
                 'text-myst-info-text': color === 'blue',
                 'text-myst-success-text': color === 'green',
                 'text-myst-warning-text': color === 'yellow',
-                'text-myst-orange-text': color === 'orange',
+                'text-myst-example-text': color === 'orange',
                 'text-myst-danger-text': color === 'red',
-                'text-myst-purple-text': color === 'purple',
+                'text-myst-theorem-text': color === 'purple',
               }),
             )}
           />

@@ -44,7 +44,7 @@ A few rules of thumb:
 - `text` / `text-secondary` / `text-tertiary` are the UI text ramp; `prose-body` is the body text of rendered (`prose`) content, intentionally softer than UI text for long-form reading.
 - `accent-text` is for accent-colored headings (glossary terms, the TOC title) — prose headings (`h1`–`h6`) follow `text`.
 - `*-text` variants are foreground colors meant to pair with the matching `*-bg` (e.g. `info-text` on `info-bg`).
-- Admonition kinds that map to a meaning use semantic names (`info`, `success`, `warning`, `danger`); the remaining MyST admonition kinds are color-keyed (`orange`, `purple`, `gray`).
+- Admonition kinds that map to a meaning use semantic names (`info`, `tip`, `success`, `warning`, `danger`); math content groups use `theorem`, `example`, and `proof`.
 - `inverse-bg` / `inverse-text` render an element in the opposite scheme's colors (e.g. tooltips).
 
 ## Using tokens as Tailwind utilities

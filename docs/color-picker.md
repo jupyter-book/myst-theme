@@ -40,22 +40,25 @@ A simple admonition (`:class: simple`) uses `--myst-color-surface` for its backg
 Simple style — background is `--myst-color-surface`.
 :::
 
-### Exercise blocks
+### Exercise and proof blocks
 
-The orange, purple, and gray color groups appear in `{exercise}` and `{proof}` blocks. The color is selected via `:class:`.
+`{exercise}`, `{solution}`, and `{proof}` blocks use three color groups. The group is selected via `:class:`.
 
 :::{exercise}
 :class: orange
-Orange group: `--myst-color-orange`, `--myst-color-orange-bg`, `--myst-color-orange-text`.
+Example group (`:class: orange`): `--myst-color-example`, `--myst-color-example-bg`, `--myst-color-example-text`.
+Used by `{proof}` criterion, corollary, and property kinds.
 :::
 
 :::{exercise}
 :class: purple
-Purple group: `--myst-color-purple`, `--myst-color-purple-bg`, `--myst-color-purple-text`.
+Theorem group (`:class: purple`): `--myst-color-theorem`, `--myst-color-theorem-bg`, `--myst-color-theorem-text`.
+Used by `{proof}` lemma, conjecture, and theorem kinds.
 :::
 
 :::{exercise}
-Gray group (default): `--myst-color-gray`, `--myst-color-gray-bg`, `--myst-color-gray-text`.
+Proof group (default): `--myst-color-proof`, `--myst-color-proof-bg`, `--myst-color-proof-text`.
+Used by `{proof}` proof and algorithm kinds, and by default `{solution}` blocks.
 :::
 
 ### Cards

@@ -52,7 +52,7 @@
     --myst-color-kbd-shadow: rgb(28 25 23 / 10%); /* stone-900/10% */
 
     /* Admonition / semantic colors */
-    /* info: {note}, {important}, {seealso} */
+    /* info: {note}, {important}, {seealso}; default {exercise} */
     --myst-color-info: #3b82f6; /* blue-500 */
     --myst-color-info-bg: #eff6ff; /* blue-50 */
     --myst-color-info-text: #2563eb; /* blue-600 */
@@ -77,18 +77,21 @@
     --myst-color-danger-bg: #fef2f2; /* red-50 */
     --myst-color-danger-text: #dc2626; /* red-600 */
 
-    /* orange, purple, gray: {proof} and {exercise} block variants */
-    --myst-color-orange: #f97316; /* orange-500 */
-    --myst-color-orange-bg: #fff7ed; /* orange-50 */
-    --myst-color-orange-text: #ea580c; /* orange-600 */
+    /* theorem: {proof} lemma, conjecture, theorem */
+    --myst-color-theorem: #a855f7; /* purple-500 */
+    --myst-color-theorem-bg: #faf5ff; /* purple-50 */
+    --myst-color-theorem-text: #9333ea; /* purple-600 */
 
-    --myst-color-purple: #a855f7; /* purple-500 */
-    --myst-color-purple-bg: #faf5ff; /* purple-50 */
-    --myst-color-purple-text: #9333ea; /* purple-600 */
+    /* example: {proof} criterion, corollary, property */
+    --myst-color-example: #f97316; /* orange-500 */
+    --myst-color-example-bg: #fff7ed; /* orange-50 */
+    --myst-color-example-text: #ea580c; /* orange-600 */
 
-    --myst-color-gray: #6b7280; /* gray-500 */
-    --myst-color-gray-bg: #f9fafb; /* gray-50 */
-    --myst-color-gray-text: #4b5563; /* gray-600 */
+    /* proof: {proof} proof, algorithm; default {solution} */
+    --myst-color-proof: #6b7280; /* gray-500 */
+    --myst-color-proof-bg: #f9fafb; /* gray-50 */
+    --myst-color-proof-text: #4b5563; /* gray-600 */
+
   }
 
   .dark {
@@ -149,15 +152,15 @@
     --myst-color-danger-bg: #0f172a; /* slate-900 */
     --myst-color-danger-text: #f87171; /* red-400 */
 
-    --myst-color-orange-bg: #0f172a; /* slate-900 */
-    --myst-color-orange-text: #fb923c; /* orange-400 */
+    --myst-color-theorem-bg: #0f172a; /* slate-900 */
+    --myst-color-theorem-text: #c084fc; /* purple-400 */
 
-    --myst-color-purple: #a855f7; /* purple-500 */
-    --myst-color-purple-bg: #0f172a; /* slate-900 */
-    --myst-color-purple-text: #c084fc; /* purple-400 */
+    --myst-color-example-bg: #0f172a; /* slate-900 */
+    --myst-color-example-text: #fb923c; /* orange-400 */
 
-    --myst-color-gray-bg: #0f172a; /* slate-900 */
-    --myst-color-gray-text: #9ca3af; /* gray-400 */
+    --myst-color-proof-bg: #0f172a; /* slate-900 */
+    --myst-color-proof-text: #9ca3af; /* gray-400 */
+
   }
 }
 

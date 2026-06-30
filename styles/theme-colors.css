@@ -52,22 +52,32 @@
     --myst-color-kbd-shadow: rgb(28 25 23 / 10%); /* stone-900/10% */
 
     /* Admonition / semantic colors */
+    /* info: {note}, {important}, {seealso} */
     --myst-color-info: #3b82f6; /* blue-500 */
     --myst-color-info-bg: #eff6ff; /* blue-50 */
     --myst-color-info-text: #2563eb; /* blue-600 */
 
+    /* success: Jupyter kernel run confirmation, copy-to-clipboard flash */
     --myst-color-success: #16a34a; /* green-600 */
     --myst-color-success-bg: #f0fdf4; /* green-50 */
     --myst-color-success-text: #16a34a; /* green-600 */
 
+    /* tip: {tip}, {hint} — defaults to success colors */
+    --myst-color-tip: var(--myst-color-success);
+    --myst-color-tip-bg: var(--myst-color-success-bg);
+    --myst-color-tip-text: var(--myst-color-success-text);
+
+    /* warning: {warning}, {attention}, {caution} */
     --myst-color-warning: #d97706; /* amber-600 */
     --myst-color-warning-bg: #fffbeb; /* amber-50 */
     --myst-color-warning-text: #d97706; /* amber-600 */
 
+    /* danger: {danger}, {error} */
     --myst-color-danger: #dc2626; /* red-600 */
     --myst-color-danger-bg: #fef2f2; /* red-50 */
     --myst-color-danger-text: #dc2626; /* red-600 */
 
+    /* orange, purple, gray: {proof} and {exercise} block variants */
     --myst-color-orange: #f97316; /* orange-500 */
     --myst-color-orange-bg: #fff7ed; /* orange-50 */
     --myst-color-orange-text: #ea580c; /* orange-600 */

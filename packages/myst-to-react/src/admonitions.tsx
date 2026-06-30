@@ -71,7 +71,7 @@ function getFirstKind({
     return { kind: AdmonitionKind.hint, color: 'green' };
   }
   if (kind === AdmonitionKind.seealso || classes.includes('seealso')) {
-    return { kind: AdmonitionKind.seealso, color: 'green' };
+    return { kind: AdmonitionKind.seealso, color: 'blue' };
   }
   if (kind === AdmonitionKind.tip || classes.includes('tip')) {
     return { kind: AdmonitionKind.tip, color: 'green' };
@@ -182,7 +182,7 @@ export function Admonition({
           'myst-admonition-default rounded border-l-4': !simple,
           'myst-admonition-simple border-l-2': simple,
           'border-myst-info': !color || color === 'blue',
-          'border-myst-success': color === 'green',
+          'border-myst-tip': color === 'green',
           'border-myst-warning': color === 'yellow',
           'border-myst-danger': color === 'red',
         },
@@ -197,7 +197,7 @@ export function Admonition({
             'text-md': simple,
             'bg-myst-surface dark:bg-myst-surface-hover': simple,
             'text-myst-info-text bg-myst-info-bg': !simple && (!color || color === 'blue'),
-            'text-myst-success-text bg-myst-success-bg': !simple && color === 'green',
+            'text-myst-tip-text bg-myst-tip-bg': !simple && color === 'green',
             'text-myst-warning-text bg-myst-warning-bg': !simple && color === 'yellow',
             'text-myst-danger-text bg-myst-danger-bg': !simple && color === 'red',
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
@@ -210,7 +210,7 @@ export function Admonition({
               className={classNames({
                 // Needed for simple!
                 'text-myst-info-text': !color || color === 'blue',
-                'text-myst-success-text': color === 'green',
+                'text-myst-tip-text': color === 'green',
                 'text-myst-warning-text': color === 'yellow',
                 'text-myst-danger-text': color === 'red',
               })}

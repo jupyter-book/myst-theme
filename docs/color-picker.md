@@ -18,11 +18,11 @@ See [Theming](./theming.md) for how to wire up the CSS.
 ### Admonitions
 
 :::{note}
-Info group: `--myst-color-info`, `--myst-color-info-bg`, `--myst-color-info-text`. Used by `{note}` and `{important}`.
+Info group: `--myst-color-info`, `--myst-color-info-bg`, `--myst-color-info-text`. Used by `{note}`, `{important}`, and `{seealso}`.
 :::
 
 :::{tip}
-Success group: `--myst-color-success`, `--myst-color-success-bg`, `--myst-color-success-text`. Used by `{tip}`, `{hint}`, and `{seealso}`.
+Tip group: `--myst-color-tip`, `--myst-color-tip-bg`, `--myst-color-tip-text`. Used by `{tip}` and `{hint}`. Defaults to the success color.
 :::
 
 :::{warning}

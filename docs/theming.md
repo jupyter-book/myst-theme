@@ -47,6 +47,27 @@ A few rules of thumb:
 - Admonition kinds that map to a meaning use semantic names (`info`, `success`, `warning`, `danger`); the remaining MyST admonition kinds are color-keyed (`orange`, `purple`, `gray`).
 - `inverse-bg` / `inverse-text` render an element in the opposite scheme's colors (e.g. tooltips).
 
+## Using tokens as Tailwind utilities
+
+Every `--myst-color-{name}` token is also available as a Tailwind color named `myst-{name}`.
+Tailwind expands that into utility classes for every color-aware property — [`bg-`](https://tailwindcss.com/docs/background-color), [`text-`](https://tailwindcss.com/docs/text-color), [`border-`](https://tailwindcss.com/docs/border-color), [`ring-`](https://tailwindcss.com/docs/ring-color), and more:
+
+| CSS variable | Tailwind color | Example utilities |
+|---|---|---|
+| `--myst-color-bg` | `myst-bg` | `bg-myst-bg`, `text-myst-bg`, `border-myst-bg` |
+| `--myst-color-text` | `myst-text` | `text-myst-text`, `border-myst-text` |
+| `--myst-color-border` | `myst-border` | `border-myst-border`, `ring-myst-border` |
+| `--myst-color-info-bg` | `myst-info-bg` | `bg-myst-info-bg`, `border-myst-info-bg` |
+
+The full list of available color names mirrors the token names in `theme-colors.css`: strip the `--myst-color-` prefix and prepend `myst-`.
+
+### Adding a new token
+
+When introducing a new semantic color, update both files:
+
+1. Add `--myst-color-{name}` (and its `.dark` override) to `styles/theme-colors.css`.
+2. Add `'myst-{name}': 'var(--myst-color-{name})'` to the `colors` object in `styles/index.js`.
+
 ## Known limitations
 
 A few aspects of the UI are intentionally not themable yet:

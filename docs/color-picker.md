@@ -44,19 +44,19 @@ Simple style — background is `--myst-color-surface`.
 
 `{exercise}`, `{solution}`, and `{proof}` blocks use three color groups determined by the proof kind.
 
-:::{proof} criterion
+:::{prf:criterion}
 Example group: `--myst-color-example`, `--myst-color-example-bg`, `--myst-color-example-text`.
-Used by `{proof}` criterion, corollary, and property kinds.
+Used by criterion, corollary, and property kinds.
 :::
 
-:::{proof} theorem
+:::{prf:theorem}
 Theorem group: `--myst-color-theorem`, `--myst-color-theorem-bg`, `--myst-color-theorem-text`.
-Used by `{proof}` lemma, conjecture, and theorem kinds.
+Used by lemma, conjecture, and theorem kinds.
 :::
 
-:::{proof}
-Proof group (default): `--myst-color-proof`, `--myst-color-proof-bg`, `--myst-color-proof-text`.
-Used by `{proof}` proof and algorithm kinds, and by default `{solution}` blocks.
+:::{prf:proof}
+Proof group: `--myst-color-proof`, `--myst-color-proof-bg`, `--myst-color-proof-text`.
+Used by proof and algorithm kinds, and by default `{solution}` blocks.
 :::
 
 ### Cards

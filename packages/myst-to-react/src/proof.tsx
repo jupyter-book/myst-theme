@@ -26,13 +26,13 @@ export enum ProofKind {
 }
 
 const colorSchemes = {
-  proof: { border: 'dark:border-myst-proof', bg: 'bg-myst-proof-bg' },
-  theorem: { border: 'dark:border-myst-theorem', bg: 'bg-myst-theorem-bg' },
-  example: { border: 'dark:border-myst-example', bg: 'bg-myst-example-bg' },
-  info: { border: 'dark:border-myst-info', bg: 'bg-myst-info-bg' },
-  success: { border: 'dark:border-myst-success', bg: 'bg-myst-success-bg' },
-  warning: { border: 'dark:border-myst-warning', bg: 'bg-myst-warning-bg' },
-  danger: { border: 'dark:border-myst-danger', bg: 'bg-myst-danger-bg' },
+  proof: { border: 'border-myst-proof', bg: 'bg-myst-proof-bg', text: 'text-myst-proof-text' },
+  theorem: { border: 'border-myst-theorem', bg: 'bg-myst-theorem-bg', text: 'text-myst-theorem-text' },
+  example: { border: 'border-myst-example', bg: 'bg-myst-example-bg', text: 'text-myst-example-text' },
+  info: { border: 'border-myst-info', bg: 'bg-myst-info-bg', text: 'text-myst-info-text' },
+  success: { border: 'border-myst-success', bg: 'bg-myst-success-bg', text: 'text-myst-success-text' },
+  warning: { border: 'border-myst-warning', bg: 'bg-myst-warning-bg', text: 'text-myst-warning-text' },
+  danger: { border: 'border-myst-danger', bg: 'bg-myst-danger-bg', text: 'text-myst-danger-text' },
 } as const;
 
 type ColorScheme = keyof typeof colorSchemes;
@@ -74,8 +74,9 @@ function getColorScheme(kind?: ProofKind | string): ColorScheme {
       return 'danger';
     case ProofKind.definition:
     case ProofKind.proposition:
-    default:
       return 'info';
+    default:
+      return 'proof';
   }
 }
 
@@ -137,14 +138,14 @@ export function Proof({
   enumerator?: string;
   className?: string;
 }) {
-  const { border, bg } = colorSchemes[colorScheme];
+  const { border, bg, text } = colorSchemes[colorScheme];
   return (
     <WrapperElement
       id={identifier}
       dropdown={dropdown}
       className={classNames(
         'myst-proof my-5 shadow dark:bg-myst-bg-secondary overflow-hidden',
-        'dark:border-l-4 border-myst-border-strong',
+        'border-l-4',
         border,
         className,
       )}
@@ -164,8 +165,9 @@ export function Proof({
       >
         <div
           className={classNames(
-            'myst-proof-title text-myst-text grow self-center overflow-hidden break-words',
+            'myst-proof-title grow self-center overflow-hidden break-words',
             'ml-4', // No icon!
+            text,
           )}
         >
           <HashLink id={identifier} kind={capitalize(kind)}>

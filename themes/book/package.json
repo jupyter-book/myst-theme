@@ -40,7 +40,9 @@
     "node-fetch": "^2.6.11",
     "thebe-core": "^0.5.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "@module-federation/runtime-tools": "^2.6.0",
+    "@module-federation/runtime": "^2.6.0"
   },
   "devDependencies": {
     "@remix-run/dev": "~1.17.0",

@@ -18,6 +18,11 @@ const colorSchemes = {
     bg: 'bg-myst-proof-bg',
     text: 'text-myst-proof-text',
   },
+  error: {
+    border: 'dark:border-myst-error',
+    bg: 'bg-myst-error-bg',
+    text: 'text-myst-error-text',
+  },
 } as const;
 
 type ColorScheme = keyof typeof colorSchemes;

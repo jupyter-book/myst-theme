@@ -8,10 +8,10 @@ name: Publish theme assets to GitHub Release
 # ref: https://github.com/jupyter-book/myst-enhancement-proposals/issues/34
 #
 # Each theme zip contains:
-#   build/, public/, template.yml  (built by `npm run prod:build`)
+#   build/, public/, template.yml  (built by `bun run prod:build`)
 #   server.js                      (from template/, as-is)
 #   package.json                   (from template/, with template->THEME and VERSION substituted)
-#   package-lock.json              (from `npm install`)
+#   package-lock.json              (from `npm install --package-lock-only`)
 #
 # Triggers:
 #   - called by release.yml after the changesets release publishes (primary path),
@@ -39,26 +39,35 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 24
 
       - name: Install dependencies
-        run: npm install
+        run: bun install
+
       - name: Build
-        run: npm run build
+        run: bun run build
       - name: Run tests
-        run: npm run test
+        run: bun run test
 
       # Build, package, and zip each theme. node_modules is excluded from the
-      # zip to match what the Makefile ships (it is gitignored there)
+      # zip to match what the Makefile ships (it is gitignored there).
+      #
+      # `npm install --package-lock-only` generates the
+      # `package-lock.json`, so that users can install our theme using `npm`.
       - name: Build and package themes
         run: |
           VERSION=$(node -p "require('./packages/site/package.json').version")
           mkdir dist_zip
           for THEME in book article; do
-            (cd "themes/$THEME" && npm run prod:build)
+            (cd "themes/$THEME" && bun run prod:build)
             DIST="dist-$THEME"
             rm -rf "$DIST" && mkdir "$DIST"
             cp -r "themes/$THEME/public" "$DIST/public"
@@ -66,7 +75,7 @@ jobs:
             cp -r "themes/$THEME/template.yml" "$DIST/template.yml"
             cp template/server.js "$DIST/server.js"
             sed -e "s/VERSION/$VERSION/g" -e "s/template/$THEME/g" template/package.json > "$DIST/package.json"
-            (cd "$DIST" && npm install)
+            (cd "$DIST" && bun install && npm install --package-lock-only)
             zip -r "dist_zip/$THEME-theme.zip" "$DIST/" -x '*/node_modules/*'
           done
 

@@ -153,7 +153,7 @@ export function OpenAccessBadge({ open_access }: { open_access?: boolean }) {
       <OpenAccessIcon
         width="1.25rem"
         height="1.25rem"
-        className="myst-fm-block-open-access-icon mr-1 inline-block opacity-60 hover:opacity-100 hover:text-[#E18435]"
+        className="myst-fm-block-open-access-icon mr-1 inline-block opacity-60 hover:opacity-100 hover:text-myst-active"
       />
     </a>
   );
@@ -308,9 +308,7 @@ export function FrontmatterBlock({
         </h1>
       )}
       {subtitle && (
-        <p className="myst-fm-block-subtitle mt-2 mb-0 lead text-zinc-600 dark:text-zinc-400">
-          {subtitle}
-        </p>
+        <p className="myst-fm-block-subtitle mt-2 mb-0 lead text-myst-text-tertiary">{subtitle}</p>
       )}
       {!hideAuthors && hasAuthors && authorStyle === 'list' && (
         <AuthorsList authors={frontmatter.authors} affiliations={frontmatter.affiliations} />

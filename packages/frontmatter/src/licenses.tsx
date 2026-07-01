@@ -135,7 +135,7 @@ function SingleLicenseBadge({
           width="1.25rem"
           height="1.25rem"
           className={classNames(
-            'myst-fm-license-icon myst-fm-license-icon-osi mx-1 inline-block opacity-60 hover:opacity-100 hover:text-[#599F46]',
+            'myst-fm-license-icon myst-fm-license-icon-osi mx-1 inline-block opacity-60 hover:opacity-100 hover:text-myst-active',
             className,
           )}
         />

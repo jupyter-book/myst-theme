@@ -23,14 +23,14 @@ export function Footnotes({
       className={classNames('myst-footnotes', grid, 'subgrid-gap col-screen', containerClassName)}
     >
       <div className={innerClassName}>
-        <header className="myst-footnotes-header text-lg font-semibold text-stone-900 dark:text-white group">
+        <header className="myst-footnotes-header text-lg font-semibold text-myst-text group">
           Footnotes
           <HashLink id="footnotes" title="Link to Footnotes" hover className="ml-2" />
         </header>
       </div>
       <div
         className={classNames(
-          'myst-footnotes-list pl-3 mb-8 text-xs text-stone-500 dark:text-stone-300',
+          'myst-footnotes-list pl-3 mb-8 text-xs text-myst-text-tertiary',
           innerClassName,
         )}
       >

@@ -9,7 +9,7 @@ export function LinkCard({
   loading = false,
   description,
   thumbnail,
-  className = 'w-[300px] sm:max-w-[500px] bg-white rounded shadow-md',
+  className = 'w-[300px] sm:max-w-[500px] bg-myst-bg rounded shadow-md',
 }: {
   url: string;
   internal?: boolean;
@@ -31,7 +31,7 @@ export function LinkCard({
       {!loading && thumbnail && (
         <img src={thumbnail} className="w-full h-[150px] object-cover object-top object-left m-0" />
       )}
-      {loading && <div className="animate-pulse bg-slate-100 dark:bg-slate-800 w-full h-[150px]" />}
+      {loading && <div className="animate-pulse bg-myst-surface w-full h-[150px]" />}
       {internal && (
         <Link
           to={to}

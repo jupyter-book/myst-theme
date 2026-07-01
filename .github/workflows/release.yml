@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-      - run: bun install
+      - run: bun install --frozen-lockfile
       - run: bun run build
       - run: bun run test
       # Changesets action will set published=true if it does publish

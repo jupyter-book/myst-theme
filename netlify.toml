@@ -22,7 +22,7 @@
     npm run build && \
     npm run link) && \
     # Build myst-theme
-    bun install && \
+    bun install --frozen-lockfile && \
     bun run build && \
     # Install Python requirements and build docs
     pip install uv && \

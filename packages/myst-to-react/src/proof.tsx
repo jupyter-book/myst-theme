@@ -27,11 +27,27 @@ export enum ProofKind {
 
 const colorSchemes = {
   proof: { border: 'border-myst-proof', bg: 'bg-myst-proof-bg', text: 'text-myst-proof-text' },
-  theorem: { border: 'border-myst-theorem', bg: 'bg-myst-theorem-bg', text: 'text-myst-theorem-text' },
-  example: { border: 'border-myst-example', bg: 'bg-myst-example-bg', text: 'text-myst-example-text' },
+  theorem: {
+    border: 'border-myst-theorem',
+    bg: 'bg-myst-theorem-bg',
+    text: 'text-myst-theorem-text',
+  },
+  example: {
+    border: 'border-myst-example',
+    bg: 'bg-myst-example-bg',
+    text: 'text-myst-example-text',
+  },
   info: { border: 'border-myst-info', bg: 'bg-myst-info-bg', text: 'text-myst-info-text' },
-  success: { border: 'border-myst-success', bg: 'bg-myst-success-bg', text: 'text-myst-success-text' },
-  warning: { border: 'border-myst-warning', bg: 'bg-myst-warning-bg', text: 'text-myst-warning-text' },
+  success: {
+    border: 'border-myst-success',
+    bg: 'bg-myst-success-bg',
+    text: 'text-myst-success-text',
+  },
+  warning: {
+    border: 'border-myst-warning',
+    bg: 'bg-myst-warning-bg',
+    text: 'text-myst-warning-text',
+  },
   danger: { border: 'border-myst-danger', bg: 'bg-myst-danger-bg', text: 'text-myst-danger-text' },
 } as const;
 

@@ -11,7 +11,9 @@ check:
 	@which jq > /dev/null || (echo "Error: the jq linux command is not available. Please install it first (brew install jq | apt-get install jq)." && exit 1)
 
 build-theme:
-	bun install
+	# Prepare the npm node_module cache
+	bun install --frozen-lockfile
+
 	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
 	git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME)

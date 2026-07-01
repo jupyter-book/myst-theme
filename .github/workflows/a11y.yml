@@ -24,7 +24,7 @@ jobs:
       # Build the book locally so we audit the latest version of the theme
       - name: Build local book theme
         run: |
-          bun install
+          bun install --frozen-lockfile
           bun run build
           make build-book
 

@@ -18,11 +18,11 @@
     echo "Building with mystmd: $mystmd_url@$mystmd_ref" &&
     (git clone --depth 1 --branch "$mystmd_ref" "$mystmd_url" /tmp/mystmd && \
     cd /tmp/mystmd && \
-    bun install && \
+    bun install --frozen-lockfile && \
     bun run build && \
     bun run link) && \
     # Build myst-theme
-    bun install && \
+    bun install --frozen-lockfile && \
     bun run build && \
     # Install Python requirements and build docs
     pip install uv && \

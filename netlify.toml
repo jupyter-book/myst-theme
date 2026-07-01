@@ -18,9 +18,9 @@
     echo "Building with mystmd: $mystmd_url@$mystmd_ref" &&
     (git clone --depth 1 --branch "$mystmd_ref" "$mystmd_url" /tmp/mystmd && \
     cd /tmp/mystmd && \
-    npm install && \
-    npm run build && \
-    npm run link) && \
+    bun install --frozen-lockfile && \
+    bun run build && \
+    bun run link) && \
     # Build myst-theme
     bun install --frozen-lockfile && \
     bun run build && \

@@ -22,7 +22,14 @@ import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
+import { loadExtensions } from './bootstrap.js'
+
+type Extension = {
+        renderers: NodeRenderers;
+}
+
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
@@ -128,10 +135,15 @@ function NoCSSWarning() {
   );
 }
 
+
 export default function AppWithReload() {
   const { config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
+  const [renderers, setRenderers] = useState(RENDERERS);
+  useEffect(() => {
+          loadExtensions<Extension>((config as any)?.remotes ?? []).then(extensions =>           setRenderers(mergeRenderers([RENDERERS, ...extensions.map(ext=> ext.renderers)])))
+  }, []);
 
   return (
     <SearchFactoryProvider factory={searchFactory}>
@@ -140,7 +152,7 @@ export default function AppWithReload() {
         scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
         staticBuild={MODE === 'static'}
         baseurl={BASE_URL}
-        renderers={RENDERERS}
+        renderers={renderers}
         head={
           <>
             <link rel="icon" href={`${BASE_URL || ''}/favicon.ico`} />

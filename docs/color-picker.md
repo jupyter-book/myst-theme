@@ -42,21 +42,19 @@ Simple style — background is `--myst-color-surface`.
 
 ### Exercise and proof blocks
 
-`{exercise}`, `{solution}`, and `{proof}` blocks use three color groups. The group is selected via `:class:`.
+`{exercise}`, `{solution}`, and `{proof}` blocks use three color groups determined by the proof kind.
 
-:::{exercise}
-:class: orange
-Example group (`:class: orange`): `--myst-color-example`, `--myst-color-example-bg`, `--myst-color-example-text`.
+:::{proof} criterion
+Example group: `--myst-color-example`, `--myst-color-example-bg`, `--myst-color-example-text`.
 Used by `{proof}` criterion, corollary, and property kinds.
 :::
 
-:::{exercise}
-:class: purple
-Theorem group (`:class: purple`): `--myst-color-theorem`, `--myst-color-theorem-bg`, `--myst-color-theorem-text`.
+:::{proof} theorem
+Theorem group: `--myst-color-theorem`, `--myst-color-theorem-bg`, `--myst-color-theorem-text`.
 Used by `{proof}` lemma, conjecture, and theorem kinds.
 :::
 
-:::{exercise}
+:::{proof}
 Proof group (default): `--myst-color-proof`, `--myst-color-proof-bg`, `--myst-color-proof-text`.
 Used by `{proof}` proof and algorithm kinds, and by default `{solution}` blocks.
 :::
@@ -116,6 +114,10 @@ Table borders use `--myst-color-border` and `--myst-color-border-strong`.
 | Row 1, cell 1 | Row 1, cell 2 | Row 1, cell 3 |
 | Row 2, cell 1 | Row 2, cell 2 | Row 2, cell 3 |
 | Row 3, cell 1 | Row 3, cell 2 | Row 3, cell 3 |
+
+### Error states
+
+`--myst-color-error`, `--myst-color-error-bg`, and `--myst-color-error-text` are used for UI error states such as unknown or invalid directives, failed output renders, and form validation. They are not used for content-level admonitions (use `{danger}` for that).
 
 ### Navigation and interaction tokens
 

@@ -119,6 +119,10 @@ Table borders use `--myst-color-border` and `--myst-color-border-strong`.
 
 `--myst-color-error`, `--myst-color-error-bg`, and `--myst-color-error-text` are used for UI error states such as unknown or invalid directives, failed output renders, and form validation. They are not used for content-level admonitions (use `{danger}` for that).
 
+:::{unknown-directive}
+This unrecognized directive renders using `--myst-color-error`, `--myst-color-error-bg`, and `--myst-color-error-text`.
+:::
+
 ### Navigation and interaction tokens
 
 Some tokens are only visible in the site navigation and UI, or require user interaction to trigger:

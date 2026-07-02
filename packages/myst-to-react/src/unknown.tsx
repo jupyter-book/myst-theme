@@ -13,7 +13,7 @@ export const UnknownDirective: NodeRenderer<GenericNode> = ({ node, className })
   return (
     <Callout
       title={titleNode}
-      color={'red'}
+      colorScheme="error"
       dropdown
       Icon={ExclamationTriangleIcon as any}
       className={className}

@@ -67,7 +67,7 @@ const Headings = ({ headings, activeId }: Props) => (
           className={classNames('block p-1', {
             'text-myst-text': heading.level < 2 && heading.id !== activeId,
             'text-myst-text-tertiary': heading.level >= 2 && heading.id !== activeId,
-            'text-myst-active dark:text-white font-bold': heading.id === activeId,
+            'text-myst-active dark:text-myst-text font-bold': heading.id === activeId,
             'pr-2': heading.id !== activeId, // Allows for bold to change length
             'pl-2': heading.level === 1,
             'pl-4': heading.level === 2,
@@ -471,7 +471,7 @@ export const DocumentOutline = ({
           {title}
           <Collapsible.Trigger asChild>
             <button
-              className="myst-outline-collapsible self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-myst-focus-outline outline-2"
+              className="myst-outline-collapsible self-center flex-none rounded-md group hover:bg-myst-surface focus:outline outline-myst-focus-outline outline-2"
               aria-label="Open Contents"
             >
               <ChevronRightIcon

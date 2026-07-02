@@ -83,7 +83,7 @@ export function Output({ node, className }: { node: GenericNode; className?: str
     return (
       <Callout
         title={<div>Cannot render output node</div>}
-        color={'red'}
+        colorScheme="error"
         dropdown
         Icon={ExclamationTriangleIcon as any}
         className={className}

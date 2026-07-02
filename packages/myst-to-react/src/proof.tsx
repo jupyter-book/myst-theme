@@ -25,7 +25,33 @@ export enum ProofKind {
   theorem = 'theorem',
 }
 
-type Color = 'gray' | 'blue' | 'green' | 'yellow' | 'orange' | 'red' | 'purple';
+const colorSchemes = {
+  proof: { border: 'border-myst-proof', bg: 'bg-myst-proof-bg', text: 'text-myst-proof-text' },
+  theorem: {
+    border: 'border-myst-theorem',
+    bg: 'bg-myst-theorem-bg',
+    text: 'text-myst-theorem-text',
+  },
+  example: {
+    border: 'border-myst-example',
+    bg: 'bg-myst-example-bg',
+    text: 'text-myst-example-text',
+  },
+  info: { border: 'border-myst-info', bg: 'bg-myst-info-bg', text: 'text-myst-info-text' },
+  success: {
+    border: 'border-myst-success',
+    bg: 'bg-myst-success-bg',
+    text: 'text-myst-success-text',
+  },
+  warning: {
+    border: 'border-myst-warning',
+    bg: 'bg-myst-warning-bg',
+    text: 'text-myst-warning-text',
+  },
+  danger: { border: 'border-myst-danger', bg: 'bg-myst-danger-bg', text: 'text-myst-danger-text' },
+} as const;
+
+type ColorScheme = keyof typeof colorSchemes;
 
 function getClasses(className?: string) {
   const classes =
@@ -41,33 +67,32 @@ function capitalize(kind?: string) {
   return kind.slice(0, 1).toUpperCase() + kind.slice(1);
 }
 
-function getColor({ kind }: { kind?: ProofKind | string; classes?: string[] }): {
-  color: Color;
-} {
+function getColorScheme(kind?: ProofKind | string): ColorScheme {
   switch (kind) {
     case ProofKind.proof:
     case ProofKind.algorithm:
-      return { color: 'gray' };
+      return 'proof';
     case ProofKind.lemma:
     case ProofKind.conjecture:
     case ProofKind.theorem:
-      return { color: 'purple' };
+      return 'theorem';
     case ProofKind.observation:
     case ProofKind.assumption:
     case ProofKind.axiom:
-      return { color: 'yellow' };
+      return 'warning';
     case ProofKind.criterion:
     case ProofKind.corollary:
     case ProofKind.property:
-      return { color: 'orange' };
+      return 'example';
     case ProofKind.example:
-      return { color: 'green' };
+      return 'success';
     case ProofKind.remark:
-      return { color: 'red' };
+      return 'danger';
     case ProofKind.definition:
     case ProofKind.proposition:
+      return 'info';
     default:
-      return { color: 'blue' };
+      return 'proof';
   }
 }
 
@@ -113,7 +138,7 @@ const iconClass = 'inline-block pl-2 mr-2 self-center flex-none';
 export function Proof({
   title,
   kind,
-  color,
+  colorScheme = 'proof',
   dropdown,
   children,
   identifier,
@@ -121,7 +146,7 @@ export function Proof({
   className,
 }: {
   title?: React.ReactNode;
-  color?: Color;
+  colorScheme?: ColorScheme;
   kind?: ProofKind;
   children: React.ReactNode;
   dropdown?: boolean;
@@ -129,22 +154,15 @@ export function Proof({
   enumerator?: string;
   className?: string;
 }) {
+  const { border, bg, text } = colorSchemes[colorScheme];
   return (
     <WrapperElement
       id={identifier}
       dropdown={dropdown}
       className={classNames(
         'myst-proof my-5 shadow dark:bg-myst-bg-secondary overflow-hidden',
-        'dark:border-l-4 border-myst-border-strong',
-        {
-          'dark:border-gray-500/60': !color || color === 'gray',
-          'dark:border-blue-500/60': color === 'blue',
-          'dark:border-green-500/60': color === 'green',
-          'dark:border-amber-500/70': color === 'yellow',
-          'dark:border-orange-500/60': color === 'orange',
-          'dark:border-red-500/60': color === 'red',
-          'dark:border-purple-500/60': color === 'purple',
-        },
+        'border-l-4',
+        border,
         className,
       )}
     >
@@ -154,14 +172,8 @@ export function Proof({
           'myst-proof-header m-0 font-medium py-2 flex min-w-0',
           'text-md',
           'border-y dark:border-y-0',
+          bg,
           {
-            'bg-myst-gray-bg': !color || color === 'gray',
-            'bg-myst-info-bg': color === 'blue',
-            'bg-myst-success-bg': color === 'green',
-            'bg-myst-warning-bg': color === 'yellow',
-            'bg-myst-orange-bg': color === 'orange',
-            'bg-myst-danger-bg': color === 'red',
-            'bg-myst-purple-bg': color === 'purple',
             'cursor-pointer hover:shadow-[inset_0_0_0px_30px_#00000003] dark:hover:shadow-[inset_0_0_0px_30px_#FFFFFF03]':
               dropdown,
           },
@@ -169,8 +181,9 @@ export function Proof({
       >
         <div
           className={classNames(
-            'myst-proof-title text-myst-text grow self-center overflow-hidden break-words',
+            'myst-proof-title grow self-center overflow-hidden break-words',
             'ml-4', // No icon!
+            text,
           )}
         >
           <HashLink id={identifier} kind={capitalize(kind)}>
@@ -198,7 +211,7 @@ export function Proof({
 export const ProofRenderer: NodeRenderer<AdmonitionSpec> = ({ node, className }) => {
   const [title, ...rest] = node.children as GenericNode[];
   const classes = getClasses(node.class);
-  const { color } = getColor({ kind: node.kind, classes });
+  const colorScheme = getColorScheme(node.kind as ProofKind);
   const isDropdown = classes.includes('dropdown');
 
   const useTitle = title?.type === 'admonitionTitle';
@@ -209,7 +222,7 @@ export const ProofRenderer: NodeRenderer<AdmonitionSpec> = ({ node, className })
       title={useTitle ? <MyST ast={[title]} /> : undefined}
       kind={node.kind as ProofKind}
       enumerator={(node as any).enumerator}
-      color={color}
+      colorScheme={colorScheme}
       dropdown={isDropdown}
       className={className}
     >

@@ -55,6 +55,12 @@ const sharedDataSrc = JSON.stringify(sharedData).replaceAll(
 );
 
 const bootstrap = `
+/**
+ * Module Federation 1.5 bootstrap.
+ *
+ * Loads extension modules from a list of remotes, and returns the activated node renderers.
+ * In future, we can widen the return type to anticipate future extensions.
+ */
 import type { NodeRenderers } from '@myst-theme/providers';
 import { createInstance } from '@module-federation/runtime';
 

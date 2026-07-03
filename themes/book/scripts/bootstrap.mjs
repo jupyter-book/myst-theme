@@ -50,7 +50,7 @@ const sharedData = Object.fromEntries(
 const sharedDataSrc = JSON.stringify(sharedData).replaceAll(
   /["']\{\{ (.*?) \}\}["']/g,
   (m, src) => {
-    return `import("${src}").then(mod => () => mod)`;
+    return `() => import("${src}").then(mod => () => mod)`;
   },
 );
 

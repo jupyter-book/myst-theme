@@ -142,7 +142,7 @@ export default function AppWithReload() {
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
   const [renderers, setRenderers] = useState(RENDERERS);
-  useEffect(async () => {const renderers = await loadRenderers(); setRenderers(mergeRenderers([RENDERERS, ...renderers]))}, []);
+  useEffect(async () => {const renderers = await loadRenderers(config?.remotes ?? []); setRenderers(mergeRenderers([RENDERERS, ...renderers]))}, []);
 
   return (
     <SearchFactoryProvider factory={searchFactory}>

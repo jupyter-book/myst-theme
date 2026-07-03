@@ -7,15 +7,16 @@ import { createInstance } from '@module-federation/runtime';
  * This would be handled by the build system typically (invisibly)
  */
 
-export async function loadRenderers(): Promise<NodeRenderers> {
+export type Remote = {
+  name: string;
+  entry: string;
+}
+
+export async function loadRenderers(remotes: Remote[]): Promise<NodeRenderers> {
+
   const mf = createInstance({
     name: 'host',
-    remotes: [
-      {
-        name: 'custom_heading_renderer',
-        entry: 'http://localhost:9000/custom_heading_renderer.js',
-      },
-    ],
+    remotes,
     shared: {
   "@heroicons/react": {
     get: () => import("@heroicons/react").then(mod => () => mod),
@@ -125,15 +126,6 @@ export async function loadRenderers(): Promise<NodeRenderers> {
       "requiredVersion": "~1.3.1"
     }
   },
-  "classnames": {
-    get: () => import("classnames").then(mod => () => mod),
-    "scope": "default",
-    "shareConfig": {
-      "singleton": true,
-      "import": false,
-      "requiredVersion": "~2.3.2"
-    }
-  },
   "myst-spec-ext": {
     get: () => import("myst-spec-ext").then(mod => () => mod),
     "scope": "default",
@@ -150,33 +142,6 @@ export async function loadRenderers(): Promise<NodeRenderers> {
       "singleton": true,
       "import": false,
       "requiredVersion": "~1.3.1"
-    }
-  },
-  "@remix-run/node": {
-    get: () => import("@remix-run/node").then(mod => () => mod),
-    "scope": "default",
-    "shareConfig": {
-      "singleton": true,
-      "import": false,
-      "requiredVersion": "~1.17.0"
-    }
-  },
-  "@remix-run/react": {
-    get: () => import("@remix-run/react").then(mod => () => mod),
-    "scope": "default",
-    "shareConfig": {
-      "singleton": true,
-      "import": false,
-      "requiredVersion": "~1.17.0"
-    }
-  },
-  "@remix-run/vercel": {
-    get: () => import("@remix-run/vercel").then(mod => () => mod),
-    "scope": "default",
-    "shareConfig": {
-      "singleton": true,
-      "import": false,
-      "requiredVersion": "~1.17.0"
     }
   },
   "myst-common": {
@@ -206,15 +171,6 @@ export async function loadRenderers(): Promise<NodeRenderers> {
       "requiredVersion": "~1.7.1"
     }
   },
-  "node-fetch": {
-    get: () => import("node-fetch").then(mod => () => mod),
-    "scope": "default",
-    "shareConfig": {
-      "singleton": true,
-      "import": false,
-      "requiredVersion": "~2.6.11"
-    }
-  },
   "thebe-core": {
     get: () => import("thebe-core").then(mod => () => mod),
     "scope": "default",
@@ -232,39 +188,10 @@ export async function loadRenderers(): Promise<NodeRenderers> {
       "import": false,
       "requiredVersion": "~19.1.0"
     }
-  },
-  "react-dom": {
-    get: () => import("react-dom").then(mod => () => mod),
-    "scope": "default",
-    "shareConfig": {
-      "singleton": true,
-      "import": false,
-      "requiredVersion": "~19.1.0"
-    }
-  },
-  "@module-federation/runtime-tools": {
-    get: () => import("@module-federation/runtime-tools").then(mod => () => mod),
-    "scope": "default",
-    "shareConfig": {
-      "singleton": true,
-      "import": false,
-      "requiredVersion": "~2.6.0"
-    }
-  },
-  "@module-federation/runtime": {
-    get: () => import("@module-federation/runtime").then(mod => () => mod),
-    "scope": "default",
-    "shareConfig": {
-      "singleton": true,
-      "import": false,
-      "requiredVersion": "~2.6.0"
-    }
   }
 }
 ,
   });
 
- return await Promise.all([
-    mf.loadRemote('custom_heading_renderer').then((m) => m.default),
-  ]);
+ return await Promise.all(remotes.map(r => mf.loadRemote(r.name).then((m) => m.default)));
 }

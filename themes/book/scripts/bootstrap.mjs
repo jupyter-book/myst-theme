@@ -3,7 +3,6 @@ import { writeFileSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const sharedPackages = [
-  '@heroicons/react',
   '@myst-theme/anywidget',
   '@myst-theme/common',
   '@myst-theme/frontmatter',
@@ -40,7 +39,6 @@ const sharedData = Object.fromEntries(
         get: `{{ ${name} }}`,
         shareConfig: {
           singleton: true,
-          import: false,
           requiredVersion: constraint.replace('^', '~'),
         },
       },

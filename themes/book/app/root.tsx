@@ -25,7 +25,7 @@ import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
 import { useCallback, useEffect, useState } from 'react';
 
-import { loadRenderers } from './bootstrap.ts'
+import { loadRenderers } from './bootstrap.js'
 
 
 const RENDERERS: NodeRenderers = mergeRenderers([
@@ -142,7 +142,9 @@ export default function AppWithReload() {
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
   const [renderers, setRenderers] = useState(RENDERERS);
-  useEffect(async () => {const renderers = await loadRenderers(config?.remotes ?? []); setRenderers(mergeRenderers([RENDERERS, ...renderers]))}, []);
+  useEffect(() => {
+          loadRenderers<NodeRenderers[number]>((config as any)?.remotes ?? []).then(renderers =>           setRenderers(mergeRenderers([RENDERERS, ...renderers])))
+  }, []);
 
   return (
     <SearchFactoryProvider factory={searchFactory}>

@@ -61,7 +61,6 @@ const bootstrap = `
  * Loads extension modules from a list of remotes, and returns the activated node renderers.
  * In future, we can widen the return type to anticipate future extensions.
  */
-import type { NodeRenderers } from '@myst-theme/providers';
 import { createInstance } from '@module-federation/runtime';
 
 export type Remote = {
@@ -69,7 +68,7 @@ export type Remote = {
   entry: string;
 }
 
-export async function loadRenderers(remotes: Remote[]): Promise<NodeRenderers> {
+export async function loadRenderers<T>(remotes: Remote[]): Promise<T[]> {
   const mf = createInstance({
     name: 'host',
     remotes,
@@ -77,7 +76,8 @@ export async function loadRenderers(remotes: Remote[]): Promise<NodeRenderers> {
   });
 
  return await Promise.all(
-        remotes.map(r => mf.loadRemote(r.name).then((m) => m.default))
+        remotes.map(r => (mf.loadRemote(r.name) as Promise<{default: T}>).then(m => m.default))
+
  );
 }
 

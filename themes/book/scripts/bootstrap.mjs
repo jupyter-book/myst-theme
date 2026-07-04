@@ -66,7 +66,7 @@ export type Remote = {
   entry: string;
 }
 
-export async function loadRenderers<T>(remotes: Remote[]): Promise<T[]> {
+export async function loadExtensions<T>(remotes: Remote[]): Promise<T[]> {
   const mf = createInstance({
     name: 'host',
     remotes,

@@ -34,7 +34,7 @@ function BinderButton({
   if (error) {
     iconToShow = (
       <ExclamationCircleIcon
-        className="inline pr-2 text-red-600 text-semibold"
+        className="inline pr-2 text-myst-error text-semibold"
         width="1.5rem"
         height="1.5rem"
         title={title}
@@ -64,7 +64,7 @@ export function LaunchBinder({ type, location }: { type: 'link' | 'button'; loca
     useLaunchBinder();
 
   let btnStyles =
-    'flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-myst-surface-hover border-myst-border-strong hover:bg-slate-800 hover:text-white hover:border-transparent';
+    'flex gap-1 px-2 py-1 font-normal no-underline border rounded bg-myst-surface-hover border-myst-border-strong hover:bg-myst-text hover:text-myst-bg hover:border-transparent';
   let icon = (
     <ArrowTopRightOnSquareIcon
       width="1rem"

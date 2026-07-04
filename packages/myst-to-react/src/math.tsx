@@ -43,7 +43,7 @@ const mathRenderer: NodeRenderer<MathLike> = ({ node, className }) => {
     if (node.error || !node.html) {
       return (
         <pre title={node.message} className={className}>
-          <span className="text-red-500">
+          <span className="text-myst-error">
             <ExclamationCircleIcon width="1rem" height="1rem" className="inline mr-1" />
             {node.message}
             {'\n\n'}

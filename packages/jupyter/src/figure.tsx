@@ -48,7 +48,7 @@ export function Figure({ node }: { node: GenericNode }) {
       return (
         <Callout
           title={<div>Cannot render embedded output node</div>}
-          color={'red'}
+          colorScheme="error"
           dropdown
           Icon={ExclamationTriangleIcon as any}
           className={output.className}

@@ -1,69 +1,54 @@
 /**
  * Live color picker for myst-theme CSS custom properties.
- * Reads current values from the document via getComputedStyle, lets the user
- * override them by setting inline styles on <html>.
+ * Discovers --myst-color-* tokens at runtime from the resolved computed
+ * style of <html> (the browser has already applied :root/.dark and any
+ * @layer cascade), groups them by token-name prefix, then lets the user
+ * override values by setting inline styles on <html>.
  */
 
-const TOKENS = {
-  Accent: [
-    'primary',
-    'primary-hover',
-    'accent-text',
-    'link',
-    'link-hover',
-    'link-underline',
-    'active',
-    'active-bg',
-    'active-surface',
-    'focus-ring',
-    'focus-outline',
-    'accent-surface',
-    'accent-surface-border',
-    'accent-surface-text',
-  ],
-  Neutral: [
-    'bg',
-    'bg-secondary',
-    'surface',
-    'surface-hover',
-    'text',
-    'text-secondary',
-    'text-tertiary',
-    'prose-body',
-    'border',
-    'border-strong',
-    'inverse-bg',
-    'inverse-text',
-    'code',
-  ],
-  Admonition: [
-    'info',
-    'info-bg',
-    'info-text',
-    'success',
-    'success-bg',
-    'success-text',
-    'warning',
-    'warning-bg',
-    'warning-text',
-    'danger',
-    'danger-bg',
-    'danger-text',
-    'orange',
-    'orange-bg',
-    'orange-text',
-    'purple',
-    'purple-bg',
-    'purple-text',
-    'gray',
-    'gray-bg',
-    'gray-text',
-  ],
-};
+const PREFIX = '--myst-color-';
+
+// Stable prefix → group label mapping. Tokens whose prefix isn't listed here
+// fall into "Other". Order determines display order.
+const GROUP_PREFIXES = [
+  [['primary', 'accent', 'link', 'active', 'focus'], 'Accent'],
+  [['bg', 'surface', 'text', 'prose', 'border', 'inverse', 'code', 'kbd'], 'Neutral'],
+  [['info', 'success', 'tip', 'warning', 'danger'], 'Admonition'],
+  [['theorem', 'example', 'proof'], 'Math'],
+  [['error'], 'Error'],
+];
+
+function discoverTokens() {
+  const found = new Set();
+  for (const prop of getComputedStyle(document.documentElement)) {
+    if (prop.startsWith(PREFIX)) found.add(prop.slice(PREFIX.length));
+  }
+  return found;
+}
+
+function groupTokens(tokens) {
+  const groups = Object.fromEntries(GROUP_PREFIXES.map(([, label]) => [label, []]));
+  groups['Other'] = [];
+
+  for (const name of tokens) {
+    let placed = false;
+    for (const [prefixes, label] of GROUP_PREFIXES) {
+      if (prefixes.some((p) => name === p || name.startsWith(p + '-'))) {
+        groups[label].push(name);
+        placed = true;
+        break;
+      }
+    }
+    if (!placed) groups['Other'].push(name);
+  }
+
+  // Remove empty groups
+  return Object.fromEntries(Object.entries(groups).filter(([, v]) => v.length > 0));
+}
 
 function readVar(name) {
   const v = getComputedStyle(document.documentElement)
-    .getPropertyValue(`--myst-color-${name}`)
+    .getPropertyValue(`${PREFIX}${name}`)
     .trim();
   // Color inputs need #rrggbb. If the var resolves to a name or rgb(), best-effort fallback.
   if (/^#[0-9a-f]{6}$/i.test(v)) return v;
@@ -75,21 +60,15 @@ function readVar(name) {
   document.body.removeChild(probe);
   const m = rgb.match(/\d+/g);
   if (!m) return '#000000';
-  return (
-    '#' +
-    m
-      .slice(0, 3)
-      .map((n) => Number(n).toString(16).padStart(2, '0'))
-      .join('')
-  );
+  return '#' + m.slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0')).join('');
 }
 
 function setVar(name, value) {
-  document.documentElement.style.setProperty(`--myst-color-${name}`, value);
+  document.documentElement.style.setProperty(`${PREFIX}${name}`, value);
 }
 
 function clearVar(name) {
-  document.documentElement.style.removeProperty(`--myst-color-${name}`);
+  document.documentElement.style.removeProperty(`${PREFIX}${name}`);
 }
 
 function render({ el }) {
@@ -100,18 +79,18 @@ function render({ el }) {
   const copyBtn = document.createElement('button');
   copyBtn.textContent = 'Copy CSS';
   copyBtn.className = 'cp-btn';
-
   const resetBtn = document.createElement('button');
   resetBtn.textContent = 'Reset all';
   resetBtn.className = 'cp-btn';
-
   header.appendChild(copyBtn);
   header.appendChild(resetBtn);
   el.appendChild(header);
 
-  const inputs = []; // { name, input, hex }
+  const tokens = discoverTokens();
+  const groups = groupTokens(tokens);
+  const inputs = []; // { name, input }
 
-  for (const [group, names] of Object.entries(TOKENS)) {
+  for (const [group, names] of Object.entries(groups)) {
     const section = document.createElement('section');
     const h = document.createElement('h4');
     h.textContent = group;
@@ -123,17 +102,13 @@ function render({ el }) {
     for (const name of names) {
       const row = document.createElement('label');
       row.className = 'cp-row';
-
       const input = document.createElement('input');
       input.type = 'color';
       input.value = readVar(name);
-
       const text = document.createElement('span');
       text.className = 'cp-name';
-      text.textContent = `--myst-color-${name}`;
-
+      text.textContent = `${PREFIX}${name}`;
       input.addEventListener('input', () => setVar(name, input.value));
-
       row.appendChild(input);
       row.appendChild(text);
       grid.appendChild(row);
@@ -144,15 +119,12 @@ function render({ el }) {
   }
 
   copyBtn.addEventListener('click', () => {
-    const lines = inputs.map(({ name, input }) => `  --myst-color-${name}: ${input.value};`);
+    const lines = inputs.map(({ name, input }) => `  ${PREFIX}${name}: ${input.value};`);
     const isDark = document.documentElement.classList.contains('dark');
-    const selector = isDark ? '.dark' : ':root';
-    const css = `${selector} {\n${lines.join('\n')}\n}`;
+    const css = `${isDark ? '.dark' : ':root'} {\n${lines.join('\n')}\n}`;
     navigator.clipboard.writeText(css).then(() => {
       copyBtn.textContent = 'Copied!';
-      setTimeout(() => {
-        copyBtn.textContent = 'Copy CSS';
-      }, 1500);
+      setTimeout(() => { copyBtn.textContent = 'Copy CSS'; }, 1500);
     });
   });
 

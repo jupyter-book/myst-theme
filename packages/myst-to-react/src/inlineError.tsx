@@ -9,7 +9,7 @@ interface Props {
 
 export function InlineError({ value, message, className }: Props) {
   return (
-    <span className={classNames('text-yellow-600', className)} title={message || value}>
+    <span className={classNames('text-myst-warning-text', className)} title={message || value}>
       <ExclamationCircleIcon width="1rem" height="1rem" className="inline mr-1" />
       {value}
     </span>

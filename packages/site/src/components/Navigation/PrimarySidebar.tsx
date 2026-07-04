@@ -30,7 +30,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
         className={classNames(
           'myst-primary-sidebar-item-short',
           'p-2 my-1 rounded-lg',
-          'hover:bg-slate-300/30',
+          'hover:bg-myst-surface',
           'block break-words focus:outline outline-myst-focus-outline outline-2 rounded',
         )}
       >
@@ -45,7 +45,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
         className={classNames(
           'myst-primary-sidebar-item',
           'flex flex-row w-full gap-2 px-2 my-1 text-left rounded-lg outline-none',
-          'hover:bg-slate-300/30',
+          'hover:bg-myst-surface',
         )}
       >
         <ExternalOrInternalLink
@@ -58,7 +58,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
         </ExternalOrInternalLink>
         <Collapsible.Trigger asChild>
           <button
-            className="myst-primary-sidebar-item-child self-center flex-none rounded-md group hover:bg-slate-300/30 focus:outline outline-myst-focus-outline outline-2"
+            className="myst-primary-sidebar-item-child self-center flex-none rounded-md group hover:bg-myst-surface focus:outline outline-myst-focus-outline outline-2"
             aria-label="Open Folder"
           >
             <ChevronRightIcon
@@ -78,7 +78,7 @@ export function SidebarNavItem({ item }: { item: SiteNavItem }) {
             className={classNames(
               'myst-primary-sidebar-item-link',
               'p-2 my-1 rounded-lg',
-              'hover:bg-slate-300/30',
+              'hover:bg-myst-surface',
               'block break-words focus:outline outline-myst-focus-outline outline-2 rounded',
             )}
           >

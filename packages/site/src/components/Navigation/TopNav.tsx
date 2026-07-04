@@ -61,7 +61,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="myst-top-nav-dropdown-items absolute w-48 py-1 mt-2 origin-top-left bg-myst-bg rounded-sm shadow-lg left-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="myst-top-nav-dropdown-items absolute w-48 py-1 mt-2 origin-top-left bg-myst-bg rounded-sm shadow-lg left-4 ring-1 ring-myst-border focus:outline-none">
           {item.children?.map((action) => {
             const url = withBaseurl(action.url, baseurl) || '';
             return (
@@ -129,7 +129,7 @@ export function TopNav({
   //   cause a mismatch if the navbar grows. Here we set it to `min-h` to let
   //   it grow, but we'll need to revisit downstream height consumers eventually.
   return (
-    <div className="myst-top-nav myst-bg-translucent backdrop-blur shadow dark:shadow-stone-700 p-3 md:px-8 sticky w-full top-0 z-30 min-h-[60px]">
+    <div className="myst-top-nav myst-bg-translucent backdrop-blur shadow dark:shadow-2xl p-3 md:px-8 sticky w-full top-0 z-30 min-h-[60px]">
       <nav className="myst-top-nav-bar flex items-center justify-between flex-nowrap max-w-[1440px] mx-auto">
         <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center shrink-0">
           {

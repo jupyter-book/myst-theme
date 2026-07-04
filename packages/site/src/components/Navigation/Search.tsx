@@ -521,7 +521,7 @@ function SearchForm({
               'rounded-lg bg-myst-bg-secondary dark:bg-myst-surface-hover',
               'focus:ring-myst-focus-ring',
               'focus:border-myst-focus-ring',
-              { 'border-red-500': !enabled },
+              { 'border-myst-error': !enabled },
             )}
             id={searchInputID}
             aria-labelledby={searchLabelID}

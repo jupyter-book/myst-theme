@@ -52,33 +52,51 @@
     --myst-color-kbd-shadow: rgb(28 25 23 / 10%); /* stone-900/10% */
 
     /* Admonition / semantic colors */
+    /* info: {note}, {important}, {seealso}; default {exercise} */
     --myst-color-info: #3b82f6; /* blue-500 */
     --myst-color-info-bg: #eff6ff; /* blue-50 */
     --myst-color-info-text: #2563eb; /* blue-600 */
 
+    /* success: Jupyter kernel run confirmation, copy-to-clipboard flash */
     --myst-color-success: #16a34a; /* green-600 */
     --myst-color-success-bg: #f0fdf4; /* green-50 */
     --myst-color-success-text: #16a34a; /* green-600 */
 
+    /* tip: {tip}, {hint} — defaults to success colors */
+    --myst-color-tip: var(--myst-color-success);
+    --myst-color-tip-bg: var(--myst-color-success-bg);
+    --myst-color-tip-text: var(--myst-color-success-text);
+
+    /* warning: {warning}, {attention}, {caution} */
     --myst-color-warning: #d97706; /* amber-600 */
     --myst-color-warning-bg: #fffbeb; /* amber-50 */
     --myst-color-warning-text: #d97706; /* amber-600 */
 
+    /* danger: {danger}, {error} */
     --myst-color-danger: #dc2626; /* red-600 */
     --myst-color-danger-bg: #fef2f2; /* red-50 */
     --myst-color-danger-text: #dc2626; /* red-600 */
 
-    --myst-color-orange: #f97316; /* orange-500 */
-    --myst-color-orange-bg: #fff7ed; /* orange-50 */
-    --myst-color-orange-text: #ea580c; /* orange-600 */
+    /* error: UI error states (validation, runtime errors) */
+    --myst-color-error: #ef4444; /* red-500 */
+    --myst-color-error-bg: #fee2e2; /* red-100 */
+    --myst-color-error-text: #b91c1c; /* red-700 */
 
-    --myst-color-purple: #a855f7; /* purple-500 */
-    --myst-color-purple-bg: #faf5ff; /* purple-50 */
-    --myst-color-purple-text: #9333ea; /* purple-600 */
+    /* theorem: {proof} lemma, conjecture, theorem */
+    --myst-color-theorem: #a855f7; /* purple-500 */
+    --myst-color-theorem-bg: #faf5ff; /* purple-50 */
+    --myst-color-theorem-text: #9333ea; /* purple-600 */
 
-    --myst-color-gray: #6b7280; /* gray-500 */
-    --myst-color-gray-bg: #f9fafb; /* gray-50 */
-    --myst-color-gray-text: #4b5563; /* gray-600 */
+    /* example: {proof} criterion, corollary, property */
+    --myst-color-example: #f97316; /* orange-500 */
+    --myst-color-example-bg: #fff7ed; /* orange-50 */
+    --myst-color-example-text: #ea580c; /* orange-600 */
+
+    /* proof: {proof} proof, algorithm; default {solution} */
+    --myst-color-proof: #6b7280; /* gray-500 */
+    --myst-color-proof-bg: #f9fafb; /* gray-50 */
+    --myst-color-proof-text: #4b5563; /* gray-600 */
+
   }
 
   .dark {
@@ -139,15 +157,19 @@
     --myst-color-danger-bg: #0f172a; /* slate-900 */
     --myst-color-danger-text: #f87171; /* red-400 */
 
-    --myst-color-orange-bg: #0f172a; /* slate-900 */
-    --myst-color-orange-text: #fb923c; /* orange-400 */
+    --myst-color-error: #f87171; /* red-400 */
+    --myst-color-error-bg: #0f172a; /* slate-900 */
+    --myst-color-error-text: #fca5a5; /* red-300 */
 
-    --myst-color-purple: #a855f7; /* purple-500 */
-    --myst-color-purple-bg: #0f172a; /* slate-900 */
-    --myst-color-purple-text: #c084fc; /* purple-400 */
+    --myst-color-theorem-bg: #0f172a; /* slate-900 */
+    --myst-color-theorem-text: #c084fc; /* purple-400 */
 
-    --myst-color-gray-bg: #0f172a; /* slate-900 */
-    --myst-color-gray-text: #9ca3af; /* gray-400 */
+    --myst-color-example-bg: #0f172a; /* slate-900 */
+    --myst-color-example-text: #fb923c; /* orange-400 */
+
+    --myst-color-proof-bg: #0f172a; /* slate-900 */
+    --myst-color-proof-text: #9ca3af; /* gray-400 */
+
   }
 }
 

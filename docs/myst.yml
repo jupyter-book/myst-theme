@@ -15,6 +15,11 @@ project:
   static_files:
     - assets/standalone.csv # a file   -> served at /standalone.csv
     - assets/downloads      # a folder -> served at /downloads/example-data.csv
+    # Serve the built extension bundle at /dist/ so the theme can use it at runtime
+    - src/theme-extension/dist
+  plugins:
+    # Gives us a custom directive we use to show off renderer extensions
+    - src/extensions-demo.mjs
   error_rules:
     - rule: link-resolves
       keys:
@@ -34,6 +39,7 @@ project:
     - file: theming.md
       children:
         - file: color-picker.md
+    - file: extensions.md
     - file: permalinks.md
     - file: reference/index.md
       children:

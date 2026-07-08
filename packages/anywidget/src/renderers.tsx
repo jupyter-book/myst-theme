@@ -47,7 +47,7 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
 
     // TODO: validation for import & styles URLs
     console.debug('AnyRenderer importing:', esmModuleUrl);
-    import(esmModuleUrl)
+    import(/* @vite-ignore */ esmModuleUrl)
       .then(async (mod) => {
         const rootEl = ref.current;
         if (!rootEl) return;

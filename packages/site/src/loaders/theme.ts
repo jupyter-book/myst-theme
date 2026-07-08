@@ -2,6 +2,7 @@ import { createCookieSessionStorage, json } from '@remix-run/node';
 import { isTheme } from '@myst-theme/providers';
 import type { Theme } from '@myst-theme/providers';
 import type { ActionFunction } from '@remix-run/node';
+import { serverOnly$ } from 'vite-env-only/macros';
 
 export const themeStorage = createCookieSessionStorage({
   cookie: {
@@ -14,7 +15,7 @@ export const themeStorage = createCookieSessionStorage({
   },
 });
 
-async function getThemeSession(request: Request) {
+async function serverGetThemeSession(request: Request) {
   const session = await themeStorage.getSession(request.headers.get('Cookie'));
   return {
     getTheme: () => {
@@ -26,10 +27,8 @@ async function getThemeSession(request: Request) {
   };
 }
 
-export { getThemeSession };
-
-export const setThemeAPI: ActionFunction = async ({ request }) => {
-  const themeSession = await getThemeSession(request);
+const serverSetThemeAPI: ActionFunction = async ({ request }) => {
+  const themeSession = await serverGetThemeSession(request);
   const data = await request.json();
   const { theme } = data ?? {};
   if (!isTheme(theme)) {
@@ -46,3 +45,6 @@ export const setThemeAPI: ActionFunction = async ({ request }) => {
     },
   );
 };
+
+export const getThemeSession = serverOnly$(serverGetThemeSession);
+export const setThemeApi = serverOnly$(serverSetThemeAPI);

@@ -1,6 +1,6 @@
 import type { LinksFunction, MetaFunction, LoaderFunction } from '@remix-run/node';
-import tailwind from '~/styles/app.css';
-import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css';
+import tailwind from '~/styles/app.css?url';
+import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css?url';
 import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/common';
 import {

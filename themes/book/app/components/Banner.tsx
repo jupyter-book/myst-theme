@@ -10,9 +10,12 @@ import { useBannerState } from '@myst-theme/providers';
  * A dismissible banner component at the top that shows content passed as a MyST AST.
  */
 export function Banner({ content, className }: { content: GenericParent; className?: string }) {
+  const [bannerId, setBannerId] = useState<string | null>(null)
   // Generate banner ID from content for storing dismissal state
   const contentString = JSON.stringify(content);
-  const bannerId = hashString(contentString);
+  useEffect(() => {
+          hashString(contentString).then( hash => setBannerId(hash) )
+  }, [content])
 
   // Start hidden, only show after checking localStorage on client.
   // This avoids flickering on initial load.

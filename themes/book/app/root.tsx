@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction, LoaderFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction, LoaderFunction } from 'react-router';
 import tailwind from '~/styles/app.css?url';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css?url';
 import { getConfig } from '~/utils/loaders.server';
@@ -14,7 +14,7 @@ import {
 } from '@myst-theme/site';
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { createSearch as createMiniSearch } from '@myst-theme/search-minisearch';
-import { Outlet, useLoaderData } from '@remix-run/react';
+import { Outlet, useLoaderData } from 'react-router';
 import { SearchFactoryProvider, mergeRenderers } from '@myst-theme/providers';
 import type { NodeRenderers } from '@myst-theme/providers';
 import type { ISearch, MystSearchIndex } from '@myst-theme/search';

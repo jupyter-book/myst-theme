@@ -1,10 +1,4 @@
-import {
-  json,
-  redirect,
-  type MetaFunction,
-  type LinksFunction,
-  type LoaderFunction,
-} from '@remix-run/node';
+import { redirect, type MetaFunction, type LinksFunction, type LoaderFunction } from 'react-router';
 import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
@@ -17,7 +11,7 @@ import {
   ErrorUnhandled,
 } from '@myst-theme/site';
 import { getConfig, getPage, getStaticFileUrl } from '~/utils/loaders.server';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData } from 'react-router';
 import type { SiteManifest } from 'myst-config';
 import {
   TabStateProvider,
@@ -35,7 +29,7 @@ import { Footer } from '../components/Footer.js';
 import { Banner } from '../components/Banner.js';
 import { SidebarFooter } from '../components/SidebarFooter.js';
 import type { TemplateOptions } from '../types.js';
-import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
+import { useRouteError, isRouteErrorResponse } from 'react-router';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) => {
@@ -79,7 +73,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
       redirect: process.env.MODE === 'static' ? false : true,
     });
-    return json({ config, page, project });
+    return { config, page, project };
   } catch (e) {
     if (e instanceof Response && e.status === 404) {
       const cdnUrl = await getStaticFileUrl(url.pathname);

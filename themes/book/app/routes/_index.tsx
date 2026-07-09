@@ -4,8 +4,8 @@ import {
   responseNoArticle,
   responseNoSite,
 } from '@myst-theme/site';
-import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import type { LinksFunction, LoaderFunction, MetaFunction } from 'react-router';
+import { redirect } from 'react-router';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import Page from './$';
 import { SiteManifest } from 'myst-config';
@@ -39,7 +39,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   if (!project) throw responseNoArticle();
   if (project.slug) return redirect(`/${project.slug}`);
   const page = await getPage(request, { slug: project.index });
-  return json({ config, page, project });
+  return { config, page, project };
 };
 
 export default Page;

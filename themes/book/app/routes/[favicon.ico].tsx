@@ -1,4 +1,4 @@
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderFunction } from 'react-router';
 import { getFavicon } from '~/utils/loaders.server';
 
 export const loader: LoaderFunction = async (): Promise<Response> => {

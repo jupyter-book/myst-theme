@@ -8,7 +8,7 @@ import {
   forwardRef,
 } from 'react';
 import type { KeyboardEventHandler, Dispatch, SetStateAction, FormEvent, MouseEvent } from 'react';
-import { useFetcher } from '@remix-run/react';
+import { useFetcher } from 'react-router';
 import {
   ArrowTurnDownLeftIcon,
   MagnifyingGlassIcon,

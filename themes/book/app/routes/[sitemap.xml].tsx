@@ -1,5 +1,5 @@
 import { createSitemapResponse, getSiteSlugs, getDomainFromRequest } from '@myst-theme/site';
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderFunction } from 'react-router';
 import { getConfig } from '~/utils/loaders.server';
 
 export const loader: LoaderFunction = async ({ request }): Promise<Response> => {

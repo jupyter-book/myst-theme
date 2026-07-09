@@ -11,7 +11,7 @@ import {
   useSiteManifest,
   withBaseurl,
 } from '@myst-theme/providers';
-import { useLocation, useNavigation } from '@remix-run/react';
+import { useLocation, useNavigation } from 'react-router';
 import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 
 type NestedHeading = Heading & { id: string; children: NestedHeading[] };

@@ -1,7 +1,7 @@
-import { createCookieSessionStorage, json } from '@remix-run/node';
+import { createCookieSessionStorage, data } from 'react-router';
 import { isTheme } from '@myst-theme/providers';
 import type { Theme } from '@myst-theme/providers';
-import type { ActionFunction } from '@remix-run/node';
+import type { ActionFunction } from 'react-router';
 import { serverOnly$ } from 'vite-env-only/macros';
 
 export const themeStorage = createCookieSessionStorage({
@@ -29,16 +29,15 @@ async function serverGetThemeSession(request: Request) {
 
 const serverSetThemeAPI: ActionFunction = async ({ request }) => {
   const themeSession = await serverGetThemeSession(request);
-  const data = await request.json();
-  const { theme } = data ?? {};
+  const { theme } = (await request.json()) ?? {};
   if (!isTheme(theme)) {
-    return json({
+    return {
       success: false,
       message: `Invalid theme: "${theme}".`,
-    });
+    };
   }
   themeSession.setTheme(theme as Theme);
-  return json(
+  return data(
     { success: true, theme },
     {
       headers: { 'Set-Cookie': await themeSession.commit() },

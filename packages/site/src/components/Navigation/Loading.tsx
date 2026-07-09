@@ -1,4 +1,4 @@
-import { useNavigation } from '@remix-run/react';
+import { useNavigation } from 'react-router';
 import { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 
@@ -7,7 +7,10 @@ import classNames from 'classnames';
  */
 export function useLoading() {
   const transitionState = useNavigation().state;
-  const ref = useMemo<{ start?: NodeJS.Timeout; finish?: NodeJS.Timeout }>(() => ({}), []);
+  const ref = useMemo<{
+    start?: ReturnType<typeof setTimeout>;
+    finish?: ReturnType<typeof setTimeout>;
+  }>(() => ({}), []);
   const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {

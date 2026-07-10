@@ -56,7 +56,7 @@ function Video({
   align?: Alignment;
 }) {
   return (
-    <video
+    <video controls
       className={className}
       id={id}
       style={{
@@ -66,12 +66,6 @@ function Video({
       }}
       src={src}
       data-canonical-url={urlSource}
-      autoPlay
-      // For autoplay, the element needs to be muted to actually start!
-      muted
-      webkit-playsinline="true"
-      playsInline
-      loop
     />
   );
 }

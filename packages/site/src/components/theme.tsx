@@ -7,8 +7,9 @@ import { THEME_LOCALSTORAGE_KEY, PREFERS_LIGHT_MQ } from '../hooks/theme.js';
  */
 export function BlockingThemeLoader({ useLocalStorage }: { useLocalStorage: boolean }) {
   const LOCAL_STORAGE_SOURCE = `localStorage.getItem(${JSON.stringify(THEME_LOCALSTORAGE_KEY)})`;
+  const SESSION_STORAGE_SOURCE = `sessionStorage.getItem(${JSON.stringify(THEME_LOCALSTORAGE_KEY)})`;
   const CLIENT_THEME_SOURCE = `
-  const savedTheme = ${useLocalStorage ? LOCAL_STORAGE_SOURCE : 'null'};
+  const savedTheme = ${useLocalStorage ? LOCAL_STORAGE_SOURCE : SESSION_STORAGE_SOURCE};
   const theme = window.matchMedia(${JSON.stringify(PREFERS_LIGHT_MQ)}).matches ? 'light' : 'dark';
   const classes = document.documentElement.classList;
   const hasAnyTheme = classes.contains('light') || classes.contains('dark');

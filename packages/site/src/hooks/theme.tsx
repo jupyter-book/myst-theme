@@ -1,14 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { Theme } from '@myst-theme/common';
 import { isTheme } from '@myst-theme/providers';
-import { postThemeToAPI } from '../actions/theme.js';
 
 export const PREFERS_LIGHT_MQ = '(prefers-color-scheme: light)';
 export const THEME_LOCALSTORAGE_KEY = 'myst:theme';
 
-export function getPreferredTheme() {
+export function getPreferredTheme(defaultTheme: Theme | undefined) {
   if (typeof window !== 'object') {
     return null;
+  }
+  if (defaultTheme !== undefined) {
+    return defaultTheme;
   }
   const mediaQuery = window.matchMedia(PREFERS_LIGHT_MQ);
   return mediaQuery.matches ? Theme.light : Theme.dark;
@@ -30,31 +32,39 @@ export function usePreferredTheme({ setTheme }: { setTheme: (theme: Theme | null
   }, []);
 }
 
+function maybeGetStorage(useLocalStorage: boolean) {
+  if (typeof window !== 'object') {
+    return undefined;
+  }
+  if (useLocalStorage) {
+    return window.localStorage;
+  }
+  return window.sessionStorage;
+}
+
 export function useTheme({
-  ssrTheme,
+  overrideMediaTheme,
   useLocalStorage,
 }: {
-  ssrTheme?: Theme;
+  overrideMediaTheme?: Theme;
   useLocalStorage?: boolean;
 }): [Theme | null, (theme: Theme) => void] {
+  const storage = maybeGetStorage(useLocalStorage ?? false);
   // Here, the initial state on the server without any set cookies will be null.
   // The client will then load the initial state as non-null.
   // Thus, we must mutate the DOM *pre-hydration* to ensure that the initial state is
   // identical to that of the hydrated state, i.e. perform out-of-react DOM updates
   // This is handled by the BlockingThemeLoader component.
   const [theme, setTheme] = React.useState<Theme | null>(() => {
-    if (isTheme(ssrTheme)) {
-      return ssrTheme;
-    }
     // On the server we can't know what the preferred theme is, so leave it up to client
-    if (typeof window !== 'object') {
+    if (storage === undefined) {
       return null;
     }
     // System preferred theme
-    const preferredTheme = getPreferredTheme();
+    const preferredTheme = getPreferredTheme(overrideMediaTheme);
 
     // Local storage preferred theme
-    const savedTheme = localStorage.getItem(THEME_LOCALSTORAGE_KEY);
+    const savedTheme = storage.getItem(THEME_LOCALSTORAGE_KEY);
     return useLocalStorage && isTheme(savedTheme) ? savedTheme : preferredTheme;
   });
 
@@ -73,11 +83,7 @@ export function useTheme({
     if (!isTheme(theme)) {
       return;
     }
-    if (useLocalStorage) {
-      localStorage.setItem(THEME_LOCALSTORAGE_KEY, theme);
-    } else {
-      postThemeToAPI(theme);
-    }
+    storage!.setItem(THEME_LOCALSTORAGE_KEY, theme);
   }, [theme]);
 
   return [theme, setTheme];

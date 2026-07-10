@@ -26,7 +26,6 @@ import {
   useThemeTop,
   useSearchFactory,
   useLinkProvider,
-  withBaseurl,
   useBaseurl,
   useNavigateProvider,
 } from '@myst-theme/providers';
@@ -261,7 +260,7 @@ function SearchResultItem({
   return (
     <Link
       className="block px-1 py-2 text-myst-text-secondary rounded shadow-md group-aria-selected:bg-myst-active group-aria-selected:text-white dark:shadow-none dark:bg-myst-bg-secondary"
-      to={withBaseurl(url, baseurl)}
+      to={url}
       // Close the main search on click
       onClick={closeSearch}
     >
@@ -382,7 +381,6 @@ function SearchResults({
  * Build search implementation by requesting search index from server
  */
 function useSearch() {
-  const baseURL = useBaseurl();
   const fetcher = useFetcher<MystSearchIndex>();
   const [enabled, setEnabled] = useState(true);
   // Load index when this component is required
@@ -390,10 +388,9 @@ function useSearch() {
   //       we should lift the state up
   useEffect(() => {
     if (fetcher.state === 'idle' && fetcher.data == null) {
-      const searchURL = withBaseurl('/myst.search.json', baseURL);
-      fetcher.load(searchURL);
+      fetcher.load('/myst.search.json');
     }
-  }, [fetcher, baseURL]);
+  }, [fetcher]);
 
   const searchFactory = useSearchFactory();
   const search = useMemo(() => {
@@ -479,7 +476,7 @@ function SearchForm({
 
         const url = searchResults[selectedIndex]?.url;
         if (url) {
-          navigate(withBaseurl(url, baseurl));
+          navigate(url);
           closeSearch?.();
         }
       }

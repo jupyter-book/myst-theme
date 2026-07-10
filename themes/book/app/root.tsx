@@ -7,7 +7,6 @@ import {
   Document,
   responseNoSite,
   getMetaTagsForSite,
-  getThemeSession,
   ContentReload,
   SkipTo,
   renderers as defaultRenderers,
@@ -57,13 +56,9 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
   const baseURL = process.env.BASE_URL || undefined;
-  const [config, themeSession] = await Promise.all([
-    getConfig().catch(() => null),
-    getThemeSession(request),
-  ]);
+  const [config] = await Promise.all([getConfig().catch(() => null)]);
   if (!config) throw responseNoSite();
   const data = {
-    theme: themeSession.getTheme(),
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
     MODE: (process.env.MODE ?? 'app') as 'app' | 'static',
@@ -134,14 +129,13 @@ function NoCSSWarning() {
 }
 
 export default function AppWithReload() {
-  const { theme, config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
+  const { config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
 
   return (
     <SearchFactoryProvider factory={searchFactory}>
       <Document
-        theme={theme}
         config={config}
         scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
         staticBuild={MODE === 'static'}

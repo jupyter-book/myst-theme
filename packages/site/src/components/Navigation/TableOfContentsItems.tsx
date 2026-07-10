@@ -9,7 +9,6 @@ import {
   useNavLinkProvider,
   useNavOpen,
   useSiteManifest,
-  withBaseurl,
 } from '@myst-theme/providers';
 import { useLocation, useNavigation } from 'react-router';
 import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
@@ -92,7 +91,6 @@ function LinkItem({
 }) {
   const Link = useLinkProvider();
   const NavLink = useNavLinkProvider();
-  const baseurl = useBaseurl();
   const [, setOpen] = useNavOpen();
   // Render external URL
   const config = useSiteManifest();
@@ -146,7 +144,7 @@ function LinkItem({
         'block break-words focus:outline outline-myst-focus-outline outline-2 rounded',
         className,
       )}
-      to={withBaseurl(heading.path, baseurl)}
+      to={heading.path}
       onClick={() => {
         onClick?.();
         setOpen(false);

@@ -35,7 +35,7 @@ import classNames from 'classnames';
 export function Document({
   children,
   scripts,
-  theme: ssrTheme,
+  theme: overrideMediaTheme,
   config,
   title,
   staticBuild,
@@ -67,14 +67,17 @@ export function Document({
         navigate,
       };
 
-  // (Local) theme state driven by SSR and cookie/localStorage
-  const [theme, setTheme] = useTheme({ ssrTheme: ssrTheme, useLocalStorage: staticBuild });
+  // (Local) theme state driven by session/localStorage
+  const [theme, setTheme] = useTheme({
+    overrideMediaTheme: overrideMediaTheme ?? undefined,
+    useLocalStorage: staticBuild,
+  });
 
   // Inject blocking element to set proper pre-hydration state
   const headAndLoader = (
     <>
       {head}
-      {ssrTheme ? undefined : <BlockingThemeLoader useLocalStorage={!!staticBuild} />}
+      <BlockingThemeLoader useLocalStorage={!!staticBuild} />
     </>
   );
 
@@ -128,7 +131,7 @@ export function DocumentWithoutProviders({
   const { theme } = useThemeSwitcher();
   return (
     // Set the theme during SSR if possible, otherwise leave it up to the BlockingThemeLoader
-    (<html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>
+    <html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -149,7 +152,7 @@ export function DocumentWithoutProviders({
         <Scripts />
         {scripts}
       </body>
-    </html>)
+    </html>
   );
 }
 

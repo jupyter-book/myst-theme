@@ -7,6 +7,7 @@ export default defineConfig({
     port: 3000,
   },
   base: process.env.BASE_URL ?? '/',
+  minify: true,
   plugins: [reactRouter(), envOnlyMacros()],
 
   resolve: { tsconfigPaths: true },

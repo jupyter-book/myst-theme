@@ -24,12 +24,12 @@ import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
 import { useCallback, useEffect, useState } from 'react';
 
-import { loadExtensions } from './bootstrap.js'
+// If use build plugin, you can use `registerRemotes` directly.
+import { registerRemotes } from '@module-federation/enhanced/runtime';
 
 type Extension = {
-        renderers: NodeRenderers;
-}
-
+  renderers: NodeRenderers;
+};
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
@@ -135,14 +135,21 @@ function NoCSSWarning() {
   );
 }
 
-
 export default function AppWithReload() {
   const { config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
   const [renderers, setRenderers] = useState(RENDERERS);
   useEffect(() => {
-          loadExtensions<Extension>((config as any)?.remotes ?? []).then(extensions =>           setRenderers(mergeRenderers([RENDERERS, ...extensions.map(ext=> ext.renderers)])))
+
+    registerRemotes((config as any)?.remotes ?? []);
+    const loadedExtensions =  Promise.all(
+        remotes.map(r => (mf.loadRemote(r.name) as Promise<{default: T}>).then(m => m.default))
+
+ );
+    loadedExtensions.then((extensions) =>
+      setRenderers(mergeRenderers([RENDERERS, ...extensions.map((ext) => ext.renderers)])),
+    );
   }, []);
 
   return (

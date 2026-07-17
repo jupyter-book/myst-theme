@@ -96,14 +96,8 @@ show(p)
 
 ## hvPlot
 
-Enable the Bokeh backend before creating an interactive hvPlot output.
-This configuration is needed when executing a notebook before building a MyST site.
-
 ```{code-cell}
 import hvplot.pandas
-import hvplot
-
-hvplot.extension("bokeh")
 
 df.hvplot.scatter(x="A", y="B", width=400, height=300, title="Interactive Scatter Plot with hvPlot")
 ```

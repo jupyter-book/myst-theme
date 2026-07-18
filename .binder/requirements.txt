@@ -1,6 +1,7 @@
 # Keep in sync with ../docs/requirements.txt
 altair
 bokeh
+hvplot
 jupyter
 matplotlib
 numpy

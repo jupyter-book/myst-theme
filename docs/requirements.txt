@@ -1,6 +1,7 @@
 # Change ../.binder/requirements.txt if you change something here
 altair
 bokeh
+hvplot
 jupyter
 matplotlib
 numpy

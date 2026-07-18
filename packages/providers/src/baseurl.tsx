@@ -64,5 +64,12 @@ export function withBaseurl(url?: string, baseurl?: string) {
   if (!baseurl || isExternalUrl(url)) {
     return url as string;
   }
-  return baseurl + url;
+  if (!url) return baseurl;
+  // Ensure exactly one separating slash, regardless of whether baseurl has a
+  // trailing slash or url has a leading one - url is not always absolute (e.g.
+  // an unresolved cross-reference can fall back to a bare relative path), and
+  // naive concatenation then glues baseurl and url together with no separator.
+  const base = baseurl.replace(/\/+$/, '');
+  const path = url.startsWith('/') ? url : `/${url}`;
+  return base + path;
 }

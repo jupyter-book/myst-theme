@@ -228,7 +228,10 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
           </button>
         </Collapsible.Trigger>
       </div>
-      <Collapsible.Content className="pl-3 pr-[2px] collapsible-content">
+      <Collapsible.Content
+        className="pl-3 pr-[2px] collapsible-content"
+        style={isStaticBuild ? { animation: 'none' } : undefined}
+      >
         {heading.children.map((item) => (
           <NestedToc heading={item} key={item.id} />
         ))}

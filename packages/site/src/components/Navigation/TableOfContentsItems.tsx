@@ -166,8 +166,12 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
   const nav = useNavigation();
   const [open, setOpen] = React.useState(startOpen);
   useEffect(() => {
-    if (nav.state === 'idle') setOpen(startOpen);
-  }, [nav.state]);
+    // On pathname update, derive open state
+    // We don't need heading and baseurl in dependencies, since they're fixed
+    if (nav.state !== 'idle') return;
+    setOpen(childrenOpen([heading], pathname, baseurl).includes(heading.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nav.state, pathname]);
   const exact = pathnameMatchesHeading(pathname, heading, baseurl);
   if (!heading.children || heading.children.length === 0) {
     return (

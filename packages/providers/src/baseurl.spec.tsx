@@ -1,10 +1,34 @@
 import { describe, it, expect } from 'vitest';
-import { withBaseurl, isExternalUrl } from './baseurl.js';
+import { withBaseurl, isExternalUrl, normalizeBaseurl } from './baseurl.js';
+
+describe('normalizeBaseurl', () => {
+  it('strips a trailing slash', () => {
+    expect(normalizeBaseurl('/base/')).toBe('/base');
+  });
+
+  it('strips multiple trailing slashes', () => {
+    expect(normalizeBaseurl('/base///')).toBe('/base');
+  });
+
+  it('leaves a baseurl without a trailing slash unchanged', () => {
+    expect(normalizeBaseurl('/base')).toBe('/base');
+  });
+
+  it('passes through undefined', () => {
+    expect(normalizeBaseurl(undefined)).toBe(undefined);
+  });
+});
 
 describe('withBaseurl', () => {
   it('should prepend baseurl to internal paths', () => {
     expect(withBaseurl('/about', '/base')).toBe('/base/about');
     expect(withBaseurl('/docs/page', '/base')).toBe('/base/docs/page');
+  });
+
+  it('should not produce a double slash when baseurl had a trailing slash, once normalized', () => {
+    // This is how BaseUrlProvider feeds baseurl through in practice - withBaseurl
+    // itself doesn't normalize, so a raw trailing-slash baseurl still double-slashes.
+    expect(withBaseurl('/about', normalizeBaseurl('/base/'))).toBe('/base/about');
   });
 
   it('should NOT prepend baseurl to external URLs', () => {

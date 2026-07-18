@@ -6,6 +6,13 @@ const BaseUrlContext = React.createContext<{
   baseurl?: string;
 }>({});
 
+// A trailing slash would otherwise produce double slashes wherever baseurl is
+// concatenated with a leading-slash path (see withBaseurl below), and breaks
+// matching a pathname back to its baseurl-relative path.
+export function normalizeBaseurl(baseurl?: string) {
+  return baseurl?.replace(/\/+$/, '');
+}
+
 export function BaseUrlProvider({
   baseurl,
   children,
@@ -13,7 +20,11 @@ export function BaseUrlProvider({
   baseurl?: string;
   children: React.ReactNode;
 }) {
-  return <BaseUrlContext.Provider value={{ baseurl }}>{children}</BaseUrlContext.Provider>;
+  return (
+    <BaseUrlContext.Provider value={{ baseurl: normalizeBaseurl(baseurl) }}>
+      {children}
+    </BaseUrlContext.Provider>
+  );
 }
 
 export function useBaseurl() {

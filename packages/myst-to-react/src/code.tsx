@@ -92,7 +92,7 @@ export function CodeBlock(props: Props) {
     <div
       id={identifier}
       className={classNames('relative myst-code group not-prose', className, {
-        'my-5 text-sm shadow hover:shadow-md dark:shadow-2xl dark:shadow-neutral-900': shadow,
+        'my-5 text-sm shadow hover:shadow-md dark:shadow-2xl': shadow,
         'bg-stone-200/10': background,
         'border border-l-4 border-myst-border border-l-myst-link-underline': border,
       })}

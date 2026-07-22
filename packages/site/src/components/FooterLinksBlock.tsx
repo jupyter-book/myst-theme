@@ -17,7 +17,7 @@ export const FooterLink = ({
     <Link
       prefetch="intent"
       className={classNames(
-        'myst-footer-link flex-1 block p-4 font-normal text-myst-text-secondary no-underline border border-myst-border rounded shadow-sm group hover:border-myst-active hover:text-myst-active hover:shadow-lg dark:shadow-neutral-700',
+        'myst-footer-link flex-1 block p-4 font-normal text-myst-text-secondary no-underline border border-myst-border rounded shadow-sm group hover:border-myst-active hover:text-myst-active hover:shadow-lg',
         { 'myst-footer-link-prev': right, 'myst-footer-link-next': !right },
       )}
       to={withBaseurl(url, baseurl)}

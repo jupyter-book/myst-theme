@@ -118,7 +118,7 @@ export function AnyWidgetRenderer({ node }: { node: AnyWidget }) {
 
   if (!isESMModuleUrlValid || !validModel) {
     return (
-      <div className="p-3 space-y-2 rounded-md border border-red-500">
+      <div className="p-3 space-y-2 rounded-md border border-myst-error">
         <div>
           Invalid <code>anywidget</code> directive.
         </div>

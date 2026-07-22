@@ -94,6 +94,14 @@ p.grid.grid_line_alpha = 0.3
 show(p)
 ```
 
+## hvPlot
+
+```{code-cell}
+import hvplot.pandas
+
+df.hvplot.scatter(x="A", y="B", width=400, height=300, title="Interactive Scatter Plot with hvPlot")
+```
+
 ## Text outputs
 
 A simple cell with printed text output for comparison with error outputs below:

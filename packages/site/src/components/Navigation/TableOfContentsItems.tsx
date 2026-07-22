@@ -174,7 +174,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
       <LinkItem
         className={classNames('myst-toc-item p-2 my-1 rounded-lg', {
           'myst-toc-item-exact bg-myst-active-bg': exact,
-          'hover:bg-slate-300/30': !exact,
+          'hover:bg-myst-surface': !exact,
           'font-bold': heading.level === 'index',
         })}
         heading={heading}
@@ -188,7 +188,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
           'myst-toc-item flex flex-row w-full gap-2 pl-2 my-1 text-left rounded-lg outline-none',
           {
             'myst-toc-item-exact bg-myst-active-bg': exact,
-            'hover:bg-slate-300/30': !exact,
+            'hover:bg-myst-surface': !exact,
           },
         )}
       >
@@ -202,7 +202,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
         />
         <Collapsible.Trigger asChild>
           <button
-            className="self-stretch flex items-center flex-none px-1 rounded-l-md group hover:bg-slate-300/30 focus-visible:outline outline-myst-focus-outline outline-2"
+            className="self-stretch flex items-center flex-none px-1 rounded-l-md group hover:bg-myst-surface focus-visible:outline outline-myst-focus-outline outline-2"
             aria-label="Open Folder"
           >
             <ChevronRightIcon

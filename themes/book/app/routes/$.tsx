@@ -111,7 +111,11 @@ function ArticlePageAndNavigationInternal({
       <TabStateProvider>
         {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
       </TabStateProvider>
-      <TopNav hideToc={hide_toc} hideSearch={hideSearch} navbarEnd={projectParts?.navbar_end?.mdast} />
+      <TopNav
+        hideToc={hide_toc}
+        hideSearch={hideSearch}
+        navbarEnd={projectParts?.navbar_end?.mdast}
+      />
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}

@@ -398,6 +398,8 @@
       "version": "1.3.1",
       "dependencies": {
         "@heroicons/react": "^2.0.18",
+        "@module-federation/runtime": "^2.6.0",
+        "@module-federation/runtime-tools": "^2.6.0",
         "@myst-theme/anywidget": "^1.3.1",
         "@myst-theme/common": "^1.3.1",
         "@myst-theme/frontmatter": "^1.3.1",
@@ -1138,6 +1140,18 @@
     "@microsoft/fast-foundation": ["@microsoft/fast-foundation@2.50.0", "", { "dependencies": { "@microsoft/fast-element": "^1.14.0", "@microsoft/fast-web-utilities": "^5.4.1", "tabbable": "^5.2.0", "tslib": "^1.13.0" } }, "sha512-8mFYG88Xea1jZf2TI9Lm/jzZ6RWR8x29r24mGuLojNYqIR2Bl8+hnswoV6laApKdCbGMPKnsAL/O68Q0sRxeVg=="],
 
     "@microsoft/fast-web-utilities": ["@microsoft/fast-web-utilities@5.4.1", "", { "dependencies": { "exenv-es6": "^1.1.1" } }, "sha512-ReWYncndjV3c8D8iq9tp7NcFNc1vbVHvcBFPME2nNFKNbS1XCesYZGlIlf3ot5EmuOXPlrzUHOWzQ2vFpIkqDg=="],
+
+    "@module-federation/error-codes": ["@module-federation/error-codes@2.6.0", "", {}, "sha512-J9opjWJJZ1JI/9EvNZF8Ps1VMHS9EsH/i0UjCkQQxFVYZxSDBX1CFunvc7awac4cY//LqJUfqBbfoQPhCfKKKw=="],
+
+    "@module-federation/runtime": ["@module-federation/runtime@2.6.0", "", { "dependencies": { "@module-federation/error-codes": "2.6.0", "@module-federation/runtime-core": "2.6.0", "@module-federation/sdk": "2.6.0" } }, "sha512-Y8KgL70RDxD8cCtGWGlGkt+TSDleIjdGmS27gnllibQAIgG/vHhPD11r8kd92x44k4dqtMIntzreOphGICl92g=="],
+
+    "@module-federation/runtime-core": ["@module-federation/runtime-core@2.6.0", "", { "dependencies": { "@module-federation/error-codes": "2.6.0", "@module-federation/sdk": "2.6.0" } }, "sha512-9sL7Yj3H3COZI9JpK/J4hmJUBkIJdmowkj6phHuFiy5Hm5bHiE5U+9WBbR9KqTdyNhAVSL9FeprBW5/Io6i59A=="],
+
+    "@module-federation/runtime-tools": ["@module-federation/runtime-tools@2.6.0", "", { "dependencies": { "@module-federation/runtime": "2.6.0", "@module-federation/webpack-bundler-runtime": "2.6.0" } }, "sha512-LfvihAhAWWNWlAL9zM+UDVDSSuLE2ZU0ATJ6dcbJuLstYbHYfUqq2e6IyU8TKLPXIib0VAWqPrT44TPam1VJ7g=="],
+
+    "@module-federation/sdk": ["@module-federation/sdk@2.6.0", "", { "peerDependencies": { "node-fetch": "^2.7.0 || ^3.3.2" }, "optionalPeers": ["node-fetch"] }, "sha512-Z3HT1uDciMrvz2at3sw6TJbAK9Fl7RmoC/8iqO35HDtQMQJ1qSsMIAjnsiCpAC0D4nAm6PIqgSqPWRO/WYgo0Q=="],
+
+    "@module-federation/webpack-bundler-runtime": ["@module-federation/webpack-bundler-runtime@2.6.0", "", { "dependencies": { "@module-federation/error-codes": "2.6.0", "@module-federation/runtime": "2.6.0", "@module-federation/sdk": "2.6.0" } }, "sha512-JjuWOU3ktwDjBWhM4WCoeiErcUxcB5YwUnVjyTMfNJHC3+DMhG4m6ziCl5EJrCv+KaEQdcvXmxLliNZidBZGQg=="],
 
     "@myst-theme/anywidget": ["@myst-theme/anywidget@workspace:packages/anywidget"],
 

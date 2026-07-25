@@ -24,12 +24,11 @@ import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
 import { useCallback, useEffect, useState } from 'react';
 
-import { loadExtensions } from './bootstrap.js'
+import { registerRemotes, loadRemote } from '@module-federation/enhanced/runtime';
 
 type Extension = {
-        renderers: NodeRenderers;
-}
-
+  renderers: NodeRenderers;
+};
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
@@ -135,14 +134,22 @@ function NoCSSWarning() {
   );
 }
 
-
 export default function AppWithReload() {
   const { config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
   const [renderers, setRenderers] = useState(RENDERERS);
   useEffect(() => {
-          loadExtensions<Extension>((config as any)?.remotes ?? []).then(extensions =>           setRenderers(mergeRenderers([RENDERERS, ...extensions.map(ext=> ext.renderers)])))
+    const remotes = (config as any)?.remotes ?? [];
+    registerRemotes(remotes);
+
+    const extensions = Promise.all(
+      remotes
+        .map((r) =>
+          loadRemote(r.name).then((m) => m.default)
+    )).then((extensions) =>
+      setRenderers(mergeRenderers([RENDERERS, ...extensions.map((ext) => ext.renderers)])),
+    );
   }, []);
 
   return (

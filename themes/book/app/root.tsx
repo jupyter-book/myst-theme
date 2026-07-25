@@ -31,11 +31,11 @@ const RENDERERS: NodeRenderers = mergeRenderers([
   ANY_RENDERERS,
 ]);
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
   return getMetaTagsForSite({
-    title: data?.config?.title,
-    description: data?.config?.description,
-    twitter: data?.config?.options?.twitter,
+    title: loaderData?.config?.title,
+    description: loaderData?.config?.description,
+    twitter: loaderData?.config?.options?.twitter,
   });
 };
 

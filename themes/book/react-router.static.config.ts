@@ -68,11 +68,15 @@ function makeRoutes(data: any) {
 }
 export default {
   ssr: false,
-  basename: process.env.BASE_URL??'/',
+  basename: process.env.BASE_URL ?? '/',
   async prerender({ getStaticPaths }) {
     return [...makeRoutes(config).map((r) => (r.url ? r.url : '/')), ...getStaticPaths()];
   },
   future: {
     v8_passThroughRequests: true,
+    v8_middleware: true,
+    v8_splitRouteModules: 'enforce',
+    v8_viteEnvironmentApi: true,
+    v8_trailingSlashAwareDataRequests: true,
   },
 } satisfies Config;

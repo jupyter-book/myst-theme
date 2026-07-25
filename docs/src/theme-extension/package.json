@@ -1,0 +1,17 @@
+{
+  "name": "myst-docs-theme-extension",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun --bun rspack build"
+  },
+  "dependencies": {
+    "@module-federation/runtime-tools": "^2.6.0",
+    "react": "^19.1.0"
+  },
+  "devDependencies": {
+    "@rspack/cli": "^2.0.5",
+    "@rspack/core": "^2.0.5"
+  }
+}

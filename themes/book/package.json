@@ -5,7 +5,7 @@
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "compile": "tsc --noEmit --skipLibCheck",
+    "compile": "bun run build:bootstrap && tsc --noEmit --skipLibCheck",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
     "dev:copy": "cp vite.config.dev.ts vite.config.ts && cp react-router.dynamic.config.ts react-router.config.ts",
     "prod:copy": "cp vite.config.prod.ts vite.config.ts && cp react-router.dynamic.config.ts react-router.config.ts",

@@ -19,3 +19,4 @@ yalc.lock
 
 # This is ignored as it is built
 remix.config.js
+app/bootstrap.ts

@@ -13,11 +13,11 @@ import { getProject } from '@myst-theme/common';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
-  if (!data) return [];
+export const meta: MetaFunction<typeof loader> = ({ loaderData, location }) => {
+  if (!loaderData) return [];
 
-  const config: SiteManifest = data.config;
-  const project: ManifestProject = data.project;
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject = loaderData.project;
 
   return getMetaTagsForArticle({
     origin: '',

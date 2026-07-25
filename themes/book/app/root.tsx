@@ -24,7 +24,8 @@ import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
 import { useCallback, useEffect, useState } from 'react';
 
-import { createInstance } from '@module-federation/runtime';
+import { loadRenderers } from './bootstrap.ts'
+
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
@@ -130,31 +131,13 @@ function NoCSSWarning() {
   );
 }
 
-type SetRenderers = (renderers: NodeRenderers) => void;
-
-async function loadRenderPlugins(setRenderers: SetRenderers): Promise<void> {
-  const mf = createInstance({
-    name: 'host',
-    remotes: [
-      {
-        name: 'custom_heading_renderer',
-        entry: 'http://localhost:8081/custom_heading_renderer.js',
-      },
-    ],
-  });
-
-  const plugins = await Promise.all([mf.loadRemote('custom_heading_renderer').then(m => m.default)]);
-  const renderers = mergeRenderers([RENDERERS, ...plugins])
-  console.dir(renderers)
-  setRenderers(renderers);
-}
 
 export default function AppWithReload() {
   const { config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
   const [renderers, setRenderers] = useState(RENDERERS);
-  useEffect(async () => await loadRenderPlugins(setRenderers), []);
+  useEffect(async () => {const renderers = await loadRenderers(config?.remotes ?? []); setRenderers(mergeRenderers([RENDERERS, ...renderers]))}, []);
 
   return (
     <SearchFactoryProvider factory={searchFactory}>

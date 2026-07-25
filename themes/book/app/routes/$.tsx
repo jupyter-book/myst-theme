@@ -32,12 +32,12 @@ import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from 'react-router';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) => {
-  if (!data) return [];
+export const meta: MetaFunction<typeof loader> = ({ loaderData, matches, location }) => {
+  if (!loaderData) return [];
 
-  const config: SiteManifest = data.config;
-  const project: ManifestProject = data.project;
-  const page: PageLoader['frontmatter'] = data.page.frontmatter;
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject = loaderData.project;
+  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
 
   const siteTitle = config?.title ?? project?.title ?? '';
 

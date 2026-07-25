@@ -103,7 +103,6 @@ async function fetchAsset(asset: string, assetsPath: string) {
 export default {
   ssr: false,
   basename: BASE_URL,
-
   async prerender({ getStaticPaths }) {
     return [...makeRoutes(config).map((r) => (r.url ? r.url : '/')), ...getStaticPaths()];
   },
@@ -137,5 +136,9 @@ export default {
   },
   future: {
     v8_passThroughRequests: true,
+    v8_middleware: true,
+    v8_splitRouteModules: 'enforce',
+    v8_viteEnvironmentApi: true,
+    v8_trailingSlashAwareDataRequests: true,
   },
 } satisfies Config;

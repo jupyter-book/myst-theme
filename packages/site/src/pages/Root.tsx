@@ -10,7 +10,6 @@ import {
 } from '@myst-theme/providers';
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -148,7 +147,6 @@ export function DocumentWithoutProviders({
         </BaseUrlProvider>
         <ScrollRestoration />
         <Scripts />
-        {liveReloadListener && <LiveReload />}
         {scripts}
       </body>
     </html>

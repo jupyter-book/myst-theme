@@ -32,7 +32,7 @@ export const meta: MetaFunction<typeof loader> = ({ loaderData, location }) => {
 
 export const links: LinksFunction = () => [KatexCSS];
 
-export const loader: LoaderFunction = async ({ params, request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const config = await getConfig();
   if (!config) throw responseNoSite();
   const project = getProject(config);

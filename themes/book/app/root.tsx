@@ -56,7 +56,7 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
   const baseURL = process.env.BASE_URL || undefined;
-  const [config] = await Promise.all([getConfig().catch(() => null)]);
+  const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
   const data = {
     config,
@@ -128,7 +128,7 @@ function NoCSSWarning() {
   );
 }
 
-export default function AppWithReload() {
+export default function App() {
   const { config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);

@@ -13,7 +13,7 @@ function api404(message = 'No API route found at this URL') {
   );
 }
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const pathName = '/' + url.pathname.slice(import.meta.env.BASE_URL.length).replace(/\.data$/, '');
   const [first, ...rest] = pathName

@@ -7,13 +7,13 @@ import {
   Document,
   responseNoSite,
   getMetaTagsForSite,
-  getThemeSession,
   ContentReload,
   SkipTo,
   renderers as defaultRenderers,
 } from '@myst-theme/site';
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
-import { Outlet, useLoaderData } from '@remix-run/react';
+import { Outlet, useLoaderData } from 'react-router';
+
 import type { NodeRenderers } from '@myst-theme/providers';
 import { mergeRenderers } from '@myst-theme/providers';
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
@@ -50,7 +50,7 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
   const baseURL = process.env.BASE_URL || undefined;
-  const config =     getConfig().catch(() => null);
+  const config = getConfig().catch(() => null);
   if (!config) throw responseNoSite();
   const data = {
     config,

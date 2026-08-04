@@ -49,8 +49,7 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
-  const baseURL = process.env.BASE_URL || undefined;
-  const config = getConfig().catch(() => null);
+  const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
   const data = {
     config,

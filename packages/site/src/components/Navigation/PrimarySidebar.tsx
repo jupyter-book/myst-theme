@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { useNavigation } from '@remix-run/react';
+import { useNavigation } from 'react-router';
 import type { GenericParent } from 'myst-common';
 import { MyST } from 'myst-to-react';
 import {

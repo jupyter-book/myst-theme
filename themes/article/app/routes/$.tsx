@@ -1,5 +1,11 @@
 import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
-import { data, redirect, type LinksFunction, type LoaderFunction, type MetaFunction } from 'react-router';
+import {
+  data,
+  redirect,
+  type LinksFunction,
+  type LoaderFunction,
+  type MetaFunction,
+} from 'react-router';
 import {
   getMetaTagsForArticle,
   KatexCSS,
@@ -57,7 +63,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
       redirect: process.env.MODE === 'static' ? false : true,
     });
-    return ({ config, project, page });
+    return { config, project, page };
   } catch (e) {
     if (e instanceof Response && e.status === 404) {
       const cdnUrl = await getStaticFileUrl(url.pathname);

@@ -13,7 +13,9 @@ function api404(message = 'No API route found at this URL') {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const [first, ...rest] = new URL(request.url).pathname
+  const url = new URL(request.url);
+  const pathName = '/' + url.pathname.slice(import.meta.env.BASE_URL.length).replace(/\.data$/, '');
+  const [first, ...rest] = pathName
     .slice(1)
     .replace(/\.json$/, '')
     .split('/');

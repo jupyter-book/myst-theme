@@ -8,7 +8,6 @@ import {
   extractKnownParts,
   Footnotes,
 } from '@myst-theme/site';
-import React from 'react';
 import {
   ErrorTray,
   NotebookToolbar,
@@ -24,7 +23,6 @@ import {
   useMediaQuery,
   useProjectManifest,
 } from '@myst-theme/providers';
-import type { GenericParent } from 'myst-common';
 import { copyNode } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import { MyST } from 'myst-to-react';

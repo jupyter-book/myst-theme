@@ -6,14 +6,17 @@
   "scripts": {
     "compile": "tsc --noEmit --skipLibCheck",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
-    "dev:copy": "cp remix.config.dev.js remix.config.js",
-    "prod:copy": "cp remix.config.prod.js remix.config.js",
+    "dev:copy": "cp vite.config.dev.ts vite.config.ts && cp react-router.dynamic.config.ts react-router.config.ts",
+    "prod:copy": "cp vite.config.prod.ts vite.config.ts && cp react-router.dynamic.config.ts react-router.config.ts",
+    "render:copy": "cp vite.config.prod.ts vite.config.ts && cp react-router.static.config.ts react-router.config.ts",
     "clean": "rm -rf public/build build api",
     "build:thebe": "copy-thebe-assets ./public",
-    "prod:build": "bun run prod:copy && bun run build:thebe && bun run build:css && remix build",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
-    "dev": "bun run dev:copy && bun run build:thebe && concurrently \"bun run dev:css\" \"remix dev\"",
-    "start": "bun run build:css && remix dev"
+    "dev": "bun run dev:copy && bun run build:thebe && concurrently \"bun run dev:css\" \"bun run react-router dev\"",
+    "build": "bun run prod:copy && bun run build:thebe && bun run build:css && bun run react-router build",
+    "prod:build": "bun run build",
+    "render": "bun run build:css && bun run build:thebe && bun run render:copy && bun run react-router build",
+    "start": "react-router-serve build/server/index.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
@@ -28,24 +31,27 @@
     "classnames": "^2.3.2",
     "myst-spec-ext": "^1.8.1",
     "myst-to-react": "^1.3.1",
-    "@remix-run/node": "~2.17.0",
-    "@remix-run/react": "~2.17.0",
     "myst-common": "^1.8.1",
     "myst-config": "^1.8.1",
     "myst-migrate": "^1.7.1",
     "node-fetch": "^2.6.11",
-    "thebe-core": "^0.5.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router": "^8.0.0",
+    "@react-router/node": "^8.0.0",
+    "thebe-core": "^0.5.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "~2.17.0",
-    "@remix-run/eslint-config": "~2.17.0",
-    "@remix-run/serve": "~2.17.0",
+    "@react-router/dev": "^8.0.0",
+    "@react-router/fs-routes": "^8.0.0",
+    "@react-router/serve": "^8.0.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node-fetch": "^2.6.4",
     "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0"
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.0.3",
+    "vite": "^8.0.0",
+    "vite-env-only": "^3.0.3"
   },
   "engines": {
     "node": ">=14"

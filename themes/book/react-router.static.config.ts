@@ -1,21 +1,28 @@
 import type { Config } from '@react-router/dev/config';
 
-import { rename, readdir, mkdir, rmdir } from 'node:fs/promises';
-import { relative, join } from 'node:path';
+import { rename, readdir, mkdir, rm, stat } from 'node:fs/promises';
+import { createWriteStream} from 'node:fs';
+import { relative, join ,dirname} from 'node:path';
+import { Readable } from 'node:stream'
 
 // Inputs
 const CONTENT_CDN = process.env.CONTENT_CDN;
 if (CONTENT_CDN === undefined) {
   throw new Error('Expected CONTENT_CDN');
 }
-const BUILD_DIRECTORY = process.env.BUILD_DIRECTORY ?? 'build';
+const BUILD_DIRECTORY = process.env.BUILD_DIRECTORY;
+if (BUILD_DIRECTORY === undefined) {
+  throw new Error('Expected BUILD_DIRECTORY');
+}
 const BASE_URL = process.env.BASE_URL ?? '/';
 
 process.env.MODE = 'static';
 
 // Load site
-const response = await fetch(`${CONTENT_CDN}/config.json`);
-const config = await response.json();
+const [config, sitePublic] = await Promise.all([
+  fetch(`${CONTENT_CDN}/config.json`).then((r) => r.json()),
+  fetch(`${CONTENT_CDN}/public.json`).then((r) => r.json()),
+]);
 
 /**
  * Change from a slug such as `folder.subfolder.index` to a URL (`folder/subfolder`).
@@ -67,13 +74,26 @@ function makeRoutes(data: any) {
         path: makePath(`${page.slug}.json`),
       };
     }),
-    // Download other assets
-    ...['myst.search.json', 'myst.xref.json'].map((asset) => ({
-      url: `${host}/${asset}`,
-      path: asset,
-    })),
   ].flat();
 }
+
+async function fetchAsset(asset: string, assetsPath: string) {
+  const assetPath = asset.slice(1);
+  const url = `${CONTENT_CDN}/${assetPath}`;
+  const resp = await fetch(url);
+  const filename = join(assetsPath, assetPath);
+
+  const dirPath = dirname(filename)
+  if ((await stat(dirPath, {throwIfNoEntry: false})) === undefined) {    await mkdir(dirPath, { recursive: true });
+  }
+  return new Promise<void>(async (resolve, reject) => {
+    const fileWriteStream = createWriteStream(filename);
+    Readable.fromWeb(resp.body!).pipe(fileWriteStream);
+    fileWriteStream.on('error', reject);
+    fileWriteStream.on('finish', resolve);
+  });
+}
+
 export default {
   ssr: false,
   basename: BASE_URL,
@@ -100,11 +120,14 @@ export default {
         }
       }
       // Clean up by removing the base-URL directory.
-      await rmdir(contentRoot, { recursive: true, force: true });
+      await rm(contentRoot, { recursive: true, force: true });
     }
+    // Populate static media
+    const assetsRoot = join(buildRoot, 'build');
+    await Promise.all(sitePublic.map((p) => fetchAsset(p, assetsRoot)));
     // Move build directory to expected location
     // We cannot just set the buildDirectory react-router config, as it breaks prerendering
-    await rmdir(BUILD_DIRECTORY, { recursive: true, force: true });
+    await rm(BUILD_DIRECTORY, { recursive: true, force: true });
     await rename(buildRoot, BUILD_DIRECTORY);
   },
   future: {

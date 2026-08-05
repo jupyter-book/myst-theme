@@ -1,11 +1,19 @@
 import type { Config } from '@react-router/dev/config';
 
+import { rename, readdir, mkdir, rmdir } from 'node:fs/promises';
+import { relative, join } from 'node:path';
+
+// Inputs
 const CONTENT_CDN = process.env.CONTENT_CDN;
 if (CONTENT_CDN === undefined) {
   throw new Error('Expected CONTENT_CDN');
 }
+const BUILD_DIRECTORY = process.env.BUILD_DIRECTORY ?? 'build';
+const BASE_URL = process.env.BASE_URL ?? '/';
+
 process.env.MODE = 'static';
 
+// Load site
 const response = await fetch(`${CONTENT_CDN}/config.json`);
 const config = await response.json();
 
@@ -68,8 +76,34 @@ function makeRoutes(data: any) {
 }
 export default {
   ssr: false,
-  basename: process.env.BASE_URL ?? '/',
+  basename: BASE_URL,
   async prerender({ getStaticPaths }) {
     return [...makeRoutes(config).map((r) => (r.url ? r.url : '/')), ...getStaticPaths()];
+  },
+  async buildEnd({ reactRouterConfig }) {
+    const buildRoot = join(reactRouterConfig.buildDirectory, 'client');
+    // Lift files under <BASE_URL> to the root of the build buildDirectory
+    // This is an annoying react-router bug
+    if (BASE_URL !== '/') {
+      const contentRoot = `${buildRoot}${BASE_URL}`;
+
+      // Move files under build
+      for (const ent of await readdir(contentRoot, { recursive: true, withFileTypes: true })) {
+        const filePath = join(ent.path, ent.name);
+        const newFilePath = join(buildRoot, relative(contentRoot, filePath));
+
+        if (ent.isDirectory()) {
+          await mkdir(newFilePath);
+        } else {
+          await rename(filePath, newFilePath);
+        }
+      }
+      // Clean up by removing the base-URL directory.
+      await rmdir(contentRoot, { recursive: true, force: true });
+    }
+    // Move build directory to expected location
+    // We cannot just set the buildDirectory react-router config, as it breaks prerendering
+    await rmdir(BUILD_DIRECTORY, { recursive: true, force: true });
+    await rename(buildRoot, BUILD_DIRECTORY);
   },
 } satisfies Config;

@@ -15,8 +15,7 @@
     "dev": "bun run dev:copy && bun run build:thebe && concurrently \"bun run dev:css\" \"bun run react-router dev\"",
     "build": "bun run prod:copy && bun run build:thebe && bun run build:css && bun run react-router build",
     "prod:build": "bun run build",
-    "render:fixup": "bun run scripts/fixup.mjs",
-    "render": "bun run build:css && bun run build:thebe && bun run render:copy && bun run react-router build && bun run render:fixup",
+    "render": "bun run build:css && bun run build:thebe && bun run render:copy && bun run react-router build",
     "start": "react-router-serve build/server/index.js"
   },
   "dependencies": {

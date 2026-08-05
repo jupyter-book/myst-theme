@@ -23,7 +23,6 @@ import {
   BannerStateProvider,
 } from '@myst-theme/providers';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
-import { MadeWithMyst } from '@myst-theme/icons';
 import { ArticlePage } from '../components/ArticlePage.js';
 import { Footer } from '../components/Footer.js';
 import { Banner } from '../components/Banner.js';
@@ -32,12 +31,12 @@ import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from 'react-router';
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) => {
-  if (!data) return [];
+export const meta: MetaFunction<typeof loader> = ({ loaderData, location }) => {
+  if (!loaderData) return [];
 
-  const config: SiteManifest = data.config;
-  const project: ManifestProject = data.project;
-  const page: PageLoader['frontmatter'] = data.page.frontmatter;
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject = loaderData.project;
+  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
 
   const siteTitle = config?.title ?? project?.title ?? '';
 
@@ -57,7 +56,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) =
 
 export const links: LinksFunction = () => [KatexCSS];
 
-export const loader: LoaderFunction = async ({ params, request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const pathName = '/' + url.pathname.slice(import.meta.env.BASE_URL.length).replace(/\.data$/, '');
   const [first, ...rest] = parsePathname(pathName);

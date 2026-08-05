@@ -103,7 +103,6 @@ async function fetchAsset(asset: string, assetsPath: string) {
 export default {
   ssr: false,
   basename: BASE_URL,
-
   async prerender({ getStaticPaths }) {
     return [...makeRoutes(config).map((r) => (r.url ? r.url : '/')), ...getStaticPaths()];
   },
@@ -134,8 +133,5 @@ export default {
     // We cannot just set the buildDirectory react-router config, as it breaks prerendering
     await rm(BUILD_DIRECTORY, { recursive: true, force: true });
     await rename(buildRoot, BUILD_DIRECTORY);
-  },
-  future: {
-    v8_passThroughRequests: true,
-  },
+  }
 } satisfies Config;

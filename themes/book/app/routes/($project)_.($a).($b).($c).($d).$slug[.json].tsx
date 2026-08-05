@@ -1,7 +1,7 @@
 import { isFlatSite } from '@myst-theme/common';
 import type { LoaderFunction } from 'react-router';
 import { data } from 'react-router';
-import { getConfig, getMystXrefJson, getMystSearchJson, getPage } from '~/utils/loaders.server';
+import { getConfig, getPage } from '~/utils/loaders.server';
 
 function api404(message = 'No API route found at this URL') {
   return data(
@@ -20,22 +20,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     .slice(1)
     .replace(/\.json$/, '')
     .split('/');
-  // Handle /myst.xref.json as slug
-  if (rest.length === 0 && first === 'myst.xref') {
-    const xref = await getMystXrefJson();
-    if (!xref) {
-      return data({ message: 'myst.xref.json not found', status: 404 }, { status: 404 });
-    }
-    return xref;
-  }
-  // Handle /myst.search.json as slug
-  else if (rest.length === 0 && first === 'myst.search') {
-    const search = await getMystSearchJson();
-    if (!search) {
-      return data({ message: 'myst.search.json not found', status: 404 }, { status: 404 });
-    }
-    return search;
-  }
   const config = await getConfig();
   const flat = isFlatSite(config);
   const project = flat ? undefined : first;

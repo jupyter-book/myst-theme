@@ -41,7 +41,7 @@ function updateLink(
     // pass
   }
   if (rewriteStaticFolder) {
-    return `${import.meta.env.BASE_URL}build${url}`;
+    return `${import.meta.env.BASE_URL}build{url}`;
   }
   return `${CONTENT_CDN}${url}`;
 }

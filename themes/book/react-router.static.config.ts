@@ -74,6 +74,12 @@ function makeRoutes(data: any) {
         path: makePath(`${page.slug}.json`),
       };
     }),
+    ...sitePublic.map((path) => {
+      return {
+        url: `${host}/_static${path}`,
+        path: makePath(`_static${path}`),
+      };
+    }),
   ].flat();
 }
 
@@ -124,7 +130,6 @@ export default {
     }
     // Populate static media
     const assetsRoot = join(buildRoot, 'build');
-    await Promise.all(sitePublic.map((p) => fetchAsset(p, assetsRoot)));
     // Move build directory to expected location
     // We cannot just set the buildDirectory react-router config, as it breaks prerendering
     await rm(BUILD_DIRECTORY, { recursive: true, force: true });

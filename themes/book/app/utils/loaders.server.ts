@@ -19,6 +19,11 @@ const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_P
 
 type LinkRewriteOptions = { rewriteStaticFolder?: boolean };
 
+export function getCDNUrl(path: string): string {
+  return `${CONTENT_CDN}/${path}`;
+}
+
+
 export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest> {
   const url = `${CONTENT_CDN}/config.json`;
   const response = await fetch(url).catch(() => null);
@@ -41,7 +46,7 @@ function updateLink(
     // pass
   }
   if (rewriteStaticFolder) {
-    return `${import.meta.env.BASE_URL}build{url}`;
+    return `${import.meta.env.BASE_URL}build${url}`;
   }
   return `${CONTENT_CDN}${url}`;
 }

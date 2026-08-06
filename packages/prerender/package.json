@@ -1,0 +1,30 @@
+{
+  "name": "@myst-theme/prerender",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "src"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "compile": "tsc --noEmit",
+    "lint": "eslint src/**/*.ts*",
+    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "dev": "npm-run-all --parallel \"build:* -- --watch\"",
+    "build:esm": "tsc",
+    "build": "npm-run-all -l clean -p build:esm"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "react-router": "^8.0.0",
+    "@react-router/dev": "^8.0.0"
+  }
+}

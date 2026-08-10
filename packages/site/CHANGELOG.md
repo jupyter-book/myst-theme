@@ -1,5 +1,42 @@
 # @myst-theme/site
 
+## 1.4.0
+
+### Patch Changes
+
+- 168e19b: Strip trailing slash from `BASE_URL` before use to avoid double slashes in hrefs.
+  This affected the React state of TOC and its expansion.
+  With no trailing slash in `BASE_URL`, have `withBaseurl` always re-insert one separating slash between `baseurl` and `url`.
+
+  For static `myst build --html` exports, clicking a TOC header with a page associated does a reload.
+  Avoid doing a setOpen before (since animation will play once page reload finishes).
+
+  As an additional optimization, for now disable the TOC's open/close CSS animation entirely for static builds—we already have one flash due to the reload, so the animation feels egregious.
+
+  Fix another source of flashing: the dismissible top banner determined its visible/height state (and dependents like the sidebar's position) in a `useEffect`, which runs after the browser paints. Switched to `useLayoutEffect` so that state is settled before the first paint instead of snapping into place a frame later.
+
+- 87f3ee3: Expose accent, neutral, and semantic colors as CSS custom properties for theme customization
+- e923170: Fix top-nav dropdown children ignoring `internal_domains`, so fully-qualified internal URLs open in the same tab instead of always opening in a new tab
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+- 6498c64: Use Jupyter-compatible cell IDs to support deep links
+- babfb2f: Remove `orange`/`purple`/`gray` CSS color tokens.
+  Use `theorem`/`example`/`proof` color schemes instead.
+  Add a dedicated `--myst-color-error` group for UI error states (distinct from the content-level `danger` admonition).
+  Fix some bugs and Tailwind color class usage remaining from the CSS custom properties refactor.
+- Updated dependencies [168e19b]
+- Updated dependencies [87f3ee3]
+- Updated dependencies [9c21b77]
+- Updated dependencies [623f66d]
+- Updated dependencies [6498c64]
+- Updated dependencies [babfb2f]
+  - @myst-theme/providers@1.4.0
+  - myst-to-react@1.4.0
+  - @myst-theme/frontmatter@1.4.0
+  - myst-demo@1.4.0
+  - @myst-theme/diagrams@1.4.0
+  - @myst-theme/common@1.4.0
+  - @myst-theme/search@1.4.0
+
 ## 1.3.1
 
 ### Patch Changes

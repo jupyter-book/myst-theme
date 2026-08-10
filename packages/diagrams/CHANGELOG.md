@@ -1,5 +1,15 @@
 # @myst-theme/diagrams
 
+## 1.4.0
+
+### Patch Changes
+
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+- Updated dependencies [168e19b]
+- Updated dependencies [9c21b77]
+- Updated dependencies [623f66d]
+  - @myst-theme/providers@1.4.0
+
 ## 1.3.1
 
 ### Patch Changes

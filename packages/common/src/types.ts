@@ -11,6 +11,7 @@ export enum Theme {
 export enum ErrorStatus {
   noSite = 'Site was not found',
   noArticle = 'Article was not found',
+  noAsset = 'Static asset was not found',
 }
 
 export type Heading = {

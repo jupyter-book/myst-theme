@@ -15,7 +15,7 @@ import {
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import type { NodeRenderers } from '@myst-theme/providers';
-import { mergeRenderers } from '@myst-theme/providers';
+import { mergeRenderers, normalizeBaseurl } from '@myst-theme/providers';
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
 
@@ -59,7 +59,7 @@ export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> =
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
     MODE: (process.env.MODE ?? 'app') as 'app' | 'static',
-    BASE_URL: process.env.BASE_URL || undefined,
+    BASE_URL: normalizeBaseurl(process.env.BASE_URL) || undefined,
   };
   return data;
 };

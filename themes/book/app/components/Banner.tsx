@@ -1,10 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { MyST } from 'myst-to-react';
 import classNames from 'classnames';
 import type { GenericParent } from 'myst-common';
 import { hashString } from '~/utils/hash';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { useBannerState } from '@myst-theme/providers';
+
+// useLayoutEffect on the client so bannerState.visible/height (and anything
+// that positions off them, e.g. the sidebar) are determined before first paint.
+// `useLayoutEffect` would warn in SSR, so there use `useEffect` instead.
+const useIsomorphicLayoutEffect = typeof document !== 'undefined' ? useLayoutEffect : useEffect;
 
 /**
  * A dismissible banner component at the top that shows content passed as a MyST AST.
@@ -22,7 +27,7 @@ export function Banner({ content, className }: { content: GenericParent; classNa
 
   // Check dismissal state on client side
   // If the banner content changes, the ID will be different and it'll show again
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const el = ref.current;
 
     const dismissed = localStorage.getItem(`myst-dismissed-banner-${bannerId}`) === 'true';

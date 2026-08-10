@@ -80,7 +80,14 @@ export function Document({
   );
 
   return (
-    <ThemeProvider theme={theme} setTheme={setTheme} renderers={renderers} {...links} top={top}>
+    <ThemeProvider
+      theme={theme}
+      setTheme={setTheme}
+      renderers={renderers}
+      {...links}
+      top={top}
+      staticBuild={staticBuild}
+    >
       <DocumentWithoutProviders
         children={children}
         scripts={scripts}

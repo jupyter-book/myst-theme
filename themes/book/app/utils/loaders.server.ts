@@ -150,12 +150,25 @@ export async function getFavicon(): Promise<{
 export async function getCustomStyleSheet(): Promise<string | undefined> {
   // We are always fetching this at run time, so we don't want the rewritten links
   const config = await getConfig({ rewriteStaticFolder: false });
-  const url = config.options?.style;
-  if (!url) {
+  // `style` may be a single URL or, since the option is declared `multiple`, a
+  // list of them. Normalize to an array, fetch each, and concatenate in order
+  // so later stylesheets override earlier ones.
+  const style = config.options?.style;
+  const urls = (Array.isArray(style) ? style : [style]).filter(Boolean);
+  if (urls.length === 0) {
     return;
   }
-  const response = await fetch(url).catch(() => null);
-  if (!response || response.status === 404) return;
-  const css = await response.text();
-  return css;
+  const sheets = await Promise.all(
+    urls.map(async (url) => {
+      const response = await fetch(url).catch(() => null);
+      if (!response || response.status === 404) return undefined;
+      try {
+        return response.text();
+      } catch {
+        return undefined;
+      }
+    }),
+  );
+  const css = sheets.filter(Boolean).join('\n\n');
+  return css || undefined;
 }

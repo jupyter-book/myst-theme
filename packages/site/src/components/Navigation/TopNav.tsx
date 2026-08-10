@@ -8,6 +8,7 @@ import { MyST } from 'myst-to-react';
 import { ThemeButton } from './ThemeButton.js';
 import { Search } from './Search.js';
 import {
+  isExternalUrl,
   useBaseurl,
   useNavLinkProvider,
   useNavOpen,
@@ -24,6 +25,7 @@ export const DEFAULT_NAV_HEIGHT = 60;
 export function NavItem({ item }: { item: SiteNavItem }) {
   const NavLink = useNavLinkProvider();
   const baseurl = useBaseurl();
+  const config = useSiteManifest();
   if (!('children' in item)) {
     return (
       <div className="myst-top-nav-item relative inline-block mx-2 grow-0">
@@ -67,7 +69,7 @@ export function NavItem({ item }: { item: SiteNavItem }) {
             return (
               <Menu.Item key={action.url}>
                 {/* This is really ugly, BUT, the action needs to be defined HERE or the click away doesn't work for some reason */}
-                {action.url?.startsWith('http') ? (
+                {isExternalUrl(action.url, config?.options?.internal_domains) ? (
                   <a
                     href={url}
                     className="myst-top-nav-dropdown-item block px-4 py-2 text-sm text-myst-text hover:bg-myst-surface"

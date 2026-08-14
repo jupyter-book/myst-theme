@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { useNavOpen, useSiteManifest, useThemeTop } from '@myst-theme/providers';
 import { PrimarySidebar } from './PrimarySidebar.js';
 import type { Heading } from '@myst-theme/common';
@@ -96,12 +97,17 @@ export const ConfigurablePrimaryNavigation = ({
 
   return (
     <>
-      {open && !mobileOnly && headings && (
+      {open && !mobileOnly && (
         // Darkened backdrop behind the open sidebar on mobile.
         <div
           // It follows the same top-offset rules as the sidebar: header offset on desktop,
           // full-screen from top on mobile.
-          className="myst-navigation-overlay fixed inset-0 max-xl:z-40 xl:z-30 bg-black opacity-50 max-xl:!mt-0"
+          className={classNames(
+            'myst-navigation-overlay fixed inset-0 max-xl:z-40 xl:z-30 bg-black opacity-50 max-xl:!mt-0',
+            // If there is no TOC then the overlay should hide at lg
+            // If there *is* a TOC then the overlay hides at xl
+            { 'lg:hidden': nav && hide_toc },
+          )}
           style={{ marginTop: top }}
           // Clicking the backdrop is the primary escape path for closing the sidebar.
           onClick={() => setOpen(false)}

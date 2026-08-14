@@ -1,11 +1,14 @@
 ---
-title: Hidden table of contents
+title: Hidden sidebars
 site:
   hide_toc: true
 ---
 
 This page sets `site.hide_toc: true` in its frontmatter, like a landing page.
-It demonstrates the sidebar behavior when there is no table of contents:
+It demonstrates the behavior when there is no table of contents.
+Right now this is mostly to demo sidebar behavior.
+
+## Hidden table of contents
 
 - Below the `lg` breakpoint (1024px), the top-bar nav links collapse into a hamburger menu.
   Opening it shows the sidebar with the nav links, behind a darkened overlay.

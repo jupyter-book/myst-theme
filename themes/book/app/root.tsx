@@ -15,7 +15,7 @@ import {
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { createSearch as createMiniSearch } from '@myst-theme/search-minisearch';
 import { Outlet, useLoaderData } from '@remix-run/react';
-import { SearchFactoryProvider, mergeRenderers } from '@myst-theme/providers';
+import { SearchFactoryProvider, mergeRenderers, normalizeBaseurl } from '@myst-theme/providers';
 import type { NodeRenderers } from '@myst-theme/providers';
 import type { ISearch, MystSearchIndex } from '@myst-theme/search';
 import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
@@ -56,7 +56,7 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
-  const baseURL = process.env.BASE_URL || undefined;
+  const baseURL = normalizeBaseurl(process.env.BASE_URL) || undefined;
   const [config, themeSession] = await Promise.all([
     getConfig().catch(() => null),
     getThemeSession(request),

@@ -6,6 +6,13 @@ const BaseUrlContext = React.createContext<{
   baseurl?: string;
 }>({});
 
+// A trailing slash would otherwise produce double slashes wherever baseurl is
+// concatenated with a leading-slash path (see withBaseurl below), and breaks
+// matching a pathname back to its baseurl-relative path.
+export function normalizeBaseurl(baseurl?: string) {
+  return baseurl?.replace(/\/+$/, '');
+}
+
 export function BaseUrlProvider({
   baseurl,
   children,
@@ -13,7 +20,11 @@ export function BaseUrlProvider({
   baseurl?: string;
   children: React.ReactNode;
 }) {
-  return <BaseUrlContext.Provider value={{ baseurl }}>{children}</BaseUrlContext.Provider>;
+  return (
+    <BaseUrlContext.Provider value={{ baseurl: normalizeBaseurl(baseurl) }}>
+      {children}
+    </BaseUrlContext.Provider>
+  );
 }
 
 export function useBaseurl() {
@@ -53,5 +64,12 @@ export function withBaseurl(url?: string, baseurl?: string) {
   if (!baseurl || isExternalUrl(url)) {
     return url as string;
   }
-  return baseurl + url;
+  if (!url) return baseurl;
+  // Ensure exactly one separating slash, regardless of whether baseurl has a
+  // trailing slash or url has a leading one - url is not always absolute (e.g.
+  // an unresolved cross-reference can fall back to a bare relative path), and
+  // naive concatenation then glues baseurl and url together with no separator.
+  const base = baseurl.replace(/\/+$/, '');
+  const path = url.startsWith('/') ? url : `/${url}`;
+  return base + path;
 }

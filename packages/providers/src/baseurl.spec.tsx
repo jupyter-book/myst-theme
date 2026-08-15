@@ -1,10 +1,46 @@
 import { describe, it, expect } from 'vitest';
-import { withBaseurl, isExternalUrl } from './baseurl.js';
+import { withBaseurl, isExternalUrl, normalizeBaseurl } from './baseurl.js';
+
+describe('normalizeBaseurl', () => {
+  it('strips a trailing slash', () => {
+    expect(normalizeBaseurl('/base/')).toBe('/base');
+  });
+
+  it('strips multiple trailing slashes', () => {
+    expect(normalizeBaseurl('/base///')).toBe('/base');
+  });
+
+  it('leaves a baseurl without a trailing slash unchanged', () => {
+    expect(normalizeBaseurl('/base')).toBe('/base');
+  });
+
+  it('passes through undefined', () => {
+    expect(normalizeBaseurl(undefined)).toBe(undefined);
+  });
+});
 
 describe('withBaseurl', () => {
   it('should prepend baseurl to internal paths', () => {
     expect(withBaseurl('/about', '/base')).toBe('/base/about');
     expect(withBaseurl('/docs/page', '/base')).toBe('/base/docs/page');
+  });
+
+  it('should not produce a double slash when baseurl has a trailing slash', () => {
+    expect(withBaseurl('/about', '/base/')).toBe('/base/about');
+  });
+
+  it('should insert a separator when url has no leading slash', () => {
+    // e.g. an unresolved cross-reference falling back to a bare relative path
+    expect(withBaseurl('guides/docs', '/base')).toBe('/base/guides/docs');
+  });
+
+  it('should not double up the separator when both baseurl has a trailing slash and url lacks a leading one', () => {
+    expect(withBaseurl('guides/docs', '/base/')).toBe('/base/guides/docs');
+  });
+
+  it('should return baseurl unchanged when url is empty', () => {
+    expect(withBaseurl('', '/base')).toBe('/base');
+    expect(withBaseurl(undefined, '/base')).toBe('/base');
   });
 
   it('should NOT prepend baseurl to external URLs', () => {

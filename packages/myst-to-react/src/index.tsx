@@ -27,7 +27,12 @@ import UNKNOWN_MYST_RENDERERS from './unknown.js';
 export { Block } from './block.js';
 export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components/index.js';
 export { CodeBlock } from './code.js';
-export { HashLink, scrollToElement } from './hashLink.js';
+export {
+  HashLink,
+  scrollToElement,
+  parseCellIdFragment,
+  useScrollToCellFragment,
+} from './hashLink.js';
 export { Admonition, AdmonitionKind } from './admonitions.js';
 export { Details } from './dropdown.js';
 export { TabSet, TabItem } from './tabs.js';

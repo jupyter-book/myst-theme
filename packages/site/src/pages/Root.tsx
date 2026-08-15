@@ -27,6 +27,7 @@ import {
   renderers as defaultRenderers,
   BlockingThemeLoader,
 } from '../components/index.js';
+import { useScrollToCellFragment } from 'myst-to-react';
 import { useTheme } from '../hooks/index.js';
 import { Analytics } from '../seo/index.js';
 import { Error404 } from './Error404.js';
@@ -80,7 +81,14 @@ export function Document({
   );
 
   return (
-    <ThemeProvider theme={theme} setTheme={setTheme} renderers={renderers} {...links} top={top}>
+    <ThemeProvider
+      theme={theme}
+      setTheme={setTheme}
+      renderers={renderers}
+      {...links}
+      top={top}
+      staticBuild={staticBuild}
+    >
       <DocumentWithoutProviders
         children={children}
         scripts={scripts}
@@ -127,6 +135,8 @@ export function DocumentWithoutProviders({
   // In static sites, ssrTheme is forever null.
   // if (ssrTheme) { assert(theme === ssrTheme) }
   const { theme } = useThemeSwitcher();
+  // Honor incoming `#cell-id=<id>` notebook-cell deep-links (load + hashchange)
+  useScrollToCellFragment();
   return (
     // Set the theme during SSR if possible, otherwise leave it up to the BlockingThemeLoader
     <html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>

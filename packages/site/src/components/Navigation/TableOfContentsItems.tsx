@@ -5,6 +5,7 @@ import type { Heading } from '@myst-theme/common';
 import {
   isExternalUrl,
   useBaseurl,
+  useIsStaticBuild,
   useLinkProvider,
   useNavLinkProvider,
   useNavOpen,
@@ -51,7 +52,7 @@ function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: st
   // not strip the basename here).
   //
   // Also strip any trailing slash, since static builds end up with one and
-  // `heading.path` is slashless.
+  // `heading.path` needs to be without.
   let normed = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
   if (baseurl && normed.startsWith(baseurl)) normed = normed.slice(baseurl.length);
   const headingPath = heading.path;
@@ -162,12 +163,17 @@ function LinkItem({
 const NestedToc = ({ heading }: { heading: NestedHeading }) => {
   const { pathname } = useLocation();
   const baseurl = useBaseurl();
+  const isStaticBuild = useIsStaticBuild();
   const startOpen = childrenOpen([heading], pathname, baseurl).includes(heading.id);
   const nav = useNavigation();
   const [open, setOpen] = React.useState(startOpen);
   useEffect(() => {
-    if (nav.state === 'idle') setOpen(startOpen);
-  }, [nav.state]);
+    // On pathname update, derive open state
+    // We don't need heading and baseurl in dependencies, since they're fixed
+    if (nav.state !== 'idle') return;
+    setOpen(childrenOpen([heading], pathname, baseurl).includes(heading.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nav.state, pathname]);
   const exact = pathnameMatchesHeading(pathname, heading, baseurl);
   if (!heading.children || heading.children.length === 0) {
     return (
@@ -198,7 +204,16 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
             'cursor-pointer': !heading.path,
           })}
           heading={heading}
-          onClick={() => setOpen(heading.path ? true : !open)}
+          onClick={() => {
+            if (heading.path) {
+              // Clicking a header with its own page navigates away.
+              // We don't want to animate before doing so, since after the reload there will be an animation anyway.
+              // So, only perform the open for non-static build.
+              if (!isStaticBuild) setOpen(true);
+              return;
+            }
+            setOpen(!open);
+          }}
         />
         <Collapsible.Trigger asChild>
           <button
@@ -213,7 +228,10 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
           </button>
         </Collapsible.Trigger>
       </div>
-      <Collapsible.Content className="pl-3 pr-[2px] collapsible-content">
+      <Collapsible.Content
+        className="pl-3 pr-[2px] collapsible-content"
+        style={isStaticBuild ? { animation: 'none' } : undefined}
+      >
         {heading.children.map((item) => (
           <NestedToc heading={item} key={item.id} />
         ))}

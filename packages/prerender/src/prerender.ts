@@ -28,7 +28,6 @@ export async function prerender({ getStaticPaths }: { getStaticPaths: () => stri
   const makeRoutes = (data: any) => {
     const localProj = data.projects[0];
     const baseurl = '';
-    const host = '';
 
     const localProjSlug = localProj.slug ? `/${localProj.slug}` : '';
     if (localProjSlug) {
@@ -41,34 +40,32 @@ export async function prerender({ getStaticPaths }: { getStaticPaths: () => stri
     const siteIndex = baseurl ? `/${localProj.index}` : '';
     const pages = localProj.pages.filter((page: any): page is Page => !!(page as any).slug);
     return [
-      { url: `${host}${localProjSlug}${siteIndex}`, path: makePath('index.html') },
+      { url: `${localProjSlug}${siteIndex}`, path: makePath('index.html') },
       ...pages.map((page: Page) => {
         const pathSubPath = slugToUrl(page.slug);
         return {
-          url: `${host}${localProjSlug}/${pathSubPath}`,
+          url: `${localProjSlug}/${pathSubPath}`,
           path: makePath(`${pathSubPath}/index.html`),
         };
       }),
       // Download all of the configured JSON
       {
-        url: `${host}${localProjSlug}/${localProj.index}.json`,
+        url: `${localProjSlug}/${localProj.index}.json`,
         path: makePath(`${localProj.index}.json`),
       },
       ...pages.map((page: Page) => {
         return {
-          url: `${host}${localProjSlug}/${page.slug}.json`,
+          url: `${localProjSlug}/${page.slug}.json`,
           path: makePath(`${page.slug}.json`),
         };
       }),
       ...sitePublic.map((path: string) => {
         return {
-          url: `${host}/_static${path}`,
+          url: `/_static${path}`,
           path: makePath(`_static${path}`),
         };
       }),
     ].flat();
   };
-  const r = [...makeRoutes(config).map((r) => (r.url ? r.url : '/')), ...getStaticPaths()];
-  console.log(r);
-  return r;
+  return [...makeRoutes(config).map((r) => (r.url ? r.url : '/')), ...getStaticPaths()];
 }

@@ -31,11 +31,11 @@ const RENDERERS: NodeRenderers = mergeRenderers([
   ANY_RENDERERS,
 ]);
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
   return getMetaTagsForSite({
-    title: data?.config?.title,
-    description: data?.config?.description,
-    twitter: data?.config?.options?.twitter,
+    title: loaderData?.config?.title,
+    description: loaderData?.config?.description,
+    twitter: loaderData?.config?.options?.twitter,
   });
 };
 
@@ -56,7 +56,7 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
   const baseURL = process.env.BASE_URL || undefined;
-  const [config] = await Promise.all([getConfig().catch(() => null)]);
+  const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
   const data = {
     config,
@@ -128,7 +128,7 @@ function NoCSSWarning() {
   );
 }
 
-export default function AppWithReload() {
+export default function App() {
   const { config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);

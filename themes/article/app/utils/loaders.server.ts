@@ -10,7 +10,7 @@ import {
   updatePageStaticLinksInplace,
   updateSiteManifestStaticLinksInplace,
 } from '@myst-theme/common';
-import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
+import { responseNoArticle, responseNoSite, getCanonicalSiteUrl } from '@myst-theme/site';
 import { migrate } from 'myst-migrate';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
@@ -92,7 +92,7 @@ export async function getPage(
     if (!loader) throw responseNoArticle();
   }
   const footer = getFooterLinks(config, projectName, slug);
-  return { ...loader, footer, domain: getDomainFromRequest(request), project: projectName };
+  return { ...loader, footer, domain: getCanonicalSiteUrl(request, config), project: projectName };
 }
 
 /**

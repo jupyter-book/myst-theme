@@ -9,7 +9,7 @@ import {
   updateSiteManifestStaticLinksInplace,
 } from '@myst-theme/common';
 import { redirect } from '@remix-run/node';
-import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
+import { responseNoArticle, responseNoSite, getCanonicalSiteUrl } from '@myst-theme/site';
 import type { MystSearchIndex } from '@myst-theme/search';
 import { slugToUrl } from 'myst-common';
 import { migrate } from 'myst-migrate';
@@ -93,7 +93,7 @@ export async function getPage(
     if (!loader) throw responseNoArticle();
   }
   const footer = getFooterLinks(config, projectName, slug);
-  return { ...loader, footer, domain: getDomainFromRequest(request), project: projectName };
+  return { ...loader, footer, domain: getCanonicalSiteUrl(request, config), project: projectName };
 }
 
 /**

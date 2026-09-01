@@ -1,12 +1,56 @@
 import type { GenericNode, GenericParent } from 'myst-common';
 import { extractPart } from 'myst-common';
 import type { PageLoader } from '@myst-theme/common';
-import type { SiteAction } from 'myst-config';
+import type { SiteAction, SiteManifest } from 'myst-config';
 
 export function getDomainFromRequest(request: Request) {
   const url = new URL(request.url);
   const domain = `${url.protocol}//${url.hostname}${url.port ? `:${url.port}` : ''}`;
   return domain;
+}
+
+type SiteManifestWithCanonicalUrl = SiteManifest & { canonical_url?: string };
+
+/**
+ * Normalize an absolute public site URL for use in generated SEO files.
+ */
+export function normalizeCanonicalUrl(value: string, source = 'canonical site URL'): string {
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new Error(`${source} must be an absolute http(s) URL: ${value}`);
+  }
+  if (!['http:', 'https:'].includes(url.protocol)) {
+    throw new Error(`${source} must use http or https: ${value}`);
+  }
+  if (url.search || url.hash) {
+    throw new Error(`${source} must not include a query string or fragment: ${value}`);
+  }
+  return url.href.replace(/\/+$/, '');
+}
+
+/**
+ * Resolve the full public base URL used by sitemaps and robots.txt.
+ */
+export function getCanonicalSiteUrl(request: Request, config?: SiteManifestWithCanonicalUrl) {
+  if (process.env.SITE_URL) {
+    return normalizeCanonicalUrl(process.env.SITE_URL, 'SITE_URL');
+  }
+  if (config?.canonical_url) {
+    return normalizeCanonicalUrl(config.canonical_url, 'site.canonical_url');
+  }
+  if (process.env.READTHEDOCS_CANONICAL_URL) {
+    return normalizeCanonicalUrl(
+      process.env.READTHEDOCS_CANONICAL_URL,
+      'READTHEDOCS_CANONICAL_URL',
+    );
+  }
+  const baseUrl = process.env.BASE_URL;
+  if (baseUrl && !baseUrl.startsWith('/')) {
+    throw new Error(`BASE_URL must be a path beginning with "/": ${baseUrl}`);
+  }
+  return `${getDomainFromRequest(request)}${baseUrl?.replace(/\/$/, '') ?? ''}`;
 }
 
 export type KnownParts = {

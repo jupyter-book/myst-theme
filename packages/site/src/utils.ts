@@ -1,6 +1,7 @@
 import type { GenericNode, GenericParent } from 'myst-common';
 import { extractPart } from 'myst-common';
 import type { PageLoader } from '@myst-theme/common';
+import { normalizeBaseurl } from '@myst-theme/providers';
 import type { SiteAction, SiteManifest } from 'myst-config';
 
 export function getDomainFromRequest(request: Request) {
@@ -27,7 +28,19 @@ export function normalizeCanonicalUrl(value: string, source = 'canonical site UR
   if (url.search || url.hash) {
     throw new Error(`${source} must not include a query string or fragment: ${value}`);
   }
-  return url.href.replace(/\/+$/, '');
+  return normalizeBaseurl(url.href) ?? url.href;
+}
+
+/**
+ * Return the routing and asset prefix configured for this deployment.
+ */
+export function getBaseUrl(): string | undefined {
+  const baseUrl = normalizeBaseurl(process.env.BASE_URL);
+  if (!baseUrl) return undefined;
+  if (!baseUrl.startsWith('/') || baseUrl.startsWith('//') || /[?#]/.test(baseUrl)) {
+    throw new Error(`BASE_URL must be a path beginning with "/": ${baseUrl}`);
+  }
+  return baseUrl;
 }
 
 /**
@@ -46,11 +59,7 @@ export function getCanonicalSiteUrl(request: Request, config?: SiteManifestWithC
       'READTHEDOCS_CANONICAL_URL',
     );
   }
-  const baseUrl = process.env.BASE_URL;
-  if (baseUrl && !baseUrl.startsWith('/')) {
-    throw new Error(`BASE_URL must be a path beginning with "/": ${baseUrl}`);
-  }
-  return `${getDomainFromRequest(request)}${baseUrl?.replace(/\/$/, '') ?? ''}`;
+  return `${getDomainFromRequest(request)}${getBaseUrl() ?? ''}`;
 }
 
 export type KnownParts = {

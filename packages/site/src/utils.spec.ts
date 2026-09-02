@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import type { SiteManifest } from 'myst-config';
 import { createRobotsTxt } from './seo/robots.js';
 import { createSitemap } from './seo/sitemap.js';
-import { getCanonicalSiteUrl, normalizeCanonicalUrl } from './utils.js';
+import { getBaseUrl, getCanonicalSiteUrl, normalizeCanonicalUrl } from './utils.js';
 
 const request = new Request('http://localhost:3000/page');
 const config = (canonical_url?: string) =>
@@ -68,4 +68,21 @@ describe('normalizeCanonicalUrl', () => {
     'https://example.org?q=1',
     'https://example.org#docs',
   ])('rejects %s', (value) => expect(() => normalizeCanonicalUrl(value)).toThrow());
+});
+
+describe('getBaseUrl', () => {
+  it('normalizes a path-only BASE_URL', () => {
+    process.env.BASE_URL = '/repository///';
+    expect(getBaseUrl()).toBe('/repository');
+  });
+
+  it.each([
+    'https://example.org/docs',
+    '//example.org/docs',
+    '/docs?preview=true',
+    '/docs#section',
+  ])('rejects a non-path BASE_URL: %s', (value) => {
+    process.env.BASE_URL = value;
+    expect(() => getBaseUrl()).toThrow();
+  });
 });

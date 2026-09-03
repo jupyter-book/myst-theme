@@ -18,9 +18,10 @@ export async function buildEnd({ reactRouterConfig }: { reactRouterConfig: Resol
   await rm(fallbackPath);
 
   // We do not need the .data files as a result
-  const dataPaths = await glob('*.data', { cwd: buildRoot });
+  // Assume we have files, not dirs
+  const dataPaths = await glob('*.data', { cwd: buildRoot, withFileTypes: true });
   for (const dataPath of dataPaths) {
-    await rm(dataPath);
+    await rm(dataPath.fullpath());
   }
 
   // Lift files under <BASE_URL> to the root of the build buildDirectory

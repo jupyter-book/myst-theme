@@ -55,12 +55,13 @@ export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> =
     getThemeSession(request),
   ]);
   if (!config) throw responseNoSite();
+  const baseURL = getBaseUrl(config);
   const data = {
     theme: themeSession.getTheme(),
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
     MODE: (process.env.MODE ?? 'app') as 'app' | 'static',
-    BASE_URL: getBaseUrl(),
+    BASE_URL: baseURL,
   };
   return data;
 };

@@ -1,7 +1,7 @@
 ---
-"@myst-theme/site": patch
-"@myst-theme/book": patch
-"@myst-theme/article": patch
+'@myst-theme/site': patch
+'@myst-theme/book': patch
+'@myst-theme/article': patch
 ---
 
-Use configured public URLs when generating sitemap and robots files for static deployments.
+Use the configured site URL when generating sitemap, robots, and static HTML files.

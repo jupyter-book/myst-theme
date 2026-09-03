@@ -57,12 +57,12 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
-  const baseURL = getBaseUrl();
   const [config, themeSession] = await Promise.all([
     getConfig().catch(() => null),
     getThemeSession(request),
   ]);
   if (!config) throw responseNoSite();
+  const baseURL = getBaseUrl(config);
   const data = {
     theme: themeSession.getTheme(),
     config,

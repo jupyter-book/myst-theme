@@ -10,12 +10,12 @@ export function getDomainFromRequest(request: Request) {
   return domain;
 }
 
-type SiteManifestWithCanonicalUrl = SiteManifest & { canonical_url?: string };
+type SiteManifestWithUrl = SiteManifest & { url?: string };
 
 /**
- * Normalize an absolute public site URL for use in generated SEO files.
+ * Normalize an absolute public site URL for use in generated site files.
  */
-export function normalizeCanonicalUrl(value: string, source = 'canonical site URL'): string {
+export function normalizeSiteUrl(value: string, source = 'site URL'): string {
   let url: URL;
   try {
     url = new URL(value);
@@ -31,34 +31,44 @@ export function normalizeCanonicalUrl(value: string, source = 'canonical site UR
   return normalizeBaseurl(url.href) ?? url.href;
 }
 
-/**
- * Return the routing and asset prefix configured for this deployment.
- */
-export function getBaseUrl(): string | undefined {
-  const baseUrl = normalizeBaseurl(process.env.BASE_URL);
-  if (!baseUrl) return undefined;
-  if (!baseUrl.startsWith('/') || baseUrl.startsWith('//') || /[?#]/.test(baseUrl)) {
-    throw new Error(`BASE_URL must be a path beginning with "/": ${baseUrl}`);
+function getConfiguredSiteUrl(config?: SiteManifestWithUrl): string | undefined {
+  if (process.env.SITE_URL) {
+    return normalizeSiteUrl(process.env.SITE_URL, 'SITE_URL');
   }
-  return baseUrl;
+  if (config?.url) {
+    return normalizeSiteUrl(config.url, 'site.url');
+  }
+  if (process.env.READTHEDOCS_CANONICAL_URL) {
+    return normalizeSiteUrl(process.env.READTHEDOCS_CANONICAL_URL, 'READTHEDOCS_CANONICAL_URL');
+  }
+  return undefined;
 }
 
 /**
- * Resolve the full public base URL used by sitemaps and robots.txt.
+ * Return the routing and asset prefix configured for this deployment.
  */
-export function getCanonicalSiteUrl(request: Request, config?: SiteManifestWithCanonicalUrl) {
-  if (process.env.SITE_URL) {
-    return normalizeCanonicalUrl(process.env.SITE_URL, 'SITE_URL');
+export function getBaseUrl(config?: SiteManifestWithUrl): string | undefined {
+  const hasBaseUrl = process.env.BASE_URL !== undefined;
+  const baseUrl = normalizeBaseurl(process.env.BASE_URL) || undefined;
+  if (baseUrl && (!baseUrl.startsWith('/') || baseUrl.startsWith('//') || /[?#]/.test(baseUrl))) {
+    throw new Error(`BASE_URL must be a path beginning with "/": ${baseUrl}`);
   }
-  if (config?.canonical_url) {
-    return normalizeCanonicalUrl(config.canonical_url, 'site.canonical_url');
+  const siteUrl = getConfiguredSiteUrl(config);
+  const siteBaseUrl = siteUrl
+    ? normalizeBaseurl(new URL(siteUrl).pathname) || undefined
+    : undefined;
+  if (hasBaseUrl && siteBaseUrl !== undefined && baseUrl !== siteBaseUrl) {
+    throw new Error(`BASE_URL (${baseUrl ?? '/'}) conflicts with the path in ${siteUrl}`);
   }
-  if (process.env.READTHEDOCS_CANONICAL_URL) {
-    return normalizeCanonicalUrl(
-      process.env.READTHEDOCS_CANONICAL_URL,
-      'READTHEDOCS_CANONICAL_URL',
-    );
-  }
+  return baseUrl ?? siteBaseUrl;
+}
+
+/**
+ * Resolve the full public base URL used by generated site files.
+ */
+export function getSiteUrl(request: Request, config?: SiteManifestWithUrl) {
+  const siteUrl = getConfiguredSiteUrl(config);
+  if (siteUrl) return siteUrl;
   return `${getDomainFromRequest(request)}${getBaseUrl() ?? ''}`;
 }
 

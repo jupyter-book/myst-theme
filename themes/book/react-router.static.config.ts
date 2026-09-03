@@ -1,5 +1,4 @@
 import type { Config } from '@react-router/dev/config';
-import { Readable } from 'node:stream';
 import { config as prerenderConfig } from '@myst-theme/prerender';
 
 // Inputs

@@ -95,6 +95,7 @@ build:
 files:
   - server.js
   - package.json
-  - package-lock.json
+  - bun.lock
+  - bunfig.toml
   - public/**/*
   - build/**/*

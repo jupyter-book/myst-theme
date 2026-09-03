@@ -7,6 +7,7 @@ node_modules
 .turbo
 .yalc
 yalc.lock
+.react-router
 
 /public/build
 /public/*thebe*
@@ -18,4 +19,5 @@ yalc.lock
 /app/styles/app.css
 
 # This is ignored as it is built
-remix.config.js
+vite.config.ts
+react-router.config.ts

@@ -22,7 +22,9 @@
     "build:esm": "tsc",
     "build": "npm-run-all -l clean -p build:esm"
   },
-  "dependencies": {},
+  "dependencies": {
+    "glob": "^13.0.0"
+  },
   "peerDependencies": {
     "react-router": "^8.0.0",
     "@react-router/dev": "^8.0.0"

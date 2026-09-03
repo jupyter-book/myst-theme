@@ -263,7 +263,8 @@ export function FrontmatterBlock({
   const hasBadges = !!open_access || !!license || !!hasExports || !!isJupyter || !!github;
   const hasHeaders = !!subject || !!venue || !!volume || !!issue;
   const hasDateOrDoi = !!doi || !!date;
-  const showHeaderBlock = !!breadcrumbs || hasHeaders || (hasBadges && !hideBadges) || (hasExports && !hideExports);
+  const showHeaderBlock =
+    !!breadcrumbs || hasHeaders || (hasBadges && !hideBadges) || (hasExports && !hideExports);
   const hideLaunch: boolean = false;
 
   if (!title && !subtitle && !showHeaderBlock && !hasAuthors && !hasDateOrDoi) {

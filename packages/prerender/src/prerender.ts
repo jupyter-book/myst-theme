@@ -61,8 +61,8 @@ export async function prerender({ getStaticPaths }: { getStaticPaths: () => stri
       }),
       ...sitePublic.map((path: string) => {
         return {
-          url: `/_static${path}`,
-          path: makePath(`_static${path}`),
+          url: `/build${path}`,
+          path: makePath(`build${path}`),
         };
       }),
     ].flat();

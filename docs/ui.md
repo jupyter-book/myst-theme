@@ -50,6 +50,16 @@ site:
           url: /reference
 ```
 
+(breadcrumbs)=
+## Breadcrumbs
+
+The book theme shows a breadcrumb trail above the page title, for example `🏠 › Reference › Admonitions`.
+The trail follows the nesting of your table of contents in `myst.yml`, using each page's `short_title` when set.
+Sections that have a title but no page of their own appear as plain text.
+The article theme does not show breadcrumbs.
+
+Turn breadcrumbs off with [`hide_breadcrumbs`](#hide-breadcrumbs).
+
 ## Banner
 
 Display an announcement bar at the top of your site.
@@ -173,6 +183,16 @@ Hide the right sidebar document outline.
 site:
   options:
     hide_outline: true
+```
+
+### Hide Breadcrumbs
+
+Hide the [breadcrumb trail](#breadcrumbs) shown above the page title.
+
+```yaml
+site:
+  options:
+    hide_breadcrumbs: true
 ```
 
 ### Hide Title Block

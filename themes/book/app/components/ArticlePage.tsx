@@ -8,6 +8,7 @@ import {
 } from '@myst-theme/providers';
 import {
   Bibliography,
+  Breadcrumbs,
   FooterLinksBlock,
   FrontmatterParts,
   BackmatterParts,
@@ -16,7 +17,7 @@ import {
   Footnotes,
 } from '@myst-theme/site';
 import type { SiteManifest } from 'myst-config';
-import type { PageLoader } from '@myst-theme/common';
+import { getBreadcrumbs, type PageLoader } from '@myst-theme/common';
 import { copyNode, type GenericParent } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {
@@ -65,13 +66,21 @@ export const ArticlePage = React.memo(function ({
   const top = useThemeTop();
 
   const pageDesign: TemplateOptions = (article.frontmatter as any)?.site ?? {};
+  const siteManifest = useSiteManifest();
   const siteDesign: TemplateOptions =
-    (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
-  const { hide_title_block, hide_footer_links, hide_outline, outline_maxdepth, hide_authors } = {
-    ...siteDesign,
-    ...pageDesign,
-  };
+    (siteManifest as SiteManifest & TemplateOptions)?.options ?? {};
+  const {
+    hide_title_block,
+    hide_footer_links,
+    hide_outline,
+    hide_breadcrumbs,
+    outline_maxdepth,
+    hide_authors,
+  } = { ...siteDesign, ...pageDesign };
   const downloads = combineDownloads(manifest?.downloads, article.frontmatter);
+  const breadcrumbs = hide_breadcrumbs
+    ? []
+    : getBreadcrumbs(siteManifest, article.project, article.slug);
   const tree = copyNode(article.mdast);
   const keywords = article.frontmatter?.keywords ?? [];
   const parts = extractKnownParts(tree, article.frontmatter?.parts);
@@ -95,6 +104,7 @@ export const ArticlePage = React.memo(function ({
               thebe={thebe}
               location={location}
               hideAuthors={hide_authors}
+              breadcrumbs={breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} />}
             />
           )}
           {!hide_outline && (

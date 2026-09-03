@@ -3,7 +3,7 @@ import { walkOutputs } from 'nbtx';
 import type { SiteManifest } from 'myst-config';
 import { selectAll } from 'unist-util-select';
 import type { Image as ImageSpec, Link as LinkSpec } from 'myst-spec';
-import type { FooterLinks, Heading, NavigationLink, PageLoader } from './types.js';
+import type { BreadcrumbItem, FooterLinks, Heading, NavigationLink, PageLoader } from './types.js';
 import type { GenericParent } from 'myst-common';
 import { slugToUrl } from 'myst-common';
 
@@ -92,6 +92,41 @@ export function getFooterLinks(
     navigation: { prev, next },
   };
   return footer;
+}
+
+/**
+ * Build a breadcrumb trail for a given page using the site manifest + page slug.
+ * Ancestors without a slug, e.g. a "Part" heading, are included without a path.
+ */
+export function getBreadcrumbs(
+  config?: SiteManifest,
+  projectSlug?: string,
+  slug?: string,
+): BreadcrumbItem[] {
+  if (!slug || !config) return [];
+  const headings = getProjectHeadings(config, projectSlug) ?? [];
+  const found = headings.findIndex((h) => h.slug === slug);
+  if (found <= 0) return []; // unknown slug, or the project index itself
+  // These functions pull our metadata for each breadcrumb item
+  const titleOf = (h: Heading) => h.short_title || h.title;
+  const asItem = (h: Heading): BreadcrumbItem => ({ title: titleOf(h), path: h.path });
+  // Now build up the breadcrumb items by walking the ancestors of the page
+  const trail: BreadcrumbItem[] = [];
+  let level = headings[found].level as number;
+  for (let i = found - 1; i >= 0; i--) {
+    const h = headings[i];
+    // If we're at the top, it's time to stop!
+    if (h.level === 'index') {
+      trail.unshift(asItem(h));
+      break;
+    }
+    if (h.level < level) {
+      level = h.level;
+      trail.unshift(asItem(h));
+    }
+  }
+  trail.push({ title: titleOf(headings[found]) });
+  return trail;
 }
 
 type UpdateUrl = (url: string) => string;

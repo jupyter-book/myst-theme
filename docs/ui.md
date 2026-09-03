@@ -55,10 +55,15 @@ site:
 
 The book theme shows a breadcrumb trail above the page title, for example `🏠 › Reference › Admonitions`.
 The trail follows the nesting of your table of contents in `myst.yml`, using each page's `short_title` when set.
-Sections that have a title but no page of their own appear as plain text.
-The article theme does not show breadcrumbs.
 
 Turn breadcrumbs off with [`hide_breadcrumbs`](#hide-breadcrumbs).
+
+A few notes:
+
+- Sections that have a title but no page of their own appear as plain text.
+- If you're using numbered sections, they will *not* show up in the breadcrumbs.
+- If you set a `subject:` for the page, it'll show up to the right of the breadcrumbs.
+- The article theme does not show breadcrumbs.
 
 ## Banner
 

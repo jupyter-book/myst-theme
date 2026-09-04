@@ -1,12 +1,75 @@
 import type { GenericNode, GenericParent } from 'myst-common';
 import { extractPart } from 'myst-common';
 import type { PageLoader } from '@myst-theme/common';
-import type { SiteAction } from 'myst-config';
+import { normalizeBaseurl } from '@myst-theme/providers';
+import type { SiteAction, SiteManifest } from 'myst-config';
 
 export function getDomainFromRequest(request: Request) {
   const url = new URL(request.url);
   const domain = `${url.protocol}//${url.hostname}${url.port ? `:${url.port}` : ''}`;
   return domain;
+}
+
+type SiteManifestWithUrl = SiteManifest & { url?: string };
+
+/**
+ * Normalize an absolute public site URL for use in generated site files.
+ */
+export function normalizeSiteUrl(value: string, source = 'site URL'): string {
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new Error(`${source} must be an absolute http(s) URL: ${value}`);
+  }
+  if (!['http:', 'https:'].includes(url.protocol)) {
+    throw new Error(`${source} must use http or https: ${value}`);
+  }
+  if (url.search || url.hash) {
+    throw new Error(`${source} must not include a query string or fragment: ${value}`);
+  }
+  return normalizeBaseurl(url.href) ?? url.href;
+}
+
+function getConfiguredSiteUrl(config?: SiteManifestWithUrl): string | undefined {
+  if (process.env.SITE_URL) {
+    return normalizeSiteUrl(process.env.SITE_URL, 'SITE_URL');
+  }
+  if (config?.url) {
+    return normalizeSiteUrl(config.url, 'site.url');
+  }
+  if (process.env.READTHEDOCS_CANONICAL_URL) {
+    return normalizeSiteUrl(process.env.READTHEDOCS_CANONICAL_URL, 'READTHEDOCS_CANONICAL_URL');
+  }
+  return undefined;
+}
+
+/**
+ * Return the routing and asset prefix configured for this deployment.
+ */
+export function getBaseUrl(config?: SiteManifestWithUrl): string | undefined {
+  const hasBaseUrl = process.env.BASE_URL !== undefined;
+  const baseUrl = normalizeBaseurl(process.env.BASE_URL) || undefined;
+  if (baseUrl && (!baseUrl.startsWith('/') || baseUrl.startsWith('//') || /[?#]/.test(baseUrl))) {
+    throw new Error(`BASE_URL must be a path beginning with "/": ${baseUrl}`);
+  }
+  const siteUrl = getConfiguredSiteUrl(config);
+  const siteBaseUrl = siteUrl
+    ? normalizeBaseurl(new URL(siteUrl).pathname) || undefined
+    : undefined;
+  if (hasBaseUrl && siteBaseUrl !== undefined && baseUrl !== siteBaseUrl) {
+    throw new Error(`BASE_URL (${baseUrl ?? '/'}) conflicts with the path in ${siteUrl}`);
+  }
+  return baseUrl ?? siteBaseUrl;
+}
+
+/**
+ * Resolve the full public base URL used by generated site files.
+ */
+export function getSiteUrl(request: Request, config?: SiteManifestWithUrl) {
+  const siteUrl = getConfiguredSiteUrl(config);
+  if (siteUrl) return siteUrl;
+  return `${getDomainFromRequest(request)}${getBaseUrl() ?? ''}`;
 }
 
 export type KnownParts = {

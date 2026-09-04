@@ -74,7 +74,7 @@ def query_project_field(pr_number, github_token):
     if "errors" in data:
         messages = [e.get("message", str(e)) for e in data["errors"]]
         print(f"Warning: GitHub API errors: {'; '.join(messages)}", file=sys.stderr)
-        sys.exit(1)
+        return None
 
     nodes = (
         data.get("data", {})
@@ -102,9 +102,16 @@ def main():
         print(f"https://github.com/{repo_owner}/mystmd.git {branch}")
         sys.exit(0)
 
+    # Netlify deliberately withholds environment variables from deploy previews
+    # created from forks.  A preview should still be buildable in that case; it
+    # simply cannot read the optional project-board override.
     if github_token is None:
-        print("No GITHUB_TOKEN set; exiting.", file=sys.stderr)
-        sys.exit(1)
+        print(
+            "No GITHUB_TOKEN set; using the default mystmd branch.",
+            file=sys.stderr,
+        )
+        print(f"https://github.com/{repo_owner}/mystmd.git {branch}")
+        sys.exit(0)
 
     try:
         value = query_project_field(int(review_id), github_token)
@@ -114,8 +121,10 @@ def main():
             else:
                 branch = value
     except Exception as e:
-        print(f"Warning: failed to query mystmd-branch: {e}", file=sys.stderr)
-        sys.exit(1)
+        print(
+            f"Warning: failed to query mystmd-branch; using the default branch: {e}",
+            file=sys.stderr,
+        )
 
     print(f"https://github.com/{repo_owner}/mystmd.git {branch}")
 

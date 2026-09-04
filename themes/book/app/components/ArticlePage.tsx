@@ -113,7 +113,7 @@ export const ArticlePage = React.memo(function ({
               style={{ top }}
             >
               <DocumentOutline
-                className="relative mt-9"
+                className="relative mt-7"
                 maxdepth={outline_maxdepth}
                 isMargin={isOutlineMargin}
               />

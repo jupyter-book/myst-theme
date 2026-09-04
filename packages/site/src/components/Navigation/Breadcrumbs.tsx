@@ -8,7 +8,7 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   const baseurl = useBaseurl();
   const Link = useLinkProvider();
   return (
-    <nav aria-label="Breadcrumb" className="myst-breadcrumbs min-w-0 mr-2">
+    <nav aria-label="Breadcrumb" className="myst-breadcrumbs not-prose min-w-0 mr-2">
       <ol className="flex flex-wrap items-center gap-1 pl-0 my-0 list-none text-myst-text-secondary">
         {items.map((item, index) => {
           const isFirst = index === 0;

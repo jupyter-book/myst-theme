@@ -225,6 +225,7 @@ export function FrontmatterBlock({
   className,
   thebe,
   location,
+  breadcrumbs,
 }: {
   frontmatter: Omit<PageFrontmatter, 'parts'>;
   kind?: SourceFileKind;
@@ -235,6 +236,7 @@ export function FrontmatterBlock({
   className?: string;
   thebe?: ExpandedThebeFrontmatter;
   location?: string;
+  breadcrumbs?: React.ReactNode;
 }) {
   if (!frontmatter) return null;
   const {
@@ -261,7 +263,8 @@ export function FrontmatterBlock({
   const hasBadges = !!open_access || !!license || !!hasExports || !!isJupyter || !!github;
   const hasHeaders = !!subject || !!venue || !!volume || !!issue;
   const hasDateOrDoi = !!doi || !!date;
-  const showHeaderBlock = hasHeaders || (hasBadges && !hideBadges) || (hasExports && !hideExports);
+  const showHeaderBlock =
+    !!breadcrumbs || hasHeaders || (hasBadges && !hideBadges) || (hasExports && !hideExports);
   const hideLaunch: boolean = false;
 
   if (!title && !subtitle && !showHeaderBlock && !hasAuthors && !hasDateOrDoi) {
@@ -275,10 +278,12 @@ export function FrontmatterBlock({
       className={classNames('myst-fm-block', className)}
     >
       {showHeaderBlock && (
-        <div className="myst-fm-block-header flex items-center mb-5 h-6 text-sm font-light">
+        <div className="myst-fm-block-header flex items-center mb-5 min-h-[1.5rem] text-sm font-light">
+          {breadcrumbs}
           {subject && (
             <div
               className={classNames('myst-fm-block-subject flex-none pr-2 smallcaps', {
+                'pl-2 border-l': breadcrumbs, // if we have breadcrumbs, add a left border
                 'mr-2 border-r': venue,
               })}
             >

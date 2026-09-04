@@ -23,6 +23,9 @@ options:
     id: hide_outline
     description: Hide the document outline on all pages
   - type: boolean
+    id: hide_breadcrumbs
+    description: Hide the breadcrumb trail above the page title
+  - type: boolean
     id: hide_title_block
     description: Hide the document title on all pages
   - type: boolean

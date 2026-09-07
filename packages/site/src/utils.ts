@@ -1,12 +1,30 @@
 import type { GenericNode, GenericParent } from 'myst-common';
 import { extractPart } from 'myst-common';
 import type { PageLoader } from '@myst-theme/common';
-import type { SiteAction } from 'myst-config';
+import { resolveSiteUrls } from 'myst-config';
+import type { SiteAction, SiteManifest } from 'myst-config';
 
 export function getDomainFromRequest(request: Request) {
   const url = new URL(request.url);
   const domain = `${url.protocol}//${url.hostname}${url.port ? `:${url.port}` : ''}`;
   return domain;
+}
+
+export { normalizeSiteUrl } from 'myst-config';
+
+/**
+ * Return the routing and asset prefix configured for this deployment.
+ */
+export function getBaseUrl(config?: SiteManifest): string | undefined {
+  return resolveSiteUrls({ url: config?.url, env: process.env }).baseUrl;
+}
+
+/**
+ * Resolve the full public base URL used by generated site files.
+ */
+export function getSiteUrl(request: Request, config?: SiteManifest) {
+  const { siteUrl, baseUrl } = resolveSiteUrls({ url: config?.url, env: process.env });
+  return siteUrl ?? `${getDomainFromRequest(request)}${baseUrl ?? ''}`;
 }
 
 export type KnownParts = {

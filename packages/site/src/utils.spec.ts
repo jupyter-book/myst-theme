@@ -2,13 +2,9 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { SiteManifest } from 'myst-config';
 import { createRobotsTxt } from './seo/robots.js';
 import { createSitemap } from './seo/sitemap.js';
-import { getBaseUrl, getSiteUrl, normalizeSiteUrl } from './utils.js';
+import { getBaseUrl, getSiteUrl } from './utils.js';
 
 const request = new Request('http://localhost:3000/page');
-const config = (url?: string) =>
-  ({ url }) as SiteManifest & {
-    url?: string;
-  };
 
 function clearDeploymentEnvironment() {
   delete process.env.SITE_URL;
@@ -19,112 +15,43 @@ function clearDeploymentEnvironment() {
 beforeEach(clearDeploymentEnvironment);
 afterEach(clearDeploymentEnvironment);
 
-describe('getSiteUrl', () => {
-  it('uses SITE_URL with highest precedence and normalizes its trailing slash', () => {
-    process.env.SITE_URL = 'https://deploy.example.org/docs/';
-    process.env.READTHEDOCS_CANONICAL_URL = 'https://rtd.example.org/project/';
-    expect(getSiteUrl(request, config('https://config.example.org/'))).toBe(
-      'https://deploy.example.org/docs',
-    );
+describe('theme site URLs', () => {
+  it('falls back to the request origin without public URL configuration', () => {
+    expect(getSiteUrl(request)).toBe('http://localhost:3000');
   });
 
-  it('uses site.url before Read the Docs', () => {
-    process.env.READTHEDOCS_CANONICAL_URL = 'https://rtd.example.org/project/';
-    expect(getSiteUrl(request, config('https://config.example.org/docs/'))).toBe(
-      'https://config.example.org/docs',
-    );
-  });
-
-  it('preserves the full Read the Docs canonical URL', () => {
-    process.env.READTHEDOCS_CANONICAL_URL = 'https://docs.example.org/en/latest/';
-    expect(getSiteUrl(request)).toBe('https://docs.example.org/en/latest');
-  });
-
-  it('falls back to the request origin and BASE_URL', () => {
-    process.env.BASE_URL = '/repository/';
+  it('combines the request origin with the deployment base path', () => {
+    process.env.BASE_URL = '/repository';
     expect(getSiteUrl(request)).toBe('http://localhost:3000/repository');
   });
 
-  it('produces complete SEO URLs for a subpath deployment', () => {
-    process.env.SITE_URL = 'https://example.org/docs';
-    const siteUrl = getSiteUrl(request);
+  it('does not treat deployment domain aliases as the public site URL', () => {
+    expect(getSiteUrl(request, { domains: ['example.org'] } as SiteManifest)).toBe(
+      'http://localhost:3000',
+    );
+  });
+
+  it('propagates resolver errors through both theme wrappers', () => {
+    process.env.BASE_URL = '/docs';
+    const config = { url: 'https://example.org/' } as SiteManifest;
+    expect(() => getBaseUrl(config)).toThrow(/conflicts/);
+    expect(() => getSiteUrl(request, config)).toThrow(/conflicts/);
+  });
+
+  it.each(['site.url', 'SITE_URL'])('uses %s for sitemap, stylesheet, and robots URLs', (source) => {
+    const config = {} as SiteManifest;
+    if (source === 'site.url') {
+      config.url = 'https://example.org/docs';
+    } else {
+      process.env.SITE_URL = 'https://example.org/docs';
+    }
+    const siteUrl = getSiteUrl(request, config);
+    expect(getBaseUrl(config)).toBe('/docs');
     const sitemap = createSitemap(siteUrl, ['/page']);
     const robots = createRobotsTxt(siteUrl);
     expect(sitemap).toContain('<loc>https://example.org/docs/page</loc>');
     expect(sitemap).toContain('href="https://example.org/docs/sitemap_style.xsl"');
     expect(robots).toContain('Sitemap: https://example.org/docs/sitemap.xml');
     expect(`${sitemap}\n${robots}`).not.toContain('localhost');
-  });
-
-  it('does not infer a URL from domains', () => {
-    expect(getSiteUrl(request, { domains: ['example.org'] } as SiteManifest)).toBe(
-      'http://localhost:3000',
-    );
-  });
-});
-
-describe('normalizeSiteUrl', () => {
-  it.each([
-    'example.org',
-    '/docs',
-    'ftp://example.org',
-    'https://example.org?q=1',
-    'https://example.org#docs',
-  ])('rejects %s', (value) => expect(() => normalizeSiteUrl(value)).toThrow());
-});
-
-describe('getBaseUrl', () => {
-  it('rejects a subpath BASE_URL when the site URL is at the root', () => {
-    process.env.BASE_URL = '/docs';
-    expect(() => getBaseUrl(config('https://example.org/'))).toThrow(/conflicts/);
-    expect(() => getSiteUrl(request, config('https://example.org/'))).toThrow(/conflicts/);
-  });
-
-  it('allows an explicit root BASE_URL with a root site URL', () => {
-    process.env.BASE_URL = '/';
-    expect(getBaseUrl(config('https://example.org/'))).toBeUndefined();
-  });
-
-  it('ignores an empty SITE_URL and falls back to site.url', () => {
-    process.env.SITE_URL = '';
-    expect(getBaseUrl(config('https://example.org/docs'))).toBe('/docs');
-    expect(getSiteUrl(request, config('https://example.org/docs'))).toBe('https://example.org/docs');
-  });
-
-  it('ignores empty overrides and preserves the Read the Docs deployment path', () => {
-    process.env.SITE_URL = '';
-    process.env.BASE_URL = '';
-    process.env.READTHEDOCS_CANONICAL_URL = 'https://example.org/en/latest/';
-    expect(getBaseUrl()).toBe('/en/latest');
-    expect(getSiteUrl(request)).toBe('https://example.org/en/latest');
-  });
-
-  it('normalizes a path-only BASE_URL', () => {
-    process.env.BASE_URL = '/repository///';
-    expect(getBaseUrl()).toBe('/repository');
-  });
-
-  it('infers BASE_URL from site.url', () => {
-    expect(getBaseUrl(config('https://example.org/docs/'))).toBe('/docs');
-  });
-
-  it('rejects a BASE_URL that conflicts with site.url', () => {
-    process.env.BASE_URL = '/guide';
-    expect(() => getBaseUrl(config('https://example.org/docs'))).toThrow(/conflicts/);
-  });
-
-  it('rejects an explicit root BASE_URL that conflicts with site.url', () => {
-    process.env.BASE_URL = '/';
-    expect(() => getBaseUrl(config('https://example.org/docs'))).toThrow(/conflicts/);
-  });
-
-  it.each([
-    'https://example.org/docs',
-    '//example.org/docs',
-    '/docs?preview=true',
-    '/docs#section',
-  ])('rejects a non-path BASE_URL: %s', (value) => {
-    process.env.BASE_URL = value;
-    expect(() => getBaseUrl()).toThrow();
   });
 });

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { SiteManifest } from 'myst-config';
 import { createRobotsTxt } from './seo/robots.js';
 import { createSitemap } from './seo/sitemap.js';
@@ -10,11 +10,14 @@ const config = (url?: string) =>
     url?: string;
   };
 
-afterEach(() => {
+function clearDeploymentEnvironment() {
   delete process.env.SITE_URL;
   delete process.env.BASE_URL;
   delete process.env.READTHEDOCS_CANONICAL_URL;
-});
+}
+
+beforeEach(clearDeploymentEnvironment);
+afterEach(clearDeploymentEnvironment);
 
 describe('getSiteUrl', () => {
   it('uses SITE_URL with highest precedence and normalizes its trailing slash', () => {
@@ -74,6 +77,7 @@ describe('getBaseUrl', () => {
   it('rejects a subpath BASE_URL when the site URL is at the root', () => {
     process.env.BASE_URL = '/docs';
     expect(() => getBaseUrl(config('https://example.org/'))).toThrow(/conflicts/);
+    expect(() => getSiteUrl(request, config('https://example.org/'))).toThrow(/conflicts/);
   });
 
   it('allows an explicit root BASE_URL with a root site URL', () => {

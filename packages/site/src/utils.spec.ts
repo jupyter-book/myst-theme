@@ -71,6 +71,30 @@ describe('normalizeSiteUrl', () => {
 });
 
 describe('getBaseUrl', () => {
+  it('rejects a subpath BASE_URL when the site URL is at the root', () => {
+    process.env.BASE_URL = '/docs';
+    expect(() => getBaseUrl(config('https://example.org/'))).toThrow(/conflicts/);
+  });
+
+  it('allows an explicit root BASE_URL with a root site URL', () => {
+    process.env.BASE_URL = '/';
+    expect(getBaseUrl(config('https://example.org/'))).toBeUndefined();
+  });
+
+  it('ignores an empty SITE_URL and falls back to site.url', () => {
+    process.env.SITE_URL = '';
+    expect(getBaseUrl(config('https://example.org/docs'))).toBe('/docs');
+    expect(getSiteUrl(request, config('https://example.org/docs'))).toBe('https://example.org/docs');
+  });
+
+  it('ignores empty overrides and preserves the Read the Docs deployment path', () => {
+    process.env.SITE_URL = '';
+    process.env.BASE_URL = '';
+    process.env.READTHEDOCS_CANONICAL_URL = 'https://example.org/en/latest/';
+    expect(getBaseUrl()).toBe('/en/latest');
+    expect(getSiteUrl(request)).toBe('https://example.org/en/latest');
+  });
+
   it('normalizes a path-only BASE_URL', () => {
     process.env.BASE_URL = '/repository///';
     expect(getBaseUrl()).toBe('/repository');

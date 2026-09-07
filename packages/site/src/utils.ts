@@ -48,7 +48,7 @@ function getConfiguredSiteUrl(config?: SiteManifestWithUrl): string | undefined 
  * Return the routing and asset prefix configured for this deployment.
  */
 export function getBaseUrl(config?: SiteManifestWithUrl): string | undefined {
-  const hasBaseUrl = process.env.BASE_URL !== undefined;
+  const hasBaseUrl = !!process.env.BASE_URL;
   const baseUrl = normalizeBaseurl(process.env.BASE_URL) || undefined;
   if (baseUrl && (!baseUrl.startsWith('/') || baseUrl.startsWith('//') || /[?#]/.test(baseUrl))) {
     throw new Error(`BASE_URL must be a path beginning with "/": ${baseUrl}`);
@@ -57,7 +57,7 @@ export function getBaseUrl(config?: SiteManifestWithUrl): string | undefined {
   const siteBaseUrl = siteUrl
     ? normalizeBaseurl(new URL(siteUrl).pathname) || undefined
     : undefined;
-  if (hasBaseUrl && siteBaseUrl !== undefined && baseUrl !== siteBaseUrl) {
+  if (hasBaseUrl && siteUrl !== undefined && baseUrl !== siteBaseUrl) {
     throw new Error(`BASE_URL (${baseUrl ?? '/'}) conflicts with the path in ${siteUrl}`);
   }
   return baseUrl ?? siteBaseUrl;

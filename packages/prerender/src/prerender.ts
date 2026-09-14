@@ -11,8 +11,12 @@ export async function prerender({ getStaticPaths }: { getStaticPaths: () => stri
   }
 
   // Load site
-  const config: SiteManifest = await fetch(`${cdn}/config.json`).then((r) => r.json());
-  const sitePublic: string[] = await fetch(`${cdn}/public.json`).then((r) => r.json());
+  const [configResponse, publicResponse] = await Promise.all([
+    fetch(`${cdn}/config.json`),
+    fetch(`${cdn}/public.json`),
+  ]);
+  const config: SiteManifest = await configResponse.json();
+  const sitePublic: string[] = await publicResponse.json();
 
   /**
    * Change from a slug such as `folder.subfolder.index` to a URL (`folder/subfolder`).
@@ -61,8 +65,8 @@ export async function prerender({ getStaticPaths }: { getStaticPaths: () => stri
       }),
       ...sitePublic.map((path: string) => {
         return {
-          url: `/_static${path}`,
-          path: makePath(`_static${path}`),
+          url: `/build${path}`,
+          path: makePath(`build${path}`),
         };
       }),
     ].flat();

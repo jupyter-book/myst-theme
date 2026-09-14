@@ -102,7 +102,7 @@ async function fetchAsset(asset: string, assetsPath: string) {
 }
 
 export default {
-  ssr: true,
+  ssr: false,
   basename: BASE_URL,
 
   async prerender({ getStaticPaths }) {

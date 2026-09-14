@@ -1,38 +1,56 @@
-import { PassThrough } from 'node:stream';
-import type { EntryContext } from 'react-router';
-import { createReadableStreamFromReadable } from '@react-router/node';
-import { ServerRouter } from 'react-router';
-import { renderToPipeableStream } from 'react-dom/server';
+import { renderToReadableStream } from 'react-dom/server'
+import type { EntryContext, RouterContextProvider } from 'react-router'
+import { ServerRouter } from 'react-router'
 
-export default function handleRequest(
+export const streamTimeout = 5_000
+
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   routerContext: EntryContext,
+  _loadContext: RouterContextProvider,
 ) {
-  return new Promise((resolve, reject) => {
-    const { pipe, abort } = renderToPipeableStream(
-      <ServerRouter context={routerContext} url={request.url} />,
-      {
-        onShellReady() {
-          responseHeaders.set('Content-Type', 'text/html');
+  // https://httpwg.org/specs/rfc9110.html#HEAD
+  if (request.method.toUpperCase() === 'HEAD') {
+    return new Response(null, {
+      status: responseStatusCode,
+      headers: responseHeaders,
+    })
+  }
 
-          const body = new PassThrough();
-          const stream = createReadableStreamFromReadable(body);
+  let shellRendered = false
 
-          resolve(
-            new Response(stream, {
-              headers: responseHeaders,
-              status: responseStatusCode,
-            }),
-          );
-
-          pipe(body);
-        },
-        onShellError(error: unknown) {
-          reject(error);
-        },
+  const body = await renderToReadableStream(
+    <ServerRouter context={routerContext} url={request.url} />,
+    {
+      signal: AbortSignal.timeout(streamTimeout + 1000),
+      onError(error: unknown) {
+        responseStatusCode = 500
+        // Log streaming rendering errors from inside the shell. Don't log
+        // errors encountered during initial shell rendering since they'll
+        // reject and get logged in handleDocumentRequest.
+        if (shellRendered) {
+          console.error(error)
+        }
       },
-    );
-  });
+    },
+  )
+  shellRendered = true
+
+  // Ensure requests from bots and SPA Mode renders wait for all content to load before responding
+  // https://react.dev/reference/react-dom/server/renderToPipeableStream#waiting-for-all-content-to-load-for-crawlers-and-static-generation
+  if (
+    // when creating a fully static build, disable streaming so we get pure HTML with no JS deps
+    !!process.env.VITE_ENV_STATIC_BUILD ||
+    routerContext.isSpaMode
+  ) {
+    await body.allReady
+  }
+
+  responseHeaders.set('Content-Type', 'text/html')
+  return new Response(body, {
+    headers: responseHeaders,
+    status: responseStatusCode,
+  })
 }

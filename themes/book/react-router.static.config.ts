@@ -17,6 +17,7 @@ if (BUILD_DIRECTORY === undefined) {
 const BASE_URL = process.env.BASE_URL ?? '/';
 
 process.env.MODE = 'static';
+process.env.VITE_ENV_STATIC_BUILD = true;
 
 // Load site
 const [config, sitePublic] = await Promise.all([
@@ -101,7 +102,7 @@ async function fetchAsset(asset: string, assetsPath: string) {
 }
 
 export default {
-  ssr: false,
+  ssr: true,
   basename: BASE_URL,
 
   async prerender({ getStaticPaths }) {

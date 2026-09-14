@@ -3,15 +3,12 @@ module.exports = {
   appDirectory: 'app',
   assetsBuildDirectory: 'public/build',
   serverBuildPath: 'build/index.js',
-  serverMinify: true,
+  serverModuleFormat: 'cjs',
   publicPath: '/myst_assets_folder/',
   ignoredRouteFiles: ['**/.*'],
   serverDependenciesToBundle: [/.*/],
-  future: {
-    v2_routeConvention: true,
-    v2_normalizeFormMethod: true,
-    v2_headers: true,
-    v2_meta: true,
-    v2_errorBoundary:true,
-  },
+  // For now, turn these off to retain our existing behaviour
+  // TODO: remove these
+  postcss: false,
+  tailwind: false,
 };

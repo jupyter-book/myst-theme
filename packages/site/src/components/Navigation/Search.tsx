@@ -383,7 +383,7 @@ function SearchResults({
  */
 function useSearch() {
   const baseURL = useBaseurl();
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<MystSearchIndex>();
   const [enabled, setEnabled] = useState(true);
   // Load index when this component is required
   // TODO: this reloads every time the search box is opened.
@@ -401,7 +401,7 @@ function useSearch() {
       return undefined;
     } else {
       if (fetcher.data?.version && fetcher.data?.records) {
-        return searchFactory(fetcher.data as MystSearchIndex);
+        return searchFactory(fetcher.data);
       }
       setEnabled(false);
       return undefined;

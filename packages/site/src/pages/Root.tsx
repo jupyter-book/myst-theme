@@ -100,7 +100,6 @@ export function Document({
         liveReloadListener={!staticBuild}
         baseurl={baseurl}
         top={top}
-        staticBuild={staticBuild}
       />
     </ThemeProvider>
   );
@@ -113,7 +112,6 @@ export function DocumentWithoutProviders({
   config,
   title,
   baseurl,
-  staticBuild,
   top = DEFAULT_NAV_HEIGHT,
   liveReloadListener,
 }: {
@@ -126,7 +124,6 @@ export function DocumentWithoutProviders({
   useLocalStorageForDarkMode?: boolean;
   top?: number;
   theme?: Theme;
-  staticBuild?: boolean;
   liveReloadListener?: boolean;
 }) {
   // Theme value from theme context. For a clean page load (no cookies), both ssrTheme and theme are null
@@ -161,12 +158,8 @@ export function DocumentWithoutProviders({
         <BaseUrlProvider baseurl={baseurl}>
           <SiteProvider config={config}>{children}</SiteProvider>
         </BaseUrlProvider>
-        {!staticBuild && (
-          <>
-            <ScrollRestoration />
-            <Scripts />
-          </>
-        )}
+        <ScrollRestoration />
+        <Scripts />
         {scripts}
       </body>
     </html>

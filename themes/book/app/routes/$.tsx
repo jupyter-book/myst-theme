@@ -71,7 +71,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       project: flat ? projectName : (projectName ?? slug),
       slug: flat ? slug : projectName ? slug : undefined,
       // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
-      redirect: process.env.MODE === 'static' ? false : true,
+      redirect: !process.env.VITE_ENV_STATIC_BUILD,
     });
     return { config, page, project };
   } catch (e) {

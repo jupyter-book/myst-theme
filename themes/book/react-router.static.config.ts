@@ -4,8 +4,7 @@ import { config as prerenderConfig } from '@myst-theme/prerender';
 
 // Inputs
 const BASE_URL = process.env.BASE_URL ?? '/';
-process.env.MODE = 'static';
-process.env.VITE_ENV_STATIC_BUILD = true;
+process.env.VITE_ENV_STATIC_BUILD = '1';
 
 export default {
   ssr: false,

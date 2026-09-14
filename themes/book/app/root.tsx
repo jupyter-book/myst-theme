@@ -61,7 +61,7 @@ export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> =
   const data = {
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
-    MODE: (process.env.MODE ?? 'app') as 'app' | 'static',
+    MODE: !!process.env.VITE_ENV_STATIC_BUILD ? 'static' : 'app',
     BASE_URL: baseURL,
   };
   return data;

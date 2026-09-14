@@ -23,7 +23,6 @@ export function getCDNUrl(path: string): string {
   return `${CONTENT_CDN}/${path}`;
 }
 
-
 export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest> {
   const url = `${CONTENT_CDN}/config.json`;
   const response = await fetch(url).catch(() => null);
@@ -36,7 +35,7 @@ export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest
 
 function updateLink(
   url: string,
-  { rewriteStaticFolder = process.env.MODE === 'static' }: LinkRewriteOptions = {},
+  { rewriteStaticFolder = !!process.env.VITE_ENV_STATIC_BUILD }: LinkRewriteOptions = {},
 ) {
   if (!url) return url;
   try {

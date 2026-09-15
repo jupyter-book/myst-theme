@@ -1,5 +1,6 @@
 import { rename, readdir, mkdir, rm } from 'node:fs/promises';
 import { relative, join } from 'node:path';
+import { glob } from 'glob';
 
 export interface ResolvedConfig {
   buildDirectory: string;
@@ -11,6 +12,18 @@ export async function buildEnd({ reactRouterConfig }: { reactRouterConfig: Resol
   const destDirectory = process.env.MYST_BUILD_DIRECTORY;
 
   const buildRoot = join(buildDirectory, 'client');
+
+  // We do not need an SPA fallback
+  const fallbackPath = join(buildRoot, '__spa-fallback.html');
+  await rm(fallbackPath);
+
+  // We do not need the .data files as a result
+  // Assume we have files, not dirs
+  const dataPaths = await glob('*.data', { cwd: buildRoot, withFileTypes: true });
+  for (const dataPath of dataPaths) {
+    await rm(dataPath.fullpath());
+  }
+
   // Lift files under <BASE_URL> to the root of the build buildDirectory
   // This is an annoying react-router bug
   if (basename !== '/') {

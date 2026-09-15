@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
-    "@react-router/node": "~7.0.0",
+    "@react-router/node": "~8.0.0",
     "@tailwindcss/typography": "^0.5.9",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -75,8 +75,8 @@
     "@types/react-dom": "^19.2.3"
   },
   "dependencies": {
-    "@react-router/dev": "^7.0.0",
-    "@react-router/serve": "^7.0.0",
-    "react-router": "^7.0.0"
+    "@react-router/dev": "^8.0.0",
+    "@react-router/serve": "^8.0.0",
+    "react-router": "^8.0.0"
   }
 }

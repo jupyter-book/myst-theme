@@ -21,11 +21,7 @@ function allDefined(meta: Record<string, string | null | undefined>): MetaDescri
   return Object.fromEntries(Object.entries(meta).filter(([, v]) => v)) as MetaDescriptor;
 }
 
-export function getMetaTagsForSite_V1({
-  title,
-  description,
-  twitter,
-}: SocialSite): MetaDescriptor {
+export function getMetaTagsForSite_V1({ title, description, twitter }: SocialSite): MetaDescriptor {
   const meta = {
     title,
     description,
@@ -34,11 +30,7 @@ export function getMetaTagsForSite_V1({
   return allDefined(meta);
 }
 
-export function getMetaTagsForSite({
-  title,
-  description,
-  twitter,
-}: SocialSite): MetaDescriptor[] {
+export function getMetaTagsForSite({ title, description, twitter }: SocialSite): MetaDescriptor[] {
   const meta: MetaDescriptor[] = [
     { title },
     { property: 'og:title', content: title },

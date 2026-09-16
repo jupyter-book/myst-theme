@@ -16,7 +16,7 @@ build-theme:
 	git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME)
 	cp template/bunfig.toml .deploy/$(THEME)
 	cp bun.lock .deploy/$(THEME)
-	cp -r themes/$(THEME)/ .deploy/$(THEME) \;
+	cp -r themes/$(THEME)/ .deploy/$(THEME)
 	git clean -fx .deploy/$(THEME) 
 
 build-article:

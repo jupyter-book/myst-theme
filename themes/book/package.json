@@ -5,7 +5,7 @@
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "compile": "tsc --noEmit --skipLibCheck",
+    "compile": "react-router typegen && tsc --noEmit --skipLibCheck",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
     "clean": "rm -rf public/build build api",
     "build:thebe": "bun run copy-thebe-assets ./public",

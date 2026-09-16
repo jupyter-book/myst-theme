@@ -15,8 +15,8 @@ export async function prerender({ getStaticPaths }: { getStaticPaths: () => stri
     fetch(`${cdn}/config.json`),
     fetch(`${cdn}/public.json`),
   ]);
-  const config: SiteManifest = await configResponse.json();
-  const sitePublic: string[] = await publicResponse.json();
+  const config = (await configResponse.json()) as SiteManifest;
+  const sitePublic = (await publicResponse.json()) as string[];
 
   /**
    * Change from a slug such as `folder.subfolder.index` to a URL (`folder/subfolder`).

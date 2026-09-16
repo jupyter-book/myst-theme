@@ -1,7 +1,5 @@
 import fetch from 'node-fetch';
-import { redirect } from 'react-router';
 import type { SiteManifest } from 'myst-config';
-import { slugToUrl } from 'myst-common';
 import {
   MYST_SPEC_VERSION,
   type PageLoader,
@@ -10,13 +8,22 @@ import {
   updatePageStaticLinksInplace,
   updateSiteManifestStaticLinksInplace,
 } from '@myst-theme/common';
+import { redirect } from 'react-router';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
+import type { MystSearchIndex } from '@myst-theme/search';
+import { slugToUrl } from 'myst-common';
 import { migrate } from 'myst-migrate';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`;
 
-type LinkRewriteOptions = { rewriteStaticFolder?: boolean };
+interface LinkRewriteOptions {
+  rewriteStaticFolder?: boolean;
+}
+
+export function getCDNUrl(path: string): string {
+  return `${CONTENT_CDN}/${path}`;
+}
 
 export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest> {
   const url = `${CONTENT_CDN}/config.json`;
@@ -36,14 +43,16 @@ function updateLink(
   try {
     const parsed = new URL(url);
     if (parsed.protocol.startsWith('http')) return url;
-  } catch (error) {
+  } catch {
+    console.error(`Unable to rewrite link: ${url}`);
     // pass
   }
   if (rewriteStaticFolder) {
-    return `/myst_assets_folder${url}`;
+    return `${import.meta.env.BASE_URL}build${url}`;
   }
   return `${CONTENT_CDN}${url}`;
 }
+
 async function getStaticContent(project?: string, slug?: string): Promise<PageLoader | null> {
   if (!slug) return null;
   const projectSlug = project ? `${project}/` : '';
@@ -70,7 +79,7 @@ export async function getPage(
     slug?: string;
     redirect?: boolean;
   },
-) {
+): Promise<PageLoader> {
   const projectName = opts.project;
   const config = await getConfig();
   if (!config) throw responseNoSite();
@@ -86,7 +95,6 @@ export async function getPage(
   let slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
   let loader = await getStaticContent(projectName, slug).catch(() => null);
   if (!loader) {
-    // If you haven't loaded the first time, try the `.index`
     slug = `${slug}.index`;
     loader = await getStaticContent(projectName, slug).catch(() => null);
     if (!loader) throw responseNoArticle();
@@ -107,25 +115,27 @@ export async function getStaticFileUrl(pathname: string): Promise<string | null>
 }
 
 export async function getObjectsInv(): Promise<ArrayBuffer | null> {
-  const url = updateLink('/objects.inv');
+  const url = `${CONTENT_CDN}/objects.inv`;
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
   return response.arrayBuffer();
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getMystXrefJson(): Promise<Record<string, any> | null> {
-  const url = updateLink('/myst.xref.json');
+  const url = `${CONTENT_CDN}/myst.xref.json`;
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
   const xrefs = await response.json();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   xrefs.references?.forEach((ref: any) => {
     ref.data = ref.data?.replace(/^\/content/, '');
   });
   return xrefs;
 }
 
-export async function getMystSearchJson(): Promise<Record<string, any> | null> {
-  const url = updateLink('/myst.search.json');
+export async function getMystSearchJson(): Promise<MystSearchIndex | null> {
+  const url = `${CONTENT_CDN}/myst.search.json`;
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
   return await response.json();
@@ -158,3 +168,4 @@ export async function getCustomStyleSheet(): Promise<string | undefined> {
   const css = await response.text();
   return css;
 }
+

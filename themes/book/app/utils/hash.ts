@@ -1,7 +1,7 @@
 /**
  * Generates a SHA-256 hash from a string
  */
-export async function hashString(content: string): string {
+export async function hashString(content: string): Promise<string> {
   const msgUint8 = new TextEncoder().encode(content); // encode as (utf-8) Uint8Array
   const hashBuffer = await globalThis.crypto.subtle.digest('SHA-256', msgUint8); // hash the message
   if (Uint8Array.prototype.toHex) {

@@ -64,7 +64,7 @@ export type PageLoader = {
   sha256: string;
   slug: string;
   domain: string; // This is written in at render time in the site
-  project: string; // This is written in at render time in the site
+  project: string | undefined; // This is written in at render time in the site
   frontmatter: PageFrontmatterWithDownloads;
   mdast: GenericParent;
   references: References;

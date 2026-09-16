@@ -13,10 +13,6 @@ export async function buildEnd({ reactRouterConfig }: { reactRouterConfig: Resol
 
   const buildRoot = join(buildDirectory, 'client');
 
-  // We do not need an SPA fallback
-  const fallbackPath = join(buildRoot, '__spa-fallback.html');
-  await rm(fallbackPath);
-
   // We do not need the .data files as a result
   // Assume we have files, not dirs
   const dataPaths = await glob('*.data', { cwd: buildRoot, withFileTypes: true });
@@ -25,8 +21,16 @@ export async function buildEnd({ reactRouterConfig }: { reactRouterConfig: Resol
   }
 
   // Lift files under <BASE_URL> to the root of the build buildDirectory
-  // This is an annoying react-router bug
-  if (basename !== '/') {
+  // This is an annoying react-router (8) bug
+  if (basename === '/') {
+    // We do not need an SPA fallback
+    const fallbackPath = join(buildRoot, '__spa-fallback.html');
+    await rm(fallbackPath);
+  } else {
+    // We do not need an SPA fallback
+    const fallbackPath = join(buildRoot, 'index.html');
+    await rm(fallbackPath);
+
     const contentRoot = `${buildRoot}${basename}`;
 
     // Move files under build

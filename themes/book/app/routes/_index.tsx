@@ -9,6 +9,7 @@ import { getConfig, getPage } from '~/utils/loaders.server';
 import Page from './$';
 import { SiteManifest } from 'myst-config';
 import { getProject } from '@myst-theme/common';
+
 import type { Route } from './+types/_index';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];

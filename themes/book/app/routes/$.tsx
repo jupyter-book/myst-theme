@@ -1,4 +1,4 @@
-import { redirect, type LinksFunction } from 'react-router';
+import { redirect } from 'react-router';
 import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,

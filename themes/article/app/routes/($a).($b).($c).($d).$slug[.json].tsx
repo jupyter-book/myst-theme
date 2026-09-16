@@ -1,6 +1,7 @@
-import type { LoaderFunction } from 'react-router';
 import { data } from 'react-router';
 import { getMystXrefJson, getMystSearchJson, getPage } from '~/utils/loaders.server';
+
+import type { Route } from './+types/($a).($b).($c).($d).$slug[.json]';
 
 function api404(message = 'No API route found at this URL') {
   return data(
@@ -12,7 +13,7 @@ function api404(message = 'No API route found at this URL') {
   );
 }
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const pathName = '/' + url.pathname.slice(import.meta.env.BASE_URL.length).replace(/\.data$/, '');
   const [first, ...rest] = pathName
@@ -43,4 +44,4 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       'Access-Control-Allow-Origin': '*',
     },
   });
-};
+}

@@ -25,14 +25,6 @@ const RENDERERS: NodeRenderers = mergeRenderers([
   ANY_RENDERERS,
 ]);
 
-export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
-  return getMetaTagsForSite({
-    title: loaderData?.config?.title,
-    description: loaderData?.config?.description,
-    twitter: loaderData?.config?.options?.twitter,
-  });
-};
-
 export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: tailwind },
@@ -48,12 +40,12 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
+export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
   const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
   const data = {
     config,
-    CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,    
+    CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
     STATIC_BUILD: !!process.env.VITE_ENV_STATIC_BUILD,
     BASE_URL: normalizeBaseurl(process.env.BASE_URL) || undefined,
   };

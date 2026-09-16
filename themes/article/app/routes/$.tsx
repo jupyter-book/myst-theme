@@ -1,11 +1,5 @@
 import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
-import {
-  data,
-  redirect,
-  type LinksFunction,
-  type LoaderFunction,
-  type MetaFunction,
-} from 'react-router';
+import { redirect, type LinksFunction, type LoaderFunction, type MetaFunction } from 'react-router';
 import {
   getMetaTagsForArticle,
   KatexCSS,
@@ -22,32 +16,15 @@ import { ProjectProvider, useBaseurl } from '@myst-theme/providers';
 import { ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { useRouteError, isRouteErrorResponse } from 'react-router';
 
+import type { Route } from './+types/$.tsx';
+
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction<typeof loader> = ({ loaderData, location }) => {
-  if (!loaderData) return [];
-
-  const config: SiteManifest = loaderData.config;
-  const project: ManifestProject = loaderData.project;
-  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
-  const siteTitle = config?.title ?? project?.title ?? '';
-  return getMetaTagsForArticle({
-    origin: '',
-    url: location.pathname,
-    title: page?.title ? `${page.title}${siteTitle ? ` - ${siteTitle}` : ''}` : siteTitle,
-    description: page?.description ?? project?.description ?? config?.description ?? undefined,
-    image:
-      (page?.thumbnailOptimized || page?.thumbnail) ??
-      (project?.thumbnailOptimized || project?.thumbnail) ??
-      undefined,
-    twitter: config?.options?.twitter,
-    keywords: page?.keywords ?? project?.keywords ?? config?.keywords ?? [],
-  });
-};
-
-export const links: LinksFunction = () => [KatexCSS];
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: Route.LoaderArgs): Promise<{
+  config: SiteManifest;
+  page: PageLoader;
+  project: ManifestProject | undefined;
+}> {
   const url = new URL(request.url);
   const [first, ...rest] = parsePathname(url.pathname);
   const config = await getConfig();
@@ -70,7 +47,32 @@ export const loader: LoaderFunction = async ({ request }) => {
     }
     throw e;
   }
-};
+}
+
+export function meta({ loaderData, location }: Route.MetaArgs) {
+  if (!loaderData) return [];
+
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject | undefined = loaderData.project;
+  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
+  const siteTitle = config?.title ?? project?.title ?? '';
+  return getMetaTagsForArticle({
+    origin: '',
+    url: location.pathname,
+    title: page?.title ? `${page.title}${siteTitle ? ` - ${siteTitle}` : ''}` : siteTitle,
+    description: page?.description ?? project?.description ?? config?.description ?? undefined,
+    image:
+      (page?.thumbnailOptimized || page?.thumbnail) ??
+      (project?.thumbnailOptimized || project?.thumbnail) ??
+      undefined,
+    twitter: config?.options?.twitter,
+    keywords: page?.keywords ?? project?.keywords ?? config?.keywords ?? [],
+  });
+}
+
+export function links(): ReturnType<Route.LinksFunction> {
+  return [KatexCSS];
+}
 
 export default function Page() {
   // TODO handle outline?

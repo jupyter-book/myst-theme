@@ -9,17 +9,17 @@ const getConfig = () => {
   if (IS_HTML_BUILD) {
     // Set meta var for static build
     process.env.VITE_ENV_STATIC_BUILD = '1';
-    config = {
+    return {
       ssr: false,
       basename: BASE_URL,
       ...prerenderConfig,
-    };
+    } satisfies Config;
   } else {
-    config = {
+    return {
       ssr: true,
       basename: process.env.BASE_URL ?? '/',
-    };
+    } satisfies Config;
   }
 };
 
-export default config = getConfig();
+export default getConfig();

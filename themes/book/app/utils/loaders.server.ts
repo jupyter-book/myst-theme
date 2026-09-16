@@ -44,7 +44,6 @@ function updateLink(
     const parsed = new URL(url);
     if (parsed.protocol.startsWith('http')) return url;
   } catch {
-    console.error(`Unable to rewrite link: ${url}`);
     // pass
   }
   if (rewriteStaticFolder) {

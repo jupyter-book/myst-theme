@@ -8,7 +8,7 @@ export interface ResolvedConfig {
 
 export async function buildEnd({ reactRouterConfig }: { reactRouterConfig: ResolvedConfig }) {
   const { buildDirectory, basename } = reactRouterConfig;
-  const destDirectory = process.env.MYST_BUILD_DIRECTORY;
+  const destDirectory = process.env.BUILD_DIRECTORY;
 
   const buildRoot = join(buildDirectory, 'client');
   // Lift files under <BASE_URL> to the root of the build buildDirectory

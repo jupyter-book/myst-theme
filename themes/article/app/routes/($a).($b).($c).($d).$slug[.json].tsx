@@ -1,5 +1,5 @@
 import { data } from 'react-router';
-import { getMystXrefJson, getMystSearchJson, getPage } from '~/utils/loaders.server';
+import { getPage } from '~/utils/loaders.server';
 
 import type { Route } from './+types/($a).($b).($c).($d).$slug[.json]';
 
@@ -20,22 +20,6 @@ export async function loader({ request }: Route.LoaderArgs) {
     .slice(1)
     .replace(/\.json$/, '')
     .split('/');
-  // Handle /myst.xref.json as slug
-  if (rest.length === 0 && first === 'myst.xref') {
-    const xref = await getMystXrefJson();
-    if (!xref) {
-      return data({ message: 'myst.xref.json not found', status: 404 }, { status: 404 });
-    }
-    return xref;
-  }
-  // Handle /myst.search.json as slug
-  else if (rest.length === 0 && first === 'myst.search') {
-    const search = await getMystSearchJson();
-    if (!search) {
-      return data({ message: 'myst.search.json not found', status: 404 }, { status: 404 });
-    }
-    return search;
-  }
   const slug = [first, ...rest].join('.');
   const pageData = await getPage(request, { slug }).catch(() => null);
   if (!pageData) return api404('No page found at this URL.');

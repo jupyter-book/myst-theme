@@ -10,7 +10,6 @@ import {
 } from '@myst-theme/common';
 import { redirect } from 'react-router';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
-import type { MystSearchIndex } from '@myst-theme/search';
 import { slugToUrl } from 'myst-common';
 import { migrate } from 'myst-migrate';
 
@@ -132,13 +131,6 @@ export async function getMystXrefJson(): Promise<Record<string, any> | null> {
     ref.data = ref.data?.replace(/^\/content/, '');
   });
   return xrefs;
-}
-
-export async function getMystSearchJson(): Promise<MystSearchIndex | null> {
-  const url = `${CONTENT_CDN}/myst.search.json`;
-  const response = await fetch(url).catch(() => null);
-  if (!response || response.status === 404) return null;
-  return await response.json();
 }
 
 export async function getFavicon(): Promise<{

@@ -17,7 +17,3 @@ yalc.lock
 /build/*
 
 /app/styles/app.css
-
-# This is ignored as it is built
-vite.config.ts
-react-router.config.ts

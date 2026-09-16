@@ -1,4 +1,4 @@
-import { redirect, type MetaFunction, type LinksFunction, type LoaderFunction } from 'react-router';
+import { redirect, type LinksFunction } from 'react-router';
 import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
@@ -11,7 +11,6 @@ import {
   ErrorUnhandled,
 } from '@myst-theme/site';
 import { getConfig, getPage, getStaticFileUrl } from '~/utils/loaders.server';
-import { useLoaderData } from 'react-router';
 import type { SiteManifest } from 'myst-config';
 import {
   TabStateProvider,
@@ -29,34 +28,16 @@ import { Banner } from '../components/Banner.js';
 import { SidebarFooter } from '../components/SidebarFooter.js';
 import type { TemplateOptions } from '../types.js';
 import { useRouteError, isRouteErrorResponse } from 'react-router';
+
+import type { Route } from './+types/$.tsx';
+
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction<typeof loader> = ({ loaderData, location }) => {
-  if (!loaderData) return [];
-
-  const config: SiteManifest = loaderData.config;
-  const project: ManifestProject = loaderData.project;
-  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
-
-  const siteTitle = config?.title ?? project?.title ?? '';
-
-  return getMetaTagsForArticle({
-    origin: '',
-    url: location.pathname,
-    title: page?.title ? `${page.title}${siteTitle ? ` - ${siteTitle}` : ''}` : siteTitle,
-    description: page?.description ?? project?.description ?? config?.description ?? undefined,
-    image:
-      (page?.thumbnailOptimized || page?.thumbnail) ??
-      (project?.thumbnailOptimized || project?.thumbnail) ??
-      undefined,
-    twitter: config?.options?.twitter,
-    keywords: page?.keywords ?? project?.keywords ?? config?.keywords ?? [],
-  });
-};
-
-export const links: LinksFunction = () => [KatexCSS];
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: Route.LoaderArgs): Promise<{
+  config: SiteManifest;
+  page: PageLoader;
+  project: ManifestProject | undefined;
+}> {
   const url = new URL(request.url);
   const pathName = '/' + url.pathname.slice(import.meta.env.BASE_URL.length).replace(/\.data$/, '');
   const [first, ...rest] = parsePathname(pathName);
@@ -81,7 +62,34 @@ export const loader: LoaderFunction = async ({ request }) => {
     }
     throw e;
   }
-};
+}
+
+export function meta({ loaderData, location }: Route.MetaArgs) {
+  if (loaderData === undefined) return [];
+
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject | undefined = loaderData.project;
+  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
+
+  const siteTitle = config?.title ?? project?.title ?? '';
+
+  return getMetaTagsForArticle({
+    origin: '',
+    url: location.pathname,
+    title: page?.title ? `${page.title}${siteTitle ? ` - ${siteTitle}` : ''}` : siteTitle,
+    description: page?.description ?? project?.description ?? config?.description ?? undefined,
+    image:
+      (page?.thumbnailOptimized || page?.thumbnail) ??
+      (project?.thumbnailOptimized || project?.thumbnail) ??
+      undefined,
+    twitter: config?.options?.twitter,
+    keywords: page?.keywords ?? project?.keywords ?? config?.keywords ?? [],
+  });
+}
+
+export function links(): ReturnType<Route.LinksFunction> {
+  return [KatexCSS];
+}
 
 function ArticlePageAndNavigationInternal({
   children,
@@ -98,7 +106,7 @@ function ArticlePageAndNavigationInternal({
 }) {
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
-  const siteManifest = useSiteManifest() as any;
+  const siteManifest = useSiteManifest();
   const projectParts = { ...siteManifest?.projects?.[0]?.parts, ...siteManifest?.parts };
   return (
     <>
@@ -163,11 +171,10 @@ export function ArticlePageAndNavigation({
   );
 }
 
-export default function Page() {
+export default function Page({ loaderData }: Route.ComponentProps) {
   const { container } = useOutlineHeight();
-  const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
   const baseurl = useBaseurl();
-  const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.site ?? {};
+  const pageDesign: TemplateOptions = loaderData.page.frontmatter.site ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
   const { hide_toc, hide_search, hide_footer_links } = {
@@ -178,7 +185,7 @@ export default function Page() {
     <ArticlePageAndNavigation
       hide_toc={hide_toc}
       hideSearch={hide_search}
-      projectSlug={data.page.project}
+      projectSlug={loaderData.page.project}
     >
       {/* <ProjectProvider project={project}> */}
       <ProjectProvider>
@@ -190,7 +197,7 @@ export default function Page() {
               ref={container}
               className="article-grid subgrid-gap col-screen article content"
             >
-              <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
+              <ArticlePage article={loaderData.page} hide_all_footer_links={hide_footer_links} />
             </article>
           </ThebeLoaderAndServer>
         </ComputeOptionsProvider>
@@ -207,6 +214,8 @@ export function ErrorBoundary() {
         {isRouteErrorResponse(error) ? (
           <ErrorDocumentNotFound />
         ) : (
+          // FIXME: error handling
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           <ErrorUnhandled error={error as any} />
         )}
       </article>

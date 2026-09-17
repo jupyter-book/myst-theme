@@ -1,5 +1,5 @@
 import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
-import { data, redirect, type LinksFunction, type LoaderFunction, type MetaFunction } from 'react-router';
+import { redirect, type LinksFunction, type LoaderFunction, type MetaFunction } from 'react-router';
 import {
   getMetaTagsForArticle,
   KatexCSS,
@@ -16,14 +16,45 @@ import { ProjectProvider, useBaseurl } from '@myst-theme/providers';
 import { ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { useRouteError, isRouteErrorResponse } from 'react-router';
 
+import type { Route } from './+types/$.tsx';
+
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) => {
-  if (!data) return [];
+export async function loader({ request }: Route.LoaderArgs): Promise<{
+  config: SiteManifest;
+  page: PageLoader;
+  project: ManifestProject | undefined;
+}> {
+  const url = new URL(request.url);
+  const [first, ...rest] = parsePathname(url.pathname);
+  const config = await getConfig();
+  const project = getProject(config, first);
+  const projectName = project?.slug === first ? first : undefined;
+  const slugParts = projectName ? rest : [first, ...rest];
+  const slug = slugParts.length ? slugParts.join('.') : undefined;
+  const flat = isFlatSite(config);
+  try {
+    const page = await getPage(request, {
+      project: flat ? projectName : (projectName ?? slug),
+      slug: flat ? slug : projectName ? slug : undefined,
+      redirect: !process.env.VITE_ENV_STATIC_BUILD,
+    });
+    return { config, project, page };
+  } catch (e) {
+    if (e instanceof Response && e.status === 404) {
+      const cdnUrl = await getStaticFileUrl(url.pathname);
+      if (cdnUrl) throw redirect(cdnUrl);
+    }
+    throw e;
+  }
+}
 
-  const config: SiteManifest = data.config;
-  const project: ManifestProject = data.project;
-  const page: PageLoader['frontmatter'] = data.page.frontmatter;
+export function meta({ loaderData, location }: Route.MetaArgs) {
+  if (!loaderData) return [];
+
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject | undefined = loaderData.project;
+  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
   const siteTitle = config?.title ?? project?.title ?? '';
   return getMetaTagsForArticle({
     origin: '',
@@ -37,35 +68,11 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) =
     twitter: config?.options?.twitter,
     keywords: page?.keywords ?? project?.keywords ?? config?.keywords ?? [],
   });
-};
+}
 
-export const links: LinksFunction = () => [KatexCSS];
-
-export const loader: LoaderFunction = async ({ params, request }) => {
-  const url = new URL(request.url);
-  const [first, ...rest] = parsePathname(url.pathname);
-  const config = await getConfig();
-  const project = getProject(config, first);
-  const projectName = project?.slug === first ? first : undefined;
-  const slugParts = projectName ? rest : [first, ...rest];
-  const slug = slugParts.length ? slugParts.join('.') : undefined;
-  const flat = isFlatSite(config);
-  try {
-    const page = await getPage(request, {
-      project: flat ? projectName : (projectName ?? slug),
-      slug: flat ? slug : projectName ? slug : undefined,
-      // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
-      redirect: process.env.MODE === 'static' ? false : true,
-    });
-    return ({ config, project, page });
-  } catch (e) {
-    if (e instanceof Response && e.status === 404) {
-      const cdnUrl = await getStaticFileUrl(url.pathname);
-      if (cdnUrl) throw redirect(cdnUrl);
-    }
-    throw e;
-  }
-};
+export function links(): ReturnType<Route.LinksFunction> {
+  return [KatexCSS];
+}
 
 export default function Page() {
   // TODO handle outline?

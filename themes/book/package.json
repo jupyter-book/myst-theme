@@ -5,10 +5,9 @@
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "compile": "tsc --noEmit --skipLibCheck",
+    "compile": "react-router typegen && tsc --noEmit --skipLibCheck",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
     "clean": "rm -rf public/build build api",
-    "build:thebe": "copy-thebe-assets ./public",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
     "dev": "concurrently \"bun run dev:css\" \"react-router dev\"",
     "build": "bun run build:css && react-router build",
@@ -29,7 +28,6 @@
     "@myst-theme/search-minisearch": "^1.3.1",
     "@myst-theme/site": "^1.3.1",
     "@myst-theme/styles": "^1.3.1",
-    "@myst-theme/prerender": "^0.0.1",
     "classnames": "^2.3.2",
     "myst-common": "^1.8.1",
     "myst-config": "^1.8.1",
@@ -44,6 +42,7 @@
     "thebe-core": "^0.5.0"
   },
   "devDependencies": {
+    "@myst-theme/prerender": "^0.0.1",
     "@react-router/dev": "^8.0.0",
     "@react-router/fs-routes": "^8.0.0",
     "@react-router/serve": "^8.0.0",

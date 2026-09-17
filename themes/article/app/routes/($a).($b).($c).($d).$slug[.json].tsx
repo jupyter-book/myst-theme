@@ -1,6 +1,7 @@
-import type { LoaderFunction } from 'react-router';
 import { data } from 'react-router';
-import { getMystXrefJson, getMystSearchJson, getPage } from '~/utils/loaders.server';
+import { getPage } from '~/utils/loaders.server';
+
+import type { Route } from './+types/($a).($b).($c).($d).$slug[.json]';
 
 function api404(message = 'No API route found at this URL') {
   return data(
@@ -12,27 +13,13 @@ function api404(message = 'No API route found at this URL') {
   );
 }
 
-export const loader: LoaderFunction = async ({ request, params }) => {
-  const [first, ...rest] = new URL(request.url).pathname
+export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const pathName = '/' + url.pathname.slice(import.meta.env.BASE_URL.length).replace(/\.data$/, '');
+  const [first, ...rest] = pathName
     .slice(1)
     .replace(/\.json$/, '')
     .split('/');
-  // Handle /myst.xref.json as slug
-  if (rest.length === 0 && first === 'myst.xref') {
-    const xref = await getMystXrefJson();
-    if (!xref) {
-      return data({ message: 'myst.xref.json not found', status: 404 }, { status: 404 });
-    }
-    return xref;
-  }
-  // Handle /myst.search.json as slug
-  else if (rest.length === 0 && first === 'myst.search') {
-    const search = await getMystSearchJson();
-    if (!search) {
-      return data({ message: 'myst.search.json not found', status: 404 }, { status: 404 });
-    }
-    return search;
-  }
   const slug = [first, ...rest].join('.');
   const pageData = await getPage(request, { slug }).catch(() => null);
   if (!pageData) return api404('No page found at this URL.');
@@ -41,4 +28,4 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       'Access-Control-Allow-Origin': '*',
     },
   });
-};
+}

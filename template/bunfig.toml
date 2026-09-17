@@ -1,0 +1,3 @@
+[install]
+# Use the new text-based lockfile (Bun 1.2+)
+lockfile = "bun.lock"

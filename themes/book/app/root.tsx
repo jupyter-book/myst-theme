@@ -52,7 +52,7 @@ export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
   const data = {
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
-    MODE: !!process.env.VITE_ENV_STATIC_BUILD ? 'static' : 'app',
+    STATIC_BUILD: !!process.env.VITE_ENV_STATIC_BUILD,
     BASE_URL: baseURL,
   };
   return data;
@@ -121,7 +121,7 @@ function NoCSSWarning() {
 }
 
 export default function App() {
-  const { config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
+  const { config, CONTENT_CDN_PORT, STATIC_BUILD, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
 
@@ -129,8 +129,8 @@ export default function App() {
     <SearchFactoryProvider factory={searchFactory}>
       <Document
         config={config}
-        scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
-        staticBuild={MODE === 'static'}
+        scripts={STATIC_BUILD ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
+        staticBuild={STATIC_BUILD}
         baseurl={BASE_URL}
         renderers={RENDERERS}
         head={

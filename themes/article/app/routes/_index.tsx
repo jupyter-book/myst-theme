@@ -8,20 +8,30 @@ import {
 import Page from './$';
 import { ArticlePageAndNavigation } from '../components/ArticlePageAndNavigation';
 import { getConfig, getPage } from '../utils/loaders.server';
-import type { LoaderFunction, MetaFunction } from 'react-router';
 import { redirect } from 'react-router';
 import { SiteManifest } from 'myst-config';
 import { getProject } from '@myst-theme/common';
 export { links } from './$';
 import { useRouteError, isRouteErrorResponse } from 'react-router';
 
+import type { Route } from './+types/_index';
+
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
-  if (!data) return [];
+export async function loader({ request }: Route.LoaderArgs) {
+  const config = await getConfig();
+  if (!config) throw responseNoSite();
+  const project = getProject(config);
+  if (!project) throw responseNoArticle();
+  if (project.slug) return redirect(`/${project.slug}`);
+  const page = await getPage(request, { slug: project.index });
+  return { config, project, page };
+}
+export function meta({ loaderData, location }: Route.MetaArgs) {
+  if (!loaderData) return [];
 
-  const config: SiteManifest = data.config;
-  const project: ManifestProject = data.project;
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject = loaderData.project;
 
   return getMetaTagsForArticle({
     origin: '',
@@ -32,17 +42,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
     keywords: config.keywords ?? project.keywords ?? [],
     twitter: config?.options?.twitter,
   });
-};
-
-export const loader: LoaderFunction = async ({ params, request }) => {
-  const config = await getConfig();
-  if (!config) throw responseNoSite();
-  const project = getProject(config);
-  if (!project) throw responseNoArticle();
-  if (project.slug) return redirect(`/${project.slug}`);
-  const page = await getPage(request, { slug: project.index });
-  return { config, project, page };
-};
+}
 
 export default Page;
 

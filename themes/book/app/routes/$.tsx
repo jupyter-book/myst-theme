@@ -206,18 +206,11 @@ export default function Page({ loaderData }: Route.ComponentProps) {
   );
 }
 
-export function ErrorBoundary() {
-  const error = useRouteError();
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   return (
     <ArticlePageAndNavigation>
       <article className="article">
-        {isRouteErrorResponse(error) ? (
-          <ErrorDocumentNotFound />
-        ) : (
-          // FIXME: error handling
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          <ErrorUnhandled error={error as any} />
-        )}
+        {isRouteErrorResponse(error) ? <ErrorDocumentNotFound /> : <ErrorUnhandled error={error} />}
       </article>
     </ArticlePageAndNavigation>
   );

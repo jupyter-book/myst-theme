@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction, LoaderFunction } from 'react-router';
+import type { LinksFunction, LoaderFunction } from 'react-router';
 import tailwind from '~/styles/app.css?url';
 import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css?url';
 import { getConfig } from '~/utils/loaders.server';
@@ -6,7 +6,6 @@ import type { SiteLoader } from '@myst-theme/common';
 import {
   Document,
   responseNoSite,
-  getMetaTagsForSite,
   ContentReload,
   SkipTo,
   renderers as defaultRenderers,
@@ -31,14 +30,6 @@ const RENDERERS: NodeRenderers = mergeRenderers([
   ANY_RENDERERS,
 ]);
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return getMetaTagsForSite({
-    title: data?.config?.title,
-    description: data?.config?.description,
-    twitter: data?.config?.options?.twitter,
-  });
-};
-
 export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: tailwind },
@@ -54,14 +45,14 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
+export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
   const baseURL = normalizeBaseurl(process.env.BASE_URL) || undefined;
-  const [config] = await Promise.all([getConfig().catch(() => null)]);
+  const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
   const data = {
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
-    MODE: (process.env.MODE ?? 'app') as 'app' | 'static',
+    MODE: !!process.env.VITE_ENV_STATIC_BUILD ? 'static' : 'app',
     BASE_URL: baseURL,
   };
   return data;
@@ -69,6 +60,7 @@ export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> =
 
 function createSearch(index: MystSearchIndex): ISearch {
   const options = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fields: SEARCH_ATTRIBUTES_ORDERED as any as string[],
     storeFields: ['hierarchy', 'content', 'url', 'type', 'id', 'position'],
     idField: 'id',
@@ -128,7 +120,7 @@ function NoCSSWarning() {
   );
 }
 
-export default function AppWithReload() {
+export default function App() {
   const { config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);

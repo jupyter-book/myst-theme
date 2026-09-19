@@ -13,8 +13,13 @@ only, so with `jupyter: lite: true` no cell could be run in place, and the launc
 `TypeError: Failed to construct 'URL'` during render, taking down the page (#400).
 
 `features` is now optional and defaults to `notebookCompute: true`, `figureCompute: true`, and
-`launchBinder` following `useBinder`. Both themes drop their literal, so in-page execution works
-under lite and binder alike and the launch control appears only when there is a server to launch.
+`launchBinder` off only under `useJupyterLite`, where the kernel runs in the page and there is
+nowhere to launch. Both themes drop their literal, so in-page execution works under lite, binder and
+a plain Jupyter server alike.
+
+`NotebookToolbar` now honours `launchBinder` for its own launch action, which previously bypassed
+the flag and opened `${server.settings.baseUrl}?token=${server.settings.token}` regardless. Under
+lite that produced a control leading nowhere.
 
 `getUserServerUrl` also no longer throws on a `userServerUrl` that is not an absolute URL; thebe
 reports a bare `/` when no user server exists (#636).

@@ -53,15 +53,14 @@ export function ComputeOptionsProvider({
       githubBadgeUrl,
       binderBadgeUrl,
       features: {
-        notebookCompute: true,
-        figureCompute: true,
-        // only offer to launch elsewhere when there is a server to launch
-        launchBinder: optionsWithOverrides?.useBinder ?? false,
-        ...features,
+        notebookCompute: features?.notebookCompute ?? true,
+        figureCompute: features?.figureCompute ?? true,
+        // jupyterlite runs in the page, so there is nowhere to launch
+        launchBinder: features?.launchBinder ?? !optionsWithOverrides?.useJupyterLite,
       },
       customRepoProviders,
     };
-  }, [project, optionOverrideFn]);
+  }, [project, optionOverrideFn, features]);
 
   return (
     <ComputeOptionsContext.Provider value={options}>{children}</ComputeOptionsContext.Provider>

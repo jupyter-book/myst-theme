@@ -26,11 +26,11 @@ export function ComputeOptionsProvider({
   customRepoProviders,
   children,
 }: React.PropsWithChildren<{
-  features: {
+  features?: Partial<{
     notebookCompute: boolean;
     figureCompute: boolean;
     launchBinder: boolean;
-  };
+  }>;
   optionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions | undefined;
   customRepoProviders?: RepoProviderSpec[];
 }>) {
@@ -52,7 +52,13 @@ export function ComputeOptionsProvider({
       thebe: optionsWithOverrides,
       githubBadgeUrl,
       binderBadgeUrl,
-      features,
+      features: {
+        notebookCompute: true,
+        figureCompute: true,
+        // only offer to launch elsewhere when there is a server to launch
+        launchBinder: optionsWithOverrides?.useBinder ?? false,
+        ...features,
+      },
       customRepoProviders,
     };
   }, [project, optionOverrideFn]);

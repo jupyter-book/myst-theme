@@ -188,9 +188,7 @@ export default function Page() {
     >
       {/* <ProjectProvider project={project}> */}
       <ProjectProvider>
-        <ComputeOptionsProvider
-          features={{ notebookCompute: true, figureCompute: true, launchBinder: false }}
-        >
+        <ComputeOptionsProvider>
           <ThebeLoaderAndServer baseurl={baseurl}>
             <article
               ref={container}

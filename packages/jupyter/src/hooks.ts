@@ -165,10 +165,15 @@ export function useLaunchBinder() {
     (location?: string) => {
       let userServerUrl = server?.userServerUrl;
       if (userServerUrl && location) {
-        // add the location to the url pathname
-        const url = new URL(userServerUrl);
-        url.pathname = `${url.pathname}lab/tree${location}`.replace(/\/+/g, '/');
-        userServerUrl = url.toString();
+        try {
+          // add the location to the url pathname
+          const url = new URL(userServerUrl);
+          url.pathname = `${url.pathname}lab/tree${location}`.replace(/\/+/g, '/');
+          userServerUrl = url.toString();
+        } catch {
+          // thebe reports a bare "/" when no user server exists, e.g. under jupyterlite
+          return undefined;
+        }
       }
       return userServerUrl;
     },

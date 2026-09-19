@@ -26,11 +26,11 @@ export function ComputeOptionsProvider({
   customRepoProviders,
   children,
 }: React.PropsWithChildren<{
-  features: {
+  features?: Partial<{
     notebookCompute: boolean;
     figureCompute: boolean;
     launchBinder: boolean;
-  };
+  }>;
   optionOverrideFn?: (opts?: ExtendedCoreOptions) => ExtendedCoreOptions | undefined;
   customRepoProviders?: RepoProviderSpec[];
 }>) {
@@ -52,10 +52,15 @@ export function ComputeOptionsProvider({
       thebe: optionsWithOverrides,
       githubBadgeUrl,
       binderBadgeUrl,
-      features,
+      features: {
+        notebookCompute: features?.notebookCompute ?? true,
+        figureCompute: features?.figureCompute ?? true,
+        // jupyterlite runs in the page, so there is nowhere to launch
+        launchBinder: features?.launchBinder ?? !optionsWithOverrides?.useJupyterLite,
+      },
       customRepoProviders,
     };
-  }, [project, optionOverrideFn]);
+  }, [project, optionOverrideFn, features]);
 
   return (
     <ComputeOptionsContext.Provider value={options}>{children}</ComputeOptionsContext.Provider>

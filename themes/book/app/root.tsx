@@ -1,6 +1,6 @@
 import type { LinksFunction, LoaderFunction } from 'react-router';
-import tailwind from '~/styles/app.css?url';
-import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css?url';
+import '~/styles/app.css';
+import 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/common';
 import {
@@ -32,8 +32,6 @@ const RENDERERS: NodeRenderers = mergeRenderers([
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'stylesheet', href: tailwind },
-    { rel: 'stylesheet', href: thebeCoreCss },
     {
       rel: 'stylesheet',
       href: 'https://cdn.jsdelivr.net/npm/jupyter-matplotlib@0.11.3/css/mpl_widget.css',
@@ -46,13 +44,13 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
-  const baseURL = normalizeBaseurl(process.env.BASE_URL) || undefined;
+  const baseURL = normalizeBaseurl(process.env.BASE_URL);
   const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
   const data = {
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
-    STATIC_BUILD: !!process.env.VITE_ENV_STATIC_BUILD,
+    STATIC_BUILD: !!process.env.BUILD_HTML,
     BASE_URL: baseURL,
   };
   return data;

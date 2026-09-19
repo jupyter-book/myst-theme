@@ -33,10 +33,6 @@ export async function prerender({ getStaticPaths }: { getStaticPaths: () => stri
     const localProj = data.projects[0];
     const baseurl = '';
 
-    const localProjSlug = localProj.slug ? `/${localProj.slug}` : '';
-    if (localProjSlug) {
-      throw new Error();
-    }
     const makePath = (path: string) => path;
     // We need to get the index from a slug page to make remix happy
     // If this gets from the index, then the site will trigger the wrong render path
@@ -44,22 +40,22 @@ export async function prerender({ getStaticPaths }: { getStaticPaths: () => stri
     const siteIndex = baseurl ? `/${localProj.index}` : '';
     const pages = localProj.pages.filter((page: any): page is Page => !!(page as any).slug);
     return [
-      { url: `${localProjSlug}${siteIndex}`, path: makePath('index.html') },
+      { url: '/', path: makePath('index.html') },
       ...pages.map((page: Page) => {
         const pathSubPath = slugToUrl(page.slug);
         return {
-          url: `${localProjSlug}/${pathSubPath}`,
+          url: `/${pathSubPath}`,
           path: makePath(`${pathSubPath}/index.html`),
         };
       }),
       // Download all of the configured JSON
       {
-        url: `${localProjSlug}/${localProj.index}.json`,
+        url: `/${localProj.index}.json`,
         path: makePath(`${localProj.index}.json`),
       },
       ...pages.map((page: Page) => {
         return {
-          url: `${localProjSlug}/${page.slug}.json`,
+          url: `/${page.slug}.json`,
           path: makePath(`${page.slug}.json`),
         };
       }),

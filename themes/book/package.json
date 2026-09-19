@@ -12,7 +12,8 @@
     "dev": "concurrently \"bun run dev:css\" \"react-router dev\"",
     "build": "bun run build:css && react-router build",
     "prod:build": "bun run build",
-    "render": "bun run build:css && BUILD_HTML=1 react-router build",
+    "build:renderer": "bun run build:css && BUILD_HTML=1 react-router build",
+    "render": "BUILD_HTML=1 node ./build/server/index.js",
     "start": "react-router-serve build/server/index.js"
   },
   "dependencies": {
@@ -42,7 +43,6 @@
     "thebe-core": "^0.5.0"
   },
   "devDependencies": {
-    "@myst-theme/prerender": "^0.0.1",
     "@react-router/dev": "^8.0.0",
     "@react-router/fs-routes": "^8.0.0",
     "@react-router/serve": "^8.0.0",

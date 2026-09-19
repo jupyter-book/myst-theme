@@ -37,7 +37,7 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{
     const page = await getPage(request, {
       project: flat ? projectName : (projectName ?? slug),
       slug: flat ? slug : projectName ? slug : undefined,
-      redirect: !process.env.VITE_ENV_STATIC_BUILD,
+      redirect: !process.env.BUILD_HTML,
     });
     return { config, project, page };
   } catch (e) {

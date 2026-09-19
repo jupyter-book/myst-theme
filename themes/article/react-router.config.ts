@@ -8,7 +8,7 @@ const IS_HTML_BUILD = !!process.env.BUILD_HTML;
 const getConfig = () => {
   if (IS_HTML_BUILD) {
     // Set meta var for static build
-    process.env.VITE_ENV_STATIC_BUILD = '1';
+    process.env.BUILD_HTML = '1';
     return {
       ssr: false,
       basename: BASE_URL,

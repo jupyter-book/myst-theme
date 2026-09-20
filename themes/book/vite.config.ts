@@ -10,6 +10,9 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: {
       exclude: [],
     },
+    build: {
+      assetsDir: '_assets',
+    },
   };
   if (process.env.BUILD_HTML !== undefined) {
     return {

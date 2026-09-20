@@ -10,14 +10,12 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: {
       exclude: [],
     },
-    build: {
-      assetsDir: '_assets',
-    },
   };
   if (process.env.BUILD_HTML !== undefined) {
     return {
       ...baseConfig,
       build: {
+        assetsDir: '_assets',
         minify: true,
       },
       environments: {
@@ -39,6 +37,7 @@ export default defineConfig(({ mode }) => {
         port: 3000,
       },
       build: {
+        assetsDir: '_assets',
         minify: mode === 'production',
       },
       base: process.env.BASE_URL ?? '/',

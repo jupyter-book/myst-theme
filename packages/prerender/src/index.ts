@@ -145,6 +145,13 @@ async function rewriteAssets(build: ServerBuild, outPath: string, baseUrl: strin
   if (baseUrl === '/') {
     return build.assets;
   }
+
+  // Find write path for manifest
+  const [_, manifestPath] = build.assets.url.match(/(.*\/)manifest[^/]+$/) ?? [];
+  if (manifestPath === undefined) {
+    throw new Error(`Unexpected form of assets URL: ${build.assets.url}`);
+  }
+
   // Remove existing manifest
   await fsp.rm(path.join(outPath, build.assets.url.slice(1)));
   const assets: typeof build.assets = {
@@ -161,12 +168,6 @@ async function rewriteAssets(build: ServerBuild, outPath: string, baseUrl: strin
     ),
   };
   const version = createHash('sha256').update(JSON.stringify(assets)).digest('base64url');
-
-  // Find write path for manifest
-  const [_, manifestPath] = assets.url.match(/(.*\/)manifest[^/]+$/) ?? [];
-  if (manifestPath === undefined) {
-    throw new Error(`Unexpected form of assets URL: ${assets.url}`);
-  }
 
   assets.url = `${baseUrl}${manifestPath}manifest-${version}.js`;
   assets.version = version;

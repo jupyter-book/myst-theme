@@ -11,13 +11,23 @@ check:
 	@which jq > /dev/null || (echo "Error: the jq linux command is not available. Please install it first (brew install jq | apt-get install jq)." && exit 1)
 
 build-theme:
-	mkdir -p .deploy
+	# Prepare the npm node_module cache
+	bun install --frozen-lockfile
+
+	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
 	git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME)
-	cp template/bunfig.toml .deploy/$(THEME)
-	cp bun.lock .deploy/$(THEME)
-	cp -r themes/$(THEME)/ .deploy/$(THEME)
-	git clean -fx .deploy/$(THEME) 
+	rm -rf .deploy/$(THEME)/{public,build,package.json,package-lock.json,bun.lock,template.yml,server.js}
+	find template -type f  -exec cp {} .deploy/$(THEME) \;
+	rm -rf themes/$(THEME)/{public,build}
+	cd themes/$(THEME) && bun run prod:build
+	cp -r themes/$(THEME)/public .deploy/$(THEME)/public
+	cp -r themes/$(THEME)/build .deploy/$(THEME)/build
+	cp -r themes/$(THEME)/template.yml .deploy/$(THEME)/template.yml
+	sed -i.bak "s/template/$(THEME)/g" .deploy/$(THEME)/package.json
+	sed -i.bak "s/VERSION/$(VERSION)/g" .deploy/$(THEME)/package.json
+	rm .deploy/$(THEME)/package.json.bak
+	cd .deploy/$(THEME) && npm install
 
 build-article:
 	make THEME=article build-theme

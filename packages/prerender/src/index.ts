@@ -162,7 +162,13 @@ async function rewriteAssets(build: ServerBuild, outPath: string, baseUrl: strin
   };
   const version = createHash('sha256').update(JSON.stringify(assets)).digest('base64url');
 
-  assets.url = `${baseUrl}assets/manifest-${version}.js`;
+  // Find write path for manifest
+  const [_, manifestPath] = assets.url.match(/(.*\/)manifest[^/]+$/) ?? [];
+  if (manifestPath === undefined) {
+    throw new Error(`Unexpected form of assets URL: ${assets.url}`);
+  }
+
+  assets.url = `${baseUrl}${manifestPath}manifest-${version}.js`;
   assets.version = version;
 
   await fsp.writeFile(

@@ -10,17 +10,18 @@ THEME=article
 check:
 	@which jq > /dev/null || (echo "Error: the jq linux command is not available. Please install it first (brew install jq | apt-get install jq)." && exit 1)
 
-build-theme:
+build-theme-renderer:
 	# Prepare the npm node_module cache
 	bun install --frozen-lockfile
+	rm -rf themes/$(THEME)/{public,build}
+	cd themes/$(THEME) && bun run prod:build
 
+build-theme-dist:
 	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
 	git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME)
 	rm -rf .deploy/$(THEME)/{public,build,package.json,package-lock.json,bun.lock,template.yml,server.js}
 	find template -type f  -exec cp {} .deploy/$(THEME) \;
-	rm -rf themes/$(THEME)/{public,build}
-	cd themes/$(THEME) && bun run prod:build
 	cp -r themes/$(THEME)/public .deploy/$(THEME)/public
 	cp -r themes/$(THEME)/build .deploy/$(THEME)/build
 	cp -r themes/$(THEME)/template.yml .deploy/$(THEME)/template.yml
@@ -28,27 +29,30 @@ build-theme:
 	sed -i.bak "s/VERSION/$(VERSION)/g" .deploy/$(THEME)/package.json
 	rm .deploy/$(THEME)/package.json.bak
 	cd .deploy/$(THEME) && npm install
+build-theme:
+	$(MAKE) THEME=$(THEME) build-theme-renderer
+	$(MAKE) THEME=$(THEME) build-theme-deploy
 
 build-article:
-	make THEME=article build-theme
+	$(MAKE) THEME=article build-theme
 
 build-book:
-	make THEME=book build-theme
+	$(MAKE) THEME=book build-theme
 
 deploy-theme: check
 	echo "Deploying $(THEME) theme to $(THEME_REPO_OWNER)/$(THEME)-theme"
 	echo "Version: $(VERSION)"
-	make THEME=$(THEME) build-theme
+	$(MAKE) THEME=$(THEME) build-theme
 	cd .deploy/$(THEME) && git add .
 	cd .deploy/$(THEME) && git commit -m "🚀 v$(VERSION) from $(COMMIT)"
 	cd .deploy/$(THEME) && git push -u origin main
 
 deploy-article:
-	make THEME=article deploy-theme
+	$(MAKE) THEME=article deploy-theme
 
 deploy-book:
-	make THEME=book deploy-theme
+	$(MAKE) THEME=book deploy-theme
 
 build-docs:
-	make build-book
+	$(MAKE) build-book
 	cd docs && myst build -d --execute --html --strict

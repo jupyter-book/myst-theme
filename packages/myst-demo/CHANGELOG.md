@@ -1,5 +1,13 @@
 # myst-demo
 
+## 1.4.1
+
+### Patch Changes
+
+- 5243a23: Update mystmd dependencies
+  - @myst-theme/providers@1.4.1
+  - myst-to-react@1.4.1
+
 ## 1.4.0
 
 ### Patch Changes

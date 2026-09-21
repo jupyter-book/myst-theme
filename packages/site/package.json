@@ -16,6 +16,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "compile": "tsc --noEmit",
+    "test": "vitest run",
     "lint": "eslint src/**/*.ts*",
     "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
     "dev": "npm-run-all --parallel \"build:* -- --watch\"",
@@ -35,7 +36,7 @@
     "@radix-ui/react-visually-hidden": "^1.1.0",
     "classnames": "^2.3.2",
     "lodash.throttle": "^4.1.1",
-    "myst-common": "^1.8.1",
+    "myst-common": "^1.11.0",
     "myst-config": "^1.7.9",
     "myst-demo": "^1.4.1",
     "myst-spec-ext": "^1.8.1",

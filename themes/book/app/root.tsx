@@ -7,6 +7,7 @@ import {
   Document,
   responseNoSite,
   getMetaTagsForSite,
+  getBaseUrl,
   getThemeSession,
   ContentReload,
   SkipTo,
@@ -15,7 +16,7 @@ import {
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { createSearch as createMiniSearch } from '@myst-theme/search-minisearch';
 import { Outlet, useLoaderData } from '@remix-run/react';
-import { SearchFactoryProvider, mergeRenderers, normalizeBaseurl } from '@myst-theme/providers';
+import { SearchFactoryProvider, mergeRenderers } from '@myst-theme/providers';
 import type { NodeRenderers } from '@myst-theme/providers';
 import type { ISearch, MystSearchIndex } from '@myst-theme/search';
 import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
@@ -56,12 +57,12 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async ({ request }): Promise<SiteLoader> => {
-  const baseURL = normalizeBaseurl(process.env.BASE_URL) || undefined;
   const [config, themeSession] = await Promise.all([
     getConfig().catch(() => null),
     getThemeSession(request),
   ]);
   if (!config) throw responseNoSite();
+  const baseURL = getBaseUrl(config);
   const data = {
     theme: themeSession.getTheme(),
     config,
@@ -88,7 +89,7 @@ function createSearch(index: MystSearchIndex): ISearch {
 /*
  * Component that shows a "no CSS loaded" warning when a page
  * loads without the built-in MyST stylesheet. This can happen on static builds
- * when the BASE_URL doesn't match the deployment base URL.
+ * when the path in BASE_URL doesn't match the deployment base URL.
  */
 function NoCSSWarning() {
   const CLIENT_THEME_SOURCE = `

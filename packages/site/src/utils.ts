@@ -1,12 +1,42 @@
 import type { GenericNode, GenericParent } from 'myst-common';
-import { extractPart } from 'myst-common';
+import { extractPart, resolveBaseUrl } from 'myst-common';
 import type { PageLoader } from '@myst-theme/common';
-import type { SiteAction } from 'myst-config';
+import type { SiteAction, SiteManifest } from 'myst-config';
 
 export function getDomainFromRequest(request: Request) {
   const url = new URL(request.url);
   const domain = `${url.protocol}//${url.hostname}${url.port ? `:${url.port}` : ''}`;
   return domain;
+}
+
+function getConfiguredSiteUrl(): string | undefined {
+  if (process.env.BASE_URL) {
+    return resolveBaseUrl(process.env.BASE_URL).publicUrl;
+  }
+  if (process.env.READTHEDOCS_CANONICAL_URL) {
+    return resolveBaseUrl(process.env.READTHEDOCS_CANONICAL_URL, 'READTHEDOCS_CANONICAL_URL')
+      .publicUrl;
+  }
+  return undefined;
+}
+
+/**
+ * Return the routing and asset prefix configured for this deployment.
+ * Prefer an absolute BASE_URL so generated site files also use the public origin.
+ */
+export function getBaseUrl(_config?: SiteManifest): string | undefined {
+  if (process.env.BASE_URL) return resolveBaseUrl(process.env.BASE_URL).pathname;
+  return resolveBaseUrl(process.env.READTHEDOCS_CANONICAL_URL, 'READTHEDOCS_CANONICAL_URL')
+    .pathname;
+}
+
+/**
+ * Resolve the full public base URL used by generated site files.
+ * An absolute BASE_URL is preferred; a path-only BASE_URL retains request-origin behavior.
+ */
+export function getSiteUrl(request: Request, _config?: SiteManifest) {
+  const siteUrl = getConfiguredSiteUrl();
+  return siteUrl ?? `${getDomainFromRequest(request)}${getBaseUrl() ?? ''}`;
 }
 
 export type KnownParts = {

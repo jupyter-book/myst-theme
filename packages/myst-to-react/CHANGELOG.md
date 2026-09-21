@@ -1,5 +1,12 @@
 # myst-to-react
 
+## 1.4.1
+
+### Patch Changes
+
+- @myst-theme/providers@1.4.1
+- @myst-theme/common@1.4.1
+
 ## 1.4.0
 
 ### Patch Changes

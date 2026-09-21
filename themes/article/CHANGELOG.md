@@ -1,5 +1,19 @@
 # @myst-theme/article
 
+## 1.4.1
+
+### Patch Changes
+
+- @myst-theme/providers@1.4.1
+- @myst-theme/frontmatter@1.4.1
+- @myst-theme/jupyter@1.4.1
+- @myst-theme/site@1.4.1
+- @myst-theme/styles@1.4.1
+- @myst-theme/common@1.4.1
+- @myst-theme/icons@1.4.1
+- @myst-theme/anywidget@1.4.1
+- myst-to-react@1.4.1
+
 ## 1.4.0
 
 ### Patch Changes

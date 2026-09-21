@@ -27,5 +27,5 @@
     # Install Python requirements and build docs
     pip install uv && \
     python -m uv pip install -r docs/requirements.txt --system && \
-    SITE_URL="$DEPLOY_PRIME_URL" make build-docs
+    BASE_URL="$DEPLOY_PRIME_URL" make build-docs
   """

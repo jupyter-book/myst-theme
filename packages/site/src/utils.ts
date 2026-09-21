@@ -1,7 +1,7 @@
 import type { GenericNode, GenericParent } from 'myst-common';
 import { extractPart } from 'myst-common';
 import type { PageLoader } from '@myst-theme/common';
-import { resolveSiteUrls } from 'myst-config';
+import { normalizeBaseurl } from '@myst-theme/providers';
 import type { SiteAction, SiteManifest } from 'myst-config';
 
 export function getDomainFromRequest(request: Request) {
@@ -10,21 +10,49 @@ export function getDomainFromRequest(request: Request) {
   return domain;
 }
 
-export { normalizeSiteUrl } from 'myst-config';
+function normalizePublicBaseUrl(value: string, source: string): string | undefined {
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    return undefined;
+  }
+  if (!['http:', 'https:'].includes(url.protocol) || url.search || url.hash) {
+    throw new Error(
+      `${source} must be an absolute http(s) URL without a query or fragment: ${value}`,
+    );
+  }
+  return normalizeBaseurl(url.href) ?? url.href;
+}
+
+function getConfiguredSiteUrl(): string | undefined {
+  if (process.env.BASE_URL) {
+    return normalizePublicBaseUrl(process.env.BASE_URL, 'BASE_URL');
+  }
+  if (process.env.READTHEDOCS_CANONICAL_URL) {
+    return normalizePublicBaseUrl(
+      process.env.READTHEDOCS_CANONICAL_URL,
+      'READTHEDOCS_CANONICAL_URL',
+    );
+  }
+  return undefined;
+}
 
 /**
  * Return the routing and asset prefix configured for this deployment.
  */
-export function getBaseUrl(config?: SiteManifest): string | undefined {
-  return resolveSiteUrls({ url: config?.url, env: process.env }).baseUrl;
+export function getBaseUrl(_config?: SiteManifest): string | undefined {
+  const siteUrl = getConfiguredSiteUrl();
+  if (siteUrl) return normalizeBaseurl(new URL(siteUrl).pathname) || undefined;
+  return normalizeBaseurl(process.env.BASE_URL) || undefined;
 }
 
 /**
  * Resolve the full public base URL used by generated site files.
  */
-export function getSiteUrl(request: Request, config?: SiteManifest) {
-  const { siteUrl, baseUrl } = resolveSiteUrls({ url: config?.url, env: process.env });
-  return siteUrl ?? `${getDomainFromRequest(request)}${baseUrl ?? ''}`;
+export function getSiteUrl(request: Request, _config?: SiteManifest) {
+  const siteUrl = getConfiguredSiteUrl();
+  return siteUrl ?? `${getDomainFromRequest(request)}${getBaseUrl() ?? ''}`;
 }
 
 export type KnownParts = {

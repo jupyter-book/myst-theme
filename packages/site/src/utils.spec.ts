@@ -7,7 +7,6 @@ import { getBaseUrl, getSiteUrl } from './utils.js';
 const request = new Request('http://localhost:3000/page');
 
 function clearDeploymentEnvironment() {
-  delete process.env.SITE_URL;
   delete process.env.BASE_URL;
   delete process.env.READTHEDOCS_CANONICAL_URL;
 }
@@ -31,27 +30,24 @@ describe('theme site URLs', () => {
     );
   });
 
-  it('propagates resolver errors through both theme wrappers', () => {
-    process.env.BASE_URL = '/docs';
-    const config = { url: 'https://example.org/' } as SiteManifest;
-    expect(() => getBaseUrl(config)).toThrow(/conflicts/);
-    expect(() => getSiteUrl(request, config)).toThrow(/conflicts/);
-  });
-
-  it.each(['site.url', 'SITE_URL'])('uses %s for sitemap, stylesheet, and robots URLs', (source) => {
-    const config = {} as SiteManifest;
-    if (source === 'site.url') {
-      config.url = 'https://example.org/docs';
-    } else {
-      process.env.SITE_URL = 'https://example.org/docs';
-    }
-    const siteUrl = getSiteUrl(request, config);
-    expect(getBaseUrl(config)).toBe('/docs');
+  it('uses an absolute BASE_URL for sitemap, stylesheet, and robots URLs', () => {
+    process.env.BASE_URL = 'https://example.org/docs/';
+    const siteUrl = getSiteUrl(request);
+    expect(getBaseUrl()).toBe('/docs');
     const sitemap = createSitemap(siteUrl, ['/page']);
     const robots = createRobotsTxt(siteUrl);
     expect(sitemap).toContain('<loc>https://example.org/docs/page</loc>');
     expect(sitemap).toContain('href="https://example.org/docs/sitemap_style.xsl"');
     expect(robots).toContain('Sitemap: https://example.org/docs/sitemap.xml');
     expect(`${sitemap}\n${robots}`).not.toContain('localhost');
+  });
+
+  it.each([
+    'ftp://example.org',
+    'https://example.org/docs?preview=true',
+    'https://example.org/docs#section',
+  ])('rejects invalid public BASE_URL values: %s', (baseUrl) => {
+    process.env.BASE_URL = baseUrl;
+    expect(() => getSiteUrl(request)).toThrow(/BASE_URL/);
   });
 });

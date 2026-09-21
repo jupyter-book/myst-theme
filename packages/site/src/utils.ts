@@ -1,7 +1,6 @@
 import type { GenericNode, GenericParent } from 'myst-common';
-import { extractPart } from 'myst-common';
+import { extractPart, resolveBaseUrl } from 'myst-common';
 import type { PageLoader } from '@myst-theme/common';
-import { normalizeBaseurl } from '@myst-theme/providers';
 import type { SiteAction, SiteManifest } from 'myst-config';
 
 export function getDomainFromRequest(request: Request) {
@@ -10,30 +9,13 @@ export function getDomainFromRequest(request: Request) {
   return domain;
 }
 
-function normalizePublicBaseUrl(value: string, source: string): string | undefined {
-  let url: URL;
-  try {
-    url = new URL(value);
-  } catch {
-    return undefined;
-  }
-  if (!['http:', 'https:'].includes(url.protocol) || url.search || url.hash) {
-    throw new Error(
-      `${source} must be an absolute http(s) URL without a query or fragment: ${value}`,
-    );
-  }
-  return normalizeBaseurl(url.href) ?? url.href;
-}
-
 function getConfiguredSiteUrl(): string | undefined {
   if (process.env.BASE_URL) {
-    return normalizePublicBaseUrl(process.env.BASE_URL, 'BASE_URL');
+    return resolveBaseUrl(process.env.BASE_URL).publicUrl;
   }
   if (process.env.READTHEDOCS_CANONICAL_URL) {
-    return normalizePublicBaseUrl(
-      process.env.READTHEDOCS_CANONICAL_URL,
-      'READTHEDOCS_CANONICAL_URL',
-    );
+    return resolveBaseUrl(process.env.READTHEDOCS_CANONICAL_URL, 'READTHEDOCS_CANONICAL_URL')
+      .publicUrl;
   }
   return undefined;
 }
@@ -43,9 +25,9 @@ function getConfiguredSiteUrl(): string | undefined {
  * Prefer an absolute BASE_URL so generated site files also use the public origin.
  */
 export function getBaseUrl(_config?: SiteManifest): string | undefined {
-  const siteUrl = getConfiguredSiteUrl();
-  if (siteUrl) return normalizeBaseurl(new URL(siteUrl).pathname) || undefined;
-  return normalizeBaseurl(process.env.BASE_URL) || undefined;
+  if (process.env.BASE_URL) return resolveBaseUrl(process.env.BASE_URL).pathname;
+  return resolveBaseUrl(process.env.READTHEDOCS_CANONICAL_URL, 'READTHEDOCS_CANONICAL_URL')
+    .pathname;
 }
 
 /**

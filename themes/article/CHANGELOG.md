@@ -1,5 +1,38 @@
 # @myst-theme/article
 
+## 1.4.0
+
+### Patch Changes
+
+- 168e19b: Strip trailing slash from `BASE_URL` before use to avoid double slashes in hrefs.
+  This affected the React state of TOC and its expansion.
+  With no trailing slash in `BASE_URL`, have `withBaseurl` always re-insert one separating slash between `baseurl` and `url`.
+
+  For static `myst build --html` exports, clicking a TOC header with a page associated does a reload.
+  Avoid doing a setOpen before (since animation will play once page reload finishes).
+
+  As an additional optimization, for now disable the TOC's open/close CSS animation entirely for static builds—we already have one flash due to the reload, so the animation feels egregious.
+
+  Fix another source of flashing: the dismissible top banner determined its visible/height state (and dependents like the sidebar's position) in a `useEffect`, which runs after the browser paints. Switched to `useLayoutEffect` so that state is settled before the first paint instead of snapping into place a frame later.
+
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+- Updated dependencies [168e19b]
+- Updated dependencies [87f3ee3]
+- Updated dependencies [9c21b77]
+- Updated dependencies [e923170]
+- Updated dependencies [623f66d]
+- Updated dependencies [6498c64]
+- Updated dependencies [babfb2f]
+  - @myst-theme/providers@1.4.0
+  - @myst-theme/site@1.4.0
+  - @myst-theme/styles@1.4.0
+  - myst-to-react@1.4.0
+  - @myst-theme/frontmatter@1.4.0
+  - @myst-theme/icons@1.4.0
+  - @myst-theme/jupyter@1.4.0
+  - @myst-theme/anywidget@1.4.0
+  - @myst-theme/common@1.4.0
+
 ## 1.3.1
 
 ### Patch Changes

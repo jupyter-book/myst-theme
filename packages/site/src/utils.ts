@@ -40,6 +40,7 @@ function getConfiguredSiteUrl(): string | undefined {
 
 /**
  * Return the routing and asset prefix configured for this deployment.
+ * Prefer an absolute BASE_URL so generated site files also use the public origin.
  */
 export function getBaseUrl(_config?: SiteManifest): string | undefined {
   const siteUrl = getConfiguredSiteUrl();
@@ -49,6 +50,7 @@ export function getBaseUrl(_config?: SiteManifest): string | undefined {
 
 /**
  * Resolve the full public base URL used by generated site files.
+ * An absolute BASE_URL is preferred; a path-only BASE_URL retains request-origin behavior.
  */
 export function getSiteUrl(request: Request, _config?: SiteManifest) {
   const siteUrl = getConfiguredSiteUrl();

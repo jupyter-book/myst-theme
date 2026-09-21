@@ -89,7 +89,7 @@ function createSearch(index: MystSearchIndex): ISearch {
 /*
  * Component that shows a "no CSS loaded" warning when a page
  * loads without the built-in MyST stylesheet. This can happen on static builds
- * when the BASE_URL doesn't match the deployment base URL.
+ * when the path in BASE_URL doesn't match the deployment base URL.
  */
 function NoCSSWarning() {
   const CLIENT_THEME_SOURCE = `

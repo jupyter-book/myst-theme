@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import version from './version';
+import version from './version.js';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 export type ThebeCore = typeof import('thebe-core');

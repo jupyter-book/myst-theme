@@ -1,5 +1,5 @@
 {
-  "name": "thebe-core",
+  "name": "@myst-theme/thebe-core",
   "version": "0.5.0",
   "description": "Typescript based core functionality for Thebe",
   "type": "module",
@@ -60,10 +60,10 @@
     "ts-node": "^10.9.1"
   },
   "peerDependencies": {
-    "thebe-lite": "^0.5.0"
+    "@myst-theme/thebe-lite": "^0.5.0"
   },
   "dependencies": {
-          "@jupyterlab/nbformat": "^4.2.5",
+    "@jupyterlab/nbformat": "^4.2.5",
     "@jupyter-widgets/base": "^6.0.10",
     "@jupyter-widgets/controls": "^5.0.11",
     "@jupyter-widgets/html-manager": "^1.0.13",

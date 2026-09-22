@@ -1,10 +1,10 @@
 import { createRef, useEffect, useState } from 'react';
 import type { ThebeNotebook, ThebeSession, IThebeCell, IThebeCellExecuteReturn } from 'thebe-core';
-import { useThebeConfig } from '../ThebeServerProvider';
-import { useThebeLoader } from '../ThebeLoaderProvider';
+import { useThebeConfig } from '../ThebeServerProvider.js';
+import { useThebeLoader } from '../ThebeLoaderProvider.js';
 import type { INotebookContent } from '@jupyterlab/nbformat';
-import { useThebeSession } from '../ThebeSessionProvider';
-import { useRenderMimeRegistry } from '../ThebeRenderMimeRegistryProvider';
+import { useThebeSession } from '../ThebeSessionProvider.js';
+import { useRenderMimeRegistry } from '../ThebeRenderMimeRegistryProvider.js';
 
 export interface NotebookExecuteOptions {
   stopOnError?: boolean;

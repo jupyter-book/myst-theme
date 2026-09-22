@@ -1,7 +1,7 @@
 import React from 'react';
 import type { IRenderMimeRegistry } from 'thebe-core';
-import { useThebeLoader } from './ThebeLoaderProvider';
-import { useThebeConfig } from './ThebeServerProvider';
+import { useThebeLoader } from './ThebeLoaderProvider.js';
+import { useThebeConfig } from './ThebeServerProvider.js';
 
 const RenderMimeRegistryContext = React.createContext<
   { rendermime: IRenderMimeRegistry } | undefined

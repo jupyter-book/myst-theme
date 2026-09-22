@@ -8,3 +8,4 @@ tmp/
 .DS_Store
 junit.xml
 ./package-lock.json
+src/version.ts

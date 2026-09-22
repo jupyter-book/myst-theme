@@ -1,6 +1,6 @@
 export { default as ThebeServer } from './server.js';
 export { default as ThebeSession } from './session.js';
-export { default as ThebeNotebook, CodeBlock } from './notebook.js';
+export { default as ThebeNotebook, type CodeBlock } from './notebook.js';
 export { default as ThebeCodeCell } from './cell.js';
 export { default as ThebeMarkdownCell } from './markdown.js';
 export { default as PassiveCellRenderer } from './passive.js';

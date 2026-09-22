@@ -1,3 +1,5 @@
+/// <reference types="requirejs" />
+//
 /**
  * Inspired by https://github.com/jupyterlab/jupyterlab-plugin-playground/blob/main/src/requirejs.ts
  */

@@ -8,7 +8,7 @@ import type {
   ThebeEvents,
   ThebeServer,
 } from 'thebe-core';
-import { useThebeLoader } from './ThebeLoaderProvider';
+import { useThebeLoader } from './ThebeLoaderProvider.js';
 
 type ListenerFn = (data: ThebeEventData) => void;
 

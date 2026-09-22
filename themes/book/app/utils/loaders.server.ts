@@ -47,7 +47,7 @@ function updateLink(
     // pass
   }
   if (rewriteStaticFolder) {
-    return `${process.env.BASE_URL ?? '/'}_public{url}`;
+    return `${process.env.BASE_URL ?? '/'}_public${url}`;
   }
   return `${CONTENT_CDN}${url}`;
 }

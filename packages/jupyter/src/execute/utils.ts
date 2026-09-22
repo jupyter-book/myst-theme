@@ -1,5 +1,6 @@
 import type { GenericParent } from 'myst-common';
-import type { Config, IRenderMimeRegistry, ThebeCore } from 'thebe-core';
+import type { ThebeCore } from '@myst-theme/thebe-react';
+import type { Config, IRenderMimeRegistry } from '@myst-theme/thebe-core';
 import type { IdKeyMap, IdKeyMapTarget } from './types.js';
 
 /**

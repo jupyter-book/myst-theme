@@ -1,5 +1,5 @@
 import React, { useCallback, useReducer } from 'react';
-import type { IThebeNotebookError } from 'thebe-react';
+import type { IThebeNotebookError } from '@myst-theme/thebe-react';
 
 export type BusyKind = 'execute' | 'reset';
 

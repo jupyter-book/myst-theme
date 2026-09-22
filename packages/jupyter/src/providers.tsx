@@ -3,8 +3,8 @@ import React, { useContext } from 'react';
 import { type ExtendedCoreOptions, thebeFrontmatterToOptions } from './utils.js';
 import type { GenericParent } from 'myst-common';
 import { useProjectManifest } from '@myst-theme/providers';
-import type { RepoProviderSpec } from 'thebe-core';
-import { ThebeBundleLoaderProvider, ThebeServerProvider } from 'thebe-react';
+import type { RepoProviderSpec } from '@myst-theme/thebe-core';
+import { ThebeServerProvider, ThebeLoaderProvider } from '@myst-theme/thebe-react';
 import type { IdOrKey } from './execute/types.js';
 
 type ComputeOptionsContextType = {
@@ -92,9 +92,9 @@ export function ThebeLoaderAndServer({
 }: React.PropsWithChildren<{ connect?: boolean; baseurl?: string }>) {
   const compute = useComputeOptions();
   return (
-    <ThebeBundleLoaderProvider
-      loadThebeLite={compute?.thebe?.useJupyterLite ?? false}
-      publicPath={baseurl}
+    <ThebeLoaderProvider
+    //loadThebeLite={compute?.thebe?.useJupyterLite ?? false}
+    //publicPath={baseurl}
     >
       <ThebeServerProvider
         connect={connect ?? false}
@@ -105,7 +105,7 @@ export function ThebeLoaderAndServer({
       >
         {children}
       </ThebeServerProvider>
-    </ThebeBundleLoaderProvider>
+    </ThebeLoaderProvider>
   );
 }
 

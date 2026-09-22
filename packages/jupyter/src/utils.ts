@@ -1,5 +1,5 @@
 import type { ExpandedThebeFrontmatter, JupyterServerOptions } from 'myst-frontmatter';
-import type { CoreOptions } from 'thebe-core';
+import type { CoreOptions } from '@myst-theme/thebe-core';
 
 export type ExtendedCoreOptions = CoreOptions & {
   useBinder?: boolean;

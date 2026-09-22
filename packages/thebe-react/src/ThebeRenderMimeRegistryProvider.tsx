@@ -1,5 +1,5 @@
 import React from 'react';
-import type { IRenderMimeRegistry } from 'thebe-core';
+import type { IRenderMimeRegistry } from '@myst-theme/thebe-core';
 import { useThebeLoader } from './ThebeLoaderProvider.js';
 import { useThebeConfig } from './ThebeServerProvider.js';
 

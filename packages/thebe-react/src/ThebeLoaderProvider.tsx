@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import version from './version.js';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-export type ThebeCore = typeof import('thebe-core');
+export type ThebeCore = typeof import('@myst-theme/thebe-core');
 
 // Don't know how to get rid of the undefined here in the case of an async provider
 const ThebeLoaderContext = React.createContext<
@@ -24,13 +24,13 @@ export function ThebeLoaderProvider({
     async function startLoading() {
       // if already loaded do nothing
       setLoading(true);
-      console.debug(`thebe-react (v${version}) importing thebe-core...`);
+      console.debug(`thebe-react (v${version}) importing @myst-theme/thebe-core...`);
 
       if (loadThebeLite) {
         let thebeLite;
 
         try {
-          thebeLite = await import('thebe-lite');
+          thebeLite = await import('@myst-theme/thebe-lite');
         } catch (err) {
           const { message } = err as any;
           console.debug(`thebe-lite load failed ${message}`);
@@ -42,7 +42,7 @@ export function ThebeLoaderProvider({
       }
       let thebeCore;
       try {
-        thebeCore = await import('thebe-core');
+        thebeCore = await import('@myst-theme/thebe-core');
       } catch (err) {
         const { message } = err as any;
         console.debug(`thebe-core load failed ${message}`);

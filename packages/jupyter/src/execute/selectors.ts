@@ -1,5 +1,5 @@
 import { SourceFileKind, type Dependency } from 'myst-spec-ext';
-import type { ThebeNotebook } from 'thebe-core';
+import type { ThebeNotebook } from '@myst-theme/thebe-core';
 import type { BuildStatus, ExecuteScopeState } from './types.js';
 
 export function selectScopeForPage(state: ExecuteScopeState, pageSlug: string) {

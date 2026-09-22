@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useThebeServer } from 'thebe-react';
+import { useThebeServer } from '@myst-theme/thebe-react';
 import { useComputeOptions } from './providers.js';
-import type { ThebeEventData, ThebeEventType } from 'thebe-core';
+import type { ThebeEventData, ThebeEventType } from '@myst-theme/thebe-core';
 import { selectAreExecutionScopesBuilding, useExecutionScope } from './execute/index.js';
 
 export function ConnectionStatusTray({ waitForSessions }: { waitForSessions?: boolean }) {

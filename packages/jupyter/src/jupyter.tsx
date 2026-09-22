@@ -5,7 +5,7 @@ import type { MinifiedOutput } from 'nbtx';
 import { convertToIOutputs } from 'nbtx';
 import { fetchAndEncodeOutputImages } from './convertImages.js';
 import { SourceFileKind } from 'myst-spec-ext';
-import { useThebeLoader } from 'thebe-react';
+import { useThebeLoader } from '@myst-theme/thebe-react';
 import { PassiveOutputRenderer } from './passive.js';
 
 /**

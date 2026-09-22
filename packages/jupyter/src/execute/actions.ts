@@ -1,6 +1,6 @@
 import type { SourceFileKind, Dependency } from 'myst-spec-ext';
 import type { BuildStatus, Computable } from './types.js';
-import type { IRenderMimeRegistry, ThebeNotebook, ThebeSession } from 'thebe-core';
+import type { IRenderMimeRegistry, ThebeNotebook, ThebeSession } from '@myst-theme/thebe-core';
 import type { GenericParent } from 'myst-common';
 
 export function isNavigatePayload(payload: unknown): payload is NavigatePayload {

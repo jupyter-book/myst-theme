@@ -8,7 +8,7 @@ import type {
 } from 'nbtx';
 import { walkOutputs } from 'nbtx';
 import { useState, useLayoutEffect, useCallback } from 'react';
-import { useThebeServer } from 'thebe-react';
+import { useThebeServer } from '@myst-theme/thebe-react';
 
 interface LongContent {
   content_type?: string;

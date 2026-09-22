@@ -1,6 +1,6 @@
 import type { GenericParent } from 'myst-common';
 import type { SourceFileKind, Dependency } from 'myst-spec-ext';
-import type { IRenderMimeRegistry, ThebeNotebook, ThebeSession } from 'thebe-core';
+import type { IRenderMimeRegistry, ThebeNotebook, ThebeSession } from '@myst-theme/thebe-core';
 
 export type BuildStatus =
   | 'pending'

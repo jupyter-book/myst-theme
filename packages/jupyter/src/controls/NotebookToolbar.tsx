@@ -5,7 +5,7 @@ import {
   selectExecutionScopeStatus,
   useBusyScope,
 } from '../execute/index.js';
-import { useThebeServer } from 'thebe-react';
+import { useThebeServer } from '@myst-theme/thebe-react';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { Spinner } from './Spinner.js';
 import { Clear, Launch, Restart, Run } from './Buttons.js';

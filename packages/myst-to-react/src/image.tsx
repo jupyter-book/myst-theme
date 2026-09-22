@@ -97,7 +97,9 @@ function Picture({
   height?: string;
   align?: Alignment;
 }) {
-  if (src.endsWith('.mp4') || urlSource?.endsWith('.mp4')) {
+  if (src.endsWith('.mp4') || urlSource?.endsWith('.mp4') || 
+     src.endsWith('.webm') || urlSource?.endsWith('.webm'))
+  {
     return (
       <Video
         className={className}

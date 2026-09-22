@@ -1,43 +1,56 @@
 /**
- * Simple pre-rendering approach based strongly upon https://github.com/jacob-ebey/react-router-runtime-prerender
- *
- * We generate requests, ask the server to "handle" them, and serialise the response.
- *
- * IMPORTANT DETAILS:  There are two tools at play here: Vite, and React
- * Router. Vite handles compilation and bundling, whilst React Router handles
- * routing. This means that, thankfully, most of the hard work is done by
- * Vite.
- *
- * This package is designed to be consumed by a compiled NodeJS application.
- * This compiled application, when run, should fetch CDN content and render it
- * to HTML. We will refer to two phases: "compile time" and "render time".
- *
- * To use this tool, Vite MUST be configured to use a relative base URL `./`.
- * One must use an absolute Vite base URL in dev mode, because React Router's
- * dev plugin expects it and will loudly error if this is not the case. But,
- * in production builds (like this renderer) we *can* use a relative URL. In
- * fact, we *need* to use a relative URL, because we are relocating assets
- * between compile time and render time.  We cannot use a relative base URL in
- * prod non-SSG builds, as will be explored later.
- *
- * ASIDE:  Most of the time, Vite uses relative URLs when e.g. loading
- * inter-chunk data. However, there are places where the value of an absolute
- * base URL is taken into account: HTML generation (including `<links>` that
- * contain URLs i.e. `import "./foo.css?url"`), and dynamic loaded modules
- * e.g. `import()` statements that remain in the bundle. For dynamic modules,
- * we can set a special experimental hook to dynamically compute the base URL
- * at runtime, _or_ we can just set Vite's `base` to './'. For HTML
- * generation, we must either set the experimental hook, or avoid generating
- * HTML altogether e.g replace `<links>` with `import "./foo.css?url"` that
- * JustWorks™ because it spits out an `Asset` entry in the build. Meanwhile,
- * relative asset URLs do not work in React Router builds when e.g. there are
- * non top-level HTML files. In general, React Router does not like relative
- * base URLs.
- *
- * Thus, by configuring Vite to use `base: './'` *only* for (production) HTML
- * builds (this pathway), and relying *only* on asset generation, we only have
- * to remap React Router paths to the new base URL at render time.
- */
+Simple pre-rendering approach based strongly upon
+https://github.com/jacob-ebey/react-router-runtime-prerender
+
+We generate requests, ask the server to "handle" them, and serialise the
+response.
+
+IMPORTANT DETAILS:  There are two tools at play here: Vite, and React
+Router. Vite handles compilation and bundling, whilst React Router handles
+routing. This means that, thankfully, most of the hard work is done by
+Vite.
+
+This package is designed to be consumed by a compiled NodeJS application.
+The compiled application, when run, should fetch CDN content and render it
+to HTML. We will refer to two phases: "compile time" and "render time".
+
+To use this tool, Vite MUST be configured to use a relative base URL `./`.
+One must use an absolute Vite base URL in dev mode, because React Router's
+dev plugin expects it and will loudly error if this is not the case. But,
+in production builds (like this renderer) we *can* use a relative URL. In
+fact, we *need* to use a relative URL, because we are relocating assets
+between compile time and render time.  We cannot use a relative base URL in
+prod non-SSG builds, as will be explored later.
+
+ASIDE:  Most of the time, Vite does not care about the base URL e.g.
+loading inter-chunk data. However, there are places where the value of the
+`vite.base` base URL is taken into account: HTML generation (including
+`<links>` that contain URLs i.e. `import "./foo.css?url"`), and dynamic
+loaded modules e.g. `import()` statements that remain in the bundle.
+Choosing a non-relative `./` value would require us to fix-up generated
+HTML and dynamic import statements after-the-fact (text-file replacement),
+or to use a Vite experimental feature to define a JS string that evaluates
+to the base URL at runtime. Both of these options are suboptimal.
+
+As outlined above, most of the page rendering itself is handled by Vite.
+This can cause problems when Vite and React Router do not communicate
+exhaustively. For example, whilst Vite can use a relative base URL in HTML
+strings, such as `<links>` components, React Router does not provide the
+context about where the _page_ is, so these HTML relative links are often
+broken (e.g. `page.html` vs `page/index.html`).
+
+For this reason, we want to avoid base URL management at the Vite level,
+and instead rely on the React Router management of base URLs (that we
+already are required to deal with). For HTML generation, we must either set
+the experimental hook, or avoid generating HTML altogether e.g replace
+`<links>` that rely on `import "./foo.css?url"` with `import "./foo.css"`
+(side-effect) that JustWorks™ because it spits out an `Asset` entry in the
+build that we can modify.
+
+Thus, by configuring Vite to use `base: './'` *only* for (production) HTML
+builds (this pathway), and relying *only* on asset generation, we only have
+to remap React Router paths to the new base URL at render time.
+*/
 import { createHash } from 'node:crypto';
 import * as fsp from 'node:fs/promises';
 import * as path from 'node:path';

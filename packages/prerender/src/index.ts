@@ -182,12 +182,13 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
 }
 
 function stripViteBaseURL(url: string): string {
-  if (!url.startsWith('./')) {
+  const viteBaseUrl = './';
+  if (!url.startsWith(viteBaseUrl)) {
     throw new Error(
       `Invalid Vite URL. Vite should be configured to run with \`base: "./"\`: ${url}`,
     );
   }
-  return url.slice(2);
+  return url.slice(viteBaseUrl.length);
 }
 
 function replaceViteBaseURL(url: string, baseUrl: string) {
@@ -206,7 +207,7 @@ function rewriteRouteAsset(asset: EntryRoute, baseUrl: string): EntryRoute {
 async function rewriteAssets(build: ServerBuild, outPath: string, baseUrl: string) {
   // Find write path for manifest
   // Allow vite to configure _assets path
-  const [_, manifestPath] = build.assets.url.match(/(.*\/)manifest[^/]+$/) ?? [];
+  const [_, manifestPath] = stripViteBaseURL(build.assets.url).match(/(.*\/)manifest[^/]+$/) ?? [];
   if (manifestPath === undefined) {
     throw new Error(`Unexpected form of assets URL: ${build.assets.url}`);
   }

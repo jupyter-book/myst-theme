@@ -205,23 +205,25 @@ function rewriteRouteAsset(asset: EntryRoute, baseUrl: string): EntryRoute {
 }
 
 async function rewriteAssets(build: ServerBuild, outPath: string, baseUrl: string) {
+  const originalAssets = build.assets;
   // Find write path for manifest
   // Allow vite to configure _assets path
-  const [_, manifestPath] = stripViteBaseURL(build.assets.url).match(/(.*\/)manifest[^/]+$/) ?? [];
+  const [_, manifestPath] =
+    stripViteBaseURL(originalAssets.url).match(/(.*\/)manifest[^/]+$/) ?? [];
   if (manifestPath === undefined) {
-    throw new Error(`Unexpected form of assets URL: ${build.assets.url}`);
+    throw new Error(`Unexpected form of assets URL: ${originalAssets.url}`);
   }
 
   // Remove existing manifest
-  await fsp.rm(path.join(outPath, stripViteBaseURL(build.assets.url)));
-  const assets: typeof build.assets = {
-    ...build.assets,
+  await fsp.rm(path.join(outPath, stripViteBaseURL(originalAssets.url)));
+  const assets: typeof originalAssets = {
+    ...originalAssets,
     entry: {
-      module: replaceViteBaseURL(build.assets.entry.module, baseUrl),
-      imports: build.assets.entry.imports.map((mod) => replaceViteBaseURL(mod, baseUrl)),
+      module: replaceViteBaseURL(originalAssets.entry.module, baseUrl),
+      imports: originalAssets.entry.imports.map((mod) => replaceViteBaseURL(mod, baseUrl)),
     },
     routes: Object.fromEntries(
-      Object.entries(build.assets.routes).map(([id, routeAssets]) => [
+      Object.entries(originalAssets.routes).map(([id, routeAssets]) => [
         id,
         routeAssets ? rewriteRouteAsset(routeAssets, baseUrl) : routeAssets,
       ]),
@@ -308,7 +310,6 @@ export async function prerender(build: ServerBuild, outPath: string) {
   process.env.IS_RR_BUILD_REQUEST = 'yes';
 
   const baseUrl = process.env.BASE_URL ?? '/';
-
   const cdnUrl = process.env.CONTENT_CDN;
   if (cdnUrl === undefined) {
     throw new Error('Expected CONTENT_CDN');

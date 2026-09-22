@@ -8,8 +8,8 @@ export default defineConfig(({ mode }) => {
 
     resolve: { tsconfigPaths: true },
     optimizeDeps: {
-      exclude: [],
     },
+    assetsInclude: ['**/*.whl', '**/@jupyterlite/server/lib/service-worker.js'],
   };
   if (process.env.BUILD_HTML !== undefined) {
     return {

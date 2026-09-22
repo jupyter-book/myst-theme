@@ -71,7 +71,8 @@ options:
       Supports wildcard subdomains with *. Example: "jupyter.org" or "*.jupyter.org"
   - type: file
     id: style
-    description: Local path to a CSS file
+    multiple: true
+    description: URL to fetch, or a list of them (applied in order)
 build:
   install: npm ci --ignore-scripts
   start: npm run start

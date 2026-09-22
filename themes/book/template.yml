@@ -89,8 +89,9 @@ parts:
     description: Custom content displayed at the end of the top navbar
     required: false
 build:
-  install: npm ci --ignore-scripts
-  start: npm run start
+  install: npx bun ci --ignore-scripts
+  start: npx bun run start
+  render: npx bun run render
 files:
   - server.js
   - package.json

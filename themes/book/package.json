@@ -7,14 +7,17 @@
   "scripts": {
     "compile": "tsc --noEmit --skipLibCheck",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
-    "dev:copy": "cp vite.config.dev.ts vite.config.ts",
-    "prod:copy": "cp vite.config.prod.ts vite.config.ts",
+    "dev:copy": "cp vite.config.dev.ts vite.config.ts && cp react-router.dynamic.config.ts react-router.config.ts",
+    "prod:copy": "cp vite.config.prod.ts vite.config.ts && cp react-router.dynamic.config.ts react-router.config.ts",
+    "render:copy": "cp vite.config.prod.ts vite.config.ts && cp react-router.static.config.ts react-router.config.ts",
     "clean": "rm -rf public/build build api",
     "build:thebe": "copy-thebe-assets ./public",
-    "prod:build": "bun run prod:copy && bun run build:thebe && bun run build:css && bun run react-router build",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
     "dev": "bun run dev:copy && bun run build:thebe && concurrently \"bun run dev:css\" \"bun run react-router dev\"",
-    "start": "bun run build:css && bun run react-router dev"
+    "build": "bun run prod:copy && bun run build:thebe && bun run build:css && bun run react-router build",
+    "prod:build": "bun run build",
+    "render": "bun run build:css && bun run build:thebe && bun run render:copy && bun run react-router build",
+    "start": "react-router-serve build/server/index.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",

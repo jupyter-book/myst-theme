@@ -37,18 +37,17 @@ export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest
 
 function updateLink(
   url: string,
-  { rewriteStaticFolder = !!process.env.VITE_ENV_STATIC_BUILD }: LinkRewriteOptions = {},
+  { rewriteStaticFolder = !!process.env.BUILD_HTML }: LinkRewriteOptions = {},
 ) {
   if (!url) return url;
   try {
     const parsed = new URL(url);
     if (parsed.protocol.startsWith('http')) return url;
   } catch {
-    console.error(`Unable to rewrite link: ${url}`);
     // pass
   }
   if (rewriteStaticFolder) {
-    return `${import.meta.env.BASE_URL}build${url}`;
+    return `${process.env.BASE_URL ?? '/'}_public${url}`;
   }
   return `${CONTENT_CDN}${url}`;
 }

@@ -1,18 +1,13 @@
 import type { Config } from '@react-router/dev/config';
-import { config as prerenderConfig } from '@myst-theme/prerender';
 
 // Inputs
-const BASE_URL = process.env.BASE_URL ?? '/';
-const IS_HTML_BUILD = !!process.env.BUILD_HTML;
+const IS_BUILD_HTML = !!process.env.BUILD_HTML;
 
 const getConfig = () => {
-  if (IS_HTML_BUILD) {
-    // Set meta var for static build
-    process.env.VITE_ENV_STATIC_BUILD = '1';
+  if (IS_BUILD_HTML) {
     return {
-      ssr: false,
-      basename: BASE_URL,
-      ...prerenderConfig,
+      ssr: true,
+      routeDiscovery: { mode: 'initial' },
     } satisfies Config;
   } else {
     return {

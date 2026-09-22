@@ -39,7 +39,8 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{
   project: ManifestProject | undefined;
 }> {
   const url = new URL(request.url);
-  const pathName = '/' + url.pathname.slice(import.meta.env.BASE_URL.length).replace(/\.data$/, '');
+  const pathName =
+    '/' + url.pathname.slice((process.env.BASE_URL ?? '/').length).replace(/\.data$/, '');
   const [first, ...rest] = parsePathname(pathName);
   const config = await getConfig();
   const project = getProject(config, first);
@@ -52,7 +53,7 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{
       project: flat ? projectName : (projectName ?? slug),
       slug: flat ? slug : projectName ? slug : undefined,
       // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
-      redirect: !process.env.VITE_ENV_STATIC_BUILD,
+      redirect: !process.env.BUILD_HTML,
     });
     return { config, page, project };
   } catch (e) {

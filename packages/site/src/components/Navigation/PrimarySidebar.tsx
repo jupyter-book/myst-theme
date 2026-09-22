@@ -229,7 +229,7 @@ export const PrimarySidebar = ({
           {navbarEnd && (
             <div
               className={classNames(
-                'article myst-primary-sidebar-navbar-end xl:hidden p-2 my-1 flex flex-wrap gap-2 [&_p]:contents',
+                'article ui-links myst-primary-sidebar-navbar-end xl:hidden p-2 my-1 flex flex-wrap gap-2 [&_p]:contents',
                 sidebarSectionInsetClass,
               )}
             >

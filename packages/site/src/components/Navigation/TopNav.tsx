@@ -170,7 +170,7 @@ export function TopNav({
           <ThemeButton className="w-8 h-8 ml-3" />
           {/* Custom part at end of navbar. It is `hidden` up until xl size since it will be in the sidebar drawer up to that point */}
           {navbarEnd && (
-            <div className="article myst-navbar-end hidden xl:flex items-center ml-3 [&>*]:m-0">
+            <div className="article ui-links myst-navbar-end hidden xl:flex items-center ml-3 [&>*]:m-0">
               <MyST ast={navbarEnd} />
             </div>
           )}

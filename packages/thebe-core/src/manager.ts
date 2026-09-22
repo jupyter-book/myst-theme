@@ -54,7 +54,7 @@ export class ThebeManager extends KernelWidgetManager {
   }
 
   /**
-   * TODO implement a reasonable method for thebe-core that can load serialized widget state
+   * TODO implement a reasonable method for @myst-theme/thebe-core that can load serialized widget state
    * see: https://github.dev/voila-dashboards/voila/blob/7090eb3e30c0c4aa25c2b7d5d2d45e8de1333b3b/packages/voila/src/manager.ts#L52
    *
    */

@@ -1,5 +1,5 @@
 import { createRef, useEffect, useState } from 'react';
-import type { ThebeNotebook, ThebeSession, IThebeCell, IThebeCellExecuteReturn } from 'thebe-core';
+import type { ThebeNotebook, ThebeSession, IThebeCell, IThebeCellExecuteReturn } from '@myst-theme/thebe-core';
 import { useThebeConfig } from '../ThebeServerProvider.js';
 import { useThebeLoader } from '../ThebeLoaderProvider.js';
 import type { INotebookContent } from '@jupyterlab/nbformat';
@@ -43,7 +43,7 @@ export function useNotebookBase() {
    */
   useEffect(() => {
     if (!notebook || !session || !sessionReady) return;
-    console.debug(`thebe-react: attaching notebook to session`, { notebook, session });
+    console.debug(`@myst-theme/thebe-react: attaching notebook to session`, { notebook, session });
     notebook.attachSession(session);
     setSessionAttached(true);
   }, [notebook, session, sessionReady]);

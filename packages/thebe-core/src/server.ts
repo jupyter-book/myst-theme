@@ -11,7 +11,7 @@ import type {
 import type { Config } from './config.js';
 import type { ServiceManager, Session } from '@jupyterlab/services';
 // @ts-ignore
-import type { LiteServerConfig, ThebeLiteGlobal } from 'thebe-lite';
+import type { LiteServerConfig, ThebeLiteGlobal } from '@myst-theme/thebe-lite';
 import type { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 import type { StatusEvent } from './events.js';
 import { WELL_KNOWN_REPO_PROVIDERS, makeBinderUrls } from './url.js';
@@ -134,7 +134,7 @@ class ThebeServer implements ServerRuntime, ServerRestAPI {
     console.debug('thebe:api:startNewSession', { name, path, kernelName });
 
     if (this.serviceManager) {
-      // Temporary Fix: thebe-lite does not yet support filesystem based resouces fully,
+      // Temporary Fix: @myst-theme/thebe-lite does not yet support filesystem based resouces fully,
       // so we can't use a path that points to a sub folder.
       path = path.slice(1).replace(/\//g, '-');
     }
@@ -275,7 +275,7 @@ class ThebeServer implements ServerRuntime, ServerRestAPI {
     const thebeLite = (window as any).thebeLite as ThebeLiteGlobal | undefined;
     if (!thebeLite)
       throw new Error(
-        `thebe-lite is not available at window.thebeLite - load this onto your page before loading thebe or thebe-core.`,
+        `@myst-theme/thebe-lite is not available at window.thebeLite - load this onto your page before loading thebe or @myst-theme/thebe-core.`,
       );
 
     this.serviceManager = await thebeLite.startJupyterLiteServer(config);

@@ -13,9 +13,9 @@ function setupThebeLite() {
 }
 
 if (typeof window !== 'undefined') {
-  console.debug('window is defined, setting up thebe-lite');
+  console.debug('window is defined, setting up @myst-theme/thebe-lite');
   setupThebeLite();
-  console.debug(`thebe-lite (v${window.thebeLite?.version ?? 0})`, window.thebeLite);
+  console.debug(`@myst-theme/thebe-lite (v${window.thebeLite?.version ?? 0})`, window.thebeLite);
 }
 
 export type { LiteServerConfig, ThebeLiteGlobal } from './types.js';

@@ -116,7 +116,7 @@ async function getCDNItems(): Promise<RenderItem[]> {
       }),
       ...sitePublic.map((publicPath) => {
         return {
-          path: `/build${publicPath}`,
+          path: `/_public${publicPath}`,
           type: 'resource',
         } satisfies RenderItem;
       }),

@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { redirect } from '@remix-run/node';
+import { redirect } from 'react-router';
 import type { SiteManifest } from 'myst-config';
 import { slugToUrl } from 'myst-common';
 import {

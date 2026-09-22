@@ -1,4 +1,4 @@
-import { type LoaderFunction } from '@remix-run/node';
+import { type LoaderFunction } from 'react-router';
 import { type ThemeCssOptions, themeCSS, cssResponse } from '@myst-theme/site';
 import { getConfig, getCustomStyleSheet } from '~/utils/loaders.server';
 

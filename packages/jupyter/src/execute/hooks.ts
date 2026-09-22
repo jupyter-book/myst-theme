@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import type { IdOrKey } from './types.js';
 import { ExecuteScopeContext } from './provider.js';
-import type { IThebeCell, ThebeCodeCell, ThebeEventCb, ThebeNotebook } from 'thebe-core';
+import type { IThebeCell, ThebeCodeCell, ThebeEventCb, ThebeNotebook } from '@myst-theme/thebe-core';
 import { useBusyScope } from './busy.js';
-import { findErrors, useThebeConfig } from 'thebe-react';
+import { findErrors, useThebeConfig } from '@myst-theme/thebe-react';
 import { SourceFileKind } from 'myst-spec-ext';
 import { selectNotebookForPage } from './selectors.js';
 

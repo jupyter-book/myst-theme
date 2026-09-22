@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "noImplicitAny": true,
+    "strict": true,
+    "moduleResolution": "NodeNext",
+    "lib": ["DOM", "DOM.iterable", "ES2022"],
+    "experimentalDecorators": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/": ["./src/*"]
+    },
+    "declaration": true,
+    "declarationMap": true,
+    "skipLibCheck": true,
+    "allowJs": true
+  }
+}

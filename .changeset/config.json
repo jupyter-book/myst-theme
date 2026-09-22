@@ -20,7 +20,8 @@
       "@myst-theme/article",
       "myst-to-react",
       "myst-demo"
-    ]
+    ],
+    ["@myst-theme/thebe-*"]
   ],
   "linked": [],
   "access": "public",

@@ -1,4 +1,4 @@
-import { useThebeServer } from 'thebe-react';
+import { useThebeServer } from '@myst-theme/thebe-react';
 import { useNotebookExecution } from '../execute/hooks.js';
 import { Restart, Run, SpinnerStatusButton } from './Buttons.js';
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { ExecuteScopeAction } from './actions.js';
 import type { IdKeyMap, ExecuteScopeState, ExecutionScope } from './types.js';
-import { useThebeLoader, useThebeConfig, useThebeServer } from 'thebe-react';
+import { useThebeLoader, useThebeConfig, useThebeServer } from '@myst-theme/thebe-react';
 import { notebookFromMdast } from './utils.js';
 import type { GenericParent } from 'myst-common';
 import {

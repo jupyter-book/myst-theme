@@ -1,0 +1,55 @@
+{
+  "name": "@myst-theme/thebe-lite",
+  "version": "0.5.0",
+  "description": "Thebe extension library for WASM kernels via JupyterLite",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "src/**/*"
+  ],
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "copy:version": "echo \"const version = '\"$npm_package_version\"';\nexport default version;\" > src/version.ts",
+    "build:post:shuffle": "./bin/shufflePyolitePaths.sh",
+    "build:post:contents": "./bin/stubContentsApi.js",
+    "build:esm": "tsc",
+    "build": "npm-run-all -l clean copy:version -p build:esm",
+    "dev": "bun run  copy:version && bun run build:esm -- -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/thebe.git"
+  },
+  "keywords": [
+    "executablebooks",
+    "thebe",
+    "jupyter",
+    "interactivity",
+    "jupyter-book",
+    "jupyterlite",
+    "pyodide",
+    "WASM"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "Executable Book Project",
+    "email": "executablebooks@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jupyter-book/thebe/issues"
+  },
+  "homepage": "https://github.com/jupyter-book/thebe#readme",
+  "dependencies": {
+    "@jupyterlab/services": "^7.2.5",
+    "@jupyterlab/coreutils": "^6.2.5",
+    "@jupyterlite/pyodide-kernel": "0.4.7",
+    "@jupyterlite/pyodide-kernel-extension": "0.4.7",
+    "@jupyterlite/server": "0.4.5",
+    "@jupyterlite/server-extension": "0.4.5"
+  }
+}

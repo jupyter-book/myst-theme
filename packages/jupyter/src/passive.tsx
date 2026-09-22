@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { IOutput } from '@jupyterlab/nbformat';
-import type { ThebeCore } from 'thebe-core';
+import type { ThebeCore } from '@myst-theme/thebe-react';
 import type { SourceFileKind } from 'myst-spec-ext';
 import { usePlotlyPassively } from './plotly.js';
 

@@ -43,6 +43,7 @@
     "thebe-core": "^0.5.0"
   },
   "devDependencies": {
+    "@myst-theme/prerender": "^0.0.1",
     "@react-router/dev": "^8.0.0",
     "@react-router/fs-routes": "^8.0.0",
     "@react-router/serve": "^8.0.0",

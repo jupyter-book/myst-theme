@@ -8,7 +8,7 @@ if (OUT_PATH === undefined) {
   throw new Error('Missing build path');
 }
 
-await fs.rm(OUT_PATH);
+await fs.rm(OUT_PATH, { recursive: true, force: true });
 await fs.cp(ASSETS_PATH, OUT_PATH, { recursive: true });
 
 await prerender(build, OUT_PATH);

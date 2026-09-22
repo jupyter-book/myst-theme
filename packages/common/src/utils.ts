@@ -53,7 +53,13 @@ export function getProjectHeadings(
   if (opts.addGroups) {
     let lastTitle = project.short_title || project.title;
     return headings.map((heading) => {
-      if (!heading.slug || heading.level === 'index') {
+      // A heading with no slug is normally a "Part" grouping node (title + children,
+      // no file of its own) and should become the new group label for subsequent
+      // pages. External link entries (`url:` in the TOC) also have no slug, but they
+      // are leaf reference links, not section headers, so they must not be picked up
+      // here -- otherwise an external link's title "leaks" into the group label of
+      // every following page.
+      if ((!heading.slug && !heading.url) || heading.level === 'index') {
         lastTitle = heading.short_title || heading.title;
       }
       return { ...heading, group: lastTitle };

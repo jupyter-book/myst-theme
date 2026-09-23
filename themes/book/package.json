@@ -7,12 +7,13 @@
   "scripts": {
     "compile": "react-router typegen && tsc --noEmit --skipLibCheck",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
+    "copy:thebe": "copy-thebe-assets ./public",
     "clean": "rm -rf public/build build api",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
-    "dev": "concurrently \"bun run dev:css\" \"react-router dev\"",
-    "build": "bun run build:css && react-router build",
+    "dev": "concurrently \"bun run copy:thebe\" \"bun run dev:css\" \"react-router dev\"",
+    "build": "bun run copy:thebe && bun run build:css && react-router build",
     "prod:build": "bun run build",
-    "build:renderer": "bun run build:css && BUILD_HTML=1 react-router build",
+    "build:renderer": "bun run copy:thebe && bun run build:css && BUILD_HTML=1 react-router build",
     "render": "BUILD_HTML=1 node ./build/server/index.js",
     "start": "react-router-serve build/server/index.js"
   },

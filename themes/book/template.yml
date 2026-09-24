@@ -89,7 +89,12 @@ parts:
     description: Custom content displayed at the end of the top navbar
     required: false
 build:
-  install: npx bun ci --ignore-scripts
-  start: npx bun run start
-  render: npm run render
-files: []
+  install: node -v
+  start: node --env-file=./.env.prod server/server/index.js
+  render: node --env-file=./.env.prod renderer/server/index.js
+files:
+  - renderer/**/*
+  - server/**/*
+  - public/**/*
+  - .env.prod
+  - package.json

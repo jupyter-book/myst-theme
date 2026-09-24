@@ -3,17 +3,20 @@ import compression from 'compression';
 import express from 'express';
 import morgan from 'morgan';
 import getPort from 'get-port';
+import path from 'node:path';
 
-process.env.NODE_ENV = process.env.NODE_ENV ?? 'production';
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
+const IS_PRODUCTION = process.env.NODE_ENV?? 'production' === 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT =
   process.env.PORT !== undefined
     ? Number.parseInt(process.env.PORT)
     : await getPort({ port: getPort.makeRange(3000, 3100) });
 
-console.log(`Starting ${IS_PRODUCTION ? 'production' : 'development'} server`);
+const CLIENT_PATH = path.join(path.dirname(import.meta.dirname), 'client');
+
+// console.log(`Starting ${IS_PRODUCTION ? 'production' : 'development'} server`);
+
 const viteDevServer = IS_PRODUCTION
   ? undefined
   : await import('vite').then((vite) =>
@@ -35,9 +38,12 @@ app.use(morgan('tiny'));
 
 if (viteDevServer) {
   app.use(viteDevServer.middlewares);
-}
-{
-  app.use('/_assets', express.static('build/client/_assets', { immutable: true, maxAge: '1y' }));
+} else {
+  app.use(express.static(path.join(path.dirname(path.dirname(CLIENT_PATH)), 'public'), { maxAge: "1h" }));
+  app.use(
+    '/_assets',
+    express.static(path.join(CLIENT_PATH, '_assets'), { immutable: true, maxAge: '1y' }),
+  );
 }
 app.use(reactRouterHandler);
 

@@ -14,8 +14,8 @@
     "dev": "concurrently \"bun run copy:thebe\" \"bun run dev:css\" \"cross-env NODE_ENV=development tsx server.ts\"",
     "build": "bun run build:pre && react-router build",
     "build:renderer": "bun run build:pre && cross-env VITE_BUILD_HTML=1 react-router build",
-    "render": "cross-env NODE_ENV=production node ./build/server/index.js",
-    "start": "cross-env NODE_ENV=production node build/server/index.js"
+    "render": "node --env-file=./.env.prod ./build/server/index.js",
+    "start": "node --env-file=./.env.prod build/server/index.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",

@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
     ssr: {
       noExternal: mode == 'production' ? true : undefined,
     },
-    resolve: { tsconfigPaths: true },
+    resolve: { tsconfigPaths: true }
   };
   if (process.env.VITE_BUILD_HTML !== undefined) {
     return {

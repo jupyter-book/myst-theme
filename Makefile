@@ -24,6 +24,7 @@ build-theme:
 	cd themes/$(THEME) && bun run "build:renderer"
 	cp -r themes/$(THEME)/build .deploy/$(THEME)/renderer/
 	cp -r themes/$(THEME)/template.yml .deploy/$(THEME)/template.yml
+	echo '{"type": "module"}' > .deploy/$(THEME)/package.json
 
 build-article:
 	make THEME=article build-theme

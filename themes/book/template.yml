@@ -95,5 +95,6 @@ build:
 files:
   - renderer/**/*
   - server/**/*
+  - public/**/*
   - .env.prod
   - package.json

@@ -1,10 +1,10 @@
 import type { Config } from '@react-router/dev/config';
 
 // Inputs
-const IS_BUILD_HTML = !!process.env.BUILD_HTML;
+const IS_VITE_BUILD_HTML = !!process.env.VITE_BUILD_HTML;
 
 const getConfig = () => {
-  if (IS_BUILD_HTML) {
+  if (IS_VITE_BUILD_HTML) {
     return {
       ssr: true,
       routeDiscovery: { mode: 'initial' },

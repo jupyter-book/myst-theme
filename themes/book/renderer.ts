@@ -2,6 +2,8 @@ import { prerender } from '@myst-theme/prerender';
 import fs from 'node:fs/promises';
 import * as build from 'virtual:react-router/server-build';
 
+process.env.NODE_ENV = process.env.NODE_ENV ?? 'production';
+
 const ASSETS_PATH = './build/client';
 const OUT_PATH = process.env.BUILD_DIRECTORY;
 if (OUT_PATH === undefined) {

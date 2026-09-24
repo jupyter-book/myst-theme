@@ -17,17 +17,13 @@ build-theme:
 	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
 	git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME)
-	rm -rf .deploy/$(THEME)/public .deploy/$(THEME)/build .deploy/$(THEME)/package.json .deploy/$(THEME)/package-lock.json .deploy/$(THEME)/bun.lock .deploy/$(THEME)/template.yml .deploy/$(THEME)/server.js
-	find template -type f  -exec cp {} .deploy/$(THEME) \;
-	rm -rf themes/$(THEME)/{public,build}
-	cd themes/$(THEME) && bun run prod:build
-	cp -r themes/$(THEME)/public .deploy/$(THEME)/public
-	cp -r themes/$(THEME)/build .deploy/$(THEME)/build
+	rm -rf .deploy/$(THEME)/{public,build,package.json,package-lock.json,bun.lock,template.yml,server.js}
+	cp -r themes/$(THEME)/{public,.env.prod} .deploy/$(THEME)/
+	cd themes/$(THEME) && bun run build
+	cp -r themes/$(THEME)/build .deploy/$(THEME)/server/
+	cd themes/$(THEME) && bun run "build:renderer"
+	cp -r themes/$(THEME)/build .deploy/$(THEME)/renderer/
 	cp -r themes/$(THEME)/template.yml .deploy/$(THEME)/template.yml
-	sed -i.bak "s/template/$(THEME)/g" .deploy/$(THEME)/package.json
-	sed -i.bak "s/VERSION/$(VERSION)/g" .deploy/$(THEME)/package.json
-	rm .deploy/$(THEME)/package.json.bak
-	cd .deploy/$(THEME) && npm install
 
 build-article:
 	make THEME=article build-theme

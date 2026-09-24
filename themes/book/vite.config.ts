@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
     ssr: {
       noExternal: mode == 'production' ? true : undefined,
     },
-    resolve: { tsconfigPaths: true },
+    resolve: { tsconfigPaths: true }
   };
   const overrideConfig =
     // HTML builds are a distinct build target from the regular server app

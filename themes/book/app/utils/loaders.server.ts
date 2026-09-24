@@ -37,7 +37,7 @@ export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest
 
 function updateLink(
   url: string,
-  { rewriteStaticFolder = !!process.env.BUILD_HTML }: LinkRewriteOptions = {},
+  { rewriteStaticFolder = !!import.meta.env.VITE_BUILD_HTML }: LinkRewriteOptions = {},
 ) {
   if (!url) return url;
   try {

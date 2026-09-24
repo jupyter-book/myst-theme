@@ -5,13 +5,12 @@ import { defineConfig, type UserConfig } from 'vite';
 export default defineConfig(({ mode }) => {
   const baseConfig: UserConfig = {
     plugins: [reactRouter(), envOnlyMacros()],
-
-    resolve: { tsconfigPaths: true },
-    optimizeDeps: {
-      exclude: [],
+    ssr: {
+      noExternal: mode == 'production' ? true : undefined,
     },
+    resolve: { tsconfigPaths: true },
   };
-  if (process.env.BUILD_HTML !== undefined) {
+  if (process.env.VITE_BUILD_HTML !== undefined) {
     return {
       ...baseConfig,
       build: {
@@ -22,7 +21,7 @@ export default defineConfig(({ mode }) => {
         ssr: {
           build: {
             rolldownOptions: {
-              input: 'app/prerender.ts',
+              input: './renderer.ts',
             },
           },
         },
@@ -30,7 +29,6 @@ export default defineConfig(({ mode }) => {
       base: './',
     };
   } else {
-    console.error('not html');
     return {
       ...baseConfig,
       server: {
@@ -39,6 +37,15 @@ export default defineConfig(({ mode }) => {
       build: {
         assetsDir: '_assets',
         minify: mode === 'production',
+      },
+      environments: {
+        ssr: {
+          build: {
+            rolldownOptions: {
+              input: './server.ts',
+            },
+          },
+        },
       },
       base: process.env.BASE_URL ?? '/',
     };

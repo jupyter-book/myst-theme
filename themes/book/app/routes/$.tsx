@@ -53,7 +53,7 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{
       project: flat ? projectName : (projectName ?? slug),
       slug: flat ? slug : projectName ? slug : undefined,
       // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
-      redirect: !process.env.BUILD_HTML,
+      redirect: !import.meta.env.VITE_BUILD_HTML,
     });
     return { config, page, project };
   } catch (e) {

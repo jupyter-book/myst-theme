@@ -83,9 +83,7 @@ export default function Page() {
   return (
     <ArticlePageAndNavigation>
       <ProjectProvider>
-        <ComputeOptionsProvider
-          features={{ notebookCompute: false, figureCompute: true, launchBinder: true }}
-        >
+        <ComputeOptionsProvider>
           <ThebeLoaderAndServer baseurl={baseurl ?? ''}>
             <ArticlePage article={article} />
           </ThebeLoaderAndServer>

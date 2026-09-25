@@ -6,6 +6,7 @@ import {
   useBusyScope,
 } from '../execute/index.js';
 import { useThebeServer } from 'thebe-react';
+import { useComputeOptions } from '../providers.js';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { Spinner } from './Spinner.js';
 import { Clear, Launch, Restart, Run } from './Buttons.js';
@@ -15,6 +16,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
   const { slug, ready, state, start, resetAll, clearAll, execute } = useExecutionScope();
   const busy = useBusyScope();
   const { connecting, connect, ready: serverReady, server, error: serverError } = useThebeServer();
+  const compute = useComputeOptions();
   const computable = selectIsComputable(state, slug);
   const handleStart = () => {
     if (!connect) {
@@ -111,7 +113,7 @@ export function NotebookToolbar({ showLaunch = false }: { showLaunch?: boolean }
               title="Clear all cells"
             />
           )}
-          {showLaunch && ready && (
+          {showLaunch && compute?.features.launchBinder && ready && (
             <Launch
               ready={ready}
               disabled={false}

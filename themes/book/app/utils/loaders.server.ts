@@ -41,7 +41,7 @@ export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest
 
 function updateLink(
   url: string,
-  { rewriteStaticFolder = !!import.meta.env.VITE_BUILD_HTML }: LinkRewriteOptions = {},
+  { rewriteStaticFolder = !!import.meta.env.VITE_BUILD_HTML || process.env.MYST_HIDE_CDN !== undefined}: LinkRewriteOptions = {},
 ) {
   if (!url) return url;
   try {

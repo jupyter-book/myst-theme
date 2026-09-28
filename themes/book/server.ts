@@ -5,8 +5,7 @@ import morgan from 'morgan';
 import getPort from 'get-port';
 import path from 'node:path';
 
-
-const IS_PRODUCTION = process.env.NODE_ENV?? 'production' === 'production';
+const IS_PRODUCTION = (process.env.NODE_ENV ?? 'production') === 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT =
   process.env.PORT !== undefined
@@ -39,7 +38,9 @@ app.use(morgan('tiny'));
 if (viteDevServer) {
   app.use(viteDevServer.middlewares);
 } else {
-  app.use(express.static(path.join(path.dirname(path.dirname(CLIENT_PATH)), 'public'), { maxAge: "1h" }));
+  app.use(
+    express.static(path.join(path.dirname(path.dirname(CLIENT_PATH)), 'public'), { maxAge: '1h' }),
+  );
   app.use(
     '/_assets',
     express.static(path.join(CLIENT_PATH, '_assets'), { immutable: true, maxAge: '1y' }),

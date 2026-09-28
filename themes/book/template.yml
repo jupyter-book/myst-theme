@@ -89,7 +89,7 @@ parts:
     description: Custom content displayed at the end of the top navbar
     required: false
 build:
-  install: node -v
+  install: npm install
   start: node --env-file=./.env.prod server/server/index.js
   render: node --env-file=./.env.prod renderer/server/index.js
 files:

@@ -18,8 +18,9 @@ build-theme:
 	rm -rf .deploy/$(THEME)
 	git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME)
 	rm -rf .deploy/$(THEME)/{public,build,package.json,package-lock.json,bun.lock,template.yml,server.js}
-	cp -r themes/$(THEME)/{public,.env.prod} .deploy/$(THEME)/
+	cp -r themes/$(THEME)/.env.prod .deploy/$(THEME)/
 	cd themes/$(THEME) && bun run build
+	cp -r themes/$(THEME)/public .deploy/$(THEME)/
 	cp -r themes/$(THEME)/build .deploy/$(THEME)/server/
 	cd themes/$(THEME) && bun run "build:renderer"
 	cp -r themes/$(THEME)/build .deploy/$(THEME)/renderer/

@@ -6,7 +6,7 @@ import {
 } from '@myst-theme/site';
 import { redirect } from 'react-router';
 import { getConfig, getPage } from '~/utils/loaders.server';
-import Page from './$';
+import Page from './$slug';
 import { SiteManifest } from 'myst-config';
 import { getProject } from '@myst-theme/common';
 
@@ -19,7 +19,6 @@ export async function loader({ request }: Route.LoaderArgs) {
   if (!config) throw responseNoSite();
   const project = getProject(config);
   if (!project) throw responseNoArticle();
-  if (project.slug) return redirect(`/${project.slug}`);
   const page = await getPage(request, { slug: project.index });
   return { config, page, project };
 }

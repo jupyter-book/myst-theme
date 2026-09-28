@@ -12,10 +12,14 @@ import { redirect } from 'react-router';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
 import type { MystSearchIndex } from '@myst-theme/search';
 import { slugToUrl } from 'myst-common';
+import { normalizeBaseURL } from '@myst-theme/common';
 import { migrate } from 'myst-migrate';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
-const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`;
+const CONTENT_CDN = normalizeBaseURL(
+  process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`,
+);
+const BASE_URL = `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`;
 
 interface LinkRewriteOptions {
   rewriteStaticFolder?: boolean;
@@ -47,7 +51,7 @@ function updateLink(
     // pass
   }
   if (rewriteStaticFolder) {
-    return `${process.env.BASE_URL ?? '/'}_public${url}`;
+    return `${BASE_URL}_public${url}`;
   }
   return `${CONTENT_CDN}${url}`;
 }

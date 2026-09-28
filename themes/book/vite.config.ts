@@ -1,6 +1,7 @@
 import { reactRouter } from '@react-router/dev/vite';
 import { envOnlyMacros } from 'vite-env-only';
 import { defineConfig, type UserConfig } from 'vite';
+import { normalizeBaseURL } from '@myst-theme/common';
 
 export default defineConfig(({ mode }) => {
   const baseConfig: UserConfig = {
@@ -47,7 +48,7 @@ export default defineConfig(({ mode }) => {
           },
         },
       },
-      base: process.env.BASE_URL ?? '/',
+      base: `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`,
     };
   }
 });

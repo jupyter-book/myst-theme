@@ -57,6 +57,7 @@ import * as path from 'node:path';
 import { createRequestHandler, type ServerBuild } from 'react-router';
 
 import type { SiteManifest } from 'myst-config';
+import { normalizeBaseURL } from '@myst-theme/common';
 
 function isDynamicRoute(urlPath: string): boolean {
   const segments = urlPath.split('/');
@@ -307,13 +308,15 @@ async function renderRenderablePath(
  * Requires a running MyST content server
  */
 export async function prerender(build: ServerBuild, outPath: string) {
+  // In future, if we pre-render `.data` routes, we'll want to set
+  // this so that we can pass the data into the headers of secondary
+  // requests
   process.env.IS_RR_BUILD_REQUEST = 'yes';
 
-  const baseUrl = process.env.BASE_URL ?? '/';
-  const cdnUrl = process.env.CONTENT_CDN;
-  if (cdnUrl === undefined) {
-    throw new Error('Expected CONTENT_CDN');
-  }
+  // Ensure we have a proper base URL ending with /
+  const baseUrl = `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`;
+  // Ensure that we have a proper CDN URL that *does not end with /*
+  const cdnUrl = `${normalizeBaseURL(process.env.CONTENT_CDN ?? 'http://localhost:3100')}`;
 
   const intrinsicItems = Object.values(build.routes)
     .map(getRenderItem)

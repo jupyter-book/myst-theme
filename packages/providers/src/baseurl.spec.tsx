@@ -1,23 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { withBaseurl, isExternalUrl, normalizeBaseurl } from './baseurl.js';
-
-describe('normalizeBaseurl', () => {
-  it('strips a trailing slash', () => {
-    expect(normalizeBaseurl('/base/')).toBe('/base');
-  });
-
-  it('strips multiple trailing slashes', () => {
-    expect(normalizeBaseurl('/base///')).toBe('/base');
-  });
-
-  it('leaves a baseurl without a trailing slash unchanged', () => {
-    expect(normalizeBaseurl('/base')).toBe('/base');
-  });
-
-  it('passes through undefined', () => {
-    expect(normalizeBaseurl(undefined)).toBe(undefined);
-  });
-});
+import { withBaseurl, isExternalUrl } from './baseurl.js';
 
 describe('withBaseurl', () => {
   it('should prepend baseurl to internal paths', () => {

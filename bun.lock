@@ -263,6 +263,9 @@
     "packages/prerender": {
       "name": "@myst-theme/prerender",
       "version": "0.0.1",
+      "dependencies": {
+        "@myst-theme/common": "^1.4.1",
+      },
       "devDependencies": {
         "@types/node": "^26.6.2",
         "myst-config": "^1.7.9",

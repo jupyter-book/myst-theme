@@ -1,17 +1,11 @@
 import React, { useContext } from 'react';
+import { normalizeBaseURL } from '@myst-theme/common';
 
 import escape from 'regexp.escape';
 
 const BaseUrlContext = React.createContext<{
   baseurl?: string;
 }>({});
-
-// A trailing slash would otherwise produce double slashes wherever baseurl is
-// concatenated with a leading-slash path (see withBaseurl below), and breaks
-// matching a pathname back to its baseurl-relative path.
-export function normalizeBaseurl(baseurl?: string) {
-  return baseurl?.replace(/\/+$/, '');
-}
 
 export function BaseUrlProvider({
   baseurl,
@@ -21,7 +15,7 @@ export function BaseUrlProvider({
   children: React.ReactNode;
 }) {
   return (
-    <BaseUrlContext.Provider value={{ baseurl: normalizeBaseurl(baseurl) }}>
+    <BaseUrlContext.Provider value={{ baseurl: normalizeBaseURL(baseurl ?? '') }}>
       {children}
     </BaseUrlContext.Provider>
   );

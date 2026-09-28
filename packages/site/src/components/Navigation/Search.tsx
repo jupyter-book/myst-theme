@@ -8,7 +8,6 @@ import {
   forwardRef,
 } from 'react';
 import type { KeyboardEventHandler, Dispatch, SetStateAction, FormEvent, MouseEvent } from 'react';
-import { useFetcher } from 'react-router';
 import {
   ArrowTurnDownLeftIcon,
   MagnifyingGlassIcon,
@@ -20,7 +19,7 @@ import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import type { RankedSearchResult, HeadingLevel, MystSearchIndex } from '@myst-theme/search';
+import type { RankedSearchResult, HeadingLevel } from '@myst-theme/search';
 import { SPACE_OR_PUNCTUATION, rankResults } from '@myst-theme/search';
 import {
   useThemeTop,
@@ -29,6 +28,7 @@ import {
   useBaseurl,
   useNavigateProvider,
 } from '@myst-theme/providers';
+import type { MystSearchIndex } from 'myst-spec-ext';
 
 /**
  * Shim for string.matchAll
@@ -218,7 +218,6 @@ function SearchResultItem({
   closeSearch?: () => void;
 }) {
   const { hierarchy, type, url, queries } = result;
-  const baseurl = useBaseurl();
   const Link = useLinkProvider();
 
   // Render the icon
@@ -381,29 +380,42 @@ function SearchResults({
  * Build search implementation by requesting search index from server
  */
 function useSearch() {
-  const fetcher = useFetcher<MystSearchIndex>();
+  const baseURL = useBaseurl() ?? '';
+  const [data, setData] = useState<MystSearchIndex | null>(null);
   const [enabled, setEnabled] = useState(true);
   // Load index when this component is required
   // TODO: this reloads every time the search box is opened.
   //       we should lift the state up
   useEffect(() => {
-    if (fetcher.state === 'idle' && fetcher.data == null) {
-      fetcher.load('/myst.search.json');
+    async function fetchData() {
+      let response;
+      try {
+        response = await fetch(`${baseURL}/myst.search.json`);
+      } catch (err) {
+        console.error('Unable to fetch search data');
+        return;
+      }
+      if (!response.ok) {
+        console.error('Unable to fetch search data');
+        return;
+      }
+      setData(await response.json());
     }
-  }, [fetcher]);
+    fetchData();
+  }, [baseURL]);
 
   const searchFactory = useSearchFactory();
   const search = useMemo(() => {
-    if (!fetcher.data || !searchFactory) {
+    if (!data || !searchFactory) {
       return undefined;
     } else {
-      if (fetcher.data?.version && fetcher.data?.records) {
-        return searchFactory(fetcher.data);
+      if (data?.version && data?.records) {
+        return searchFactory(data);
       }
       setEnabled(false);
       return undefined;
     }
-  }, [searchFactory, fetcher.data, setEnabled]);
+  }, [searchFactory, data, setEnabled]);
 
   // Implement pass-through
   return { search, enabled };

@@ -127,6 +127,9 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
     fetch(`${cdnUrl}/config.json`),
     fetch(`${cdnUrl}/public.json`),
   ]);
+  if (!configResponse.ok || !publicResponse.ok) {
+    throw new Error('Responses from CDN were not OK!');
+  }
   const config = (await configResponse.json()) as SiteManifest;
   const sitePublic = (await publicResponse.json()) as string[];
 

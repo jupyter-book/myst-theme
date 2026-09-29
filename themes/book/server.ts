@@ -24,9 +24,13 @@ const viteDevServer = IS_PRODUCTION
       }),
     );
 
+type ServerBuild = Awaited<typeof import('virtual:react-router/server-build')>;
 const reactRouterHandler = createRequestHandler({
   build: viteDevServer
-    ? () => viteDevServer.ssrLoadModule('virtual:react-router/server-build')
+    ? () =>
+        viteDevServer.ssrLoadModule(
+          'virtual:react-router/server-build',
+        ) as any as Promise<ServerBuild>
     : await import('virtual:react-router/server-build'),
 });
 

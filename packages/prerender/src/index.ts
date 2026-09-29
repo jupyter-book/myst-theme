@@ -303,7 +303,7 @@ async function renderRenderablePath(
       break;
     }
     default: {
-      throw new Error();
+      throw new Error(`Invalid pre-render item type ${item.type}`);
     }
   }
 }

@@ -205,6 +205,7 @@ function rewriteRouteAsset(asset: EntryRoute, baseUrl: string): EntryRoute {
     module: asset.module ? replaceViteBaseURL(asset.module, baseUrl) : asset.module,
     imports: asset.imports?.map((mod) => replaceViteBaseURL(mod, baseUrl)),
     css: asset.css?.map((mod) => replaceViteBaseURL(mod, baseUrl)),
+    // FIXME: handle client loaders if we end up using them
   };
 }
 
@@ -259,7 +260,9 @@ async function renderRenderablePath(
   base_url: string,
 ) {
   const prerenderPath =
-    base_url !== '/' ? '/' + base_url.split('/').filter(Boolean).join('/') + item.path : item.path;
+    base_url !== '/'
+      ? '/' + base_url.split('/').filter(Boolean).map(encodeURIComponent).join('/') + item.path
+      : item.path;
 
   const contentURL = new URL(prerenderPath, 'http://pre.render');
   const contentResponse = await handler(new Request(contentURL));

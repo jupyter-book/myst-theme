@@ -1,5 +1,5 @@
 import { getCDNUrl } from '~/utils/loaders.server';
-import type { Route } from './+types/[build].$';
+import type { Route } from './+types/[_public].$';
 
 export async function loader({ params }: Route.LoaderArgs) {
   // Default to CDN url itself

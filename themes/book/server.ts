@@ -12,8 +12,6 @@ const PORT =
     ? Number.parseInt(process.env.PORT)
     : await getPort({ port: getPort.makeRange(3000, 3100) });
 
-const CLIENT_PATH = path.join(path.dirname(import.meta.dirname), 'client');
-
 // console.log(`Starting ${IS_PRODUCTION ? 'production' : 'development'} server`);
 
 const viteDevServer = IS_PRODUCTION
@@ -36,18 +34,16 @@ const reactRouterHandler = createRequestHandler({
 
 const app = express();
 app.use(compression());
-app.use(express.static('build/client', { maxAge: '1h' }));
 app.use(morgan('tiny'));
 
 if (viteDevServer) {
   app.use(viteDevServer.middlewares);
 } else {
+  // Prod builds put us under e.g. build/server/index.js
+  const CLIENT_PATH = path.join(path.dirname(import.meta.dirname), 'client');
+  app.use(express.static(CLIENT_PATH, { immutable: true, maxAge: '1y' }));
   app.use(
     express.static(path.join(path.dirname(path.dirname(CLIENT_PATH)), 'public'), { maxAge: '1h' }),
-  );
-  app.use(
-    '/_assets',
-    express.static(path.join(CLIENT_PATH, '_assets'), { immutable: true, maxAge: '1y' }),
   );
 }
 app.use(reactRouterHandler);

@@ -39,9 +39,11 @@ app.use(morgan('tiny'));
 if (viteDevServer) {
   app.use(viteDevServer.middlewares);
 } else {
-  // Prod builds put us under e.g. build/server/index.js
+  // Prod builds put us under e.g. <root><base>/server/index.js
   const CLIENT_PATH = path.join(path.dirname(import.meta.dirname), 'client');
+  // Serve client assets from <root>/<base>/client
   app.use(express.static(CLIENT_PATH, { immutable: true, maxAge: '1y' }));
+  // Serve public assets from <root>/public
   app.use(
     express.static(path.join(path.dirname(path.dirname(CLIENT_PATH)), 'public'), { maxAge: '1h' }),
   );

@@ -2,16 +2,34 @@ import { useMemo } from 'react';
 import { Deck as RevealDeck, Slide, Stack } from '@revealjs/react';
 import RevealNotes from 'reveal.js/plugin/notes';
 import type { PageLoader } from '@myst-theme/common';
-import { ArticleProvider, useSiteManifest } from '@myst-theme/providers';
+import { ArticleProvider, useBaseurl, useSiteManifest } from '@myst-theme/providers';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
 import { Bibliography, ThemeButton } from '@myst-theme/site';
-import { BusyScopeProvider, ExecuteScopeProvider } from '@myst-theme/jupyter';
+import {
+  BusyScopeProvider,
+  ComputeOptionsProvider,
+  ConnectionStatusTray,
+  ErrorTray,
+  ExecuteScopeProvider,
+  NotebookToolbar,
+  ThebeLoaderAndServer,
+  useComputeOptions,
+} from '@myst-theme/jupyter';
+import { SourceFileKind } from 'myst-spec-ext';
 import { copyNode, type GenericParent } from 'myst-common';
 import { MyST } from 'myst-to-react';
 import { splitSlides, type Slide as SlideData } from '../slides';
 import type { TemplateOptions } from '../types';
 
 const PLUGINS = [RevealNotes];
+
+/** While a widget or form control has focus, keys go to it, not to slide navigation. */
+function keyboardCondition(event: KeyboardEvent) {
+  const target = event.target as Element | null;
+  return !target?.closest?.(
+    'input, select, textarea, [contenteditable], .jupyter-widgets, .myst-anywidget',
+  );
+}
 const SLIDE_CLASS = 'prose';
 
 function SlideView({ slide }: { slide: SlideData }) {
@@ -34,8 +52,24 @@ export function useTemplateOptions(article: PageLoader): TemplateOptions {
   return { ...site, ...page };
 }
 
+/** Code runs live when the project sets `jupyter` (a server, Binder or JupyterLite). */
 export function Deck({ article }: { article: PageLoader }) {
+  const baseurl = useBaseurl();
+  return (
+    <ComputeOptionsProvider
+      features={{ notebookCompute: true, figureCompute: true, launchBinder: false }}
+    >
+      <ThebeLoaderAndServer baseurl={baseurl ?? ''}>
+        <DeckSlides article={article} />
+      </ThebeLoaderAndServer>
+    </ComputeOptionsProvider>
+  );
+}
+
+function DeckSlides({ article }: { article: PageLoader }) {
   const opts = useTemplateOptions(article);
+  const compute = useComputeOptions();
+  const live = !!compute?.enabled && article.kind === SourceFileKind.Notebook;
   const columns = useMemo(
     () => splitSlides(copyNode(article.mdast) as GenericParent, { slideLevel: opts.slide_level }),
     [article.mdast, opts.slide_level],
@@ -43,6 +77,7 @@ export function Deck({ article }: { article: PageLoader }) {
   const config = useMemo(
     () => ({
       hash: true,
+      keyboardCondition,
       transition: opts.transition,
       // Without slide transitions, backgrounds also change at once.
       backgroundTransition: opts.transition === 'none' ? ('none' as const) : ('fade' as const),
@@ -73,7 +108,7 @@ export function Deck({ article }: { article: PageLoader }) {
       frontmatter={article.frontmatter}
     >
       <BusyScopeProvider>
-        <ExecuteScopeProvider enable={false} contents={article}>
+        <ExecuteScopeProvider enable={!!compute?.enabled} contents={article}>
           <RevealDeck config={config} plugins={PLUGINS} className="myst-slides">
             {!opts.hide_title_slide && title && (
               <Slide className={`${SLIDE_CLASS} myst-title-slide`}>
@@ -97,7 +132,12 @@ export function Deck({ article }: { article: PageLoader }) {
               </Slide>
             )}
           </RevealDeck>
-          {!opts.hide_theme_toggle && <ThemeButton className="myst-slides-theme-button" />}
+          <div className="myst-slides-corner">
+            {live && <NotebookToolbar />}
+            {!opts.hide_theme_toggle && <ThemeButton className="myst-slides-theme-button" />}
+          </div>
+          {live && <ErrorTray pageSlug={article.slug} />}
+          {live && <ConnectionStatusTray />}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ArticleProvider>

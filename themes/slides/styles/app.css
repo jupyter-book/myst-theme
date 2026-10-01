@@ -80,11 +80,24 @@
   display: none;
 }
 
-.myst-slides-theme-button {
+/* The kernel toolbar and the theme button share the top-right corner. */
+.myst-slides-corner {
   position: fixed;
   top: 12px;
   right: 12px;
   z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.myst-slides-corner .myst-jp-nb-toolbar {
+  position: static;
+  width: auto;
+  padding: 0;
+}
+
+.myst-slides-theme-button {
   width: 2.25rem;
   height: 2.25rem;
   opacity: 0.4;
@@ -94,7 +107,7 @@
   opacity: 1;
 }
 
-html.reveal-print .myst-slides-theme-button {
+html.reveal-print .myst-slides-corner {
   display: none;
 }
 

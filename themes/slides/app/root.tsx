@@ -1,6 +1,7 @@
 import type { LinksFunction, MetaFunction, LoaderFunction } from 'react-router';
 import tailwind from '~/styles/app.css?url';
 import revealCss from 'reveal.js/reveal.css?url';
+import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css?url';
 import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/common';
 import {
@@ -34,6 +35,7 @@ export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: revealCss },
   { rel: 'stylesheet', href: tailwind },
+  { rel: 'stylesheet', href: thebeCoreCss },
 ];
 
 export const loader: LoaderFunction = async (): Promise<SiteLoader> => {

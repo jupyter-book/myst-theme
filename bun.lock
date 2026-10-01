@@ -502,6 +502,7 @@
         "react-dom": "^19.1.0",
         "react-router": "^8.0.0",
         "reveal.js": "^6.0.2",
+        "thebe-core": "^0.5.0",
       },
       "devDependencies": {
         "@react-router/dev": "^8.0.0",

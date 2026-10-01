@@ -76,6 +76,62 @@ Keys that start with `background`, `transition` or `auto-animate`, and the keys 
 
 The `class` key of block metadata adds classes to the block, for example `fragment`.
 
+## Code and widgets
+
+### Executed code
+
+Code cells in notebooks, and `{code-cell}` blocks in pages with a `kernelspec`, show their outputs.
+Run `myst start --execute` or `myst build --execute` to compute the outputs.
+
+### Live code
+
+Set `jupyter` in the project configuration to run code during the talk.
+To run Python in the browser with [JupyterLite](https://jupyterlite.readthedocs.io), use:
+
+```yaml
+project:
+  jupyter:
+    lite: true
+```
+
+To use a Jupyter server, use:
+
+```yaml
+project:
+  jupyter:
+    server:
+      url: http://localhost:8888/
+      token: my-token
+```
+
+Start the server so that the deck can connect to it:
+
+```sh
+jupyter server --IdentityProvider.token=my-token --ServerApp.allow_origin='*'
+```
+
+On a page with code cells, the power button in the top-right corner starts the kernel.
+Then the toolbar runs all cells, restarts the kernel and clears the outputs, and each code cell has its own run button.
+Jupyter widgets, for example `ipywidgets.interact`, respond to the kernel.
+While a widget has focus, the arrow keys go to the widget and do not change the slide.
+
+JupyterLite includes only some packages.
+Install other packages with `piplite`.
+To skip the install when the outputs are computed by a normal kernel, check the platform:
+
+```python
+import sys
+if sys.platform == 'emscripten':
+    import piplite
+    await piplite.install('ipywidgets')
+```
+
+### Browser widgets
+
+The MyST `anywidget` directive shows a JavaScript widget.
+The widget runs in the browser and needs no kernel, so it also works in a static build.
+See the [MyST widgets guide](https://mystmd.org/guide/widgets).
+
 ## Notebooks
 
 The theme reads the Jupyter `slideshow.slide_type` cell metadata, as RISE and `nbconvert --to slides` do.

@@ -10,4 +10,7 @@ export type TemplateOptions = CommonTemplateOptions & {
   align_top?: boolean;
   width?: number;
   height?: number;
+  hide_theme_toggle?: boolean;
+  code_theme?: string;
+  code_theme_dark?: string;
 };

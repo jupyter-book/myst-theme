@@ -4,7 +4,7 @@ import RevealNotes from 'reveal.js/plugin/notes';
 import type { PageLoader } from '@myst-theme/common';
 import { ArticleProvider, useSiteManifest } from '@myst-theme/providers';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
-import { Bibliography } from '@myst-theme/site';
+import { Bibliography, ThemeButton } from '@myst-theme/site';
 import { BusyScopeProvider, ExecuteScopeProvider } from '@myst-theme/jupyter';
 import { copyNode, type GenericParent } from 'myst-common';
 import { MyST } from 'myst-to-react';
@@ -44,6 +44,8 @@ export function Deck({ article }: { article: PageLoader }) {
     () => ({
       hash: true,
       transition: opts.transition,
+      // Without slide transitions, backgrounds also change at once.
+      backgroundTransition: opts.transition === 'none' ? ('none' as const) : ('fade' as const),
       slideNumber: !!opts.slide_number,
       controls: !opts.hide_controls,
       progress: !opts.hide_progress,
@@ -95,6 +97,7 @@ export function Deck({ article }: { article: PageLoader }) {
               </Slide>
             )}
           </RevealDeck>
+          {!opts.hide_theme_toggle && <ThemeButton className="myst-slides-theme-button" />}
         </ExecuteScopeProvider>
       </BusyScopeProvider>
     </ArticleProvider>

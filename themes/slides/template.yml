@@ -17,7 +17,7 @@ options:
     integer: true
   - type: choice
     id: transition
-    description: Slide transition style
+    description: Slide transition style; none also turns off background transitions
     choices:
       - none
       - fade
@@ -40,6 +40,15 @@ options:
   - type: boolean
     id: align_top
     description: Align slide content to the top instead of centering it vertically
+  - type: boolean
+    id: hide_theme_toggle
+    description: Hide the button that switches between light and dark mode
+  - type: string
+    id: code_theme
+    description: Name of a highlight.js style for code in light mode, for example github or atom-one-light
+  - type: string
+    id: code_theme_dark
+    description: Name of a highlight.js style for code in dark mode, for example atom-one-dark or monokai
   - type: number
     id: width
     description: Width of the slide canvas in pixels (default 1280)

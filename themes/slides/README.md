@@ -28,6 +28,27 @@ Each other page is a deck.
   Set `hide_title_slide` to remove it.
 - If the page has citations, the last slide shows the bibliography.
 
+## Transitions
+
+The `transition` option sets the slide transition: `none`, `fade`, `slide` (the default), `convex`, `concave` or `zoom`.
+With `none`, slides and backgrounds change at once.
+To change the transition of one slide, set `transition` in block metadata.
+
+## Columns
+
+Use the MyST `grid` directive to put content side by side:
+
+```markdown
+::::{grid} 2
+:::{grid-item}
+Text on the left.
+:::
+:::{grid-item}
+![A figure on the right](figure.png)
+:::
+::::
+```
+
 ## Fragments and notes
 
 ```markdown
@@ -84,7 +105,7 @@ These tokens are the most important for slides:
 | ------------------------- | ---------------------------------- |
 | `--myst-color-bg`         | Slide background                   |
 | `--myst-color-prose-body` | Body text                          |
-| `--myst-color-text`       | Headings and bold text             |
+| `--myst-color-text`       | Bold text                          |
 | `--myst-color-link`       | Links                              |
 | `--myst-color-code`       | Inline code                        |
 | `--myst-color-border`     | Table borders and horizontal rules |
@@ -107,7 +128,33 @@ If you set a token in `:root` only, the dark mode also uses that value.
 }
 ```
 
+The theme adds two colors of its own:
+
+| Variable                      | Default                     | Use                                           |
+| ----------------------------- | --------------------------- | --------------------------------------------- |
+| `--myst-slides-heading-color` | `var(--myst-color-link)`    | Headings                                      |
+| `--myst-slides-accent-color`  | `var(--myst-color-primary)` | Navigation arrows, progress bar, slide number |
+
 On a slide with a dark `background-color`, the theme uses the light text colors of Tailwind Typography.
+
+### Light and dark mode
+
+The button in the top-right corner switches between light and dark mode.
+Set `hide_theme_toggle` to remove it.
+
+### Code
+
+The `code_theme` and `code_theme_dark` options set the code colors in light and dark mode.
+Their values are names of [highlight.js 10 styles](https://github.com/highlightjs/highlight.js/tree/10-stable/src/styles), without `.css`:
+
+```yaml
+site:
+  options:
+    code_theme: github
+    code_theme_dark: atom-one-dark
+```
+
+Without these options, code uses the MyST colors.
 
 ### Fonts and sizes
 
@@ -141,7 +188,7 @@ To use a web font, declare it with `@font-face`:
 ```
 
 An `@import` rule works only if it is the first rule in the served stylesheet.
-With the `numbered_references` option, the theme adds rules before your file, and the `@import` rule has no effect.
+With the `numbered_references`, `code_theme` or `code_theme_dark` options, the theme adds rules before your file, and the `@import` rule has no effect.
 
 ### Selectors
 

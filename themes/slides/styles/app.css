@@ -46,6 +46,20 @@
   font-size: 1.3em;
 }
 
+/* A code cell with `:class: side-by-side` shows its code on the left and its outputs on the right. */
+.reveal.myst-slides .side-by-side {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5em;
+  align-items: start;
+}
+
+.reveal.myst-slides .side-by-side > :is(.myst-jp-nb-block-spinner, .myst-jp-nb-block) {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 /* Without a kernel, a Jupyter widget shows only its placeholder message, not its text form. */
 .reveal.myst-slides .thebe-ipywidgets-placeholder pre {
   display: none;

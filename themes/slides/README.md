@@ -49,6 +49,15 @@ Text on the left.
 ::::
 ```
 
+To show a code cell's code on the left and its outputs on the right, give the cell the `side-by-side` class:
+
+````markdown
+```{code-cell} python
+:class: side-by-side
+plt.imshow(data)
+```
+````
+
 ## Fragments and notes
 
 ```markdown

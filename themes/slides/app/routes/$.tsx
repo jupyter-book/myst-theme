@@ -75,7 +75,7 @@ export default function Page() {
 export function ErrorBoundary() {
   const error = useRouteError();
   return (
-    <main className="max-w-3xl px-6 py-12 mx-auto prose dark:prose-invert">
+    <main className="max-w-3xl px-6 py-12 mx-auto prose">
       {isRouteErrorResponse(error) ? (
         <ErrorDocumentNotFound />
       ) : (

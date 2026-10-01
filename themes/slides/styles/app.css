@@ -1,19 +1,38 @@
 @import '@myst-theme/styles';
 
-/* Slide text scales with the reveal.js canvas; prose sizes are relative to this. */
+/* Sizes are in canvas pixels; reveal.js scales the canvas to the window. */
+:root {
+  --myst-slides-font-family: inherit;
+  --myst-slides-heading-font-family: var(--myst-slides-font-family);
+  --myst-slides-code-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --myst-slides-font-size: 32px;
+  --myst-slides-code-font-size: 22px;
+  --myst-slides-line-height: 1.4;
+  --myst-slides-text-align: left;
+}
+
 .reveal.myst-slides .slides {
-  text-align: left;
+  text-align: var(--myst-slides-text-align);
+  font-family: var(--myst-slides-font-family);
 }
 
 .reveal.myst-slides .slides section.prose {
   max-width: none;
-  font-size: 32px;
-  line-height: 1.4;
+  font-size: var(--myst-slides-font-size);
+  line-height: var(--myst-slides-line-height);
 }
 
-/* MyST code blocks and outputs use rem sizes, which are too small on the canvas. */
+.reveal.myst-slides section.prose :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--myst-slides-heading-font-family);
+}
+
+/* MyST code blocks and outputs use rem sizes, which do not scale with the slide font size. */
 .reveal.myst-slides section.prose pre {
-  font-size: 22px;
+  font-size: var(--myst-slides-code-font-size);
+}
+
+.reveal.myst-slides section.prose :is(pre, code) {
+  font-family: var(--myst-slides-code-font-family);
 }
 
 .reveal.myst-slides .myst-title-slide {

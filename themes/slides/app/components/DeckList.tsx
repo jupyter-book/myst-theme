@@ -21,7 +21,7 @@ export function DeckList({ article, project }: { article: PageLoader; project: M
       references={{ ...article.references, article: article.mdast }}
       frontmatter={article.frontmatter}
     >
-      <main className="max-w-3xl px-6 py-12 mx-auto prose dark:prose-invert">
+      <main className="max-w-3xl px-6 py-12 mx-auto prose">
         <FrontmatterBlock
           frontmatter={article.frontmatter}
           hideBadges

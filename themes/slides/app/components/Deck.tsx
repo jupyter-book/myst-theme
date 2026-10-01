@@ -12,7 +12,7 @@ import { splitSlides, type Slide as SlideData } from '../slides';
 import type { TemplateOptions } from '../types';
 
 const PLUGINS = [RevealNotes];
-const SLIDE_CLASS = 'prose dark:prose-invert';
+const SLIDE_CLASS = 'prose';
 
 function SlideView({ slide }: { slide: SlideData }) {
   return (

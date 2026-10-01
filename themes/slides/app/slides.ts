@@ -53,15 +53,13 @@ export function splitSlides(tree: GenericParent, opts: SplitOptions = {}): Colum
     node.type === 'block' ? (node as GenericParent) : { type: 'block', children: [node] },
   );
   const rise = blocks.some((block) => riseType(block));
-  const depths = [
-    ...new Set(
-      blocks.flatMap((block) =>
-        block.children.filter((n) => n.type === 'heading').map((n) => n.depth as number),
-      ),
-    ),
-  ].sort((a, b) => a - b);
-  const level = (node: GenericNode) => depths.indexOf(node.depth) + 1;
+  const headings = blocks.flatMap((block) => block.children.filter((n) => n.type === 'heading'));
+  const depths = [...new Set(headings.map((n) => n.depth as number))].sort((a, b) => a - b);
+  const levels = new Map(headings.map((n) => [n, depths.indexOf(n.depth) + 1]));
+  const level = (node: GenericNode) => levels.get(node) ?? 0;
   const slideLevel = opts.slideLevel ?? Math.min(2, depths.length);
+  // Render column headings as h1, slide titles as h2, and deeper headings below them.
+  headings.forEach((n) => (n.depth = Math.min(6, Math.max(1, level(n) - slideLevel + 2))));
   const columns: Column[] = [];
   let columnOpen = false;
   let slide: Slide | undefined;

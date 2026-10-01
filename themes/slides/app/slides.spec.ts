@@ -53,6 +53,14 @@ describe('splitSlides', () => {
     expect(texts(tree)).toEqual([[['A']], [['b']], [['C']]]);
   });
 
+  test('headings render as h1 for columns and h2 for slides', () => {
+    const tree = root(block([h(2, 'S'), h(3, 'A'), h(4, 'sub'), h(2, 'T')]));
+    const depths = splitSlides(tree).flatMap((c) =>
+      c.flatMap((s) => s.children.flatMap((b) => b.children.map((n: GenericNode) => n.depth))),
+    );
+    expect(depths).toEqual([1, 2, 3, 1]);
+  });
+
   test('slideLevel 1 gives a flat deck', () => {
     const tree = root(block([h(1, 'A'), h(2, 'sub'), h(1, 'B')]));
     expect(texts(tree, 1)).toEqual([[['A', 'sub']], [['B']]]);

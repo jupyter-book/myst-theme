@@ -5,8 +5,8 @@
   --myst-slides-font-family: inherit;
   --myst-slides-heading-font-family: var(--myst-slides-font-family);
   --myst-slides-code-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --myst-slides-font-size: 32px;
-  --myst-slides-code-font-size: 22px;
+  --myst-slides-font-size: 24px;
+  --myst-slides-code-font-size: 18px;
   --myst-slides-line-height: 1.4;
   --myst-slides-text-align: left;
   --myst-slides-heading-color: var(--myst-color-link);
@@ -30,6 +30,25 @@
 
 .reveal.myst-slides section.prose :is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--myst-slides-heading-font-family);
+}
+
+/* Column headings are h1 and slide titles are h2. */
+.reveal.myst-slides section.prose h1 {
+  font-size: 2.4em;
+}
+
+.reveal.myst-slides section.prose h2 {
+  font-size: 1.8em;
+  margin-top: 0;
+}
+
+.reveal.myst-slides section.prose h3 {
+  font-size: 1.3em;
+}
+
+/* Without a kernel, a Jupyter widget shows only its placeholder message, not its text form. */
+.reveal.myst-slides .thebe-ipywidgets-placeholder pre {
+  display: none;
 }
 
 .reveal.myst-slides :is(.controls, .progress) {

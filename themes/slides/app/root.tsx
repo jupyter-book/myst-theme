@@ -17,11 +17,13 @@ import { mergeRenderers } from '@myst-theme/providers';
 import type { NodeRenderers } from '@myst-theme/providers';
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
+import { EditableBlock, NOTEBOOK_BLOCK_SELECTOR } from '~/components/EditableBlock';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
   JUPYTER_RENDERERS,
   ANY_RENDERERS,
+  { block: { [NOTEBOOK_BLOCK_SELECTOR]: EditableBlock } },
 ]);
 
 export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {

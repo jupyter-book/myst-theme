@@ -67,6 +67,16 @@
   right: 0;
 }
 
+/* Editable code shows a focus ring while the speaker types. */
+.reveal.myst-slides pre code[contenteditable] {
+  outline: none;
+  cursor: text;
+}
+
+.reveal.myst-slides .myst-code:has(code[contenteditable]:focus) {
+  box-shadow: 0 0 0 2px var(--myst-slides-accent-color);
+}
+
 /* Without a kernel, a Jupyter widget shows only its placeholder message, not its text form. */
 .reveal.myst-slides .thebe-ipywidgets-placeholder pre {
   display: none;

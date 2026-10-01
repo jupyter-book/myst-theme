@@ -40,6 +40,13 @@
 .reveal.myst-slides section.prose h2 {
   font-size: 1.8em;
   margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+/* Code blocks and outputs sit close together; slides have little height. */
+.reveal.myst-slides section.prose .myst-code {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .reveal.myst-slides section.prose h3 {

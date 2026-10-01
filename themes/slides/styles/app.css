@@ -52,6 +52,11 @@
   @apply prose-invert;
 }
 
+/* A transformed fragment keeps its own layer, which can render blurred on a scaled canvas. */
+.reveal.myst-slides .fragment.visible:is(.fade-up, .fade-down, .fade-left, .fade-right, .zoom-in) {
+  transform: none;
+}
+
 /* Reveal.js only shows these elements in the speaker view. */
 .reveal.myst-slides aside.notes {
   display: none;

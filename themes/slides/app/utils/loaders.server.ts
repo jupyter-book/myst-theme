@@ -1,0 +1,154 @@
+import type { SiteManifest } from 'myst-config';
+import {
+  MYST_SPEC_VERSION,
+  type PageLoader,
+  getProject,
+  updatePageStaticLinksInplace,
+  updateSiteManifestStaticLinksInplace,
+} from '@myst-theme/common';
+import { redirect } from 'react-router';
+import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
+import { slugToUrl } from 'myst-common';
+import { migrate } from 'myst-migrate';
+
+const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
+const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`;
+
+type LinkRewriteOptions = { rewriteStaticFolder?: boolean };
+
+export function getCDNUrl(path: string): string {
+  return `${CONTENT_CDN}/${path}`;
+}
+
+export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest> {
+  const url = `${CONTENT_CDN}/config.json`;
+  const response = await fetch(url).catch(() => null);
+  if (!response || response.status === 404) {
+    throw new Error(`No site configuration found at ${url}`);
+  }
+  const data = (await response.json()) as SiteManifest;
+  return updateSiteManifestStaticLinksInplace(data, (url) => updateLink(url, opts));
+}
+
+function updateLink(
+  url: string,
+  { rewriteStaticFolder = process.env.MODE === 'static' }: LinkRewriteOptions = {},
+) {
+  if (!url) return url;
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol.startsWith('http')) return url;
+  } catch (error) {
+    // pass
+  }
+  if (rewriteStaticFolder) {
+    return `${import.meta.env.BASE_URL}build${url}`;
+  }
+  return `${CONTENT_CDN}${url}`;
+}
+
+async function getStaticContent(project?: string, slug?: string): Promise<PageLoader | null> {
+  if (!slug) return null;
+  const projectSlug = project ? `${project}/` : '';
+  const url = `${CONTENT_CDN}/content/${projectSlug}${slug}.json`;
+  const response = await fetch(url).catch(() => null);
+  if (!response || response.status === 404) return null;
+  let data = (await response.json()) as PageLoader & { version?: number };
+  try {
+    data = (await migrate(
+      { version: data.version ?? 0, ...data },
+      { to: MYST_SPEC_VERSION },
+    )) as PageLoader & { version: number };
+  } catch (error) {
+    console.error(`Error migrating content for ${project}/${slug} (aborted):`, error);
+  }
+  return updatePageStaticLinksInplace(data, updateLink);
+}
+
+export async function getPage(
+  request: Request,
+  opts: {
+    project?: string;
+    loadIndexPage?: boolean;
+    slug?: string;
+    redirect?: boolean;
+  },
+) {
+  const projectName = opts.project;
+  const config = await getConfig();
+  if (!config) throw responseNoSite();
+  const project = getProject(config, projectName);
+  if (!project) throw responseNoArticle();
+  if (opts.slug === project.index && opts.redirect) {
+    throw redirect(projectName ? `/${projectName}` : '/');
+  }
+  if (opts.slug?.endsWith('.index') && opts.redirect) {
+    const newSlug = slugToUrl(opts.slug);
+    throw redirect(projectName ? `/${projectName}/${newSlug}` : `/${newSlug}`);
+  }
+  let slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
+  let loader = await getStaticContent(projectName, slug).catch(() => null);
+  if (!loader) {
+    slug = `${slug}.index`;
+    loader = await getStaticContent(projectName, slug).catch(() => null);
+    if (!loader) throw responseNoArticle();
+  }
+  return { ...loader, domain: getDomainFromRequest(request), project: projectName };
+}
+
+/**
+ * Return the content CDN URL for a path if it exists as a static file,
+ * or null if the content server has no such file.
+ */
+export async function getStaticFileUrl(pathname: string): Promise<string | null> {
+  const url = `${CONTENT_CDN}${pathname}`;
+  const response = await fetch(url, { method: 'HEAD' }).catch(() => null);
+  if (!response || !response.ok) return null;
+  return url;
+}
+
+export async function getObjectsInv(): Promise<ArrayBuffer | null> {
+  const url = `${CONTENT_CDN}/objects.inv`;
+  const response = await fetch(url).catch(() => null);
+  if (!response || response.status === 404) return null;
+  return response.arrayBuffer();
+}
+
+export async function getMystXrefJson(): Promise<Record<string, any> | null> {
+  const url = `${CONTENT_CDN}/myst.xref.json`;
+  const response = await fetch(url).catch(() => null);
+  if (!response || response.status === 404) return null;
+  const xrefs = await response.json();
+  xrefs.references?.forEach((ref: any) => {
+    ref.data = ref.data?.replace(/^\/content/, '');
+  });
+  return xrefs;
+}
+
+export async function getFavicon(): Promise<{
+  contentType: string | null;
+  buffer: ArrayBuffer;
+} | null> {
+  // We are always fetching this at run time, so we don't want the rewritten links
+  const config = await getConfig({ rewriteStaticFolder: false });
+  const url = config.options?.favicon || 'https://mystmd.org/favicon.ico';
+  const response = await fetch(url).catch(() => null);
+  if (!response || response.status === 404) return null;
+  return {
+    contentType: response.headers.get('Content-Type'),
+    buffer: await response.arrayBuffer(),
+  };
+}
+
+export async function getCustomStyleSheet(): Promise<string | undefined> {
+  // We are always fetching this at run time, so we don't want the rewritten links
+  const config = await getConfig({ rewriteStaticFolder: false });
+  const url = config.options?.style;
+  if (!url) {
+    return;
+  }
+  const response = await fetch(url).catch(() => null);
+  if (!response || response.status === 404) return;
+  const css = await response.text();
+  return css;
+}

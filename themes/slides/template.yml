@@ -1,0 +1,86 @@
+jtex: v1
+title: Slides Theme
+description: Present each page of a MyST project as a reveal.js slide deck.
+version: 1.0.0
+license: MIT
+source: https://github.com/jupyter-book/myst-theme
+authors:
+  - name: Stefan van der Walt
+tags:
+  - slides
+options:
+  - type: number
+    id: slide_level
+    description: Headings at this level start a new slide; shallower headings start a vertical column. Levels count from 1 at the shallowest heading in the page (default 2, or 1 if the page has one heading level)
+    min: 1
+    max: 6
+    integer: true
+  - type: choice
+    id: transition
+    description: Slide transition style
+    choices:
+      - none
+      - fade
+      - slide
+      - convex
+      - concave
+      - zoom
+  - type: boolean
+    id: slide_number
+    description: Show the slide number
+  - type: boolean
+    id: hide_controls
+    description: Hide the navigation arrows
+  - type: boolean
+    id: hide_progress
+    description: Hide the progress bar
+  - type: boolean
+    id: hide_title_slide
+    description: Do not make a title slide from the page frontmatter
+  - type: boolean
+    id: align_top
+    description: Align slide content to the top instead of centering it vertically
+  - type: number
+    id: width
+    description: Width of the slide canvas in pixels (default 1280)
+    integer: true
+  - type: number
+    id: height
+    description: Height of the slide canvas in pixels (default 720)
+    integer: true
+  - type: string
+    id: twitter
+    description: Twitter handle related to the site
+  - type: file
+    id: favicon
+    description: Local path to favicon image
+  - type: string
+    id: analytics_google
+    description: Google analytics key
+  - type: string
+    id: analytics_plausible
+    description: Plausible analytics key
+  - type: boolean
+    id: numbered_references
+    description: Show references as numbered, rather than in APA-style. Only applies to parenthetical citations
+  - type: boolean
+    id: folders
+    description: Respect nested folder structure in URL paths
+  - type: string
+    id: internal_domains
+    description: >-
+      A domain to treat as internal links (no external icon, opens in same tab).
+      Supports wildcard subdomains with *. Example: "jupyter.org" or "*.jupyter.org"
+  - type: file
+    id: style
+    description: Local path to a CSS file
+build:
+  install: npx bun ci --ignore-scripts
+  start: npx bun run start
+  render: npx bun run render
+files:
+  - server.js
+  - package.json
+  - package-lock.json
+  - public/**/*
+  - build/**/*

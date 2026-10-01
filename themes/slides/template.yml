@@ -38,6 +38,9 @@ options:
     id: hide_title_slide
     description: Do not make a title slide from the page frontmatter
   - type: boolean
+    id: hide_credit_slide
+    description: Do not make a credit slide from the authors, their social links and the credits part
+  - type: boolean
     id: align_top
     description: Align slide content to the top instead of centering it vertically
   - type: boolean

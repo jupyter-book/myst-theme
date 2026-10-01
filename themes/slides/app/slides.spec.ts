@@ -56,7 +56,9 @@ describe('splitSlides', () => {
   test('headings render as h1 for columns and h2 for slides', () => {
     const tree = root(block([h(2, 'S'), h(3, 'A'), h(4, 'sub'), h(2, 'T')]));
     const depths = splitSlides(tree).flatMap((c) =>
-      c.flatMap((s) => s.children.flatMap((b) => b.children.map((n: GenericNode) => n.depth))),
+      c.flatMap((s) =>
+        s.children.flatMap((b) => (b.children ?? []).map((n: GenericNode) => n.depth)),
+      ),
     );
     expect(depths).toEqual([1, 2, 3, 1]);
   });

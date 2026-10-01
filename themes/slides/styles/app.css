@@ -98,6 +98,56 @@
   justify-content: center;
 }
 
+.reveal.myst-slides .myst-credits-slide {
+  text-align: center;
+}
+
+.reveal.myst-slides .myst-credits-authors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em 3em;
+  margin: 1em 0;
+}
+
+.reveal.myst-slides .myst-credits-name {
+  font-weight: 600;
+  font-size: 1.2em;
+}
+
+.reveal.myst-slides .myst-credits-affiliations {
+  font-size: 0.8em;
+  color: var(--myst-color-text-secondary);
+}
+
+.reveal.myst-slides .myst-credits-socials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4em 1.2em;
+  margin: 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75em;
+}
+
+.reveal.myst-slides .myst-credits-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  color: var(--myst-slides-accent-color);
+  text-decoration: none;
+}
+
+.reveal.myst-slides .myst-credits-socials svg {
+  width: 1.3em;
+  height: 1.3em;
+}
+
+.reveal.myst-slides .myst-references-list {
+  font-size: 0.7em;
+}
+
 /* Reveal.js marks slides whose background color is dark. */
 .reveal.myst-slides section.has-dark-background {
   @apply prose-invert;

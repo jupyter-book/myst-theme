@@ -4,7 +4,7 @@ import RevealNotes from 'reveal.js/plugin/notes';
 import type { PageLoader } from '@myst-theme/common';
 import { ArticleProvider, useBaseurl, useSiteManifest } from '@myst-theme/providers';
 import { FrontmatterBlock } from '@myst-theme/frontmatter';
-import { Bibliography, ThemeButton } from '@myst-theme/site';
+import { ThemeButton } from '@myst-theme/site';
 import {
   BusyScopeProvider,
   ComputeOptionsProvider,
@@ -16,9 +16,11 @@ import {
   useComputeOptions,
 } from '@myst-theme/jupyter';
 import { SourceFileKind } from 'myst-spec-ext';
-import { copyNode, type GenericParent } from 'myst-common';
+import { copyNode, extractPart, type GenericParent } from 'myst-common';
 import { MyST } from 'myst-to-react';
 import { splitSlides, type Slide as SlideData } from '../slides';
+import { Credits, hasCredits } from './Credits';
+import { References } from './References';
 import type { TemplateOptions } from '../types';
 
 const PLUGINS = [RevealNotes];
@@ -70,10 +72,15 @@ function DeckSlides({ article }: { article: PageLoader }) {
   const opts = useTemplateOptions(article);
   const compute = useComputeOptions();
   const live = !!compute?.enabled && article.kind === SourceFileKind.Notebook;
-  const columns = useMemo(
-    () => splitSlides(copyNode(article.mdast) as GenericParent, { slideLevel: opts.slide_level }),
-    [article.mdast, opts.slide_level],
-  );
+  const { columns, creditsPart } = useMemo(() => {
+    const tree = copyNode(article.mdast) as GenericParent;
+    // The `credits` part goes on the credit slide, not in the main slides.
+    const creditsPart = extractPart(tree, 'credits', {
+      requireExplicitPart: true,
+      frontmatterParts: (article.frontmatter as any).parts,
+    });
+    return { columns: splitSlides(tree, { slideLevel: opts.slide_level }), creditsPart };
+  }, [article.mdast, article.frontmatter, opts.slide_level]);
   const config = useMemo(
     () => ({
       hash: true,
@@ -100,6 +107,7 @@ function DeckSlides({ article }: { article: PageLoader }) {
   );
   const { title, subtitle, authors, date } = article.frontmatter;
   const hasCitations = !!article.references?.cite?.order?.length;
+  const showCredits = !opts.hide_credit_slide && hasCredits(article, creditsPart);
 
   return (
     <ArticleProvider
@@ -126,9 +134,14 @@ function DeckSlides({ article }: { article: PageLoader }) {
                 </Stack>
               ),
             )}
+            {showCredits && (
+              <Slide className={`${SLIDE_CLASS} myst-credits-slide`}>
+                <Credits article={article} part={creditsPart} />
+              </Slide>
+            )}
             {hasCitations && (
               <Slide className={`${SLIDE_CLASS} myst-references-slide`}>
-                <Bibliography hideLongBibliography={false} />
+                <References />
               </Slide>
             )}
           </RevealDeck>

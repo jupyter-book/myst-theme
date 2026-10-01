@@ -26,7 +26,34 @@ Each other page is a deck.
   Set `slide_level` to change this.
 - The page title, subtitle, authors and date make a title slide.
   Set `hide_title_slide` to remove it.
+- A credit slide shows the authors, their affiliations and their social links, then the social links of the page.
+  Set `hide_credit_slide` to remove it.
 - If the page has citations, the last slide shows the bibliography.
+
+## Credit slide
+
+The credit slide uses the MyST author and project fields: `url`, `email`, `orcid`, `github`, `bluesky`, `mastodon`, `linkedin`, `twitter`, `threads`, `youtube`, `discourse`, `discord`, `slack`, `facebook` and `telegram`.
+
+```yaml
+authors:
+  - name: Ada Lovelace
+    affiliations:
+      - Analytical Engine Society
+    github: ada
+    mastodon: '@ada@example.org'
+```
+
+A `credits` part replaces the default "Thank you" heading:
+
+```markdown
++++ {"part": "credits"}
+
+## Thank you
+
+Slides made with [MyST Markdown](https://mystmd.org) and [reveal.js](https://revealjs.com).
+```
+
+The theme shows the slide if the page has a `credits` part or any social links.
 
 ## Transitions
 

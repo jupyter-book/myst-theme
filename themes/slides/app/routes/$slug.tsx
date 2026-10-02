@@ -1,5 +1,5 @@
-import { redirect, type MetaFunction, type LinksFunction, type LoaderFunction } from 'react-router';
-import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
+import { redirect, isRouteErrorResponse } from 'react-router';
+import { getProject, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
   getMetaTagsForArticle,
@@ -7,18 +7,40 @@ import {
   ErrorUnhandled,
 } from '@myst-theme/site';
 import { getConfig, getPage, getStaticFileUrl } from '~/utils/loaders.server';
-import { useLoaderData, useRouteError, isRouteErrorResponse } from 'react-router';
 import type { SiteManifest } from 'myst-config';
 import { ProjectProvider } from '@myst-theme/providers';
 import { Deck } from '../components/Deck';
 
+import type { Route } from './+types/$slug';
+
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction<typeof loader> = ({ loaderData, location }) => {
-  if (!loaderData) return [];
-  const config: SiteManifest = loaderData.config;
-  const project: ManifestProject = loaderData.project;
-  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
+export async function loader({ request, params }: Route.LoaderArgs): Promise<{
+  config: SiteManifest;
+  page: PageLoader;
+  project: ManifestProject | undefined;
+}> {
+  const url = new URL(request.url);
+  const config = await getConfig();
+  const project = getProject(config);
+  const { slug } = params;
+  try {
+    // Static HTML builds skip the redirect from the index page slug to the root URL.
+    const page = await getPage(request, { slug, redirect: !import.meta.env.VITE_BUILD_HTML });
+    return { config, page, project };
+  } catch (e) {
+    if (e instanceof Response && e.status === 404) {
+      const cdnUrl = await getStaticFileUrl(url.pathname);
+      if (cdnUrl) throw redirect(cdnUrl);
+    }
+    throw e;
+  }
+}
+
+export function meta({ loaderData, location }: Route.MetaArgs) {
+  if (loaderData === undefined) return [];
+  const { config, project } = loaderData;
+  const page = loaderData.page.frontmatter;
   const siteTitle = config?.title ?? project?.title ?? '';
   return getMetaTagsForArticle({
     origin: '',
@@ -32,55 +54,24 @@ export const meta: MetaFunction<typeof loader> = ({ loaderData, location }) => {
     twitter: config?.options?.twitter,
     keywords: page?.keywords ?? project?.keywords ?? config?.keywords ?? [],
   });
-};
+}
 
-export const links: LinksFunction = () => [KatexCSS];
+export function links(): ReturnType<Route.LinksFunction> {
+  return [KatexCSS];
+}
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const url = new URL(request.url);
-  const pathName = '/' + url.pathname.slice(import.meta.env.BASE_URL.length).replace(/\.data$/, '');
-  const [first, ...rest] = parsePathname(pathName);
-  const config = await getConfig();
-  const project = getProject(config, first);
-  const projectName = project?.slug === first ? first : undefined;
-  const slugParts = projectName ? rest : [first, ...rest];
-  const slug = slugParts.length ? slugParts.join('.') : undefined;
-  const flat = isFlatSite(config);
-  try {
-    const page = await getPage(request, {
-      project: flat ? projectName : (projectName ?? slug),
-      slug: flat ? slug : projectName ? slug : undefined,
-      // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
-      redirect: process.env.MODE === 'static' ? false : true,
-    });
-    return { config, page, project };
-  } catch (e) {
-    if (e instanceof Response && e.status === 404) {
-      const cdnUrl = await getStaticFileUrl(url.pathname);
-      if (cdnUrl) throw redirect(cdnUrl);
-    }
-    throw e;
-  }
-};
-
-export default function Page() {
-  const { page } = useLoaderData() as { page: PageLoader };
+export default function Page({ loaderData }: Route.ComponentProps) {
   return (
     <ProjectProvider>
-      <Deck article={page} />
+      <Deck article={loaderData.page} />
     </ProjectProvider>
   );
 }
 
-export function ErrorBoundary() {
-  const error = useRouteError();
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   return (
     <main className="max-w-3xl px-6 py-12 mx-auto prose">
-      {isRouteErrorResponse(error) ? (
-        <ErrorDocumentNotFound />
-      ) : (
-        <ErrorUnhandled error={error as any} />
-      )}
+      {isRouteErrorResponse(error) ? <ErrorDocumentNotFound /> : <ErrorUnhandled error={error} />}
     </main>
   );
 }

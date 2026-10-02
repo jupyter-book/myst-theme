@@ -318,9 +318,19 @@ The theme styles slides with the MyST styles and Tailwind Typography.
 
 ## Development
 
-Start a content server for a MyST project, then start the theme:
+Start a content server for a MyST project, then start the theme with live reload:
 
 ```sh
 myst start --headless
 bun run dev
 ```
+
+To build the theme as MyST installs it, run this in the repository root:
+
+```sh
+make THEME=slides build-theme
+```
+
+The result is in `.deploy/slides`.
+A MyST project uses it with `site: template: <path to .deploy/slides>`.
+The `demo` folder has an example project.

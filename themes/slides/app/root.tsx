@@ -1,13 +1,14 @@
-import type { LinksFunction, MetaFunction, LoaderFunction } from 'react-router';
-import tailwind from '~/styles/app.css?url';
-import revealCss from 'reveal.js/reveal.css?url';
-import thebeCoreCss from 'thebe-core/dist/lib/thebe-core.css?url';
+import type { LoaderFunction } from 'react-router';
+// The theme styles come after the reveal.js core styles, so that they override them.
+import 'reveal.js/reveal.css';
+import '~/styles/app.css';
+import 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/common';
+import { normalizeBaseURL } from '@myst-theme/common';
 import {
   Document,
   responseNoSite,
-  getMetaTagsForSite,
   ContentReload,
   renderers as defaultRenderers,
 } from '@myst-theme/site';
@@ -26,38 +27,24 @@ const RENDERERS: NodeRenderers = mergeRenderers([
   { block: { [NOTEBOOK_BLOCK_SELECTOR]: EditableBlock } },
 ]);
 
-export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
-  return getMetaTagsForSite({
-    title: loaderData?.config?.title,
-    description: loaderData?.config?.description,
-    twitter: loaderData?.config?.options?.twitter,
-  });
-};
-
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: revealCss },
-  { rel: 'stylesheet', href: tailwind },
-  { rel: 'stylesheet', href: thebeCoreCss },
-];
-
 export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
   const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
   return {
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
-    MODE: (process.env.MODE ?? 'app') as 'app' | 'static',
-    BASE_URL: process.env.BASE_URL || undefined,
+    STATIC_BUILD: !!import.meta.env.VITE_BUILD_HTML,
+    BASE_URL: normalizeBaseURL(process.env.BASE_URL ?? ''),
   };
 };
 
 export default function App() {
-  const { config, CONTENT_CDN_PORT, MODE, BASE_URL } = useLoaderData<SiteLoader>();
+  const { config, CONTENT_CDN_PORT, STATIC_BUILD, BASE_URL } = useLoaderData<SiteLoader>();
   return (
     <Document
       config={config}
-      scripts={MODE === 'static' ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
-      staticBuild={MODE === 'static'}
+      scripts={STATIC_BUILD ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
+      staticBuild={STATIC_BUILD}
       baseurl={BASE_URL}
       renderers={RENDERERS}
       top={0}

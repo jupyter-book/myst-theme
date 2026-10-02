@@ -87,10 +87,12 @@ options:
     id: style
     description: Local path to a CSS file
 build:
-  install: npx bun ci --ignore-scripts
-  start: npx bun run start
-  render: npx bun run render
+  install: npm install
+  start: node --env-file=./.env.prod server/server/index.js
+  render: node --env-file=./.env.prod renderer/server/index.js
 files:
-  - package.json
+  - renderer/**/*
+  - server/**/*
   - public/**/*
-  - build/**/*
+  - .env.prod
+  - package.json

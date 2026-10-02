@@ -4,22 +4,27 @@ import {
   responseNoArticle,
   responseNoSite,
 } from '@myst-theme/site';
-import type { LinksFunction, LoaderFunction, MetaFunction } from 'react-router';
-import { redirect, useLoaderData } from 'react-router';
 import { getConfig, getPage } from '~/utils/loaders.server';
-import type { SiteManifest } from 'myst-config';
-import { getProject, type PageLoader } from '@myst-theme/common';
+import { getProject } from '@myst-theme/common';
 import { ProjectProvider } from '@myst-theme/providers';
 import { Deck } from '../components/Deck';
 import { DeckList, deckPages } from '../components/DeckList';
-export { ErrorBoundary } from './$';
+export { ErrorBoundary } from './$slug';
 
-type ManifestProject = Required<SiteManifest>['projects'][0];
+import type { Route } from './+types/_index';
 
-export const meta: MetaFunction<typeof loader> = ({ loaderData, location }) => {
+export async function loader({ request }: Route.LoaderArgs) {
+  const config = await getConfig();
+  if (!config) throw responseNoSite();
+  const project = getProject(config);
+  if (!project) throw responseNoArticle();
+  const page = await getPage(request, { slug: project.index });
+  return { config, page, project };
+}
+
+export function meta({ loaderData, location }: Route.MetaArgs) {
   if (!loaderData) return [];
-  const config: SiteManifest = loaderData.config;
-  const project: ManifestProject = loaderData.project;
+  const { config, project } = loaderData;
   return getMetaTagsForArticle({
     origin: '',
     url: location.pathname,
@@ -29,23 +34,15 @@ export const meta: MetaFunction<typeof loader> = ({ loaderData, location }) => {
     keywords: config.keywords ?? project.keywords ?? [],
     twitter: config?.options?.twitter,
   });
-};
+}
 
-export const links: LinksFunction = () => [KatexCSS];
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const config = await getConfig();
-  if (!config) throw responseNoSite();
-  const project = getProject(config);
-  if (!project) throw responseNoArticle();
-  if (project.slug) return redirect(`/${project.slug}`);
-  const page = await getPage(request, { slug: project.index });
-  return { config, page, project };
-};
+export function links(): ReturnType<Route.LinksFunction> {
+  return [KatexCSS];
+}
 
 /** A single-page project is one deck; otherwise the index page lists the decks. */
-export default function Index() {
-  const { page, project } = useLoaderData() as { page: PageLoader; project: ManifestProject };
+export default function Index({ loaderData }: Route.ComponentProps) {
+  const { page, project } = loaderData;
   return (
     <ProjectProvider>
       {deckPages(project).length > 0 ? (

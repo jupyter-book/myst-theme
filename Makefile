@@ -14,12 +14,12 @@ build-theme:
 	# Prepare the npm node_module cache
 	bun install --frozen-lockfile
 	# Create the deploy dir
-	mkdir .deploy || true
+	mkdir -p .deploy
 	rm -rf .deploy/$(THEME)
 	# Clone the deployed theme
 	git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME)
 	# FIXME: temporarily remove files from v1 theme.
-	rm -rf .deploy/$(THEME)/{build,package-lock.json,server.js}
+	rm -rf .deploy/$(THEME)/build .deploy/$(THEME)/package-lock.json .deploy/$(THEME)/server.js
 	cp -r themes/$(THEME)/.env.prod .deploy/$(THEME)/
 	# Build server
 	cd themes/$(THEME) && bun run build

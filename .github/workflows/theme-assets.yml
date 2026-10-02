@@ -54,17 +54,13 @@ jobs:
       - name: Run tests
         run: bun run test
 
-      # Build, package, and zip each theme. node_modules is excluded from the
-      # zip to match what the Makefile ships (it is gitignored there).
-      #
-      # `npm install --package-lock-only` generates the
-      # `package-lock.json`, so that users can install our theme using `npm`.
+      # Build each theme into .deploy/<theme> and zip it.
       - name: Build and package themes
         run: |
           make build-book
           make build-article
           rm -r .deploy/*/.git
-          env -C .deploy/book zip -r ../book-theme.zip . 
+          env -C .deploy/book zip -r ../book-theme.zip .
           env -C .deploy/article zip -r ../article-theme.zip .
 
       # Attach both zips to the release for this tag. When called from
@@ -94,8 +90,8 @@ jobs:
           TAG="${{ inputs.tag_name }}"
           NOTES="Bleeding-edge theme assets, rebuilt from \`main\` on each push (currently $GITHUB_SHA). Use at your own risk! This tracks unreleased changes and can break at any time."
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" dist_zip/*.zip --clobber
+            gh release upload "$TAG" .deploy/*.zip --clobber
             gh release edit "$TAG" --notes "$NOTES"
           else
-            gh release create "$TAG" --title "$TAG" --notes "$NOTES" --prerelease --target "$GITHUB_SHA" dist_zip/*.zip
+            gh release create "$TAG" --title "$TAG" --notes "$NOTES" --prerelease --target "$GITHUB_SHA" .deploy/*.zip
           fi

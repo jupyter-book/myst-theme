@@ -120,7 +120,11 @@ function DeckSlides({ article }: { article: PageLoader }) {
           <RevealDeck config={config} plugins={PLUGINS} className="myst-slides">
             {!opts.hide_title_slide && title && (
               <Slide className={`${SLIDE_CLASS} myst-title-slide`}>
-                <FrontmatterBlock frontmatter={{ title, subtitle, authors, date }} hideBadges />
+                <FrontmatterBlock
+                  frontmatter={{ title, subtitle, authors, date }}
+                  authorStyle="list"
+                  hideBadges
+                />
               </Slide>
             )}
             {columns.map((column, i) =>

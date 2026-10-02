@@ -108,6 +108,17 @@ function DeckSlides({ article }: { article: PageLoader }) {
   const { title, subtitle, date } = article.frontmatter;
   const hasCitations = !!article.references?.cite?.order?.length;
   const showCredits = !opts.hide_credit_slide && hasCredits(article, creditsPart);
+  // With both, the references sit below the credit slide.
+  const creditsSlide = (
+    <Slide className={`${SLIDE_CLASS} myst-credits-slide`}>
+      <Credits article={article} part={creditsPart} />
+    </Slide>
+  );
+  const referencesSlide = (
+    <Slide className={`${SLIDE_CLASS} myst-references-slide`}>
+      <References />
+    </Slide>
+  );
 
   return (
     <ArticleProvider
@@ -136,15 +147,13 @@ function DeckSlides({ article }: { article: PageLoader }) {
                 </Stack>
               ),
             )}
-            {showCredits && (
-              <Slide className={`${SLIDE_CLASS} myst-credits-slide`}>
-                <Credits article={article} part={creditsPart} />
-              </Slide>
-            )}
-            {hasCitations && (
-              <Slide className={`${SLIDE_CLASS} myst-references-slide`}>
-                <References />
-              </Slide>
+            {showCredits && hasCitations ? (
+              <Stack>
+                {creditsSlide}
+                {referencesSlide}
+              </Stack>
+            ) : (
+              (showCredits && creditsSlide) || (hasCitations && referencesSlide)
             )}
           </RevealDeck>
           <div className="myst-slides-corner">

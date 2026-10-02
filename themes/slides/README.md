@@ -29,6 +29,7 @@ Each other page is a deck.
 - A credit slide shows the authors, their affiliations and their social links, then the social links of the page.
   Set `hide_credit_slide` to remove it.
 - If the page has citations, the last slide shows the bibliography.
+  With a credit slide, the bibliography sits below it in the same column.
 
 ## Credit slide
 

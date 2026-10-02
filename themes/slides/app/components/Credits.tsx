@@ -61,28 +61,34 @@ export function hasCredits(article: PageLoader, part?: GenericParent): boolean {
   );
 }
 
+/** The authors of the page, each with affiliations and, optionally, social links. */
+export function AuthorList({ article, socials }: { article: PageLoader; socials?: boolean }) {
+  const { authors, affiliations } = article.frontmatter;
+  if (!authors?.length) return null;
+  const affiliationName = (id: string) => affiliations?.find((a) => a.id === id)?.name ?? id;
+  return (
+    <div className="myst-slides-authors">
+      {authors.map((author) => (
+        <div key={author.id ?? author.name} className="myst-slides-author">
+          <div className="myst-slides-author-name">{author.name}</div>
+          {!!author.affiliations?.length && (
+            <div className="myst-slides-author-affiliations">
+              {author.affiliations.map(affiliationName).join(', ')}
+            </div>
+          )}
+          {socials && <SocialIcons links={socialLinks(author)} />}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /** Authors, their social links, the page links and the `credits` part. */
 export function Credits({ article, part }: { article: PageLoader; part?: GenericParent }) {
-  const { authors, affiliations } = article.frontmatter;
-  const affiliationName = (id: string) => affiliations?.find((a) => a.id === id)?.name ?? id;
   return (
     <>
       {part ? <MyST ast={part.children} /> : <h2>Thank you</h2>}
-      {!!authors?.length && (
-        <div className="myst-credits-authors">
-          {authors.map((author) => (
-            <div key={author.id ?? author.name} className="myst-credits-author">
-              <div className="myst-credits-name">{author.name}</div>
-              {!!author.affiliations?.length && (
-                <div className="myst-credits-affiliations">
-                  {author.affiliations.map(affiliationName).join(', ')}
-                </div>
-              )}
-              <SocialIcons links={socialLinks(author)} />
-            </div>
-          ))}
-        </div>
-      )}
+      <AuthorList article={article} socials />
       <SocialIcons links={socialLinks(article.frontmatter)} />
     </>
   );

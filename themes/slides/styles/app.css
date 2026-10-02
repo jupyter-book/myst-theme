@@ -115,15 +115,20 @@
   margin-bottom: 0.5em;
 }
 
-.reveal.myst-slides .myst-title-slide .myst-fm-block-date-doi {
-  justify-content: center;
+.reveal.myst-slides .myst-title-slide .myst-slides-authors {
+  margin-top: 1.5em;
+}
+
+.reveal.myst-slides .myst-title-slide .myst-fm-date-string {
+  font-size: 0.8em;
+  color: var(--myst-color-text-secondary);
 }
 
 .reveal.myst-slides .myst-credits-slide {
   text-align: center;
 }
 
-.reveal.myst-slides .myst-credits-authors {
+.reveal.myst-slides .myst-slides-authors {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -131,12 +136,12 @@
   margin: 1em 0;
 }
 
-.reveal.myst-slides .myst-credits-name {
+.reveal.myst-slides .myst-slides-author-name {
   font-weight: 600;
   font-size: 1.2em;
 }
 
-.reveal.myst-slides .myst-credits-affiliations {
+.reveal.myst-slides .myst-slides-author-affiliations {
   font-size: 0.8em;
   color: var(--myst-color-text-secondary);
 }

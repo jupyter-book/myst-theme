@@ -3,7 +3,7 @@ import { Deck as RevealDeck, Slide, Stack } from '@revealjs/react';
 import RevealNotes from 'reveal.js/plugin/notes';
 import type { PageLoader } from '@myst-theme/common';
 import { ArticleProvider, useBaseurl, useSiteManifest } from '@myst-theme/providers';
-import { FrontmatterBlock } from '@myst-theme/frontmatter';
+import { DateString, FrontmatterBlock } from '@myst-theme/frontmatter';
 import { ThemeButton } from '@myst-theme/site';
 import {
   BusyScopeProvider,
@@ -19,7 +19,7 @@ import { SourceFileKind } from 'myst-spec-ext';
 import { copyNode, extractPart, type GenericParent } from 'myst-common';
 import { MyST } from 'myst-to-react';
 import { splitSlides, type Slide as SlideData } from '../slides';
-import { Credits, hasCredits } from './Credits';
+import { AuthorList, Credits, hasCredits } from './Credits';
 import { References } from './References';
 import type { TemplateOptions } from '../types';
 
@@ -105,7 +105,7 @@ function DeckSlides({ article }: { article: PageLoader }) {
       opts.height,
     ],
   );
-  const { title, subtitle, authors, date } = article.frontmatter;
+  const { title, subtitle, date } = article.frontmatter;
   const hasCitations = !!article.references?.cite?.order?.length;
   const showCredits = !opts.hide_credit_slide && hasCredits(article, creditsPart);
 
@@ -120,11 +120,9 @@ function DeckSlides({ article }: { article: PageLoader }) {
           <RevealDeck config={config} plugins={PLUGINS} className="myst-slides">
             {!opts.hide_title_slide && title && (
               <Slide className={`${SLIDE_CLASS} myst-title-slide`}>
-                <FrontmatterBlock
-                  frontmatter={{ title, subtitle, authors, date }}
-                  authorStyle="list"
-                  hideBadges
-                />
+                <FrontmatterBlock frontmatter={{ title, subtitle }} hideBadges />
+                <AuthorList article={article} />
+                {date && <DateString date={date} />}
               </Slide>
             )}
             {columns.map((column, i) =>

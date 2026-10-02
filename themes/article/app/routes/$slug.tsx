@@ -1,5 +1,11 @@
 import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
-import { data, redirect, type LinksFunction, type LoaderFunction, type MetaFunction } from 'react-router';
+import {
+  data,
+  redirect,
+  type LinksFunction,
+  type LoaderFunction,
+  type MetaFunction,
+} from 'react-router';
 import {
   getMetaTagsForArticle,
   KatexCSS,
@@ -16,48 +22,25 @@ import { ProjectProvider, useBaseurl } from '@myst-theme/providers';
 import { ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { useRouteError, isRouteErrorResponse } from 'react-router';
 
+import type { Route } from './+types/$slug.tsx';
+
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) => {
-  if (!data) return [];
-
-  const config: SiteManifest = data.config;
-  const project: ManifestProject = data.project;
-  const page: PageLoader['frontmatter'] = data.page.frontmatter;
-  const siteTitle = config?.title ?? project?.title ?? '';
-  return getMetaTagsForArticle({
-    origin: '',
-    url: location.pathname,
-    title: page?.title ? `${page.title}${siteTitle ? ` - ${siteTitle}` : ''}` : siteTitle,
-    description: page?.description ?? project?.description ?? config?.description ?? undefined,
-    image:
-      (page?.thumbnailOptimized || page?.thumbnail) ??
-      (project?.thumbnailOptimized || project?.thumbnail) ??
-      undefined,
-    twitter: config?.options?.twitter,
-    keywords: page?.keywords ?? project?.keywords ?? config?.keywords ?? [],
-  });
-};
-
-export const links: LinksFunction = () => [KatexCSS];
-
-export const loader: LoaderFunction = async ({ params, request }) => {
+export async function loader({ params, request }: Route.LoaderArgs): Promise<{
+  config: SiteManifest;
+  page: PageLoader;
+  project: ManifestProject | undefined;
+}> {
   const url = new URL(request.url);
-  const [first, ...rest] = parsePathname(url.pathname);
   const config = await getConfig();
-  const project = getProject(config, first);
-  const projectName = project?.slug === first ? first : undefined;
-  const slugParts = projectName ? rest : [first, ...rest];
-  const slug = slugParts.length ? slugParts.join('.') : undefined;
-  const flat = isFlatSite(config);
+  const project = getProject(config);
+  const slug = params['slug'];
   try {
     const page = await getPage(request, {
-      project: flat ? projectName : (projectName ?? slug),
-      slug: flat ? slug : projectName ? slug : undefined,
-      // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
-      redirect: process.env.MODE === 'static' ? false : true,
+      slug,
+      redirect: !import.meta.env.VITE_BUILD_HTML,
     });
-    return ({ config, project, page });
+    return { config, page, project };
   } catch (e) {
     if (e instanceof Response && e.status === 404) {
       const cdnUrl = await getStaticFileUrl(url.pathname);
@@ -65,14 +48,43 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     }
     throw e;
   }
-};
+}
 
-export default function Page() {
+export function meta({ loaderData, location }: Route.MetaArgs) {
+  if (loaderData === undefined) return [];
+
+  const config = loaderData.config;
+  const project = loaderData.project;
+  const frontmatter: PageLoader['frontmatter'] = loaderData.page.frontmatter;
+
+  const siteTitle = config?.title ?? project?.title ?? '';
+  return getMetaTagsForArticle({
+    origin: '',
+    url: location.pathname,
+    title: frontmatter?.title
+      ? `${frontmatter.title}${siteTitle ? ` - ${siteTitle}` : ''}`
+      : siteTitle,
+    description:
+      frontmatter?.description ?? project?.description ?? config?.description ?? undefined,
+    image:
+      (frontmatter?.thumbnailOptimized || frontmatter?.thumbnail) ??
+      (project?.thumbnailOptimized || project?.thumbnail) ??
+      undefined,
+    twitter: config?.options?.twitter,
+    keywords: frontmatter?.keywords ?? project?.keywords ?? config?.keywords ?? [],
+  });
+}
+
+export function links(): ReturnType<Route.LinksFunction> {
+  return [KatexCSS];
+}
+
+export default function Page({ loaderData }: Route.ComponentProps) {
   // TODO handle outline?
   // const { container, outline } = useOutlineHeight();
   // const { hide_outline } = (article.frontmatter as any)?.options ?? {};
   const baseurl = useBaseurl();
-  const { page: article } = useLoaderData() as { page: PageLoader };
+  const { page: article } = loaderData;
 
   return (
     <ArticlePageAndNavigation>

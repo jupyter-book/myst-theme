@@ -1,0 +1,22 @@
+version: 1
+project:
+  title: Slides demo
+  github: jupyter-book/mystmd
+  # Run code in the browser. For a local Jupyter server, use instead:
+  #   jupyter:
+  #     server:
+  #       url: http://localhost:8888/
+  #       token: my-token
+  jupyter:
+    lite: true
+  toc:
+    - file: index.md
+    - file: slides.md
+    - file: rise.ipynb
+site:
+  # Build this with `make THEME=slides build-theme` in the repository root.
+  template: ../../../.deploy/slides
+  options:
+    slide_number: true
+    code_theme: github
+    code_theme_dark: atom-one-dark

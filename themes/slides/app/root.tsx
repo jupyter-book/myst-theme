@@ -19,12 +19,14 @@ import type { NodeRenderers } from '@myst-theme/providers';
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
 import { EditableBlock, NOTEBOOK_BLOCK_SELECTOR } from '~/components/EditableBlock';
+import { CREDIT_RENDERERS } from '~/components/Credits';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
   JUPYTER_RENDERERS,
   ANY_RENDERERS,
   { block: { [NOTEBOOK_BLOCK_SELECTOR]: EditableBlock } },
+  CREDIT_RENDERERS,
 ]);
 
 export const loader: LoaderFunction = async (): Promise<SiteLoader> => {

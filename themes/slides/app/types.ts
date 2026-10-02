@@ -7,7 +7,7 @@ export type TemplateOptions = CommonTemplateOptions & {
   hide_controls?: boolean;
   hide_progress?: boolean;
   hide_title_slide?: boolean;
-  hide_credit_slide?: boolean;
+  credit_slide?: boolean;
   align_top?: boolean;
   width?: number;
   height?: number;

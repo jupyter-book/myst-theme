@@ -124,14 +124,20 @@
   color: var(--myst-color-text-secondary);
 }
 
+/* The author list and social links follow the slide alignment, and center on centered slides. */
 .reveal.myst-slides .myst-credits-slide {
   text-align: center;
+}
+
+.reveal.myst-slides
+  :is(.myst-title-slide, .myst-credits-slide)
+  :is(.myst-slides-authors, .myst-slides-socials) {
+  justify-content: center;
 }
 
 .reveal.myst-slides .myst-slides-authors {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 1.5em 3em;
   margin: 1em 0;
 }
@@ -146,10 +152,9 @@
   color: var(--myst-color-text-secondary);
 }
 
-.reveal.myst-slides .myst-credits-socials {
+.reveal.myst-slides .myst-slides-socials {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 0.4em 1.2em;
   margin: 0.5em 0 0;
   padding: 0;
@@ -157,7 +162,7 @@
   font-size: 0.75em;
 }
 
-.reveal.myst-slides .myst-credits-socials a {
+.reveal.myst-slides .myst-slides-socials a {
   display: inline-flex;
   align-items: center;
   gap: 0.35em;
@@ -165,7 +170,7 @@
   text-decoration: none;
 }
 
-.reveal.myst-slides .myst-credits-socials svg {
+.reveal.myst-slides .myst-slides-socials svg {
   width: 1.3em;
   height: 1.3em;
 }

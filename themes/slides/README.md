@@ -26,35 +26,54 @@ Each other page is a deck.
   Set `slide_level` to change this.
 - The page title, subtitle, authors and date make a title slide.
   Set `hide_title_slide` to remove it.
-- A credit slide shows the authors, their affiliations and their social links, then the social links of the page.
-  Set `hide_credit_slide` to remove it.
+- Set `credit_slide` to add a default credit slide with the authors, their affiliations and their social links.
 - If the page has citations, the last slide shows the bibliography.
-  With a credit slide, the bibliography sits below it in the same column.
+  With the default credit slide, the bibliography sits below it in the same column.
 
-## Credit slide
+## Credit slides
 
-The credit slide uses the MyST author and project fields: `url`, `email`, `orcid`, `github`, `bluesky`, `mastodon`, `linkedin`, `twitter`, `threads`, `youtube`, `discourse`, `discord`, `slack`, `facebook` and `telegram`.
+The theme gives you building blocks for your own credit slide.
+They use the MyST author and project fields: `url`, `email`, `orcid`, `github`, `bluesky`, `mastodon`, `linkedin`, `twitter`, `threads`, `youtube`, `discourse`, `discord`, `slack`, `facebook` and `telegram`.
 
 ```yaml
-authors:
-  - name: Ada Lovelace
-    affiliations:
-      - Analytical Engine Society
-    github: ada
-    mastodon: '@ada@example.org'
+project:
+  authors:
+    - name: Ada Lovelace
+      affiliations:
+        - Analytical Engine Society
+      github: ada
+      mastodon: '@ada@example.org'
+  plugins:
+    - plugin.mjs
 ```
 
-A `credits` part replaces the default "Thank you" heading:
+The building blocks are directives from the theme's MyST plugin, [`plugin.mjs`](plugin.mjs).
+Copy the file into your project, or give its URL in `plugins`.
 
-```markdown
-+++ {"part": "credits"}
+| Directive                     | Shows                                                  |
+| ----------------------------- | ------------------------------------------------------ |
+| `{slide-authors}`             | The authors and their affiliations                     |
+| `{slide-authors}` `:socials:` | The authors, their affiliations and their social links |
+| `{slide-socials}`             | The social links of the page or project                |
 
-## Thank you
+Use them on any slide:
+
+````markdown
+# Thank you
 
 Slides made with [MyST Markdown](https://mystmd.org) and [reveal.js](https://revealjs.com).
+
+```{slide-authors}
+:socials:
 ```
 
-The theme shows the slide if the page has a `credits` part or any social links.
+```{slide-socials}
+
+```
+````
+
+The `credit_slide` option adds a default credit slide with the same blocks and a "Thank you" heading.
+Other themes ignore the directives.
 
 ## Transitions
 

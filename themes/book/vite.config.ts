@@ -1,21 +1,49 @@
 import { reactRouter } from '@react-router/dev/vite';
 import { envOnlyMacros } from 'vite-env-only';
-import { defineConfig } from 'vite';
+import { defineConfig, mergeConfig, type UserConfig } from 'vite';
+import { normalizeBaseURL } from '@myst-theme/common';
 
 export default defineConfig(({ mode }) => {
-  return {
-    server: {
-      port: 3000,
-    },
-    base: process.env.BASE_URL ?? '/',
+  const baseConfig: UserConfig = {
+    plugins: [reactRouter(), envOnlyMacros()],
     build: {
+      assetsDir: '_assets',
       minify: mode === 'production',
     },
-    plugins: [reactRouter(), envOnlyMacros()],
-
-    resolve: { tsconfigPaths: true },
-    optimizeDeps: {
-      exclude: [],
+    ssr: {
+      noExternal: mode == 'production' ? true : undefined,
     },
+    resolve: { tsconfigPaths: true },
   };
+  const overrideConfig =
+    // HTML builds are a distinct build target from the regular server app
+    process.env.VITE_BUILD_HTML !== undefined
+      ? {
+          environments: {
+            ssr: {
+              build: {
+                rolldownOptions: {
+                  input: './renderer.ts',
+                },
+              },
+            },
+          },
+          base: './',
+        }
+      : {
+          server: {
+            port: 3000,
+          },
+          environments: {
+            ssr: {
+              build: {
+                rolldownOptions: {
+                  input: './server.ts',
+                },
+              },
+            },
+          },
+          base: `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`,
+        };
+  return mergeConfig(baseConfig, overrideConfig);
 });

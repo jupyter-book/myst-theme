@@ -1,10 +1,4 @@
-import {
-  useBaseurl,
-  useNavLinkProvider,
-  useSiteManifest,
-  useThemeTop,
-  withBaseurl,
-} from '@myst-theme/providers';
+import { useNavLinkProvider, useSiteManifest, useThemeTop } from '@myst-theme/providers';
 import { useNavigation } from 'react-router';
 import classNames from 'classnames';
 import throttle from 'lodash.throttle';
@@ -494,7 +488,6 @@ export const DocumentOutline = ({
 export function SupportingDocuments() {
   const { projects } = useSiteManifest() ?? {};
   const NavLink = useNavLinkProvider();
-  const baseurl = useBaseurl();
   const pages = projects?.[0]?.pages;
   if (!pages || pages.length === 0) return null;
   return (
@@ -509,7 +502,7 @@ export function SupportingDocuments() {
             return (
               <li key={p.slug}>
                 <NavLink
-                  to={withBaseurl(`/${slugToUrl(p.slug)}#main`, baseurl)}
+                  to={`/${slugToUrl(p.slug)}#main`}
                   prefetch="intent"
                   className={({ isActive }) =>
                     classNames('no-underline flex self-center hover:text-myst-link', {

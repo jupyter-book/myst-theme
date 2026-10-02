@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest';
-import { isFlatSite, parsePathname } from './utils.js';
+import { describe, expect, test, it } from 'vitest';
+import { isFlatSite, parsePathname, normalizeBaseURL } from './utils.js';
 
 describe('utils', () => {
   test('isFlatSite true', () => {
@@ -39,5 +39,19 @@ describe('parsePathname', () => {
     expect(parsePathname('/community/')).toEqual(['community']);
     expect(parsePathname('/community')).toEqual(['community']);
     expect(parsePathname('/project/page/')).toEqual(['project', 'page']);
+  });
+});
+
+describe('normalizeBaseURL', () => {
+  it('strips a trailing slash', () => {
+    expect(normalizeBaseURL('/base/')).toBe('/base');
+  });
+
+  it('strips multiple trailing slashes', () => {
+    expect(normalizeBaseURL('/base///')).toBe('/base');
+  });
+
+  it('leaves a baseURL without a trailing slash unchanged', () => {
+    expect(normalizeBaseURL('/base')).toBe('/base');
   });
 });

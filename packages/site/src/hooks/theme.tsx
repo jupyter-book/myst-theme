@@ -42,6 +42,7 @@ function maybeGetStorage(useLocalStorage: boolean) {
   return window.sessionStorage;
 }
 
+// WARNING: keep this in-sync with BlockingThemeLoader
 export function useTheme({
   overrideMediaTheme,
   useLocalStorage,
@@ -50,9 +51,7 @@ export function useTheme({
   useLocalStorage?: boolean;
 }): [Theme | null, (theme: Theme) => void] {
   const storage = maybeGetStorage(useLocalStorage ?? false);
-  // Here, the initial state on the server without any set cookies will be null.
-  // The client will then load the initial state as non-null.
-  // Thus, we must mutate the DOM *pre-hydration* to ensure that the initial state is
+  // We must mutate the DOM *pre-hydration* to ensure that the initial state is
   // identical to that of the hydrated state, i.e. perform out-of-react DOM updates
   // This is handled by the BlockingThemeLoader component.
   const [theme, setTheme] = React.useState<Theme | null>(() => {

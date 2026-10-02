@@ -91,10 +91,5 @@ parts:
 build:
   install: npx bun ci --ignore-scripts
   start: npx bun run start
-  render: npx bun run render
-files:
-  - server.js
-  - package.json
-  - package-lock.json
-  - public/**/*
-  - build/**/*
+  render: npm run render
+files: []

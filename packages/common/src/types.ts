@@ -31,7 +31,7 @@ export type SiteLoader = {
   config?: SiteManifest;
   searchIndex?: MystSearchIndex;
   CONTENT_CDN_PORT?: string | number;
-  MODE?: 'app' | 'static';
+  STATIC_BUILD?: boolean;
   BASE_URL?: string;
 };
 

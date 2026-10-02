@@ -71,14 +71,14 @@ export function Document({
   // (Local) theme state driven by session/localStorage
   const [theme, setTheme] = useTheme({
     overrideMediaTheme: overrideMediaTheme ?? undefined,
-    useLocalStorage: staticBuild,
+    useLocalStorage: true,
   });
 
   // Inject blocking element to set proper pre-hydration state
   const headAndLoader = (
     <>
       {head}
-      <BlockingThemeLoader useLocalStorage={!!staticBuild} />
+      <BlockingThemeLoader useLocalStorage={true} />
     </>
   );
 

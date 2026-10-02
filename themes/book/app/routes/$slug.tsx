@@ -12,6 +12,7 @@ import {
 } from '@myst-theme/site';
 import { getConfig, getPage, getStaticFileUrl } from '~/utils/loaders.server';
 import type { SiteManifest } from 'myst-config';
+import { normalizeBaseURL } from '@myst-theme/common';
 import {
   TabStateProvider,
   UiStateProvider,
@@ -27,32 +28,26 @@ import { Footer } from '../components/Footer.js';
 import { Banner } from '../components/Banner.js';
 import { SidebarFooter } from '../components/SidebarFooter.js';
 import type { TemplateOptions } from '../types.js';
-import { useRouteError, isRouteErrorResponse } from 'react-router';
+import { isRouteErrorResponse } from 'react-router';
 
-import type { Route } from './+types/$.tsx';
+import type { Route } from './+types/$slug.tsx';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export async function loader({ request }: Route.LoaderArgs): Promise<{
+export async function loader({ request, params }: Route.LoaderArgs): Promise<{
   config: SiteManifest;
   page: PageLoader;
   project: ManifestProject | undefined;
 }> {
   const url = new URL(request.url);
-  const pathName = '/' + url.pathname.slice(import.meta.env.BASE_URL.length).replace(/\.data$/, '');
-  const [first, ...rest] = parsePathname(pathName);
   const config = await getConfig();
-  const project = getProject(config, first);
-  const projectName = project?.slug === first ? first : undefined;
-  const slugParts = projectName ? rest : [first, ...rest];
-  const slug = slugParts.length ? slugParts.join('.') : undefined;
-  const flat = isFlatSite(config);
+  const project = getProject(config);
+  const { slug } = params;
   try {
     const page = await getPage(request, {
-      project: flat ? projectName : (projectName ?? slug),
-      slug: flat ? slug : projectName ? slug : undefined,
+      slug,
       // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
-      redirect: !process.env.VITE_ENV_STATIC_BUILD,
+      redirect: !import.meta.env.VITE_BUILD_HTML,
     });
     return { config, page, project };
   } catch (e) {

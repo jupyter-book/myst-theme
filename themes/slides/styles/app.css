@@ -77,8 +77,8 @@
   box-shadow: 0 0 0 2px var(--myst-slides-accent-color);
 }
 
-/* Without a kernel, a Jupyter widget shows only its placeholder message, not its text form. */
-.reveal.myst-slides .thebe-ipywidgets-placeholder pre {
+/* Without a kernel, a Jupyter widget shows nothing; its static outputs still show. */
+.reveal.myst-slides .thebe-ipywidgets-placeholder {
   display: none;
 }
 

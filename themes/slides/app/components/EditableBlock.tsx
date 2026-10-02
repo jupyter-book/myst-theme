@@ -18,7 +18,12 @@ function EditableCode({ id, children }: { id: string; children: React.ReactNode 
   useEffect(() => {
     const code = ref.current?.querySelector<HTMLElement>('pre code');
     if (!code || !ready || !cell) return;
-    code.contentEditable = 'plaintext-only';
+    try {
+      code.contentEditable = 'plaintext-only';
+    } catch {
+      // Browsers without plaintext-only editing accept rich editing; `innerText` stays plain.
+      code.contentEditable = 'true';
+    }
     code.spellcheck = false;
     const update = () => (cell.source = code.innerText);
     const run = (event: KeyboardEvent) => {

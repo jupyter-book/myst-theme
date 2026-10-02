@@ -261,7 +261,7 @@ The theme sets these variables on `:root`:
 | `--myst-slides-font-family`         | Page font       | Slide text                           |
 | `--myst-slides-heading-font-family` | Slide text font | Headings                             |
 | `--myst-slides-code-font-family`    | Monospace       | Code blocks and inline code          |
-| `--myst-slides-font-size`           | `24px`          | Body text; other sizes scale with it |
+| `--myst-slides-font-size`           | `20px`          | Body text; other sizes scale with it |
 | `--myst-slides-code-font-size`      | `18px`          | Code blocks and outputs              |
 | `--myst-slides-line-height`         | `1.4`           | Body text                            |
 | `--myst-slides-text-align`          | `left`          | Slide text                           |

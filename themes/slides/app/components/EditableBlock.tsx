@@ -10,7 +10,7 @@ const NotebookBlock = (NOTEBOOK_BLOCK_RENDERERS.block as Record<string, NodeRend
   NOTEBOOK_BLOCK_SELECTOR
 ];
 
-/** Makes the code of a cell editable while a kernel is ready; Shift+Enter runs it. */
+/** Makes the code of a cell editable while a kernel is ready; Shift+Enter or Ctrl+Enter runs it. */
 function EditableCode({ id, children }: { id: string; children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const { ready, cell, execute } = useCellExecution(id);
@@ -27,16 +27,29 @@ function EditableCode({ id, children }: { id: string; children: React.ReactNode 
     code.spellcheck = false;
     const update = () => (cell.source = code.innerText);
     const run = (event: KeyboardEvent) => {
-      if (event.key !== 'Enter' || !event.shiftKey) return;
+      if (event.key !== 'Enter' || !(event.shiftKey || event.ctrlKey || event.metaKey)) return;
       event.preventDefault();
       update();
       execute();
     };
+    // A click in the code box but outside the text puts the cursor at the end.
+    const box = code.closest<HTMLElement>('.myst-code');
+    const focusEnd = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (code.contains(target) || target.closest('button')) return;
+      event.preventDefault();
+      code.focus();
+      const selection = window.getSelection();
+      selection?.selectAllChildren(code);
+      selection?.collapseToEnd();
+    };
     code.addEventListener('input', update);
     code.addEventListener('keydown', run);
+    box?.addEventListener('mousedown', focusEnd);
     return () => {
       code.removeEventListener('input', update);
       code.removeEventListener('keydown', run);
+      box?.removeEventListener('mousedown', focusEnd);
       code.removeAttribute('contenteditable');
     };
   }, [ready, cell, execute]);

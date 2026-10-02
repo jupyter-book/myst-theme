@@ -69,7 +69,11 @@
 
 /* Editable code shows a focus ring while the speaker types. */
 .reveal.myst-slides pre code[contenteditable] {
+  display: block;
   outline: none;
+}
+
+.reveal.myst-slides .myst-code:has(code[contenteditable]) {
   cursor: text;
 }
 

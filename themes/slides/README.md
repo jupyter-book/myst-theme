@@ -152,7 +152,7 @@ Jupyter widgets, for example `ipywidgets.interact`, respond to the kernel.
 While a widget has focus, the arrow keys go to the widget and do not change the slide.
 
 When the kernel is ready, you can edit the code of a cell.
-Press Shift+Enter, or the run button of the cell, to run the edited code.
+Press Shift+Enter, Ctrl+Enter (Cmd+Enter on macOS), or the run button of the cell, to run the edited code.
 The syntax colors do not update while you type.
 
 JupyterLite includes only some packages.

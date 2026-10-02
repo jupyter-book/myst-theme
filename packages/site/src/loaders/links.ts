@@ -1,4 +1,4 @@
-import type { HtmlLinkDescriptor } from '@remix-run/react';
+import type { HtmlLinkDescriptor } from 'react-router';
 
 export const KatexCSS: HtmlLinkDescriptor = {
   rel: 'stylesheet',

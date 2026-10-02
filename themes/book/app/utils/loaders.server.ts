@@ -19,6 +19,11 @@ const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_P
 
 type LinkRewriteOptions = { rewriteStaticFolder?: boolean };
 
+export function getCDNUrl(path: string): string {
+  return `${CONTENT_CDN}/${path}`;
+}
+
+
 export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest> {
   const url = `${CONTENT_CDN}/config.json`;
   const response = await fetch(url).catch(() => null);
@@ -41,7 +46,7 @@ function updateLink(
     // pass
   }
   if (rewriteStaticFolder) {
-    return `/myst_assets_folder${url}`;
+    return `${import.meta.env.BASE_URL}build${url}`;
   }
   return `${CONTENT_CDN}${url}`;
 }
@@ -108,14 +113,14 @@ export async function getStaticFileUrl(pathname: string): Promise<string | null>
 }
 
 export async function getObjectsInv(): Promise<ArrayBuffer | null> {
-  const url = updateLink('/objects.inv');
+  const url = `${CONTENT_CDN}/objects.inv`;
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
   return response.arrayBuffer();
 }
 
 export async function getMystXrefJson(): Promise<Record<string, any> | null> {
-  const url = updateLink('/myst.xref.json');
+  const url = `${CONTENT_CDN}/myst.xref.json`;
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
   const xrefs = await response.json();
@@ -126,7 +131,7 @@ export async function getMystXrefJson(): Promise<Record<string, any> | null> {
 }
 
 export async function getMystSearchJson(): Promise<MystSearchIndex | null> {
-  const url = updateLink('/myst.search.json');
+  const url = `${CONTENT_CDN}/myst.search.json`;
   const response = await fetch(url).catch(() => null);
   if (!response || response.status === 404) return null;
   return await response.json();

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useBaseurl, useLinkProvider, withBaseurl } from '@myst-theme/providers';
+import { useLinkProvider } from '@myst-theme/providers';
 
 export function HomeLink({
   logo,
@@ -17,13 +17,12 @@ export function HomeLink({
   url?: string;
 }) {
   const Link = useLinkProvider();
-  const baseurl = useBaseurl();
   const nothingSet = !logo && !logoText;
   const altText = logoAlt ?? logoText ?? name;
   return (
     <Link
       className="myst-home-link flex items-center ml-3 text-myst-text w-fit md:ml-5 xl:ml-7"
-      to={url ? url : withBaseurl('/', baseurl)}
+      to={url ? url : '/'}
       prefetch="intent"
     >
       {logo && (

@@ -59,7 +59,8 @@ export const links: LinksFunction = () => [KatexCSS];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const url = new URL(request.url);
-  const [first, ...rest] = parsePathname(url.pathname);
+  const pathName = '/' + url.pathname.slice(import.meta.env.BASE_URL.length).replace(/\.data$/, '');
+  const [first, ...rest] = parsePathname(pathName);
   const config = await getConfig();
   const project = getProject(config, first);
   const projectName = project?.slug === first ? first : undefined;

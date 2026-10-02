@@ -94,8 +94,8 @@ jobs:
           TAG="${{ inputs.tag_name }}"
           NOTES="Bleeding-edge theme assets, rebuilt from \`main\` on each push (currently $GITHUB_SHA). Use at your own risk! This tracks unreleased changes and can break at any time."
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" dist_zip/*.zip --clobber
+            gh release upload "$TAG" .deploy/*.zip --clobber
             gh release edit "$TAG" --notes "$NOTES"
           else
-            gh release create "$TAG" --title "$TAG" --notes "$NOTES" --prerelease --target "$GITHUB_SHA" dist_zip/*.zip
+            gh release create "$TAG" --title "$TAG" --notes "$NOTES" --prerelease --target "$GITHUB_SHA" .deploy/*.zip
           fi

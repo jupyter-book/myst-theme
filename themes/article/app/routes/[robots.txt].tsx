@@ -1,6 +1,6 @@
 import { createRobotsTxtResponse, getDomainFromRequest } from '@myst-theme/site';
-import type { LoaderFunction } from 'react-router';
+import type { Route } from './+types/[robots.txt]';
 
-export const loader: LoaderFunction = async ({ request }): Promise<Response | null> => {
+export async function loader({ request }: Route.LoaderArgs) {
   return createRobotsTxtResponse(getDomainFromRequest(request));
-};
+}

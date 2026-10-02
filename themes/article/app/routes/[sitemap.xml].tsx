@@ -1,8 +1,9 @@
 import { createSitemapResponse, getSiteSlugs, getDomainFromRequest } from '@myst-theme/site';
-import type { LoaderFunction } from 'react-router';
 import { getConfig } from '~/utils/loaders.server';
 
-export const loader: LoaderFunction = async ({ request }): Promise<Response> => {
+import type { Route } from './+types/[sitemap.xml]';
+
+export async function loader({ request }: Route.LoaderArgs) {
   const config = await getConfig();
   return createSitemapResponse(getDomainFromRequest(request), getSiteSlugs(config));
-};
+}

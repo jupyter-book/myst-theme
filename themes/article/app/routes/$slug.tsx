@@ -1,5 +1,11 @@
 import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
-import { data, redirect, type LinksFunction, type LoaderFunction, type MetaFunction } from 'react-router';
+import {
+  data,
+  redirect,
+  type LinksFunction,
+  type LoaderFunction,
+  type MetaFunction,
+} from 'react-router';
 import {
   getMetaTagsForArticle,
   KatexCSS,
@@ -16,14 +22,41 @@ import { ProjectProvider, useBaseurl } from '@myst-theme/providers';
 import { ThebeLoaderAndServer } from '@myst-theme/jupyter';
 import { useRouteError, isRouteErrorResponse } from 'react-router';
 
+import type { Route } from './+types/$slug.tsx';
+
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) => {
-  if (!data) return [];
+export async function loader({ params, request }: Route.LoaderArgs): Promise<{
+  config: SiteManifest;
+  page: PageLoader;
+  project: ManifestProject | undefined;
+}> {
+  const url = new URL(request.url);
+  const config = await getConfig();
+  const project = getProject(config);
+  const slug = params['slug'];
+  try {
+    const page = await getPage(request, {
+      slug,
+      redirect: !import.meta.env.VITE_BUILD_HTML,
+    });
+    return { config, page, project };
+  } catch (e) {
+    if (e instanceof Response && e.status === 404) {
+      const cdnUrl = await getStaticFileUrl(url.pathname);
+      if (cdnUrl) throw redirect(cdnUrl);
+    }
+    throw e;
+  }
+};
 
-  const config: SiteManifest = data.config;
-  const project: ManifestProject = data.project;
-  const page: PageLoader['frontmatter'] = data.page.frontmatter;
+export function meta({ loaderData, location }: Route.MetaArgs) => {  
+  if (loaderData === undefined) return [];
+
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject = loaderData.project;
+  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
+
   const siteTitle = config?.title ?? project?.title ?? '';
   return getMetaTagsForArticle({
     origin: '',
@@ -39,40 +72,16 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches, location }) =
   });
 };
 
-export const links: LinksFunction = () => [KatexCSS];
+export function links(): ReturnType<Route.LinksFunction> {
+  return [KatexCSS];
+}
 
-export const loader: LoaderFunction = async ({ params, request }) => {
-  const url = new URL(request.url);
-  const [first, ...rest] = parsePathname(url.pathname);
-  const config = await getConfig();
-  const project = getProject(config, first);
-  const projectName = project?.slug === first ? first : undefined;
-  const slugParts = projectName ? rest : [first, ...rest];
-  const slug = slugParts.length ? slugParts.join('.') : undefined;
-  const flat = isFlatSite(config);
-  try {
-    const page = await getPage(request, {
-      project: flat ? projectName : (projectName ?? slug),
-      slug: flat ? slug : projectName ? slug : undefined,
-      // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
-      redirect: process.env.MODE === 'static' ? false : true,
-    });
-    return ({ config, project, page });
-  } catch (e) {
-    if (e instanceof Response && e.status === 404) {
-      const cdnUrl = await getStaticFileUrl(url.pathname);
-      if (cdnUrl) throw redirect(cdnUrl);
-    }
-    throw e;
-  }
-};
-
-export default function Page() {
+export default function Page({ loaderData }: Route.ComponentProps) {
   // TODO handle outline?
   // const { container, outline } = useOutlineHeight();
   // const { hide_outline } = (article.frontmatter as any)?.options ?? {};
   const baseurl = useBaseurl();
-  const { page: article } = useLoaderData() as { page: PageLoader };
+  const { page: article } = loaderData;
 
   return (
     <ArticlePageAndNavigation>

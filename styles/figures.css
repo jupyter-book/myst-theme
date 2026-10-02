@@ -1,3 +1,20 @@
+/* Center figures with left-aligned captions */
+figure.fig-figure {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Ensure figure images aren't constrained by inline image rules */
+figure.fig-figure img {
+  max-height: none;
+  width: auto;
+  max-width: 100%;
+  display: block;
+}
+figure.fig-figure figcaption {
+  text-align: left;
+}
+/* .fig-quote is for pull-quotes attribution */
 figure.fig-quote figcaption {
   text-align: right;
 }

@@ -4,9 +4,8 @@ import {
   responseNoArticle,
   responseNoSite,
 } from '@myst-theme/site';
-import { redirect } from 'react-router';
 import { getConfig, getPage } from '~/utils/loaders.server';
-import Page from './$slug';
+import Page from './$';
 import { SiteManifest } from 'myst-config';
 import { getProject } from '@myst-theme/common';
 

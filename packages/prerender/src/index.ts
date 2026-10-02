@@ -116,6 +116,16 @@ function getRenderItem(route: BuildRoute | undefined): RenderablePath | undefine
 type Page = NonNullable<SiteManifest['projects']>[number]['pages'][number];
 
 /**
+ * Change from a slug such as `folder.subfolder.index` to a URL (`folder/subfolder`).
+ *
+ * @param slug
+ * @returns url
+ */
+function slugToUrl(slug: string | null) {
+  if (slug == null) return undefined;
+  return slug.replace(/\.index$/, '').replace(/\./g, '/');
+}
+/**
  * Fetch items from the CDN.
  *
  * Generate RenderItem entries that correspond to HTML (pages) and
@@ -132,17 +142,6 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
   }
   const config = (await configResponse.json()) as SiteManifest;
   const sitePublic = (await publicResponse.json()) as string[];
-
-  /**
-   * Change from a slug such as `folder.subfolder.index` to a URL (`folder/subfolder`).
-   *
-   * @param slug
-   * @returns url
-   */
-  const slugToUrl = (slug: string | null) => {
-    if (slug == null) return undefined;
-    return slug.replace(/\.index$/, '').replace(/\./g, '/');
-  };
 
   const makeRoutes = (data: SiteManifest) => {
     const localProj = data.projects?.[0];

@@ -30,7 +30,7 @@ import { SidebarFooter } from '../components/SidebarFooter.js';
 import type { TemplateOptions } from '../types.js';
 import { isRouteErrorResponse } from 'react-router';
 
-import type { Route } from './+types/$slug.tsx';
+import type { Route } from './+types/$.tsx';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
@@ -42,11 +42,13 @@ export async function loader({ request, params }: Route.LoaderArgs): Promise<{
   const url = new URL(request.url);
   const config = await getConfig();
   const project = getProject(config);
-  const { slug } = params;
+  const slug = params['*']
+    .split('/')
+    .filter((item) => !!item)
+    .join('.');
   try {
     const page = await getPage(request, {
       slug,
-      // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
       redirect: !import.meta.env.VITE_BUILD_HTML,
     });
     return { config, page, project };

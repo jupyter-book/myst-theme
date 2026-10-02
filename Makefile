@@ -13,21 +13,24 @@ check:
 build-theme:
 	# Prepare the npm node_module cache
 	bun install --frozen-lockfile
-
+	# Create the deploy dir
 	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
+	# Clone the deployed theme
 	git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME)
-	rm -rf .deploy/$(THEME)/public .deploy/$(THEME)/build .deploy/$(THEME)/package.json .deploy/$(THEME)/package-lock.json .deploy/$(THEME)/bun.lock .deploy/$(THEME)/template.yml .deploy/$(THEME)/server.js
-	find template -type f  -exec cp {} .deploy/$(THEME) \;
-	rm -rf themes/$(THEME)/{public,build}
-	cd themes/$(THEME) && bun run prod:build
-	cp -r themes/$(THEME)/public .deploy/$(THEME)/public
-	cp -r themes/$(THEME)/build .deploy/$(THEME)/build
+	# FIXME: temporarily remove files from v1 theme.
+	rm -rf .deploy/$(THEME)/{build,package-lock.json,server.js}
+	cp -r themes/$(THEME)/.env.prod .deploy/$(THEME)/
+	# Build server
+	cd themes/$(THEME) && bun run build
+	rm -rf .deploy/$(THEME)/public && cp -r themes/$(THEME)/public .deploy/$(THEME)/
+	rm -rf .deploy/$(THEME)/server && cp -r themes/$(THEME)/build .deploy/$(THEME)/server/
+	# Build renderer
+	cd themes/$(THEME) && bun run "build:renderer"
+	rm -rf .deploy/$(THEME)/renderer && cp -r themes/$(THEME)/build .deploy/$(THEME)/renderer/
+	# Update metadata
 	cp -r themes/$(THEME)/template.yml .deploy/$(THEME)/template.yml
-	sed -i.bak "s/template/$(THEME)/g" .deploy/$(THEME)/package.json
-	sed -i.bak "s/VERSION/$(VERSION)/g" .deploy/$(THEME)/package.json
-	rm .deploy/$(THEME)/package.json.bak
-	cd .deploy/$(THEME) && npm install
+	echo '{"type": "module"}' > .deploy/$(THEME)/package.json
 
 build-article:
 	make THEME=article build-theme

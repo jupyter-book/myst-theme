@@ -6,6 +6,8 @@ import {
   useReferences,
   XRefProvider,
   useXRefState,
+  useBaseurl,
+  withBaseurl,
   type NodeRenderer,
   useFrontmatter,
 } from '@myst-theme/providers';
@@ -69,10 +71,12 @@ function createExternalUrl({
   url,
   remoteBaseUrl,
   dataUrl,
+  baseurl,
 }: {
   url?: string;
   remoteBaseUrl?: string;
   dataUrl?: string;
+  baseurl?: string;
 }): string | null {
   // Handle external links first
   if (
@@ -88,11 +92,11 @@ function createExternalUrl({
   // dataUrl should point directly to the cross reference mdast data.
   if (dataUrl) {
     // All modern myst should have a dataUrl
-    return dataUrl;
+    return withBaseurl(dataUrl, baseurl);
   }
   // If dataUrl is not provided, it will be computed by appending .json to the url.
   // This is legacy
-  return `${url}.json`;
+  return `${withBaseurl(url, baseurl)}.json`;
 }
 
 export function useFetchMdast({
@@ -106,7 +110,8 @@ export function useFetchMdast({
   remoteBaseUrl?: string;
   dataUrl?: string;
 }) {
-  const lookupUrl = createExternalUrl({ url, remoteBaseUrl, dataUrl });
+  const baseurl = useBaseurl();
+  const lookupUrl = createExternalUrl({ url, remoteBaseUrl, dataUrl, baseurl });
   return useSWR(remote ? lookupUrl : null, fetcher);
 }
 

@@ -4,9 +4,10 @@
 export async function hashString(content: string): Promise<string> {
   const msgUint8 = new TextEncoder().encode(content); // encode as (utf-8) Uint8Array
   const hashBuffer = await globalThis.crypto.subtle.digest('SHA-256', msgUint8); // hash the message
-  if (Uint8Array.prototype.toHex) {
-    // Use toHex if supported.
-    return new Uint8Array(hashBuffer).toHex(); // Convert ArrayBuffer to hex string.
+  // Use toHex if supported.
+  if ('toHex' in Uint8Array.prototype) {
+    const bytes = new Uint8Array(hashBuffer);
+    return (Uint8Array.prototype.toHex as () => string).call(bytes); // Convert ArrayBuffer to hex string.
   }
   // If toHex() is not supported, fall back to an alternative implementation.
   const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array

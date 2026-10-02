@@ -1,10 +1,8 @@
-import type { LoaderFunction } from 'react-router';
-import { data } from 'react-router';
 import { getCDNUrl } from '~/utils/loaders.server';
+import type { Route } from './+types/[build].$';
 
-export const loader: LoaderFunction = async ({ params }) => {
-    const url = getCDNUrl(params['*']);
+export async function loader({ params }: Route.LoaderArgs) {
+  // Default to CDN url itself
+  const url = getCDNUrl(params['*'] ?? '');
   return fetch(url);
- };
-
-
+}

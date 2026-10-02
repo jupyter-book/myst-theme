@@ -9,7 +9,7 @@ import { getProject } from '@myst-theme/common';
 import { ProjectProvider } from '@myst-theme/providers';
 import { Deck } from '../components/Deck';
 import { DeckList, deckPages } from '../components/DeckList';
-export { ErrorBoundary } from './$slug';
+export { ErrorBoundary } from './$';
 
 import type { Route } from './+types/_index';
 

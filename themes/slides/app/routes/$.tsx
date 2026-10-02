@@ -11,7 +11,7 @@ import type { SiteManifest } from 'myst-config';
 import { ProjectProvider } from '@myst-theme/providers';
 import { Deck } from '../components/Deck';
 
-import type { Route } from './+types/$slug';
+import type { Route } from './+types/$';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
@@ -23,7 +23,11 @@ export async function loader({ request, params }: Route.LoaderArgs): Promise<{
   const url = new URL(request.url);
   const config = await getConfig();
   const project = getProject(config);
-  const { slug } = params;
+  // Nested folder URLs (`folders: true`) map to dotted page slugs.
+  const slug = params['*']
+    .split('/')
+    .filter((item) => !!item)
+    .join('.');
   try {
     // Static HTML builds skip the redirect from the index page slug to the root URL.
     const page = await getPage(request, { slug, redirect: !import.meta.env.VITE_BUILD_HTML });

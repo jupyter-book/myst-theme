@@ -48,29 +48,32 @@ export async function loader({ params, request }: Route.LoaderArgs): Promise<{
     }
     throw e;
   }
-};
+}
 
-export function meta({ loaderData, location }: Route.MetaArgs) => {  
+export function meta({ loaderData, location }: Route.MetaArgs) {
   if (loaderData === undefined) return [];
 
-  const config: SiteManifest = loaderData.config;
-  const project: ManifestProject = loaderData.project;
-  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
+  const config = loaderData.config;
+  const project = loaderData.project;
+  const frontmatter: PageLoader['frontmatter'] = loaderData.page.frontmatter;
 
   const siteTitle = config?.title ?? project?.title ?? '';
   return getMetaTagsForArticle({
     origin: '',
     url: location.pathname,
-    title: page?.title ? `${page.title}${siteTitle ? ` - ${siteTitle}` : ''}` : siteTitle,
-    description: page?.description ?? project?.description ?? config?.description ?? undefined,
+    title: frontmatter?.title
+      ? `${frontmatter.title}${siteTitle ? ` - ${siteTitle}` : ''}`
+      : siteTitle,
+    description:
+      frontmatter?.description ?? project?.description ?? config?.description ?? undefined,
     image:
-      (page?.thumbnailOptimized || page?.thumbnail) ??
+      (frontmatter?.thumbnailOptimized || frontmatter?.thumbnail) ??
       (project?.thumbnailOptimized || project?.thumbnail) ??
       undefined,
     twitter: config?.options?.twitter,
-    keywords: page?.keywords ?? project?.keywords ?? config?.keywords ?? [],
+    keywords: frontmatter?.keywords ?? project?.keywords ?? config?.keywords ?? [],
   });
-};
+}
 
 export function links(): ReturnType<Route.LinksFunction> {
   return [KatexCSS];

@@ -3,11 +3,10 @@ import '~/styles/app.css';
 import 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';
 import { type SiteLoader } from '@myst-theme/common';
+import { normalizeBaseURL } from '@myst-theme/common';
 import {
   Document,
   responseNoSite,
-  getMetaTagsForSite,
-  getThemeSession,
   ContentReload,
   SkipTo,
   renderers as defaultRenderers,
@@ -15,7 +14,7 @@ import {
 export { AppErrorBoundary as ErrorBoundary } from '@myst-theme/site';
 import { Outlet, useLoaderData } from 'react-router';
 import type { NodeRenderers } from '@myst-theme/providers';
-import { mergeRenderers, normalizeBaseurl } from '@myst-theme/providers';
+import { mergeRenderers } from '@myst-theme/providers';
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
 
@@ -55,7 +54,6 @@ export default function App() {
   const { config, CONTENT_CDN_PORT, STATIC_BUILD, BASE_URL } = useLoaderData<SiteLoader>();
   return (
     <Document
-      theme={theme}
       config={config}
       scripts={STATIC_BUILD ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
       staticBuild={STATIC_BUILD}

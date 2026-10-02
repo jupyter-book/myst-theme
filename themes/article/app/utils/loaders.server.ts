@@ -1,7 +1,6 @@
 import fetch from 'node-fetch';
 import { redirect } from 'react-router';
 import type { SiteManifest } from 'myst-config';
-import { slugToUrl } from 'myst-common';
 import {
   MYST_SPEC_VERSION,
   type PageLoader,
@@ -11,6 +10,8 @@ import {
   updateSiteManifestStaticLinksInplace,
 } from '@myst-theme/common';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
+import { slugToUrl } from 'myst-common';
+import { normalizeBaseURL } from '@myst-theme/common';
 import { migrate } from 'myst-migrate';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
@@ -39,7 +40,10 @@ export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest
 
 function updateLink(
   url: string,
-  { rewriteStaticFolder = !!import.meta.env.VITE_BUILD_HTML || process.env.MYST_HIDE_CDN !== undefined}: LinkRewriteOptions = {},
+  {
+    rewriteStaticFolder = !!import.meta.env.VITE_BUILD_HTML ||
+      process.env.MYST_HIDE_CDN !== undefined,
+  }: LinkRewriteOptions = {},
 ) {
   if (!url) return url;
   try {

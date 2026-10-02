@@ -78,6 +78,10 @@ const themeExtensions = {
     'myst-proof-bg': 'var(--myst-color-proof-bg)',
     'myst-proof-text': 'var(--myst-color-proof-text)',
   },
+  fontFamily: {
+    sans: 'var(--myst-font-body)',
+    mono: 'var(--myst-font-mono)',
+  },
   gridTemplateColumns: {
     'article-sm':
       '[screen-start screen-inset-start] 0.5rem [page-start page-inset-start body-outset-start body-start gutter-left-start body-inset-start middle-start] 1fr 1fr [gutter-left-end] 1fr 1fr [gutter-right-start] 1fr 1fr [middle-end body-inset-end body-end gutter-right-end body-outset-end page-inset-end page-end] 0.5rem [screen-inset-end screen-end]',

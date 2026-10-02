@@ -16,8 +16,8 @@ build-theme:
 	# Create the deploy dir
 	mkdir .deploy || true
 	rm -rf .deploy/$(THEME)
-	# Clone the deployed theme
-	git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME)
+	# Clone the deployed theme; a theme without a deploy repository starts empty
+	GIT_TERMINAL_PROMPT=0 git clone --depth 1 https://github.com/$(THEME_REPO_OWNER)/$(THEME)-theme .deploy/$(THEME) || mkdir .deploy/$(THEME)
 	# FIXME: temporarily remove files from v1 theme.
 	rm -rf .deploy/$(THEME)/{build,package-lock.json,server.js}
 	cp -r themes/$(THEME)/.env.prod .deploy/$(THEME)/

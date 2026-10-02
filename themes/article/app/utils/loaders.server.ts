@@ -14,9 +14,18 @@ import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-t
 import { migrate } from 'myst-migrate';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
-const CONTENT_CDN = process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`;
+const CONTENT_CDN = normalizeBaseURL(
+  process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`,
+);
+const BASE_URL = `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`;
 
-type LinkRewriteOptions = { rewriteStaticFolder?: boolean };
+interface LinkRewriteOptions {
+  rewriteStaticFolder?: boolean;
+}
+
+export function getCDNUrl(path: string): string {
+  return `${CONTENT_CDN}/${path}`;
+}
 
 export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest> {
   const url = `${CONTENT_CDN}/config.json`;
@@ -30,20 +39,21 @@ export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest
 
 function updateLink(
   url: string,
-  { rewriteStaticFolder = process.env.MODE === 'static' }: LinkRewriteOptions = {},
+  { rewriteStaticFolder = !!import.meta.env.VITE_BUILD_HTML || process.env.MYST_HIDE_CDN !== undefined}: LinkRewriteOptions = {},
 ) {
   if (!url) return url;
   try {
     const parsed = new URL(url);
     if (parsed.protocol.startsWith('http')) return url;
-  } catch (error) {
+  } catch {
     // pass
   }
   if (rewriteStaticFolder) {
-    return `/myst_assets_folder${url}`;
+    return `${BASE_URL}_public${url}`;
   }
   return `${CONTENT_CDN}${url}`;
 }
+
 async function getStaticContent(project?: string, slug?: string): Promise<PageLoader | null> {
   if (!slug) return null;
   const projectSlug = project ? `${project}/` : '';

@@ -11,7 +11,7 @@ authors:
     affiliations:
       - Curvenote
 tags:
-  - book
+  - article
 options:
   - type: boolean
     id: hide_toc
@@ -73,11 +73,12 @@ options:
     id: style
     description: Local path to a CSS file
 build:
-  install: npm ci --ignore-scripts
-  start: npm run start
+  install: npm install
+  start: node --env-file=./.env.prod server/server/index.js
+  render: node --env-file=./.env.prod renderer/server/index.js
 files:
-  - server.js
-  - package.json
-  - package-lock.json
+  - renderer/**/*
+  - server/**/*
   - public/**/*
-  - build/**/*
+  - .env.prod
+  - package.json

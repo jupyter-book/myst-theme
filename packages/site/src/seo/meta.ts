@@ -1,4 +1,4 @@
-import type { V2_MetaDescriptor } from '@remix-run/react';
+import type { MetaDescriptor } from '@remix-run/react';
 
 export type SocialSite = {
   title: string;
@@ -17,15 +17,15 @@ export type SocialArticle = {
   keywords?: string[];
 };
 
-function allDefined(meta: Record<string, string | null | undefined>): V2_MetaDescriptor {
-  return Object.fromEntries(Object.entries(meta).filter(([, v]) => v)) as V2_MetaDescriptor;
+function allDefined(meta: Record<string, string | null | undefined>): MetaDescriptor {
+  return Object.fromEntries(Object.entries(meta).filter(([, v]) => v)) as MetaDescriptor;
 }
 
 export function getMetaTagsForSite_V1({
   title,
   description,
   twitter,
-}: SocialSite): V2_MetaDescriptor {
+}: SocialSite): MetaDescriptor {
   const meta = {
     title,
     description,
@@ -38,8 +38,8 @@ export function getMetaTagsForSite({
   title,
   description,
   twitter,
-}: SocialSite): V2_MetaDescriptor[] {
-  const meta: V2_MetaDescriptor[] = [
+}: SocialSite): MetaDescriptor[] {
+  const meta: MetaDescriptor[] = [
     { title },
     { property: 'og:title', content: title },
     { name: 'generator', content: 'mystmd' },
@@ -60,7 +60,7 @@ export function getMetaTagsForArticle_V1({
   image,
   twitter,
   keywords,
-}: SocialArticle): V2_MetaDescriptor {
+}: SocialArticle): MetaDescriptor {
   const meta = {
     title,
     description,
@@ -88,8 +88,8 @@ export function getMetaTagsForArticle({
   image,
   twitter,
   keywords,
-}: SocialArticle): V2_MetaDescriptor[] {
-  const meta: V2_MetaDescriptor[] = [
+}: SocialArticle): MetaDescriptor[] {
+  const meta: MetaDescriptor[] = [
     { title },
     { property: 'og:title', content: title },
     { name: 'generator', content: 'mystmd' },

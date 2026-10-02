@@ -42,7 +42,10 @@ export async function loader({ request, params }: Route.LoaderArgs): Promise<{
   const url = new URL(request.url);
   const config = await getConfig();
   const project = getProject(config);
-  const slug = params['*'].split('/').join('.');
+  const slug = params['*']
+    .split('/')
+    .filter((item) => !!item)
+    .join('.');
   try {
     const page = await getPage(request, {
       slug,

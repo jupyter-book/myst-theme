@@ -46,7 +46,6 @@ export async function loader({ request, params }: Route.LoaderArgs): Promise<{
   try {
     const page = await getPage(request, {
       slug,
-      // MODE=static is set by mystmd when pre-rendering pages for `myst build --html`; skip index redirects in that case.
       redirect: !import.meta.env.VITE_BUILD_HTML,
     });
     return { config, page, project };

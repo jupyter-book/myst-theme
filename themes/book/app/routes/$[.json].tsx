@@ -1,7 +1,7 @@
 import { data } from 'react-router';
 import { getPage } from '~/utils/loaders.server';
 
-import type { Route } from './+types/$slug[.json]';
+import type { Route } from './+types/$[.json]';
 
 function api404(message = 'No API route found at this URL') {
   return data(
@@ -13,8 +13,12 @@ function api404(message = 'No API route found at this URL') {
   );
 }
 
-export async function loader({ request, params }: Route.LoaderArgs) {
-  const { slug } = params;
+interface ParamsType {
+        '*': string;
+}
+
+export async function loader({ request, params }: Route.LoaderArgs & {params: ParamsType}) {
+  const slug = params['*'].split("/").join(".");
   const pageData = await getPage(request, { slug });
   if (!pageData) return api404('No page found at this URL.');
   return data(pageData, {

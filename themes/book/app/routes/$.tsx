@@ -30,7 +30,7 @@ import { SidebarFooter } from '../components/SidebarFooter.js';
 import type { TemplateOptions } from '../types.js';
 import { isRouteErrorResponse } from 'react-router';
 
-import type { Route } from './+types/$slug.tsx';
+import type { Route } from './+types/$.tsx';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
@@ -42,7 +42,7 @@ export async function loader({ request, params }: Route.LoaderArgs): Promise<{
   const url = new URL(request.url);
   const config = await getConfig();
   const project = getProject(config);
-  const { slug } = params;
+  const slug = params['*'].split('/').join('.');
   try {
     const page = await getPage(request, {
       slug,

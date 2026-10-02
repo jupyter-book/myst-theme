@@ -9,6 +9,9 @@ project:
   #       token: my-token
   jupyter:
     lite: true
+  # Directives for credit slides: {slide-authors} and {slide-socials}
+  plugins:
+    - ../plugin.mjs
   toc:
     - file: index.md
     - file: slides.md

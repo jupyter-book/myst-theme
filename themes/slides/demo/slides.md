@@ -104,7 +104,7 @@ Left column text.
 - b
 :::
 :::{grid-item}
-```{figure} https://picsum.photos/400/200
+```{figure} waves.svg
 Right column figure.
 ```
 :::
@@ -152,15 +152,22 @@ def f(x):
 
 ## Figure
 
-```{figure} https://picsum.photos/400/200
+```{figure} waves.svg
 :label: fig-pic
 A picture.
 ```
 
 See [](#fig-pic).
 
-+++ {"part": "credits"}
++++
 
-## Thank you
+# Thank you
 
 Slides made with [MyST Markdown](https://mystmd.org) and [reveal.js](https://revealjs.com).
+
+```{slide-authors}
+:socials:
+```
+
+```{slide-socials}
+```

@@ -1,4 +1,4 @@
-.PHONY: build-theme build-article build-book deploy-theme deploy-article deploy-book check
+.PHONY: build-theme build-article build-book build-slides build-slides-demo deploy-theme deploy-article deploy-book check build-docs
 
 COMMIT = $(shell git rev-parse --short HEAD)
 # You may need to install jq for this to work!
@@ -38,6 +38,19 @@ build-article:
 build-book:
 	make THEME=book build-theme
 
+build-slides:
+	make THEME=slides build-theme
+
+# The slides theme demo, served from a sub-folder of the docs site
+SLIDES_DEMO_DIR = slides-demo
+
+build-slides-demo:
+	make build-slides
+	cd themes/slides/demo && BASE_URL=$(BASE_URL)/$(SLIDES_DEMO_DIR) myst build --execute --html
+	mkdir -p docs/_build/html
+	rm -rf docs/_build/html/$(SLIDES_DEMO_DIR)
+	cp -r themes/slides/demo/_build/html docs/_build/html/$(SLIDES_DEMO_DIR)
+
 deploy-theme: check
 	echo "Deploying $(THEME) theme to $(THEME_REPO_OWNER)/$(THEME)-theme"
 	echo "Version: $(VERSION)"
@@ -55,3 +68,4 @@ deploy-book:
 build-docs:
 	make build-book
 	cd docs && myst build -d --execute --html --strict
+	make build-slides-demo

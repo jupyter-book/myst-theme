@@ -62,6 +62,8 @@ site:
           url: https://github.com/jupyter-book/myst-theme
         - title: Reference
           url: /reference
+        - title: Slides theme demo
+          url: /slides-demo/
   options:
     site_title: myst-theme documentation
     folders: true

@@ -18,6 +18,9 @@ A MyST project that shows the features of the slides theme.
 
 3. Open <http://localhost:3000>.
 
+The docs site includes this demo.
+`make build-docs` runs `make build-slides-demo`, which builds the demo with `BASE_URL=/slides-demo` into `docs/_build/html/slides-demo`.
+
 The `slides.md` deck uses JupyterLite to run code in the browser.
 To use a local Jupyter server instead, change `jupyter` in `myst.yml` and start the server:
 

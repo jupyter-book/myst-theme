@@ -44,10 +44,10 @@ project:
       github: ada
       mastodon: '@ada@example.org'
   plugins:
-    - plugin.mjs
+    - slides.mjs
 ```
 
-The building blocks are directives from the theme's MyST plugin, [`plugin.mjs`](plugin.mjs).
+The building blocks are directives from the theme's MyST plugin, [`slides.mjs`](slides.mjs).
 Copy the file into your project, or give its URL in `plugins`.
 
 | Directive                     | Shows                                                  |

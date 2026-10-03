@@ -63,7 +63,7 @@ site:
         - title: Reference
           url: /reference
         - title: Slides theme demo
-          url: /slides-demo/
+          url: /slides-demo
   options:
     site_title: myst-theme documentation
     folders: true

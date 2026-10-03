@@ -35,6 +35,8 @@ project:
       children:
         - file: color-picker.md
     - file: permalinks.md
+    - title: Slides theme demo
+      url: /slides-demo
     - file: reference/index.md
       children:
       - pattern: 'reference/!(index)*.md'

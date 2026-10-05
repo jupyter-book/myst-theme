@@ -5,6 +5,11 @@ import morgan from 'morgan';
 import getPort from 'get-port';
 import path from 'node:path';
 
+// Test for old mystmd builds that set MODE==="static"
+if (process.env.MODE === "static") {
+    throw new Error("Your version of mystmd (or jupyter-book) does not support this version of the MyST theme. Either upgrade mystmd/jupyter-book, or specify an older version of this theme in your myst.yml.")
+}
+
 const IS_PRODUCTION = (process.env.NODE_ENV ?? 'production') === 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT =

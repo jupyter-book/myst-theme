@@ -269,3 +269,20 @@ export function parsePathname(pathname: string): string[] {
 export function normalizeBaseURL(base: string): string {
   return base.replace(/\/+$/, '');
 }
+
+/**
+ * Base URL used while pre-rendering a site with `relative_urls`.
+ *
+ * The pre-renderer replaces it in each output file with a relative prefix such as `../../`.
+ */
+export const RELATIVE_BASE_URL_PLACEHOLDER = '/__myst_relative_base__';
+
+/**
+ * Resolve a relative base URL (e.g. `../..`) against the current page to an absolute path.
+ *
+ * Absolute base URLs, and all base URLs during server rendering, are returned unchanged.
+ */
+export function resolveBaseURL(base: string): string {
+  if (!base.startsWith('.') || typeof window === 'undefined') return base;
+  return normalizeBaseURL(new URL(`${base}/`, window.location.href).pathname);
+}

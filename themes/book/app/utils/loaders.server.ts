@@ -19,7 +19,10 @@ const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = normalizeBaseURL(
   process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`,
 );
-const BASE_URL = `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`;
+// Read at request time: the pre-renderer may set BASE_URL after this module loads
+function getBaseUrl() {
+  return `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`;
+}
 
 interface LinkRewriteOptions {
   rewriteStaticFolder?: boolean;
@@ -51,7 +54,7 @@ function updateLink(
     // pass
   }
   if (rewriteStaticFolder) {
-    return `${BASE_URL}_public${url}`;
+    return `${getBaseUrl()}_public${url}`;
   }
   return `${CONTENT_CDN}${url}`;
 }

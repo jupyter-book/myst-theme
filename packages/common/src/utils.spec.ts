@@ -1,5 +1,5 @@
-import { describe, expect, test, it } from 'vitest';
-import { isFlatSite, parsePathname, normalizeBaseURL } from './utils.js';
+import { describe, expect, test, it, afterEach, vi } from 'vitest';
+import { isFlatSite, parsePathname, normalizeBaseURL, resolveBaseURL } from './utils.js';
 
 describe('utils', () => {
   test('isFlatSite true', () => {
@@ -53,5 +53,32 @@ describe('normalizeBaseURL', () => {
 
   it('leaves a baseURL without a trailing slash unchanged', () => {
     expect(normalizeBaseURL('/base')).toBe('/base');
+  });
+});
+
+describe('resolveBaseURL', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('leaves base URLs unchanged during server rendering', () => {
+    expect(resolveBaseURL('../..')).toBe('../..');
+  });
+
+  it('leaves absolute base URLs unchanged', () => {
+    vi.stubGlobal('window', { location: { href: 'https://example.com/docs/a/b/' } });
+    expect(resolveBaseURL('/docs')).toBe('/docs');
+    expect(resolveBaseURL('')).toBe('');
+  });
+
+  it('resolves relative base URLs against the current page', () => {
+    vi.stubGlobal('window', { location: { href: 'https://example.com/docs/a/b/' } });
+    expect(resolveBaseURL('../..')).toBe('/docs');
+    expect(resolveBaseURL('.')).toBe('/docs/a/b');
+  });
+
+  it('resolves a relative base URL at the domain root to an empty base URL', () => {
+    vi.stubGlobal('window', { location: { href: 'https://example.com/' } });
+    expect(resolveBaseURL('.')).toBe('');
   });
 });

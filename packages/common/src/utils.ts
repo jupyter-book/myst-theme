@@ -281,20 +281,27 @@ export function baseURLPath(base: string): string {
 }
 
 /**
- * Base URL of links: `MYST_LINK_BASE_URL` if set, else the path of `BASE_URL`.
- *
- * The pre-renderer sets `MYST_LINK_BASE_URL` for `relative_urls`, so `BASE_URL` stays available for absolute URLs.
- */
-export function getLinkBaseURL(env: Record<string, string | undefined>): string {
-  return normalizeBaseURL(env.MYST_LINK_BASE_URL ?? baseURLPath(env.BASE_URL ?? ''));
-}
-
-/**
  * Base URL used while pre-rendering a site with `relative_urls`.
  *
  * The pre-renderer replaces it in each output file with a relative prefix such as `../../`.
  */
 export const RELATIVE_BASE_URL_PLACEHOLDER = '/__myst_relative_base__';
+
+/**
+ * Base URL of links.
+ *
+ * Static builds with `relative_urls` use a placeholder, which the pre-renderer replaces with a relative prefix.
+ * Otherwise links use the path of `BASE_URL`.
+ */
+export function getLinkBaseURL(
+  env: Record<string, string | undefined>,
+  opts?: { config?: SiteManifest; staticBuild?: boolean },
+): string {
+  if (opts?.staticBuild && opts.config?.options?.relative_urls) {
+    return RELATIVE_BASE_URL_PLACEHOLDER;
+  }
+  return baseURLPath(env.BASE_URL ?? '');
+}
 
 /**
  * Resolve a relative base URL (e.g. `../..`) against the current page to an absolute path.

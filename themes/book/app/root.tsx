@@ -45,14 +45,14 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
-  const baseURL = getLinkBaseURL(process.env);
   const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
+  const staticBuild = !!import.meta.env.VITE_BUILD_HTML;
   const data = {
     config,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
-    STATIC_BUILD: !!import.meta.env.VITE_BUILD_HTML,
-    BASE_URL: baseURL,
+    STATIC_BUILD: staticBuild,
+    BASE_URL: getLinkBaseURL(process.env, { config, staticBuild }),
   };
   return data;
 };

@@ -6,6 +6,7 @@ import {
   resolveBaseURL,
   baseURLPath,
   getLinkBaseURL,
+  RELATIVE_BASE_URL_PLACEHOLDER,
 } from './utils.js';
 
 describe('utils', () => {
@@ -103,18 +104,32 @@ describe('baseURLPath', () => {
 });
 
 describe('getLinkBaseURL', () => {
+  const relativeConfig = { myst: 'v1', options: { relative_urls: true } } as any;
+
   it('uses the path of BASE_URL', () => {
     expect(getLinkBaseURL({ BASE_URL: '/docs' })).toBe('/docs');
     expect(getLinkBaseURL({ BASE_URL: 'https://example.org/docs' })).toBe('/docs');
     expect(getLinkBaseURL({})).toBe('');
   });
 
-  it('prefers MYST_LINK_BASE_URL over BASE_URL', () => {
+  it('uses the placeholder for static builds with relative_urls', () => {
     expect(
-      getLinkBaseURL({
-        BASE_URL: 'https://example.org/docs',
-        MYST_LINK_BASE_URL: '/__placeholder__',
-      }),
-    ).toBe('/__placeholder__');
+      getLinkBaseURL(
+        { BASE_URL: 'https://example.org/docs' },
+        { config: relativeConfig, staticBuild: true },
+      ),
+    ).toBe(RELATIVE_BASE_URL_PLACEHOLDER);
+  });
+
+  it('uses BASE_URL for relative_urls outside static builds', () => {
+    expect(
+      getLinkBaseURL({ BASE_URL: '/docs' }, { config: relativeConfig, staticBuild: false }),
+    ).toBe('/docs');
+  });
+
+  it('uses BASE_URL for static builds without relative_urls', () => {
+    expect(
+      getLinkBaseURL({ BASE_URL: '/docs' }, { config: { myst: 'v1' } as any, staticBuild: true }),
+    ).toBe('/docs');
   });
 });

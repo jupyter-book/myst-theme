@@ -378,9 +378,8 @@ export async function prerender(build: ServerBuild, outPath: string) {
 
   // Relative URLs render links with a placeholder base URL, which each output file then replaces
   const relativeUrls = !!config.options?.relative_urls;
-  if (relativeUrls) process.env.MYST_LINK_BASE_URL = RELATIVE_BASE_URL_PLACEHOLDER;
   // Ensure we have a proper base URL ending with /
-  const baseUrl = `${getLinkBaseURL(process.env)}/`;
+  const baseUrl = `${getLinkBaseURL(process.env, { config, staticBuild: true })}/`;
 
   const assets = await rewriteAssets(build, outPath, baseUrl, relativeUrls);
 

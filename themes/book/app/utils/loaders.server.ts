@@ -19,10 +19,6 @@ const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = normalizeBaseURL(
   process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`,
 );
-// Read at request time: the pre-renderer may set the link base URL after this module loads
-function getBaseUrl() {
-  return `${getLinkBaseURL(process.env)}/`;
-}
 
 interface LinkRewriteOptions {
   rewriteStaticFolder?: boolean;
@@ -39,11 +35,12 @@ export async function getConfig(opts?: LinkRewriteOptions): Promise<SiteManifest
     throw new Error(`No site configuration found at ${url}`);
   }
   const data = (await response.json()) as SiteManifest;
-  return updateSiteManifestStaticLinksInplace(data, (url) => updateLink(url, opts));
+  return updateSiteManifestStaticLinksInplace(data, (url) => updateLink(url, data, opts));
 }
 
 function updateLink(
   url: string,
+  config?: SiteManifest,
   { rewriteStaticFolder = !!import.meta.env.VITE_BUILD_HTML || process.env.MYST_HIDE_CDN !== undefined}: LinkRewriteOptions = {},
 ) {
   if (!url) return url;
@@ -54,12 +51,20 @@ function updateLink(
     // pass
   }
   if (rewriteStaticFolder) {
-    return `${getBaseUrl()}_public${url}`;
+    const base = getLinkBaseURL(process.env, {
+      config,
+      staticBuild: !!import.meta.env.VITE_BUILD_HTML,
+    });
+    return `${base}/_public${url}`;
   }
   return `${CONTENT_CDN}${url}`;
 }
 
-async function getStaticContent(project?: string, slug?: string): Promise<PageLoader | null> {
+async function getStaticContent(
+  config: SiteManifest,
+  project?: string,
+  slug?: string,
+): Promise<PageLoader | null> {
   if (!slug) return null;
   const projectSlug = project ? `${project}/` : '';
   const url = `${CONTENT_CDN}/content/${projectSlug}${slug}.json`;
@@ -74,7 +79,7 @@ async function getStaticContent(project?: string, slug?: string): Promise<PageLo
   } catch (error) {
     console.error(`Error migrating content for ${project}/${slug} (aborted):`, error);
   }
-  return updatePageStaticLinksInplace(data, updateLink);
+  return updatePageStaticLinksInplace(data, (url) => updateLink(url, config));
 }
 
 export async function getPage(
@@ -99,10 +104,10 @@ export async function getPage(
     throw redirect(projectName ? `/${projectName}/${newSlug}` : `/${newSlug}`);
   }
   let slug = opts.loadIndexPage || opts.slug == null ? project.index : opts.slug;
-  let loader = await getStaticContent(projectName, slug).catch(() => null);
+  let loader = await getStaticContent(config, projectName, slug).catch(() => null);
   if (!loader) {
     slug = `${slug}.index`;
-    loader = await getStaticContent(projectName, slug).catch(() => null);
+    loader = await getStaticContent(config, projectName, slug).catch(() => null);
     if (!loader) throw responseNoArticle();
   }
   const footer = getFooterLinks(config, projectName, slug);

@@ -23,28 +23,27 @@ const viteDevServer = IS_PRODUCTION
     );
 
 type ServerBuild = Awaited<typeof import('virtual:react-router/server-build')>;
+const serverBuild: ServerBuild = viteDevServer
+  ? (await viteDevServer.ssrLoadModule('virtual:react-router/server-build') as any)
+  : await import('virtual:react-router/server-build');
+
 const reactRouterHandler = createRequestHandler({
-  build: viteDevServer
-    ? () =>
-        viteDevServer.ssrLoadModule(
-          'virtual:react-router/server-build',
-        ) as any as Promise<ServerBuild>
-    : await import('virtual:react-router/server-build'),
+  build: serverBuild,
 });
 
 const app = express();
 app.use(compression());
 app.use(morgan('tiny'));
-
 if (viteDevServer) {
   app.use(viteDevServer.middlewares);
 } else {
   // Prod builds put us under e.g. <root><base>/server/index.js
   const CLIENT_PATH = path.join(path.dirname(import.meta.dirname), 'client');
   // Serve client assets from <root>/<base>/client
-  app.use(express.static(CLIENT_PATH, { immutable: true, maxAge: '1y' }));
+  app.use(serverBuild.basename, express.static(CLIENT_PATH, { immutable: true, maxAge: '1y' }));
   // Serve public assets from <root>/public
   app.use(
+    serverBuild.basename,
     express.static(path.join(path.dirname(path.dirname(CLIENT_PATH)), 'public'), { maxAge: '1h' }),
   );
 }

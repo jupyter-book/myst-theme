@@ -5,6 +5,26 @@ import morgan from 'morgan';
 import getPort from 'get-port';
 import path from 'node:path';
 
+// Test for old mystmd builds that set MODE==="static"
+if (process.env.MODE === 'static') {
+  console.error(
+    `Your version of mystmd (or jupyter-book) does not support this version of the MyST theme. 
+
+To resolve this error, either:
+
+- Upgrade mystmd/jupyter-book.
+- Specify an older version of this theme in your myst.yml.
+
+The newest supported theme for your document engine version is '1.4.1'. 
+Set the following configuration in your myst.yml to use this version:
+
+site:
+  template: https://github.com/jupyter-book/myst-theme/releases/download/myst-to-react%401.4.1/article-theme.zip
+`,
+  );
+  process.exit(1);
+}
+
 const IS_PRODUCTION = (process.env.NODE_ENV ?? 'production') === 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT =
@@ -24,7 +44,7 @@ const viteDevServer = IS_PRODUCTION
 
 type ServerBuild = Awaited<typeof import('virtual:react-router/server-build')>;
 const serverBuild: ServerBuild = viteDevServer
-  ? (await viteDevServer.ssrLoadModule('virtual:react-router/server-build') as any)
+  ? ((await viteDevServer.ssrLoadModule('virtual:react-router/server-build')) as any)
   : await import('virtual:react-router/server-build');
 
 const reactRouterHandler = createRequestHandler({

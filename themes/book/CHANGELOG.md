@@ -1,5 +1,30 @@
 # @myst-theme/book
 
+## 1.5.0
+
+### Minor Changes
+
+- ced8bde: Drop support for React 16/17 & upgrade to React Router 8
+
+### Patch Changes
+
+- 5fcfdbd: Fix base url handling of server (not HTML renderer)
+- 23817b1: Add fatal error when using theme to build under old mystmd
+- Updated dependencies [ced8bde]
+  - @myst-theme/landing-pages@1.5.0
+  - myst-to-react@1.5.0
+  - @myst-theme/frontmatter@1.5.0
+  - @myst-theme/anywidget@1.5.0
+  - @myst-theme/prerender@0.1.0
+  - @myst-theme/providers@1.5.0
+  - @myst-theme/jupyter@1.5.0
+  - @myst-theme/common@1.5.0
+  - @myst-theme/icons@1.5.0
+  - @myst-theme/site@1.5.0
+  - @myst-theme/styles@1.5.0
+  - @myst-theme/search@1.5.0
+  - @myst-theme/search-minisearch@1.5.0
+
 ## 1.4.1
 
 ### Patch Changes

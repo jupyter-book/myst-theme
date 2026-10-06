@@ -1,5 +1,11 @@
 # @myst-theme/icons
 
+## 1.5.0
+
+### Minor Changes
+
+- ced8bde: Drop support for React 16/17 & upgrade to React Router 8
+
 ## 1.4.1
 
 ## 1.4.0

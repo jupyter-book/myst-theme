@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { normalizeBaseURL } from '@myst-theme/common';
+import { normalizeBaseURL, resolveBaseURL } from '@myst-theme/common';
 
 import escape from 'regexp.escape';
 
@@ -15,7 +15,7 @@ export function BaseUrlProvider({
   children: React.ReactNode;
 }) {
   return (
-    <BaseUrlContext.Provider value={{ baseurl: normalizeBaseURL(baseurl ?? '') }}>
+    <BaseUrlContext.Provider value={{ baseurl: resolveBaseURL(normalizeBaseURL(baseurl ?? '')) }}>
       {children}
     </BaseUrlContext.Provider>
   );

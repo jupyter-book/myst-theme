@@ -1,5 +1,5 @@
 import type { Config } from '@react-router/dev/config';
-import { normalizeBaseURL } from '@myst-theme/common'
+import { getLinkBaseURL } from '@myst-theme/common'
 
 // Inputs
 const IS_VITE_BUILD_HTML = !!process.env.VITE_BUILD_HTML;
@@ -13,7 +13,7 @@ const getConfig = () => {
   } else {
     return {
       ssr: true,
-      basename: `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`,
+      basename: `${getLinkBaseURL(process.env)}/`,
     } satisfies Config;
   }
 };

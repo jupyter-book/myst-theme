@@ -1,6 +1,6 @@
 import type { CrossReference } from 'myst-spec';
 import type { PageLoader } from '@myst-theme/common';
-import { MYST_SPEC_VERSION } from '@myst-theme/common';
+import { MYST_SPEC_VERSION, updatePageStaticLinksInplace } from '@myst-theme/common';
 import {
   useLinkProvider,
   useReferences,
@@ -33,7 +33,10 @@ const fetcher = (...args: Parameters<typeof fetch>): Promise<PageLoader> =>
       } catch (error) {
         console.error(`Error migrating content for ${args[0]} (aborted):`, error);
       }
-      return data;
+      // Relative static links (from `relative_urls` builds) are relative to the fetched file
+      return updatePageStaticLinksInplace(data, (url) =>
+        /^\.\.?\//.test(url) ? new URL(url, res.url).href : url,
+      );
     }
     throw new Error(`Content returned with status ${res.status}.`);
   });

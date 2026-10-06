@@ -57,7 +57,11 @@ import * as path from 'node:path';
 import { createRequestHandler, type ServerBuild } from 'react-router';
 
 import type { SiteManifest } from 'myst-config';
-import { normalizeBaseURL } from '@myst-theme/common';
+import {
+  getLinkBaseURL,
+  normalizeBaseURL,
+  RELATIVE_BASE_URL_PLACEHOLDER,
+} from '@myst-theme/common';
 
 function isDynamicRoute(urlPath: string): boolean {
   const segments = urlPath.split('/');
@@ -131,7 +135,9 @@ function slugToUrl(slug: string | null) {
  * Generate RenderItem entries that correspond to HTML (pages) and
  * resources (page.json entries)
  */
-async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
+async function getCDNItems(
+  cdnUrl: string,
+): Promise<{ config: SiteManifest; items: RenderablePath[] }> {
   // Load site
   const [configResponse, publicResponse] = await Promise.all([
     fetch(`${cdnUrl}/config.json`),
@@ -181,7 +187,7 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
       }),
     ].flat();
   };
-  return makeRoutes(config);
+  return { config, items: makeRoutes(config) };
 }
 
 function stripViteBaseURL(url: string): string {
@@ -208,7 +214,32 @@ function rewriteRouteAsset(asset: EntryRoute, baseUrl: string): EntryRoute {
   };
 }
 
-async function rewriteAssets(build: ServerBuild, outPath: string, baseUrl: string) {
+/**
+ * Relative prefix from a file at `filePath` (relative to the site root) to the site root
+ */
+function relativePrefix(filePath: string, isDirectory: boolean): string {
+  const parts = filePath.split('/').filter(Boolean);
+  const depth = isDirectory ? parts.length : parts.length - 1;
+  return depth > 0 ? '../'.repeat(depth) : './';
+}
+
+/**
+ * Replace the relative base URL placeholder with a relative prefix such as `../../`
+ */
+function replaceRelativeBaseUrl(content: string, prefix: string): string {
+  return content.replace(new RegExp(`${RELATIVE_BASE_URL_PLACEHOLDER}(/)?`, 'g'), (_, slash) =>
+    slash ? prefix : prefix.slice(0, -1),
+  );
+}
+
+const TEXT_CONTENT_TYPE = /^(text\/|application\/(json|xml|javascript))/;
+
+async function rewriteAssets(
+  build: ServerBuild,
+  outPath: string,
+  baseUrl: string,
+  relativeUrls: boolean,
+) {
   const originalAssets = build.assets;
   // Find write path for manifest
   // Allow vite to configure _assets path
@@ -240,11 +271,17 @@ async function rewriteAssets(build: ServerBuild, outPath: string, baseUrl: strin
   assets.url = `${baseUrl}${newAssetsPath}`;
   assets.version = version;
 
-  await fsp.writeFile(
-    path.join(outPath, newAssetsPath),
-    `window.__reactRouterManifest=${JSON.stringify(assets)};`,
-    'utf8',
-  );
+  // With relative URLs, modules need absolute URLs, because `import()` resolves relative to the
+  // importing module. Stylesheet URLs must match the server-rendered page for hydration, so they
+  // use the relative prefix of the page, which the router basename holds until the client entry runs.
+  const manifestSource = relativeUrls
+    ? `const rel=window.__reactRouterContext.basename,abs=new URL(rel,location.href).pathname;` +
+      `const m=JSON.parse(${JSON.stringify(JSON.stringify(assets))}` +
+      `.replaceAll(${JSON.stringify(`${RELATIVE_BASE_URL_PLACEHOLDER}/`)},abs));` +
+      `Object.values(m.routes).forEach((r)=>{if(r?.css)r.css=r.css.map((u)=>rel+u.slice(abs.length));});` +
+      `window.__reactRouterManifest=m;`
+    : `window.__reactRouterManifest=${JSON.stringify(assets)};`;
+  await fsp.writeFile(path.join(outPath, newAssetsPath), manifestSource, 'utf8');
 
   return assets;
 }
@@ -257,6 +294,7 @@ async function renderRenderablePath(
   item: RenderablePath,
   out_path: string,
   base_url: string,
+  relativeUrls: boolean,
 ) {
   const prerenderPath =
     base_url !== '/'
@@ -276,7 +314,10 @@ async function renderRenderablePath(
 
   switch (item.type) {
     case 'html': {
-      const content = await contentResponse.text();
+      let content = await contentResponse.text();
+      if (relativeUrls) {
+        content = replaceRelativeBaseUrl(content, relativePrefix(prerenderPathNoBase, true));
+      }
 
       const contentPath = path.resolve(
         path.join(out_path, ...(prerenderPathNoBase + '/index.html').split('/').filter(Boolean)),
@@ -289,7 +330,15 @@ async function renderRenderablePath(
       break;
     }
     case 'resource': {
-      const content = new Uint8Array(await contentResponse.arrayBuffer());
+      let content: Uint8Array | string = new Uint8Array(await contentResponse.arrayBuffer());
+      const contentType = contentResponse.headers.get('content-type') ?? '';
+      if (relativeUrls && TEXT_CONTENT_TYPE.test(contentType)) {
+        // URLs in a resource are relative to the resource itself
+        content = replaceRelativeBaseUrl(
+          new TextDecoder().decode(content),
+          relativePrefix(prerenderPathNoBase, false),
+        );
+      }
 
       const contentPath = path.resolve(
         path.join(out_path, ...prerenderPathNoBase.split('/').filter(Boolean)),
@@ -318,18 +367,21 @@ export async function prerender(build: ServerBuild, outPath: string) {
   // requests
   process.env.IS_RR_BUILD_REQUEST = 'yes';
 
-  // Ensure we have a proper base URL ending with /
-  const baseUrl = `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`;
   // Ensure that we have a proper CDN URL that *does not end with /*
   const cdnUrl = `${normalizeBaseURL(process.env.CONTENT_CDN ?? 'http://localhost:3100')}`;
 
   const intrinsicItems = Object.values(build.routes)
     .map(getRenderItem)
     .filter((item): item is NonNullable<typeof item> => !!item);
-  const cdnItems = await getCDNItems(cdnUrl);
+  const { config, items: cdnItems } = await getCDNItems(cdnUrl);
   const renderItems = [...intrinsicItems, ...cdnItems];
 
-  const assets = await rewriteAssets(build, outPath, baseUrl);
+  // Relative URLs render links with a placeholder base URL, which each output file then replaces
+  const relativeUrls = !!config.options?.relative_urls;
+  // Ensure we have a proper base URL ending with /
+  const baseUrl = `${getLinkBaseURL(process.env, { config, staticBuild: true })}/`;
+
+  const assets = await rewriteAssets(build, outPath, baseUrl, relativeUrls);
 
   const handler = createRequestHandler(
     {
@@ -342,6 +394,6 @@ export async function prerender(build: ServerBuild, outPath: string) {
   );
 
   await Promise.all(
-    renderItems.map((item) => renderRenderablePath(handler, item, outPath, baseUrl)),
+    renderItems.map((item) => renderRenderablePath(handler, item, outPath, baseUrl, relativeUrls)),
   );
 }

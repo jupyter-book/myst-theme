@@ -3,7 +3,7 @@ import '~/styles/app.css';
 import 'thebe-core/dist/lib/thebe-core.css';
 import { getConfig } from '~/utils/loaders.server';
 import type { SiteLoader } from '@myst-theme/common';
-import { normalizeBaseURL } from '@myst-theme/common';
+import { getLinkBaseURL } from '@myst-theme/common';
 import {
   Document,
   responseNoSite,
@@ -45,7 +45,7 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
-  const baseURL = normalizeBaseURL(process.env.BASE_URL ?? '');
+  const baseURL = getLinkBaseURL(process.env);
   const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
   const data = {

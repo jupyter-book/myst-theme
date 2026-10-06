@@ -12,16 +12,16 @@ import { redirect } from 'react-router';
 import { responseNoArticle, responseNoSite, getDomainFromRequest } from '@myst-theme/site';
 import type { MystSearchIndex } from '@myst-theme/search';
 import { slugToUrl } from 'myst-common';
-import { normalizeBaseURL } from '@myst-theme/common';
+import { getLinkBaseURL, normalizeBaseURL } from '@myst-theme/common';
 import { migrate } from 'myst-migrate';
 
 const CONTENT_CDN_PORT = process.env.CONTENT_CDN_PORT ?? '3100';
 const CONTENT_CDN = normalizeBaseURL(
   process.env.CONTENT_CDN ?? `http://localhost:${CONTENT_CDN_PORT}`,
 );
-// Read at request time: the pre-renderer may set BASE_URL after this module loads
+// Read at request time: the pre-renderer may set the link base URL after this module loads
 function getBaseUrl() {
-  return `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`;
+  return `${getLinkBaseURL(process.env)}/`;
 }
 
 interface LinkRewriteOptions {

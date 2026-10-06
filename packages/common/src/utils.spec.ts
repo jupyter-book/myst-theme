@@ -1,5 +1,12 @@
 import { describe, expect, test, it, afterEach, vi } from 'vitest';
-import { isFlatSite, parsePathname, normalizeBaseURL, resolveBaseURL } from './utils.js';
+import {
+  isFlatSite,
+  parsePathname,
+  normalizeBaseURL,
+  resolveBaseURL,
+  baseURLPath,
+  getLinkBaseURL,
+} from './utils.js';
 
 describe('utils', () => {
   test('isFlatSite true', () => {
@@ -80,5 +87,34 @@ describe('resolveBaseURL', () => {
   it('resolves a relative base URL at the domain root to an empty base URL', () => {
     vi.stubGlobal('window', { location: { href: 'https://example.com/' } });
     expect(resolveBaseURL('.')).toBe('');
+  });
+});
+
+describe('baseURLPath', () => {
+  it('normalizes a path', () => {
+    expect(baseURLPath('/docs/')).toBe('/docs');
+    expect(baseURLPath('')).toBe('');
+  });
+
+  it('takes the path of an absolute URL', () => {
+    expect(baseURLPath('https://example.org/docs/')).toBe('/docs');
+    expect(baseURLPath('https://example.org')).toBe('');
+  });
+});
+
+describe('getLinkBaseURL', () => {
+  it('uses the path of BASE_URL', () => {
+    expect(getLinkBaseURL({ BASE_URL: '/docs' })).toBe('/docs');
+    expect(getLinkBaseURL({ BASE_URL: 'https://example.org/docs' })).toBe('/docs');
+    expect(getLinkBaseURL({})).toBe('');
+  });
+
+  it('prefers MYST_LINK_BASE_URL over BASE_URL', () => {
+    expect(
+      getLinkBaseURL({
+        BASE_URL: 'https://example.org/docs',
+        MYST_LINK_BASE_URL: '/__placeholder__',
+      }),
+    ).toBe('/__placeholder__');
   });
 });

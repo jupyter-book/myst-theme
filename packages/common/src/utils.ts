@@ -271,6 +271,25 @@ export function normalizeBaseURL(base: string): string {
 }
 
 /**
+ * Path of a base URL, without a trailing slash.
+ *
+ * Accepts a path (`/docs`) or an absolute URL (`https://example.org/docs`).
+ */
+export function baseURLPath(base: string): string {
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(base)) return normalizeBaseURL(new URL(base).pathname);
+  return normalizeBaseURL(base);
+}
+
+/**
+ * Base URL of links: `MYST_LINK_BASE_URL` if set, else the path of `BASE_URL`.
+ *
+ * The pre-renderer sets `MYST_LINK_BASE_URL` for `relative_urls`, so `BASE_URL` stays available for absolute URLs.
+ */
+export function getLinkBaseURL(env: Record<string, string | undefined>): string {
+  return normalizeBaseURL(env.MYST_LINK_BASE_URL ?? baseURLPath(env.BASE_URL ?? ''));
+}
+
+/**
  * Base URL used while pre-rendering a site with `relative_urls`.
  *
  * The pre-renderer replaces it in each output file with a relative prefix such as `../../`.

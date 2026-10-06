@@ -57,7 +57,11 @@ import * as path from 'node:path';
 import { createRequestHandler, type ServerBuild } from 'react-router';
 
 import type { SiteManifest } from 'myst-config';
-import { normalizeBaseURL, RELATIVE_BASE_URL_PLACEHOLDER } from '@myst-theme/common';
+import {
+  getLinkBaseURL,
+  normalizeBaseURL,
+  RELATIVE_BASE_URL_PLACEHOLDER,
+} from '@myst-theme/common';
 
 function isDynamicRoute(urlPath: string): boolean {
   const segments = urlPath.split('/');
@@ -372,16 +376,11 @@ export async function prerender(build: ServerBuild, outPath: string) {
   const { config, items: cdnItems } = await getCDNItems(cdnUrl);
   const renderItems = [...intrinsicItems, ...cdnItems];
 
-  // Relative URLs render with a placeholder base URL, which each output file then replaces
+  // Relative URLs render links with a placeholder base URL, which each output file then replaces
   const relativeUrls = !!config.options?.relative_urls;
-  if (relativeUrls) {
-    if (process.env.BASE_URL) {
-      console.warn(`Ignoring BASE_URL="${process.env.BASE_URL}" because relative_urls is set`);
-    }
-    process.env.BASE_URL = RELATIVE_BASE_URL_PLACEHOLDER;
-  }
+  if (relativeUrls) process.env.MYST_LINK_BASE_URL = RELATIVE_BASE_URL_PLACEHOLDER;
   // Ensure we have a proper base URL ending with /
-  const baseUrl = `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`;
+  const baseUrl = `${getLinkBaseURL(process.env)}/`;
 
   const assets = await rewriteAssets(build, outPath, baseUrl, relativeUrls);
 

@@ -2,7 +2,7 @@
 title: Styling
 ---
 
-`myst-theme` exposes its color palette as CSS custom properties (CSS variables), so you can re-skin the entire interface from a single stylesheet without rebuilding the theme.
+`myst-theme` exposes its colors and fonts as CSS custom properties (CSS variables), so you can re-skin the entire interface from a single stylesheet without rebuilding the theme.
 Most elements also carry semantic CSS classes (e.g. `myst-top-nav`, `myst-admonition-header`) that you can target directly.
 
 To explore the tokens interactively, try the [Live color picker](./color-picker.md).
@@ -27,6 +27,40 @@ Add the declarations you want to override to a [stylesheet loaded by your site](
 ```
 
 For the full list of available variables and their default values, see [`theme-colors.css`](https://github.com/jupyter-book/myst-theme/blob/main/styles/theme-colors.css).
+
+## Fonts
+
+Three variables control the site's fonts:
+
+- `--myst-font-body`: all text, unless overridden below.
+- `--myst-font-heading`: page titles and section headings. Defaults to `--myst-font-body`.
+- `--myst-font-mono`: code blocks, inline code, notebook outputs, and other monospace text.
+
+For other heading styles (weight, letter spacing, etc.), target the `myst-heading` class.
+
+Here's an example CSS file that would update each of these variables with a new font from Google Fonts.
+It shows how you can use `@import` to download the fonts from within CSS[^ideal].
+
+[^ideal]: **Note**: `@import` must come before any other rule in the stylesheet. This is not the ideal way to do it, but it isn't yet possible to load your own stylesheets via `<head>`.
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Lora&family=Oswald&family=Space+Mono&display=swap');
+
+:root {
+  --myst-font-body: 'Lora', serif;
+  --myst-font-heading: 'Oswald', sans-serif;
+  --myst-font-mono: 'Space Mono', monospace;
+}
+```
+
+:::{note} Demo it!
+Click the little checkbox below to see how the fonts on this page would change.
+
+```{anywidget} ./src/font-demo.mjs
+```
+:::
+
+The defaults are in [`typography.css`](https://github.com/jupyter-book/myst-theme/blob/main/styles/typography.css).
 
 ## Naming conventions
 

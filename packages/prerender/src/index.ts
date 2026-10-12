@@ -321,7 +321,8 @@ export async function prerender(build: ServerBuild, outPath: string) {
   // Ensure we have a proper base URL ending with /
   const baseUrl = `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`;
   // Ensure that we have a proper CDN URL that *does not end with /*
-  const cdnUrl = `${normalizeBaseURL(process.env.CONTENT_CDN ?? 'http://localhost:3100')}`;
+  const cdnPort = process.env.CONTENT_CDN_PORT ?? '3100';
+  const cdnUrl = `${normalizeBaseURL(process.env.CONTENT_CDN ?? `http://localhost:${cdnPort}`)}`;
 
   const intrinsicItems = Object.values(build.routes)
     .map(getRenderItem)

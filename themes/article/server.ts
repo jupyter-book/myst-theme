@@ -62,11 +62,6 @@ if (viteDevServer) {
   const CLIENT_PATH = path.join(path.dirname(import.meta.dirname), 'client');
   // Serve client assets from <root>/<base>/client
   app.use(baseName, express.static(CLIENT_PATH, { immutable: true, maxAge: '1y' }));
-  // Serve public assets from <root>/public
-  app.use(
-    baseName,
-    express.static(path.join(path.dirname(path.dirname(CLIENT_PATH)), 'public'), { maxAge: '1h' }),
-  );
 }
 app.use(reactRouterHandler);
 

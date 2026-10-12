@@ -39,7 +39,7 @@
     },
     "packages/anywidget": {
       "name": "@myst-theme/anywidget",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@myst-theme/providers": "^1.4.1",
         "classnames": "^2.3.2",
@@ -55,7 +55,7 @@
     },
     "packages/common": {
       "name": "@myst-theme/common",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "myst-common": "^1.8.1",
         "myst-config": "^1.8.1",
@@ -70,7 +70,7 @@
     },
     "packages/diagrams": {
       "name": "@myst-theme/diagrams",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@myst-theme/providers": "^1.4.1",
         "classnames": "^2.3.2",
@@ -88,7 +88,7 @@
     },
     "packages/frontmatter": {
       "name": "@myst-theme/frontmatter",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@headlessui/react": "^1.7.15",
         "@heroicons/react": "^2.0.18",
@@ -114,7 +114,7 @@
     },
     "packages/icons": {
       "name": "@myst-theme/icons",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "peerDependencies": {
         "@types/react": "^18.0 || ^19.0",
         "@types/react-dom": "^18.0 || ^19.0",
@@ -124,7 +124,7 @@
     },
     "packages/jupyter": {
       "name": "@myst-theme/jupyter",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@curvenote/ansi-to-react": "^7.0.0",
         "@headlessui/react": "^1.7.15",
@@ -164,7 +164,7 @@
     },
     "packages/landing-pages": {
       "name": "@myst-theme/landing-pages",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@myst-theme/providers": "^1.4.1",
         "classnames": "^2.5.1",
@@ -186,7 +186,7 @@
     },
     "packages/myst-demo": {
       "name": "myst-demo",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@heroicons/react": "^2.0.18",
         "@myst-theme/providers": "^1.4.1",
@@ -230,7 +230,7 @@
     },
     "packages/myst-to-react": {
       "name": "myst-to-react",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@heroicons/react": "^2.0.18",
         "@myst-theme/common": "^1.4.1",
@@ -262,7 +262,7 @@
     },
     "packages/prerender": {
       "name": "@myst-theme/prerender",
-      "version": "0.0.1",
+      "version": "0.1.0",
       "dependencies": {
         "@myst-theme/common": "^1.4.1",
       },
@@ -276,7 +276,7 @@
     },
     "packages/providers": {
       "name": "@myst-theme/providers",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@myst-theme/common": "^1.4.1",
         "@myst-theme/search": "^1.4.1",
@@ -298,7 +298,7 @@
     },
     "packages/search": {
       "name": "@myst-theme/search",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "myst-common": "^1.8.1",
         "myst-config": "^1.8.1",
@@ -309,7 +309,7 @@
     },
     "packages/search-minisearch": {
       "name": "@myst-theme/search-minisearch",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@myst-theme/search": "^1.4.1",
         "minisearch": "^7.1.0",
@@ -317,7 +317,7 @@
     },
     "packages/site": {
       "name": "@myst-theme/site",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@headlessui/react": "^1.7.15",
         "@heroicons/react": "^2.0.18",
@@ -366,7 +366,7 @@
     },
     "styles": {
       "name": "@myst-theme/styles",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "devDependencies": {
         "@tailwindcss/typography": "^0.5.16",
         "tailwindcss": "^3.2.4",
@@ -374,7 +374,7 @@
     },
     "themes/article": {
       "name": "@myst-theme/article",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@heroicons/react": "^2.0.18",
         "@myst-theme/anywidget": "^1.4.1",
@@ -426,7 +426,7 @@
     },
     "themes/book": {
       "name": "@myst-theme/book",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "dependencies": {
         "@heroicons/react": "^2.0.18",
         "@myst-theme/anywidget": "^1.4.1",

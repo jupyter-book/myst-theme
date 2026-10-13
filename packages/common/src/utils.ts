@@ -269,3 +269,46 @@ export function parsePathname(pathname: string): string[] {
 export function normalizeBaseURL(base: string): string {
   return base.replace(/\/+$/, '');
 }
+
+/**
+ * Path of a base URL, without a trailing slash.
+ *
+ * Accepts a path (`/docs`) or an absolute URL (`https://example.org/docs`).
+ */
+export function baseURLPath(base: string): string {
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(base)) return normalizeBaseURL(new URL(base).pathname);
+  return normalizeBaseURL(base);
+}
+
+/**
+ * Base URL used while pre-rendering a site with `relative_urls`.
+ *
+ * The pre-renderer replaces it in each output file with a relative prefix such as `../../`.
+ */
+export const RELATIVE_BASE_URL_PLACEHOLDER = '/__myst_relative_base__';
+
+/**
+ * Base URL of links.
+ *
+ * Static builds with `relative_urls` use a placeholder, which the pre-renderer replaces with a relative prefix.
+ * Otherwise links use the path of `BASE_URL`.
+ */
+export function getLinkBaseURL(
+  env: Record<string, string | undefined>,
+  opts?: { config?: SiteManifest; staticBuild?: boolean },
+): string {
+  if (opts?.staticBuild && opts.config?.options?.relative_urls) {
+    return RELATIVE_BASE_URL_PLACEHOLDER;
+  }
+  return baseURLPath(env.BASE_URL ?? '');
+}
+
+/**
+ * Resolve a relative base URL (e.g. `../..`) against the current page to an absolute path.
+ *
+ * Absolute base URLs, and all base URLs during server rendering, are returned unchanged.
+ */
+export function resolveBaseURL(base: string): string {
+  if (!base.startsWith('.') || typeof window === 'undefined') return base;
+  return normalizeBaseURL(new URL(`${base}/`, window.location.href).pathname);
+}

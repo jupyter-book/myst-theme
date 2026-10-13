@@ -6,7 +6,6 @@ import { DocumentArrowDownIcon } from '@heroicons/react/24/outline';
 import type { SiteManifest } from 'myst-config';
 import {
   ArticleProvider,
-  useBaseurl,
   useGridSystemProvider,
   useLinkProvider,
   useSiteManifest,
@@ -30,7 +29,6 @@ export function ArticlePage({ article }: { article: PageLoader }) {
     ...pageDesign,
   };
   const Link = useLinkProvider();
-  const baseurl = useBaseurl();
   const compute = useComputeOptions();
   const project = projects?.[0];
   const isIndex = article.slug === project?.index;
@@ -66,7 +64,7 @@ export function ArticlePage({ article }: { article: PageLoader }) {
             {!isIndex && (
               <div className="flex items-center p-3 mb-10 border-y bg-slate-50 dark:bg-slate-600 border-y-slate-300 col-screen">
                 <Link
-                  to={baseurl || '/'}
+                  to="/"
                   className="flex gap-1 px-2 py-1 font-normal no-underline rounded border bg-slate-200 border-slate-600 hover:bg-slate-800 hover:text-white hover:border-transparent"
                 >
                   <ArrowLeftIcon

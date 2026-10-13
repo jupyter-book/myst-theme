@@ -1,7 +1,7 @@
 import { reactRouter } from '@react-router/dev/vite';
 import { envOnlyMacros } from 'vite-env-only';
 import { defineConfig, mergeConfig, type UserConfig } from 'vite';
-import { normalizeBaseURL } from '@myst-theme/common';
+import { getLinkBaseURL } from '@myst-theme/common';
 
 export default defineConfig(({ mode }) => {
   const baseConfig: UserConfig = {
@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => {
               },
             },
           },
-          base: `${normalizeBaseURL(process.env.BASE_URL ?? '')}/`,
+          base: `${getLinkBaseURL(process.env)}/`,
         };
   return mergeConfig(baseConfig, overrideConfig);
 });

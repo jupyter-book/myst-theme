@@ -64,6 +64,9 @@ options:
   - type: boolean
     id: folders
     description: Respect nested folder structure in URL paths
+  - type: boolean
+    id: relative_urls
+    description: Use relative URLs in static HTML builds, so that the site works at any base URL
   - type: string
     id: internal_domains
     description: >-

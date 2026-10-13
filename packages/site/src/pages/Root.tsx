@@ -33,6 +33,14 @@ import { Error404 } from './Error404.js';
 import { ErrorUnhandled } from './ErrorUnhandled.js';
 import classNames from 'classnames';
 
+// Relative URLs resolve from the page folder, so a page must load from a URL ending in `/`
+const TRAILING_SLASH_REDIRECT = `(() => {
+  const l = window.location;
+  if (l.protocol !== 'file:' && !/(\\/|\\.html)$/.test(l.pathname)) {
+    l.replace(l.pathname + '/' + l.search + l.hash);
+  }
+})()`;
+
 export function Document({
   children,
   scripts,
@@ -77,6 +85,9 @@ export function Document({
   // Inject blocking element to set proper pre-hydration state
   const headAndLoader = (
     <>
+      {staticBuild && config?.options?.relative_urls && (
+        <script dangerouslySetInnerHTML={{ __html: TRAILING_SLASH_REDIRECT }} />
+      )}
       {head}
       <BlockingThemeLoader useLocalStorage={true} />
     </>

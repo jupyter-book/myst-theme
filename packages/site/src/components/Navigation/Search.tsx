@@ -27,6 +27,8 @@ import {
   useLinkProvider,
   useBaseurl,
   useNavigateProvider,
+  useIsStaticBuild,
+  withBaseurl,
 } from '@myst-theme/providers';
 import type { MystSearchIndex } from 'myst-spec-ext';
 
@@ -470,6 +472,7 @@ function SearchForm({
   // Handle item selection
   const navigate = useNavigateProvider();
   const baseurl = useBaseurl();
+  const isStaticBuild = useIsStaticBuild();
 
   // Handle item selection and navigation
   const handleSearchKeyPress = useCallback<KeyboardEventHandler<HTMLInputElement>>(
@@ -488,7 +491,8 @@ function SearchForm({
 
         const url = searchResults[selectedIndex]?.url;
         if (url) {
-          navigate(url);
+          // Static builds navigate with `window.location`, which does not add the base URL
+          navigate(isStaticBuild ? withBaseurl(url, baseurl) : url);
           closeSearch?.();
         }
       }
@@ -505,7 +509,7 @@ function SearchForm({
         }
       }
     },
-    [searchResults, selectedIndex],
+    [searchResults, selectedIndex, isStaticBuild, baseurl],
   ); // Our form doesn't use the submit function
   const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -15,6 +15,7 @@ import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import { BinderIcon, JupyterIcon } from '@scienceicons/react/24/solid';
 import * as Form from '@radix-ui/react-form';
 import type { ExpandedThebeFrontmatter, BinderHubOptions } from 'myst-frontmatter';
+import { makeColabURL } from './colab.js';
 
 const GITHUB_USERNAME_REPO_REGEX =
   /^(?:https?:\/\/github.com\/)?([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:.git)?\/?$/;
@@ -311,6 +312,7 @@ function DetectLaunchContent(props: ModalLaunchProps) {
   const { thebe, location, onLaunch } = props;
   const { binder } = thebe;
   const defaultBinderBaseURL = binder?.url ?? 'https://mybinder.org';
+  const colabURL = binder ? makeColabURL(binder, location) : undefined;
 
   // Detect the provider type
   const [detectedProviderType, setDetectedProviderType] = useState<
@@ -565,6 +567,20 @@ function DetectLaunchContent(props: ModalLaunchProps) {
           buildLink={buildValidLink}
         />
       </fieldset>
+
+      {colabURL && (
+        <div className="myst-fm-launch-colab mt-6 pt-4 border-t border-myst-border">
+          <a
+            href={colabURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="myst-fm-launch-colab-link inline-flex flex-row gap-1 items-center font-medium text-myst-active hover:underline"
+            onClick={onLaunch}
+          >
+            <span>Open in Google Colab</span> <ExternalLinkIcon className="inline-block" />
+          </a>
+        </div>
+      )}
     </Form.Root>
   );
 }

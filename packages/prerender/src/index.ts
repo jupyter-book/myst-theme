@@ -108,7 +108,7 @@ function getRenderItem(route: BuildRoute | undefined): RenderablePath | undefine
     } else if (isDynamicRoute(routePath)) {
       return undefined;
     } else {
-      return { path: `/${routePath}/`, type: 'html' } satisfies RenderablePath;
+      return { path: `/${routePath}`, type: 'html' } satisfies RenderablePath;
     }
   }
 }
@@ -158,7 +158,7 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
       ...pages.map((page) => {
         const pathSubPath = slugToUrl(page.slug);
         return {
-          path: `/${pathSubPath}/`,
+          path: `/${pathSubPath}`,
           type: 'html',
         } satisfies RenderablePath;
       }),

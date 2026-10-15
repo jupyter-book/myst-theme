@@ -266,21 +266,30 @@ async function renderRenderablePath(
   const contentURL = new URL(prerenderPath, 'http://pre.render');
   const contentResponse = await handler(new Request(contentURL));
 
-  if (!contentResponse.ok) {
-    throw new Error(
-      `Invalid response for ${item.type} route ${prerenderPath}: ${contentResponse.status}`,
-    );
-  }
-
   const prerenderPathNoBase = prerenderPath.slice(base_url.length);
 
   switch (item.type) {
     case 'html': {
-      const content = await contentResponse.text();
-
       const contentPath = path.resolve(
         path.join(out_path, ...(prerenderPathNoBase + '/index.html').split('/').filter(Boolean)),
       );
+
+      let content: string;
+      // Implement 302 redirects as <meta> redirects
+      if (contentResponse.status === 302) {
+        const newUrl = contentResponse.headers.get('location');
+        if (newUrl === undefined) {
+          throw new Error();
+        }
+        content = `<meta http-equiv="refresh" content="0; url=${newUrl}" />`;
+      } else if (!contentResponse.ok) {
+        throw new Error(
+          `Invalid response for ${item.type} route ${prerenderPath}: ${contentResponse.status}`,
+        );
+      } else {
+        content = await contentResponse.text();
+      }
+
       // Create directory for /path/index.html
       await fsp.mkdir(path.dirname(contentPath), { recursive: true });
 
@@ -289,6 +298,11 @@ async function renderRenderablePath(
       break;
     }
     case 'resource': {
+      if (!contentResponse.ok) {
+        throw new Error(
+          `Invalid response for ${item.type} route ${prerenderPath}: ${contentResponse.status}`,
+        );
+      }
       const content = new Uint8Array(await contentResponse.arrayBuffer());
 
       const contentPath = path.resolve(

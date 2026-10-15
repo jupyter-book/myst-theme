@@ -78,6 +78,9 @@ options:
   - type: file
     id: style
     description: Local path to a CSS file
+  - type: string
+    id: redirects
+    multiple: true
 parts:
   - id: footer
     description: The site wide footer

@@ -42,10 +42,24 @@ export async function loader({ request, params }: Route.LoaderArgs): Promise<{
   const url = new URL(request.url);
   const config = await getConfig();
   const project = getProject(config);
-  const slug = params['*']
+  const path = params['*'];
+  const slug = path
     .split('/')
     .filter((item) => !!item)
     .join('.');
+
+  // Find possible redirects
+  const redirects = (config.options?.redirects ?? []) as string[];
+  for (const pair of redirects) {
+    const [src, dst] = pair.split(':');
+    if (!src || !dst) {
+      continue;
+    }
+    if (src === path) {
+      throw redirect(`/${dst}`);
+    }
+  }
+
   try {
     const page = await getPage(request, {
       slug,

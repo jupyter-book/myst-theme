@@ -90,4 +90,5 @@ export type CommonTemplateOptions = {
   hide_toc?: boolean;
   hide_outline?: boolean;
   outline_maxdepth?: number;
+  redirects?: string[];
 };

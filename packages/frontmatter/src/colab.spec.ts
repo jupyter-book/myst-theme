@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { makeColabURL } from '../src/colab';
+import { makeColabURL } from './colab.js';
 
 describe('makeColabURL', () => {
   test('builds a Colab URL for a GitHub notebook', () => {

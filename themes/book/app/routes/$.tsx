@@ -1,5 +1,5 @@
 import { redirect } from 'react-router';
-import { getProject, isFlatSite, parsePathname, type PageLoader } from '@myst-theme/common';
+import { getProject, parseRedirect, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
   useOutlineHeight,
@@ -12,7 +12,6 @@ import {
 } from '@myst-theme/site';
 import { getConfig, getPage, getStaticFileUrl } from '~/utils/loaders.server';
 import type { SiteManifest } from 'myst-config';
-import { normalizeBaseURL } from '@myst-theme/common';
 import {
   TabStateProvider,
   UiStateProvider,
@@ -42,10 +41,22 @@ export async function loader({ request, params }: Route.LoaderArgs): Promise<{
   const url = new URL(request.url);
   const config = await getConfig();
   const project = getProject(config);
-  const slug = params['*']
+  const path = params['*'];
+  const slug = path
     .split('/')
     .filter((item) => !!item)
     .join('.');
+
+  // Find possible redirects
+  const redirects = ((config.options?.redirects ?? []) as string[])
+    .map(parseRedirect)
+    .filter((item) => item !== undefined);
+  for (const redirection of redirects) {
+    if (redirection.src.slice(1) === path) {
+      throw redirect(redirection.dst);
+    }
+  }
+
   try {
     const page = await getPage(request, {
       slug,

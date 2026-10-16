@@ -112,5 +112,5 @@ To redirect an old URL to a new one, list each redirect under `site.options.redi
 :end-at: old-permalinks
 :::
 
-Don't include a leading slash in your paths!
-E.g., use `path/` not `/path/`.
+You must include a leading slash in your paths!
+E.g., use `/path` not `path`.

@@ -1,5 +1,5 @@
 import { describe, expect, test, it } from 'vitest';
-import { isFlatSite, parsePathname, normalizeBaseURL } from './utils.js';
+import { isFlatSite, parsePathname, normalizeBaseURL, parseRedirect } from './utils.js';
 
 describe('utils', () => {
   test('isFlatSite true', () => {
@@ -54,4 +54,21 @@ describe('normalizeBaseURL', () => {
   it('leaves a baseURL without a trailing slash unchanged', () => {
     expect(normalizeBaseURL('/base')).toBe('/base');
   });
+});
+
+describe('parseRedirect', () => {
+  test('invalid redirects are ignored', () => {
+    expect(parseRedirect('foo -> bar')).toStrictEqual(undefined);
+    expect(parseRedirect('foo : bar')).toStrictEqual(undefined);
+    expect(parseRedirect('/foo -> bar')).toStrictEqual(undefined);
+    expect(parseRedirect('foo -> /bar')).toStrictEqual(undefined);
+    expect(parseRedirect('/foo baz -> /bar')).toStrictEqual(undefined);
+  });
+  test('valid redirects are handled', () => {
+    expect(parseRedirect('/foo->/bar')).toStrictEqual({src: "/foo", dst: "/bar"});
+    expect(parseRedirect('/foo-> /bar')).toStrictEqual({src: "/foo", dst: "/bar"});
+    expect(parseRedirect('/foo ->/bar')).toStrictEqual({src: "/foo", dst: "/bar"});
+    expect(parseRedirect('/foo -> /bar')).toStrictEqual({src: "/foo", dst: "/bar"});
+  });
+
 });

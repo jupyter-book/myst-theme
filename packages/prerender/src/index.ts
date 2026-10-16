@@ -279,7 +279,7 @@ async function renderRenderablePath(
       if (contentResponse.status === 302) {
         const newUrl = contentResponse.headers.get('location');
         if (newUrl === undefined) {
-          throw new Error("Missing location header in 302 redirect");
+          throw new Error('Missing location header in 302 redirect');
         }
         content = `<meta http-equiv="refresh" content="0; url=${newUrl}" />`;
       } else if (!contentResponse.ok) {

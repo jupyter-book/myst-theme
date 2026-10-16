@@ -51,7 +51,7 @@ export async function loader({ request, params }: Route.LoaderArgs): Promise<{
   // Find possible redirects
   const redirects = (config.options?.redirects ?? []) as string[];
   for (const pair of redirects) {
-    const [src, dst] = pair.split(':');
+    const [src, dst] = pair.split(/\s*->\s*/, 2);
     if (!src || !dst) {
       continue;
     }

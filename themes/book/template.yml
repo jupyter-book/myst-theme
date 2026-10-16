@@ -81,6 +81,7 @@ options:
   - type: string
     id: redirects
     multiple: true
+    description: Redirects for pages, written as "source:destination"
 parts:
   - id: footer
     description: The site wide footer

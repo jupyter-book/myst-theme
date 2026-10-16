@@ -57,7 +57,7 @@ import * as path from 'node:path';
 import { createRequestHandler, type ServerBuild } from 'react-router';
 
 import type { SiteManifest } from 'myst-config';
-import { normalizeBaseURL } from '@myst-theme/common';
+import { normalizeBaseURL, parseRedirect } from '@myst-theme/common';
 
 function isDynamicRoute(urlPath: string): boolean {
   const segments = urlPath.split('/');
@@ -142,6 +142,9 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
   }
   const config = (await configResponse.json()) as SiteManifest;
   const sitePublic = (await publicResponse.json()) as string[];
+  const redirects = ((config?.options?.redirects ?? []) as string[])
+    .map(parseRedirect)
+    .filter((item) => item !== undefined);
 
   const makeRoutes = (data: SiteManifest) => {
     const localProj = data.projects?.[0];
@@ -177,6 +180,13 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
         return {
           path: `/_public${publicPath}`,
           type: 'resource',
+        } satisfies RenderablePath;
+      }),
+      // Allow sites to opt-in to redirects
+      ...redirects.map((redirect) => {
+        return {
+          path: redirect.src,
+          type: 'html',
         } satisfies RenderablePath;
       }),
     ].flat();

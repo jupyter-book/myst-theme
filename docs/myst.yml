@@ -71,4 +71,4 @@ site:
     internal_domains: "mystmd.org"
     # Demonstrated in docs
     redirects:
-      - old-permalinks -> permalinks
+      - /old-permalinks -> /permalinks

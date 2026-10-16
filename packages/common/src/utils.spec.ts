@@ -65,10 +65,9 @@ describe('parseRedirect', () => {
     expect(parseRedirect('/foo baz -> /bar')).toStrictEqual(undefined);
   });
   test('valid redirects are handled', () => {
-    expect(parseRedirect('/foo->/bar')).toStrictEqual({src: "/foo", dst: "/bar"});
-    expect(parseRedirect('/foo-> /bar')).toStrictEqual({src: "/foo", dst: "/bar"});
-    expect(parseRedirect('/foo ->/bar')).toStrictEqual({src: "/foo", dst: "/bar"});
-    expect(parseRedirect('/foo -> /bar')).toStrictEqual({src: "/foo", dst: "/bar"});
+    expect(parseRedirect('/foo->/bar')).toStrictEqual({ src: '/foo', dst: '/bar' });
+    expect(parseRedirect('/foo-> /bar')).toStrictEqual({ src: '/foo', dst: '/bar' });
+    expect(parseRedirect('/foo ->/bar')).toStrictEqual({ src: '/foo', dst: '/bar' });
+    expect(parseRedirect('/foo -> /bar')).toStrictEqual({ src: '/foo', dst: '/bar' });
   });
-
 });

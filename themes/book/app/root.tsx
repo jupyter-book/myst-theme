@@ -22,7 +22,7 @@ import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
@@ -119,11 +119,10 @@ function NoCSSWarning() {
   );
 }
 
-export default function App() {
+function AppWithRenderers({ renderers }: { renderers: NodeRenderers }) {
   const { config, CONTENT_CDN_PORT, STATIC_BUILD, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
-
   return (
     <SearchFactoryProvider factory={searchFactory}>
       <Document
@@ -149,5 +148,21 @@ export default function App() {
         <Outlet />
       </Document>
     </SearchFactoryProvider>
+  );
+}
+
+const _promise = new Promise<NodeRenderers>((resolve, reject) => resolve({}))
+function loadRenderers() {
+  return _promise;
+}
+
+export default function App() {
+  return (
+    <React.Suspense fallback={<AppWithRenderers renderers={RENDERERS} />}>
+      {(() => {
+        const loadedRenderers = React.use(loadRenderers());
+        return <AppWithRenderers renderers={mergeRenderers([RENDERERS, loadedRenderers])} />;
+      })()}
+    </React.Suspense>
   );
 }

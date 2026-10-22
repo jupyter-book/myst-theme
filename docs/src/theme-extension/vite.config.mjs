@@ -7,6 +7,7 @@ export default defineConfig({
     federation({
       name: 'theme-extension',
       filename: 'themeExtension.js',
+      type: 'module',
 
       exposes: {
         '.': './src/index',

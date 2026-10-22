@@ -23,6 +23,7 @@ import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
 import React, { useCallback } from 'react';
+import { loadRemoteModule } from './load-remote.ts';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
@@ -47,9 +48,21 @@ export const links: LinksFunction = () => {
 export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
   const baseURL = normalizeBaseURL(process.env.BASE_URL ?? '');
   const config = await getConfig().catch(() => null);
+  const remotes = (process.env.MYST_REMOTES ?? '')
+    .split(',')
+    .map((item) => {
+      const match = item.match(/([^@]+)@(.*)/);
+      if (!match) {
+        return null;
+      }
+      const [_, name, entry] = match;
+      return { name, entry };
+    })
+    .filter(Boolean) as Remote[];
   if (!config) throw responseNoSite();
   const data = {
     config,
+    remotes,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
     STATIC_BUILD: !!import.meta.env.VITE_BUILD_HTML,
     BASE_URL: baseURL,
@@ -130,7 +143,7 @@ function AppWithRenderers({ renderers }: { renderers: NodeRenderers }) {
         scripts={STATIC_BUILD ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
         staticBuild={STATIC_BUILD}
         baseurl={BASE_URL}
-        renderers={RENDERERS}
+        renderers={renderers}
         head={
           <>
             <link rel="icon" href={`${BASE_URL || ''}/favicon.ico`} />
@@ -151,17 +164,33 @@ function AppWithRenderers({ renderers }: { renderers: NodeRenderers }) {
   );
 }
 
-const _promise = new Promise<NodeRenderers>((resolve, reject) => resolve({}))
-function loadRenderers() {
+type Remote = {
+  name: string;
+  entry: string;
+};
+
+let _promise: Promise<NodeRenderers>;
+
+function loadRenderers(remotes: Remote[]) {
+  if (_promise) {
+    return _promise;
+  }
+  _promise = Promise.all(
+    remotes.map((remote) =>
+      loadRemoteModule(remote.name, remotes).then((m) => m.default.renderers),
+    ),
+  );
   return _promise;
 }
 
 export default function App() {
+  const { remotes } = useLoaderData<SiteLoader>();
   return (
     <React.Suspense fallback={<AppWithRenderers renderers={RENDERERS} />}>
       {(() => {
-        const loadedRenderers = React.use(loadRenderers());
-        return <AppWithRenderers renderers={mergeRenderers([RENDERERS, loadedRenderers])} />;
+        const loadedRenderers = React.use(loadRenderers(remotes));
+        console.log(loadedRenderers);
+        return <AppWithRenderers renderers={mergeRenderers([RENDERERS, ...loadedRenderers])} />;
       })()}
     </React.Suspense>
   );

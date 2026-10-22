@@ -18,6 +18,7 @@
     "start": "node --env-file=./.env.prod build/server/index.js"
   },
   "dependencies": {
+    "@module-federation/runtime": "^2.9.2",
     "@heroicons/react": "^2.0.18",
     "@myst-theme/anywidget": "^1.4.1",
     "@myst-theme/common": "^1.4.1",
@@ -52,6 +53,7 @@
     "thebe-core": "^0.5.0"
   },
   "devDependencies": {
+    "@module-federation/vite": "^1.23.5",
     "@react-router/dev": "^8.0.0",
     "@react-router/fs-routes": "^8.0.0",
     "@remix-run/eslint-config": "~2.17.0",

@@ -45,11 +45,8 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
-  const baseURL = normalizeBaseURL(process.env.BASE_URL ?? '');
-  const config = await getConfig().catch(() => null);
-  const remotes = (process.env.MYST_REMOTES ?? '')
-    .split(',')
+function loadRemotes(config: Awaited<ReturnType<typeof getConfig>>) {
+  return (config.options.extensions ?? [])
     .map((item) => {
       const match = item.match(/([^@]+)@(.*)/);
       if (!match) {
@@ -59,7 +56,13 @@ export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
       return { name, entry };
     })
     .filter(Boolean) as Remote[];
+}
+
+export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
+  const baseURL = normalizeBaseURL(process.env.BASE_URL ?? '');
+  const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
+  const remotes = loadRemotes(config);
   const data = {
     config,
     remotes,

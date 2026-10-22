@@ -172,7 +172,7 @@ type Remote = {
   entry: string;
 };
 
-let _promise: Promise<NodeRenderers>;
+let _promise: Promise<NodeRenderers[]>;
 
 function loadRenderers(remotes: Remote[]) {
   if (_promise) {

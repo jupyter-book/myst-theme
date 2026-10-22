@@ -25,6 +25,7 @@ export default defineConfig({
     target: 'chrome89',
     emptyOutDir: false,
   },
+  ssr: { noExternal: true },
   environments: {
     client: {
       build: { outDir: 'dist' },

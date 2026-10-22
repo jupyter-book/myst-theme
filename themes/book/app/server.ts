@@ -30,6 +30,7 @@ function resolveShared(specifiers: string[]): Record<string, string> {
       // Not installed on the server: the loader leaves the specifier untouched.
     }
   }
+  console.log(resolved);
   return resolved;
 }
 
@@ -40,6 +41,8 @@ export type Remote = {
   entry: string;
   type: 'module';
 };
+
+console.log('host', React.version);
 export function getServerInstance(remotes: Remote[]): ModuleFederation {
   instance ??= createInstance({
     name: 'book-theme',

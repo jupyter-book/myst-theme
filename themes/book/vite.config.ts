@@ -7,8 +7,6 @@ import { normalizeBaseURL } from '@myst-theme/common';
 export default defineConfig(({ mode }) => {
   const baseConfig: UserConfig = {
     plugins: [
-      reactRouter(),
-      envOnlyMacros(),
       federation({
         dts: false,
         name: 'book-theme',
@@ -20,11 +18,32 @@ export default defineConfig(({ mode }) => {
           'myst-to-react': { singleton: true, requiredVersion: '^1.4.0' },
         },
       }),
+      reactRouter(),
+      envOnlyMacros(),
     ],
 
     build: {
       assetsDir: '_assets',
       minify: mode === 'production',
+    },
+    optimizeDeps: {
+      // Pre-bundle everything the plugin's host init pulls in, and do not discover
+      // more at request time: a mid-session re-optimization changes the dep hash
+      // that the cached host init module still references, so the browser gets
+      // "504 Outdated Optimize Dep" and the page never hydrates.
+      noDiscovery: true,
+      include: [
+        '@module-federation/runtime',
+        '@module-federation/runtime/helpers',
+        'react',
+        'react-dom',
+        'myst-to-react',
+        'react-dom/client',
+        'react-dom/profiling',
+        'react/compiler-runtime',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+      ],
     },
     ssr: {
       noExternal: mode == 'production' ? true : undefined,

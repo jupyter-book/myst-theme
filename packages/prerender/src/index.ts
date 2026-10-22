@@ -57,7 +57,7 @@ import * as path from 'node:path';
 import { createRequestHandler, type ServerBuild } from 'react-router';
 
 import type { SiteManifest } from 'myst-config';
-import { normalizeBaseURL } from '@myst-theme/common';
+import { normalizeBaseURL, parseRedirect } from '@myst-theme/common';
 
 function isDynamicRoute(urlPath: string): boolean {
   const segments = urlPath.split('/');
@@ -108,7 +108,7 @@ function getRenderItem(route: BuildRoute | undefined): RenderablePath | undefine
     } else if (isDynamicRoute(routePath)) {
       return undefined;
     } else {
-      return { path: `/${routePath}/`, type: 'html' } satisfies RenderablePath;
+      return { path: `/${routePath}`, type: 'html' } satisfies RenderablePath;
     }
   }
 }
@@ -142,6 +142,9 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
   }
   const config = (await configResponse.json()) as SiteManifest;
   const sitePublic = (await publicResponse.json()) as string[];
+  const redirects = ((config?.options?.redirects ?? []) as string[])
+    .map(parseRedirect)
+    .filter((item) => item !== undefined);
 
   const makeRoutes = (data: SiteManifest) => {
     const localProj = data.projects?.[0];
@@ -158,7 +161,7 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
       ...pages.map((page) => {
         const pathSubPath = slugToUrl(page.slug);
         return {
-          path: `/${pathSubPath}/`,
+          path: `/${pathSubPath}`,
           type: 'html',
         } satisfies RenderablePath;
       }),
@@ -177,6 +180,13 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
         return {
           path: `/_public${publicPath}`,
           type: 'resource',
+        } satisfies RenderablePath;
+      }),
+      // Allow sites to opt-in to redirects
+      ...redirects.map((redirect) => {
+        return {
+          path: redirect.src,
+          type: 'html',
         } satisfies RenderablePath;
       }),
     ].flat();
@@ -266,21 +276,30 @@ async function renderRenderablePath(
   const contentURL = new URL(prerenderPath, 'http://pre.render');
   const contentResponse = await handler(new Request(contentURL));
 
-  if (!contentResponse.ok) {
-    throw new Error(
-      `Invalid response for ${item.type} route ${prerenderPath}: ${contentResponse.status}`,
-    );
-  }
-
   const prerenderPathNoBase = prerenderPath.slice(base_url.length);
 
   switch (item.type) {
     case 'html': {
-      const content = await contentResponse.text();
-
       const contentPath = path.resolve(
         path.join(out_path, ...(prerenderPathNoBase + '/index.html').split('/').filter(Boolean)),
       );
+
+      let content: string;
+      // Implement 302 redirects as <meta> redirects
+      if (contentResponse.status === 302) {
+        const newUrl = contentResponse.headers.get('location');
+        if (newUrl === undefined) {
+          throw new Error('Missing location header in 302 redirect');
+        }
+        content = `<meta http-equiv="refresh" content="0; url=${newUrl}" />`;
+      } else if (!contentResponse.ok) {
+        throw new Error(
+          `Invalid response for ${item.type} route ${prerenderPath}: ${contentResponse.status}`,
+        );
+      } else {
+        content = await contentResponse.text();
+      }
+
       // Create directory for /path/index.html
       await fsp.mkdir(path.dirname(contentPath), { recursive: true });
 
@@ -289,6 +308,11 @@ async function renderRenderablePath(
       break;
     }
     case 'resource': {
+      if (!contentResponse.ok) {
+        throw new Error(
+          `Invalid response for ${item.type} route ${prerenderPath}: ${contentResponse.status}`,
+        );
+      }
       const content = new Uint8Array(await contentResponse.arrayBuffer());
 
       const contentPath = path.resolve(

@@ -269,3 +269,19 @@ export function parsePathname(pathname: string): string[] {
 export function normalizeBaseURL(base: string): string {
   return base.replace(/\/+$/, '');
 }
+
+export type Redirect = {
+  src: string;
+  dst: string;
+};
+
+/**
+ * Parse a redirect string of the form /foo -> /bar into a `/foo` `/bar` pair
+ */
+export function parseRedirect(redirect: string): Redirect | undefined {
+  const [_, src, dst] = redirect.match(/^(\/\S+)\s*->\s*(\/\S+)$/) ?? [];
+  if (!src || !dst) {
+    return undefined;
+  }
+  return { src, dst };
+}

@@ -53,7 +53,7 @@ function loadRemotes(config: Awaited<ReturnType<typeof getConfig>>) {
         return null;
       }
       const [_, name, entry] = match;
-      return { name, entry };
+      return { name, entry, type: 'module' };
     })
     .filter(Boolean) as Remote[];
 }

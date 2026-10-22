@@ -17,6 +17,9 @@ export default defineConfig(({ mode }) => {
           'react-dom': { singleton: true, requiredVersion: '^19.0.0' },
           'myst-to-react': { singleton: true, requiredVersion: '^1.4.0' },
         },
+        ssrEntryLoader: {
+          strategy: 'vm',
+        },
       }),
       reactRouter(),
       envOnlyMacros(),

@@ -63,6 +63,11 @@ export function getServerInstance(remotes: Remote[]): ModuleFederation {
         lib: () => mystToReact,
         shareConfig: { singleton: true, requiredVersion: '^1.4.0' },
       },
+      'myst-to-react/': {
+        version: '1.4.1',
+        lib: () => mystToReact,
+        shareConfig: { singleton: true, requiredVersion: '^1.4.0' },
+      },
     },
     plugins: [
       // The loader's loadEntry hook is typed loosely in @module-federation/vite,

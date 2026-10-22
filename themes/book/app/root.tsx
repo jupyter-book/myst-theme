@@ -192,8 +192,12 @@ export default function App() {
     <React.Suspense fallback={<AppWithRenderers renderers={RENDERERS} />}>
       {(() => {
         const loadedRenderers = React.use(loadRenderers(remotes));
-        console.log(loadedRenderers);
-        return <AppWithRenderers renderers={mergeRenderers([RENDERERS, ...loadedRenderers])} />;
+        const nextRenderers = React.useMemo(
+          () => mergeRenderers([RENDERERS, ...loadedRenderers]),
+          [loadedRenderers],
+        );
+        console.log(nextRenderers);
+        return <AppWithRenderers renderers={nextRenderers} />;
       })()}
     </React.Suspense>
   );

@@ -74,5 +74,5 @@ site:
     # Demonstrated in docs
     redirects:
       - /old-permalinks -> /permalinks
-    remotes:
+    extensions:
       - theme-extension@http://localhost:8080/themeExtension.js

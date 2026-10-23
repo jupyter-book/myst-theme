@@ -1,5 +1,114 @@
 # myst-to-react
 
+## 1.4.1
+
+### Patch Changes
+
+- @myst-theme/providers@1.4.1
+- @myst-theme/common@1.4.1
+
+## 1.4.0
+
+### Patch Changes
+
+- 87f3ee3: Expose accent, neutral, and semantic colors as CSS custom properties for theme customization
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+- 6498c64: Use Jupyter-compatible cell IDs to support deep links
+- babfb2f: Remove `orange`/`purple`/`gray` CSS color tokens.
+  Use `theorem`/`example`/`proof` color schemes instead.
+  Add a dedicated `--myst-color-error` group for UI error states (distinct from the content-level `danger` admonition).
+  Fix some bugs and Tailwind color class usage remaining from the CSS custom properties refactor.
+- Updated dependencies [168e19b]
+- Updated dependencies [9c21b77]
+- Updated dependencies [623f66d]
+  - @myst-theme/providers@1.4.0
+  - @myst-theme/common@1.4.0
+
+## 1.3.1
+
+### Patch Changes
+
+- aac7f50: In highlighter, alias ts to typescript
+- 4095409: Fix TOML highlighting
+  - @myst-theme/providers@1.3.1
+
+## 1.3.0
+
+### Patch Changes
+
+- b82356d: Add tabindex when equations overflow
+- Updated dependencies [df76193]
+  - @myst-theme/providers@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- ad30791: Add aria tags to overflowing tables
+  - @myst-theme/providers@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 0888410: Make overflowing content focusable
+- Updated dependencies [0888410]
+  - @myst-theme/providers@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- 9ecc788: Add grid-item renderer
+
+### Patch Changes
+
+- f8ef1ef: Add both vert and horiz gap for badges
+- Updated dependencies [f908854]
+  - @myst-theme/providers@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- a8b0c87: Support a domain to treat as internal URLs
+- a96413c: Fix ROR rendererwq
+- Updated dependencies [a8b0c87]
+  - @myst-theme/providers@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- 7d92ceb: Make link icons stay on the same line as link
+  - @myst-theme/providers@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- ae018ba: Static links should not change the base URL
+  - @myst-theme/providers@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 9bfb08e: Add more preview icons for github issues and PRs
+
+### Patch Changes
+
+- 75475f8: fix inline images that are linked as blocks
+- c519f9b: Standardize link styles
+- Updated dependencies [fd4708d]
+  - @myst-theme/providers@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

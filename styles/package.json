@@ -1,6 +1,6 @@
 {
   "name": "@myst-theme/styles",
-  "version": "1.0.1",
+  "version": "1.4.1",
   "main": "index.js",
   "style": "app.css",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/jupyter-book/myst-theme",
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.9",
+    "@tailwindcss/typography": "^0.5.16",
     "tailwindcss": "^3.2.4"
   }
 }

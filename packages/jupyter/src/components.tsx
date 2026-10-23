@@ -8,12 +8,14 @@ export const MaybeLongContent = ({
 }: {
   content?: string;
   path?: string;
-  render: (content: string) => JSX.Element;
+  render: (content: string) => React.JSX.Element;
 }) => {
   const { error, data } = useLongContent(content, path);
   if (error) {
     return (
-      <div className="myst-jp-long-error text-red-500">Error loading content: {error.message}</div>
+      <div className="myst-jp-long-error text-myst-error">
+        Error loading content: {error.message}
+      </div>
     );
   }
   if (!data) {

@@ -8,13 +8,7 @@ import {
   ArticleStatusBadge,
 } from './controls/ArticleCellControls.js';
 import { JupyterIcon } from '@scienceicons/react/24/solid';
-import {
-  useLinkProvider,
-  useBaseurl,
-  withBaseurl,
-  useThemeTop,
-  useXRefState,
-} from '@myst-theme/providers';
+import { useLinkProvider, useThemeTop, useXRefState, withBaseurl } from '@myst-theme/providers';
 import { useComputeOptions } from './providers.js';
 
 const PlaceholderContext = React.createContext<{ placeholder?: GenericNode }>({});
@@ -51,7 +45,6 @@ export function OutputDecoration({
   const compute = useComputeOptions();
   const Link = useLinkProvider();
   const top = useThemeTop();
-  const baseurl = useBaseurl();
   const { inCrossRef } = useXRefState();
   const showComputeControls =
     compute?.enabled &&
@@ -67,7 +60,7 @@ export function OutputDecoration({
         className="mb-4 shadow myst-jp-output-deco"
       >
         <div
-          className="myst-jp-output-deco-header sticky z-[2] w-full bg-gray-100/80 backdrop-blur dark:bg-neutral-800/80 py-1 px-2"
+          className="myst-jp-output-deco-header sticky z-[2] w-full bg-gray-100/80 dark:bg-neutral-800/80 backdrop-blur py-1 px-2"
           style={{ top }}
         >
           <div className="flex items-center myst-jp-output-deco-inner">
@@ -76,7 +69,7 @@ export function OutputDecoration({
               <span className="ml-2 myst-jp-output-deco-label">Source:</span>
               {url && (
                 <Link
-                  to={withBaseurl(url, remoteBaseUrl ?? baseurl)}
+                  to={remoteBaseUrl ? withBaseurl(url, remoteBaseUrl) : url}
                   className="ml-2 no-underline myst-jp-output-deco-link text-normal hover:underline"
                 >
                   {title}
@@ -103,7 +96,7 @@ export function OutputDecoration({
           <div className="ml-1 myst-jp-output-deco-label">Source:</div>
           {url && (
             <Link
-              to={withBaseurl(url, remoteBaseUrl ?? baseurl)}
+              to={remoteBaseUrl ? withBaseurl(url, remoteBaseUrl) : url}
               className="ml-1 no-underline myst-jp-output-deco-link text-normal hover:underline"
             >
               {title}

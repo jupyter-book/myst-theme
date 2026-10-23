@@ -1,7 +1,7 @@
 import React from 'react';
 import type { NodeRenderer } from '@myst-theme/providers';
 import classNames from 'classnames';
-import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { useLinkProvider } from '@myst-theme/providers';
 import { MyST } from './MyST.js';
 import type { GenericNode } from 'myst-common';
 
@@ -24,7 +24,7 @@ export const Header: NodeRenderer<HeaderSpec> = ({ node, className }) => {
   return (
     <header
       className={classNames(
-        'myst-card-header py-1 pl-3 m-0 border-b border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800',
+        'myst-card-header py-1 pl-3 m-0 border-b border-myst-border bg-myst-bg-secondary',
         className,
       )}
     >
@@ -37,7 +37,7 @@ export const Footer: NodeRenderer<FooterSpec> = ({ node, className }) => {
   return (
     <footer
       className={classNames(
-        'myst-card-footer py-1 pl-3 m-0 border-t border-gray-100 bg-gray-50 dark:bg-slate-900 dark:border-gray-800',
+        'myst-card-footer py-1 pl-3 m-0 border-t border-myst-border bg-myst-bg-secondary',
         className,
       )}
     >
@@ -88,7 +88,6 @@ function ExternalOrInternalLink({
   children: React.ReactNode;
 }) {
   const Link = useLinkProvider();
-  const baseurl = useBaseurl();
   if (to.startsWith('http') || isStatic) {
     return (
       <a href={to} className={className} target="_blank" rel="noopener noreferrer">
@@ -97,7 +96,7 @@ function ExternalOrInternalLink({
     );
   }
   return (
-    <Link to={withBaseurl(to, baseurl)} className={className} prefetch={prefetch}>
+    <Link to={to} className={className} prefetch={prefetch}>
       {children}
     </Link>
   );
@@ -109,7 +108,7 @@ export const CardRenderer: NodeRenderer<CardSpec> = ({ node, className }) => {
   const isStatic = node.static || false;
   const link = !!url;
   const sharedStyle =
-    'myst-card my-5 rounded shadow dark:shadow-neutral-800 overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col';
+    'myst-card my-5 rounded shadow dark:shadow-2xl overflow-hidden border border-myst-border flex flex-col';
   if (link) {
     return (
       <ExternalOrInternalLink
@@ -119,7 +118,7 @@ export const CardRenderer: NodeRenderer<CardSpec> = ({ node, className }) => {
           sharedStyle,
           'text-inherit hover:text-inherit',
           'block font-normal no-underline hover:no-underline cursor-pointer group',
-          'hover:border-blue-500 dark:hover:border-blue-400',
+          'hover:border-myst-active',
           className,
         )}
       >

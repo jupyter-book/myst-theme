@@ -23,7 +23,7 @@ Running those steps manually looks like this:
 
 ```bash
 pip install -r docs/requirements.txt
-npm install
+bun install
 make build-book
 cd docs
 myst build --execute --html

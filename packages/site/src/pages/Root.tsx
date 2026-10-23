@@ -10,7 +10,6 @@ import {
 } from '@myst-theme/providers';
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -21,12 +20,13 @@ import {
   useRouteError,
   isRouteErrorResponse,
   useNavigate,
-} from '@remix-run/react';
+} from 'react-router';
 import {
   DEFAULT_NAV_HEIGHT,
   renderers as defaultRenderers,
   BlockingThemeLoader,
 } from '../components/index.js';
+import { useScrollToCellFragment } from 'myst-to-react';
 import { useTheme } from '../hooks/index.js';
 import { Analytics } from '../seo/index.js';
 import { Error404 } from './Error404.js';
@@ -36,7 +36,7 @@ import classNames from 'classnames';
 export function Document({
   children,
   scripts,
-  theme: ssrTheme,
+  theme: overrideMediaTheme,
   config,
   title,
   staticBuild,
@@ -68,19 +68,29 @@ export function Document({
         navigate,
       };
 
-  // (Local) theme state driven by SSR and cookie/localStorage
-  const [theme, setTheme] = useTheme({ ssrTheme: ssrTheme, useLocalStorage: staticBuild });
+  // (Local) theme state driven by session/localStorage
+  const [theme, setTheme] = useTheme({
+    overrideMediaTheme: overrideMediaTheme ?? undefined,
+    useLocalStorage: true,
+  });
 
   // Inject blocking element to set proper pre-hydration state
   const headAndLoader = (
     <>
       {head}
-      {ssrTheme ? undefined : <BlockingThemeLoader useLocalStorage={!!staticBuild} />}
+      <BlockingThemeLoader useLocalStorage={true} />
     </>
   );
 
   return (
-    <ThemeProvider theme={theme} setTheme={setTheme} renderers={renderers} {...links} top={top}>
+    <ThemeProvider
+      theme={theme}
+      setTheme={setTheme}
+      renderers={renderers}
+      {...links}
+      top={top}
+      staticBuild={staticBuild}
+    >
       <DocumentWithoutProviders
         children={children}
         scripts={scripts}
@@ -127,6 +137,8 @@ export function DocumentWithoutProviders({
   // In static sites, ssrTheme is forever null.
   // if (ssrTheme) { assert(theme === ssrTheme) }
   const { theme } = useThemeSwitcher();
+  // Honor incoming `#cell-id=<id>` notebook-cell deep-links (load + hashchange)
+  useScrollToCellFragment();
   return (
     // Set the theme during SSR if possible, otherwise leave it up to the BlockingThemeLoader
     <html lang="en" className={classNames(theme)} style={{ scrollPadding: top }}>
@@ -142,13 +154,12 @@ export function DocumentWithoutProviders({
         />
         {head}
       </head>
-      <body className="m-0 transition-colors duration-500 bg-white dark:bg-stone-900">
+      <body className="m-0 bg-myst-bg">
         <BaseUrlProvider baseurl={baseurl}>
           <SiteProvider config={config}>{children}</SiteProvider>
         </BaseUrlProvider>
         <ScrollRestoration />
         <Scripts />
-        {liveReloadListener && <LiveReload />}
         {scripts}
       </body>
     </html>

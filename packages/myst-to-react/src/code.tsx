@@ -7,6 +7,7 @@ import { MyST } from './MyST.js';
 import { useMemo } from 'react';
 import type { ComponentProps } from 'react';
 import { Details } from './dropdown.js';
+import { useIsScrollable } from '@myst-theme/providers';
 
 type Props = {
   value: string;
@@ -27,6 +28,10 @@ function normalizeLanguage(lang?: string): string | undefined {
   switch (lang) {
     case 'html':
       return 'xml';
+    case 'toml':
+      return 'ini';
+    case 'ts':
+      return 'typescript';
     default:
       return lang;
   }
@@ -49,6 +54,7 @@ export function CodeBlock(props: Props) {
     background,
     border,
   } = props;
+  const { ref: highlighterRef, isScrollable } = useIsScrollable<HTMLDivElement>();
   const highlighterProps: Omit<HighlightPropsType, 'children'> = useMemo(() => {
     const highlightLines = new Set(emphasizeLines);
     return {
@@ -86,30 +92,39 @@ export function CodeBlock(props: Props) {
     <div
       id={identifier}
       className={classNames('relative myst-code group not-prose', className, {
-        'my-5 text-sm shadow hover:shadow-md dark:shadow-2xl dark:shadow-neutral-900': shadow,
+        'my-5 text-sm shadow hover:shadow-md dark:shadow-2xl': shadow,
         'bg-stone-200/10': background,
-        'border border-l-4 border-gray-200 border-l-blue-400 dark:border-l-blue-400 dark:border-gray-800':
-          border,
+        'border border-l-4 border-myst-border border-l-myst-link-underline': border,
       })}
     >
       {filename && (
-        <div className="flex flex-row pl-2 bg-white border-b dark:bg-slate-600 dark:border-slate-300">
+        <div className="flex flex-row pl-2 bg-myst-bg-secondary border-b border-myst-border">
           <DocumentIcon
             width="16px"
             height="16px"
-            className="inline-block flex-none self-center text-gray-500 myst-code-filename-icon dark:text-gray-100"
+            className="inline-block flex-none self-center text-myst-text-tertiary myst-code-filename-icon"
           />
-          <div className="self-center p-2 text-sm leading-3 myst-code-filename-title prose text-slate-600 dark:text-white">
+          <div className="self-center p-2 text-sm leading-3 myst-code-filename-title prose text-myst-text-secondary">
             {filename}
           </div>
         </div>
       )}
-      <SyntaxHighlighter
-        {...highlighterProps}
+
+      <div
+        ref={highlighterRef}
+        tabIndex={isScrollable ? 0 : undefined}
+        role={isScrollable ? 'region' : undefined}
+        aria-label="code block content"
         className="block overflow-auto p-3 myst-code-body hljs"
       >
-        {value}
-      </SyntaxHighlighter>
+        <SyntaxHighlighter
+          {...highlighterProps}
+          customStyle={{ padding: 0, margin: 0, background: 'transparent' }}
+        >
+          {value}
+        </SyntaxHighlighter>
+      </div>
+
       {showCopy && (
         <CopyIcon
           text={value}
@@ -161,10 +176,7 @@ const inlineCode: NodeRenderer = ({ node, className }) => {
   if (isColor(node.value)) {
     return (
       <code
-        className={classNames(
-          'px-1 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-100',
-          className,
-        )}
+        className={classNames('px-1 rounded bg-myst-surface text-myst-text-secondary', className)}
       >
         {node.value}
         <span

@@ -1,5 +1,216 @@
 # @myst-theme/site
 
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies [5243a23]
+  - myst-demo@1.4.1
+  - @myst-theme/providers@1.4.1
+  - @myst-theme/frontmatter@1.4.1
+  - @myst-theme/diagrams@1.4.1
+  - @myst-theme/common@1.4.1
+  - @myst-theme/search@1.4.1
+  - myst-to-react@1.4.1
+
+## 1.4.0
+
+### Patch Changes
+
+- 168e19b: Strip trailing slash from `BASE_URL` before use to avoid double slashes in hrefs.
+  This affected the React state of TOC and its expansion.
+  With no trailing slash in `BASE_URL`, have `withBaseurl` always re-insert one separating slash between `baseurl` and `url`.
+
+  For static `myst build --html` exports, clicking a TOC header with a page associated does a reload.
+  Avoid doing a setOpen before (since animation will play once page reload finishes).
+
+  As an additional optimization, for now disable the TOC's open/close CSS animation entirely for static builds—we already have one flash due to the reload, so the animation feels egregious.
+
+  Fix another source of flashing: the dismissible top banner determined its visible/height state (and dependents like the sidebar's position) in a `useEffect`, which runs after the browser paints. Switched to `useLayoutEffect` so that state is settled before the first paint instead of snapping into place a frame later.
+
+- 87f3ee3: Expose accent, neutral, and semantic colors as CSS custom properties for theme customization
+- e923170: Fix top-nav dropdown children ignoring `internal_domains`, so fully-qualified internal URLs open in the same tab instead of always opening in a new tab
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+- 6498c64: Use Jupyter-compatible cell IDs to support deep links
+- babfb2f: Remove `orange`/`purple`/`gray` CSS color tokens.
+  Use `theorem`/`example`/`proof` color schemes instead.
+  Add a dedicated `--myst-color-error` group for UI error states (distinct from the content-level `danger` admonition).
+  Fix some bugs and Tailwind color class usage remaining from the CSS custom properties refactor.
+- Updated dependencies [168e19b]
+- Updated dependencies [87f3ee3]
+- Updated dependencies [9c21b77]
+- Updated dependencies [623f66d]
+- Updated dependencies [6498c64]
+- Updated dependencies [babfb2f]
+  - @myst-theme/providers@1.4.0
+  - myst-to-react@1.4.0
+  - @myst-theme/frontmatter@1.4.0
+  - myst-demo@1.4.0
+  - @myst-theme/diagrams@1.4.0
+  - @myst-theme/common@1.4.0
+  - @myst-theme/search@1.4.0
+
+## 1.3.1
+
+### Patch Changes
+
+- 007795e: Handle baseURL problems with static sites
+- 4095409: Fix TOML highlighting
+- 02c8537: Avoid flashing on initial page load
+- Updated dependencies [a406632]
+- Updated dependencies [aac7f50]
+- Updated dependencies [4095409]
+  - @myst-theme/diagrams@1.3.1
+  - myst-to-react@1.3.1
+  - @myst-theme/providers@1.3.1
+  - @myst-theme/frontmatter@1.3.1
+  - @myst-theme/common@1.3.1
+  - @myst-theme/search@1.3.1
+  - myst-demo@1.3.1
+
+## 1.3.0
+
+### Minor Changes
+
+- b1f5ae4: Remove broken 'Link to Keywords' `HashLink`
+
+### Patch Changes
+
+- 9e431a9: Allow navbar to grow in height
+- Updated dependencies [df76193]
+- Updated dependencies [b82356d]
+  - @myst-theme/providers@1.3.0
+  - myst-to-react@1.3.0
+  - @myst-theme/frontmatter@1.3.0
+  - @myst-theme/diagrams@1.3.0
+  - @myst-theme/common@1.3.0
+  - @myst-theme/search@1.3.0
+  - myst-demo@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [ad30791]
+  - myst-to-react@1.2.2
+  - @myst-theme/providers@1.2.2
+  - @myst-theme/frontmatter@1.2.2
+  - @myst-theme/diagrams@1.2.2
+  - @myst-theme/common@1.2.2
+  - @myst-theme/search@1.2.2
+  - myst-demo@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- eed55ed: Re-order search entries to better behave under screen-readers.
+  Add missing aria-expanded attribute.
+- 472220e: Fix aria-controls in search popup
+- Updated dependencies [0888410]
+  - myst-to-react@1.2.1
+  - @myst-theme/providers@1.2.1
+  - @myst-theme/frontmatter@1.2.1
+  - @myst-theme/diagrams@1.2.1
+  - @myst-theme/common@1.2.1
+  - @myst-theme/search@1.2.1
+  - myst-demo@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- f5e7528: Add accessible labels to footer links
+- ee2d127: ✨ Add navbar_end part in navbar UI
+- Updated dependencies [9ecc788]
+- Updated dependencies [f908854]
+- Updated dependencies [f8ef1ef]
+  - myst-to-react@1.2.0
+  - myst-demo@1.2.0
+  - @myst-theme/providers@1.2.0
+  - @myst-theme/frontmatter@1.2.0
+  - @myst-theme/diagrams@1.2.0
+  - @myst-theme/common@1.2.0
+  - @myst-theme/search@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.4
+- @myst-theme/frontmatter@1.1.4
+- @myst-theme/diagrams@1.1.4
+- @myst-theme/common@1.1.4
+- @myst-theme/search@1.1.4
+- myst-to-react@1.1.4
+- myst-demo@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- a8b0c87: Support a domain to treat as internal URLs
+- Updated dependencies [be43281]
+- Updated dependencies [a8b0c87]
+- Updated dependencies [a96413c]
+  - @myst-theme/common@1.1.3
+  - myst-to-react@1.1.3
+  - @myst-theme/providers@1.1.3
+  - @myst-theme/frontmatter@1.1.3
+  - @myst-theme/diagrams@1.1.3
+  - @myst-theme/search@1.1.3
+  - myst-demo@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- a569399: Make sidebar modal take up full height
+- 2208b1e: Re-use classes for sidebar whitespace
+- 192a1b0: Use parent width instead of screen size for page components to fix overflow
+- c3c427d: Add alt text for logo
+- Updated dependencies [7d92ceb]
+- Updated dependencies [c3c427d]
+  - myst-to-react@1.1.2
+  - @myst-theme/common@1.1.2
+  - @myst-theme/providers@1.1.2
+  - @myst-theme/frontmatter@1.1.2
+  - @myst-theme/diagrams@1.1.2
+  - @myst-theme/search@1.1.2
+  - myst-demo@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- f722531: Increase contrast of search bar on dark mode
+- Updated dependencies [ae018ba]
+  - myst-to-react@1.1.1
+  - @myst-theme/providers@1.1.1
+  - @myst-theme/frontmatter@1.1.1
+  - @myst-theme/diagrams@1.1.1
+  - @myst-theme/common@1.1.1
+  - @myst-theme/search@1.1.1
+  - myst-demo@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- e213587: On static builds, fix sidebar menu not expanding for current page (closes [#635](https://github.com/jupyter-book/mystmd/issues/2288)).
+- 37fa906: Improve UX of ToC expand widget
+- Updated dependencies [fd4708d]
+- Updated dependencies [75475f8]
+- Updated dependencies [c519f9b]
+- Updated dependencies [9bfb08e]
+  - @myst-theme/providers@1.1.0
+  - myst-to-react@1.1.0
+  - @myst-theme/frontmatter@1.1.0
+  - @myst-theme/diagrams@1.1.0
+  - @myst-theme/common@1.1.0
+  - @myst-theme/search@1.1.0
+  - myst-demo@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

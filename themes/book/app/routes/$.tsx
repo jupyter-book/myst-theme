@@ -1,10 +1,5 @@
-import {
-  json,
-  type V2_MetaFunction,
-  type LinksFunction,
-  type LoaderFunction,
-} from '@remix-run/node';
-import { getProject, isFlatSite, type PageLoader } from '@myst-theme/common';
+import { redirect } from 'react-router';
+import { getProject, parseRedirect, type PageLoader } from '@myst-theme/common';
 import {
   KatexCSS,
   useOutlineHeight,
@@ -15,8 +10,7 @@ import {
   ErrorDocumentNotFound,
   ErrorUnhandled,
 } from '@myst-theme/site';
-import { getConfig, getPage } from '~/utils/loaders.server';
-import { useLoaderData } from '@remix-run/react';
+import { getConfig, getPage, getStaticFileUrl } from '~/utils/loaders.server';
 import type { SiteManifest } from 'myst-config';
 import {
   TabStateProvider,
@@ -28,21 +22,62 @@ import {
   BannerStateProvider,
 } from '@myst-theme/providers';
 import { ComputeOptionsProvider, ThebeLoaderAndServer } from '@myst-theme/jupyter';
-import { MadeWithMyst } from '@myst-theme/icons';
 import { ArticlePage } from '../components/ArticlePage.js';
 import { Footer } from '../components/Footer.js';
 import { Banner } from '../components/Banner.js';
 import { SidebarFooter } from '../components/SidebarFooter.js';
 import type { TemplateOptions } from '../types.js';
-import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
+import { isRouteErrorResponse } from 'react-router';
+
+import type { Route } from './+types/$.tsx';
+
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }) => {
-  if (!data) return [];
+export async function loader({ request, params }: Route.LoaderArgs): Promise<{
+  config: SiteManifest;
+  page: PageLoader;
+  project: ManifestProject | undefined;
+}> {
+  const url = new URL(request.url);
+  const config = await getConfig();
+  const project = getProject(config);
+  const path = params['*'];
+  const slug = path
+    .split('/')
+    .filter((item) => !!item)
+    .join('.');
 
-  const config: SiteManifest = data.config;
-  const project: ManifestProject = data.project;
-  const page: PageLoader['frontmatter'] = data.page.frontmatter;
+  // Find possible redirects
+  const redirects = ((config.options?.redirects ?? []) as string[])
+    .map(parseRedirect)
+    .filter((item) => item !== undefined);
+  for (const redirection of redirects) {
+    if (redirection.src.slice(1) === path) {
+      throw redirect(redirection.dst);
+    }
+  }
+
+  try {
+    const page = await getPage(request, {
+      slug,
+      redirect: !import.meta.env.VITE_BUILD_HTML,
+    });
+    return { config, page, project };
+  } catch (e) {
+    if (e instanceof Response && e.status === 404) {
+      const cdnUrl = await getStaticFileUrl(url.pathname);
+      if (cdnUrl) throw redirect(cdnUrl);
+    }
+    throw e;
+  }
+}
+
+export function meta({ loaderData, location }: Route.MetaArgs) {
+  if (loaderData === undefined) return [];
+
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject | undefined = loaderData.project;
+  const page: PageLoader['frontmatter'] = loaderData.page.frontmatter;
 
   const siteTitle = config?.title ?? project?.title ?? '';
 
@@ -58,25 +93,11 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, matches, location }
     twitter: config?.options?.twitter,
     keywords: page?.keywords ?? project?.keywords ?? config?.keywords ?? [],
   });
-};
+}
 
-export const links: LinksFunction = () => [KatexCSS];
-
-export const loader: LoaderFunction = async ({ params, request }) => {
-  const [first, ...rest] = new URL(request.url).pathname.slice(1).split('/');
-  const config = await getConfig();
-  const project = getProject(config, first);
-  const projectName = project?.slug === first ? first : undefined;
-  const slugParts = projectName ? rest : [first, ...rest];
-  const slug = slugParts.length ? slugParts.join('.') : undefined;
-  const flat = isFlatSite(config);
-  const page = await getPage(request, {
-    project: flat ? projectName : (projectName ?? slug),
-    slug: flat ? slug : projectName ? slug : undefined,
-    redirect: process.env.MODE === 'static' ? false : true,
-  });
-  return json({ config, page, project });
-};
+export function links(): ReturnType<Route.LinksFunction> {
+  return [KatexCSS];
+}
 
 function ArticlePageAndNavigationInternal({
   children,
@@ -93,18 +114,23 @@ function ArticlePageAndNavigationInternal({
 }) {
   const top = useThemeTop();
   const { container, toc } = useSidebarHeight(top, inset);
-  const siteManifest = useSiteManifest() as any;
+  const siteManifest = useSiteManifest();
   const projectParts = { ...siteManifest?.projects?.[0]?.parts, ...siteManifest?.parts };
   return (
     <>
       <TabStateProvider>
         {projectParts?.banner && <Banner content={projectParts.banner.mdast} />}
       </TabStateProvider>
-      <TopNav hideToc={hide_toc} hideSearch={hideSearch} />
+      <TopNav
+        hideToc={hide_toc}
+        hideSearch={hideSearch}
+        navbarEnd={projectParts?.navbar_end?.mdast}
+      />
       <PrimaryNavigation
         sidebarRef={toc}
         hide_toc={hide_toc}
         footer={<SidebarFooter content={projectParts?.primary_sidebar_footer?.mdast} />}
+        navbarEnd={projectParts?.navbar_end?.mdast}
         projectSlug={projectSlug}
       />
       <TabStateProvider>
@@ -153,11 +179,10 @@ export function ArticlePageAndNavigation({
   );
 }
 
-export default function Page() {
+export default function Page({ loaderData }: Route.ComponentProps) {
   const { container } = useOutlineHeight();
-  const data = useLoaderData() as { page: PageLoader; project: ManifestProject };
   const baseurl = useBaseurl();
-  const pageDesign: TemplateOptions = (data.page.frontmatter as any)?.site ?? {};
+  const pageDesign: TemplateOptions = loaderData.page.frontmatter.site ?? {};
   const siteDesign: TemplateOptions =
     (useSiteManifest() as SiteManifest & TemplateOptions)?.options ?? {};
   const { hide_toc, hide_search, hide_footer_links } = {
@@ -168,7 +193,7 @@ export default function Page() {
     <ArticlePageAndNavigation
       hide_toc={hide_toc}
       hideSearch={hide_search}
-      projectSlug={data.page.project}
+      projectSlug={loaderData.page.project}
     >
       {/* <ProjectProvider project={project}> */}
       <ProjectProvider>
@@ -180,7 +205,7 @@ export default function Page() {
               ref={container}
               className="article-grid subgrid-gap col-screen article content"
             >
-              <ArticlePage article={data.page} hide_all_footer_links={hide_footer_links} />
+              <ArticlePage article={loaderData.page} hide_all_footer_links={hide_footer_links} />
             </article>
           </ThebeLoaderAndServer>
         </ComputeOptionsProvider>
@@ -189,16 +214,11 @@ export default function Page() {
   );
 }
 
-export function ErrorBoundary() {
-  const error = useRouteError();
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   return (
     <ArticlePageAndNavigation>
       <article className="article">
-        {isRouteErrorResponse(error) ? (
-          <ErrorDocumentNotFound />
-        ) : (
-          <ErrorUnhandled error={error as any} />
-        )}
+        {isRouteErrorResponse(error) ? <ErrorDocumentNotFound /> : <ErrorUnhandled error={error} />}
       </article>
     </ArticlePageAndNavigation>
   );

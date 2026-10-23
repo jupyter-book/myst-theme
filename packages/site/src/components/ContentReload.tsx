@@ -55,6 +55,7 @@ async function mystLiveReloadConnect(config: { onOpen?: () => void; port?: strin
 }
 
 // Inspired by the LiveReload component in Remix
+// FIXME: accept CDN hostname as well as port
 export function ContentReload({ port }: { port?: string | number }) {
   useEffect(() => {
     mystLiveReloadConnect({ port });

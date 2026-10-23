@@ -1,4 +1,7 @@
 import React, { useContext } from 'react';
+import { normalizeBaseURL } from '@myst-theme/common';
+
+import escape from 'regexp.escape';
 
 const BaseUrlContext = React.createContext<{
   baseurl?: string;
@@ -11,7 +14,11 @@ export function BaseUrlProvider({
   baseurl?: string;
   children: React.ReactNode;
 }) {
-  return <BaseUrlContext.Provider value={{ baseurl }}>{children}</BaseUrlContext.Provider>;
+  return (
+    <BaseUrlContext.Provider value={{ baseurl: normalizeBaseURL(baseurl ?? '') }}>
+      {children}
+    </BaseUrlContext.Provider>
+  );
 }
 
 export function useBaseurl() {
@@ -19,10 +26,44 @@ export function useBaseurl() {
   return data?.baseurl;
 }
 
+// An "external-like" URL if it has a URL scheme (e.g., https:, mailto:) or is protocol-relative (//host).
+const EXTERNAL_URL_LIKE_REGEX = /^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/\/)/;
+
+/**
+ * Check if a URL is external. Optionally pass an internal domain pattern
+ * (e.g. "example.com") to treat matching URLs as internal.
+ */
+export function isExternalUrl(url?: string, internalDomain?: string) {
+  if (!EXTERNAL_URL_LIKE_REGEX.test(url || '')) {
+    return false;
+  }
+
+  if (!internalDomain) {
+    return true;
+  }
+
+  // Build array of domain parts, where the leading
+  // component may be a wildcard
+  const wildcardPattern = '[^\\./#]+';
+  const parts = internalDomain
+    .trim()
+    .split('.')
+    .map((part, index) => (part === '*' && index === 0 ? wildcardPattern : escape(part)));
+  const domainPattern = parts.join(escape('.'));
+
+  return !new RegExp(`^https?://${domainPattern}([:/?#]|$)`, 'i').test(url || '');
+}
+
 export function withBaseurl(url?: string, baseurl?: string) {
-  const isExternal = /^(https?|mailto):/.test(url || '');
-  if (!baseurl || isExternal) {
+  if (!baseurl || isExternalUrl(url)) {
     return url as string;
   }
-  return baseurl + url;
+  if (!url) return baseurl;
+  // Ensure exactly one separating slash, regardless of whether baseurl has a
+  // trailing slash or url has a leading one - url is not always absolute (e.g.
+  // an unresolved cross-reference can fall back to a bare relative path), and
+  // naive concatenation then glues baseurl and url together with no separator.
+  const base = baseurl.replace(/\/+$/, '');
+  const path = url.startsWith('/') ? url : `/${url}`;
+  return base + path;
 }

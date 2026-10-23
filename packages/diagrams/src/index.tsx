@@ -1,4 +1,4 @@
-import type { NodeRenderer } from '@myst-theme/providers';
+import { useThemeSwitcher, type NodeRenderer } from '@myst-theme/providers';
 import { useEffect, useId, useState } from 'react';
 import classNames from 'classnames';
 import type { Mermaid } from 'mermaid';
@@ -9,7 +9,6 @@ async function loadMermaid(): Promise<Mermaid> {
   if (_mermaid === undefined) {
     const module = await import('mermaid');
     _mermaid = module.default;
-    _mermaid.initialize({ startOnLoad: false });
   }
   return _mermaid;
 }
@@ -24,6 +23,7 @@ export function MermaidRenderer({
   className?: string;
 }) {
   const key = useId();
+  const { isDark } = useThemeSwitcher();
   const [graph, setGraph] = useState<string>();
   const [error, setError] = useState<Error>();
   useEffect(() => {
@@ -31,6 +31,7 @@ export function MermaidRenderer({
       try {
         const mermaidID = `mermaid-${key.replace(/:/g, '')}`;
         const mermaid = await loadMermaid();
+        mermaid.initialize({ startOnLoad: false, theme: isDark ? 'dark' : 'default' });
         const { svg } = await mermaid.render(mermaidID, value);
         setGraph(svg);
         setError(undefined);
@@ -40,7 +41,7 @@ export function MermaidRenderer({
       }
     };
     render();
-  }, []);
+  }, [isDark]);
   return (
     <figure id={id} className={className}>
       {graph && <div dangerouslySetInnerHTML={{ __html: graph }}></div>}

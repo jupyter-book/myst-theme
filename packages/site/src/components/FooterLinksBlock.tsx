@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { FooterLinks, NavigationLink } from '@myst-theme/common';
-import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { useLinkProvider } from '@myst-theme/providers';
 
 export const FooterLink = ({
   title,
@@ -10,16 +10,17 @@ export const FooterLink = ({
   group,
   right,
 }: NavigationLink & { right?: boolean }) => {
-  const baseurl = useBaseurl();
   const Link = useLinkProvider();
+  const linkText = short_title || title;
   return (
     <Link
       prefetch="intent"
       className={classNames(
-        'myst-footer-link flex-1 block p-4 font-normal text-gray-600 no-underline border border-gray-200 rounded shadow-sm group hover:border-blue-600 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 dark:text-gray-100 dark:border-gray-500 hover:shadow-lg dark:shadow-neutral-700',
+        'myst-footer-link flex-1 block p-4 font-normal text-myst-text-secondary no-underline border border-myst-border rounded shadow-sm group hover:border-myst-active hover:text-myst-active hover:shadow-lg',
         { 'myst-footer-link-prev': right, 'myst-footer-link-next': !right },
       )}
-      to={withBaseurl(url, baseurl)}
+      to={url}
+      aria-label={`${right ? 'Previous: ' : 'Next: '}${linkText}`}
     >
       <div className="flex h-full align-middle">
         {right && (
@@ -30,10 +31,10 @@ export const FooterLink = ({
           />
         )}
         <div className={classNames('flex-grow', { 'text-right': right })}>
-          <div className="myst-footer-link-group text-xs text-gray-500 dark:text-gray-400">
+          <div className="myst-footer-link-group text-xs text-myst-text-tertiary">
             {group || ' '}
           </div>
-          {short_title || title}
+          {linkText}
         </div>
         {!right && (
           <ArrowRightIcon

@@ -1,5 +1,106 @@
 # myst-demo
 
+## 1.4.1
+
+### Patch Changes
+
+- 5243a23: Update mystmd dependencies
+  - @myst-theme/providers@1.4.1
+  - myst-to-react@1.4.1
+
+## 1.4.0
+
+### Patch Changes
+
+- 87f3ee3: Expose accent, neutral, and semantic colors as CSS custom properties for theme customization
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+- Updated dependencies [168e19b]
+- Updated dependencies [87f3ee3]
+- Updated dependencies [9c21b77]
+- Updated dependencies [623f66d]
+- Updated dependencies [6498c64]
+- Updated dependencies [babfb2f]
+  - @myst-theme/providers@1.4.0
+  - myst-to-react@1.4.0
+
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [aac7f50]
+- Updated dependencies [4095409]
+  - myst-to-react@1.3.1
+
+## 1.3.0
+
+### Patch Changes
+
+- Updated dependencies [b82356d]
+  - myst-to-react@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [ad30791]
+  - myst-to-react@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [0888410]
+  - myst-to-react@1.2.1
+
+## 1.2.0
+
+### Minor Changes
+
+- 9ecc788: Add grid-item renderer
+
+### Patch Changes
+
+- Updated dependencies [9ecc788]
+- Updated dependencies [f8ef1ef]
+  - myst-to-react@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- myst-to-react@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [a8b0c87]
+- Updated dependencies [a96413c]
+  - myst-to-react@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [7d92ceb]
+  - myst-to-react@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [ae018ba]
+  - myst-to-react@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- Updated dependencies [75475f8]
+- Updated dependencies [c519f9b]
+- Updated dependencies [9bfb08e]
+  - myst-to-react@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

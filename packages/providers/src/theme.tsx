@@ -19,8 +19,8 @@ export type NavLinkProps = Omit<LinkProps, 'className'> & {
   className?: string | ((opts: { isActive: boolean }) => string);
 };
 
-export type Link = (props: LinkProps) => JSX.Element;
-export type NavLink = (props: NavLinkProps) => JSX.Element;
+export type Link = (props: LinkProps) => React.JSX.Element;
+export type NavLink = (props: NavLinkProps) => React.JSX.Element;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function HtmlLink({ to, className, children, prefetch, ...props }: LinkProps) {
@@ -55,6 +55,7 @@ type ThemeContextType = {
   Link?: Link;
   NavLink?: NavLink;
   navigate?: (to: string) => void;
+  staticBuild?: boolean;
 };
 
 const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
@@ -69,6 +70,7 @@ export function ThemeProvider({
   NavLink,
   navigate,
   top,
+  staticBuild,
 }: {
   theme: Theme | null;
   setTheme: SetThemeType;
@@ -78,12 +80,22 @@ export function ThemeProvider({
   NavLink?: NavLink;
   navigate?: (to: string) => void;
   top?: number;
+  staticBuild?: boolean;
 }) {
   const validatedRenderers = validateRenderers(renderers);
 
   return (
     <ThemeContext.Provider
-      value={{ theme, setTheme, renderers: validatedRenderers, Link, NavLink, navigate, top }}
+      value={{
+        theme,
+        setTheme,
+        renderers: validatedRenderers,
+        Link,
+        NavLink,
+        navigate,
+        top,
+        staticBuild,
+      }}
     >
       {children}
     </ThemeContext.Provider>
@@ -150,4 +162,12 @@ export function useThemeTop(): number {
   const context = React.useContext(ThemeContext);
   const { top } = context ?? {};
   return top || 0;
+}
+
+// True for `myst build --html` static exports, where Link/NavLink force a
+// hard document reload (see Document in @myst-theme/site) rather than a
+// client-side transition.
+export function useIsStaticBuild(): boolean {
+  const context = React.useContext(ThemeContext);
+  return !!context?.staticBuild;
 }

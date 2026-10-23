@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Based on https://usehooks-ts.com/react-hook/use-media-query
 export function useMediaQuery(query: string): boolean {
@@ -27,4 +27,25 @@ export function useMediaQuery(query: string): boolean {
   }, [query]);
 
   return matches;
+}
+
+/**
+ * Returns a ref and a boolean indicating whether the element has horizontal overflow.
+ * We use this to make scrollable regions keyboard-accessible if they are wide.
+ */
+export function useIsScrollable<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [isScrollable, setIsScrollable] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => {
+      setIsScrollable(el.scrollWidth > el.clientWidth);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isScrollable };
 }

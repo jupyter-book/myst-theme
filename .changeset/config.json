@@ -15,6 +15,7 @@
       "@myst-theme/search",
       "@myst-theme/search-minisearch",
       "@myst-theme/landing-pages",
+      "@myst-theme/anywidget",
       "@myst-theme/book",
       "@myst-theme/article",
       "myst-to-react",

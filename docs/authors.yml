@@ -1,0 +1,66 @@
+# Example authorship metadata for the myst-theme docs.
+# This defines a bunch of fake authorship data and tries to use all fields we
+# can to see what shows up and what does not.
+version: 1
+project:
+  contributors:
+    - id: myst-bot
+      name: MyST Bot
+      orcid: 0000-0002-7859-8394
+      corresponding: true
+      email: myst-bot@example.com
+      equal_contributor: true
+      url: https://github.com/myst-bot
+      github: myst-bot
+      note: A bot for the Jupyter Book team!
+      phone: "(555) 123-4567"
+      fax: "(555) 123-4568"
+      roles:
+        - Conceptualization
+        - Software
+        - Writing - original draft
+      affiliations:
+        - example-university
+        - example-lab
+    - id: ebp-bot
+      name: EBP Bot
+      orcid: 0000-0001-2345-6789
+      corresponding: true
+      email: executablebooks@gmail.com
+      equal_contributor: true
+      deceased: false
+      url: https://github.com/ebp-bot
+      github: ebp-bot
+      note: I am a robot, beep boop
+      roles:
+        - Data curation
+        - Formal analysis
+        - Writing - review & editing
+      affiliations:
+        - example-lab
+  affiliations:
+    - id: example-university
+      name: Example University
+      department: Department of Scientific Communication
+      # NOTE: This ROR points to a real institution (LBNL) for demo purposes
+      ror: https://ror.org/02jbv0t02
+      address: 123 Example Lane
+      city: Anytown
+      state: Exampleshire
+      postal_code: "12345"
+      country: Exampleland
+      url: https://example.com/university
+      email: info@example.com
+      phone: "(555) 000-0000"
+      fax: "(555) 000-0001"
+    - id: example-lab
+      name: Example Research Lab
+      institution: Example Institute of Technology
+      department: Computational Research Division
+      ror: https://ror.org/02jbv0t02
+      address: 1 Research Road
+      city: Otherville
+      state: Samplestate
+      postal_code: "67890"
+      country: Exampleland
+      url: https://example.com/lab

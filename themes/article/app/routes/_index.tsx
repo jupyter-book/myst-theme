@@ -5,23 +5,34 @@ import {
   ErrorDocumentNotFound,
   ErrorUnhandled,
 } from '@myst-theme/site';
-import Page from './$';
+import Page from './$slug';
 import { ArticlePageAndNavigation } from '../components/ArticlePageAndNavigation';
 import { getConfig, getPage } from '../utils/loaders.server';
-import type { LoaderFunction, V2_MetaFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
+import { redirect } from 'react-router';
 import { SiteManifest } from 'myst-config';
 import { getProject } from '@myst-theme/common';
-export { links } from './$';
-import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
+export { links } from './$slug';
+import { useRouteError, isRouteErrorResponse } from 'react-router';
+
+import type { Route } from './+types/_index';
 
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => {
-  if (!data) return [];
+export async function loader({ request }: Route.LoaderArgs) {
+  const config = await getConfig();
+  if (!config) throw responseNoSite();
+  const project = getProject(config);
+  if (!project) throw responseNoArticle();
+  if (project.slug) return redirect(`/${project.slug}`);
+  const page = await getPage(request, { slug: project.index });
+  return { config, project, page };
+}
 
-  const config: SiteManifest = data.config;
-  const project: ManifestProject = data.project;
+export function meta({ loaderData, location }: Route.MetaArgs) {
+  if (!loaderData) return [];
+
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject = loaderData.project;
 
   return getMetaTagsForArticle({
     origin: '',
@@ -32,17 +43,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => {
     keywords: config.keywords ?? project.keywords ?? [],
     twitter: config?.options?.twitter,
   });
-};
-
-export const loader: LoaderFunction = async ({ params, request }) => {
-  const config = await getConfig();
-  if (!config) throw responseNoSite();
-  const project = getProject(config);
-  if (!project) throw responseNoArticle();
-  if (project.slug) return redirect(`/${project.slug}`);
-  const page = await getPage(request, { slug: project.index });
-  return { config, project, page };
-};
+}
 
 export default Page;
 

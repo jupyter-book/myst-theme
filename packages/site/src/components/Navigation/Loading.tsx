@@ -1,4 +1,4 @@
-import { useNavigation } from '@remix-run/react';
+import { useNavigation } from 'react-router';
 import { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 
@@ -7,7 +7,10 @@ import classNames from 'classnames';
  */
 export function useLoading() {
   const transitionState = useNavigation().state;
-  const ref = useMemo<{ start?: NodeJS.Timeout; finish?: NodeJS.Timeout }>(() => ({}), []);
+  const ref = useMemo<{
+    start?: ReturnType<typeof setTimeout>;
+    finish?: ReturnType<typeof setTimeout>;
+  }>(() => ({}), []);
   const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
@@ -48,7 +51,7 @@ export function LoadingBar() {
   return (
     <div
       className={classNames(
-        'myst-loading-bar w-screen h-[2px] bg-blue-500 absolute left-0 bottom-0 transition-transform',
+        'myst-loading-bar w-full h-[2px] bg-myst-primary absolute left-0 bottom-0 transition-transform',
         {
           'myst-loading-bar-progress animate-load scale-x-40': isLoading,
           'scale-x-100': !isLoading,

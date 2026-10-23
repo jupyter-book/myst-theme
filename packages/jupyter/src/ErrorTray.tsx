@@ -7,9 +7,9 @@ import { useBusyErrors } from './execute/busy.js';
 function ErrorDecoration({ children, idx }: React.PropsWithChildren<{ idx?: number }>) {
   return (
     <div className="myst-jp-error-tray-decoration relative py-3 mx-2 my-8 border rounded">
-      <div className="myst-jp-error-tray-cell absolute z-10 flex items-center bg-white -top-3 -left-2">
+      <div className="myst-jp-error-tray-cell absolute z-10 flex items-center bg-myst-bg -top-3 -left-2">
         {idx && (
-          <div className="myst-jp-error-tray-cell-number ml-1 text-sm text-gray-500">
+          <div className="myst-jp-error-tray-cell-number ml-1 text-sm text-myst-text-tertiary">
             cell #: {idx + 1}
           </div>
         )}
@@ -58,7 +58,7 @@ export function ErrorTray({ pageSlug, index }: { pageSlug: string; index?: strin
   if (!items || items.length === 0) return null;
   if (index && index) return null;
   return (
-    <div className="myst-jp-error-tray relative px-4 pt-3 my-8 text-sm text-red-600 border border-red-400 rounded border-1">
+    <div className="myst-jp-error-tray relative px-4 pt-3 my-8 text-sm text-myst-error border border-myst-error rounded border-1">
       {items.map(({ notebookSlug, errors }, i) => {
         return (
           <div key={`${notebookSlug}-${i}`}>

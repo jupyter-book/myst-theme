@@ -1,5 +1,37 @@
 # @myst-theme/common
 
+## 1.4.1
+
+## 1.4.0
+
+## 1.3.1
+
+## 1.3.0
+
+## 1.2.2
+
+## 1.2.1
+
+## 1.2.0
+
+## 1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- be43281: Fix bug with trailing slash in URLs
+
+## 1.1.2
+
+### Patch Changes
+
+- c3c427d: Add alt text for logo
+
+## 1.1.1
+
+## 1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

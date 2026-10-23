@@ -8,8 +8,29 @@
   }
 }
 
+@layer components {
+  /* Links: blue with underline */
+  .link,
+  .hover-link {
+    @apply text-myst-link underline decoration-[0.1em] underline-offset-[0.15em] decoration-myst-link-underline hover:text-myst-link-hover hover:decoration-myst-link-hover;
+  }
+
+  /* External/download link icons: hidden by default, shown only for plain text links in prose */
+  .link-icon {
+    @apply hidden;
+  }
+
+  /* Only show link icons when it's a "prose" style element.
+   * This rule tries to filter out anything that's not just "link with some text inside, in page content".
+   */
+  .prose a:not(.button):not(:has(img, figure, picture, video)) > .link-icon {
+    @apply inline-block w-[0.85em] h-[0.85em] ml-0.5 align-baseline opacity-80;
+  }
+}
+
 @layer base {
-  .prose table td {
+  .prose table td,
+  .prose table th {
     @apply p-1 align-top sm:p-2;
   }
   .prose table p,
@@ -24,24 +45,26 @@
     @apply pl-0;
   }
   .prose table tr:hover td {
-    @apply bg-slate-50 dark:bg-stone-800;
+    @apply bg-myst-bg-secondary;
   }
   .prose table td dl {
     margin: 0;
   }
   .prose dt > strong {
-    @apply font-bold text-blue-900 dark:text-blue-100;
+    @apply font-bold text-myst-accent-text;
   }
   .prose dd {
     @apply ml-8;
   }
-  /* Keep inline images inside text flow from forcing line breaks */
-  .article p img,
-  .article table img,
-  .article dd img,
-  .prose p img,
-  .prose table img,
-  .prose dd img {
+  /* Inline images (children of paragraphs, with or without links) */
+  .article p > img,
+  .article p > a img,
+  .article dd > img,
+  .article dd > a img,
+  .prose p > img,
+  .prose p > a img,
+  .prose dd > img,
+  .prose dd > a img {
     margin: 0;
     display: inline-block;
     max-height: 1.2em;
@@ -51,6 +74,6 @@
     min-height: calc(100vh);
   }
   .article {
-    @apply prose break-words max-w-none prose-stone dark:prose-invert;
+    @apply prose break-words max-w-none;
   }
 }

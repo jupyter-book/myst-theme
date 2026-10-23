@@ -1,16 +1,28 @@
 ---
 title: Typography
+abbreviations:
+  HOVER: Wow a hoverable abbreviation
 ---
 
 # Heading Level 1
 
+Some text.
+
 ## Heading Level 2
+
+Some text.
 
 ### Heading Level 3
 
+Some text.
+
 #### Heading Level 4
 
+Some text.
+
 ##### Heading Level 5
+
+Some text.
 
 ## Paragraphs
 
@@ -23,8 +35,8 @@ This is a second paragraph, separated from the first by a blank line. Paragraph 
 ### Bold and Italic
 
 - **This text is bold**
-- *This text is italic*
-- ***This text is bold and italic***
+- _This text is italic_
+- **_This text is bold and italic_**
 
 ### Underline and Strikethrough
 
@@ -46,6 +58,10 @@ Press {kbd}`Ctrl+C` to copy, {kbd}`Ctrl+V` to paste, or {kbd}`Ctrl+Alt+Delete` f
 - Chemical: CO{sub}`2`
 - Exponent: 2{sup}`n`
 
+### Download links
+
+- {download}`tables.md`
+
 ### Abbreviations
 
 {abbr}`HTML (HyperText Markup Language)` is used for web structure.
@@ -58,46 +74,33 @@ Press {kbd}`Ctrl+C` to copy, {kbd}`Ctrl+V` to paste, or {kbd}`Ctrl+Alt+Delete` f
 
 The {smallcaps}`HTML` specification defines web standards.
 
-## Links
+## Links and terms
 
-### External Links
-
-Visit [MyST Markdown](https://mystmd.org) for documentation.
-
-Check out [Jupyter](https://jupyter.org) for notebooks.
-
-### Internal Links
-
-Link to [another section](#math) on this page.
-
-### Reference-Style Links
-
-This is a [reference link][ref1] and another [reference link][ref2].
-
-[ref1]: https://mystmd.org
-[ref2]: https://jupyter.org
-
-### Auto-Links
-
-<https://mystmd.org>
-
-<user@example.com>
+- External link: [MyST Markdown](https://mystmd.org)
+- External link with hover: [](https://doi.org/10.25080/hwcj9957)
+- Internal link to file: [](tables.md)
+- Internal link to file w/ metadata for hover: [](../permalinks.md)
+- Internal link to label with hover: [](#math)
+- Hover-only text: HOVER
 
 ## Buttons
 
-### Basic Button
-
 {button}`Click Me! <https://mystmd.org>`
 
-### Button Link
+Button inline {button}`Click Me! <https://mystmd.org>`.
 
-{button-link} https://mystmd.org
-:color: primary
+Long paragraph of text with a button after at least one line break has happened.
+Long paragraph of text with a button after at least one line break has happened.
+Button inline {button}`Click Me! <https://mystmd.org>`.
+Long paragraph of text with a button after at least one line break has happened.
+Long paragraph of text with a button after at least one line break has happened.
 
-Visit MyST
-{button-link}
+Lots of horizontally stacked buttons to show how they spill onto lines.
+
+{button}`Button one <https://example.com>` {button}`Button two with really long text <https://example.com>` {button}`Button three with really long text <https://example.com>` {button}`Button four <https://example.com>` {button}`Button five <https://example.com>`
 
 (math)=
+
 ## Math
 
 ### Inline Math
@@ -115,7 +118,13 @@ $$
 $$
 
 $$
-\frac{d}{dx} \left( \int_{0}^{x} f(u) du \right) = f(x)
+\begin{align*}
+P(\text{Third Year} ~\Big\vert~ \text{Declared}) 
+~ &=~ \frac{ 0.4 \times 0.8}{0.6 \times 0.5 ~+~ 0.4 \times  0.8} \\ \\
+&=~ \frac{\text{(prior probability of Third Year)} \times
+\text{(likelihood of Declared given Third Year)}}
+{\text{total probability of Declared}}
+\end{align*}
 $$
 
 ## Special Characters
@@ -150,7 +159,7 @@ Content below the horizontal rule.
 
 ## Mixed Inline Elements
 
-This paragraph demonstrates **bold**, *italic*, ***bold italic***, `code`, [links](https://mystmd.org), math $x^2$, {kbd}`Ctrl+S`, H{sub}`2`O, x{sup}`2`, and {abbr}`API (Application Programming Interface)` all in one place.
+This paragraph demonstrates **bold**, _italic_, **_bold italic_**, `code`, [links](https://mystmd.org), math $x^2$, {kbd}`Ctrl+S`, H{sub}`2`O, x{sup}`2`, and {abbr}`API (Application Programming Interface)` all in one place.
 
 ## Long Words and Wrapping
 
@@ -172,10 +181,10 @@ Default paragraph with standard left alignment and natural text flow.
 
 ## Emphasis Combinations
 
-- *Italic with `code`*
+- _Italic with `code`_
 - **Bold with `code`**
-- ***Bold italic with `code`***
-- *Italic with [link](https://mystmd.org)*
+- **_Bold italic with `code`_**
+- _Italic with [link](https://mystmd.org)_
 - **Bold with [link](https://mystmd.org)**
 
 ## Numbers and Units
@@ -205,7 +214,7 @@ Regular paragraph continues here.
 
 ## Nested Formatting
 
-This paragraph has **bold text with *italic inside* it** and *italic with **bold inside** it*.
+This paragraph has **bold text with _italic inside_ it** and _italic with **bold inside** it_.
 
 ## Combined Elements in One Line
 

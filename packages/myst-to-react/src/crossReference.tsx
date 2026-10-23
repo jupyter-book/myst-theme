@@ -4,10 +4,10 @@ import { MYST_SPEC_VERSION } from '@myst-theme/common';
 import {
   useLinkProvider,
   useReferences,
-  useBaseurl,
-  withBaseurl,
   XRefProvider,
   useXRefState,
+  useBaseurl,
+  withBaseurl,
   type NodeRenderer,
   useFrontmatter,
 } from '@myst-theme/providers';
@@ -125,7 +125,8 @@ function useSelectNodes({ load, identifier }: { load?: boolean; identifier: stri
   const parts = data ? data.frontmatter?.parts : frontmatter?.parts;
   let nodes: GenericNode[] = [];
   let htmlId: string | undefined;
-  [{ mdast }, ...Object.values(parts ?? {})].forEach(({ mdast: tree }) => {
+  const mdastParts = Object.values(parts ?? {}) as { mdast: any }[];
+  [{ mdast }, ...mdastParts].forEach(({ mdast: tree }) => {
     if (!tree || nodes.length > 0) return;
     const selected = selectMdastNodes(tree, identifier, 3);
     nodes = selected.nodes;
@@ -154,7 +155,6 @@ export function CrossReferenceHover({
   children: React.ReactNode;
 }) {
   const Link = useLinkProvider();
-  const baseurl = useBaseurl();
   const parent = useXRefState();
   const remoteBaseUrl = remoteBaseUrlIn ?? parent.remoteBaseUrl;
   const remote = !!remoteBaseUrl || parent.remote || remoteIn;
@@ -174,10 +174,10 @@ export function CrossReferenceHover({
         <XRefProvider remote={remote} remoteBaseUrl={remoteBaseUrl} url={url} dataUrl={dataUrl}>
           <div className="hover-document article w-[500px] sm:max-w-[500px] overflow-auto">
             {remoteBaseUrl && (
-              <div className="px-3 py-1 w-full text-xs bg-gray-50 border-b">
-                <strong className="text-gray-700">Source: </strong>
+              <div className="px-3 py-1 w-full text-xs bg-myst-bg-secondary border-b">
+                <strong className="text-myst-text-secondary">Source: </strong>
                 <a
-                  className={classNames('text-gray-700', className)}
+                  className={classNames('text-myst-text-secondary', className)}
                   href={`${createRemoteBaseUrl(url, remoteBaseUrl)}${htmlId ? `#${htmlId}` : ''}`}
                   target="_blank"
                 >
@@ -204,7 +204,7 @@ export function CrossReferenceHover({
         )}
         {remote && !external && (
           <Link
-            to={`${withBaseurl(url, baseurl)}${htmlId ? `#${htmlId}` : ''}`}
+            to={`${url}${htmlId ? `#${htmlId}` : ''}`}
             prefetch="intent"
             className={classNames({ 'hover-link': !isButtonLike }, className)}
           >

@@ -105,6 +105,13 @@ function updateMdastStaticLinksInplace(mdast: GenericParent, updateUrl: UpdateUr
       node.urlOptimized = updateUrl(node.urlOptimized);
     }
   });
+  const widgets = selectAll('anywidget', mdast) as any[];
+  widgets.forEach((node) => {
+    node.esm = updateUrl(node.esm);
+    if (node.css) {
+      node.css = updateUrl(node.css);
+    }
+  });
   const links = selectAll('link,linkBlock,card', mdast) as Link[];
   const staticLinks = links?.filter((node) => node.static);
   staticLinks.forEach((node) => {
@@ -236,7 +243,45 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
   });
   return data;
 }
-
+/**
+ * @deprecated
+ *
+ * Flat sites are no longer supported on MyST theme
+ */
 export function isFlatSite(config?: SiteManifest): boolean {
   return config?.projects?.length === 1 && !config.projects[0].slug;
+}
+
+/**
+ * Parse a URL pathname into path segments, handling trailing slashes.
+ *
+ * e.g. "/project/page/" → ["project", "page"]
+ */
+export function parsePathname(pathname: string): string[] {
+  return pathname.replace(/^\/+|\/+$/g, '').split('/');
+}
+
+/**
+ * Normalize an URL ending in / to a URL that does not.
+ *
+ * This ensures that we can append URL paths beginning with /.
+ */
+export function normalizeBaseURL(base: string): string {
+  return base.replace(/\/+$/, '');
+}
+
+export type Redirect = {
+  src: string;
+  dst: string;
+};
+
+/**
+ * Parse a redirect string of the form /foo -> /bar into a `/foo` `/bar` pair
+ */
+export function parseRedirect(redirect: string): Redirect | undefined {
+  const [_, src, dst] = redirect.match(/^(\/\S+)\s*->\s*(\/\S+)$/) ?? [];
+  if (!src || !dst) {
+    return undefined;
+  }
+  return { src, dst };
 }

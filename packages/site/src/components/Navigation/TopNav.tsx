@@ -3,14 +3,15 @@ import classNames from 'classnames';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, Bars3Icon as MenuIcon } from '@heroicons/react/24/solid';
 import type { SiteManifest, SiteNavItem } from 'myst-config';
+import type { GenericParent } from 'myst-common';
+import { MyST } from 'myst-to-react';
 import { ThemeButton } from './ThemeButton.js';
 import { Search } from './Search.js';
 import {
-  useBaseurl,
+  isExternalUrl,
   useNavLinkProvider,
   useNavOpen,
   useSiteManifest,
-  withBaseurl,
 } from '@myst-theme/providers';
 import { LoadingBar } from './Loading.js';
 import { HomeLink } from './HomeLink.js';
@@ -21,18 +22,18 @@ export const DEFAULT_NAV_HEIGHT = 60;
 
 export function NavItem({ item }: { item: SiteNavItem }) {
   const NavLink = useNavLinkProvider();
-  const baseurl = useBaseurl();
+  const config = useSiteManifest();
   if (!('children' in item)) {
     return (
       <div className="myst-top-nav-item relative inline-block mx-2 grow-0">
         <ExternalOrInternalLink
           nav
-          to={withBaseurl(item.url, baseurl) ?? ''}
+          to={item.url ?? ''}
           className={({ isActive }) =>
             classNames(
-              'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
+              'inline-flex items-center justify-center w-full mx-2 py-1 text-md font-medium text-myst-text hover:text-myst-active focus:outline-none focus-visible:ring-2 focus-visible:ring-myst-focus-ring focus-visible:ring-opacity-75',
               {
-                'border-b border-stone-200': isActive,
+                'border-b border-myst-border-strong': isActive,
               },
             )
           }
@@ -45,13 +46,9 @@ export function NavItem({ item }: { item: SiteNavItem }) {
   return (
     <Menu as="div" className="myst-top-nav-dropdown relative inline-block mx-2 grow-0">
       <div className="inline-block">
-        <Menu.Button className="inline-flex items-center justify-center w-full py-1 mx-2 font-medium rounded-md text-md text-stone-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+        <Menu.Button className="inline-flex items-center justify-center w-full py-1 mx-2 font-medium rounded-md text-md text-myst-text hover:text-myst-active focus:outline-none focus-visible:ring-2 focus-visible:ring-myst-focus-ring focus-visible:ring-opacity-75">
           <span>{item.title}</span>
-          <ChevronDownIcon
-            width="1.25rem"
-            height="1.25rem"
-            className="ml-2 -mr-1 text-violet-200 hover:text-violet-100"
-          />
+          <ChevronDownIcon width="1.25rem" height="1.25rem" className="ml-2 -mr-1" />
         </Menu.Button>
       </div>
       <Transition
@@ -63,16 +60,16 @@ export function NavItem({ item }: { item: SiteNavItem }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="myst-top-nav-dropdown-items absolute w-48 py-1 mt-2 origin-top-left bg-white rounded-sm shadow-lg left-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="myst-top-nav-dropdown-items absolute w-48 py-1 mt-2 origin-top-left bg-myst-bg rounded-sm shadow-lg left-4 ring-1 ring-myst-border focus:outline-none">
           {item.children?.map((action) => {
-            const url = withBaseurl(action.url, baseurl) || '';
+            const url = action.url ?? '';
             return (
               <Menu.Item key={action.url}>
                 {/* This is really ugly, BUT, the action needs to be defined HERE or the click away doesn't work for some reason */}
-                {action.url?.startsWith('http') ? (
+                {isExternalUrl(action.url, config?.options?.internal_domains) ? (
                   <a
                     href={url}
-                    className="myst-top-nav-dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black"
+                    className="myst-top-nav-dropdown-item block px-4 py-2 text-sm text-myst-text hover:bg-myst-surface"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -83,9 +80,9 @@ export function NavItem({ item }: { item: SiteNavItem }) {
                     to={url}
                     className={({ isActive }) =>
                       classNames(
-                        'myst-top-nav-dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black',
+                        'myst-top-nav-dropdown-item block px-4 py-2 text-sm text-myst-text hover:bg-myst-surface',
                         {
-                          'text-black font-bold': isActive,
+                          'font-bold': isActive,
                         },
                       )
                     }
@@ -113,13 +110,25 @@ export function NavItems({ nav }: { nav?: SiteManifest['nav'] }) {
   );
 }
 
-export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?: boolean }) {
+export function TopNav({
+  hideToc,
+  hideSearch,
+  navbarEnd,
+}: {
+  hideToc?: boolean;
+  hideSearch?: boolean;
+  navbarEnd?: GenericParent;
+}) {
   const [open, setOpen] = useNavOpen();
   const config = useSiteManifest();
   const { title, nav, actions } = config ?? {};
-  const { logo, logo_dark, logo_text, logo_url } = config?.options ?? {};
+  const { logo, logo_dark, logo_text, logo_url, logo_alt } = config?.options ?? {};
+  // TODO: when the nav wraps to multiple lines the header grows past 60px, but
+  //   there are downstream consumers of DEFAULT_NAV_HEIGHT and this will
+  //   cause a mismatch if the navbar grows. Here we set it to `min-h` to let
+  //   it grow, but we'll need to revisit downstream height consumers eventually.
   return (
-    <div className="myst-top-nav bg-white/80 backdrop-blur dark:bg-stone-900/80 shadow dark:shadow-stone-700 p-3 md:px-8 sticky w-screen top-0 z-30 h-[60px]">
+    <div className="myst-top-nav myst-bg-translucent backdrop-blur shadow dark:shadow-2xl p-3 md:px-8 sticky w-full top-0 z-30 min-h-[60px]">
       <nav className="myst-top-nav-bar flex items-center justify-between flex-nowrap max-w-[1440px] mx-auto">
         <div className="flex flex-row xl:min-w-[19.5rem] mr-2 sm:mr-7 justify-start items-center shrink-0">
           {
@@ -130,7 +139,7 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
               })}
             >
               <button
-                className="myst-top-nav-menu-button flex items-center justify-center border-stone-400 text-stone-800 hover:text-stone-900 dark:text-stone-200 hover:dark:text-stone-100 w-10 h-10"
+                className="myst-top-nav-menu-button flex items-center justify-center border-myst-border-strong text-myst-text-secondary hover:text-myst-text w-10 h-10"
                 onClick={() => {
                   setOpen(!open);
                 }}
@@ -145,14 +154,24 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
             logo={logo}
             logoDark={logo_dark}
             logoText={logo_text}
+            logoAlt={logo_alt}
             url={logo_url}
           />
         </div>
         <div className="flex items-center flex-grow w-auto">
           <NavItems nav={nav} />
           <div className="flex-grow block"></div>
+          {/* Search bar */}
           {!hideSearch && <Search />}
-          <ThemeButton />
+          {/* Light/Dark theme button */}
+          <ThemeButton className="w-8 h-8 ml-3" />
+          {/* Custom part at end of navbar. It is `hidden` up until xl size since it will be in the sidebar drawer up to that point */}
+          {navbarEnd && (
+            <div className="article myst-navbar-end hidden xl:flex items-center ml-3 [&>*]:m-0">
+              <MyST ast={navbarEnd} />
+            </div>
+          )}
+          {/* Mobile pop-up for page actions */}
           <div className="block sm:hidden">
             <ActionMenu actions={actions} />
           </div>
@@ -160,7 +179,7 @@ export function TopNav({ hideToc, hideSearch }: { hideToc?: boolean; hideSearch?
             {actions?.map((action, index) => (
               <ExternalOrInternalLink
                 key={action.url || index}
-                className="inline-block px-4 py-2 mx-1 mt-0 leading-none border rounded text-md border-stone-700 dark:border-white text-stone-700 dark:text-white hover:text-stone-500 dark:hover:text-neutral-800 hover:bg-neutral-100"
+                className="inline-block px-4 py-2 mx-1 mt-0 leading-none border rounded text-md border-myst-border-strong text-myst-text hover:bg-myst-surface"
                 to={action.url}
               >
                 {action.title}

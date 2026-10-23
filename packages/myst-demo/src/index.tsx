@@ -4,7 +4,13 @@ import type { TypstResult } from 'myst-to-typst'; // Only import the type!!
 import { remove } from 'unist-util-remove';
 import type { VFileMessage } from 'vfile-message';
 import { load as yamlLoad, dump as yamlDump } from 'js-yaml';
-import { fileError, RuleId, type GenericParent, type References } from 'myst-common';
+import {
+  fileError,
+  RuleId,
+  type GenericNode,
+  type GenericParent,
+  type References,
+} from 'myst-common';
 import type { Code } from 'myst-spec';
 import { SourceFileKind } from 'myst-spec-ext';
 import type { DocxResult } from 'myst-to-docx';
@@ -111,7 +117,7 @@ async function parse(
   const { mystToHtml } = await import('myst-to-html');
   const { buttonRole } = await import('myst-ext-button');
   const { cardDirective } = await import('myst-ext-card');
-  const { gridDirective } = await import('myst-ext-grid');
+  const { gridDirectives } = await import('myst-ext-grid');
   const { tabDirectives } = await import('myst-ext-tabs');
   const { proofDirective } = await import('myst-ext-proof');
   const { exerciseDirectives } = await import('myst-ext-exercise');
@@ -121,7 +127,7 @@ async function parse(
       markdownit: { linkify: true },
       directives: [
         cardDirective,
-        gridDirective,
+        ...gridDirectives,
         ...tabDirectives,
         proofDirective,
         ...exerciseDirectives,
@@ -242,7 +248,7 @@ export function MySTRenderer({
   column?: boolean;
   fullscreen?: boolean;
   captureTab?: boolean;
-  TitleBlock?: (props: { frontmatter: PageFrontmatter }) => JSX.Element | null;
+  TitleBlock?: (props: { frontmatter: PageFrontmatter }) => React.JSX.Element | null;
   numbering?: any;
   className?: string;
 }) {
@@ -329,14 +335,13 @@ export function MySTRenderer({
   }
   const demoMenu = (
     <>
-      <div className="self-center text-sm border cursor-pointer dark:border-slate-600">
+      <div className="self-center text-sm border cursor-pointer border-myst-border">
         {['DEMO', 'AST', 'HTML', 'LaTeX', 'Typst', 'JATS', 'DOCX'].map((show) => (
           <button
             key={show}
             className={classnames('px-2 py-1', {
-              'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
-                previewType !== show,
-              'bg-blue-800 text-white': previewType === show,
+              'bg-myst-bg hover:bg-myst-surface-hover': previewType !== show,
+              'bg-myst-primary-hover text-white': previewType === show,
             })}
             title={`Show the ${show}`}
             aria-label={`Show the ${show}`}
@@ -348,14 +353,13 @@ export function MySTRenderer({
         ))}
       </div>
       {previewType === 'AST' && (
-        <div className="self-center text-sm border cursor-pointer w-fit dark:border-slate-600">
+        <div className="self-center text-sm border cursor-pointer w-fit border-myst-border">
           {['yaml', 'json'].map((show) => (
             <button
               key={show}
               className={classnames('px-2 py-1', {
-                'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
-                  astLang !== show,
-                'bg-blue-800 text-white': astLang === show,
+                'bg-myst-bg hover:bg-myst-surface-hover': astLang !== show,
+                'bg-myst-primary-hover text-white': astLang === show,
               })}
               title={`Show the AST as ${show.toUpperCase()}`}
               aria-pressed={astLang === show ? 'true' : 'false'}
@@ -368,9 +372,8 @@ export function MySTRenderer({
             <button
               key={show}
               className={classnames('px-2 py-1', {
-                'bg-white hover:bg-slate-200 dark:bg-slate-500 dark:hover:bg-slate-700':
-                  astStage !== show,
-                'bg-blue-800 text-white': astStage === show,
+                'bg-myst-bg hover:bg-myst-surface-hover': astStage !== show,
+                'bg-myst-primary-hover text-white': astStage === show,
               })}
               title={`Show the AST Stage ${show.toUpperCase()}`}
               aria-pressed={astStage === show ? 'true' : 'false'}
@@ -401,7 +404,7 @@ export function MySTRenderer({
       )}
     >
       {column && (
-        <div className="flex flex-row items-stretch h-full col-span-2 px-2 border dark:border-slate-600">
+        <div className="flex flex-row items-stretch h-full col-span-2 px-2 border border-myst-border">
           <div className="flex-grow"></div>
           {demoMenu}
         </div>
@@ -424,7 +427,7 @@ export function MySTRenderer({
       </div>
       {/* The `exclude-from-outline` class is excluded from the document outline */}
       <div
-        className={classnames('relative exclude-from-outline min-h-1 dark:bg-slate-900', {
+        className={classnames('relative exclude-from-outline min-h-1 dark:bg-myst-surface', {
           'overflow-auto': column,
         })}
       >
@@ -484,6 +487,7 @@ export function MySTRenderer({
               <div
                 key={i}
                 className={classnames('p-1 shadow-inner text-white not-prose', {
+                  // Error-state colors are deliberately not themable (see docs/theming.md)
                   'bg-red-500 dark:bg-red-800': m.fatal === true,
                   'bg-orange-500 dark:bg-orange-700': m.fatal === false,
                   'bg-slate-500 dark:bg-slate-800': m.fatal === null,
@@ -508,11 +512,17 @@ export function MySTRenderer({
   );
 }
 
-export const MystDemoRenderer: NodeRenderer = ({ node, className }) => {
+export const MystDemoRenderer: NodeRenderer = ({
+  node,
+  className,
+}: {
+  node: GenericNode;
+  className?: string;
+}) => {
   return (
     <MySTRenderer
       id={node.html_id || node.identifier}
-      value={node.value}
+      value={node.value || ''}
       numbering={node.numbering}
       className={classnames(node.class, className)}
     />

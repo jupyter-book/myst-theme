@@ -8,7 +8,6 @@ import {
   forwardRef,
 } from 'react';
 import type { KeyboardEventHandler, Dispatch, SetStateAction, FormEvent, MouseEvent } from 'react';
-import { useFetcher } from '@remix-run/react';
 import {
   ArrowTurnDownLeftIcon,
   MagnifyingGlassIcon,
@@ -20,16 +19,16 @@ import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import type { RankedSearchResult, HeadingLevel, MystSearchIndex } from '@myst-theme/search';
+import type { RankedSearchResult, HeadingLevel } from '@myst-theme/search';
 import { SPACE_OR_PUNCTUATION, rankResults } from '@myst-theme/search';
 import {
   useThemeTop,
   useSearchFactory,
   useLinkProvider,
-  withBaseurl,
   useBaseurl,
   useNavigateProvider,
 } from '@myst-theme/providers';
+import type { MystSearchIndex } from 'myst-spec-ext';
 
 /**
  * Shim for string.matchAll
@@ -82,7 +81,7 @@ function MarkedText({
   const renderToken = (token: string) =>
     pattern.test(token) ? (
       <>
-        <mark className="text-blue-600 bg-inherit dark:text-blue-400 group-aria-selected:text-white group-aria-selected:underline">
+        <mark className="text-myst-active bg-inherit group-aria-selected:text-white group-aria-selected:underline">
           {token}
         </mark>
       </>
@@ -174,11 +173,11 @@ function SearchShortcut() {
   return (
     <div
       aria-hidden
-      className="myst-search-shortcut items-center hidden mx-1 font-mono text-sm text-gray-600 sm:flex gap-x-1"
+      className="myst-search-shortcut items-center hidden mx-1 font-mono text-sm text-myst-text-secondary sm:flex gap-x-1"
     >
       <kbd
         className={classNames(
-          'px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md',
+          'px-2 py-1 border border-myst-border-strong rounded-md',
           'shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none',
           'hide-mac',
           { hidden: hostIsMac === true },
@@ -189,7 +188,7 @@ function SearchShortcut() {
       </kbd>
       <kbd
         className={classNames(
-          'px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md',
+          'px-2 py-1 border border-myst-border-strong rounded-md',
           'shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none',
           'show-mac',
           { hidden: hostIsMac === false },
@@ -198,7 +197,7 @@ function SearchShortcut() {
       >
         ⌘
       </kbd>
-      <kbd className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none ">
+      <kbd className="px-2 py-1 border border-myst-border-strong rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:shadow-none ">
         K
       </kbd>
       <BlockingPlatformLoader />
@@ -219,7 +218,6 @@ function SearchResultItem({
   closeSearch?: () => void;
 }) {
   const { hierarchy, type, url, queries } = result;
-  const baseurl = useBaseurl();
   const Link = useLinkProvider();
 
   // Render the icon
@@ -245,13 +243,13 @@ function SearchResultItem({
     />
   );
 
-  // Render the subtitle i.e. file name
-  let subtitleRenderer;
+  // Render the context i.e. file name
+  let contextRenderer;
   if (result.type === 'lvl1') {
-    subtitleRenderer = undefined;
+    contextRenderer = undefined;
   } else {
-    const subtitle = result.hierarchy.lvl1!;
-    subtitleRenderer = <MarkedText text={subtitle} matches={matches} className="text-xs" />;
+    const contextName = result.hierarchy.lvl1!;
+    contextRenderer = <MarkedText text={contextName} matches={matches} className="text-xs" />;
   }
 
   const enterIconRenderer = (
@@ -260,16 +258,16 @@ function SearchResultItem({
 
   return (
     <Link
-      className="block px-1 py-2 text-gray-700 rounded shadow-md dark:text-white group-aria-selected:bg-blue-600 group-aria-selected:text-white dark:shadow-none dark:bg-stone-800"
-      to={withBaseurl(url, baseurl)}
+      className="block px-1 py-2 text-myst-text-secondary rounded shadow-md group-aria-selected:bg-myst-active group-aria-selected:text-white dark:shadow-none dark:bg-myst-bg-secondary"
+      to={url}
       // Close the main search on click
       onClick={closeSearch}
     >
       <div className="flex flex-row h-11">
         {iconRenderer}
         <div className="flex flex-col justify-center truncate grow">
+          {contextRenderer}
           {titleRenderer}
-          {subtitleRenderer}
         </div>
         {enterIconRenderer}
       </div>
@@ -382,31 +380,42 @@ function SearchResults({
  * Build search implementation by requesting search index from server
  */
 function useSearch() {
-  const baseURL = useBaseurl();
-  const fetcher = useFetcher();
+  const baseURL = useBaseurl() ?? '';
+  const [data, setData] = useState<MystSearchIndex | null>(null);
   const [enabled, setEnabled] = useState(true);
   // Load index when this component is required
   // TODO: this reloads every time the search box is opened.
   //       we should lift the state up
   useEffect(() => {
-    if (fetcher.state === 'idle' && fetcher.data == null) {
-      const searchURL = withBaseurl('/myst.search.json', baseURL);
-      fetcher.load(searchURL);
+    async function fetchData() {
+      let response;
+      try {
+        response = await fetch(`${baseURL}/myst.search.json`);
+      } catch (err) {
+        console.error('Unable to fetch search data');
+        return;
+      }
+      if (!response.ok) {
+        console.error('Unable to fetch search data');
+        return;
+      }
+      setData(await response.json());
     }
-  }, [fetcher, baseURL]);
+    fetchData();
+  }, [baseURL]);
 
   const searchFactory = useSearchFactory();
   const search = useMemo(() => {
-    if (!fetcher.data || !searchFactory) {
+    if (!data || !searchFactory) {
       return undefined;
     } else {
-      if (fetcher.data?.version && fetcher.data?.records) {
-        return searchFactory(fetcher.data as MystSearchIndex);
+      if (data?.version && data?.records) {
+        return searchFactory(data);
       }
       setEnabled(false);
       return undefined;
     }
-  }, [searchFactory, fetcher.data, setEnabled]);
+  }, [searchFactory, data, setEnabled]);
 
   // Implement pass-through
   return { search, enabled };
@@ -479,7 +488,7 @@ function SearchForm({
 
         const url = searchResults[selectedIndex]?.url;
         if (url) {
-          navigate(withBaseurl(url, baseurl));
+          navigate(url);
           closeSearch?.();
         }
       }
@@ -507,7 +516,7 @@ function SearchForm({
       <form onSubmit={onSubmit}>
         <div className="relative flex w-full h-10 flow-row gap-x-1 ">
           <label id={searchLabelID} htmlFor={searchInputID}>
-            <MagnifyingGlassIcon className="absolute text-gray-600 inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
+            <MagnifyingGlassIcon className="absolute text-myst-text-secondary inset-y-0 start-0 h-10 w-10 p-2.5 aspect-square flex items-center pointer-events-none" />
             <span className="hidden">Search query</span>
           </label>
           <input
@@ -516,17 +525,17 @@ function SearchForm({
             disabled={!enabled}
             autoCapitalize="false"
             className={classNames(
-              'myst-search-input block flex-grow p-2 ps-10 placeholder-gray-400',
-              'border border-gray-300 dark:border-gray-600',
-              'rounded-lg bg-gray-50 dark:bg-gray-700',
-              'focus:ring-blue-500 dark:focus:ring-blue-500',
-              'focus:border-blue-500 dark:focus:border-blue-500',
-              'dark:placeholder-gray-400',
-              { 'border-red-500': !enabled },
+              'myst-search-input block flex-grow p-2 ps-10 placeholder-myst-text-tertiary',
+              'border border-myst-border-strong',
+              'rounded-lg bg-myst-bg-secondary dark:bg-myst-surface-hover',
+              'focus:ring-myst-focus-ring',
+              'focus:border-myst-focus-ring',
+              { 'border-myst-error': !enabled },
             )}
             id={searchInputID}
             aria-labelledby={searchLabelID}
             aria-controls={searchListID}
+            aria-expanded={!!searchResults}
             placeholder="Search"
             type="search"
             required
@@ -541,7 +550,7 @@ function SearchForm({
         </div>
       </form>
       {!enabled && (
-        <div className="myst-search-no-results mx-2 mt-4 text-sm text-gray-500">
+        <div className="myst-search-no-results mx-2 mt-4 text-sm text-myst-text-tertiary">
           Search is not enabled for this site. :(
         </div>
       )}
@@ -557,20 +566,24 @@ const SearchPlaceholderButton = forwardRef<
   HTMLButtonElement,
   SearchPlaceholderButtonProps & Dialog.DialogTriggerProps
 >(({ className, disabled, ...props }, ref) => {
+  // Here we remove aria-controls from props so we can *decide* whether to insert it later
+  // This is because radix has a bug where it'll try pointing to a non-existent element
+  // if the dialog isn't open, so that's the logic we test below.
+  // ref: https://github.com/radix-ui/primitives/issues/3560
+  const { 'aria-controls': ariaControls, ...restProps } = props;
   return (
     <button
-      {...props}
+      {...restProps}
+      aria-controls={restProps['aria-expanded'] ? ariaControls : undefined}
       className={classNames(
         'myst-search-bar',
         className,
-        'flex items-center h-10 aspect-square sm:w-64 text-left text-gray-600',
-        'border border-gray-300 dark:border-gray-600',
-        'rounded-lg bg-gray-50 dark:bg-gray-700',
+        'flex items-center h-10 aspect-square sm:w-64 text-left text-myst-text-secondary',
+        'border border-myst-border-strong',
+        'rounded-lg bg-myst-bg-secondary dark:bg-myst-surface-hover',
         {
-          'myst-search-bar-disabled hover:ring-blue-500': !disabled,
-          'dark:hover:ring-blue-500': !disabled,
-          'hover:border-blue-500': !disabled,
-          'dark:hover:border-blue-500': !disabled,
+          'myst-search-bar-disabled hover:ring-myst-focus-ring': !disabled,
+          'hover:border-myst-focus-ring': !disabled,
         },
       )}
       disabled={!!disabled}
@@ -632,7 +645,7 @@ export function Search({ debounceTime = 500, charLimit = 64 }: SearchProps) {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-[#656c85cc] z-[1000]" />
         <Dialog.Content
-          className="myst-search-dialog fixed flex flex-col top-0 bg-white dark:bg-stone-900 z-[1001] h-screen w-screen sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4 text-gray-900 dark:text-white"
+          className="myst-search-dialog fixed flex flex-col top-0 bg-myst-bg z-[1001] h-screen w-full sm:left-1/2 sm:-translate-x-1/2 sm:w-[90vw] sm:max-w-screen-sm sm:h-auto sm:max-h-[var(--content-max-height)] sm:top-[var(--content-top)] sm:rounded-md p-4 text-myst-text"
           // Store state as CSS variables so that we can set the style with tailwind variants
           style={
             {

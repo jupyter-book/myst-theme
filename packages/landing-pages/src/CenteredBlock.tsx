@@ -42,7 +42,7 @@ export function CenteredBlock(props: Omit<LandingBlockProps, 'children'>) {
       <div className="myst-landing-centered relative text-center">
         <div className="myst-landing-centered-inner py-20 sm:py-28">
           {subtitle && (
-            <p className="myst-landing-centered-subtitle my-0 font-semibold text-indigo-400 uppercase">
+            <p className="myst-landing-centered-subtitle my-0 font-semibold text-myst-active uppercase">
               <MyST ast={subtitle.children} />
             </p>
           )}

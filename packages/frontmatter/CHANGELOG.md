@@ -1,5 +1,34 @@
 # @myst-theme/frontmatter
 
+## 1.4.1
+
+## 1.4.0
+
+### Patch Changes
+
+- 87f3ee3: Expose accent, neutral, and semantic colors as CSS custom properties for theme customization
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+
+## 1.3.1
+
+## 1.3.0
+
+## 1.2.2
+
+## 1.2.1
+
+## 1.2.0
+
+## 1.1.4
+
+## 1.1.3
+
+## 1.1.2
+
+## 1.1.1
+
+## 1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

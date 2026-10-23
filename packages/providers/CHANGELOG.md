@@ -1,5 +1,109 @@
 # @myst-theme/providers
 
+## 1.4.1
+
+### Patch Changes
+
+- @myst-theme/common@1.4.1
+- @myst-theme/search@1.4.1
+
+## 1.4.0
+
+### Patch Changes
+
+- 168e19b: Strip trailing slash from `BASE_URL` before use to avoid double slashes in hrefs.
+  This affected the React state of TOC and its expansion.
+  With no trailing slash in `BASE_URL`, have `withBaseurl` always re-insert one separating slash between `baseurl` and `url`.
+
+  For static `myst build --html` exports, clicking a TOC header with a page associated does a reload.
+  Avoid doing a setOpen before (since animation will play once page reload finishes).
+
+  As an additional optimization, for now disable the TOC's open/close CSS animation entirely for static builds—we already have one flash due to the reload, so the animation feels egregious.
+
+  Fix another source of flashing: the dismissible top banner determined its visible/height state (and dependents like the sidebar's position) in a `useEffect`, which runs after the browser paints. Switched to `useLayoutEffect` so that state is settled before the first paint instead of snapping into place a frame later.
+
+- 9c21b77: By default select the first project
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+  - @myst-theme/common@1.4.0
+  - @myst-theme/search@1.4.0
+
+## 1.3.1
+
+### Patch Changes
+
+- @myst-theme/common@1.3.1
+- @myst-theme/search@1.3.1
+
+## 1.3.0
+
+### Patch Changes
+
+- df76193: Make cell outputs focusable if they aren't stdin/stderr
+  - @myst-theme/common@1.3.0
+  - @myst-theme/search@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- @myst-theme/common@1.2.2
+- @myst-theme/search@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 0888410: Make overflowing content focusable
+  - @myst-theme/common@1.2.1
+  - @myst-theme/search@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- f908854: Fix up the pattern/logic for internal_domains
+  - @myst-theme/common@1.2.0
+  - @myst-theme/search@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/common@1.1.4
+- @myst-theme/search@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- a8b0c87: Support a domain to treat as internal URLs
+- Updated dependencies [be43281]
+  - @myst-theme/common@1.1.3
+  - @myst-theme/search@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [c3c427d]
+  - @myst-theme/common@1.1.2
+  - @myst-theme/search@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- @myst-theme/common@1.1.1
+- @myst-theme/search@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- fd4708d: Export myst-search type dependence of providers
+  - @myst-theme/common@1.1.0
+  - @myst-theme/search@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

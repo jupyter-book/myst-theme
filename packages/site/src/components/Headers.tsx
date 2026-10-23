@@ -62,13 +62,13 @@ export function ArticleHeader({
       >
         <div
           className={classNames('myst-article-header-banner', positionBackground, {
-            'shadow-2xl bg-white/80 dark:bg-black/80 backdrop-blur': frontmatter?.banner,
+            'shadow-2xl myst-bg-translucent backdrop-blur': frontmatter?.banner,
           })}
         >
           <div
             className={classNames('flex w-full align-middle py-2 mb-[1rem] text-sm', {
               'px-4 w-full': frontmatter?.banner,
-              'bg-white/80 dark:bg-black/80': frontmatter?.banner,
+              'myst-bg-translucent': frontmatter?.banner,
               ...positionBackground,
             })}
           >

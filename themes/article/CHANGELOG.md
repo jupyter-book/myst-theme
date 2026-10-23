@@ -1,5 +1,197 @@
 # @myst-theme/article
 
+## 1.4.1
+
+### Patch Changes
+
+- @myst-theme/providers@1.4.1
+- @myst-theme/frontmatter@1.4.1
+- @myst-theme/jupyter@1.4.1
+- @myst-theme/site@1.4.1
+- @myst-theme/styles@1.4.1
+- @myst-theme/common@1.4.1
+- @myst-theme/icons@1.4.1
+- @myst-theme/anywidget@1.4.1
+- myst-to-react@1.4.1
+
+## 1.4.0
+
+### Patch Changes
+
+- 168e19b: Strip trailing slash from `BASE_URL` before use to avoid double slashes in hrefs.
+  This affected the React state of TOC and its expansion.
+  With no trailing slash in `BASE_URL`, have `withBaseurl` always re-insert one separating slash between `baseurl` and `url`.
+
+  For static `myst build --html` exports, clicking a TOC header with a page associated does a reload.
+  Avoid doing a setOpen before (since animation will play once page reload finishes).
+
+  As an additional optimization, for now disable the TOC's open/close CSS animation entirely for static builds—we already have one flash due to the reload, so the animation feels egregious.
+
+  Fix another source of flashing: the dismissible top banner determined its visible/height state (and dependents like the sidebar's position) in a `useEffect`, which runs after the browser paints. Switched to `useLayoutEffect` so that state is settled before the first paint instead of snapping into place a frame later.
+
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+- Updated dependencies [168e19b]
+- Updated dependencies [87f3ee3]
+- Updated dependencies [9c21b77]
+- Updated dependencies [e923170]
+- Updated dependencies [623f66d]
+- Updated dependencies [6498c64]
+- Updated dependencies [babfb2f]
+  - @myst-theme/providers@1.4.0
+  - @myst-theme/site@1.4.0
+  - @myst-theme/styles@1.4.0
+  - myst-to-react@1.4.0
+  - @myst-theme/frontmatter@1.4.0
+  - @myst-theme/icons@1.4.0
+  - @myst-theme/jupyter@1.4.0
+  - @myst-theme/anywidget@1.4.0
+  - @myst-theme/common@1.4.0
+
+## 1.3.1
+
+### Patch Changes
+
+- 273f75c: Serve static files by relaying past routing
+- Updated dependencies [007795e]
+- Updated dependencies [e9aee3a]
+- Updated dependencies [4095409]
+- Updated dependencies [02c8537]
+  - @myst-theme/site@1.3.1
+  - @myst-theme/styles@1.3.1
+  - @myst-theme/providers@1.3.1
+  - @myst-theme/jupyter@1.3.1
+  - @myst-theme/common@1.3.1
+  - @myst-theme/icons@1.3.1
+
+## 1.3.0
+
+### Patch Changes
+
+- Updated dependencies [3aaa57d]
+- Updated dependencies [df76193]
+- Updated dependencies [9e431a9]
+- Updated dependencies [b1f5ae4]
+- Updated dependencies [1cc84ae]
+  - @myst-theme/styles@1.3.0
+  - @myst-theme/jupyter@1.3.0
+  - @myst-theme/providers@1.3.0
+  - @myst-theme/site@1.3.0
+  - @myst-theme/common@1.3.0
+  - @myst-theme/icons@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- @myst-theme/providers@1.2.2
+- @myst-theme/jupyter@1.2.2
+- @myst-theme/site@1.2.2
+- @myst-theme/styles@1.2.2
+- @myst-theme/common@1.2.2
+- @myst-theme/icons@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [eed55ed]
+- Updated dependencies [c7164c8]
+- Updated dependencies [0888410]
+- Updated dependencies [472220e]
+  - @myst-theme/site@1.2.1
+  - @myst-theme/jupyter@1.2.1
+  - @myst-theme/styles@1.2.1
+  - @myst-theme/providers@1.2.1
+  - @myst-theme/common@1.2.1
+  - @myst-theme/icons@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- Updated dependencies [f5e7528]
+- Updated dependencies [9ecc788]
+- Updated dependencies [f908854]
+- Updated dependencies [ee2d127]
+  - @myst-theme/site@1.2.0
+  - @myst-theme/styles@1.2.0
+  - @myst-theme/providers@1.2.0
+  - @myst-theme/jupyter@1.2.0
+  - @myst-theme/common@1.2.0
+  - @myst-theme/icons@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.4
+- @myst-theme/jupyter@1.1.4
+- @myst-theme/site@1.1.4
+- @myst-theme/styles@1.1.4
+- @myst-theme/common@1.1.4
+- @myst-theme/icons@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- be43281: Fix bug with trailing slash in URLs
+- Updated dependencies [be43281]
+- Updated dependencies [a8b0c87]
+  - @myst-theme/common@1.1.3
+  - @myst-theme/providers@1.1.3
+  - @myst-theme/site@1.1.3
+  - @myst-theme/jupyter@1.1.3
+  - @myst-theme/styles@1.1.3
+  - @myst-theme/icons@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- c3c427d: Add alt text for logo
+- Updated dependencies [a569399]
+- Updated dependencies [2208b1e]
+- Updated dependencies [192a1b0]
+- Updated dependencies [c3c427d]
+  - @myst-theme/site@1.1.2
+  - @myst-theme/common@1.1.2
+  - @myst-theme/providers@1.1.2
+  - @myst-theme/jupyter@1.1.2
+  - @myst-theme/styles@1.1.2
+  - @myst-theme/icons@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [f722531]
+  - @myst-theme/site@1.1.1
+  - @myst-theme/providers@1.1.1
+  - @myst-theme/jupyter@1.1.1
+  - @myst-theme/styles@1.1.1
+  - @myst-theme/common@1.1.1
+  - @myst-theme/icons@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- 9538e88: Use `npm ci` instead of `npm install` for themes
+- Updated dependencies [e213587]
+- Updated dependencies [37fa906]
+- Updated dependencies [9d1a6d3]
+- Updated dependencies [fd4708d]
+- Updated dependencies [cbe05f1]
+- Updated dependencies [c519f9b]
+- Updated dependencies [20e0e66]
+  - @myst-theme/site@1.1.0
+  - @myst-theme/styles@1.1.0
+  - @myst-theme/providers@1.1.0
+  - @myst-theme/jupyter@1.1.0
+  - @myst-theme/common@1.1.0
+  - @myst-theme/icons@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

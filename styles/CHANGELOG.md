@@ -1,5 +1,62 @@
 # @myst-theme/styles
 
+## 1.4.1
+
+## 1.4.0
+
+### Minor Changes
+
+- 87f3ee3: Expose accent, neutral, and semantic colors as CSS custom properties for theme customization
+
+### Patch Changes
+
+- babfb2f: Remove `orange`/`purple`/`gray` CSS color tokens.
+  Use `theorem`/`example`/`proof` color schemes instead.
+  Add a dedicated `--myst-color-error` group for UI error states (distinct from the content-level `danger` admonition).
+  Fix some bugs and Tailwind color class usage remaining from the CSS custom properties refactor.
+
+## 1.3.1
+
+### Patch Changes
+
+- e9aee3a: Fix vertical height for stacked buttons
+
+## 1.3.0
+
+### Patch Changes
+
+- 3aaa57d: Add full-color support to the ANSI renderers
+
+## 1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- c7164c8: Add restricted ANSI palette by default
+
+## 1.2.0
+
+### Minor Changes
+
+- 9ecc788: Add grid-item renderer
+
+## 1.1.4
+
+## 1.1.3
+
+## 1.1.2
+
+## 1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- 9d1a6d3: Fix inline image styling that was incorrectly applied to images in figures and tables
+- cbe05f1: Make table cells match table headers
+- c519f9b: Standardize link styles
+
 ## 1.0.1
 
 ## 1.0.0

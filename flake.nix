@@ -1,6 +1,7 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Need bun 1.3.10
+    nixpkgs.url = "github:NixOS/nixpkgs/87d29062c68a585059dd84628c027e943c10a284";
     flake-utils.url = "github:numtide/flake-utils";
   };
   outputs = {
@@ -17,8 +18,9 @@
       in
         with pkgs; {
           devShells.default = mkShell {
-            buildInputs = [
-              pkgs.nodejs_22
+            buildInputs = with pkgs; [
+              nodejs_22
+              bun
             ];
           };
         }

@@ -1,5 +1,9 @@
 ---
 title: Blocks
+keywords: [blocks, code, cards]
+parts:
+  abstract: |
+    A reference page demonstrating the various content blocks supported by the MyST theme. This section is the *abstract* which we also demonstrate here. It's defined in project frontmatter.
 ---
 
 # Blocks
@@ -32,6 +36,15 @@ def calculate_sum(a, b):
     return result
 ```
 
+### Wide Code Block
+
+This code block has long lines and should be horizontally scrollable. Keyboard users should be able to tab to it and scroll with arrow keys.
+
+```python
+def print_a_really_long_string():
+    print("MyST is really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really neat!")
+```
+
 ## Blockquotes
 
 > Basic blockquote for quoted text.
@@ -57,6 +70,14 @@ Second card.
 :::
 
 ::::
+
+:::{card} Linked card with image
+:link: https://mystmd.org
+
+![MyST Logo](../_static/myst-logo-light.svg)
+
+Card content below the image.
+:::
 
 ## Grids
 
@@ -104,12 +125,17 @@ $$
 
 ## Mermaid
 
-```mermaid
+```{mermaid}
+:label: my-mermaid
 graph LR
     A[Start] --> B{Decision}
     B -->|Yes| C[Action]
     B -->|No| D[End]
 ```
+
+A reference to [the labeled diagram above](#my-mermaid) should not cause the
+diagram itself to disappear.
+
 
 ## IFrame
 
@@ -117,4 +143,82 @@ graph LR
 :title: This is a test title
 
 Here's an iframe with a title
+```
+
+
+## Topics
+
+```{topic} Special Topic
+This is a topic block. It's used to highlight special content or create a visually distinct section.
+```
+
+Regular content continues after the topic block.
+
+````{topic} Another Topic
+Topics can contain rich content:
+
+- Lists
+- **Bold text**
+- `Code snippets`
+
+```python
+print("Code blocks too!")
+```
+````
+
+## Containers
+
+You can add classes to a div using inline syntax:
+
+:::{div .border-l-4 .shadow}
+This is a div with an inline class.
+:::
+
+Or using the `:class:` option:
+
+:::{div}
+:class: border-l-4 shadow
+
+This is a div with a class specified via option.
+:::
+
+## Table of Contents
+
+The `{toc}` directive generates a table of contents from headings that follow it on the page. The `:depth:` option controls how many heading levels to include.
+
+With `:depth: 1`, only top-level headings are shown:
+
+```{toc}
+:depth: 1
+```
+
+With `:depth: 2`, subheadings are also included:
+
+```{toc}
+:depth: 2
+```
+
+With `:context: section`, only the section is included:
+
+```{toc}
+:context: section
+```
+
+## Glossary
+
+```{glossary}
+Term One
+: Definition of the first term in the glossary.
+
+Term Two
+: Definition of the second term with more detail.
+
+Term Three
+: Another term with its definition.
+```
+
+## MyST Demo
+
+```{myst}
+This is just to show off the UI of the myst demo directive!
 ```

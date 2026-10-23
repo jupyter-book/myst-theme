@@ -1,5 +1,125 @@
 # @myst-theme/jupyter
 
+## 1.4.1
+
+### Patch Changes
+
+- @myst-theme/providers@1.4.1
+- @myst-theme/common@1.4.1
+- myst-to-react@1.4.1
+
+## 1.4.0
+
+### Patch Changes
+
+- 87f3ee3: Expose accent, neutral, and semantic colors as CSS custom properties for theme customization
+- 623f66d: 📦 Move to React 19 and update `peerDependencies`
+- babfb2f: Remove `orange`/`purple`/`gray` CSS color tokens.
+  Use `theorem`/`example`/`proof` color schemes instead.
+  Add a dedicated `--myst-color-error` group for UI error states (distinct from the content-level `danger` admonition).
+  Fix some bugs and Tailwind color class usage remaining from the CSS custom properties refactor.
+- Updated dependencies [168e19b]
+- Updated dependencies [87f3ee3]
+- Updated dependencies [9c21b77]
+- Updated dependencies [623f66d]
+- Updated dependencies [6498c64]
+- Updated dependencies [babfb2f]
+  - @myst-theme/providers@1.4.0
+  - myst-to-react@1.4.0
+  - @myst-theme/common@1.4.0
+
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [aac7f50]
+- Updated dependencies [4095409]
+  - myst-to-react@1.3.1
+  - @myst-theme/providers@1.3.1
+
+## 1.3.0
+
+### Patch Changes
+
+- df76193: Make cell outputs focusable if they aren't stdin/stderr
+- 1cc84ae: Add not-prose to active thebe case
+- Updated dependencies [df76193]
+- Updated dependencies [b82356d]
+  - @myst-theme/providers@1.3.0
+  - myst-to-react@1.3.0
+
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [ad30791]
+  - myst-to-react@1.2.2
+  - @myst-theme/providers@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- c7164c8: Add restricted ANSI palette by default
+- 0888410: Make overflowing content focusable
+- Updated dependencies [0888410]
+  - myst-to-react@1.2.1
+  - @myst-theme/providers@1.2.1
+
+## 1.2.0
+
+### Patch Changes
+
+- Updated dependencies [9ecc788]
+- Updated dependencies [f908854]
+- Updated dependencies [f8ef1ef]
+  - myst-to-react@1.2.0
+  - @myst-theme/providers@1.2.0
+
+## 1.1.4
+
+### Patch Changes
+
+- @myst-theme/providers@1.1.4
+- myst-to-react@1.1.4
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [a8b0c87]
+- Updated dependencies [a96413c]
+  - myst-to-react@1.1.3
+  - @myst-theme/providers@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [7d92ceb]
+  - myst-to-react@1.1.2
+  - @myst-theme/providers@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [ae018ba]
+  - myst-to-react@1.1.1
+  - @myst-theme/providers@1.1.1
+
+## 1.1.0
+
+### Patch Changes
+
+- 20e0e66: Fix ID of code cells
+- Updated dependencies [fd4708d]
+- Updated dependencies [75475f8]
+- Updated dependencies [c519f9b]
+- Updated dependencies [9bfb08e]
+  - @myst-theme/providers@1.1.0
+  - myst-to-react@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes

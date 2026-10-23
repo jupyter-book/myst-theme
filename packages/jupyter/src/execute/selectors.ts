@@ -1,4 +1,5 @@
 import { SourceFileKind, type Dependency } from 'myst-spec-ext';
+import type { ThebeNotebook } from 'thebe-core';
 import type { BuildStatus, ExecuteScopeState } from './types.js';
 
 export function selectScopeForPage(state: ExecuteScopeState, pageSlug: string) {
@@ -9,7 +10,7 @@ export function selectNotebookForPage(
   state: ExecuteScopeState,
   pageSlug: string,
   notebookSlug: string,
-) {
+): ThebeNotebook {
   return state.pages[pageSlug]?.scopes[notebookSlug]?.notebook;
 }
 

@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig/base.json",
+  "include": ["."],
+  "exclude": ["dist", "build", "node_modules"],
+  "compilerOptions": {
+    "lib": ["ES2019"],
+    "module": "node16",
+    "moduleResolution": "node16",
+    "target": "ES2019",
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "outDir": "dist"
+  }
+}

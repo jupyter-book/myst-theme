@@ -5,6 +5,7 @@ import DROPDOWN_RENDERERS from './dropdown.js';
 import BLOCK_RENDERERS from './block.js';
 import CARD_RENDERERS from './card.js';
 import GRID_RENDERERS from './grid.js';
+import GRID_ITEM_RENDERERS from './grid-item.js';
 import CITE_RENDERERS from './cite.js';
 import FOOTNOTE_RENDERERS from './footnotes.js';
 import CODE_RENDERERS from './code.js';
@@ -26,7 +27,12 @@ import UNKNOWN_MYST_RENDERERS from './unknown.js';
 export { Block } from './block.js';
 export { CopyIcon, HoverPopover, Tooltip, LinkCard } from './components/index.js';
 export { CodeBlock } from './code.js';
-export { HashLink, scrollToElement } from './hashLink.js';
+export {
+  HashLink,
+  scrollToElement,
+  parseCellIdFragment,
+  useScrollToCellFragment,
+} from './hashLink.js';
 export { Admonition, AdmonitionKind } from './admonitions.js';
 export { Details } from './dropdown.js';
 export { TabSet, TabItem } from './tabs.js';
@@ -54,6 +60,7 @@ export const DEFAULT_RENDERERS = mergeRenderers(
     DROPDOWN_RENDERERS,
     CARD_RENDERERS,
     GRID_RENDERERS,
+    GRID_ITEM_RENDERERS,
     INLINE_EXPRESSION_RENDERERS,
     EXT_RENDERERS,
     PROOF_RENDERERS,

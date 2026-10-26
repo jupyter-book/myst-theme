@@ -1,0 +1,90 @@
+export const shared = {"@myst-theme/anywidget/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/common/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/frontmatter/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/icons/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/jupyter/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/landing-pages/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/prerender/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/providers/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/search/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/search-minisearch/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/site/": { singleton: true, requiredVersion: "^1.4.1" },
+"@myst-theme/styles/": { singleton: true, requiredVersion: "^1.4.1" },
+"myst-to-react/": { singleton: true, requiredVersion: "^1.4.1" },
+"react/": { singleton: true, requiredVersion: "19.0.0" },
+"react-dom/": { singleton: true, requiredVersion: "19.0.0" },};
+export const producer = {"@myst-theme/anywidget/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/anywidget").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/common/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/common").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/frontmatter/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/frontmatter").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/icons/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/icons").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/jupyter/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/jupyter").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/landing-pages/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/landing-pages").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/prerender/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/prerender").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/providers/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/providers").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/search/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/search").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/search-minisearch/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/search-minisearch").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/site/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/site").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"@myst-theme/styles/": {
+    version: "1.4.1",
+    get: () => import("@myst-theme/styles").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"myst-to-react/": {
+    version: "1.4.1",
+    get: () => import("myst-to-react").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "^1.4.1" },
+},
+"react/": {
+    version: "19.0.0",
+    get: () => import("react").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "19.0.0" },
+},
+"react-dom/": {
+    version: "19.0.0",
+    get: () => import("react-dom").then(mod => () => mod),
+    shareConfig: { singleton: true, requiredVersion: "19.0.0" },
+},};

@@ -3,7 +3,7 @@ import { envOnlyMacros } from 'vite-env-only';
 import { defineConfig, mergeConfig, type UserConfig } from 'vite';
 import { federation } from '@module-federation/vite';
 import { normalizeBaseURL } from '@myst-theme/common';
-import { hostBuildShared } from '@myst-theme/federation';
+import { hostBuildShared, SHARED_PACKAGES } from '@myst-theme/federation';
 
 export default defineConfig(({ mode }) => {
   const baseConfig: UserConfig = {
@@ -28,24 +28,12 @@ export default defineConfig(({ mode }) => {
       // more at request time: a mid-session re-optimization changes the dep hash
       // that the cached host init module still references, so the browser gets
       // "504 Outdated Optimize Dep" and the page never hydrates.
-      noDiscovery: true,
-      include: [
-        '@module-federation/runtime',
-        '@module-federation/runtime/helpers',
-        'react',
-        'react-dom',
-        'myst-to-react',
-        'react-dom/client',
-        'react-dom/profiling',
-        'react/compiler-runtime',
-        'react/jsx-runtime',
-        'react/jsx-dev-runtime',
-      ],
+      holdUntilCrawlEnd: true,
     },
     ssr: {
       noExternal: mode == 'production' ? true : undefined,
       optimizeDeps: {
-        include: ['react', 'react-dom', 'myst-to-react'],
+        include: SHARED_PACKAGES,
       },
     },
     resolve: { tsconfigPaths: true },

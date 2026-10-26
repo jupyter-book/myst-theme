@@ -17,7 +17,7 @@ import {
   type ModuleFederationRuntimePlugin,
 } from '@module-federation/runtime';
 import ssrEntryLoader from '@module-federation/vite/ssrEntryLoader';
-import { hostRuntimeShared, SHARED_PACKAGES } from '@myst-theme/federation'
+import { hostRuntimeShared, SHARED_PACKAGES } from '@myst-theme/federation';
 
 const require = createRequire(import.meta.url);
 
@@ -59,8 +59,8 @@ export function getServerInstance(remotes: Remote[]): ModuleFederation {
           'react/jsx-runtime',
           'react/jsx-dev-runtime',
           '@module-federation/runtime',
-          '@module-federation/runtime-core',
-          '@module-federation/sdk', ...SHARED_PACKAGES,
+          '@module-federation/sdk',
+          ...SHARED_PACKAGES,
         ]),
       }),
     ],

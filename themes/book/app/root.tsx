@@ -23,7 +23,7 @@ import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
 import React, { useCallback } from 'react';
-import { loadRemoteModule } from './load-remote.ts';
+import { loadRemoteModule } from './mf/load-remote.ts';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,

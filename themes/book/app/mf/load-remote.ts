@@ -1,3 +1,8 @@
+/**
+ * Module Federation loader, taken from https://github.com/gioboa/module-federation-vite-examples/blob/113597cd0f012c87b5726b3029b1c2a09d6bad5e/tanstack/dynamic-host/src/mf/load-remote.ts
+ *
+ * Authored by @gioboa on GitHub
+*/
 import { loadRemote, registerRemotes } from '@module-federation/runtime';
 import type { ComponentType } from 'react';
 import type { Remote } from './server';

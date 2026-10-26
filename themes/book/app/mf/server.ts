@@ -1,5 +1,9 @@
+/**
+ * Module Federation factory, taken from https://github.com/gioboa/module-federation-vite-examples/blob/113597cd0f012c87b5726b3029b1c2a09d6bad5e/tanstack/dynamic-host/src/mf/server.ts
+ *
+ * Authored by @gioboa on GitHub
+*
 // Server only. Imported lazily from load-remote.ts behind `import.meta.env.SSR`.
-//
 // Nothing creates a Module Federation instance on the server when the host has
 // no static `remotes`, so the global `loadRemote` throws RUNTIME-009 there.
 // This module creates one with the plugin's public `ssrEntryLoader`, which

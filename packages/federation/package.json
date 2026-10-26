@@ -28,14 +28,17 @@
     "@myst-theme/icons": "^1.4.1",
     "@myst-theme/jupyter": "^1.4.1",
     "@myst-theme/landing-pages": "^1.4.1",
-    "@myst-theme/prerender": "^1.4.1",
     "@myst-theme/providers": "^1.4.1",
     "@myst-theme/search": "^1.4.1",
     "@myst-theme/search-minisearch": "^1.4.1",
     "@myst-theme/site": "^1.4.1",
-    "@myst-theme/styles": "^1.4.1",
     "myst-to-react": "^1.4.1",
     "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react-dom": "19.0.0",
+    "@module-federation/runtime-core": "^2.9.0",
+    "@module-federation/vite": "^1.23.5"
+  },
+  "devDependencies": {
+    "vite": "^8"
   }
 }

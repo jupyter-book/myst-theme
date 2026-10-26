@@ -15,11 +15,10 @@
   "sideEffects": false,
   "scripts": {
     "clean": "rm -rf dist",
-    "lint": "eslint \"src/**/*.ts*\" -c ./.eslintrc.cjs",
-    "lint:format": "prettier --check \"src/**/*.{ts,tsx,md}\"",
+    "format": "prettier --write \"src/**/*.{ts,tsx,md}\"",
     "generate": "node ./generate-spec.mjs",
     "build:esm": "tsc --project ./tsconfig.json --module Node16 --outDir dist --declaration",
-    "build": "npm-run-all -l clean generate build:esm"
+    "build": "npm-run-all -l clean generate format build:esm"
   },
   "peerDependencies": {
     "@myst-theme/anywidget": "^1.4.1",

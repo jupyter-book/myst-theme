@@ -2,7 +2,7 @@ import pkg from './package.json' with { type: 'json' };
 import { writeFile, mkdir } from 'node:fs/promises';
 
 const hostRuntimeSharedLines = Object.entries(pkg.peerDependencies).map(
-  ([name, constraint]) => `"${name}/": {
+  ([name, constraint]) => `"${name}": {
     version: "${constraint.replace(/^\^/, '')}",
     get: () => import("${name}").then(mod => () => mod),
     shareConfig: { singleton: true, requiredVersion: "${constraint}" },
@@ -11,7 +11,7 @@ const hostRuntimeSharedLines = Object.entries(pkg.peerDependencies).map(
 const hostRuntimeSharedBody = '{' + hostRuntimeSharedLines.join('\n') + '}';
 
 const hostBuildSharedLines = Object.entries(pkg.peerDependencies).map(
-  ([name, constraint]) => `"${name}/": { singleton: true, requiredVersion: "${constraint}" },`,
+  ([name, constraint]) => `"${name}": { singleton: true, requiredVersion: "${constraint}" },`,
 );
 const hostBuildSharedBody = '{' + hostBuildSharedLines.join('\n') + '}';
 
@@ -31,13 +31,13 @@ export type PackageJSON = {
   peerDependencies?: Record<string, string>;
 };
 
-const sharedList = ${JSON.stringify(Array.from(Object.keys(pkg.peerDependencies)))}
+export const SHARED_PACKAGES = ${JSON.stringify(Array.from(Object.keys(pkg.peerDependencies)))}
 
 export function buildRemoteShared(pkg: PackageJSON): Required<ModuleFederationOptions['shared']> {
     const dependencies = {...(pkg.dependencies ?? {}), ...(pkg.peerDependencies ?? {})};
     // Ensure core dependencies are host provided
     const entries = (
-        sharedList.filter(name => name in dependencies).map(name => [
+        SHARED_PACKAGES.filter(name => name in dependencies).map(name => [
           name, { singleton: true, import: false, requiredVersion: dependencies[name].replace(/^~/, '^')}
         ])
     )

@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@module-federation/runtime": "^2.9.2",
+    "@myst-theme/federation": "^1.4.1",
     "@heroicons/react": "^2.0.18",
     "@myst-theme/anywidget": "^1.4.1",
     "@myst-theme/common": "^1.4.1",

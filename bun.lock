@@ -86,6 +86,30 @@
         "react-dom": "^18.0 || ^19.0",
       },
     },
+    "packages/federation": {
+      "name": "@myst-theme/federation",
+      "version": "1.4.1",
+      "devDependencies": {
+        "vite": "^8",
+      },
+      "peerDependencies": {
+        "@module-federation/runtime-core": "^2.9.0",
+        "@module-federation/vite": "^1.23.5",
+        "@myst-theme/anywidget": "^1.4.1",
+        "@myst-theme/common": "^1.4.1",
+        "@myst-theme/frontmatter": "^1.4.1",
+        "@myst-theme/icons": "^1.4.1",
+        "@myst-theme/jupyter": "^1.4.1",
+        "@myst-theme/landing-pages": "^1.4.1",
+        "@myst-theme/providers": "^1.4.1",
+        "@myst-theme/search": "^1.4.1",
+        "@myst-theme/search-minisearch": "^1.4.1",
+        "@myst-theme/site": "^1.4.1",
+        "myst-to-react": "^1.4.1",
+        "react": "19.0.0",
+        "react-dom": "19.0.0",
+      },
+    },
     "packages/frontmatter": {
       "name": "@myst-theme/frontmatter",
       "version": "1.4.1",
@@ -432,6 +456,7 @@
         "@module-federation/runtime": "^2.9.2",
         "@myst-theme/anywidget": "^1.4.1",
         "@myst-theme/common": "^1.4.1",
+        "@myst-theme/federation": "^1.4.1",
         "@myst-theme/frontmatter": "^1.4.1",
         "@myst-theme/icons": "^1.4.1",
         "@myst-theme/jupyter": "^1.4.1",
@@ -1204,6 +1229,8 @@
     "@myst-theme/common": ["@myst-theme/common@workspace:packages/common"],
 
     "@myst-theme/diagrams": ["@myst-theme/diagrams@workspace:packages/diagrams"],
+
+    "@myst-theme/federation": ["@myst-theme/federation@workspace:packages/federation"],
 
     "@myst-theme/frontmatter": ["@myst-theme/frontmatter@workspace:packages/frontmatter"],
 

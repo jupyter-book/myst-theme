@@ -1,6 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { federation } from '@module-federation/vite';
+import { buildRemoteShared } from '@myst-theme/federation';
+import pkg from "./package.json" with { type: "json" };
+console.dir(buildRemoteShared(pkg))
 
 export default defineConfig({
   plugins: [
@@ -13,11 +16,7 @@ export default defineConfig({
         '.': './src/index',
       },
       // list of shared modules
-      shared: {
-        react: { singleton: true, import: false },
-        'react-dom': { singleton: true, import: false },
-        'myst-to-react': { singleton: true, import: false },
-      },
+      shared: buildRemoteShared(pkg),
       dts: false,
     }),
     react(),

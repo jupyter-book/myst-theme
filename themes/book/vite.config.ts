@@ -3,7 +3,7 @@ import { envOnlyMacros } from 'vite-env-only';
 import { defineConfig, mergeConfig, type UserConfig } from 'vite';
 import { federation } from '@module-federation/vite';
 import { normalizeBaseURL } from '@myst-theme/common';
-import pkg from './package.json' with { type: 'json' };
+import { hostBuildShared } from '@myst-theme/federation';
 
 export default defineConfig(({ mode }) => {
   const baseConfig: UserConfig = {
@@ -13,16 +13,7 @@ export default defineConfig(({ mode }) => {
         name: 'book-theme',
 
         hostInitInjectLocation: 'entry',
-        shared: Object.fromEntries(
-          Object.entries(pkg.dependencies)
-            .filter(
-              ([name]) => name.startsWith('@myst-theme/') || ['react', 'react-dom'].includes(name),
-            )
-            .map(([name, constraint]) => [
-              `${name}/`,
-              { singleton: true, requiredVersion: constraint },
-            ]),
-        ),
+        shared: hostBuildShared,
       }),
       reactRouter(),
       envOnlyMacros(),

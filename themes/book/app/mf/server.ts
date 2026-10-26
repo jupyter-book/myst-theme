@@ -11,14 +11,13 @@
 // and rewrites its shared imports to the host's own copies of React.
 import { createRequire } from 'node:module';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import * as mystToReact from 'myst-to-react';
 import {
   createInstance,
   type ModuleFederation,
   type ModuleFederationRuntimePlugin,
 } from '@module-federation/runtime';
 import ssrEntryLoader from '@module-federation/vite/ssrEntryLoader';
+import { hostRuntimeShared, SHARED_PACKAGES } from '@myst-theme/federation'
 
 const require = createRequire(import.meta.url);
 
@@ -51,41 +50,17 @@ export function getServerInstance(remotes: Remote[]): ModuleFederation {
   instance ??= createInstance({
     name: 'book-theme',
     remotes,
-    shared: {
-      react: {
-        version: React.version,
-        lib: () => React,
-        shareConfig: { singleton: true, requiredVersion: '^19.0.0' },
-      },
-      'react-dom': {
-        version: ReactDOM.version,
-        lib: () => ReactDOM,
-        shareConfig: { singleton: true, requiredVersion: '^19.0.0' },
-      },
-      'myst-to-react': {
-        version: '1.4.1',
-        lib: () => mystToReact,
-        shareConfig: { singleton: true, requiredVersion: '^1.4.0' },
-      },
-      'myst-to-react/': {
-        version: '1.4.1',
-        lib: () => mystToReact,
-        shareConfig: { singleton: true, requiredVersion: '^1.4.0' },
-      },
-    },
+    shared: hostRuntimeShared,
     plugins: [
       // The loader's loadEntry hook is typed loosely in @module-federation/vite,
       // so widen it to the runtime plugin type the instance expects.
       ssrEntryLoader({
         resolvedShared: resolveShared([
-          'react',
-          'react-dom',
-          'myst-to-react',
           'react/jsx-runtime',
           'react/jsx-dev-runtime',
           '@module-federation/runtime',
           '@module-federation/runtime-core',
-          '@module-federation/sdk',
+          '@module-federation/sdk', ...SHARED_PACKAGES,
         ]),
       }),
     ],

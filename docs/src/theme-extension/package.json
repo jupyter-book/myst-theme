@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@module-federation/runtime": "^2.9.2",
+    "@myst-theme/federation": "^1.4.1",
     "@vitejs/plugin-react": "^6.1.2",
     "myst-to-react": "^1.4.0",
     "react": "^19.1.0",

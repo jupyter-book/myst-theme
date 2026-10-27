@@ -54,4 +54,5 @@ deploy-book:
 
 build-docs:
 	make build-book
+	cd docs/src/theme-extension && bun install && bun run build
 	cd docs && myst build -d --execute --html --strict

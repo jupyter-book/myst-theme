@@ -45,14 +45,15 @@ export const links: LinksFunction = () => {
   ];
 };
 
-function loadRemotes(config: Awaited<ReturnType<typeof getConfig>>) {
+function parseRemotes(config: Awaited<ReturnType<typeof getConfig>>, baseURL: string) {
   return (config.options.extensions ?? [])
     .map((item) => {
       const match = item.match(/([^@]+)@(.*)/);
       if (!match) {
         return null;
       }
-      const [_, name, entry] = match;
+      let [_, name, entry] = match;
+
       return { name, entry, type: 'module' };
     })
     .filter(Boolean) as Remote[];
@@ -62,7 +63,7 @@ export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
   const baseURL = normalizeBaseURL(process.env.BASE_URL ?? '');
   const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
-  const remotes = loadRemotes(config);
+  const remotes = parseRemotes(config, baseURL);
   const data = {
     config,
     remotes,
@@ -174,24 +175,24 @@ type Remote = {
 
 let _promise: Promise<NodeRenderers[]>;
 
-function loadRenderers(remotes: Remote[]) {
+function loadRenderers(remotes: Remote[], baseURL: string) {
   if (_promise) {
     return _promise;
   }
   _promise = Promise.all(
     remotes.map((remote) =>
-      loadRemoteModule(remote.name, remotes).then((m) => m.default.renderers),
+      loadRemoteModule(remote.name, remotes, baseURL).then((m) => m.default.renderers),
     ),
   );
   return _promise;
 }
 
 export default function App() {
-  const { remotes } = useLoaderData<SiteLoader>();
+  const { remotes, baseURL } = useLoaderData<SiteLoader>();
   return (
     <React.Suspense fallback={<AppWithRenderers renderers={RENDERERS} />}>
       {(() => {
-        const loadedRenderers = React.use(loadRenderers(remotes));
+        const loadedRenderers = React.use(loadRenderers(remotes, baseURL));
         const nextRenderers = React.useMemo(
           () => mergeRenderers([RENDERERS, ...loadedRenderers]),
           [loadedRenderers],

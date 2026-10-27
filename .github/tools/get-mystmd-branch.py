@@ -102,9 +102,14 @@ def main():
         print(f"https://github.com/{repo_owner}/mystmd.git {branch}")
         sys.exit(0)
 
+    # Netlify doesn't expose secrets to deploy previews of PRs from forks
     if github_token is None:
-        print("No GITHUB_TOKEN set; exiting.", file=sys.stderr)
-        sys.exit(1)
+        print(
+            f"Warning: no GITHUB_TOKEN set; using {repo_owner}/mystmd@{branch}.",
+            file=sys.stderr,
+        )
+        print(f"https://github.com/{repo_owner}/mystmd.git {branch}")
+        sys.exit(0)
 
     try:
         value = query_project_field(int(review_id), github_token)

@@ -12,6 +12,7 @@
       "@myst-theme/styles",
       "@myst-theme/common",
       "@myst-theme/icons",
+      "@myst-theme/federation",
       "@myst-theme/search",
       "@myst-theme/search-minisearch",
       "@myst-theme/landing-pages",

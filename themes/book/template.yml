@@ -82,6 +82,10 @@ options:
     id: redirects
     multiple: true
     description: Redirects for pages, written as "source:destination"
+  - type: string
+    id: extensions
+    multiple: true
+    description: Array of name@extension-url entries for federated extensions.
 parts:
   - id: footer
     description: The site wide footer

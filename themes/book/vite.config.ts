@@ -5,15 +5,25 @@ import { normalizeBaseURL } from '@myst-theme/common';
 
 export default defineConfig(({ mode }) => {
   const baseConfig: UserConfig = {
-    plugins: [reactRouter(), envOnlyMacros()],
+    plugins: [
+      reactRouter(),
+      envOnlyMacros(),
+    ],
+
     build: {
       assetsDir: '_assets',
       minify: mode === 'production',
     },
+    optimizeDeps: {
+      // In the tanstack demo, nodiscovery was used: https://github.com/gioboa/module-federation-vite-examples/blob/113597cd0f012c87b5726b3029b1c2a09d6bad5e/tanstack/dynamic-host/vite.config.ts#L70-L87
+      // That has the consequence of requiring us to list _everything_ manually that needs optimisation (e.g. any deps that need CJS→ESM)
+      // Setting `holdUntilCrawlEnd` seems to solve the root cause that motivates that section.
+      holdUntilCrawlEnd: true,
+    },
     ssr: {
       noExternal: mode == 'production' ? true : undefined,
     },
-    resolve: { tsconfigPaths: true }
+    resolve: { tsconfigPaths: true },
   };
   const overrideConfig =
     // HTML builds are a distinct build target from the regular server app

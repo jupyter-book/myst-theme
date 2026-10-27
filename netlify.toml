@@ -2,7 +2,7 @@
   package = "./.netlify/build-cache"
 
 [build]
-  environment = { PYTHON_VERSION = "3.12", BUN_VERSION = "latest", BUN_INSTALL_CACHE_DIR = "/opt/build/.bun/install/cache" }
+  environment = { PYTHON_VERSION = "3.13", NODE_VERSION="26", BUN_VERSION = "latest", BUN_INSTALL_CACHE_DIR = "/opt/build/.bun/install/cache" }
   publish = "docs/_build/html"
   command = """
     # Determine which mystmd branch to build against. By default, use `main`.

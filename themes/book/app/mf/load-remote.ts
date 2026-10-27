@@ -17,7 +17,8 @@ let clientRemotesRegistered = false;
 
 /**
  * Remotes may be defined relative to the host.
- * We need to resolve that at runtime
+ * We need to resolve that at runtime. The SSR pathway
+ * does not need this, because we will directly query the CDN.
  */
 function adaptClientRemotes(remotes: Remote[], baseURL: string) {
   return remotes.map((remote) => {
@@ -53,6 +54,11 @@ async function load(
   return module;
 }
 
+/**
+ * Load federated remote module.
+ * The returned Promise is stable; if this remote has already been requested,
+ * the same promise is returned.
+ */
 export function loadRemoteModule(
   id: string,
   remotes: Remote[],

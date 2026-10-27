@@ -17,6 +17,7 @@ project:
   static_files:
     - assets/standalone.csv # a file   -> served at /standalone.csv
     - assets/downloads      # a folder -> served at /downloads/example-data.csv
+    - src/theme-extension/dist/fancy-note
   error_rules:
     - rule: link-resolves
       keys:

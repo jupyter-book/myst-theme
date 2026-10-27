@@ -28,11 +28,11 @@ export default defineConfig({
   ssr: { noExternal: true },
   environments: {
     client: {
-      build: { outDir: 'dist' },
+      build: { outDir: 'dist/fancy-note/' },
     },
     ssr: {
       build: {
-        outDir: 'dist',
+        outDir: 'dist/fancy-note/',
         ssr: './src/index.jsx',
       },
     },

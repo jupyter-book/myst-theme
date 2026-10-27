@@ -10,18 +10,16 @@
 // swaps the browser remote entry for the remote's SSR entry (`remoteEntry.ssr.js`)
 // and rewrites its shared imports to the host's own copies of React.
 import { createRequire } from 'node:module';
-import * as React from 'react';
-import {
-  createInstance,
-  type ModuleFederation,
-  type ModuleFederationRuntimePlugin,
-} from '@module-federation/runtime';
 import ssrEntryLoader from '@module-federation/vite/ssrEntryLoader';
-import { hostRuntimeShared, SHARED_PACKAGES } from '@myst-theme/federation';
-
-import { getCDNUrl } from '../utils/loaders.server.ts';
+import { SHARED_PACKAGES } from '@myst-theme/federation';
 
 const require = createRequire(import.meta.url);
+
+export type Remote = {
+  name: string;
+  entry: string;
+  type: 'module';
+};
 
 // Absolute paths of the packages the remote SSR entry imports as bare
 // specifiers. The loader rewrites them to these files so the remote renders
@@ -39,19 +37,24 @@ function resolveShared(specifiers: string[]): Record<string, string> {
   return resolved;
 }
 
-let instance: ModuleFederation | undefined;
-
-export type Remote = {
-  name: string;
-  entry: string;
-  type: 'module';
-};
+export function createSSREntryLoader() {
+  return ssrEntryLoader({
+    resolvedShared: resolveShared([
+      'react/jsx-runtime',
+      'react/jsx-dev-runtime',
+      '@module-federation/runtime',
+      '@module-federation/sdk',
+      ...SHARED_PACKAGES,
+    ]),
+  });
+}
 
 /**
  * Remotes may be defined relative to the host.
  * We need to resolve that at runtime
  */
-function adaptRemotes(remotes: Remote[]) {
+export async function adaptSSRRemotes(remotes: Remote[]) {
+  const { getCDNUrl } = await import('../utils/loaders.server.js');
   return remotes.map((remote) => {
     if (remote.entry.startsWith('/')) {
       return { ...remote, entry: getCDNUrl(remote.entry.slice(1)) };
@@ -59,27 +62,4 @@ function adaptRemotes(remotes: Remote[]) {
       return remote;
     }
   });
-}
-
-console.log('host', React.version);
-export function getServerInstance(remotes: Remote[]): ModuleFederation {
-  instance ??= createInstance({
-    name: 'book-theme',
-    remotes: adaptRemotes(remotes),
-    shared: hostRuntimeShared,
-    plugins: [
-      // The loader's loadEntry hook is typed loosely in @module-federation/vite,
-      // so widen it to the runtime plugin type the instance expects.
-      ssrEntryLoader({
-        resolvedShared: resolveShared([
-          'react/jsx-runtime',
-          'react/jsx-dev-runtime',
-          '@module-federation/runtime',
-          '@module-federation/sdk',
-          ...SHARED_PACKAGES,
-        ]),
-      }),
-    ],
-  });
-  return instance;
 }

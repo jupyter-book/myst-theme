@@ -1,18 +1,13 @@
 /**
- * Typical MF configurations only need remote and host configurations 
- * that need to be authored.
- * However, our Module Federation setup has three distinct configurations:
+ * Typical MF configurations only need remote and host configurations
+ * that need to be authored:
  *
  * 1. Host build time — when the host app is being compiled
- * 2. Host SSR runtime — when the host app is running via SSR
- * 3. Remote build time — when the remote extension is being compiled
+ * 2. Remote build time — when the remote extension is being compiled
  *
  * The host and remote are two different sides of the contract. The host consumes code provided by the remote (and, via shared modules, vice-versa). The mechanisms to do this are mostly configured at build-time. The host needs to know *which* remotes to load. This is not know ahead of time, so it is configured at runtime.
  *
- * Once we bring SSR into the picture, the Vite MF build plugin does not create a global Module Federation runtime that we can use to register remotes. So, we create an MF instance for SSR that we manually register our shared packages with.
- *
- * It might be possible to remove the build-time configuration for this altogether, in the host. Let's see.
- *
+ * Once we bring SSR into the picture, the Vite MF build plugin does not create a global Module Federation runtime that we can use to register remotes. For this reason, we do not use the Module Federation Vite plugin on the host. Instead, we set up a runtime ourselves.
  */
 import pkg from './package.json' with { type: 'json' };
 import { writeFile, mkdir } from 'node:fs/promises';
@@ -26,11 +21,6 @@ const hostRuntimeSharedLines = Object.entries(pkg.peerDependencies).map(
 );
 const hostRuntimeSharedBody = '{' + hostRuntimeSharedLines.join('\n') + '}';
 
-const hostBuildSharedLines = Object.entries(pkg.peerDependencies).map(
-  ([name, constraint]) => `"${name}": { singleton: true, requiredVersion: "${constraint}" },`,
-);
-const hostBuildSharedBody = '{' + hostBuildSharedLines.join('\n') + '}';
-
 const moduleBody = `
 import type {
   ShareArgs ,
@@ -40,7 +30,6 @@ import type {
 } from '@module-federation/vite'
 
 export const hostRuntimeShared: Record<string, ShareArgs> = ${hostRuntimeSharedBody};
-export const hostBuildShared: Required<ModuleFederationOptions['shared']> = ${hostBuildSharedBody};
 
 export type PackageJSON = {
   dependencies?: Record<string, string>;

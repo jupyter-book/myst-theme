@@ -3,18 +3,20 @@
  *
  * Authored by @gioboa on GitHub
  */
-import { loadRemote, registerRemotes } from '@module-federation/runtime';
 import type { ComponentType } from 'react';
-import type { Remote } from './server';
 import { withBaseurl } from '@myst-theme/providers';
+import * as React from 'react';
+import { createInstance, type ModuleFederation } from '@module-federation/runtime';
+import { hostRuntimeShared } from '@myst-theme/federation';
+import type { Remote } from './server.js';
 
 export type RemoteComponentModule = { default: ComponentType };
 
 // One promise per module id, shared by the route loader, React.lazy and the
 // client entry, so the server and the hydrating client resolve the same module.
 const cache = new Map<string, Promise<RemoteComponentModule>>();
-let clientRemotesRegistered = false;
 
+console.log('host', React.version);
 /**
  * Remotes may be defined relative to the host.
  * We need to resolve that at runtime. The SSR pathway
@@ -30,26 +32,44 @@ function adaptClientRemotes(remotes: Remote[], baseURL: string) {
   });
 }
 
+let _instance: ModuleFederation | undefined;
+export async function getFederationInstance(
+  remotes: Remote[],
+  baseURL: string,
+): Promise<ModuleFederation> {
+  if (_instance) {
+    return _instance;
+  }
+
+  if (import.meta.env.SSR) {
+    const { adaptSSRRemotes, createSSREntryLoader } = await import('./server');
+    // Server: no plugin-created instance exists, use our own.
+    _instance = createInstance({
+      name: 'book-theme',
+      remotes: await adaptSSRRemotes(remotes),
+      shared: hostRuntimeShared,
+      plugins: [createSSREntryLoader()],
+    });
+  } else {
+    _instance = createInstance({
+      name: 'book-theme',
+      remotes: adaptClientRemotes(remotes, baseURL),
+      shared: hostRuntimeShared,
+      plugins: [],
+    });
+  }
+
+  return _instance;
+}
+
 async function load(
   id: string,
   remotes: Remote[],
   baseURL: string,
 ): Promise<RemoteComponentModule> {
-  let module: RemoteComponentModule | null;
-  if (import.meta.env.SSR) {
-    // Server: no plugin-created instance exists, use our own.
-    const { getServerInstance } = await import('./server');
-    module = await getServerInstance(remotes).loadRemote<RemoteComponentModule>(id);
-  } else {
-    // Client: the Vite plugin initialised the global instance before this entry
-    // ran (hostInitInjectLocation: "entry"), so the global API is usable here.
-    // Registering at module top level would run before that initialisation.
-    if (!clientRemotesRegistered) {
-      registerRemotes(remotes, baseURL);
-      clientRemotesRegistered = true;
-    }
-    module = await loadRemote<RemoteComponentModule>(id);
-  }
+  const instance = await getFederationInstance(remotes, baseURL);
+  const module = await instance.loadRemote<RemoteComponentModule>(id);
+
   if (!module) throw new Error(`Remote module "${id}" could not be loaded`);
   return module;
 }
@@ -64,6 +84,7 @@ export function loadRemoteModule(
   remotes: Remote[],
   baseURL: string,
 ): Promise<RemoteComponentModule> {
+  console.log('LOAD', baseURL);
   let promise = cache.get(id);
   if (!promise) {
     promise = load(id, remotes, baseURL);

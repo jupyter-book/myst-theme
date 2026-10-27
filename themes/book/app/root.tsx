@@ -173,9 +173,8 @@ type Remote = {
   entry: string;
 };
 
-
 /**
- * Load federated extensions, consume their `renderers` export, 
+ * Load federated extensions, consume their `renderers` export,
  * and build a merged renderer
  */
 let _loadedRenderers: Promise<NodeRenderers>;
@@ -187,16 +186,16 @@ function loadRenderers(remotes: Remote[], baseURL: string) {
     remotes.map((remote) =>
       loadRemoteModule(remote.name, remotes, baseURL).then((m) => m.default.renderers),
     ),
-  ).then(loadedRenderers => mergeRenderers([RENDERERS, ...loadedRenderers]));
+  ).then((loadedRenderers) => mergeRenderers([RENDERERS, ...loadedRenderers]));
   return _loadedRenderers;
 }
 
 export default function App() {
-  const { remotes, baseURL } = useLoaderData<SiteLoader>();
+  const { remotes, BASE_URL } = useLoaderData<SiteLoader>();
   return (
     <React.Suspense fallback={<AppWithRenderers renderers={RENDERERS} />}>
       {(() => {
-        const nextRenderers = React.use(loadRenderers(remotes, baseURL));
+        const nextRenderers = React.use(loadRenderers(remotes, BASE_URL));
         return <AppWithRenderers renderers={nextRenderers} />;
       })()}
     </React.Suspense>

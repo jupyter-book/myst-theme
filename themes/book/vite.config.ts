@@ -1,20 +1,11 @@
 import { reactRouter } from '@react-router/dev/vite';
 import { envOnlyMacros } from 'vite-env-only';
 import { defineConfig, mergeConfig, type UserConfig } from 'vite';
-import { federation } from '@module-federation/vite';
 import { normalizeBaseURL } from '@myst-theme/common';
-import { hostBuildShared } from '@myst-theme/federation';
 
 export default defineConfig(({ mode }) => {
   const baseConfig: UserConfig = {
     plugins: [
-      federation({
-        dts: false,
-        name: 'book-theme',
-
-        hostInitInjectLocation: 'entry',
-        shared: hostBuildShared,
-      }),
       reactRouter(),
       envOnlyMacros(),
     ],

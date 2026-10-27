@@ -15,6 +15,11 @@
     @apply text-myst-link underline decoration-[0.1em] underline-offset-[0.15em] decoration-myst-link-underline hover:text-myst-link-hover hover:decoration-myst-link-hover;
   }
 
+  /* Links inside areas that behave more like UI than prose */
+  .ui-links a {
+    @apply text-myst-text no-underline hover:text-myst-active;
+  }
+
   /* External/download link icons: hidden by default, shown only for plain text links in prose */
   .link-icon {
     @apply hidden;
@@ -23,7 +28,7 @@
   /* Only show link icons when it's a "prose" style element.
    * This rule tries to filter out anything that's not just "link with some text inside, in page content".
    */
-  .prose a:not(.button):not(:has(img, figure, picture, video)) > .link-icon {
+  .prose:not(.ui-links) a:not(.button):not(:has(img, figure, picture, video)) > .link-icon {
     @apply inline-block w-[0.85em] h-[0.85em] ml-0.5 align-baseline opacity-80;
   }
 }

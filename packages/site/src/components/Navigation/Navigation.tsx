@@ -106,6 +106,7 @@ export const ConfigurablePrimaryNavigation = ({
             'myst-navigation-overlay fixed inset-0 max-xl:z-40 xl:z-30 bg-black opacity-50 max-xl:!mt-0',
             // If there is no TOC then the overlay should hide at lg
             // If there *is* a TOC then the overlay hides at xl
+            // FIXME: clean this leak of implementation details
             { 'lg:hidden': nav && hide_toc },
           )}
           style={{ marginTop: top }}

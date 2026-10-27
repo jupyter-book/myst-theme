@@ -3,7 +3,7 @@ import { envOnlyMacros } from 'vite-env-only';
 import { defineConfig, mergeConfig, type UserConfig } from 'vite';
 import { federation } from '@module-federation/vite';
 import { normalizeBaseURL } from '@myst-theme/common';
-import { hostBuildShared, SHARED_PACKAGES } from '@myst-theme/federation';
+import { hostBuildShared } from '@myst-theme/federation';
 
 export default defineConfig(({ mode }) => {
   const baseConfig: UserConfig = {
@@ -31,9 +31,6 @@ export default defineConfig(({ mode }) => {
     },
     ssr: {
       noExternal: mode == 'production' ? true : undefined,
-      optimizeDeps: {
-        include: SHARED_PACKAGES,
-      },
     },
     resolve: { tsconfigPaths: true },
   };

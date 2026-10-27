@@ -24,10 +24,9 @@ export default defineConfig(({ mode }) => {
       minify: mode === 'production',
     },
     optimizeDeps: {
-      // Pre-bundle everything the plugin's host init pulls in, and do not discover
-      // more at request time: a mid-session re-optimization changes the dep hash
-      // that the cached host init module still references, so the browser gets
-      // "504 Outdated Optimize Dep" and the page never hydrates.
+      // In the tanstack demo, nodiscovery was used: https://github.com/gioboa/module-federation-vite-examples/blob/113597cd0f012c87b5726b3029b1c2a09d6bad5e/tanstack/dynamic-host/vite.config.ts#L70-L87
+      // That has the consequence of requiring us to list _everything_ manually that needs optimisation (e.g. any deps that need CJS→ESM)
+      // Setting `holdUntilCrawlEnd` seems to solve the root cause that motivates that section.
       holdUntilCrawlEnd: true,
     },
     ssr: {

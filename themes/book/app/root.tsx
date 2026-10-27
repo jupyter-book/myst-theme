@@ -187,7 +187,7 @@ function loadRenderers(remotes: Remote[], baseURL: string) {
     remotes.map((remote) =>
       loadRemoteModule(remote.name, remotes, baseURL).then((m) => m.default.renderers),
     ),
-  ).then(loadedRenderers => mergeRenderers({RENDERERS, ...loadedRenderers}));
+  ).then(loadedRenderers => mergeRenderers([RENDERERS, ...loadedRenderers]));
   return _loadedRenderers;
 }
 

@@ -18,7 +18,7 @@ import {
 } from '@myst-theme/site';
 import type { SiteManifest } from 'myst-config';
 import { getBreadcrumbs, type PageLoader } from '@myst-theme/common';
-import { copyNode, type GenericParent } from 'myst-common';
+import { copyNode } from 'myst-common';
 import { SourceFileKind } from 'myst-spec-ext';
 import {
   ExecuteScopeProvider,

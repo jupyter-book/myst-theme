@@ -20,7 +20,7 @@
     cd /tmp/mystmd && \
     bun install --frozen-lockfile && \
     bun run build && \
-    bun run link) && \
+    npm link -w packages/mystmd) && \
     # Build myst-theme
     bun install --frozen-lockfile && \
     bun run build && \

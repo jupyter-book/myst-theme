@@ -4,13 +4,7 @@ import {
   LinkIcon,
   ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
-import {
-  isExternalUrl,
-  useLinkProvider,
-  useSiteManifest,
-  useBaseurl,
-  withBaseurl,
-} from '@myst-theme/providers';
+import { isExternalUrl, useLinkProvider, useSiteManifest } from '@myst-theme/providers';
 import type { SiteManifest } from 'myst-config';
 import type { NodeRenderer, NodeRenderers } from '@myst-theme/providers';
 import { HoverPopover, LinkCard } from '../components/index.js';
@@ -44,15 +38,10 @@ function InternalLink({
   const Link = useLinkProvider();
   const site = useSiteManifest();
   const page = getPageInfo(site, url);
-  const baseurl = useBaseurl();
   const skipPreview = !page || (!page.description && !page.thumbnail);
   if (!page || skipPreview) {
     return (
-      <Link
-        to={withBaseurl(url, baseurl)}
-        prefetch="intent"
-        className={classNames('link', className)}
-      >
+      <Link to={url} prefetch="intent" className={classNames('link', className)}>
         {children}
       </Link>
     );
@@ -73,11 +62,7 @@ function InternalLink({
       )}
     >
       <span>
-        <Link
-          to={withBaseurl(url, baseurl)}
-          prefetch="intent"
-          className={classNames('hover-link', className)}
-        >
+        <Link to={url} prefetch="intent" className={classNames('hover-link', className)}>
           {children}
         </Link>
       </span>

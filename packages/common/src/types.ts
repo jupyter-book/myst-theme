@@ -31,7 +31,7 @@ export type SiteLoader = {
   config?: SiteManifest;
   searchIndex?: MystSearchIndex;
   CONTENT_CDN_PORT?: string | number;
-  MODE?: 'app' | 'static';
+  STATIC_BUILD?: boolean;
   BASE_URL?: string;
 };
 
@@ -69,7 +69,7 @@ export type PageLoader = {
   sha256: string;
   slug: string;
   domain: string; // This is written in at render time in the site
-  project: string; // This is written in at render time in the site
+  project: string | undefined; // This is written in at render time in the site
   frontmatter: PageFrontmatterWithDownloads;
   mdast: GenericParent;
   references: References;
@@ -96,4 +96,5 @@ export type CommonTemplateOptions = {
   hide_outline?: boolean;
   hide_breadcrumbs?: boolean;
   outline_maxdepth?: number;
+  redirects?: string[];
 };

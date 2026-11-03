@@ -8,7 +8,6 @@ import {
   forwardRef,
 } from 'react';
 import type { KeyboardEventHandler, Dispatch, SetStateAction, FormEvent, MouseEvent } from 'react';
-import { useFetcher } from '@remix-run/react';
 import {
   ArrowTurnDownLeftIcon,
   MagnifyingGlassIcon,
@@ -20,16 +19,16 @@ import { DocumentIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import type { RankedSearchResult, HeadingLevel, MystSearchIndex } from '@myst-theme/search';
+import type { RankedSearchResult, HeadingLevel } from '@myst-theme/search';
 import { SPACE_OR_PUNCTUATION, rankResults } from '@myst-theme/search';
 import {
   useThemeTop,
   useSearchFactory,
   useLinkProvider,
-  withBaseurl,
   useBaseurl,
   useNavigateProvider,
 } from '@myst-theme/providers';
+import type { MystSearchIndex } from 'myst-spec-ext';
 
 /**
  * Shim for string.matchAll
@@ -219,7 +218,6 @@ function SearchResultItem({
   closeSearch?: () => void;
 }) {
   const { hierarchy, type, url, queries } = result;
-  const baseurl = useBaseurl();
   const Link = useLinkProvider();
 
   // Render the icon
@@ -261,7 +259,7 @@ function SearchResultItem({
   return (
     <Link
       className="block px-1 py-2 text-myst-text-secondary rounded shadow-md group-aria-selected:bg-myst-active group-aria-selected:text-white dark:shadow-none dark:bg-myst-bg-secondary"
-      to={withBaseurl(url, baseurl)}
+      to={url}
       // Close the main search on click
       onClick={closeSearch}
     >
@@ -382,31 +380,42 @@ function SearchResults({
  * Build search implementation by requesting search index from server
  */
 function useSearch() {
-  const baseURL = useBaseurl();
-  const fetcher = useFetcher();
+  const baseURL = useBaseurl() ?? '';
+  const [data, setData] = useState<MystSearchIndex | null>(null);
   const [enabled, setEnabled] = useState(true);
   // Load index when this component is required
   // TODO: this reloads every time the search box is opened.
   //       we should lift the state up
   useEffect(() => {
-    if (fetcher.state === 'idle' && fetcher.data == null) {
-      const searchURL = withBaseurl('/myst.search.json', baseURL);
-      fetcher.load(searchURL);
+    async function fetchData() {
+      let response;
+      try {
+        response = await fetch(`${baseURL}/myst.search.json`);
+      } catch (err) {
+        console.error('Unable to fetch search data');
+        return;
+      }
+      if (!response.ok) {
+        console.error('Unable to fetch search data');
+        return;
+      }
+      setData(await response.json());
     }
-  }, [fetcher, baseURL]);
+    fetchData();
+  }, [baseURL]);
 
   const searchFactory = useSearchFactory();
   const search = useMemo(() => {
-    if (!fetcher.data || !searchFactory) {
+    if (!data || !searchFactory) {
       return undefined;
     } else {
-      if (fetcher.data?.version && fetcher.data?.records) {
-        return searchFactory(fetcher.data as MystSearchIndex);
+      if (data?.version && data?.records) {
+        return searchFactory(data);
       }
       setEnabled(false);
       return undefined;
     }
-  }, [searchFactory, fetcher.data, setEnabled]);
+  }, [searchFactory, data, setEnabled]);
 
   // Implement pass-through
   return { search, enabled };
@@ -479,7 +488,7 @@ function SearchForm({
 
         const url = searchResults[selectedIndex]?.url;
         if (url) {
-          navigate(withBaseurl(url, baseurl));
+          navigate(url);
           closeSearch?.();
         }
       }

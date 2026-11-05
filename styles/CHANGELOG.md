@@ -1,5 +1,11 @@
 # @myst-theme/styles
 
+## 1.5.0
+
+### Patch Changes
+
+- 93f6065: Make links in the navbar look like UI not text links
+
 ## 1.4.1
 
 ## 1.4.0

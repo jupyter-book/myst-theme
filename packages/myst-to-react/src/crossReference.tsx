@@ -4,10 +4,10 @@ import { MYST_SPEC_VERSION } from '@myst-theme/common';
 import {
   useLinkProvider,
   useReferences,
-  useBaseurl,
-  withBaseurl,
   XRefProvider,
   useXRefState,
+  useBaseurl,
+  withBaseurl,
   type NodeRenderer,
   useFrontmatter,
 } from '@myst-theme/providers';
@@ -155,7 +155,6 @@ export function CrossReferenceHover({
   children: React.ReactNode;
 }) {
   const Link = useLinkProvider();
-  const baseurl = useBaseurl();
   const parent = useXRefState();
   const remoteBaseUrl = remoteBaseUrlIn ?? parent.remoteBaseUrl;
   const remote = !!remoteBaseUrl || parent.remote || remoteIn;
@@ -205,7 +204,7 @@ export function CrossReferenceHover({
         )}
         {remote && !external && (
           <Link
-            to={`${withBaseurl(url, baseurl)}${htmlId ? `#${htmlId}` : ''}`}
+            to={`${url}${htmlId ? `#${htmlId}` : ''}`}
             prefetch="intent"
             className={classNames({ 'hover-link': !isButtonLike }, className)}
           >

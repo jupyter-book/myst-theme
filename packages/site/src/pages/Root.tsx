@@ -10,7 +10,6 @@ import {
 } from '@myst-theme/providers';
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -21,7 +20,7 @@ import {
   useRouteError,
   isRouteErrorResponse,
   useNavigate,
-} from '@remix-run/react';
+} from 'react-router';
 import {
   DEFAULT_NAV_HEIGHT,
   renderers as defaultRenderers,
@@ -37,7 +36,7 @@ import classNames from 'classnames';
 export function Document({
   children,
   scripts,
-  theme: ssrTheme,
+  theme: overrideMediaTheme,
   config,
   title,
   staticBuild,
@@ -69,14 +68,17 @@ export function Document({
         navigate,
       };
 
-  // (Local) theme state driven by SSR and cookie/localStorage
-  const [theme, setTheme] = useTheme({ ssrTheme: ssrTheme, useLocalStorage: staticBuild });
+  // (Local) theme state driven by session/localStorage
+  const [theme, setTheme] = useTheme({
+    overrideMediaTheme: overrideMediaTheme ?? undefined,
+    useLocalStorage: true,
+  });
 
   // Inject blocking element to set proper pre-hydration state
   const headAndLoader = (
     <>
       {head}
-      {ssrTheme ? undefined : <BlockingThemeLoader useLocalStorage={!!staticBuild} />}
+      <BlockingThemeLoader useLocalStorage={true} />
     </>
   );
 
@@ -158,7 +160,6 @@ export function DocumentWithoutProviders({
         </BaseUrlProvider>
         <ScrollRestoration />
         <Scripts />
-        {liveReloadListener && <LiveReload />}
         {scripts}
       </body>
     </html>

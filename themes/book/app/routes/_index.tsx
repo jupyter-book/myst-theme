@@ -4,20 +4,29 @@ import {
   responseNoArticle,
   responseNoSite,
 } from '@myst-theme/site';
-import type { LinksFunction, LoaderFunction, V2_MetaFunction } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
 import { getConfig, getPage } from '~/utils/loaders.server';
 import Page from './$';
 import { SiteManifest } from 'myst-config';
 import { getProject } from '@myst-theme/common';
 
+import type { Route } from './+types/_index';
+
 type ManifestProject = Required<SiteManifest>['projects'][0];
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => {
-  if (!data) return [];
+export async function loader({ request }: Route.LoaderArgs) {
+  const config = await getConfig();
+  if (!config) throw responseNoSite();
+  const project = getProject(config);
+  if (!project) throw responseNoArticle();
+  const page = await getPage(request, { slug: project.index });
+  return { config, page, project };
+}
 
-  const config: SiteManifest = data.config;
-  const project: ManifestProject = data.project;
+export function meta({ loaderData, location }: Route.MetaArgs) {
+  if (!loaderData) return [];
+
+  const config: SiteManifest = loaderData.config;
+  const project: ManifestProject = loaderData.project;
 
   return getMetaTagsForArticle({
     origin: '',
@@ -28,18 +37,10 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => {
     keywords: config.keywords ?? project.keywords ?? [],
     twitter: config?.options?.twitter,
   });
-};
+}
 
-export const links: LinksFunction = () => [KatexCSS];
-
-export const loader: LoaderFunction = async ({ params, request }) => {
-  const config = await getConfig();
-  if (!config) throw responseNoSite();
-  const project = getProject(config);
-  if (!project) throw responseNoArticle();
-  if (project.slug) return redirect(`/${project.slug}`);
-  const page = await getPage(request, { slug: project.index });
-  return json({ config, page, project });
-};
+export function links(): ReturnType<Route.LinksFunction> {
+  return [KatexCSS];
+}
 
 export default Page;

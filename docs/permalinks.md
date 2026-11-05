@@ -101,3 +101,16 @@ Static files are copied to the site root. To link to them, you can provide a lin
 :start-at: static_files:
 :end-at: assets/downloads
 :::
+
+## Redirects
+
+To redirect an old URL to a new one, list each redirect under `site.options.redirects` like so:
+
+:::{literalinclude} ./myst.yml
+:language: yaml
+:start-at: redirects:
+:end-at: old-permalinks
+:::
+
+You must include a leading slash in your paths!
+E.g., use `/path` not `path`.

@@ -78,6 +78,10 @@ options:
   - type: file
     id: style
     description: Local path to a CSS file
+  - type: string
+    id: redirects
+    multiple: true
+    description: Redirects for pages, written as "source:destination"
 parts:
   - id: footer
     description: The site wide footer
@@ -89,11 +93,12 @@ parts:
     description: Custom content displayed at the end of the top navbar
     required: false
 build:
-  install: npm ci --ignore-scripts
-  start: npm run start
+  install: npm install
+  start: node --env-file=./.env.prod server/server/index.js
+  render: node --env-file=./.env.prod renderer/server/index.js
 files:
-  - server.js
-  - package.json
-  - package-lock.json
+  - renderer/**/*
+  - server/**/*
   - public/**/*
-  - build/**/*
+  - .env.prod
+  - package.json

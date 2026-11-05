@@ -243,7 +243,11 @@ export function updatePageStaticLinksInplace(data: PageLoader, updateUrl: Update
   });
   return data;
 }
-
+/**
+ * @deprecated
+ *
+ * Flat sites are no longer supported on MyST theme
+ */
 export function isFlatSite(config?: SiteManifest): boolean {
   return config?.projects?.length === 1 && !config.projects[0].slug;
 }
@@ -255,4 +259,29 @@ export function isFlatSite(config?: SiteManifest): boolean {
  */
 export function parsePathname(pathname: string): string[] {
   return pathname.replace(/^\/+|\/+$/g, '').split('/');
+}
+
+/**
+ * Normalize an URL ending in / to a URL that does not.
+ *
+ * This ensures that we can append URL paths beginning with /.
+ */
+export function normalizeBaseURL(base: string): string {
+  return base.replace(/\/+$/, '');
+}
+
+export type Redirect = {
+  src: string;
+  dst: string;
+};
+
+/**
+ * Parse a redirect string of the form /foo -> /bar into a `/foo` `/bar` pair
+ */
+export function parseRedirect(redirect: string): Redirect | undefined {
+  const [_, src, dst] = redirect.match(/^(\/\S+)\s*->\s*(\/\S+)$/) ?? [];
+  if (!src || !dst) {
+    return undefined;
+  }
+  return { src, dst };
 }

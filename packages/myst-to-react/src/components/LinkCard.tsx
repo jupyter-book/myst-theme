@@ -1,4 +1,4 @@
-import { useLinkProvider, useBaseurl, withBaseurl } from '@myst-theme/providers';
+import { useLinkProvider } from '@myst-theme/providers';
 import { ArrowTopRightOnSquareIcon as ExternalLinkIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 
@@ -20,8 +20,6 @@ export function LinkCard({
   className?: string;
 }) {
   const Link = useLinkProvider();
-  const baseurl = useBaseurl();
-  const to = withBaseurl(url, baseurl);
   return (
     <div
       className={classNames('hover-card-content rounded overflow-hidden', className, {
@@ -34,7 +32,7 @@ export function LinkCard({
       {loading && <div className="animate-pulse bg-myst-surface w-full h-[150px]" />}
       {internal && (
         <Link
-          to={to}
+          to={url}
           className="block px-3 mt-3 text-sm font-semibold text-inherit hover:text-inherit"
           prefetch="intent"
         >
@@ -43,7 +41,7 @@ export function LinkCard({
       )}
       {!internal && (
         <a
-          href={to}
+          href={url}
           className="block px-3 mt-3 text-sm font-semibold text-inherit hover:text-inherit"
           target="_blank"
           rel="noreferrer"

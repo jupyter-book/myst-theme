@@ -1,0 +1,231 @@
+@import '@myst-theme/styles';
+
+/* Sizes are in canvas pixels; reveal.js scales the canvas to the window. */
+:root {
+  --myst-slides-font-family: inherit;
+  --myst-slides-heading-font-family: var(--myst-slides-font-family);
+  --myst-slides-code-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --myst-slides-font-size: 20px;
+  --myst-slides-code-font-size: 18px;
+  --myst-slides-line-height: 1.4;
+  --myst-slides-text-align: left;
+  --myst-slides-heading-color: var(--myst-color-link);
+  --myst-slides-accent-color: var(--myst-color-primary);
+}
+
+.reveal.myst-slides .slides {
+  text-align: var(--myst-slides-text-align);
+  font-family: var(--myst-slides-font-family);
+}
+
+.reveal.myst-slides .slides section.prose {
+  max-width: none;
+  font-size: var(--myst-slides-font-size);
+  line-height: var(--myst-slides-line-height);
+}
+
+.reveal.myst-slides section.prose {
+  --tw-prose-headings: var(--myst-slides-heading-color);
+}
+
+.reveal.myst-slides section.prose :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--myst-slides-heading-font-family);
+}
+
+/* Column headings are h1 and slide titles are h2. */
+.reveal.myst-slides section.prose h1 {
+  font-size: 2.8em;
+}
+
+.reveal.myst-slides section.prose h2 {
+  font-size: 2.2em;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+/* Code blocks and outputs sit close together; slides have little height. */
+.reveal.myst-slides section.prose .myst-code {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.reveal.myst-slides section.prose h3 {
+  font-size: 1.4em;
+}
+
+/* A code cell with `:class: side-by-side` shows its code on the left and its outputs on the right. */
+.reveal.myst-slides .side-by-side {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5em;
+  align-items: start;
+}
+
+.reveal.myst-slides .side-by-side > :is(.myst-jp-nb-block-spinner, .myst-jp-nb-block) {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* Editable code shows a focus ring while the speaker types. */
+.reveal.myst-slides pre code[contenteditable] {
+  display: block;
+  outline: none;
+}
+
+.reveal.myst-slides .myst-code:has(code[contenteditable]) {
+  cursor: text;
+}
+
+.reveal.myst-slides .myst-code:has(code[contenteditable]:focus) {
+  box-shadow: 0 0 0 2px var(--myst-slides-accent-color);
+}
+
+/* Without a kernel, a Jupyter widget shows nothing; its static outputs still show. */
+.reveal.myst-slides .thebe-ipywidgets-placeholder {
+  display: none;
+}
+
+.reveal.myst-slides :is(.controls, .progress) {
+  color: var(--myst-slides-accent-color);
+}
+
+.reveal.myst-slides .slide-number {
+  background-color: var(--myst-slides-accent-color);
+}
+
+.reveal.myst-slides section.prose figcaption {
+  text-align: center;
+}
+
+/* MyST code blocks and outputs use rem sizes, which do not scale with the slide font size. */
+.reveal.myst-slides section.prose pre {
+  font-size: var(--myst-slides-code-font-size);
+}
+
+.reveal.myst-slides section.prose :is(pre, code) {
+  font-family: var(--myst-slides-code-font-family);
+}
+
+.reveal.myst-slides .myst-title-slide {
+  text-align: center;
+}
+
+.reveal.myst-slides .myst-title-slide h1 {
+  margin-bottom: 0.5em;
+}
+
+.reveal.myst-slides .myst-title-slide .myst-slides-authors {
+  margin-top: 1.5em;
+}
+
+.reveal.myst-slides .myst-title-slide .myst-fm-date-string {
+  font-size: 0.8em;
+  color: var(--myst-color-text-secondary);
+}
+
+/* The author list and social links follow the slide alignment, and center on centered slides. */
+.reveal.myst-slides .myst-credits-slide {
+  text-align: center;
+}
+
+.reveal.myst-slides
+  :is(.myst-title-slide, .myst-credits-slide)
+  :is(.myst-slides-authors, .myst-slides-socials) {
+  justify-content: center;
+}
+
+.reveal.myst-slides .myst-slides-authors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5em 3em;
+  margin: 1em 0;
+}
+
+.reveal.myst-slides .myst-slides-author-name {
+  font-weight: 600;
+  font-size: 1.2em;
+}
+
+.reveal.myst-slides .myst-slides-author-affiliations {
+  font-size: 0.8em;
+  color: var(--myst-color-text-secondary);
+}
+
+.reveal.myst-slides .myst-slides-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em 1.2em;
+  margin: 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75em;
+}
+
+.reveal.myst-slides .myst-slides-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  color: var(--myst-slides-accent-color);
+  text-decoration: none;
+}
+
+.reveal.myst-slides .myst-slides-socials svg {
+  width: 1.3em;
+  height: 1.3em;
+}
+
+.reveal.myst-slides .myst-references-list {
+  font-size: 0.7em;
+}
+
+/* Reveal.js marks slides whose background color is dark. */
+.reveal.myst-slides section.has-dark-background {
+  @apply prose-invert;
+}
+
+/* A transformed fragment keeps its own layer, which can render blurred on a scaled canvas. */
+.reveal.myst-slides .fragment.visible:is(.fade-up, .fade-down, .fade-left, .fade-right, .zoom-in) {
+  transform: none;
+}
+
+/* Reveal.js only shows these elements in the speaker view. */
+.reveal.myst-slides aside.notes {
+  display: none;
+}
+
+/* The kernel toolbar and the theme button share the top-right corner. */
+.myst-slides-corner {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.myst-slides-corner .myst-jp-nb-toolbar {
+  position: static;
+  width: auto;
+  padding: 0;
+}
+
+.myst-slides-theme-button {
+  width: 2.25rem;
+  height: 2.25rem;
+  opacity: 0.4;
+}
+
+.myst-slides-theme-button:hover {
+  opacity: 1;
+}
+
+html.reveal-print .myst-slides-corner {
+  display: none;
+}
+
+html,
+body {
+  height: 100%;
+}

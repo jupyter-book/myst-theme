@@ -1,0 +1,43 @@
+{
+  "name": "@myst-theme/federation",
+  "version": "1.4.1",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupyter-book/myst-theme.git"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "format": "prettier --write \"src/**/*.{ts,tsx,md}\"",
+    "generate": "node ./generate-spec.mjs",
+    "build:esm": "tsc --project ./tsconfig.json --module Node16 --outDir dist --declaration",
+    "build": "npm-run-all -l clean generate format build:esm"
+  },
+  "peerDependencies": {
+    "@myst-theme/anywidget": "^1.4.1",
+    "@myst-theme/common": "^1.4.1",
+    "@myst-theme/frontmatter": "^1.4.1",
+    "@myst-theme/icons": "^1.4.1",
+    "@myst-theme/jupyter": "^1.4.1",
+    "@myst-theme/landing-pages": "^1.4.1",
+    "@myst-theme/providers": "^1.4.1",
+    "@myst-theme/search": "^1.4.1",
+    "@myst-theme/search-minisearch": "^1.4.1",
+    "@myst-theme/site": "^1.4.1",
+    "myst-to-react": "^1.4.1",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "@module-federation/runtime-core": "^2.9.0",
+    "@module-federation/vite": "^1.23.5"
+  },
+  "devDependencies": {
+    "vite": "^8"
+  }
+}

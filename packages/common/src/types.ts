@@ -91,4 +91,5 @@ export type CommonTemplateOptions = {
   hide_outline?: boolean;
   outline_maxdepth?: number;
   redirects?: string[];
+  extensions?: string[];
 };

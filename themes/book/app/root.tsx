@@ -22,7 +22,8 @@ import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
+import { loadRemoteModule } from './mf/load-remote.ts';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
@@ -44,12 +45,28 @@ export const links: LinksFunction = () => {
   ];
 };
 
+function parseRemotes(config: Awaited<ReturnType<typeof getConfig>>, baseURL: string) {
+  return (config.options.extensions ?? [])
+    .map((item) => {
+      const match = item.match(/([^@]+)@(.*)/);
+      if (!match) {
+        return null;
+      }
+      let [_, name, entry] = match;
+
+      return { name, entry, type: 'module' };
+    })
+    .filter(Boolean) as Remote[];
+}
+
 export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
   const baseURL = normalizeBaseURL(process.env.BASE_URL ?? '');
   const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
+  const remotes = parseRemotes(config, baseURL);
   const data = {
     config,
+    remotes,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
     STATIC_BUILD: !!import.meta.env.VITE_BUILD_HTML,
     BASE_URL: baseURL,
@@ -119,11 +136,10 @@ function NoCSSWarning() {
   );
 }
 
-export default function App() {
+function AppWithRenderers({ renderers }: { renderers: NodeRenderers }) {
   const { config, CONTENT_CDN_PORT, STATIC_BUILD, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
-
   return (
     <SearchFactoryProvider factory={searchFactory}>
       <Document
@@ -131,7 +147,7 @@ export default function App() {
         scripts={STATIC_BUILD ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
         staticBuild={STATIC_BUILD}
         baseurl={BASE_URL}
-        renderers={RENDERERS}
+        renderers={renderers}
         head={
           <>
             <link rel="icon" href={`${BASE_URL || ''}/favicon.ico`} />
@@ -149,5 +165,39 @@ export default function App() {
         <Outlet />
       </Document>
     </SearchFactoryProvider>
+  );
+}
+
+type Remote = {
+  name: string;
+  entry: string;
+};
+
+/**
+ * Load federated extensions, consume their `renderers` export,
+ * and build a merged renderer
+ */
+let _loadedRenderers: Promise<NodeRenderers>;
+function loadRenderers(remotes: Remote[], baseURL: string) {
+  if (_loadedRenderers) {
+    return _loadedRenderers;
+  }
+  _loadedRenderers = Promise.all(
+    remotes.map((remote) =>
+      loadRemoteModule(remote.name, remotes, baseURL).then((m) => m.default.renderers),
+    ),
+  ).then((loadedRenderers) => mergeRenderers([RENDERERS, ...loadedRenderers]));
+  return _loadedRenderers;
+}
+
+export default function App() {
+  const { remotes, BASE_URL } = useLoaderData<SiteLoader>();
+  return (
+    <React.Suspense fallback={<AppWithRenderers renderers={RENDERERS} />}>
+      {(() => {
+        const nextRenderers = React.use(loadRenderers(remotes, BASE_URL));
+        return <AppWithRenderers renderers={nextRenderers} />;
+      })()}
+    </React.Suspense>
   );
 }

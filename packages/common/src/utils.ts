@@ -115,10 +115,9 @@ export function getBreadcrumbs(
   const headings = getProjectHeadings(config, projectSlug) ?? [];
   const found = headings.findIndex((h) => h.slug === slug);
   if (found <= 0) return []; // unknown slug, or the project index itself
-  // These functions pull our metadata for each breadcrumb item
   const titleOf = (h: Heading) => h.short_title || h.title;
   const asItem = (h: Heading): BreadcrumbItem => ({ title: titleOf(h), path: h.path });
-  // Now build up the breadcrumb items by walking the ancestors of the page
+  // Walk back through the TOC. Each time the level drops (e.g., from 2 to 1), the entry is the next ancestor up.
   const trail: BreadcrumbItem[] = [];
   let level = headings[found].level as number;
   for (let i = found - 1; i >= 0; i--) {

@@ -49,6 +49,11 @@ export type FooterLinks = {
   };
 };
 
+export type BreadcrumbItem = {
+  title: string;
+  path?: string;
+};
+
 export type PageFrontmatterWithDownloads = Omit<
   PageFrontmatter,
   'parts' | 'downloads' | 'exports'
@@ -89,6 +94,7 @@ export type CommonTemplateOptions = {
   hide_footer_links?: boolean;
   hide_toc?: boolean;
   hide_outline?: boolean;
+  hide_breadcrumbs?: boolean;
   outline_maxdepth?: number;
   redirects?: string[];
 };

@@ -3,7 +3,7 @@ import { walkOutputs } from 'nbtx';
 import type { SiteManifest } from 'myst-config';
 import { selectAll } from 'unist-util-select';
 import type { Image as ImageSpec, Link as LinkSpec } from 'myst-spec';
-import type { FooterLinks, Heading, NavigationLink, PageLoader } from './types.js';
+import type { BreadcrumbItem, FooterLinks, Heading, NavigationLink, PageLoader } from './types.js';
 import type { GenericParent } from 'myst-common';
 import { slugToUrl } from 'myst-common';
 
@@ -25,6 +25,13 @@ export function getProject(
   return project;
 }
 
+/**
+ * Return a flat list of a project's TOC entries, in TOC order.
+ * The first item is always the project index, with `level: 'index'`, followed by `project.pages`.
+ * An entry's parent is the closest earlier entry with a lower `level`.
+ * Entries without a `slug` are TOC titles with no page attached, e.g. a "Part" heading.
+ * Returns `undefined` if the site has no project.
+ */
 export function getProjectHeadings(
   config: SiteManifest,
   projectSlug?: string,
@@ -92,6 +99,37 @@ export function getFooterLinks(
     navigation: { prev, next },
   };
   return footer;
+}
+
+/**
+ * Build the breadcrumb trail for a page from the site manifest.
+ * The trail starts with the project index and ends with the current page (current page has no `path` so it isn't linked).
+ * Ancestors that are TOC titles with no page (e.g. a "Part" heading), also have no `path`, so they show as plain text.
+ */
+export function getBreadcrumbs(
+  config?: SiteManifest,
+  projectSlug?: string,
+  slug?: string,
+): BreadcrumbItem[] {
+  if (!slug || !config) return [];
+  const headings = getProjectHeadings(config, projectSlug) ?? [];
+  const found = headings.findIndex((h) => h.slug === slug);
+  if (found <= 0) return []; // unknown slug, or the project index itself
+  const titleOf = (h: Heading) => h.short_title || h.title;
+  const asItem = (h: Heading): BreadcrumbItem => ({ title: titleOf(h), path: h.path });
+  // Walk back through the TOC. Each time the level drops (e.g., from 2 to 1), the entry is the next ancestor up.
+  const trail: BreadcrumbItem[] = [];
+  let level = headings[found].level as number;
+  for (let i = found - 1; i > 0; i--) {
+    const h = headings[i];
+    if ((h.level as number) < level) {
+      level = h.level as number;
+      trail.unshift(asItem(h));
+    }
+  }
+  trail.unshift(asItem(headings[0])); // headings[0] is always the project index
+  trail.push({ title: titleOf(headings[found]) });
+  return trail;
 }
 
 type UpdateUrl = (url: string) => string;

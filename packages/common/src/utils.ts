@@ -102,8 +102,9 @@ export function getFooterLinks(
 }
 
 /**
- * Build a breadcrumb trail for a given page using the site manifest + page slug.
- * Ancestors without a slug, e.g. a "Part" heading, are included without a path.
+ * Build the breadcrumb trail for a page from the site manifest.
+ * The trail starts with the project index and ends with the current page (current page has no `path` so it isn't linked).
+ * Ancestors that are TOC titles with no page (e.g. a "Part" heading), also have no `path`, so they show as plain text.
  */
 export function getBreadcrumbs(
   config?: SiteManifest,

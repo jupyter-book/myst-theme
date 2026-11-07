@@ -25,6 +25,13 @@ export function getProject(
   return project;
 }
 
+/**
+ * Return a flat list of a project's TOC entries, in TOC order.
+ * The first item is always the project index, with `level: 'index'`, followed by `project.pages`.
+ * An entry's parent is the closest earlier entry with a lower `level`.
+ * Entries without a `slug` are TOC titles with no page attached, e.g. a "Part" heading.
+ * Returns `undefined` if the site has no project.
+ */
 export function getProjectHeadings(
   config: SiteManifest,
   projectSlug?: string,

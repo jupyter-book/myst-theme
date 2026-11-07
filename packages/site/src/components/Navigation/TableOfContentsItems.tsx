@@ -229,8 +229,8 @@ function LinkItem({
         className,
       )}
       to={heading.path}
-      // NavLink matches the pathname only; a title-only entry may be current on this path
-      aria-current={current ? 'page' : false}
+      // NavLink matches the pathname only, so `current` overrides it when a title-only entry is current
+      aria-current={current === undefined ? undefined : current ? 'page' : false}
       onClick={() => {
         onClick?.();
         setOpen(false);
@@ -268,6 +268,7 @@ const NestedToc = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nav.state, pathname, currentGroupKey]);
   const exact = isCurrent(heading);
+  const current = currentGroupKey ? exact : undefined;
   if (!heading.children || heading.children.length === 0) {
     return (
       <LinkItem
@@ -277,7 +278,7 @@ const NestedToc = ({
           'font-bold': heading.level === 'index',
         })}
         heading={heading}
-        current={exact}
+        current={current}
       />
     );
   }
@@ -298,7 +299,7 @@ const NestedToc = ({
             'cursor-pointer': !heading.path,
           })}
           heading={heading}
-          current={exact}
+          current={current}
           onClick={() => {
             if (heading.path || heading.tocParentPath !== undefined) {
               // Clicking a header with its own page navigates away.

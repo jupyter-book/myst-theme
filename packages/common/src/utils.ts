@@ -120,18 +120,14 @@ export function getBreadcrumbs(
   // Walk back through the TOC. Each time the level drops (e.g., from 2 to 1), the entry is the next ancestor up.
   const trail: BreadcrumbItem[] = [];
   let level = headings[found].level as number;
-  for (let i = found - 1; i >= 0; i--) {
+  for (let i = found - 1; i > 0; i--) {
     const h = headings[i];
-    // If we're at the top, it's time to stop!
-    if (h.level === 'index') {
-      trail.unshift(asItem(h));
-      break;
-    }
-    if (h.level < level) {
-      level = h.level;
+    if ((h.level as number) < level) {
+      level = h.level as number;
       trail.unshift(asItem(h));
     }
   }
+  trail.unshift(asItem(headings[0])); // headings[0] is always the project index
   trail.push({ title: titleOf(headings[found]) });
   return trail;
 }

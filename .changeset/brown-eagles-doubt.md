@@ -10,9 +10,9 @@
 '@myst-theme/jupyter': minor
 '@myst-theme/common': minor
 '@myst-theme/icons': minor
-'@myst-theme/article': minor
-'@myst-theme/site': minor
-'@myst-theme/book': minor
+'@myst-theme/article': major
+'@myst-theme/site': major
+'@myst-theme/book': major
 ---
 
 Drop support for React 16/17 & upgrade to React Router 8

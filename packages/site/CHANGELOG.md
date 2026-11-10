@@ -1,5 +1,32 @@
 # @myst-theme/site
 
+## 2.0.0
+
+### Major Changes
+
+- ced8bde: Drop support for React 16/17 & upgrade to React Router 8
+
+### Minor Changes
+
+- 54f4d2c: Add a breadcrumb trail above the page title in the book theme.
+  It lists the page's ancestors from the table of contents.
+  Fix a small vertical misalignment between the left sidebar, page content, and right outline.
+
+### Patch Changes
+
+- 93f6065: Make links in the navbar look like UI not text links
+- 1c50887: Make sidebar overlay show even without toc
+- Updated dependencies [54f4d2c]
+- Updated dependencies [ced8bde]
+- Updated dependencies [80688e2]
+  - @myst-theme/common@2.0.0
+  - @myst-theme/frontmatter@2.0.0
+  - myst-to-react@2.0.0
+  - myst-demo@2.0.0
+  - @myst-theme/providers@2.0.0
+  - @myst-theme/diagrams@2.0.0
+  - @myst-theme/search@2.0.0
+
 ## 1.4.1
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # myst-to-react
 
+## 2.0.0
+
+### Minor Changes
+
+- ced8bde: Drop support for React 16/17 & upgrade to React Router 8
+
+### Patch Changes
+
+- Updated dependencies [54f4d2c]
+- Updated dependencies [ced8bde]
+- Updated dependencies [80688e2]
+  - @myst-theme/common@2.0.0
+  - @myst-theme/providers@2.0.0
+
 ## 1.4.1
 
 ### Patch Changes

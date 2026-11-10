@@ -1,5 +1,43 @@
 # @myst-theme/book
 
+## 2.0.0
+
+### Major Changes
+
+- ced8bde: Drop support for React 16/17 & upgrade to React Router 8
+
+### Minor Changes
+
+- 54f4d2c: Add a breadcrumb trail above the page title in the book theme.
+  It lists the page's ancestors from the table of contents.
+  Fix a small vertical misalignment between the left sidebar, page content, and right outline.
+
+### Patch Changes
+
+- 5fcfdbd: Fix base url handling of server (not HTML renderer)
+- 23817b1: Add fatal error when using theme to build under old mystmd
+- 80688e2: Add redirects
+- 8cfa737: Remove public serving
+- Updated dependencies [54f4d2c]
+- Updated dependencies [ced8bde]
+- Updated dependencies [93f6065]
+- Updated dependencies [80688e2]
+- Updated dependencies [ea3ed7d]
+- Updated dependencies [1c50887]
+  - @myst-theme/common@2.0.0
+  - @myst-theme/frontmatter@2.0.0
+  - @myst-theme/site@2.0.0
+  - @myst-theme/landing-pages@2.0.0
+  - myst-to-react@2.0.0
+  - @myst-theme/anywidget@2.0.0
+  - @myst-theme/prerender@0.1.0
+  - @myst-theme/providers@2.0.0
+  - @myst-theme/jupyter@2.0.0
+  - @myst-theme/icons@2.0.0
+  - @myst-theme/styles@2.0.0
+  - @myst-theme/search@2.0.0
+  - @myst-theme/search-minisearch@2.0.0
+
 ## 1.4.1
 
 ### Patch Changes

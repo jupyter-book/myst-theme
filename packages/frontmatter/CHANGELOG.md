@@ -1,5 +1,14 @@
 # @myst-theme/frontmatter
 
+## 2.0.0
+
+### Minor Changes
+
+- 54f4d2c: Add a breadcrumb trail above the page title in the book theme.
+  It lists the page's ancestors from the table of contents.
+  Fix a small vertical misalignment between the left sidebar, page content, and right outline.
+- ced8bde: Drop support for React 16/17 & upgrade to React Router 8
+
 ## 1.4.1
 
 ## 1.4.0

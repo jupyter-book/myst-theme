@@ -97,4 +97,5 @@ export type CommonTemplateOptions = {
   hide_breadcrumbs?: boolean;
   outline_maxdepth?: number;
   redirects?: string[];
+  extensions?: string[];
 };

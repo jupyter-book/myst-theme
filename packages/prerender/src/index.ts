@@ -155,7 +155,7 @@ async function getCDNItems(cdnUrl: string): Promise<RenderablePath[]> {
     // We need to get the index from a slug page to make remix happy
     // If this gets from the index, then the site will trigger the wrong render path
     // And then hydration does not match
-    const pages = [...localProj.pages, ...localProj.hiddenPages].filter(
+    const pages = [...localProj.pages, ...(localProj.hiddenPages ?? [])].filter(
       (page): page is Page & { slug: string } => !!page.slug,
     );
     return [

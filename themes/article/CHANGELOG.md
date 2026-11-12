@@ -1,5 +1,28 @@
 # @myst-theme/article
 
+## 2.1.0
+
+### Minor Changes
+
+- c3e99b4: Bump minimim versions
+
+### Patch Changes
+
+- f3f6317: Fix link logic that added the site's base URL twice (e.g., `/blog/blog/`).
+- Updated dependencies [f3f6317]
+- Updated dependencies [e38a25a]
+- Updated dependencies [c3e99b4]
+  - @myst-theme/site@2.1.0
+  - @myst-theme/prerender@0.2.0
+  - myst-to-react@2.1.0
+  - @myst-theme/frontmatter@2.1.0
+  - @myst-theme/anywidget@2.1.0
+  - @myst-theme/providers@2.1.0
+  - @myst-theme/jupyter@2.1.0
+  - @myst-theme/common@2.1.0
+  - @myst-theme/styles@2.1.0
+  - @myst-theme/icons@2.1.0
+
 ## 2.0.0
 
 ### Major Changes

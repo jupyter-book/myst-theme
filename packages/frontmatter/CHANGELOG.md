@@ -1,5 +1,11 @@
 # @myst-theme/frontmatter
 
+## 2.1.0
+
+### Minor Changes
+
+- c3e99b4: Bump minimim versions
+
 ## 2.0.0
 
 ### Minor Changes

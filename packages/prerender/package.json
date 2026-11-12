@@ -1,7 +1,7 @@
 {
   "name": "@myst-theme/prerender",
-  "version": "0.1.0",
-  "type": "module",  
+  "version": "0.2.0",
+  "type": "module",
   "exports": "./dist/index.js",
   "types": "./src/index.ts",
   "files": [
@@ -23,7 +23,7 @@
     "build": "npm-run-all -l clean -p build:esm"
   },
   "dependencies": {
-    "@myst-theme/common": "^2.0.0"
+    "@myst-theme/common": "^2.1.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.2",

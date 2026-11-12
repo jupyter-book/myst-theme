@@ -1,5 +1,16 @@
 # @myst-theme/anywidget
 
+## 2.1.0
+
+### Minor Changes
+
+- c3e99b4: Bump minimim versions
+
+### Patch Changes
+
+- Updated dependencies [c3e99b4]
+  - @myst-theme/providers@2.1.0
+
 ## 2.0.0
 
 ### Minor Changes

@@ -1,5 +1,17 @@
 # @myst-theme/prerender
 
+## 0.2.0
+
+### Minor Changes
+
+- c3e99b4: Bump minimim versions
+
+### Patch Changes
+
+- e38a25a: Support hidden pages
+- Updated dependencies [c3e99b4]
+  - @myst-theme/common@2.1.0
+
 ## 0.1.0
 
 ### Minor Changes

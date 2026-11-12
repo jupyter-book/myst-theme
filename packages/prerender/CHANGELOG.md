@@ -1,5 +1,11 @@
 # @myst-theme/prerender
 
+## 0.2.1
+
+### Patch Changes
+
+- a3dd9b6: Bump patch to trigger trusted publisher
+
 ## 0.2.0
 
 ### Minor Changes

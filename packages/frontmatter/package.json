@@ -31,10 +31,10 @@
     "@radix-ui/react-popover": "^1.1.2",
     "@scienceicons/react": "^0.0.13",
     "classnames": "^2.3.2",
-    "myst-common": "^1.8.1",
-    "myst-config": "^1.8.1",
-    "myst-frontmatter": "^1.8.1",
-    "myst-spec-ext": "^1.8.1"
+    "myst-common": "^1.11.0",
+    "myst-config": "^1.11.0",
+    "myst-frontmatter": "^1.11.0",
+    "myst-spec-ext": "^1.11.0"
   },
   "peerDependencies": {
     "@types/react": "^18.0 || ^19.0",

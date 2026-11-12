@@ -28,15 +28,15 @@
   "dependencies": {
     "@myst-theme/common": "^2.0.0",
     "@myst-theme/search": "^2.0.0",
-    "myst-spec-ext": "^1.8.1",
+    "myst-spec-ext": "^1.11.0",
     "regexp.escape": "^2.0.1"
   },
   "peerDependencies": {
     "@types/react": "^18.0 || ^19.0",
     "@types/react-dom": "^18.0 || ^19.0",
-    "myst-common": "^1.8.1",
-    "myst-config": "^1.8.1",
-    "myst-frontmatter": "^1.8.1",
+    "myst-common": "^1.11.0",
+    "myst-config": "^1.11.0",
+    "myst-frontmatter": "^1.11.0",
     "react": "^18.0 || ^19.0",
     "react-dom": "^18.0 || ^19.0"
   },

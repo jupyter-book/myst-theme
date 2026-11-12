@@ -305,7 +305,7 @@ export function FrontmatterBlock({
         </div>
       )}
       {title && (
-        <h1 className="myst-fm-block-title mb-0">
+        <h1 className="myst-heading myst-fm-block-title mb-0">
           {enumerator && (
             <span className="myst-fm-block-enumerator mr-3 select-none"> {enumerator} </span>
           )}

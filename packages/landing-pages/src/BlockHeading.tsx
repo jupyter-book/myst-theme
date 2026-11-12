@@ -10,7 +10,7 @@ export function BlockHeading({ node, className }: { node: GenericParent; classNa
   return e(
     `h${depth}`,
     {
-      className: classNames('myst-landing-heading', node.class, className, 'group'),
+      className: classNames('myst-heading myst-landing-heading', node.class, className, 'group'),
       id: id,
     },
     <>

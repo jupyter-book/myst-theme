@@ -35,10 +35,10 @@ project:
       children:
         - file: color-picker.md
     - file: permalinks.md
-    - file: reference/index.md
+    - title: Visual Reference
       children:
-      - pattern: 'reference/!(index)*.md'
-    - file: developer/index.md
+      - pattern: 'reference/*.md'
+    - title: Developer Guide
       children:
        - file: developer/local.md
        - file: developer/tips.md

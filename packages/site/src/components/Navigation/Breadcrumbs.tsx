@@ -1,11 +1,10 @@
 import classNames from 'classnames';
 import type { BreadcrumbItem } from '@myst-theme/common';
-import { useBaseurl, useLinkProvider, withBaseurl } from '@myst-theme/providers';
+import { useLinkProvider } from '@myst-theme/providers';
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/24/solid';
 
 /** Render a breadcrumb trail. `items` comes from `getBreadcrumbs()` */
 export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
-  const baseurl = useBaseurl();
   const Link = useLinkProvider();
   return (
     <nav aria-label="Breadcrumb" className="myst-breadcrumbs not-prose min-w-0 mr-2">
@@ -29,7 +28,7 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
               {item.path && !isLast ? (
                 <Link
                   prefetch="intent"
-                  to={withBaseurl(item.path, baseurl)}
+                  to={item.path}
                   className="myst-breadcrumbs-link flex items-center gap-1 no-underline text-inherit hover:text-myst-active"
                 >
                   {label}

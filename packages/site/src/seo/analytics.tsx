@@ -3,11 +3,13 @@ type SiteAnalytics = {
   analytics_plausible?: string;
 };
 
-/** `option` is a Plausible script URL, or a site domain for the legacy script */
+/** `option` is a Plausible script URL, or a site domain when still using the legacy script */
 function PlausibleAnalytics({ option }: { option: string }) {
   if (option.startsWith('http') && option.includes('.js')) {
     return <script async src={option}></script>;
   }
+  /* 2026-11-16: Legacy data-domain configuration */
+  /* Can be removed in a year or so */
   return <script defer data-domain={option} src="https://plausible.io/js/plausible.js"></script>;
 }
 

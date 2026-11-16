@@ -60,7 +60,7 @@
   },
   "packageManager": "bun@1.3.10",
   "lint-staged": {
-    "*.ts": "eslint --config ./.eslintrc.cjs --fix",
+    "*.ts": "eslint --config ./.eslintrc.js --fix",
     "*.{js,jsx,ts,tsx,md,html,css,json}": "prettier --write"
   },
   "patchedDependencies": {

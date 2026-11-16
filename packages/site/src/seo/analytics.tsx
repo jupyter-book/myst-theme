@@ -3,19 +3,21 @@ type SiteAnalytics = {
   analytics_plausible?: string;
 };
 
+/** `option` is a Plausible script URL, or a site domain for the legacy script */
+function PlausibleAnalytics({ option }: { option: string }) {
+  if (option.startsWith('http') && option.includes('.js')) {
+    return <script async src={option}></script>;
+  }
+  return <script defer data-domain={option} src="https://plausible.io/js/plausible.js"></script>;
+}
+
 const getGoogleAnalyticsScript = (tag: string) =>
   `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${tag}');`;
 
 export function Analytics({ analytics_google, analytics_plausible }: SiteAnalytics) {
   return (
     <>
-      {analytics_plausible && (
-        <script
-          defer
-          data-domain={analytics_plausible}
-          src="https://plausible.io/js/plausible.js"
-        ></script>
-      )}
+      {analytics_plausible && <PlausibleAnalytics option={analytics_plausible} />}
       {analytics_google && (
         <>
           <script

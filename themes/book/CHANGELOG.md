@@ -1,5 +1,25 @@
 # @myst-theme/book
 
+## 2.1.1
+
+### Patch Changes
+
+- 10ff3a2: Add pre-render concurrency control
+- Updated dependencies [10ff3a2]
+  - @myst-theme/prerender@0.3.0
+  - @myst-theme/providers@2.1.1
+  - @myst-theme/frontmatter@2.1.1
+  - @myst-theme/jupyter@2.1.1
+  - @myst-theme/site@2.1.1
+  - @myst-theme/styles@2.1.1
+  - @myst-theme/common@2.1.1
+  - @myst-theme/icons@2.1.1
+  - @myst-theme/search@2.1.1
+  - @myst-theme/search-minisearch@2.1.1
+  - @myst-theme/landing-pages@2.1.1
+  - @myst-theme/anywidget@2.1.1
+  - myst-to-react@2.1.1
+
 ## 2.1.0
 
 ### Minor Changes

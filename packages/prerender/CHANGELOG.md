@@ -1,5 +1,15 @@
 # @myst-theme/prerender
 
+## 0.3.0
+
+### Minor Changes
+
+- 10ff3a2: Add pre-render concurrency control
+
+### Patch Changes
+
+- @myst-theme/common@2.1.1
+
 ## 0.2.1
 
 ### Patch Changes

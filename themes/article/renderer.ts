@@ -5,13 +5,13 @@ import * as build from 'virtual:react-router/server-build';
 
 const CLIENT_PATH = path.join(path.dirname(import.meta.dirname), 'client');
 const OUT_PATH = process.env.BUILD_DIRECTORY;
-const CONCURRENCY = concurrency = parseInt(process.env.RENDERER_CONCURRENCY ?? '4');
+const CONCURRENCY = parseInt(process.env.RENDERER_CONCURRENCY ?? '4');
 
 if (OUT_PATH === undefined) {
   throw new Error('Missing build path');
 }
 
-
+console.log(CONCURRENCY);
 await fs.rm(OUT_PATH, { recursive: true, force: true });
 await fs.cp(CLIENT_PATH, OUT_PATH, { recursive: true });
 

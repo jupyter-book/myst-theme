@@ -55,6 +55,7 @@ import { createHash } from 'node:crypto';
 import * as fsp from 'node:fs/promises';
 import * as path from 'node:path';
 import { createRequestHandler, type ServerBuild } from 'react-router';
+import pMap from 'p-map';
 
 import type { SiteManifest } from 'myst-config';
 import { normalizeBaseURL, parseRedirect } from '@myst-theme/common';
@@ -333,12 +334,16 @@ async function renderRenderablePath(
   }
 }
 
+export type Options = {
+  concurrency?: number;
+};
+
 /*
  * Pre-render a MyST site post-compile into an HTML project
  *
  * Requires a running MyST content server
  */
-export async function prerender(build: ServerBuild, outPath: string) {
+export async function prerender(build: ServerBuild, outPath: string, options?: Options) {
   // In future, if we pre-render `.data` routes, we'll want to set
   // this so that we can pass the data into the headers of secondary
   // requests
@@ -368,7 +373,7 @@ export async function prerender(build: ServerBuild, outPath: string) {
     'production',
   );
 
-  await Promise.all(
-    renderItems.map((item) => renderRenderablePath(handler, item, outPath, baseUrl)),
-  );
+  await pMap(renderItems, (item) => renderRenderablePath(handler, item, outPath, baseUrl), {
+    concurrency: options?.concurrency ?? 4,
+  });
 }

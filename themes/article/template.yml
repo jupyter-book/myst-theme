@@ -57,7 +57,7 @@ options:
     description: Google analytics key
   - type: string
     id: analytics_plausible
-    description: Plausible analytics key
+    description: Plausible script URL (https://plausible.io/js/pa-....js), or a site domain for the legacy Plausible script
   - type: boolean
     id: numbered_references
     description: Show references as numbered, rather than in APA-style. Only applies to parenthetical citations

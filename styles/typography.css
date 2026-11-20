@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Tailwind's default sans font stack */
+    --myst-font-body:
+      ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+      'Segoe UI Symbol', 'Noto Color Emoji';
+    --myst-font-heading: var(--myst-font-body);
+    /* Jupyter's default code font stack */
+    --myst-font-mono: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  }
+  /* thebe-core.css loads after this file and styles code with --jp-code-font-family on :root */
+  body {
+    --jp-code-font-family: var(--myst-font-mono);
+  }
+  .myst-heading {
+    font-family: var(--myst-font-heading);
+  }
+}
+
 @layer utilities {
   .smallcaps {
     font-variant: small-caps;

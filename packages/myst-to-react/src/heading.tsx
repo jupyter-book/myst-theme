@@ -21,7 +21,7 @@ const Heading: NodeRenderer = ({ node, className }) => {
     `h${depth}`,
     {
       id,
-      className: classNames('relative group', className),
+      className: classNames('myst-heading relative group', className),
     },
     textContent,
   );

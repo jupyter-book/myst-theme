@@ -1,5 +1,5 @@
 .font-system {
-  font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  font-family: var(--myst-font-mono);
 }
 
 /* Hide the output prompts from jupyter by default */

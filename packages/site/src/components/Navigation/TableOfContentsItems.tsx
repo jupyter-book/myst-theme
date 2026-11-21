@@ -164,12 +164,14 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
   const isStaticBuild = useIsStaticBuild();
   const startOpen = childrenOpen([heading], pathname, baseurl).includes(heading.id);
   const nav = useNavigation();
-  const [open, setOpen] = React.useState(startOpen);
+  const [open, setOpen] = React.useState(startOpen || !!heading.open);
   useEffect(() => {
     // On pathname update, derive open state
     // We don't need heading and baseurl in dependencies, since they're fixed
     if (nav.state !== 'idle') return;
-    setOpen(childrenOpen([heading], pathname, baseurl).includes(heading.id));
+    // Entries marked `open` keep the reader's expand/collapse choice across navigation
+    const active = childrenOpen([heading], pathname, baseurl).includes(heading.id);
+    setOpen((prev) => active || (!!heading.open && prev));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nav.state, pathname]);
   const exact = pathnameMatchesHeading(pathname, heading, baseurl);

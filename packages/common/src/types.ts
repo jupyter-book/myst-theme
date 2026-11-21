@@ -24,6 +24,10 @@ export type Heading = {
   // For external URLs
   url?: string;
   open_in_same_tab?: boolean;
+  /** Expand this entry's children in the TOC on page load */
+  open?: boolean;
+  /** Identifier for links to a title-only entry in the TOC */
+  id?: string;
 };
 
 export type SiteLoader = {

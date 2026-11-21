@@ -12,25 +12,44 @@ import {
   useSiteManifest,
 } from '@myst-theme/providers';
 import { useLocation, useNavigation } from 'react-router';
+import { createHtmlId } from 'myst-common';
 import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 
-type NestedHeading = Heading & { id: string; children: NestedHeading[] };
+type NestedHeading = Heading & {
+  key: string;
+  children: NestedHeading[];
+  /** For title-only entries: the `toc` query parameter that selects the entry */
+  tocId?: string;
+  /** For title-only entries: path of the nearest ancestor page */
+  tocParentPath?: string;
+};
 
 function nestToc(toc: Heading[]): NestedHeading[] {
   const items: NestedHeading[] = [];
   const stack: (Omit<NestedHeading, 'level'> & { level: number })[] = [];
+  const tocIds = new Set<string>();
+  let indexPath: string | undefined;
 
-  toc.forEach((tocItem, id) => {
-    const item = tocItem as NestedHeading;
-    item.children = [];
-    item.id = String(id);
+  toc.forEach((tocItem, index) => {
+    const item = { ...tocItem, key: String(index), children: [] } as NestedHeading;
     if (item.level === 'index') {
       while (stack.length) stack.pop();
+      indexPath = item.path;
       items.push(item);
       return;
     }
     while (stack.length && stack[stack.length - 1].level >= item.level) {
       stack.pop();
+    }
+    if (!item.path && !item.url) {
+      const base = item.id ?? createHtmlId(item.title);
+      let tocId = base;
+      for (let n = 1; tocId && tocIds.has(tocId); n++) tocId = `${base}-${n}`;
+      if (tocId) {
+        tocIds.add(tocId);
+        item.tocId = tocId;
+        item.tocParentPath = [...stack].reverse().find((h) => h.path)?.path ?? indexPath;
+      }
     }
     const top = stack[stack.length - 1];
     if (top) {
@@ -43,39 +62,79 @@ function nestToc(toc: Heading[]): NestedHeading[] {
   return items;
 }
 
-function pathnameMatchesHeading(pathname: string, heading: Heading, baseurl?: string) {
-  // Normalize `pathname` to be comparable to the unprefixed `heading.path`.
+function pathnameMatchesPath(pathname: string, path: string | undefined, baseurl?: string) {
+  // Normalize `pathname` to be comparable to the unprefixed `path`.
   //
   // During SSR in `myst build --html` static builds, `useLocation().pathname`
   // does not include the site's `baseurl`; on the client it does (Remix does
   // not strip the basename here).
   //
   // Also strip any trailing slash, since static builds end up with one and
-  // `heading.path` needs to be without.
+  // `path` needs to be without.
   let normed = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
   if (baseurl && normed.startsWith(baseurl)) normed = normed.slice(baseurl.length);
-  const headingPath = heading.path;
-  if (normed && headingPath === `${normed}/index`) return true;
-  return headingPath === normed;
+  if (normed && path === `${normed}/index`) return true;
+  return path === normed;
 }
 
-function childrenOpen(headings: NestedHeading[], pathname: string, baseurl?: string): string[] {
+function findTocEntry(
+  headings: NestedHeading[],
+  match: (heading: NestedHeading) => boolean,
+): NestedHeading | undefined {
+  for (const heading of headings) {
+    if (match(heading)) return heading;
+    const found = findTocEntry(heading.children, match);
+    if (found) return found;
+  }
+}
+
+/** Keys of the current entry and its ancestors */
+function childrenOpen(
+  headings: NestedHeading[],
+  isCurrent: (heading: NestedHeading) => boolean,
+): string[] {
   return headings
     .map((heading) => {
-      if (pathnameMatchesHeading(pathname, heading, baseurl)) return [heading.id];
-      const open = childrenOpen(heading.children, pathname, baseurl);
+      if (isCurrent(heading)) return [heading.key];
+      const open = childrenOpen(heading.children, isCurrent);
       if (open.length === 0) return [];
-      return [heading.id, ...open];
+      return [heading.key, ...open];
     })
     .flat();
 }
 
+/**
+ * The `toc` query parameter of the URL.
+ * Static builds pre-render without a query, so the parameter applies after hydration.
+ */
+function useTocParam(): string | null {
+  const { search } = useLocation();
+  const isStaticBuild = useIsStaticBuild();
+  const [hydrated, setHydrated] = React.useState(!isStaticBuild);
+  useEffect(() => setHydrated(true), []);
+  if (!hydrated) return null;
+  return new URLSearchParams(search).get('toc');
+}
+
 export const Toc = ({ headings }: { headings: Heading[] }) => {
   const nested = nestToc(headings);
+  const { pathname } = useLocation();
+  const baseurl = useBaseurl();
+  const tocParam = useTocParam();
+  // A title-only entry is current when the URL has its parent path and its `toc` parameter
+  const currentGroup = tocParam
+    ? findTocEntry(
+        nested,
+        (h) =>
+          h.tocId === tocParam &&
+          // The normalized pathname of the site root is empty
+          pathnameMatchesPath(pathname, h.tocParentPath === '/' ? '' : h.tocParentPath, baseurl),
+      )
+    : undefined;
   return (
     <div className="myst-toc w-full px-1 text-myst-text">
       {nested.map((item) => (
-        <NestedToc heading={item} key={item.id} />
+        <NestedToc heading={item} key={item.key} currentGroupKey={currentGroup?.key} />
       ))}
     </div>
   );
@@ -84,10 +143,12 @@ export const Toc = ({ headings }: { headings: Heading[] }) => {
 function LinkItem({
   className,
   heading,
+  current,
   onClick,
 }: {
   className?: string;
   heading: NestedHeading;
+  current?: boolean;
   onClick?: () => void;
 }) {
   const Link = useLinkProvider();
@@ -122,6 +183,28 @@ function LinkItem({
       </Link>
     );
   }
+  if (!heading.path && heading.tocParentPath !== undefined) {
+    const label = `${heading.enumerator ? `${heading.enumerator} ` : ''}${
+      heading.short_title || heading.title
+    }`;
+    return (
+      <Link
+        title={`${heading.enumerator ? `${heading.enumerator} ` : ''}${heading.title}`}
+        className={classNames(
+          'block break-words focus:outline outline-myst-focus-outline outline-2 rounded',
+          className,
+        )}
+        to={`${heading.tocParentPath}?toc=${encodeURIComponent(heading.tocId!)}`}
+        aria-current={current ? 'page' : undefined}
+        onClick={() => {
+          onClick?.();
+          setOpen(false);
+        }}
+      >
+        {label}
+      </Link>
+    );
+  }
   if (!heading.path) {
     return (
       <div
@@ -146,6 +229,8 @@ function LinkItem({
         className,
       )}
       to={heading.path}
+      // NavLink matches the pathname only, so `current` overrides it when a title-only entry is current
+      aria-current={current === undefined ? undefined : current ? 'page' : false}
       onClick={() => {
         onClick?.();
         setOpen(false);
@@ -158,21 +243,32 @@ function LinkItem({
   );
 }
 
-const NestedToc = ({ heading }: { heading: NestedHeading }) => {
+const NestedToc = ({
+  heading,
+  currentGroupKey,
+}: {
+  heading: NestedHeading;
+  currentGroupKey?: string;
+}) => {
   const { pathname } = useLocation();
   const baseurl = useBaseurl();
   const isStaticBuild = useIsStaticBuild();
-  const startOpen = childrenOpen([heading], pathname, baseurl).includes(heading.id);
+  const isCurrent = (h: NestedHeading) =>
+    currentGroupKey ? h.key === currentGroupKey : pathnameMatchesPath(pathname, h.path, baseurl);
+  const startOpen = childrenOpen([heading], isCurrent).includes(heading.key);
   const nav = useNavigation();
-  const [open, setOpen] = React.useState(startOpen);
+  const [open, setOpen] = React.useState(startOpen || !!heading.open);
   useEffect(() => {
     // On pathname update, derive open state
     // We don't need heading and baseurl in dependencies, since they're fixed
     if (nav.state !== 'idle') return;
-    setOpen(childrenOpen([heading], pathname, baseurl).includes(heading.id));
+    // Entries marked `open` keep the reader's expand/collapse choice across navigation
+    const active = childrenOpen([heading], isCurrent).includes(heading.key);
+    setOpen((prev) => active || (!!heading.open && prev));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nav.state, pathname]);
-  const exact = pathnameMatchesHeading(pathname, heading, baseurl);
+  }, [nav.state, pathname, currentGroupKey]);
+  const exact = isCurrent(heading);
+  const current = currentGroupKey ? exact : undefined;
   if (!heading.children || heading.children.length === 0) {
     return (
       <LinkItem
@@ -182,6 +278,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
           'font-bold': heading.level === 'index',
         })}
         heading={heading}
+        current={current}
       />
     );
   }
@@ -202,8 +299,9 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
             'cursor-pointer': !heading.path,
           })}
           heading={heading}
+          current={current}
           onClick={() => {
-            if (heading.path) {
+            if (heading.path || heading.tocParentPath !== undefined) {
               // Clicking a header with its own page navigates away.
               // We don't want to animate before doing so, since after the reload there will be an animation anyway.
               // So, only perform the open for non-static build.
@@ -231,7 +329,7 @@ const NestedToc = ({ heading }: { heading: NestedHeading }) => {
         style={isStaticBuild ? { animation: 'none' } : undefined}
       >
         {heading.children.map((item) => (
-          <NestedToc heading={item} key={item.id} />
+          <NestedToc heading={item} key={item.key} currentGroupKey={currentGroupKey} />
         ))}
       </Collapsible.Content>
     </Collapsible.Root>

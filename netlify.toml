@@ -13,7 +13,8 @@
     # GITHUB_TOKEN must be set in Netlify env vars (read-only PAT, read:project scope)
     # to query the project board (https://github.com/orgs/jupyter-book/projects/4).
     #
-    # Falls back to `main` if unset or not a PR build.
+    # Falls back to `main` if unset, not a PR build, or GITHUB_TOKEN is missing
+    # (Netlify doesn't expose secrets to deploy previews of PRs from forks).
     read -r mystmd_url mystmd_ref < <(python .github/tools/get-mystmd-branch.py) &&
     echo "Building with mystmd: $mystmd_url@$mystmd_ref" &&
     (git clone --depth 1 --branch "$mystmd_ref" "$mystmd_url" /tmp/mystmd && \

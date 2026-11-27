@@ -1,9 +1,14 @@
-import type { LinksFunction, LoaderFunction } from 'react-router';
+import type { Route } from './+types/root';
 import '~/styles/app.css';
 import 'thebe-core/dist/lib/thebe-core.css';
-import { getConfig } from '~/utils/loaders.server';
-import type { SiteLoader } from '@myst-theme/common';
-import { normalizeBaseURL } from '@myst-theme/common';
+import { getConfig, getCDNUrl } from '~/utils/loaders.server';
+import type {
+  SiteLoader,
+  ConfigRemote,
+  ThemeRemote,
+  ThemeExtensionsMetadata,
+} from '@myst-theme/common';
+import { normalizeBaseURL, parseExtensionSpec } from '@myst-theme/common';
 import {
   Document,
   responseNoSite,
@@ -22,7 +27,11 @@ import { SEARCH_ATTRIBUTES_ORDERED } from '@myst-theme/search';
 import { JUPYTER_RENDERERS } from '@myst-theme/jupyter';
 import { LANDING_PAGE_RENDERERS } from '@myst-theme/landing-pages';
 import { ANY_RENDERERS } from '@myst-theme/anywidget';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
+import type { ThemeExtension } from '@myst-theme/federation';
+
+import { loadClientRemotes, expandLocalRemotes } from '@myst-theme/federation-browser';
+import { getRemoteStyles } from '@myst-theme/federation-node';
 
 const RENDERERS: NodeRenderers = mergeRenderers([
   defaultRenderers,
@@ -31,7 +40,7 @@ const RENDERERS: NodeRenderers = mergeRenderers([
   ANY_RENDERERS,
 ]);
 
-export const links: LinksFunction = () => {
+export function links(): ReturnType<Route.LinksFunction> {
   return [
     {
       rel: 'stylesheet',
@@ -42,20 +51,48 @@ export const links: LinksFunction = () => {
       href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css',
     },
   ];
-};
+}
 
-export const loader: LoaderFunction = async (): Promise<SiteLoader> => {
+async function createExtensions(
+  configRemotes: ConfigRemote[],
+  baseURL: string,
+): Promise<ThemeExtensionsMetadata> {
+  const remotes = expandLocalRemotes(configRemotes, {
+    resolver: ({ entry }: ConfigRemote) => {
+      if (entry.startsWith('/')) {
+        return {
+          hostEntry: getCDNUrl(entry.slice(1)),
+          entry: `${baseURL}/_public${entry}`,
+        };
+      }
+    },
+  });
+  const remoteStyles = await getRemoteStyles(remotes);
+  return {
+    remotes,
+    remoteStyles,
+  };
+}
+
+export async function loader(): Promise<SiteLoader> {
   const baseURL = normalizeBaseURL(process.env.BASE_URL ?? '');
   const config = await getConfig().catch(() => null);
   if (!config) throw responseNoSite();
+
+  const configRemotes = (config.options?.extensions ?? [])
+    .map(parseExtensionSpec)
+    .filter(Boolean) as ConfigRemote[];
+  const extensions = await createExtensions(configRemotes, baseURL);
+
   const data = {
     config,
+    extensions,
     CONTENT_CDN_PORT: process.env.CONTENT_CDN_PORT ?? 3100,
     STATIC_BUILD: !!import.meta.env.VITE_BUILD_HTML,
     BASE_URL: baseURL,
   };
   return data;
-};
+}
 
 function createSearch(index: MystSearchIndex): ISearch {
   const options = {
@@ -119,11 +156,10 @@ function NoCSSWarning() {
   );
 }
 
-export default function App() {
+function AppWithRenderers({ renderers }: { renderers: NodeRenderers }) {
   const { config, CONTENT_CDN_PORT, STATIC_BUILD, BASE_URL } = useLoaderData<SiteLoader>();
 
   const searchFactory = useCallback((index: MystSearchIndex) => createSearch(index), []);
-
   return (
     <SearchFactoryProvider factory={searchFactory}>
       <Document
@@ -131,7 +167,7 @@ export default function App() {
         scripts={STATIC_BUILD ? undefined : <ContentReload port={CONTENT_CDN_PORT} />}
         staticBuild={STATIC_BUILD}
         baseurl={BASE_URL}
-        renderers={RENDERERS}
+        renderers={renderers}
         head={
           <>
             <link rel="icon" href={`${BASE_URL || ''}/favicon.ico`} />
@@ -149,5 +185,48 @@ export default function App() {
         <Outlet />
       </Document>
     </SearchFactoryProvider>
+  );
+}
+
+/**
+ * Load federated extensions, consume their `renderers` export,
+ * and build a merged renderer
+ *
+ * Store the same promise, so that multiple calls return the same token.
+ */
+let _loadedRenderers: Promise<NodeRenderers>;
+function loadRenderers(remotes: ThemeRemote[]) {
+  if (_loadedRenderers) {
+    return _loadedRenderers;
+  }
+
+  _loadedRenderers = (
+    import.meta.env.SSR
+      ? import('@myst-theme/federation-node').then((mod) =>
+          mod.loadServerRemotes<ThemeExtension>('book-theme', remotes),
+        )
+      : loadClientRemotes<ThemeExtension>('book-theme', remotes)
+  ).then((loadedRemotes) =>
+    mergeRenderers([RENDERERS, ...loadedRemotes.map((m) => m.v1.renderers).filter((r) => !!r)]),
+  );
+
+  return _loadedRenderers;
+}
+
+export default function App() {
+  const { extensions } = useLoaderData<SiteLoader>();
+  return (
+    <>
+      {/* Remote CSS, in the server HTML: no unstyled flash before hydration. */}
+      {extensions?.remoteStyles.map((href) => (
+        <link key={href} rel="stylesheet" href={href} precedence="default" />
+      ))}
+      <React.Suspense fallback={<AppWithRenderers renderers={RENDERERS} />}>
+        {(() => {
+          const nextRenderers = React.use(loadRenderers(extensions?.remotes ?? []));
+          return <AppWithRenderers renderers={nextRenderers} />;
+        })()}
+      </React.Suspense>
+    </>
   );
 }

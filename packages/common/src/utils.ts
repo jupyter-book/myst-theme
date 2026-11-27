@@ -3,7 +3,14 @@ import { walkOutputs } from 'nbtx';
 import type { SiteManifest } from 'myst-config';
 import { selectAll } from 'unist-util-select';
 import type { Image as ImageSpec, Link as LinkSpec } from 'myst-spec';
-import type { BreadcrumbItem, FooterLinks, Heading, NavigationLink, PageLoader } from './types.js';
+import type {
+  BreadcrumbItem,
+  FooterLinks,
+  Heading,
+  NavigationLink,
+  PageLoader,
+  ConfigRemote,
+} from './types.js';
 import type { GenericParent } from 'myst-common';
 import { slugToUrl } from 'myst-common';
 
@@ -315,6 +322,8 @@ export type Redirect = {
 
 /**
  * Parse a redirect string of the form /foo -> /bar into a `/foo` `/bar` pair
+ *
+ * @param redirect redirect specificastion
  */
 export function parseRedirect(redirect: string): Redirect | undefined {
   const [_, src, dst] = redirect.match(/^(\/\S+)\s*->\s*(\/\S+)$/) ?? [];
@@ -322,4 +331,20 @@ export function parseRedirect(redirect: string): Redirect | undefined {
     return undefined;
   }
   return { src, dst };
+}
+
+/**
+ * Parse an extension specification of the form "name@entry"
+ * into a `{ name, entry }` pair.
+ *
+ * @param spec specification string
+ */
+export function parseExtensionSpec(spec: string): ConfigRemote | undefined {
+  const match = spec.match(/([^@]+)@(.*)/);
+  if (!match) {
+    return undefined;
+  }
+  const [_, name, entry] = match;
+
+  return { name, entry };
 }

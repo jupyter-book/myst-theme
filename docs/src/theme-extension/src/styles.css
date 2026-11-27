@@ -1,0 +1,17 @@
+/** A few custom CSS rules to show off the custom renderer capabilities */
+.fancy-note {
+  border: 2px dashed rebeccapurple;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+}
+
+.fancy-note-title {
+  font-weight: bold;
+  color: rebeccapurple;
+}
+
+.fancy-quote blockquote {
+  border-left: 4px solid orange;
+  background: rgba(255, 165, 0, 0.08);
+}

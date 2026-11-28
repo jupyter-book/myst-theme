@@ -34,6 +34,7 @@ project:
     - file: ui.md
     - file: authorship.md
     - file: anywidgets.md
+    - file: extensions.md
     - file: theming.md
       children:
         - file: color-picker.md

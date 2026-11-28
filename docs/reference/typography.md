@@ -5,10 +5,6 @@ abbreviations:
 ---
 
 # Heading Level 1
-:::{fancy-note} A custom node
-This node type does not exist in the theme. Its renderer and CSS were loaded at runtime.
-:::
-
 Some text.
 
 ## Heading Level 2

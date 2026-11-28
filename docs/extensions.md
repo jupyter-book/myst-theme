@@ -15,6 +15,28 @@ Extensions are built from [Federated Modules](https://module-federation.io/) and
 A MyST Theme extension is a JavaScript module that the theme loads at runtime.
 It ships new node renderers, and may ship more in the future.
 These renderers re-use the main theme application's React context and other shared modules.
+
+### Example
+
+Once MyST Theme has loaded an extension, it uses the extension's renderers whenever it renders a matching node.
+
+For example, here is a snippet that creates a `fancyNote` node.
+The `{fancy-note}` directive comes from a [small MyST plugin](https://github.com/jupyter-book/myst-theme/blob/main/docs/src/fancy-note.mjs) that this site loads.
+
+```markdown
+:::{fancy-note} A custom node
+This node type does not exist in the theme. Its renderer and CSS were loaded at runtime.
+:::
+```
+
+produces:
+
+:::{fancy-note} A custom node
+This node type does not exist in the theme. Its renderer and CSS were loaded at runtime.
+:::
+
+## Writing an extension
+
 Any extension module must provide a `v1` named export with the following specification:
 
 ```typescript
@@ -79,25 +101,6 @@ site:
     extensions:
       - theme-extension@/fancy-note/mf-manifest.json
 ```
-
-## Using custom node renderers
-
-Once MyST Theme has loaded the extension, it uses the extension's renderers whenever it renders a matching node.
-
-For example, here is a snippet that creates a `fancyNote` node.
-The `{fancy-note}` directive comes from a [small MyST plugin](https://github.com/jupyter-book/myst-theme/blob/main/docs/src/fancy-note.mjs) that this site loads.
-
-```markdown
-:::{fancy-note} A custom node
-This node type does not exist in the theme. Its renderer and CSS were loaded at runtime.
-:::
-```
-
-produces:
-
-:::{fancy-note} A custom node
-This node type does not exist in the theme. Its renderer and CSS were loaded at runtime.
-:::
 
 ## Running the demo locally
 

@@ -2,58 +2,112 @@
 title: Extensions
 ---
 
-:::{caution} Extensions are experimental
-
-MyST Theme ships with _experimental_ support for extensions. We may change and/or remove this functionality in future in favour of alternatives!
+:::{caution} Extensions are experimental and may break!
+MyST Theme ships with _experimental_ support for extensions.
+We may change or remove this functionality in the future in favour of alternatives!
 :::
 
-This page demonstrates the theme extension functionality in `myst-theme`. Extensions are built from [Federated Modules](https://module-federation.io/) and export a well-defined interface. 
+This page demonstrates the theme extension functionality in `myst-theme`.
+Extensions are built from [Federated Modules](https://module-federation.io/) and export a well-defined interface.
 
 ## What is an extension?
 
-A MyST Theme extension is a dynamically loaded JavaScript module(s) that ships new node renderers (and more, in future) that re-use the main theme application's React context and other shared modules. Any extension module must provide a `v1` named export with the following specification:
+A MyST Theme extension is a JavaScript module that the theme loads at runtime.
+It ships new node renderers, and may ship more in the future.
+These renderers re-use the main theme application's React context and other shared modules.
+Any extension module must provide a `v1` named export with the following specification:
+
 ```typescript
 const v1: ThemeExtensionV1['v1'] = {
   renderers: NodeRenderers
 };
 export { v1 };
 ```
-where the `NodeRenderers` type is provided by `@myst-theme/providers`. Examples of `NOodeRenderers` can be seen in e.g. the `@myst-theme/anywidget` package.
+
+The `@myst-theme/providers` package exports the `NodeRenderers` type, which is defined in [`packages/providers/src/renderers.tsx`](https://github.com/jupyter-book/myst-theme/blob/5eb9fe451f316aafb2cb19c7b044051c16a4854a/packages/providers/src/renderers.tsx#L5).
+For an example of `NodeRenderers` in use, see [`ANY_RENDERERS`](https://github.com/jupyter-book/myst-theme/blob/5eb9fe451f316aafb2cb19c7b044051c16a4854a/packages/anywidget/src/index.tsx#L6) in the `@myst-theme/anywidget` package.
 
 ## Building an extension
-Each extension must be built from a JavaScript (or TypeScript) project using the [Vite](https://vite.dev) build system with the following important configuration:
+
+Each extension must be built from a JavaScript or TypeScript project with the [Vite](https://vite.dev) build system.
+The Vite config needs two important pieces:
 
 - Server-side rendering ({abbr}`SSR (Server Side Rendering)`)
 - Module Federation ({abbr}`MF (Module Federation)`)
 
-This configuration can be a little fiddly, so we would recommend simply copying the demonstration config in <https://github.com/jupyter-book/myst-theme/blob/feat-mf-ssr/docs/src/theme-extension/vite.config.mjs> as a starting point. In future, we will likely build tooling to bootstrap this process. This configuration assues that your 
+This configuration can be a little fiddly, so we recommend copying the demo's [`vite.config.mjs`](https://github.com/jupyter-book/myst-theme/blob/main/docs/src/theme-extension/vite.config.mjs) as a starting point.
+In the future, we will likely build tooling to bootstrap this process.
+We track this work in https://github.com/jupyter-book/mystmd/issues/2620.
 
-The most important points for the MF config are that it should use the `buildRemoteShared` functionality from `@myst-theme/federation` to define the set of shared packages, and that the build should generate a manifest (`mf-manifest.json`).
+The two most important parts of the MF config are:
 
-In order to successfully build this project, you'll need various Vite and MF dependencies (see [`package.json`](https://github.com/jupyter-book/myst-theme/blob/feat-mf-ssr/docs/src/theme-extension/vite.config.mjs)).
+- It uses `buildRemoteShared` from `@myst-theme/federation` to define the set of shared packages.
+- The build writes a manifest, `mf-manifest.json`.
 
-After running `vite build` and `vite build --ssr`, the built extension bundle should contain at least the following three files:
+To build the project, you'll need several Vite and MF dependencies.
+See the demo's [`package.json`](https://github.com/jupyter-book/myst-theme/blob/main/docs/src/theme-extension/package.json) for the list.
+The demo installs `@myst-theme/federation` from a folder in this repository, so replace that path with the published package when you copy it.
+
+After you run `vite build` and `vite build --ssr`, the built extension bundle should contain at least these three files:
+
 - `<entry>.js`
 - `<entry>.ssr.js`
 - `mf-manifest.json`
 
-
 ## Loading an extension
-To load an extension into MyST Theme, it must be added to the `site.options.extensions` array as a string of the form `name @ entrypoint`. Both `mf-manifest.json` and `<entry>.js` are valid entrypoints. We'd recommend using `mf-manifest.json`. 
 
-For now, we strongly encourage users to ship theme extensions _with_ the project as static files under `_public`, which can be done by adding the build output directory (e.g. `dist/fancy-note/`) to `project.static_files`. Subsequently, the entrypoint can be defined relative to the public path using `name @ /<folder>/mf-manifest.json`. In this case, `/` signifies "the public directory", which differs between SSR and client contexts.
+To load an extension into MyST Theme, add it to the `site.options.extensions` array as a string of the form `name@entrypoint`, with no spaces.
+Use the same `name` that you gave the federation plugin in your `vite.config.mjs`.
+Both `mf-manifest.json` and `<entry>.js` are valid entrypoints.
+We recommend using `mf-manifest.json`.
 
+For now, we strongly encourage you to ship theme extensions _with_ the project, as static files under `_public`.
+To do this, add the build output directory, such as `dist/fancy-note/`, to `project.static_files`.
+Then define the entrypoint relative to the public path, as `name@/<folder>/mf-manifest.json`.
+Here, `/` means the folder where `project.static_files` puts its files.
+During SSR, the theme loads these files from the content server.
+In the browser, it loads them from URLs that start with `/_public/`.
+
+For example, this documentation site loads the demo extension with this config in its [`myst.yml`](https://github.com/jupyter-book/myst-theme/blob/main/docs/myst.yml):
+
+```yaml
+project:
+  static_files:
+    - src/theme-extension/dist/fancy-note # served at /fancy-note/
+site:
+  options:
+    extensions:
+      - theme-extension@/fancy-note/mf-manifest.json
+```
 
 ## Using custom node renderers
 
-Once the extension has been loaded by MyST Theme, it will be used whenever a matching node needs to be rendered. For example, here is a snippet that creates a `fancyNote` node. 
+Once MyST Theme has loaded the extension, it uses the extension's renderers whenever it renders a matching node.
+
+For example, here is a snippet that creates a `fancyNote` node.
+The `{fancy-note}` directive comes from a [small MyST plugin](https://github.com/jupyter-book/myst-theme/blob/main/docs/src/fancy-note.mjs) that this site loads.
 
 ```markdown
 :::{fancy-note} A custom node
 This node type does not exist in the theme. Its renderer and CSS were loaded at runtime.
 :::
 ```
-producing:
+
+produces:
+
 :::{fancy-note} A custom node
 This node type does not exist in the theme. Its renderer and CSS were loaded at runtime.
 :::
+
+## Running the demo locally
+
+To build the demo extension and preview this page, start from the root of this repository:
+
+```bash
+make build-book    # builds the theme that these docs use
+cd docs/src/theme-extension
+bun install
+bun run build      # runs `vite build` and `vite build --ssr`
+cd ../..
+myst start
+```

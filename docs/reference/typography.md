@@ -5,7 +5,6 @@ abbreviations:
 ---
 
 # Heading Level 1
-
 Some text.
 
 ## Heading Level 2

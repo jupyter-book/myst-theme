@@ -1,0 +1,20 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "@myst-theme/anywidget#build",
+        "@myst-theme/common#build",
+        "@myst-theme/frontmatter#build",
+        "@myst-theme/icons#build",
+        "@myst-theme/jupyter#build",
+        "@myst-theme/landing-pages#build",
+        "@myst-theme/providers#build",
+        "@myst-theme/search#build",
+        "@myst-theme/search-minisearch#build",
+        "@myst-theme/site#build",
+        "myst-to-react#build"
+      ]
+    }
+  }
+}

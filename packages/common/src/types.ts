@@ -26,6 +26,24 @@ export type Heading = {
   open_in_same_tab?: boolean;
 };
 
+export type ConfigRemote = {
+  name: string;
+  entry: string;
+};
+
+export type ThemeRemote = {
+  name: string;
+  entry: string;
+  // Fetchable by SSR host
+  hostEntry: string;
+  type: 'module';
+};
+
+export type ThemeExtensionsMetadata = {
+  remotes: ThemeRemote[];
+  remoteStyles: string[];
+};
+
 export type SiteLoader = {
   theme?: Theme;
   config?: SiteManifest;
@@ -33,6 +51,7 @@ export type SiteLoader = {
   CONTENT_CDN_PORT?: string | number;
   STATIC_BUILD?: boolean;
   BASE_URL?: string;
+  extensions?: ThemeExtensionsMetadata;
 };
 
 export type NavigationLink = {
@@ -97,4 +116,5 @@ export type CommonTemplateOptions = {
   hide_breadcrumbs?: boolean;
   outline_maxdepth?: number;
   redirects?: string[];
+  extensions?: string[];
 };

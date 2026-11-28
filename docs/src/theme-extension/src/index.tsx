@@ -28,7 +28,7 @@ function FancyBlockquote(props) {
 // Each key of `renderers` is a MyST AST node type.
 // A new type (fancyNote) adds support for a custom node.
 // An existing type (blockquote) replaces the theme's built-in renderer for that node.
-const v1: ThemeExtensionV1 = {
+const v1: ThemeExtensionV1['v1'] = {
   renderers: {
     fancyNote: FancyNote,
     blockquote: FancyBlockquote,
